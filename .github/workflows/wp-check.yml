@@ -69,6 +69,7 @@ jobs:
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.1.0
+        run: npm install
 
       - name: "Install Composer dependencies"
         run: |
