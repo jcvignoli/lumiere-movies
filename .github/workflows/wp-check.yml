@@ -29,13 +29,13 @@ jobs:
     - name: Build plugin
       run:
       
-      - name: "Setup PHP extension caching"
-        id: extcache
-        uses: shivammathur/cache-extensions@v1
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: ${{ env.php-extensions }}
-          key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
+    - name: "Setup PHP extension caching"
+      id: extcache
+      uses: shivammathur/cache-extensions@v1
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: ${{ env.php-extensions }}
+        key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
 
     - name: "Cache extensions"
       uses: actions/cache@v4
@@ -43,18 +43,27 @@ jobs:
         path: ${{ steps.extcache.outputs.dir }}/lumiere-movies
         key: ${{ steps.extcache.outputs.dir }}/lumiere-movies
         restore-keys: ${{ steps.extcache.outputs.dir }}/lumiere-movies
+    - name: "Setup PHP"
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: ${{ env.php-extensions }}
+        coverage: none
 
-      - name: "Setup PHP"
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: ${{ env.php-extensions }}
-          coverage: none
+     - name: Setup Node.js environment
+       uses: actions/setup-node@v4.1.0
+       with:
+          path: node_modules
+          key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+          restore-keys: |
+            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-
+            composer-dependencies-${{ runner.os }}-
 
-      - name: "Cache Composer dependencies"
-        id: composer-dependencies
-        uses: actions/cache@v4
-        with:
+    - name: "Cache Composer dependencies"
+      id: composer-dependencies
+      uses: actions/cache@v4
+      with:
           path: vendor
           key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
           restore-keys: |
@@ -62,8 +71,8 @@ jobs:
             composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-
             composer-dependencies-${{ runner.os }}-
 
-      - name: "Install Composer dependencies"
-        run: |
+    - name: "Install Composer dependencies"
+      run: |
           mv ./src ${{ steps.extcache.outputs.dir }}/lumiere-movies
           composer install -n --prefer-dist
           cd src
@@ -74,4 +83,3 @@ jobs:
       with:
         build-dir: ${{ steps.extcache.outputs.dir }}/lumiere-movies
         exclude-directories: 'vendor,.wordpress-org'
-
