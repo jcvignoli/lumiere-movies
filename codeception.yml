@@ -7,7 +7,7 @@ paths:
     support: tests/codeception/Support
     envs: tests/codeception/_envs
 params:
-    - ../../../bin/.credentials/.env.codeception
+    - .env.codeception
 actor_suffix: Tester
 extensions:
     enabled:
@@ -21,14 +21,11 @@ env:
                   0: geckodriver-codeception
                   sleep: 7 # seconds before processing boot, otherwise it fails sometimes
 
-    # WordPress specific libraries, allow many things like using admin, runs localy only
-
-    # Environment with WPBrowser (codeception default browser)
+    # Environment with WebDriver (codeception default browser)
     wpbrowser:
         modules:
              enabled:
-                - WPDb
-                - WPBrowser
+                - WebDriver
         extensions:
             commands:
                 - Codeception\Command\GenerateWPUnit
@@ -38,25 +35,9 @@ env:
                 - Codeception\Command\GenerateWPAjax
                 - Codeception\Command\GenerateWPCanonical
                 - Codeception\Command\GenerateWPXMLRPC
-
-    # Environment with WPWebDriver+Firefox driver
-    wpfirefox:
-        extensions:
-            enabled:
-              - Codeception\Extension\RunProcess:
-                  0: geckodriver-codeception
-                  #sleep: 7 # seconds to process boot, otherwise it fails sometimes
-            commands:
-                - Codeception\Command\GenerateWPUnit
-                - Codeception\Command\GenerateWPRestApi
-                - Codeception\Command\GenerateWPRestController
-                - Codeception\Command\GenerateWPRestPostTypeController
-                - Codeception\Command\GenerateWPAjax
-                - Codeception\Command\GenerateWPCanonical
-                - Codeception\Command\GenerateWPXMLRPC
-
+                
     # Environment with WPWebDriver+WPDb+Firefox driver
-    wpdbfirefox:
+    wpfirefox:
         extensions:
             enabled:
               - Codeception\Extension\RunProcess:
@@ -71,7 +52,7 @@ env:
                 - Codeception\Command\GenerateWPCanonical
                 - Codeception\Command\GenerateWPXMLRPC
 
-    # Environment with WPWebDriver"Chrome driver
+    # Environment with WPWebDriver+WPDb+Chrome driver
     wpchrome:
         module:
               - Codeception\Extension\RunFailed
@@ -79,7 +60,7 @@ env:
         extensions:
             enabled:
               - Codeception\Extension\RunProcess:
-                  0: chromedriver-codeception
+                  0: chromedriver --enable-chrome-logs --url-base=/wd/hub --port=4444
                   sleep: 3 # seconds to process boot, otherwise it fails sometimes
             commands:
                 - Codeception\Command\GenerateWPUnit

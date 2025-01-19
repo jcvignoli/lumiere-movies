@@ -7,4 +7,5 @@ src/*vendor*
 *.vscode*
 *package-lock.json*
 /composer.lock*
+.env.codeception
 .todo

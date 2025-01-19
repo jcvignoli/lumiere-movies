@@ -233,7 +233,7 @@ gulp.task('files_copy', () => {
 		console.dir( sshmsg );
 
 	return gulp
-		.src( paths.files.src, {base: paths.base.src } )
+		.src( paths.files.src, {base: paths.base.src, encoding: false } )
 		.pipe(plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		.pipe(changed( paths.files.dist ))
 		.pipe(gulp.dest( paths.files.dist ))

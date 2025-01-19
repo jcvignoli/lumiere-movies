@@ -5,12 +5,11 @@
 /tests
 /tmp
 /vendor
-.wordpress-org
-.env.testing
-.gitignore
-.gulpcredentials.js
-.todo
 .git
+.wordpress-org
+.env.codeception
+.gitignore
+.todo
 composer.json
 composer.lock
 package.json

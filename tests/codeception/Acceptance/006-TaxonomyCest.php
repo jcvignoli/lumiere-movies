@@ -34,9 +34,7 @@ class TaxonomyCest {
 	 * Trait function to keep the cookie active
 	 */
 	private function login(AcceptanceTester $I) {
-
 		$I->login_universal($I);
-
 	}
 
 	/**
