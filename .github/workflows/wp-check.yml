@@ -20,6 +20,7 @@ jobs:
 
     - name: Build plugin
       run: |
+        npm run build
         mv ./dist ${{ runner.temp }}/lumiere-movies
 
     - name: "Cache extensions"
