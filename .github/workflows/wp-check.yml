@@ -27,9 +27,8 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Build plugin
-      run: |
-        mv ./src ${{ runner.temp }}/lumiere-movies
-
+      run:
+      
       - name: "Setup PHP extension caching"
         id: extcache
         uses: shivammathur/cache-extensions@v1
@@ -65,6 +64,7 @@ jobs:
 
       - name: "Install Composer dependencies"
         run: |
+          mv ./src ${{ steps.extcache.outputs.dir }}/lumiere-movies
           composer install -n --prefer-dist
           cd src
           composer install -n --prefer-dist
