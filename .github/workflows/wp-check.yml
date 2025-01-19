@@ -25,10 +25,7 @@ jobs:
    steps:
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Build plugin
-      run:
-      
+     
     - name: "Setup PHP extension caching"
       id: extcache
       uses: shivammathur/cache-extensions@v1
@@ -43,6 +40,7 @@ jobs:
         path: ${{ steps.extcache.outputs.dir }}/lumiere-movies
         key: ${{ steps.extcache.outputs.dir }}/lumiere-movies
         restore-keys: ${{ steps.extcache.outputs.dir }}/lumiere-movies
+
     - name: "Setup PHP"
       uses: shivammathur/setup-php@v2
       with:
@@ -73,10 +71,14 @@ jobs:
 
     - name: "Install Composer dependencies"
       run: |
-          mv ./src ${{ steps.extcache.outputs.dir }}/lumiere-movies
           composer install -n --prefer-dist
           cd src
           composer install -n --prefer-dist
+
+    - name: Build plugin
+      run: |
+          gulp build
+          mv ./dist ${{ steps.extcache.outputs.dir }}/lumiere-movies
 
     - name: Run plugin check
       uses: wordpress/plugin-check-action@main
