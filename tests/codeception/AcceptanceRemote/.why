@@ -1,3 +1,2 @@
-a different bootstrap needs to be loaded for remote defines
-only one bootstrap is available in .suite.yml
+only one Helper File is available in .suite.yml
 if using a different .suite.yml. need a new folder that matches its name

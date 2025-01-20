@@ -97,7 +97,7 @@ class SearchCest {
 		$I->see( '2001: A Space Odyssey (1968)' );
 		$I->see( '0062622' );
 
-		$I->scrollTo('#imdbid_0062622');
+		$I->scrollTo([ 'id' => 'imdbid_0062622' ]);
 		$I->click( '#imdbid_0062622' );
 		
 		$I->acceptPopup();

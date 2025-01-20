@@ -3,16 +3,15 @@
 # Suite for Acceptance tests.
 # Perform tests in browser using WPWebDriver
 
-bootstrap: _bootstrap.local.php # This is the file in Acceptance/_bootstrap.local.php
 actor: AcceptanceTester # This is the file in Support/AcceptanceTester.php
 wait: 5 # smart wait https://codeception.com/docs/AcceptanceTests
-extensions:
-    enabled:
-      - Codeception\Extension\Recorder
-    config:
-      Codeception\Extension\Recorder:
-          module: lucatume\WPBrowser\Module\WPWebDriver
-          delete_successful: true # delete screenshots of successful tests
+#extensions:
+#    enabled:
+#      - Codeception\Extension\Recorder # makes popups fail
+#    config:
+#      Codeception\Extension\Recorder:
+#          module: lucatume\WPBrowser\Module\WPWebDriver
+#          delete_successful: false # delete screenshots of successful tests
 modules:
     enabled:
         - Tests\Support\Helper\AcceptanceLocal # This is an extra file in Support/Helper/
