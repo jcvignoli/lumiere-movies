@@ -1,13 +1,19 @@
-# Codeception Test Suite Configuration -> For a remote server
-# This is needed to change the bootstrap file, the Acceptance.suite.yml uses a different bootstrap
+# Codeception Test Suite Configuration -> For Remote server
+# This is needed to change the bootstrap file, Acceptance.suite.yml uses a different bootstrap
 #
-# Suite for acceptance tests.
-# Perform tests in browser using the WPWebDriver or WPBrowser.
-# If you need both WPWebDriver and WPBrowser tests - create a separate suite.
+# Suite for AcceptanceRemote tests.
+# Perform tests in browser using the WPWebDriver
 
-bootstrap: _bootstrap.remote.php # This is the file in acceptanceRemote/_bootstrap.local.php
+bootstrap: _bootstrap.remote.php # This is the file in AcceptanceRemote/_bootstrap.remote.php
 actor: AcceptanceTester # This is the file in Support/AcceptanceTester.php
 wait: 5 # smart wait https://codeception.com/docs/AcceptanceTests
+extensions:
+    enabled:
+      - Codeception\Extension\Recorder
+    config:
+      Codeception\Extension\Recorder:
+          module: lucatume\WPBrowser\Module\WPWebDriver
+          delete_successful: true # delete screenshots of successful tests
 modules:
     enabled:
         - Tests\Support\Helper\AcceptanceRemote # This is an extra file in Support/Helper/
@@ -25,7 +31,7 @@ modules:
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
-        # Allows to use WordPress functions. Must load a blank wordpress version.
+        # Allows to use WordPress functions. Must load a blank WordPress version.
         lucatume\WPBrowser\Module\WPLoader:
             loadOnly: true
             wpRootFolder: '%WORDPRESS_ROOT_DIR%'
@@ -34,7 +40,7 @@ modules:
             dbUser: '%WP_LOCAL_DATABASE_USERNAME%'
             dbPassword: '%WP_LOCAL_DATABASE_PASSWORD%'
             plugins:
-                - lumiere-movies.php
+                - lumiere-movies.php # will activate Lumière as a plugin
         FTP:
            type: sftp
            host: '%TEST_REMOTE_FTP_HOST%'

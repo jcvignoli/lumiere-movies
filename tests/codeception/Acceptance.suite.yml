@@ -1,11 +1,18 @@
-# Codeception Test Suite Configuration -> For a local server
+# Codeception Test Suite Configuration -> For Local server
 #
-# Suite for acceptance tests.
+# Suite for Acceptance tests.
 # Perform tests in browser using WPWebDriver
 
 bootstrap: _bootstrap.local.php # This is the file in Acceptance/_bootstrap.local.php
 actor: AcceptanceTester # This is the file in Support/AcceptanceTester.php
 wait: 5 # smart wait https://codeception.com/docs/AcceptanceTests
+extensions:
+    enabled:
+      - Codeception\Extension\Recorder
+    config:
+      Codeception\Extension\Recorder:
+          module: lucatume\WPBrowser\Module\WPWebDriver
+          delete_successful: true # delete screenshots of successful tests
 modules:
     enabled:
         - Tests\Support\Helper\AcceptanceLocal # This is an extra file in Support/Helper/
@@ -34,7 +41,7 @@ modules:
                 X_WPBROWSER_REQUEST: 1
         lucatume\WPBrowser\Module\WPFilesystem:
             wpRootFolder: '%WP_ROOT_LOCAL_FOLDER%'
-        # Allows to use WordPress functions. Must load a blank wordpress version.
+        # Allows to use WordPress functions. Must load a blank WordPress version.
         lucatume\WPBrowser\Module\WPLoader:
             loadOnly: true
             wpRootFolder: '%WORDPRESS_ROOT_DIR%'
@@ -43,21 +50,8 @@ modules:
             dbUser: '%WP_LOCAL_DATABASE_USERNAME%'
             dbPassword: '%WP_LOCAL_DATABASE_PASSWORD%'
             plugins:
-                - lumiere-movies.php
-        Codeception\Extension\Recorder: # doesn't work, says no available module
-                  module: lucatume\WPBrowser\Module\WPWebDriver
-                  delete_successful: false # delete screenshots of successful tests
+                - lumiere-movies.php # will activate Lumière as a plugin
 env:
-   firefox:
-        modules:
-            enabled:
-              config:
-                 lucatume\WPBrowser\Module\WebDriver:
-                     browser: firefox
-                     path: ''
-                     capabilities:
-                       moz:firefoxOptions:
-                            args: ["-headless"] # Run Firefox in headless mode
    wpfirefox:
        modules:
           enabled:
