@@ -65,16 +65,11 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: node-npm-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
- 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: npm list
+            node-npm-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('package-lock.json') }}
+            node-npm-${{ runner.os }}-foov4-${{ env.cache-version }}-
+            node-npm-${{ runner.os }}-
         
       - name: "Setup Node.js environment"
         run: npm install
