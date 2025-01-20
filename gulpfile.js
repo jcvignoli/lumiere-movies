@@ -6,25 +6,18 @@
  * Can use external parameters to modify tasks behaviour (--ssh yes)
  * Copying taks must be run --ssh yes to upload to ssh external server
  */
-
 import gulp from 'gulp';
 import browserSync from 'browser-sync';
 import plumber from 'gulp-plumber';
 import notify from 'gulp-notify';
 import longerif from 'gulp-if';
 import ssh from 'gulp-ssh';
-import replace from 'gulp-replace';
-import autoprefixer from 'gulp-autoprefixer';
-import cleanCss from 'gulp-clean-css';
 import changed from 'gulp-changed';
 import rename from 'gulp-rename';
-import terser from 'gulp-terser';
-import imagemin from 'gulp-imagemin';
 import fs from 'fs-extra';
-import nodeNotifier from 'node-notifier';
-import ext_cred from '../../../bin/.credentials/.gulpcredentials-lumiere.js';	/* private credentials for ssh */
+import ext_cred from '../../../bin/.credentials/.gulpcredentials-lumiere.js';		/* private credentials for ssh */
 
-var errorHandler = function(error) {				/* handle and display errors with notify */
+var errorHandler = function(error) {							/* handle and display errors with notify */
 	notify.onError({
 		title: '[' + error.plugin + '] Task Failed',
 		message: error.message,
@@ -60,7 +53,7 @@ var arg = (argList => {
 
 })(process.argv);
 
-var sshMain = new ssh ({					/* ssh functions with mainserver */
+var sshMain = new ssh ({								/* ssh functions with mainserver */
 	ignoreErrors: false,
 	sshConfig: {
 		host: ext_cred.mainserver.hostname,
@@ -75,10 +68,10 @@ var sshMain = new ssh ({					/* ssh functions with mainserver */
 /* Copied/watched files */
 var paths = {
 	base: {
-		src: './src',					/* main lumiere path source */
-		dist: './dist',					/* main lumiere path destination */
-		watch: './dist/**/*.*',				/* main browsersync watch folder */
-		sourcemap: '../tmp/sourcemap',			/* sourcemap output folder */
+		src: './src',								/* main lumiere path source */
+		dist: './dist',								/* main lumiere path destination */
+		watch: './dist/**/*.*',							/* main browsersync watch folder */
+		sourcemap: '../tmp/sourcemap',						/* sourcemap output folder */
 	},
 	stylesheets: {
 		src: [
@@ -137,18 +130,21 @@ function isSSH( handler ) {
 }
 
 // Task 1 - Minify CSS
-gulp.task('stylesheets', () => {
+gulp.task('stylesheets', async () => {
 
 	/* Set the flag to whether do ssh upload or not to: 
 		1/ if flagssh exists, takes its current value; (ie: call with function in gulp.watch)
 		2/ if flagssh doesn't exists, check if the files_copy task was called with "--ssh yes"
 	*/
 	flagssh = flagssh ? true : isSSH();
-
 	// Notify the user how to run for sshing
-	const sshmsg = "** Notice: Run stylesheets with '--ssh yes' for uploading with ssh **";
+	const sshmsg = "** Notice: Run stylesheets with '--ssh yes' to upload with ssh **";
 	if (flagssh != true)
 		console.dir( sshmsg );
+
+	let cleanCss = (await import("gulp-clean-css")).default;
+	let autoprefixer = (await import("gulp-autoprefixer")).default;
+	// let replace = (await import("gulp-replace")).default;
 
 	return gulp
 		.src( paths.stylesheets.src , {base: paths.base.src } )
@@ -156,8 +152,10 @@ gulp.task('stylesheets', () => {
 		.pipe(rename({suffix: '.min'}))
 		.pipe(changed( paths.stylesheets.dist ))
 		.pipe(autoprefixer('last 2 versions'))
-		// Removed class .dropdown-menu in CSS bootstrap.css which breaks OCEANWP
-		.pipe(longerif( (file) => file.path.match('bootstrap.min.css'), replace(/(\.dropdown-menu\s\{).+?(border-radius: 0\.25rem;\s\})/s, '')) )
+		/* Removed class .dropdown-menu in CSS bootstrap.css which breaks OCEANWP
+		 * Not there anymore, kept for the future
+		 * .pipe(longerif( (file) => file.path.match('bootstrap.min.css'), replace(/(\.dropdown-menu\s\{).+?(border-radius: 0\.25rem;\s\})/s, '')) )
+		 */
 		.pipe(cleanCss({debug: true}, (details) => {
 			console.log(`${details.name}: ${details.stats.originalSize}`);
 			console.log(`${details.name}: ${details.stats.minifiedSize}`);
@@ -168,19 +166,20 @@ gulp.task('stylesheets', () => {
 });
 
 // Task 2 - Minify JS
-gulp.task('javascripts', () => {
+gulp.task('javascripts', async () => {
 
 	/* Set the flag to whether do ssh upload or not to: 
 		1/ if flagssh exists, takes its current value; (ie: call with function in gulp.watch)
 		2/ if flagssh doesn't exists, check if the files_copy task was called with "--ssh yes"
 	*/
 	flagssh = flagssh ? true : isSSH();
-
 	// Notify the user how to run for sshing
-	const sshmsg = "** Notice: Run javascripts with '--ssh yes' for uploading with ssh **";
+	const sshmsg = "** Notice: Run javascripts with '--ssh yes' to upload with ssh **";
 	if (flagssh != true)
 		console.dir( sshmsg );
 
+	let terser = (await import("gulp-terser")).default;
+	
 	return gulp
 		.src( paths.javascripts.src , {base: paths.base.src } )
 		.pipe(plumber( function (err) { errorHandler(err) })) /* throws a popup & console error msg */
@@ -192,9 +191,8 @@ gulp.task('javascripts', () => {
 		.pipe(browserSync.stream())
 });
 
-
 // Task 3 - Compress images -> jpg can't be compressed, selecting png and gif only
-gulp.task('images', () => {
+gulp.task('images', async () => {
 
 	/* Set the flag to whether do ssh upload or not to: 
 		1/ if flagssh exists, takes its current value; (ie: call with function in gulp.watch)
@@ -202,8 +200,10 @@ gulp.task('images', () => {
 	*/
 	flagssh = flagssh ? true : isSSH();
 
+	let imagemin = (await import("gulp-imagemin")).default;
+
 	// Notify the user how to run for sshing
-	const sshmsg = "** Notice: Run images with '--ssh yes' for uploading with ssh **";
+	const sshmsg = "** Notice: Run images with '--ssh yes' to upload with ssh **";
 	if (flagssh != true)
 		console.dir( sshmsg );
 
@@ -225,9 +225,8 @@ gulp.task('files_copy', () => {
 		2/ if flagssh doesn't exists, check if the files_copy task was called with "--ssh yes"
 	*/
 	flagssh = flagssh ? true : isSSH();
-
 	// Notify the user how to run for sshing
-	const sshmsg = "** Notice: Run files_copy with '--ssh yes' for uploading with ssh **";
+	const sshmsg = "** Notice: Run files_copy with '--ssh yes' to upload with ssh **";
 	if (flagssh != true) 
 		console.dir( sshmsg );
 
@@ -262,8 +261,8 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 
 		    proxyReq: [
 			 function(proxyReq) {
-			 	/** Also using in Apache envvars file the option "export APACHE_ARGUMENTS='-D cthulhu'" */
-			     proxyReq.setHeader('X-Special-Proxy-Header', 'cthulhu');
+			 	/** Allows to use lumiere codeception database insted of lumiere  */
+				proxyReq.setHeader('X-Testing', 'true');
 			 }
 		    ]
 		},
@@ -297,7 +296,7 @@ gulp.task('build', (cb) => {
 });
 
 // Task 8 - Default
-export default gulp.task('default', () => {
+gulp.task('default', () => {
 	gulp.series( 'watch' );
 });
 
