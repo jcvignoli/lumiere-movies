@@ -54,16 +54,13 @@ class Frontend {
 		// Execute javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_execute_assets' ] );
 
-		// Start Movies into the post.
+		// Display movie(s) into the post.
 		add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_movie_start' ], 11 );
 
-		// Start Widgets.
+		// Display Widget.
 		add_action( 'init', fn() => Widget_Frontpage::lumiere_widget_frontend_start(), 11 );
 
-		// Get plugins
-		add_action( 'init', [ $this, 'set_plugins_if_needed' ], 11 );
-
-		// Redirect to popups
+		// Display popups.
 		add_filter( 'template_redirect', [ $this, 'popup_redirect_include' ] );
 	}
 
@@ -71,11 +68,9 @@ class Frontend {
 	 * @see \Lumiere\Core
 	 */
 	public static function lumiere_static_start(): void {
-
 		if ( is_admin() ) {
 			return;
 		}
-
 		$that = new self();
 	}
 
@@ -149,14 +144,6 @@ class Frontend {
 	}
 
 	/**
-	 * Start Plugins_Start class
-	 * Is instanciated only if not instanciated already
-	 */
-	public function set_plugins_if_needed(): void {
-		$this->maybe_activate_plugins(); // In Trait Main.
-	}
-
-	/**
 	 * Popups redirection, return a new text replacing the normal expected text
 	 * Use template_redirect hook to call it
 	 * 1. A var in {@see \Lumiere\Settings::define_constants_after_globals()} is made available (for movie, people, search, etc.)
@@ -175,15 +162,13 @@ class Frontend {
 			return $template_path;
 		}
 
-		// 'popup' query_var must match against $this->config_class->lumiere_urlstring* vars.
+		// 'popup' query_var must match against $this->config_class->lumiere_urlstring* vars that are encoded in javascript URL.
 		switch ( $query_popup ) {
 			case 'film':
 				return new Popup_Movie();
 			case 'person':
-				// Build the virtual page class
 				return new Popup_Person();
 			case 'movie_search':
-				// Build the virtual page class
 				return new Popup_Movie_Search();
 		}
 		// No popup was found, return normal template_path.

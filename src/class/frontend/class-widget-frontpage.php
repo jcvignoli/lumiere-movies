@@ -109,7 +109,9 @@ class Widget_Frontpage {
 
 	/**
 	 * Constructor. Sets up the widget name, description, etc.
-	 *
+	 * Use Legacy widget if no active Block widget and active Legacy widget are found
+	 * Otherwise use shortcode to display data
+	 * @return void Either Legacy of Post-5.8 widget displayed
 	 */
 	public function __construct() {
 
@@ -118,16 +120,6 @@ class Widget_Frontpage {
 
 		// @TODO : when updating to PHP8.2, pass this in the constructor params
 		$this->movie_class = new Movie();
-	}
-
-	/**
-	 * Statically start the class
-	 * Use Legacy widget if no active Block widget and active Legacy widget are found
-	 * Otherwise use shortcode to display data
-	 */
-	public static function lumiere_widget_frontend_start(): void {
-
-		$that = new self();
 
 		// If pre-5.8 widget is active and Block Widget unactive, use Widget_Legacy class.
 		if (
@@ -139,7 +131,14 @@ class Widget_Frontpage {
 		}
 
 		// Regular post-5.8 widgets.
-		add_shortcode( self::WIDGET_SHORTCODE, [ $that, 'lumiere_widget_shortcode_parser' ] );
+		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'shortcode_parser' ] );
+	}
+
+	/**
+	 * Statically start the class
+	 */
+	public static function lumiere_widget_frontend_start(): void {
+		$that = new self();
 	}
 
 	/**
@@ -151,7 +150,7 @@ class Widget_Frontpage {
 	 * @param string $tags Shortcode tag
 	 * @return string The final Widget with Title+Content, or nothing if nothing was found
 	 */
-	public function lumiere_widget_shortcode_parser( array|string $attributes, ?string $inside_tags, string $tags ): string {
+	public function shortcode_parser( array|string $attributes, ?string $inside_tags, string $tags ): string {
 
 		if ( isset( $inside_tags ) ) {
 			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Shortcode [' . $tags . '] found.' );
@@ -175,19 +174,15 @@ class Widget_Frontpage {
 	 */
 	public function lum_get_widget( string $title_box ): string {
 
-		// Exit if neither a post nor a page!
-		if ( is_singular( [ 'post', 'page' ] ) === false ) {
-			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is not a post or page, process stopped.' );
+		// Exit it's home, frontpage, 404, attachment, etc (must allow people with custom posts to display the widget)
+		if ( is_home() === true || is_front_page() === true || is_404() === true || is_attachment() === true || is_archive() === true ) {
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is a forbidden area for the widget, process stopped.' );
 			return '';
 		}
 
-		// Initialize var for id/name of the movie to display.
-		$movies_array = [];
-
 		// Build title, use a default text if title has not been edited in the widget interface.
 		$title_box = strlen( $title_box ) > 0 ? $title_box : '';
-
-		// Get the post ID to query if metaboxes are available in the post.
+		$movies_array = [];
 		$post_id = get_the_ID();
 
 		// Log what type of widget is utilised.
@@ -208,7 +203,7 @@ class Widget_Frontpage {
 			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) !== 'disabled' // thus the var may not have been created.
 		) {
 			$movies_array[]['byname'] = esc_html( get_the_title( $post_id ) );
-			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget activated, using the post title ' . sanitize_text_field( get_the_title( $post_id ) ) . ' for querying' );
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget activated, using the post title ' . esc_html( get_the_title( $post_id ) ) . ' for querying' );
 
 			// the post-based selection for auto title widget is turned off
 		} elseif (
@@ -219,13 +214,10 @@ class Widget_Frontpage {
 			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget is deactivated for this post' );
 		}
 
-		// Check if a metabox is available in the post and add it.
+		// Check if a post ID is available add it.
 		$movies_array[] = is_int( $post_id ) ? $this->maybe_get_lum_post_metada( $post_id ) : null;
 
-		// Clean the array, remove empty multidimensional arrays.
-		/** @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $final_movies_array
-		* @phpstan-var array<int, array<string, string>> $final_movies_array
-		*/
+		// Clean the array, remove empty arrays.
 		$final_movies_array = array_filter( $movies_array, fn( $movies_array ) => ( $movies_array !== null && count( $movies_array ) > 0 ) );
 
 		// Exit if no metadata, no auto title option activated
@@ -234,16 +226,16 @@ class Widget_Frontpage {
 			return '';
 		}
 
-		// Get movie's data from {@link \Lumiere\Frontend\Movie}
 		/**
+		 * Get movie's data from {@link \Lumiere\Frontend\Movie}
+		 *
 		 * @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}>|null $final_movies_array
-		 * @phpstan-var array<int<0, max>, array<string, string>> $final_movies_array */
+		 * @phpstan-var array<int<0, max>, array<string, string>> $final_movies_array
+		 */
 		$movie = $this->movie_class->lumiere_show( $final_movies_array );
 
-		/**
-		 * Output the result using a layout wrapper.
-		 */
-		return $this->lum_wrap_widget_content( $title_box, $movie );
+		// Output the result in a layout wrapper.
+		return $this->wrap_widget_content( $title_box, $movie );
 	}
 
 	/**
@@ -290,7 +282,7 @@ class Widget_Frontpage {
 	 * @param string $movie Movie data details to be displayed
 	 * @return string Entire widget (Title+Content)
 	 */
-	private function lum_wrap_widget_content( string $title_box, string $movie ): string {
+	private function wrap_widget_content( string $title_box, string $movie ): string {
 
 		// Exit if no data provided.
 		if ( strlen( $movie ) === 0 ) {

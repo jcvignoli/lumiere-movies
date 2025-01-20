@@ -8,6 +8,7 @@
 .git
 .wordpress-org
 .env.codeception
+.gulpcredentials-lumiere.js
 .gitignore
 .todo
 composer.json

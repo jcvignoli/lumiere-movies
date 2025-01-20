@@ -19,7 +19,7 @@ define( 'BAN_NONCE_MSG', 'Invalid or missing nonce.' ); // English, usually foun
 define( 'BAN_NONCE_MSG_FR', 'Nonce invalide ou manquant.' ); // French, because sometimes it switches to.
 
 /**
- * Methods are available with $I->methode_name()
+ * Methods are available with $I->method_name()
  */
 class AcceptanceLocal extends \Codeception\Module
 {

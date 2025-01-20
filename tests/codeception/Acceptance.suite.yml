@@ -14,7 +14,7 @@ wait: 5 # smart wait https://codeception.com/docs/AcceptanceTests
 #          delete_successful: false # delete screenshots of successful tests
 modules:
     enabled:
-        - Tests\Support\Helper\AcceptanceLocal # This is an extra file in Support/Helper/
+        - Tests\Support\Helper\AcceptanceLocal # This is an extra file in Support/Helper/ which includes all constants and customized methods
         - lucatume\WPBrowser\Module\WPWebDriver
         - lucatume\WPBrowser\Module\WPFilesystem
         - lucatume\WPBrowser\Module\WPLoader
