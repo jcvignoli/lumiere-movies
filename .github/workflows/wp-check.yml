@@ -71,7 +71,7 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          path: ~/.npm
+          path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -80,6 +80,7 @@ jobs:
  
       - name: "Setup Node.js environment"
         run: npm install
+        
       - name: "Prepare Lumière folder for plugin check"
         run: |
           npm run build:github
