@@ -44,9 +44,9 @@ jobs:
       - name: "Cache extensions"
         uses: actions/cache@v4
         with:
-          path: ${{ steps.extcache.outputs.dir }}/lumiere-movies
-          key: ${{ steps.extcache.outputs.dir }}/lumiere-movies
-          restore-keys: ${{ steps.extcache.outputs.dir }}/lumiere-movies
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.dir }}
+          restore-keys: ${{ steps.extcache.outputs.dir }}
 
       - name: "Cache Composer dependencies"
         id: composer-dependencies
