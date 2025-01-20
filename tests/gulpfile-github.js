@@ -8,20 +8,15 @@ import gulp from 'gulp';
 import plumber from 'gulp-plumber';
 import notify from 'gulp-notify';
 import longerif from 'gulp-if';
-import replace from 'gulp-replace';
-import cleanCss from 'gulp-clean-css';
 import changed from 'gulp-changed';
 import rename from 'gulp-rename';
-import terser from 'gulp-terser';
-import imagemin from 'gulp-imagemin';
 import fs from 'fs-extra';
-import nodeNotifier from 'node-notifier';
 
-var errorHandler = function(error) {				/* handle and display errors with notify */
+var errorHandler = function(error) {							/* handle and display errors with notify */
 	notify.onError({
 		title: '[' + error.plugin + '] Task Failed',
 		message: error.message,
-		icon: ext_cred.base.gulpimg,
+		// icon: ext_cred.base.gulpimg, 					/* not available here */
 		sound: true
 	})(error);
 	console.log("Error:", error.toString()); 
@@ -31,8 +26,8 @@ var errorHandler = function(error) {				/* handle and display errors with notify
 /* Copied/watched files */
 var paths = {
 	base: {
-		src: '../src',					/* main lumiere path source */
-		dist: '../dist',					/* main lumiere path destination */
+		src: '../src',								/* main lumiere path source */
+		dist: '../dist',							/* main lumiere path destination */
 	},
 	stylesheets: {
 		src: [
@@ -83,14 +78,23 @@ var paths = {
 };
 
 // Task 1 - Minify CSS
-gulp.task('stylesheets', () => {
+gulp.task('stylesheets', async () => {
+
+	let cleanCss = (await import("gulp-clean-css")).default;
+	let autoprefixer = (await import("gulp-autoprefixer")).default;
+	// let replace = (await import("gulp-replace")).default;
 
 	return gulp
 		.src( paths.stylesheets.src , {base: paths.base.src } )
 		.pipe(plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */
 		.pipe(rename({suffix: '.min'}))
 		.pipe(changed( paths.stylesheets.dist ))
-		// Removed class .dropdown-menu in CSS bootstrap.css which breaks OCEANWP
+		.pipe(autoprefixer('last 2 versions'))
+		/**
+		 * Removed class .dropdown-menu in CSS bootstrap.css which breaks OCEANWP
+		 * Not there anymore, kept for the future
+		 * .pipe(longerif( (file) => file.path.match('bootstrap.min.css'), replace(/(\.dropdown-menu\s\{).+?(border-radius: 0\.25rem;\s\})/s, '')) )
+		 */
 		.pipe(longerif( (file) => file.path.match('bootstrap.min.css'), replace(/(\.dropdown-menu\s\{).+?(border-radius: 0\.25rem;\s\})/s, '')) )
 		.pipe(cleanCss({debug: true}, (details) => {
 			console.log(`${details.name}: ${details.stats.originalSize}`);
@@ -100,7 +104,10 @@ gulp.task('stylesheets', () => {
 });
 
 // Task 2 - Minify JS
-gulp.task('javascripts', () => {
+gulp.task('javascripts', async () => {
+
+	let terser = (await import("gulp-terser")).default;
+	
 	return gulp
 		.src( paths.javascripts.src , {base: paths.base.src } )
 		.pipe(plumber( function (err) { errorHandler(err) })) /* throws a popup & console error msg */
@@ -112,7 +119,10 @@ gulp.task('javascripts', () => {
 
 
 // Task 3 - Compress images -> jpg can't be compressed, selecting png and gif only
-gulp.task('images', () => {
+gulp.task('images', async () => {
+
+	let imagemin = (await import("gulp-imagemin")).default;
+	
 	return gulp
 		.src( paths.images.src, {base: paths.base.src, encoding: false } )
 		.pipe(plumber( function (err) { errorHandler(err) })) /* throws a popup & consold error msg */

@@ -152,7 +152,8 @@ gulp.task('stylesheets', async () => {
 		.pipe(rename({suffix: '.min'}))
 		.pipe(changed( paths.stylesheets.dist ))
 		.pipe(autoprefixer('last 2 versions'))
-		/* Removed class .dropdown-menu in CSS bootstrap.css which breaks OCEANWP
+		/**
+		 * Removed class .dropdown-menu in CSS bootstrap.css which breaks OCEANWP
 		 * Not there anymore, kept for the future
 		 * .pipe(longerif( (file) => file.path.match('bootstrap.min.css'), replace(/(\.dropdown-menu\s\{).+?(border-radius: 0\.25rem;\s\})/s, '')) )
 		 */
