@@ -83,7 +83,7 @@ jobs:
           cp -R ./dist ${{ runner.temp }}/lumiere-movies
 
       - name: Run plugin check
-        uses: wordpress/plugin-check-action@main
+        uses: wordpress/plugin-check-action@v1.1.0
         with:
           build-dir: ${{ runner.temp }}/lumiere-movies
           exclude-directories: 'vendor,.wordpress-org'
