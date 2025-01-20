@@ -41,13 +41,6 @@ jobs:
           extensions: ${{ env.php-extensions }}
           coverage: none
 
-      - name: "Cache extensions"
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.extcache.outputs.dir }}
-          key: ${{ steps.extcache.outputs.dir }}
-          restore-keys: ${{ steps.extcache.outputs.dir }}
-
       - name: "Cache Composer dependencies"
         id: composer-dependencies
         uses: actions/cache@v4
