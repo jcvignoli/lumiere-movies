@@ -22,7 +22,7 @@ import terser from 'gulp-terser';
 import imagemin from 'gulp-imagemin';
 import fs from 'fs-extra';
 import nodeNotifier from 'node-notifier';
-import ext_cred from '../../../bin/.credentials/.gulpcredentials-lumier1e.js';	/* private credentials for ssh */
+import ext_cred from '../../../bin/.credentials/.gulpcredentials-lumiere.js';	/* private credentials for ssh */
 
 var errorHandler = function(error) {				/* handle and display errors with notify */
 	notify.onError({

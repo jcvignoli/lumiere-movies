@@ -21,7 +21,7 @@
     "wpstart": "wp-scripts start",
     "watch": "gulp watch",
     "build": "if [ -d \"./dist\" ];then rm -R ./dist; else mkdir ./dist; fi && gulp build --ssh false",
-    "build_github": "mkdir ./dist && gulp -f gulpfile-github.js build",
+    "build:github": "mkdir ./dist && gulp -f tests/gulpfile-github.js build",
     "phpdoc": "phpDocumentor run",
     "plugincheck": "wp @lumiere plugin check lumiere-movies",
     "codeceptionRemote": "php vendor/bin/codecept run -vvv AcceptanceRemote --env wpchrome",

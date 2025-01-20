@@ -1,7 +1,7 @@
 /** 
- * Special file for github test 
- * Meant to use build task on github action
- * Doesn't include an import of an .env that breaks github action (conditional import is not allowed)
+ * Special file for github action 
+ * Meant to use build task on github action (build ../dist from ../src)
+ * Needed because of the import of an .env that breaks github action (conditional import is not allowed) in regular gulpfile.js
  */
 
 import gulp from 'gulp';
@@ -31,54 +31,54 @@ var errorHandler = function(error) {				/* handle and display errors with notify
 /* Copied/watched files */
 var paths = {
 	base: {
-		src: './src',					/* main lumiere path source */
-		dist: './dist',					/* main lumiere path destination */
+		src: '../src',					/* main lumiere path source */
+		dist: '../dist',					/* main lumiere path destination */
 	},
 	stylesheets: {
 		src: [
-			'./src/**/*.css',
-			'!./src/assets/js/highslide/*.*',
-			'!./src/vendor/**/*.*'
+			'../src/**/*.css',
+			'!../src/assets/js/highslide/*.*',
+			'!../src/vendor/**/*.*'
 		],
-		dist: './dist'
+		dist: '../dist'
 	},
 	javascripts: {
 		src: [ 
-			'./src/**/*.js',
-				'!./src/assets/js/highslide/**/**/*.*',
-				'!./src/vendor/**/*.*'
+			'../src/**/*.js',
+				'!../src/assets/js/highslide/**/**/*.*',
+				'!../src/vendor/**/*.*'
 		],
-		dist: './dist'
+		dist: '../dist'
 	},
 	images: {
 		src: [
-			'./src/.**/*.{jpg,jpeg,gif,png}', 				/* extra pics for .wordpress.org */
-			'./src/**/*.{jpg,jpeg,gif,png}',
-			'!./src/vendor/**/*.*'
+			'../src/.**/*.{jpg,jpeg,gif,png}', 				/* extra pics for .wordpress.org */
+			'../src/**/*.{jpg,jpeg,gif,png}',
+			'!../src/vendor/**/*.*'
 	],
-		dist: './dist'
+		dist: '../dist'
 	},
 	files: {
-		src: [	'./src/**/*.{php,html,htm,ico,webmanifest,md,txt,json}', 
-			'./src/vendor/twbs/bootstrap/dist/**/*.{min.js,min.css}', 
+		src: [	'../src/**/*.{php,html,htm,ico,webmanifest,md,txt,json}', 
+			'../src/vendor/twbs/bootstrap/dist/**/*.{min.js,min.css}', 
 
 			/* Remove irrelevant files in src/vendor */ 
-			'!./src/vendor/bin/*.*',				
-			'!./src/vendor/duck7000/imdb-graphql-php/src/Psr/**/*.*',
-			'!./src/vendor/duck7000/imdb-graphql-php/doc/**/*.*',
-			'!./src/vendor/twbs/bootstrap/build/**/*.*',
-			'!./src/vendor/twbs/bootstrap/js/**/*.*',
-			'!./src/vendor/twbs/bootstrap/nuget/**/*.*',
-			'!./src/vendor/twbs/bootstrap/scss/**/*.*',
-			'!./src/vendor/twbs/bootstrap/site/**/*.*',
-			'!./src/vendor/twbs/bootstrap/.github/**/*.*',
-			'./src/**/*.+(psd)', 
-			'./src/.**/**/*.{psd,json}',	 				/* extra files for .wordpress.org */
-			'./src/languages/*.*',
-				'!./src/languages/*.temp.po',  
-			'./src/assets/js/highslide/**/**/*.*'
+			'!../src/vendor/bin/*.*',				
+			'!../src/vendor/duck7000/imdb-graphql-php/src/Psr/**/*.*',
+			'!../src/vendor/duck7000/imdb-graphql-php/doc/**/*.*',
+			'!../src/vendor/twbs/bootstrap/build/**/*.*',
+			'!../src/vendor/twbs/bootstrap/js/**/*.*',
+			'!../src/vendor/twbs/bootstrap/nuget/**/*.*',
+			'!../src/vendor/twbs/bootstrap/scss/**/*.*',
+			'!../src/vendor/twbs/bootstrap/site/**/*.*',
+			'!../src/vendor/twbs/bootstrap/.github/**/*.*',
+			'../src/**/*.+(psd)', 
+			'../src/.**/**/*.{psd,json}',	 				/* extra files for .wordpress.org */
+			'../src/languages/*.*',
+				'!../src/languages/*.temp.po',  
+			'../src/assets/js/highslide/**/**/*.*'
 		],
-		dist: './dist'
+		dist: '../dist'
 	}
 };
 
