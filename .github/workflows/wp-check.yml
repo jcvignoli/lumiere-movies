@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
      
-      - name: "Setup PHP extension caching"
+      - name: Setup PHP extension caching
         id: extcache
         uses: shivammathur/cache-extensions@v1
         with:
@@ -34,14 +34,14 @@ jobs:
           extensions: ${{ env.php-extensions }}
           key: php-extensions-${{ runner.os }}-foov4-${{ env.cache-version }}
 
-      - name: "Setup PHP"
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ${{ env.php-extensions }}
           coverage: none
 
-      - name: "Cache Composer dependencies"
+      - name: Cache Composer dependencies
         id: composer-dependencies
         uses: actions/cache@v4
         with:
@@ -52,34 +52,37 @@ jobs:
             composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-
             composer-dependencies-${{ runner.os }}-
 
-      - name: "Install Composer dependencies"
+      - name: Install Composer dependencies
         run: |
           composer install -n --prefer-dist
           cd src
           composer install -n --prefer-dist
 
-      - name: "Cache npm dependencies"
-        id: node-npm
+      - name: Cache npm dependencies
+        id: cache-npm
         uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
-          path: node_modules
-          key: node-npm-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('package-lock.json') }}
+          path: "~/.npm"
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            node-npm-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('package-lock.json') }}
-            node-npm-${{ runner.os }}-foov4-${{ env.cache-version }}-
-            node-npm-${{ runner.os }}-
+            ${{ runner.os }}-build-${{ env.cache-name }}
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Setup Node.js environment
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          echo '::debug::deps npm cache miss - installing deps'
+          npm install
         
-      - name: "Setup Node.js environment"
-        run: npm install
-        
-      - name: "Prepare Lumière folder for plugin check"
+      - name: Prepare Lumière folder for plugin check
         run: |
           npm run build:github
           cp -R ./dist ${{ runner.temp }}/lumiere-movies
 
-      - name: "Run plugin check"
+      - name: Run plugin check
         uses: wordpress/plugin-check-action@main
         with:
           build-dir: ${{ runner.temp }}/lumiere-movies
