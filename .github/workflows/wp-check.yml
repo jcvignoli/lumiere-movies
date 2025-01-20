@@ -42,12 +42,15 @@ jobs:
           restore-keys: ${{ steps.extcache.outputs.dir }}/lumiere-movies
 
       - name: "Cache npm dependencies"
+        id: node-dependencies
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: node-dependencies-${{ runner.os }}-foov4-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            node-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('package-lock.json') }}
+            node-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-
+            node-dependencies-${{ runner.os }}-
 
       - name: "Cache Composer dependencies"
         id: composer-dependencies
@@ -79,7 +82,7 @@ jobs:
       - name: Build plugin
         run: |
           npm run build_github
-          mv ./dist ${{ steps.extcache.outputs.dir }}/lumiere-movies
+          cp -R ./dist ${{ steps.extcache.outputs.dir }}/lumiere-movies
 
       - name: Run plugin check
         uses: wordpress/plugin-check-action@main
