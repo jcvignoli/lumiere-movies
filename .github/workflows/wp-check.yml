@@ -54,9 +54,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor
-          key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+          key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.lock') }}
           restore-keys: |
-            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}
+            composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.lock') }}
             composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-
             composer-dependencies-${{ runner.os }}-
 
@@ -78,7 +78,7 @@ jobs:
 
       - name: Build plugin
         run: |
-          npm run build
+          npm run build_github
           mv ./dist ${{ steps.extcache.outputs.dir }}/lumiere-movies
 
       - name: Run plugin check

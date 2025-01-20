@@ -1,10 +1,9 @@
 /** 
- * Infomaniak root website workflow
+ * Lumière WordPress plugin workflow
  *
  * Changed files are directly uploaded to the main server by ssh
- * Rsync available to syncronize it all
  * Errors notified (notify)
- * Can use external parameters to modify tasks behaviour (--clean yes, --ssh yes)
+ * Can use external parameters to modify tasks behaviour (--ssh yes)
  * Copying taks must be run --ssh yes to upload to ssh external server
  */
 
@@ -23,7 +22,7 @@ import terser from 'gulp-terser';
 import imagemin from 'gulp-imagemin';
 import fs from 'fs-extra';
 import nodeNotifier from 'node-notifier';
-import ext_cred from '../../../bin/.credentials/.gulpcredentials-lumiere.js';	/* private credentials for ssh */
+import ext_cred from '../../../bin/.credentials/.gulpcredentials-lumier1e.js';	/* private credentials for ssh */
 
 var errorHandler = function(error) {				/* handle and display errors with notify */
 	notify.onError({
@@ -298,7 +297,7 @@ gulp.task('build', (cb) => {
 });
 
 // Task 8 - Default
-gulp.task('default', () => {
+export default gulp.task('default', () => {
 	gulp.series( 'watch' );
 });
 
