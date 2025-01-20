@@ -82,11 +82,11 @@ jobs:
       - name: Build plugin
         run: |
           npm run build_github
-          cp -R ./dist ${{ steps.extcache.outputs.dir }}/lumiere-movies
+          cp -R ./dist ${{ steps.extcache.outputs.dir }}/lumiere-movies/lumiere-movies
 
       - name: Run plugin check
         uses: wordpress/plugin-check-action@main
         with:
-          build-dir: ${{ steps.extcache.outputs.dir }}/lumiere-movies
+          build-dir: ${{ steps.extcache.outputs.dir }}/lumiere-movies/lumiere-movies
           exclude-directories: 'vendor,.wordpress-org'
 
