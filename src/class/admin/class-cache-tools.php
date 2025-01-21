@@ -17,11 +17,11 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Tools\Files;
+use Lumiere\Tools\Get_Options;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
@@ -64,7 +64,7 @@ class Cache_Tools {
 		$this->logger = new Logger( 'adminClass' );
 
 		// Get options from database.
-		$this->imdb_cache_values = get_option( Settings::get_cache_tablename() );
+		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
 
 		// Start Imdbphp class.
 		$this->imdbphp_class = new Imdbphp();
@@ -648,7 +648,7 @@ class Cache_Tools {
 		$this->logger = new Logger( 'cacheToolsClass', $screen_log /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated, such as upon plugin activation */ );
 
 		// Cache folder paths.
-		$options_cache = get_option( Settings::get_cache_tablename() );
+		$options_cache = get_option( Get_Options::get_cache_tablename() );
 		$lumiere_folder_cache = $options_cache['imdbcachedir'];
 		$lumiere_folder_cache_images = $options_cache['imdbphotoroot'];
 
@@ -708,7 +708,7 @@ class Cache_Tools {
 			$options_cache['imdbcachedir'] = $lumiere_alt_folder_cache;
 			$options_cache['imdbphotoroot'] = $lumiere_alt_folder_cache_images;
 			$options_cache['imdbcachedir_partial'] = $lumiere_alt_folder_cache_partial;
-			update_option( Settings::get_cache_tablename(), $options_cache );
+			update_option( Get_Options::get_cache_tablename(), $options_cache );
 
 			$this->logger->log()->debug( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache created." );
 			return true;

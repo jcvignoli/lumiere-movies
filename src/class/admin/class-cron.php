@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Updates;
@@ -51,7 +51,7 @@ class Cron {
 
 		$this->logger = new Logger( 'cronClass' );
 
-		$this->imdb_cache_values = get_option( Settings::get_cache_tablename() );
+		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
 
 		// When 'lumiere_exec_once_update' cron is scheduled, execute the following.
 		add_action( 'lumiere_exec_once_update', [ $this, 'lumiere_exec_once_update' ], 0 );

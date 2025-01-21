@@ -20,7 +20,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Files;
 use Lumiere\Tools\Settings_Global;
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 // use Monolog library in /vendor/.
 use Monolog\Logger as LoggerMonolog;
@@ -287,9 +287,9 @@ class Logger {
 			$log_file = $this->imdb_admin_values['imdbpluginpath'] . 'debug.log';
 
 			// Update database with the new value for debug path.
-			$new_options = get_option( Settings::get_admin_tablename() );
+			$new_options = get_option( Get_Options::get_admin_tablename() );
 			$new_options['imdbdebuglogpath'] = $log_file;
-			update_option( Settings::get_admin_tablename(), $new_options );
+			update_option( Get_Options::get_admin_tablename(), $new_options );
 
 			error_log( '***WP Lumiere Plugin***: debug file could not be written in normal place, using plugin folder: ' . $log_file ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			$this->maybe_create_log( $log_file, true );

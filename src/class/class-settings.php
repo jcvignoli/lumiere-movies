@@ -18,6 +18,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 use FilesystemIterator;
 use Exception;
 use Lumiere\Tools\Files;
+use Lumiere\Tools\Get_Options;
 
 // Needed vars for uninstall, fails otherwise.
 // Use of defined() condition for PHPStan
@@ -44,12 +45,6 @@ class Settings {
 	 * Traits
 	 */
 	use Files;
-
-	/**
-	 * If those plugins are installed, Lumière will be deactivated and could not be activated again
-	 * Those plugins are crap and Lumière will not support them
-	 */
-	const LUMIERE_INCOMPATIBLE_PLUGINS = [ 'rss-feed-post-generator-echo/rss-feed-post-generator-echo.php' ];
 
 	/**
 	 * Name of the databases as stored in WordPress db
@@ -195,25 +190,25 @@ class Settings {
 		 * Build options, get them from database if they exist, build them otherwise.
 		 * Only $lum_admin_option is set as a property, since it is used in that class.
 		 */
-		$lum_admin_option = get_option( self::get_admin_tablename() );
+		$lum_admin_option = get_option( Get_Options::get_admin_tablename() );
 		if ( is_array( $lum_admin_option ) === false ) {
 			$lum_admin_option = $this->get_admin_option();
-			update_option( self::get_admin_tablename(), $lum_admin_option );
+			update_option( Get_Options::get_admin_tablename(), $lum_admin_option );
 		}
 		/** @phpstan-var OPTIONS_ADMIN $lum_admin_option */
 		$this->imdb_admin_option = $lum_admin_option;
 
 		// Those have no class properties created.
-		$lum_data_option = get_option( self::get_data_tablename() );
+		$lum_data_option = get_option( Get_Options::get_data_tablename() );
 		if ( is_array( $lum_data_option ) === false  ) {
 			$lum_data_option = $this->get_data_option();
-			update_option( self::get_data_tablename(), $lum_data_option );
+			update_option( Get_Options::get_data_tablename(), $lum_data_option );
 		}
 
-		$lum_cache_option = get_option( self::get_cache_tablename() );
+		$lum_cache_option = get_option( Get_Options::get_cache_tablename() );
 		if ( is_array( $lum_cache_option ) === false  ) {
 			$lum_cache_option = $this->get_cache_option();
-			update_option( self::get_cache_tablename(), $lum_cache_option );
+			update_option( Get_Options::get_cache_tablename(), $lum_cache_option );
 		}
 
 		// Define Lumière constants once global options have been created.
@@ -276,19 +271,8 @@ class Settings {
 		$this->lumiere_urlpopupsperson = site_url() . $this->lumiere_urlstringperson;
 		$this->lumiere_urlpopupsearch = site_url() . $this->lumiere_urlstringsearch;
 
-		// Build the list of all pages included in Lumière plugin
-		$this->lumiere_list_all_pages = [
-			self::URL_STRING_TAXO,
-			$this->lumiere_urlstringfilms,
-			$this->lumiere_urlstringperson,
-			$this->lumiere_urlstringsearch,
-			self::MOVE_TEMPLATE_TAXONOMY_PAGE,
-			self::GUTENBERG_SEARCH_PAGE,
-			self::GUTENBERG_SEARCH_URL,
-			self::POPUP_SEARCH_URL,
-			self::POPUP_MOVIE_URL,
-			self::POPUP_PERSON_URL,
-		];
+		// Build the list of all pages part of Lumière plugin
+		$this->lumiere_list_all_pages = $this->build_all_lumiere_pages();
 
 		/* BUILD options constant for javascripts  */
 		$notfalse_lumiere_scripts_admin_vars = wp_json_encode(
@@ -316,6 +300,26 @@ class Settings {
 			]
 		);
 		$this->lumiere_scripts_vars = $notfalse_lumiere_scripts_vars !== false ? 'const lumiere_vars = ' . $notfalse_lumiere_scripts_vars : '';
+	}
+
+	/**
+	 * Define all the pages of the Plugin
+	 *
+	 * @return array<string>
+	 */
+	private function build_all_lumiere_pages(): array {
+		return [
+			self::URL_STRING_TAXO,
+			$this->lumiere_urlstringfilms,
+			$this->lumiere_urlstringperson,
+			$this->lumiere_urlstringsearch,
+			self::MOVE_TEMPLATE_TAXONOMY_PAGE,
+			self::GUTENBERG_SEARCH_PAGE,
+			self::GUTENBERG_SEARCH_URL,
+			self::POPUP_SEARCH_URL,
+			self::POPUP_MOVIE_URL,
+			self::POPUP_PERSON_URL,
+		];
 	}
 
 	/**
@@ -358,8 +362,8 @@ class Settings {
 	public function lumiere_define_nb_updates(): bool {
 
 		// Get the database options, since this is called before the building of $this->imdb_admin_option.
-		if ( get_option( self::get_admin_tablename() ) !== false ) {
-			$this->imdb_admin_option = get_option( self::get_admin_tablename() );
+		if ( get_option( Get_Options::get_admin_tablename() ) !== false ) {
+			$this->imdb_admin_option = get_option( Get_Options::get_admin_tablename() );
 		}
 
 		// If option 'imdbHowManyUpdates' doesn't exist, make it.
@@ -371,14 +375,14 @@ class Settings {
 			$this->current_number_updates = strval( iterator_count( $files ) + 1 );
 
 			$option_key = 'imdbHowManyUpdates';
-			$option_array_search = get_option( self::get_admin_tablename() );
+			$option_array_search = get_option( Get_Options::get_admin_tablename() );
 			if ( $option_array_search === false ) {
 				return false;
 			}
 			$option_array_search[ $option_key ] = $this->current_number_updates;
 
 			// On successful update, exit
-			if ( update_option( self::get_admin_tablename(), $option_array_search ) ) {
+			if ( update_option( Get_Options::get_admin_tablename(), $option_array_search ) ) {
 				return true;
 			}
 
@@ -454,7 +458,7 @@ class Settings {
 		];
 		$imdb_admin_options['imdbplugindirectory'] = get_site_url() . $imdb_admin_options['imdbplugindirectory_partial'];
 
-		$imdb_options_a = get_option( self::get_admin_tablename() );
+		$imdb_options_a = get_option( Get_Options::get_admin_tablename() );
 
 		if ( $imdb_options_a !== false && count( $imdb_options_a ) !== 0 ) { // if not empty.
 
@@ -469,9 +473,9 @@ class Settings {
 		// For debugging purpose.
 		// Update imdbHowManyUpdates option.
 		/*
-		$option_array_search = get_option( self::get_admin_tablename() );
+		$option_array_search = get_option( Get_Options::get_admin_tablename() );
 		$option_array_search['imdbHowManyUpdates'] = 18; // Chosen number of updates.
-		update_option( self::get_admin_tablename(), $option_array_search );
+		update_option( Get_Options::get_admin_tablename(), $option_array_search );
 		*/
 
 		return $imdb_admin_options;
@@ -506,8 +510,8 @@ class Settings {
 		$imdb_cache_options['imdbphotoroot'] = $imdb_cache_options['imdbcachedir'] . 'images/';
 		$imdb_cache_options['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
 
-		$imdb_options_c = get_option( self::get_cache_tablename() );
-		$imdb_options_a = get_option( self::get_admin_tablename() );
+		$imdb_options_c = get_option( Get_Options::get_cache_tablename() );
+		$imdb_options_a = get_option( Get_Options::get_admin_tablename() );
 
 		if (  is_array( $imdb_options_c ) === true && count( $imdb_options_c ) !== 0 ) { // if not empty.
 
@@ -617,7 +621,7 @@ class Settings {
 
 		];
 
-		$imdb_options_w = get_option( self::get_data_tablename() );
+		$imdb_options_w = get_option( Get_Options::get_data_tablename() );
 
 		if ( is_array( $imdb_options_w ) === true && count( $imdb_options_w ) !== 0 ) { // if not empty.
 
@@ -626,66 +630,6 @@ class Settings {
 			}
 		}
 		return $imdb_data_options;
-	}
-
-	/**
-	 * Retrieve selected type of search in admin
-	 *
-	 * @return string
-	 * @see \Imdb\TitleSearch For the options
-	 */
-	public function lumiere_select_type_search (): string {
-
-		switch ( $this->imdb_admin_option['imdbseriemovies'] ) {
-
-			case 'movies':
-				return 'MOVIE';
-			case 'movies+series':
-				return 'MOVIE,TV';
-			case 'series':
-				return 'TV';
-			case 'videogames':
-				return 'VIDEO_GAME';
-			case 'podcasts':
-				return 'PODCAST_EPISODE';
-			default:
-				return 'MOVIE,TV';
-
-		}
-
-	}
-
-	/**
-	 * Get Admin options row name as in wp_options
-	 *
-	 * @return string
-	 * @since 4.2.1 method added, returning old row name if exists, new name otherwise
-	 * @since 4.2.2 method renamed and returns only the new row name
-	 */
-	public static function get_admin_tablename(): string {
-		return self::LUMIERE_ADMIN_OPTIONS;
-	}
-
-	/**
-	 * Get Data options row name as in wp_options
-	 *
-	 * @return string
-	 * @since 4.2.1 method added, returning old row name if exists, new name otherwise
-	 * @since 4.2.2 method renamed and returns only the new row name
-	 */
-	public static function get_data_tablename(): string {
-		return self::LUMIERE_DATA_OPTIONS;
-	}
-
-	/**
-	 * Get Cache options row name as in wp_options
-	 *
-	 * @return string
-	 * @since 4.2.1 method added, returning old row name if exists, new name otherwise
-	 * @since 4.2.2 method renamed and returns only the new row name
-	 */
-	public static function get_cache_tablename(): string {
-		return self::LUMIERE_CACHE_OPTIONS;
 	}
 }
 

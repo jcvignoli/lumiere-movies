@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Plugin to ensure Lumiere compatibility with OceanWP plugin
@@ -62,7 +62,7 @@ class Oceanwp {
 		$this->active_plugins = $active_plugins;
 
 		// Get the values from database.
-		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
 
 		// Build the css URL.
 		$this->assets_css_url = LUMIERE_WP_URL . 'assets/css';

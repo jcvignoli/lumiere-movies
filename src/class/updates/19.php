@@ -21,7 +21,7 @@
 
 namespace Lumiere\Updates;
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -58,7 +58,7 @@ class Lumiere_Update_File_19 extends \Lumiere\Updates {
 		$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( Settings::get_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
+		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
@@ -67,7 +67,7 @@ class Lumiere_Update_File_19 extends \Lumiere\Updates {
 		 * Add 'imdbirpdisplay' to LUMIERE_ADMIN_OPTIONS
 		 * New var to always display Intelly Related Posts
 		 */
-		if ( true === $this->lumiere_add_options( Settings::get_admin_tablename(), 'imdbirpdisplay', 0 ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdbirpdisplay', 0 ) ) {
 
 			$text = 'Lumière option imdbirpdisplay successfully added.';
 			$this->logger->log()->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );

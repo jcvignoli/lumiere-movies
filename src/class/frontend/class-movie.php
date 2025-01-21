@@ -16,8 +16,9 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Movie_Data;
 use Lumiere\Frontend\Main;
+use Lumiere\Frontend\Movie_Data;
+use Lumiere\Tools\Get_Options;
 
 /**
  * The class uses Movie_Data class to display data (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::lumiere_autorized_areas()}
@@ -65,6 +66,15 @@ class Movie {
 		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
 
 		/**
+		 * Maybe activate Lumière plugins if needed
+		 * Is instanciated only if not instanciated already
+		 * Always loads IMDBPHP plugin
+		 *
+		 * @see Lumiere\Frontend\Main
+		 */
+		add_action( 'init', [ $this, 'maybe_activate_plugins' ], 12, 0 ); // Zero argument, fails otherwise
+
+		/**
 		 * Detect the shortcodes [imdblt][/imdblt] and [imdbltid][/imdbltid] to display the movies, old way
 		 * @deprecated 3.5 kept for compatibility purpose
 		 */
@@ -87,25 +97,22 @@ class Movie {
 	 *
 	 * @since 3.8   Extra logs are shown once only using singleton $this->movie_run_once and Plugins_Start class added
 	 *
-	 * @param array<int<0, max>, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
-	 * @phpstan-param array<int<0, max>, array<string, string>>|null $imdb_id_or_title_outside Name or IMDbID of the movie to find in array
-	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title_outside
+	 * @param array<int<0, max>, array<string, string>>|null $imdb_id_or_title Name or IMDbID of the movie to find in array
+	 * @phpstan-param array<int<0, max>, array<string, string>>|null $imdb_id_or_title Name or IMDbID of the movie to find in array
+	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title
 	 */
-	public function lumiere_show( ?array $imdb_id_or_title_outside = null ): string {
+	public function lumiere_show( ?array $imdb_id_or_title = null ): string {
+
+		if ( $imdb_id_or_title === null || count( $imdb_id_or_title ) === 0 ) {
+			$this->logger->log()->debug( '[Lumiere][Movie] No data passed' );
+			return '';
+		}
 
 		/**
 		 * Show log for link maker and plugin detect
 		 * Is instanciated only if not instanciated already
 		 */
 		if ( $this->movie_run_once === false ) {
-
-			/**
-			 * Start Plugins_Start class
-			 * Is instanciated only if not instanciated already
-			 * Always loads IMDBPHP plugin
-			 * @TODO pass it into an add_action(), such as in popups
-			 */
-			$this->maybe_activate_plugins(); // In Trait Main.
 
 			// Log the current link maker
 			$this->logger->log()->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
@@ -119,27 +126,21 @@ class Movie {
 		}
 
 		// Vars.
-		$imdb_id_or_title = $imdb_id_or_title_outside ?? null;
 		$output = '';
 		$results = null; // Default, should get an object if everything goes according to the plan.
+		self::$nb_of_movies = count( $imdb_id_or_title );
 
-		// $imdb_id_or_title var comes from custom post's field in widget or in post
-		$counter_imdb_id_or_title = $imdb_id_or_title !== null ? count( $imdb_id_or_title ) : 0;
-
-		// Increment a static property that can be called from outside to know if there are movies called
-		self::$nb_of_movies += $counter_imdb_id_or_title;
-
-		for ( $i = 0; $i < $counter_imdb_id_or_title; $i++ ) {
+		for ( $i = 0; $i < self::$nb_of_movies; $i++ ) {
 
 			// sanitize
-			$film = $imdb_id_or_title !== null ? $imdb_id_or_title[ $i ] : null;
+			$film = $imdb_id_or_title[ $i ] ?? null;
 
 			// A movie's title has been specified, get its imdbid.
 			if ( isset( $film['byname'] ) ) {
 
 				$film = strtolower( $film['byname'] ); // @since 4.0 lowercase, less cache used.
 
-				$this->logger->log()->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . $film );
+				$this->logger->log()->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $film ) );
 
 				// check a the movie title exists.
 				if ( strlen( $film ) > 0 ) {
@@ -148,26 +149,26 @@ class Movie {
 					$results = $this->plugins_classes_active['imdbphp']->search_movie_title(
 						esc_html( $film ),
 						$this->logger->log(),
-						$this->config_class->lumiere_select_type_search()
+						Get_Options::get_type_search()
 					);
 				}
 
 				// Get the first result from the search
-				$mid_premier_resultat = isset( $results[0] ) ? $results[0]['imdbid'] : null;
+				$mid_premier_resultat = $results[0]['imdbid'] ?? null;
 
 				// No results were found in imdbphp query.
 				if ( ! isset( $mid_premier_resultat ) ) {
 					$this->logger->log()->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
-					// no result, so jump to the next query and forget the current
+					// no result, so jump to the next query.
 					continue;
 				}
 
-				$this->logger->log()->debug( "[Lumiere][Movie] Result found: $mid_premier_resultat." );
+				$this->logger->log()->debug( "[Lumiere][Movie] IMDb ID found: *$mid_premier_resultat*" );
 
 				// no movie's title but a movie's ID has been specified
 			} elseif ( isset( $film['bymid'] ) ) {
 				$mid_premier_resultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
-				$this->logger->log()->debug( "[Lumiere][Movie] Movie ID provided: *$mid_premier_resultat*." );
+				$this->logger->log()->debug( "[Lumiere][Movie] IMDb ID provided: *$mid_premier_resultat*" );
 			}
 
 			if ( $film === null || ! isset( $mid_premier_resultat ) || $mid_premier_resultat === false ) {
@@ -242,7 +243,6 @@ class Movie {
 	 * @param array<int, string> $block_span
 	 */
 	private function lumiere_parse_spans_callback_id( array $block_span ): string {
-
 		$imdb_id_or_title = [];
 		$imdb_id_or_title[]['bymid'] = sanitize_text_field( $block_span[1] );
 		return $this->lumiere_show( $imdb_id_or_title );
@@ -254,7 +254,6 @@ class Movie {
 	 * @param array<string> $block_span
 	 */
 	private function lumiere_parse_spans_callback_title( array $block_span ): string {
-
 		$imdb_id_or_title = [];
 		$imdb_id_or_title[]['byname'] = sanitize_text_field( $block_span[1] );
 		return $this->lumiere_show( $imdb_id_or_title );

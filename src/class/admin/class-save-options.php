@@ -20,6 +20,7 @@ use Lumiere\Settings;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Tools\Settings_Global;
+use Lumiere\Tools\Get_Options;
 use Exception;
 
 /**
@@ -318,7 +319,7 @@ class Save_Options {
 		}
 
 		// update options, keep the originals if there is a problem.
-		update_option( \Lumiere\Settings::get_admin_tablename(), $this->imdb_admin_values );
+		update_option( Get_Options::get_admin_tablename(), $this->imdb_admin_values );
 
 		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 		if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
@@ -333,7 +334,7 @@ class Save_Options {
 	 */
 	private function lumiere_general_options_reset( string|bool $get_referer ): void {
 
-		delete_option( \Lumiere\Settings::get_admin_tablename() );
+		delete_option( Get_Options::get_admin_tablename() );
 		Settings::build_options();
 
 		set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
@@ -382,7 +383,7 @@ class Save_Options {
 			}
 		}
 
-		update_option( Settings::get_cache_tablename(), $this->imdb_cache_values );
+		update_option( Get_Options::get_cache_tablename(), $this->imdb_cache_values );
 
 		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 
@@ -407,7 +408,7 @@ class Save_Options {
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
 	private function lumiere_cache_options_reset( string|bool $get_referer ): void {
-		delete_option( Settings::get_cache_tablename() );
+		delete_option( Get_Options::get_cache_tablename() );
 		Settings::build_options();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
@@ -582,7 +583,7 @@ class Save_Options {
 		}
 
 		// update options
-		update_option( Settings::get_data_tablename(), $this->imdb_data_values );
+		update_option( Get_Options::get_data_tablename(), $this->imdb_data_values );
 
 		/**
 		 * New custom pages need a flush rewrite rules to make sure taxonomy pages are available.
@@ -606,7 +607,7 @@ class Save_Options {
 	 */
 	private function lumiere_data_options_reset( string|bool $get_referer, ): void {
 
-		delete_option( Settings::get_data_tablename() );
+		delete_option( Get_Options::get_data_tablename() );
 		Settings::build_options();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {

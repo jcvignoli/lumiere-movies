@@ -19,7 +19,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 // Include composer bootstrap.
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 use Lumiere\Tools\Data;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Plugins\Manual\Logger;
@@ -70,9 +70,9 @@ class Uninstall {
 	public function __construct() {
 
 		// Get options from database.
-		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() ) !== false ? get_option( Settings::get_admin_tablename() ) : null;
-		$this->imdb_data_values = get_option( Settings::get_data_tablename() ) !== false ? get_option( Settings::get_data_tablename() ) : null;
-		$this->imdb_cache_values = get_option( Settings::get_cache_tablename() ) !== false ? get_option( Settings::get_cache_tablename() ) : null;
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() ) !== false ? get_option( Get_Options::get_admin_tablename() ) : null;
+		$this->imdb_data_values = get_option( Get_Options::get_data_tablename() ) !== false ? get_option( Get_Options::get_data_tablename() ) : null;
+		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() ) !== false ? get_option( Get_Options::get_cache_tablename() ) : null;
 
 		// Start Logger class.
 		$this->logger = new Logger( 'uninstallClass', false );
@@ -309,17 +309,17 @@ class Uninstall {
 
 		$processed = false;
 
-		if ( delete_option( Settings::get_admin_tablename() ) === true ) {
+		if ( delete_option( Get_Options::get_admin_tablename() ) === true ) {
 			$processed = true;
-			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Settings::get_admin_tablename() );
+			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Get_Options::get_admin_tablename() );
 		}
-		if ( delete_option( Settings::get_data_tablename() ) === true ) {
+		if ( delete_option( Get_Options::get_data_tablename() ) === true ) {
 			$processed = true;
-			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Settings::get_data_tablename() );
+			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Get_Options::get_data_tablename() );
 		}
-		if ( delete_option( Settings::get_cache_tablename() ) === true ) {
+		if ( delete_option( Get_Options::get_cache_tablename() ) === true ) {
 			$processed = true;
-			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Settings::get_cache_tablename() );
+			$this->logger->log()->error( '[Lumiere][uninstall][Options] Successfully deleted ' . Get_Options::get_cache_tablename() );
 		}
 		$this->logger->log()->debug( '[Lumiere][uninstall][Delete options] Lumière options deletion processed.' );
 		return $processed;

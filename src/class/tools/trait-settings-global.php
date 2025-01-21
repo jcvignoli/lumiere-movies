@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Trait for including database options
@@ -62,9 +63,9 @@ trait Settings_Global {
 	public function get_db_options(): void {
 
 		Settings::build_options();
-		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
-		$this->imdb_data_values = get_option( Settings::get_data_tablename() );
-		$this->imdb_cache_values = get_option( Settings::get_cache_tablename() );
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
+		$this->imdb_data_values = get_option( Get_Options::get_data_tablename() );
+		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
 	}
 
 	/**

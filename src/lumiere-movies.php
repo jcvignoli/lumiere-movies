@@ -42,7 +42,7 @@ if ( file_exists( LUMIERE_WP_PATH . 'functions.php' ) ) {
 }
 
 // Global function: Lumière is uninstalled if crappy plugins are found.
-lum_incompatible_plugins_uninstall( Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS, __FILE__ );
+lum_incompatible_plugins_uninstall( LUMIERE_INCOMPATIBLE_PLUGINS, __FILE__ );
 
 // Instanciate Core class.
 $lumiere_core = new Lumiere\Core();

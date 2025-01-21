@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-$lumiere_imdb_cache_values = get_option( \Lumiere\Settings::get_cache_tablename() );
+$lumiere_imdb_cache_values = get_option( \Lumiere\Tools\Get_Options::get_cache_tablename() );
 
 // Retrieve the vars from calling class.
 $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];

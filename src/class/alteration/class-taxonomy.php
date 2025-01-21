@@ -16,7 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
 use Lumiere\Tools\Get_Options;
 use Lumiere\Plugins\Manual\Logger;
 use Exception;
@@ -49,7 +48,7 @@ class Taxonomy {
 	 */
 	public function __construct( string $old_taxonomy = '', string $new_taxonomy = '', string $action = '' ) {
 
-		$this->imdb_admin_values = get_option( Settings::get_admin_tablename(), [] );
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
 
 		// If taxonomy is not activated, exit.
 		if ( ! isset( $this->imdb_admin_values['imdbtaxonomy'] ) || $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {

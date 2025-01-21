@@ -21,7 +21,7 @@
 
 namespace Lumiere\Updates;
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -61,7 +61,7 @@ class Lumiere_Update_File_15 extends \Lumiere\Updates {
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
-		$this->lumiere_update_options( Settings::get_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
+		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */

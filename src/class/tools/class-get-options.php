@@ -31,8 +31,8 @@ class Get_Options {
 	 * @phpstan-return array<array-key, string>
 	 */
 	public static function get_taxonomy_activated(): array {
-		$imdb_data_values = get_option( Settings::get_data_tablename() );
-		$imdb_admin_values = get_option( Settings::get_admin_tablename() );
+		$imdb_data_values = get_option( self::get_data_tablename() );
+		$imdb_admin_values = get_option( self::get_admin_tablename() );
 		$all_tax_array = Data::lumiere_array_key_exists_wildcard( $imdb_data_values, 'imdbtaxonomy*', 'key-value' ); // Method in trait Data
 		$taxonomy_full_name = [];
 		foreach ( $all_tax_array as $option => $activated ) {
@@ -53,6 +53,66 @@ class Get_Options {
 	 */
 	public static function get_lumiere_version(): string {
 		return ( new Settings() )->lumiere_version;
+	}
+
+	/**
+	 * Retrieve selected type of search in admin
+	 *
+	 * @return string
+	 * @see \Imdb\TitleSearch For the options
+	 */
+	public static function get_type_search(): string {
+
+		$imdb_admin_option = get_option( self::get_admin_tablename() );
+		switch ( $imdb_admin_option['imdbseriemovies'] ) {
+
+			case 'movies':
+				return 'MOVIE';
+			case 'movies+series':
+				return 'MOVIE,TV';
+			case 'series':
+				return 'TV';
+			case 'videogames':
+				return 'VIDEO_GAME';
+			case 'podcasts':
+				return 'PODCAST_EPISODE';
+			default:
+				return 'MOVIE,TV';
+
+		}
+	}
+
+	/**
+	 * Get Admin options row name as in wp_options
+	 *
+	 * @return string
+	 * @since 4.2.1 method added, returning old row name if exists, new name otherwise
+	 * @since 4.2.2 method renamed and returns only the new row name
+	 */
+	public static function get_admin_tablename(): string {
+		return Settings::LUMIERE_ADMIN_OPTIONS;
+	}
+
+	/**
+	 * Get Data options row name as in wp_options
+	 *
+	 * @return string
+	 * @since 4.2.1 method added, returning old row name if exists, new name otherwise
+	 * @since 4.2.2 method renamed and returns only the new row name
+	 */
+	public static function get_data_tablename(): string {
+		return Settings::LUMIERE_DATA_OPTIONS;
+	}
+
+	/**
+	 * Get Cache options row name as in wp_options
+	 *
+	 * @return string
+	 * @since 4.2.1 method added, returning old row name if exists, new name otherwise
+	 * @since 4.2.2 method renamed and returns only the new row name
+	 */
+	public static function get_cache_tablename(): string {
+		return Settings::LUMIERE_CACHE_OPTIONS;
 	}
 }
 

@@ -16,3 +16,11 @@ if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
 if ( ! defined( 'LUMIERE_WP_URL' ) ) {
 	define( 'LUMIERE_WP_URL', plugin_dir_url( __FILE__ ) );
 }
+
+if ( ! defined( 'LUMIERE_INCOMPATIBLE_PLUGINS' ) ) {
+	/**
+	 * If those plugins are installed, Lumière will be deactivated and could not be activated again
+	 * Those plugins are crap and Lumière will not support them
+	 */
+	define( 'LUMIERE_INCOMPATIBLE_PLUGINS', [ 'rss-feed-post-generator-echo/rss-feed-post-generator-echo.php' ] );
+}

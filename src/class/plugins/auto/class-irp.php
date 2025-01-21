@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Frontend\Movie;
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Plugin to ensure Lumiere compatibility with IRP (Intelly Related Post) plugin
@@ -53,10 +53,10 @@ class Irp {
 		$this->active_plugins = $active_plugins;
 
 		// Get the values from database.
-		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
 
 		// Disable IRP plugin in Lumiere pages, it breaks them
-		add_filter( 'the_content', [ $this, 'lumiere_remove_irp_if_relevant' ], 11, 1 );
+		add_filter( 'the_content', [ $this, 'lumiere_remove_irp_if_relevant' ], 13, 1 );
 
 	}
 
@@ -74,7 +74,7 @@ class Irp {
 	 * @param null|string $content Text in the_content
 	 * @return string Text in the_content untouched
 	 *
-	 * @see {Lumiere\Frontend\Movie::$nb_of_movies} for the static property that includes if one or more movies are displayed in the post
+	 * @see {Lumiere\Frontend\Find_Movie::$nb_of_movies} for the static property that includes if one or more movies are displayed in the post
 	 * @see intelly-related-posts/includes/core.php for the IRP filter
 	 */
 	public function lumiere_remove_irp_if_relevant( ?string $content ): string {

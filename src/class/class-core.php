@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Updates;
@@ -215,7 +216,7 @@ class Core {
 		// Start the logger.
 		$logger->lumiere_start_logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-		$current_admin = get_option( Settings::get_cache_tablename() );
+		$current_admin = get_option( Get_Options::get_cache_tablename() );
 
 		/* Create the value of number of updates on first install */
 		if ( ! isset( $current_admin['imdbHowManyUpdates'] ) ) {
@@ -265,10 +266,10 @@ class Core {
 		}
 
 		// Reset options related to crons, since we removed them.
-		$current_admin = get_option( Settings::get_cache_tablename() );
+		$current_admin = get_option( Get_Options::get_cache_tablename() );
 		$current_admin['imdbcacheautorefreshcron'] = '0';
 		$current_admin['imdbcachekeepsizeunder'] = '0';
-		update_option( Settings::get_cache_tablename(), $current_admin );
+		update_option( Get_Options::get_cache_tablename(), $current_admin );
 
 		$logger->log()->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
 	}
@@ -282,7 +283,7 @@ class Core {
 	 */
 	public function lum_update_needed() {
 
-		$current_admin = get_option( Settings::get_admin_tablename() );
+		$current_admin = get_option( Get_Options::get_admin_tablename() );
 		$files = new FilesystemIterator( LUMIERE_WP_PATH . 'class/updates/', FilesystemIterator::SKIP_DOTS );
 		$nb_of_files_in_updates_folder = iterator_count( $files );
 

@@ -15,8 +15,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
 use Lumiere\Tools\Files;
+use Lumiere\Tools\Get_Options;
 use WP_CLI;
 use \ReflectionClass;
 use \ReflectionMethod;
@@ -73,7 +73,7 @@ class Cli_Commands {
 		// Build properties.
 		$this->list_subcommands = $this->get_private_methods( new ReflectionClass( $this ) );
 		$this->list_subcommands_asstring = $this->get_private_methods_asstring( $this->list_subcommands );
-		$this->imdb_admin_values = get_option( Settings::get_admin_tablename() );
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
 	}
 
 	/**
@@ -171,11 +171,11 @@ class Cli_Commands {
 			WP_CLI::error( "Use one extra argument as follows:\nwp lum update_options admin|data|cache --array_key=new_value" );
 		}
 
-		// Build the constant to call in Settings - can be admin, cache or data
-		$settings_const = constant( '\Lumiere\Settings::LUMIERE_' . strtoupper( $args[1] ) . '_OPTIONS' );
+		// Build the constant to call in Get_Options - can be admin, cache or data
+		$settings_name = constant( '\Lumiere\Tools\Get_Options::LUMIERE_' . strtoupper( $args[1] ) . '_OPTIONS' );
 
 		// Get options from DB and get the (first) array key from the passed values in $dashed_extra_args.
-		$database_options = get_option( $settings_const );
+		$database_options = get_option( $settings_name );
 		$array_key = array_key_first( $dashed_extra_args );
 
 		// Exit if the array key doesn't exist in Lumière! DB admin options
@@ -187,7 +187,7 @@ class Cli_Commands {
 
 		// Build new array and update database.
 		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ];
-		update_option( $settings_const, $database_options );
+		update_option( $settings_name, $database_options );
 
 		WP_CLI::success( 'Updated var ' . $array_key . ' with value ' . $database_options[ $array_key ] );
 	}
@@ -225,7 +225,7 @@ class Cli_Commands {
 
 		// Build source filename, except if no second main argument was passed exit.
 		if ( in_array( $args[1], $template_types, true ) === true ) {
-			$source_file = constant( '\Lumiere\Settings::TAXO_' . strtoupper( $args[1] ) . '_THEME' );
+			$source_file = constant( '\Lumiere\Tools\Get_Options::TAXO_' . strtoupper( $args[1] ) . '_THEME' );
 		} else {
 			WP_CLI::error( "The extra argument must be either items or people as follows:\nwp lum copy_taxo " . implode( '|', $template_types ) . ' --template=' . implode( '|', $all ) );
 		}

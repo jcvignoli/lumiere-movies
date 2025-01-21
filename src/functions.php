@@ -13,7 +13,7 @@ if ( ! function_exists( 'lum_install_incompat_notice' ) ) {
 	 * @return void Notice was echoed
 	 */
 	function lum_install_incompat_notice(): void {
-		$incompatible_name_plugins = ucwords( str_replace( '-', ' ', implode( ',', preg_replace( '#/.*#', '', Lumiere\Settings::LUMIERE_INCOMPATIBLE_PLUGINS ) ) ) ) . '. ';
+		$incompatible_name_plugins = ucwords( str_replace( '-', ' ', implode( ',', preg_replace( '#/.*#', '', LUMIERE_INCOMPATIBLE_PLUGINS ) ) ) ) . '. ';
 		printf(
 			'<div class="%1$s"><p>%2$s <strong>%5$s</strong> %3$s</p><p>%4$s</p></div>',
 			'notice notice-error is-dismissible',

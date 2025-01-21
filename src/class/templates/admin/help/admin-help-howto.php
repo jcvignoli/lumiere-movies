@@ -212,7 +212,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					if (class_exists("\Lumiere\Settings")) {<br>
 						$config_class = new \Lumiere\Settings();<br>
 						// Get the type of search: movies, series, games<br>
-						$typeSearch = $config_class->lumiere_select_type_search();<br>
+						$typeSearch = \Lumiere\Tools\Get_Options::get_type_search();<br>
 					}<br>
 					<br>
 					# Initialization of IMDBphp libraries<br>
