@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Movie_Data;
-use Lumiere\Tools\Get_Options;
 
 /**
  * The class uses Movie_Data class to display data (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::lumiere_autorized_areas()}
@@ -39,7 +38,7 @@ class Movie {
 	 *
 	 * @var bool $movie_run_once
 	 */
-	private bool $movie_run_once;
+	private bool $movie_run_once = false;
 
 	/**
 	 * Keep track of the number of movies called
@@ -55,9 +54,6 @@ class Movie {
 		// Construct Frontend trait.
 		$this->start_main_trait();
 
-		// Singleton for running movies only once.
-		$this->movie_run_once = false;
-
 		// Transform spans into movies.
 		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
 
@@ -72,7 +68,7 @@ class Movie {
 		 *
 		 * @see Lumiere\Frontend\Main
 		 */
-		add_action( 'init', [ $this, 'maybe_activate_plugins' ], 12, 0 ); // Zero argument, fails otherwise
+		$this->maybe_activate_plugins();
 
 		/**
 		 * Detect the shortcodes [imdblt][/imdblt] and [imdbltid][/imdbltid] to display the movies, old way
@@ -95,97 +91,26 @@ class Movie {
 	/**
 	 * Search the movie and output the results
 	 *
-	 * @since 3.8   Extra logs are shown once only using singleton $this->movie_run_once and Plugins_Start class added
+	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once and Plugins_Start class added
 	 *
-	 * @param array<int<0, max>, array<string, string>>|null $imdb_id_or_title Name or IMDbID of the movie to find in array
-	 * @phpstan-param array<int<0, max>, array<string, string>>|null $imdb_id_or_title Name or IMDbID of the movie to find in array
-	 * @psalm-param list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}> $imdb_id_or_title
+	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title
 	 */
-	public function lumiere_show( ?array $imdb_id_or_title = null ): string {
+	public function lumiere_show( array $imdb_id_or_title ): string {
 
-		if ( $imdb_id_or_title === null || count( $imdb_id_or_title ) === 0 ) {
-			$this->logger->log()->debug( '[Lumiere][Movie] No data passed' );
-			return '';
-		}
-
-		/**
-		 * Show log for link maker and plugin detect
-		 * Is instanciated only if not instanciated already
-		 */
-		if ( $this->movie_run_once === false ) {
-
-			// Log the current link maker
-			$this->logger->log()->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
-
-			// Log Plugins_Start, $this->plugins_classes_active in trait
-			$this->logger->log()->debug( '[Lumiere][Movie] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
-			$this->logger->log()->debug( '[Lumiere][Movie] Calling IMDbPHP class.' );
-
-			// Set the trigger to true so this is not called again.
-			$this->movie_run_once = true;
-		}
-
-		// Vars.
+		$movies_searched = $this->search_movies( $imdb_id_or_title );
 		$output = '';
-		$results = null; // Default, should get an object if everything goes according to the plan.
-		self::$nb_of_movies = count( $imdb_id_or_title );
 
-		for ( $i = 0; $i < self::$nb_of_movies; $i++ ) {
+		foreach ( $movies_searched as $movie_found ) {
 
-			// sanitize
-			$film = $imdb_id_or_title[ $i ] ?? null;
-
-			// A movie's title has been specified, get its imdbid.
-			if ( isset( $film['byname'] ) ) {
-
-				$film = strtolower( $film['byname'] ); // @since 4.0 lowercase, less cache used.
-
-				$this->logger->log()->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $film ) );
-
-				// check a the movie title exists.
-				if ( strlen( $film ) > 0 ) {
-					$this->logger->log()->debug( "[Lumiere][Movie] searching for $film" );
-					/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
-					$results = $this->plugins_classes_active['imdbphp']->search_movie_title(
-						esc_html( $film ),
-						$this->logger->log(),
-						Get_Options::get_type_search()
-					);
-				}
-
-				// Get the first result from the search
-				$mid_premier_resultat = $results[0]['imdbid'] ?? null;
-
-				// No results were found in imdbphp query.
-				if ( ! isset( $mid_premier_resultat ) ) {
-					$this->logger->log()->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
-					// no result, so jump to the next query.
-					continue;
-				}
-
-				$this->logger->log()->debug( "[Lumiere][Movie] IMDb ID found: *$mid_premier_resultat*" );
-
-				// no movie's title but a movie's ID has been specified
-			} elseif ( isset( $film['bymid'] ) ) {
-				$mid_premier_resultat = filter_var( $film['bymid'], FILTER_SANITIZE_NUMBER_INT );
-				$this->logger->log()->debug( "[Lumiere][Movie] IMDb ID provided: *$mid_premier_resultat*" );
-			}
-
-			if ( $film === null || ! isset( $mid_premier_resultat ) || $mid_premier_resultat === false ) {
-				$this->logger->log()->debug( '[Lumiere][Movie] No result found for this query.' );
-				continue;
-			}
-
-			$this->logger->log()->debug( "[Lumiere][Movie] Displaying rows for *$mid_premier_resultat*" );
+			$this->logger->log()->debug( "[Lumiere][Movie] Displaying rows for *$movie_found*" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- Lumière! movies plugin -->';
 			$output .= "\n\t<div class='lum_results_frame";
 
 			// add dedicated class for themes
-			$output .= ' lum_results_frame_' . $this->imdb_admin_values['imdbintotheposttheme'];
-			$output .= "'>";
+			$output .= ' lum_results_frame_' . $this->imdb_admin_values['imdbintotheposttheme'] . "'>";
 
-			$output .= $this->lumiere_methods_factory( $mid_premier_resultat );
+			$output .= $this->lumiere_methods_factory( $movie_found );
 			$output .= "\n\t</div>";
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- /Lumière! movies plugin -->';
 		}
@@ -203,11 +128,71 @@ class Movie {
 	}
 
 	/**
+	 * Search movies: if title, search its imdbid, use its imdbid if provided
+	 *
+	 * @since 4.3.2
+	 * @param non-empty-array<array-key, array<string, string>> $films_array
+	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $films_array
+	 * @return list<string> Array of results with
+	 */
+	private function search_movies( array $films_array ): array {
+
+		self::$nb_of_movies = count( $films_array );
+		$movies_found = [];
+
+		// Using singleton to display only once.
+		if ( $this->movie_run_once === false ) {
+			// Log the current link maker
+			$this->logger->log()->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+			// Log Plugins_Start, $this->plugins_classes_active in trait
+			$this->logger->log()->debug( '[Lumiere][Movie] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+			$this->movie_run_once = true;
+		}
+
+		for ( $i = 0; $i < self::$nb_of_movies; $i++ ) {
+
+			// A movie's title has been specified, get its imdbid.
+			if ( isset( $films_array[ $i ]['byname'] ) && strlen( $films_array[ $i ]['byname'] ) > 0 ) {
+
+				$film = strtolower( $films_array[ $i ]['byname'] ); // @since 4.0 lowercase, less cache used.
+
+				$this->logger->log()->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $film ) );
+
+				// check a the movie title exists.
+				$this->logger->log()->debug( '[Lumiere][Movie] searching for ' . $film );
+				/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
+				$results = $this->plugins_classes_active['imdbphp']->search_movie_title(
+					esc_html( $film ),
+					$this->logger->log(),
+				);
+
+				// No results were found in imdbphp query.
+				if ( ! isset( $results[0] ) ) {
+					$this->logger->log()->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
+					// no result, so jump to the next query.
+					continue;
+				}
+
+				// Get the first result from the search
+				$movies_found[] = esc_html( $results[0]['imdbid'] );
+				$this->logger->log()->debug( '[Lumiere][Movie] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
+
+				// A movie's ID was passed.
+			} elseif ( isset( $films_array[ $i ]['bymid'] ) ) {
+				$movies_found[] = esc_html( strval( $films_array[ $i ]['bymid'] ) );
+				$this->logger->log()->debug( '[Lumiere][Movie] IMDb ID provided: *' . $movies_found[ $i ] . '*' );
+			}
+
+		}
+		return $movies_found;
+	}
+
+	/**
 	 * Find in content the span to build the movies
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
 	 * @since 3.10.2 The function always returns string, no null accepted -- PHP8.2 compatibility
-	 * @since 4.2.3 The function will return if not executed in autorized area
+	 * @since 4.2.3 The function will return with the content if not executed in autorized area
 	 *
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string
@@ -244,7 +229,7 @@ class Movie {
 	 */
 	private function lumiere_parse_spans_callback_id( array $block_span ): string {
 		$imdb_id_or_title = [];
-		$imdb_id_or_title[]['bymid'] = sanitize_text_field( $block_span[1] );
+		$imdb_id_or_title[]['bymid'] = esc_html( $block_span[1] );
 		return $this->lumiere_show( $imdb_id_or_title );
 	}
 
@@ -255,7 +240,7 @@ class Movie {
 	 */
 	private function lumiere_parse_spans_callback_title( array $block_span ): string {
 		$imdb_id_or_title = [];
-		$imdb_id_or_title[]['byname'] = sanitize_text_field( $block_span[1] );
+		$imdb_id_or_title[]['byname'] = esc_html( $block_span[1] );
 		return $this->lumiere_show( $imdb_id_or_title );
 	}
 
@@ -274,7 +259,7 @@ class Movie {
 		}
 
 		_deprecated_function( 'shortcode imdblt', '3.5', '"span" with data-lum_movie_maker="movie_title" to embed your movies' );
-		return $this->lumiere_external_call( $content, '', '' );
+		return $this->lumiere_external_call( $content, '' );
 	}
 
 	/**
@@ -292,7 +277,7 @@ class Movie {
 		}
 
 		_deprecated_function( 'shortcode imdbltid', '3.5', '"span" with data-lum_movie_maker="movie_id" to embed your movies' );
-		return $this->lumiere_external_call( '', $content, '' );
+		return $this->lumiere_external_call( '', $content );
 	}
 
 	/**
@@ -347,34 +332,21 @@ class Movie {
 	 *
 	 * @param string|null $moviename
 	 * @param string|null $filmid
-	 * @param string|null $external set to 'external' for use from outside
 	 */
-	public function lumiere_external_call( ?string $moviename = null, ?string $filmid = null, ?string $external = null ): string {
+	public function lumiere_external_call( ?string $moviename, ?string $filmid ): string {
 
 		$imdb_id_or_title = [];
 
-		// Call function from external (using parameter "external" )
-		// Especially made to be integrated (ie, inside a php code)
-		if ( ( $external === 'external' ) && isset( $moviename ) ) {
-			$imdb_id_or_title[]['byname'] = $moviename;
-		}
-
-		// Call function from external (using parameter "external" )
-		// Especially made to be integrated (ie, inside a php code)
-		if ( ( $external === 'external' ) && isset( $filmid ) ) {
-			$imdb_id_or_title[]['bymid'] = $filmid;
-		}
-
 		//  Call with the parameter - imdb movie name (imdblt)
-		if ( isset( $moviename ) && strlen( $moviename ) !== 0 && $external !== 'external' ) {
-			$imdb_id_or_title[]['byname'] = $moviename;
+		if ( isset( $moviename ) && strlen( $moviename ) > 0 ) {
+			$imdb_id_or_title[]['byname'] = esc_html( $moviename );
 		}
 
 		//  Call with the parameter - imdb movie id (imdbltid)
-		if ( isset( $filmid ) && strlen( $filmid ) !== 0 && ( $external !== 'external' ) ) {
-			$imdb_id_or_title[]['bymid'] = $filmid;
+		if ( isset( $filmid ) && strlen( $filmid ) > 0 ) {
+			$imdb_id_or_title[]['bymid'] = esc_html( $filmid );
 		}
-
+		/** @psalm-var array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title */
 		return $this->lumiere_show( $imdb_id_or_title );
 	}
 
@@ -428,13 +400,13 @@ class Movie {
 	 */
 	private function lumiere_movie_wrapper( string $html, string $item ): string {
 
-		$outputfinal = '';
-		$item = sanitize_text_field( $item );
-		$item_caps = strtoupper( $item );
-
 		if ( strlen( $html ) === 0 ) {
 			return '';
 		}
+
+		$outputfinal = '';
+		$item = sanitize_text_field( $item );
+		$item_caps = strtoupper( $item );
 
 		$outputfinal .= "\n\t\t\t\t\t\t\t" . '<!-- ' . $item . ' -->';
 
@@ -446,11 +418,8 @@ class Movie {
 		}
 
 		$outputfinal .= ' lumiere-lines-common_' . $this->imdb_admin_values['imdbintotheposttheme'] . ' imdbelement' . $item_caps . '_' . $this->imdb_admin_values['imdbintotheposttheme'];
-
 		$outputfinal .= '">';
-
 		$outputfinal .= $html;
-
 		$outputfinal .= "\n\t\t" . '</div>';
 
 		return $outputfinal;
@@ -469,19 +438,22 @@ class Movie {
 	 *
 	 * @return string the text to be outputed
 	 */
-	protected function lumiere_make_display_taxonomy( string $type_item, string $first_title, ?string $second_title = null, string $layout = 'one', ?string $movie_title = null ): string {
+	protected function lumiere_make_display_taxonomy(
+		string $type_item,
+		string $first_title,
+		?string $second_title = null,
+		string $layout = 'one',
+		?string $movie_title = null
+	): string {
 
 		/**
 		 * Vars and sanitization
 		 */
 		$lang_term = strtok( get_bloginfo( 'language' ), '-' ); // Language to register the term with, English by default, first language characters if WP
 		$output = '';
-		$list_taxonomy_term = '';
-		$layout = esc_attr( $layout );
-		$taxonomy_category = esc_attr( $type_item );
 		$taxonomy_term = esc_attr( $first_title );
 		$second_title ??= '';
-		$taxonomy_category_full = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . $taxonomy_category;
+		$taxonomy_category_full = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] . $type_item );
 		$page_id = get_the_ID();
 
 		/**
@@ -517,10 +489,6 @@ class Movie {
 				$term_taxonomy_id = wp_set_object_terms( $page_id, $term_for_set_object, $taxonomy_category_full, true );
 				// $this->logger->log()->debug( '[Lumiere][Movie] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
 			}
-
-			// Add Lumière tags to the current WordPress post. But we don't want it!
-			# wp_set_post_tags( $page_id, $list_taxonomy_term, 'post_tag', true);
-
 		}
 
 		/**
@@ -528,7 +496,7 @@ class Movie {
 		 */
 
 		// Build the id for the link <a id="$link_id">
-		$link_id = ( $movie_title ?? '' ) . '_' . $lang_term . '_' . $taxonomy_category_full . '_' . $taxonomy_term;
+		$link_id = esc_html( $movie_title ?? '' ) . '_' . $lang_term . '_' . $taxonomy_category_full . '_' . $taxonomy_term;
 		$link_id = preg_replace( "/^'|[^A-Za-z0-9\'-]|'|\-$/", '_', $link_id ) ?? '';
 		$link_id = 'link_taxo_' . strtolower( str_replace( '-', '_', $link_id ) );
 
@@ -571,22 +539,8 @@ class Movie {
 	 * @return string The WordPress full HTML link for the name with that category
 	 */
 	private function lumiere_get_taxo_link( string $name_searched, string $taxo_category ): string {
-
 		$find_term = get_term_by( 'name', $name_searched, $taxo_category );
 		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->term_id, $taxo_category ) : '';
 		return $taxo_link instanceof \WP_Error ? '' : $taxo_link;
-	}
-
-	/**
-	 * Create an html link for taxonomy
-	 *
-	 * @param string $taxonomy
-	 */
-	private function lumiere_make_taxonomy_link( string $taxonomy ): string {
-
-		$taxonomy = preg_replace( '/\s/', '-', $taxonomy ) ?? $taxonomy;# replace space by hyphen
-		$taxonomy = strtolower( $taxonomy ); # convert to small characters
-		$taxonomy = remove_accents( $taxonomy ); # convert accentuated charaters to unaccentuated counterpart
-		return $taxonomy;
 	}
 }

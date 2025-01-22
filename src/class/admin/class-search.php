@@ -20,7 +20,6 @@ use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Manual\Logger;
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Tools\Validate_Get;
-use Lumiere\Tools\Get_Options;
 use Lumiere\Settings;
 
 /**
@@ -177,7 +176,6 @@ class Search {
 		$results = $this->imdbphp_class->search_movie_title(
 			$this->movie_searched ?? '',
 			$this->logger->log(),
-			Get_Options::get_type_search()
 		);
 
 		$limit_search = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 5;

@@ -19,7 +19,6 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
-use Lumiere\Tools\Get_Options;
 use Imdb\Title;
 
 /**
@@ -130,7 +129,6 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 			$search = $this->plugins_classes_active['imdbphp']?->search_movie_title(
 				esc_html( $movie_title ),
 				$this->logger->log(),
-				Get_Options::get_type_search()
 			);
 
 			// Keep the first occurrence.

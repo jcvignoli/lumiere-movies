@@ -18,12 +18,14 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 }
 
 use Lumiere\Tools\Get_Options;
+
 // use IMDbGraphqlPHP in /vendor/.
 use Imdb\Config as Imdbphp_Config;
 use Imdb\Name;
 use Imdb\NameSearch;
 use Imdb\Title;
 use Imdb\TitleSearch;
+use Monolog\Logger;
 
 /**
  * Child class of \Imdb\Config
@@ -37,7 +39,7 @@ use Imdb\TitleSearch;
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
  */
 class Imdbphp extends Imdbphp_Config {
- // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Can't change snakeCase properties defined in an external class
+// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Can't change snakeCase properties defined in an external class
 
 	/**
 	 * Admin options
@@ -55,21 +57,17 @@ class Imdbphp extends Imdbphp_Config {
 	 * Constructor
 	 */
 	public function __construct() {
+
 		// Get options from database.
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
 
-		// Call the function to send the selected settings to imdbphp library.
-		$this->lumiere_send_config_imdbphp();
-	}
-
-	/**
-	 * Send Lumiere options to IMDbGraphqlPHP parent class
-	 * The values here will overwrite the properties in the parent class
-	 *
-	 * @see \Imdb\Config The parent class
-	 */
-	private function lumiere_send_config_imdbphp(): void {
+		/**
+		 * Send Lumiere options to IMDbGraphqlPHP parent class
+		 * The values here will overwrite the properties in the parent class
+		 *
+		 * @see \Imdb\Config The parent class
+		 */
 		$this->useLocalization = true; // Not an option in Lumière!, always use localization
 		$this->language = ''; // Disable language so it's not used but $this->country only.
 		$this->country = strtoupper( $this->imdb_admin_values['imdblanguage'] );
@@ -100,18 +98,17 @@ class Imdbphp extends Imdbphp_Config {
 	 * Search a film according to its title, return an array of results
 	 *
 	 * @param string $title Movie's name
-	 * @param \Monolog\Logger $logger
-	 * @param string $type_search The type of search, such as movie, tv show, etc.
+	 * @param Logger|null $logger
 	 * @return array<array-key, mixed>
 	 * @phpstan-return TITLESEARCH_RETURNSEARCH|array{}
 	 */
-	public function search_movie_title( string $title, \Monolog\Logger $logger, string $type_search ): array {
+	public function search_movie_title( string $title, Logger|null $logger = null ): array {
 		/**
 		 * The try catch allow to deal with {@link GraphQL::doRequest()}, line 104, that throws an error if no movie was found, which stops the code.
 		 */
 		try {
 			$search = new TitleSearch( $this, $logger );
-			$return = $search->search( esc_html( $title ), $type_search );
+			$return = $search->search( esc_html( $title ), Get_Options::get_type_search() );
 		} catch ( \Exception $e ) {
 			$return = [];
 		}
@@ -123,10 +120,10 @@ class Imdbphp extends Imdbphp_Config {
 	 * Search a Person according to its name, return an array of results
 	 *
 	 * @param string $name Person's name
-	 * @param \Monolog\Logger $logger
+	 * @param Logger|null $logger
 	 * @return array<array-key, mixed>|array{}
 	 */
-	public function search_person_name( string $name, \Monolog\Logger $logger ): array {
+	public function search_person_name( string $name, Logger|null $logger = null ): array {
 		/**
 		 * The try catch allow to deal with {@link GraphQL::doRequest()}, line 104, that throws an error if no movie was found, which stops the code.
 		 */
@@ -146,7 +143,7 @@ class Imdbphp extends Imdbphp_Config {
 	 * @param string $movie_id Movie's id to do the Title's query
 	 * @return Title class instanciated with the movie's id
 	 */
-	public function get_title_class( string $movie_id, \Monolog\Logger $logger ): Title {
+	public function get_title_class( string $movie_id, Logger|null $logger = null ): Title {
 		return new Title( $movie_id, $this, $logger );
 	}
 
@@ -157,7 +154,7 @@ class Imdbphp extends Imdbphp_Config {
 	 * @param string $person_id Person's id to do the Name's query
 	 * @return Name class instanciated with the person's id
 	 */
-	public function get_name_class( string $person_id, \Monolog\Logger $logger ): Name {
+	public function get_name_class( string $person_id, Logger|null $logger = null ): Name {
 		return new Name( $person_id, $this, $logger );
 	}
 }

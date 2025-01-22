@@ -17,10 +17,10 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Admin\Widget_Selection;
 use Lumiere\Frontend\Movie;
 use Lumiere\Frontend\Widget_Legacy;
 use Lumiere\Frontend\Main;
+use Lumiere\Admin\Widget_Selection;
 
 /**
  * Widgets in Frontpages (displayed in single pages and posts only)
@@ -185,6 +185,11 @@ class Widget_Frontpage {
 		$movies_array = [];
 		$post_id = get_the_ID();
 
+		if ( is_int( $post_id ) === false ) {
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Wrong post ID' );
+			return '';
+		}
+
 		// Log what type of widget is utilised.
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
@@ -199,7 +204,6 @@ class Widget_Frontpage {
 		 */
 		if (
 			$this->imdb_admin_values['imdbautopostwidget'] === '1'
-			&& is_int( $post_id )
 			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) !== 'disabled' // thus the var may not have been created.
 		) {
 			$movies_array[]['byname'] = esc_html( get_the_title( $post_id ) );
@@ -208,20 +212,16 @@ class Widget_Frontpage {
 			// the post-based selection for auto title widget is turned off
 		} elseif (
 			$this->imdb_admin_values['imdbautopostwidget'] === '1'
-			&& is_int( $post_id )
 			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) === 'disabled'
 		) {
 			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget is deactivated for this post' );
 		}
 
 		// Check if a post ID is available add it.
-		$movies_array[] = is_int( $post_id ) ? $this->maybe_get_lum_post_metada( $post_id ) : null;
-
-		// Clean the array, remove empty arrays.
-		$final_movies_array = array_filter( $movies_array, fn( $movies_array ) => ( $movies_array !== null && count( $movies_array ) > 0 ) );
+		$movies_array[] = $this->maybe_get_lum_post_metada( $post_id );
 
 		// Exit if no metadata, no auto title option activated
-		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' && count( $final_movies_array ) === 0 ) {
+		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' ) {
 			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget deactivated and no IMDb meta for this post, exiting' );
 			return '';
 		}
@@ -229,10 +229,9 @@ class Widget_Frontpage {
 		/**
 		 * Get movie's data from {@link \Lumiere\Frontend\Movie}
 		 *
-		 * @psalm-var list<array{0?: array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}, bymid?: string, byname?: string, ...<int<0, max>, array{0?: array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}, bymid?: string, byname: string, ...<int<0, max>, array{0?: array{byname: string}, bymid?: string, byname: string, ...<int<0, max>, array{byname: string}>}>}>}>|null $final_movies_array
-		 * @phpstan-var array<int<0, max>, array<string, string>> $final_movies_array
+		 * @psalm-var array<array-key, array{bymid?: string, byname?: string}> $movies_array
 		 */
-		$movie = $this->movie_class->lumiere_show( $final_movies_array );
+		$movie = $this->movie_class->lumiere_show( $movies_array );
 
 		// Output the result in a layout wrapper.
 		return $this->wrap_widget_content( $title_box, $movie );

@@ -118,14 +118,14 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
 					$movieClass = new \Lumiere\Movies;<br>
-					$movieClass->lumiere_external_call('Descent', false, 'external');
+					$movieClass->lumiere_external_call('Descent', null);
 				</blockquote>
 
 				<?php esc_html_e( 'Should you want to call the function using an IMDb ID instead:', 'lumiere-movies' ); ?>
 
 				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
 					$movieClass = new \Lumiere\Movies;<br>
-					$movieClass->lumiere_external_call(false, '0435625', 'external');
+					$movieClass->lumiere_external_call(null, '0435625');
 				</blockquote>
 
 
