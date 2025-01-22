@@ -51,13 +51,6 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 		$this->page_title = $this->get_title( Validate_Get::sanitize_url( 'film' ) );
 
 		/**
-		 * Display layout
-		 * @since 4.0 using 'the_posts' instead of the 'content', removed the 'get_header' for OceanWP
-		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
-		 */
-		add_filter( 'template_include', [ $this, 'get_layout' ] );
-
-		/**
 		 * Display title
 		 * @since 4.3
 		 */
@@ -115,10 +108,9 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 	/**
 	 * Display layout
 	 *
-	 * @param string $template_path The path to the page of the theme currently in use - not utilised
-	 * @return string
+	 * @return void
 	 */
-	public function get_layout( string $template_path ): string {
+	public function get_layout(): void {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
@@ -235,8 +227,6 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 		wp_meta();
 		wp_footer();
 		echo "</body>\n</html>";
-
-		return '';
 	}
 }
 

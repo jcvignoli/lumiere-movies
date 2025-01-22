@@ -61,7 +61,7 @@ class Frontend {
 		add_action( 'init', fn() => Widget_Frontpage::lumiere_widget_frontend_start(), 11 );
 
 		// Display popups.
-		add_filter( 'template_redirect', [ $this, 'popup_redirect_include' ] );
+		add_filter( 'template_include', [ $this, 'popup_redirect_include' ] );
 	}
 
 	/**
@@ -148,12 +148,12 @@ class Frontend {
 	 * Use template_redirect hook to call it
 	 * 1. A var in {@see \Lumiere\Settings::define_constants_after_globals()} is made available (for movie, people, search, etc.)
 	 * 2. That var is compared against the query_var 'popup' in a switch() function here in {@link Frontend::popup_redirect_include()}
-	 * 3. If found, it returns the relevant Popup class
+	 * 3. If found, it returns the relevant Popup class, method get_layout() (which echoes instead of returning, needs therefore an ending return)
 	 *
 	 * @param string $template_path The path to the page of the theme currently in use
-	 * @return Popup_Movie_Search|Popup_Person|Popup_Movie|string The template path if no popup was found, the popup otherwise
+	 * @return string The template path if no popup was found, the popup otherwise
 	 */
-	public function popup_redirect_include( string $template_path ): \Lumiere\Frontend\Popups\Popup_Basic|string {
+	public function popup_redirect_include( string $template_path ): string {
 
 		$query_popup = get_query_var( 'popup' );
 
@@ -165,13 +165,17 @@ class Frontend {
 		// 'popup' query_var must match against $this->config_class->lumiere_urlstring* vars that are encoded in javascript URL.
 		switch ( $query_popup ) {
 			case 'film':
-				return new Popup_Movie();
+				( new Popup_Movie() )->get_layout();
+				return '';
 			case 'person':
-				return new Popup_Person();
+				( new Popup_Person() )->get_layout();
+				return '';
 			case 'movie_search':
-				return new Popup_Movie_Search();
+				( new Popup_Movie_Search() )->get_layout();
+				return '';
 		}
-		// No popup was found, return normal template_path.
+
+		// No valid popup was found, return normal template_path.
 		return $template_path;
 	}
 }

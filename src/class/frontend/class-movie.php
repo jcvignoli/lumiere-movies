@@ -51,7 +51,7 @@ class Movie {
 	 */
 	public function __construct() {
 
-		// Construct Frontend trait.
+		// Construct Frontend Main trait.
 		$this->start_main_trait();
 
 		// Transform spans into movies.
@@ -91,13 +91,13 @@ class Movie {
 	/**
 	 * Search the movie and output the results
 	 *
-	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once and Plugins_Start class added
+	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once
 	 *
 	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title
 	 */
 	public function lumiere_show( array $imdb_id_or_title ): string {
 
-		$movies_searched = $this->search_movies( $imdb_id_or_title );
+		$movies_searched = $this->search_categorized_movies( $imdb_id_or_title );
 		$output = '';
 
 		foreach ( $movies_searched as $movie_found ) {
@@ -128,14 +128,14 @@ class Movie {
 	}
 
 	/**
-	 * Search movies: if title, search its imdbid, use its imdbid if provided
+	 * Search movies: if title is provied, search its imdbid; use imdbid otherwise
 	 *
-	 * @since 4.3.2
 	 * @param non-empty-array<array-key, array<string, string>> $films_array
 	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $films_array
-	 * @return list<string> Array of results with
+	 * @return list<string> Array of results of imdbids
+	 * @since 4.3.2
 	 */
-	private function search_movies( array $films_array ): array {
+	private function search_categorized_movies( array $films_array ): array {
 
 		self::$nb_of_movies = count( $films_array );
 		$movies_found = [];

@@ -41,11 +41,10 @@ interface Popup_Basic {
 
 	/**
 	 * Display Page layout
-	 * Used in add_filter( 'template_include' )
+	 * Used in Frontpage class add_filter( 'template_include' ) hook
 	 *
-	 * @param string $template_path The path to the page of the theme currently in use - not utilised
-	 * @return string
+	 * @return void
 	 */
-	public function get_layout( string $template_path ): string;
+	public function get_layout(): void;
 }
 

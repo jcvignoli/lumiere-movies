@@ -16,6 +16,8 @@ on:
 jobs:
   standard:
     runs-on: ${{ matrix.operating-system }}
+    # Prevents dependabot to run the check, which always fails
+    if: ${{ github.actor != 'dependabot[bot]' }}
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
