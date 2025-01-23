@@ -60,18 +60,19 @@ jobs:
           cd src
           composer install -n --prefer-dist
 
-      - name: Cache Node.js environment
+      - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - name: Setup Node.js environment
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          echo '::debug::deps npm cache miss - installing deps'
-          npm install
-        
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node_modules-${{hashFiles('package-lock.json')}}
+          restore-keys: node_modules-
+
       - name: Prepare Lumière folder for plugin check
         run: |
           npm run build:github
