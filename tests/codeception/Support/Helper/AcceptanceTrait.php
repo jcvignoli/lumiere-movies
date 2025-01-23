@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Support\Helper;
 
 use Tests\Support\AcceptanceTester;
+use Tests\Support\Helper\Color;
+use \PHPUnit\Framework\Assert;
 
 /**
  * Trait for common functions used by both remote and local Acceptance tests
@@ -260,6 +262,24 @@ trait AcceptanceTrait {
 		} 
 		$this->comment("[customFindFileWildcard] File $final_file was not found.");
 		exit;
+	}
+
+	/**
+	 * Custom seeResponseCodeIs
+	 * Can't make the codeception's work with wp-browser
+	 * Return a failure if page is not $code
+	 * Use WordPress functions
+	 *
+	 * @param string $url The full (includes https://) url
+	 * @param int $code OPTIONAL: The HTTP code to check against (ie 200, 400) => 200 by default
+	 */
+	function customSeeResponseCodeIs( $url, $code = 200 ) {
+		$get_page = wp_remote_get( $url );
+		$get_code = wp_remote_retrieve_response_code( $get_page );
+		if ( $get_code !== $code ) {
+			Assert::fail( Color::set( 'The HTTP response code is unexpected, returned HTTP code: ' . $get_code . ' at ' . __METHOD__, 'red+bold' ) );
+		}
+		$this->comment( 'Page ' . $url . ' correctly returned code ' . $get_code . ' at ' . __METHOD__ );
 	}
 }
 

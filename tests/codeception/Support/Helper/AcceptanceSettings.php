@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Tests\Support\Helper;
 
 /** 
- * Class including general options for testing
- * Meant to be compatible with posts created with
- * An extra constant ADMIN_POST_ID_TESTS must be edited according to the post ID => located in in _bootstrap
+ * Class including global general options for all testing (Local+Remote)
  */
 class AcceptanceSettings {
 
@@ -35,6 +33,7 @@ class AcceptanceSettings {
 	public const TESTING_PAGE_POPUP_FILM_TITLE = 'interstellar';
 	public const TESTING_PAGE_BASE_URL_FR = '/2023/test-codeception-french/';
 	public const TESTING_PAGE_BASE_URL_FR_TWO = '/blogpourext/2021/y-tu-mama-tambien/';
+	public const TESTING_NORMAL_PAGE = '/2020/le-site-de-kotosh-et-le-temple-des-mains-croisees/';
 	// Here, Jorge Rivero
 	public const TESTING_PAGE_POPUP_PERSON_URL = '/en/lumiere/person/?mid=0729473';
 	public const TESTING_PAGE_POPUP_PERSON_MID = '0729473';
