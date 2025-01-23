@@ -16,13 +16,16 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Tools\Settings_Global;
+use Lumiere\Settings;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Admin\Admin_Notifications;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Detect if new templates templates are available, or templates should be installed
  * Taxonomy theme pages copy class is called here
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
  * @since 4.1
  */
 class Detect_New_Template_Taxo {
@@ -30,51 +33,69 @@ class Detect_New_Template_Taxo {
 	/**
 	 * Traits
 	 */
-	use Settings_Global, Admin_General;
+	use Admin_General;
+
+	/**
+	 * Admin options vars
+	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
+	 */
+	public array $imdb_admin_values;
+
+	/**
+	 * Data options
+	 * @phpstan-var OPTIONS_DATA $imdb_data_values
+	 */
+	public array $imdb_data_values;
+
+	/**
+	 * Class \Lumiere\Settings
+	 */
+	public Settings $config_class;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->get_db_options();
-		$this->get_settings_class();
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
+		$this->imdb_data_values = get_option( Get_Options::get_data_tablename() );
+		$this->config_class = new Settings();
 	}
 
 	/**
 	 * Static start
 	 * Check if an new taxo template is available or if taxo template is missing
 	 * @param string $page_data_taxo The name of the taxo page
+	 * @return void
+	 * @see \Lumiere\Admin\Admin_Menu\Data::lumiere_static_start() Calls this method
 	 */
-	public static function lumiere_static_start( string $page_data_taxo ): void {
+	public static function get_notif_templates( string $page_data_taxo ): void {
 		$that = new self();
 
-		$new_taxo = $that->lumiere_new_taxo();
-		$missing_taxo = $that->lumiere_missing_taxo();
+		$updated_template = $that->search_new_update();
+		$install_new_template = $that->search_missing_template();
 
-		if ( count( $new_taxo ) > 0 ) {
-
+		if ( count( $updated_template ) > 0 ) {
 			$class_admin_notif = new Admin_Notifications();
-			add_action( 'admin_notices', fn() => $class_admin_notif->admin_msg_new_taxo( $new_taxo, $page_data_taxo ), 11 );
-
+			add_action( 'admin_notices', fn() => $class_admin_notif->admin_msg_update_template( $updated_template, $page_data_taxo ), 11 );
 		}
 
-		if ( count( $missing_taxo ) > 0 ) {
-
+		if ( count( $install_new_template ) > 0 ) {
 			$class_admin_notif = new Admin_Notifications();
-			add_action( 'admin_notices', fn() => $class_admin_notif->admin_msg_missing_taxo( $missing_taxo, $page_data_taxo ), 11 );
+			add_action( 'admin_notices', fn() => $class_admin_notif->admin_msg_install_missing_template( $install_new_template, $page_data_taxo ), 11 );
 		}
 	}
 
 	/**
 	 * Function checking if item/person template has been updated
-	 * Uses self::lumiere_check_new_taxo() method to check into them folder
+	 * Uses self::find_updated_template() method to check into them folder
 	 *
 	 * @since 4.1.1 added extra check for 'imdbtaxonomy'
 	 *
 	 * @param null|string $only_one_item If only one taxonomy item has to be checked, pass it, use a loop otherwise
 	 * @return array<int, null|string> Array of updated templates or null if none
+	 * @see \Lumiere\Admin\Submenu\Data::lumiere_display_new_taxo_template() Calls this method
 	 */
-	public function lumiere_new_taxo( ?string $only_one_item = null ): array {
+	public function search_new_update( ?string $only_one_item = null ): array {
 
 		$output = [];
 
@@ -83,7 +104,7 @@ class Detect_New_Template_Taxo {
 		}
 
 		if ( isset( $only_one_item ) ) {
-			$key = $this->lumiere_check_new_taxo( $only_one_item );
+			$key = $this->find_updated_template( $only_one_item );
 			if ( $key !== null ) {
 				$output[] = $key;
 			}
@@ -93,7 +114,7 @@ class Detect_New_Template_Taxo {
 			asort( $array_all );
 
 			foreach ( $array_all as $item ) {
-				$key = $this->lumiere_check_new_taxo( $item );
+				$key = $this->find_updated_template( $item );
 				if ( $key === null ) {
 					continue;
 				}
@@ -110,7 +131,7 @@ class Detect_New_Template_Taxo {
 	 *
 	 * @return array<int, string> Array of updated templates or null if none
 	 */
-	public function lumiere_missing_taxo(): array {
+	private function search_missing_template(): array {
 
 		$output = [];
 
@@ -126,7 +147,6 @@ class Detect_New_Template_Taxo {
 
 			$lumiere_taxo_file = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
 			$lumiere_current_theme_path_file = get_stylesheet_directory() . '/' . $lumiere_taxo_file;
-
 			$taxo_key = 'imdbtaxonomy' . $item;
 
 			if (
@@ -134,7 +154,6 @@ class Detect_New_Template_Taxo {
 				&& $this->imdb_data_values[ $taxo_key ] === '1'
 				&& is_file( $lumiere_current_theme_path_file ) === false
 			) {
-
 				$output[] = $item_translated;
 			}
 		}
@@ -147,7 +166,7 @@ class Detect_New_Template_Taxo {
 	 * @param string $item String used to build the taxonomy filename that will be checked against the standard taxo
 	 * @return null|string
 	 */
-	private function lumiere_check_new_taxo( string $item ): ?string {
+	private function find_updated_template( string $item ): ?string {
 
 		global $wp_filesystem;
 

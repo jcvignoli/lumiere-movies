@@ -34,11 +34,9 @@ class Copy_Template_Taxonomy {
 	 * Constructor
 	 */
 	public function __construct() {
-
 		// Get Global Settings class properties.
 		$this->get_settings_class();
 		$this->get_db_options();
-
 	}
 
 	/**
@@ -57,7 +55,6 @@ class Copy_Template_Taxonomy {
 	 * @throws Exception if the template doesn't exist
 	 */
 	private function maybe_copy_taxonomy_template( string $url_data_taxo_page ): void {
-
 		// Escape gets and get taxotype and nonce.
 		$lumiere_taxo_title = isset( $_GET['taxotype'] ) && isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0 ? sanitize_key( $_GET['taxotype'] ) : null;
 
@@ -78,9 +75,7 @@ class Copy_Template_Taxonomy {
 
 		// No $_GET["taxotype"] found or not in array, exit.
 		if ( strlen( $lumiere_taxo_title ) === 0 ) {
-
 			set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
-
 			// Get the taxonomy option page from calling class
 			if ( wp_safe_redirect( $url_data_taxo_page ) ) {
 				exit;
@@ -93,11 +88,9 @@ class Copy_Template_Taxonomy {
 			$this->imdb_admin_values['imdbtaxonomy'] === '1'
 			&& $this->imdb_data_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1'
 		) {
-
 			if ( $this->copy_taxonomy_template( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, $lumiere_taxo_title ) === true ) {
 				set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );
 			}
-
 			if ( wp_safe_redirect( $url_data_taxo_page ) ) {
 				exit;
 			}

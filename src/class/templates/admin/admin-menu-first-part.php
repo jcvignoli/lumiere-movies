@@ -42,7 +42,10 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_that->page_data ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>
 
 		<?php
-		// Check if both widgets is are inactive (pre/post-5.8, aka block & legacy blocks)
+		/**
+		 * Check if both widgets is are inactive (pre/post-5.8, aka block & legacy blocks)
+		 * @psalm-suppress UndefinedClass -- it's defined above! how come it's undefined? Bug, if refreshing cache, the class is found
+		 */
 		if (
 			Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === false
 			&& is_active_widget( false, false, Widget_Selection::WIDGET_NAME, false ) === false

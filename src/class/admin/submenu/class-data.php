@@ -285,12 +285,12 @@ class Data extends Admin_Menu {
 
 		$output = '';
 
-		// Get updated items/people from parent class method. Null if not template to update found.
-		$class_check_taxo = new Detect_New_Template_Taxo();
-		$list_updated_fields = $class_check_taxo->lumiere_new_taxo( $type );
-
 		// Get the type to build the links
 		$lumiere_taxo_title = esc_html( $type );
+
+		// Get updated items/people from parent class method. Null if not template to update found.
+		$class_check_taxo = new Detect_New_Template_Taxo();
+		$list_updated_fields = $class_check_taxo->search_new_update( $lumiere_taxo_title );
 
 		// Files paths
 		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->config_class->array_people, true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;

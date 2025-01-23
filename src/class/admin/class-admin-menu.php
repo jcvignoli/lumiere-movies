@@ -123,7 +123,7 @@ class Admin_Menu {
 		 * (3) any 'notice_lumiere_msg' transient is found in Admin_Notifications class
 		 */
 		if ( str_contains( $that->lumiere_get_current_admin_url(), $that->page_general_base ) === true ) {
-			add_action( 'admin_notices', fn() => Detect_New_Template_Taxo::lumiere_static_start( $that->page_data_taxo ), 10, 1 );
+			add_action( 'admin_notices', fn() => Detect_New_Template_Taxo::get_notif_templates( $that->page_data_taxo ), 10, 1 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 		}
 

@@ -1,11 +1,12 @@
 **Changelog**
 
 v.4.3.2
+* [bug] Widget area limitation was too restrictive and didn't show up in custom posts pages. (rewrite exclusion in Widget_Frontpage::lum_get_widget())
 
 v.4.3.1
 * [bug] When displaying the data in a blog in another language than English, field options for title and pics were displayed while they should appear (fix in template admin-data-display, replaced check of $lumiere_item_translated by $lumiere_item)
 * [bug] Better translation availablity in admin manage cache
-* [bug] Writers into the Post had the number of episodes displayed even if 0, for the non-taxonomy version (rules updated in class Movie_Data)
+* [bug] "Writers" section into the Post had the number of episodes displayed even if 0, for the non-taxonomy version (rules updated in class Movie_Data)
 * [bug] If not movie was found, the page was stopped (a throw Exception was in GraphQL)
 * [bug] The plural version of "plot" was displayed even if only one plot was displayed (edited rule in Movie_Data)
 * [bug] The official sites returned into the post were not accurate. (Limited to official and misc sites, rewritten lum_movies_officialsites() in Movie_Data)
@@ -76,7 +77,7 @@ v.4.1.6
 * [technical] Class Logger fully psalm compliant, logs are standardized ( removed do_action( 'lumiere_logger' ) in class Cache Tools and Uninstall, added do_action( 'lumiere_logger' ) in class Logger->log() )
 
 v.4.1.5
-* [bug] Medaillon text wasn't correctly broke in taxonomy people page. (edits in class Abstract link maker)
+* [bug] Medaillon text wasn't correctly displayed in taxonomy people page. (edits in class Abstract link maker)
 * [bug] If widget auto title function is utilised with no extra widget metabox, two identical movies are displayed (fixed array_filter() in class widget frontpage, checking count() in addition to !== null)
 
 v.4.1.4

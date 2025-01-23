@@ -73,7 +73,7 @@ class Admin_Notifications {
 	 * @return void Display notification message if relevant
 	 * @see \Lumiere\Admin\Detect_New_Template_Taxo::lumiere_static_start()
 	 */
-	public function admin_msg_missing_taxo( array $missing_taxo_template, string $page_data_taxo ): void {
+	public function admin_msg_install_missing_template( array $missing_taxo_template, string $page_data_taxo ): void {
 
 		$nb_missing = count( $missing_taxo_template );
 
@@ -112,7 +112,7 @@ class Admin_Notifications {
 	 * @return void Display notification message if relevant
 	 * @see \Lumiere\Admin\Detect_New_Template_Taxo::lumiere_static_start()
 	 */
-	public function admin_msg_new_taxo( array $new_taxo_template, string $page_data_taxo ): void {
+	public function admin_msg_update_template( array $new_taxo_template, string $page_data_taxo ): void {
 
 		$nb_new = count( $new_taxo_template );
 
