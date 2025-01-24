@@ -44,7 +44,7 @@ class StylesScriptsHighslideCest {
 		$I->comment(Helper\Color::set('Check Lumière admin pages', 'italic+bold+cyan'));
 
 		// Check scripts and styles in admin
-		$I->comment(Helper\Color::set('Check Lumière admin general advanced', 'italic+bold+cyan'));
+		$I->comment(Helper\Color::set('Check Lumière admin main advanced', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->seeInPageSource('lumiere_css_admin-css');
 		$I->seeInPageSource('lumiere_scripts_admin-js-before');
@@ -191,21 +191,21 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(Helper\Color::set('Change layout', 'italic+bold+cyan'));
 
-		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
 
 		// Try with selection black
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "black");
-		$I->click('#lumiere_update_general_settings');
+		$I->click('#lumiere_update_main_settings');
 		$I->comment(Helper\Color::set('[Action] Selection has been switched to "black"', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("lum_results_frame_black"); 	# CSS for black layout 
 
 		// Try with selection grey (default)
-		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "grey");
-		$I->click('#lumiere_update_general_settings');
+		$I->click('#lumiere_update_main_settings');
 		$I->comment(Helper\Color::set('[Action] Selection has been switched to "grey"', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("lum_results_frame_grey"); 	# CSS for grey layout (default)

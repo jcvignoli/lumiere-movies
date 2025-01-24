@@ -69,7 +69,7 @@ class AMPCest {
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomydirector_yes', '#update_imdbwidgetSettings' );
 		
 		// Make sure Bootstrap is active, the test is run with Bootstrap.
-		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
 		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Bootstrap", "update_imdbSettings" );
 	}
 	

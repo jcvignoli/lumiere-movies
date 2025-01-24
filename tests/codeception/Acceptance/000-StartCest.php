@@ -63,7 +63,7 @@ class StartCest {
 		$I->wantTo('Disable debug');
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbkeepsettings');
-		$I->CustomDisableCheckbox('#imdb_imdbdebug_yes', '#lumiere_update_general_settings');
+		$I->CustomDisableCheckbox('#imdb_imdbdebug_yes', '#lumiere_update_main_settings');
 	}
 
 	/**
@@ -82,7 +82,7 @@ class StartCest {
 	 */
 	public function createCacheFolder(AcceptanceTester $I) {
 		// Make sure cache folders are properly created by visiting any admin page
-		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
 		$I->see("Layout");
 		$I->wait(2);
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );

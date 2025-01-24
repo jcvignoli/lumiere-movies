@@ -116,7 +116,7 @@ class ModalWindowsCest {
 		$I->comment(Helper\Color::set('Check if No Links works', "italic+bold+cyan"));
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#behaviourpart');
-		$I->CustomActivateCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
 
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL ); // Check regular page
 		$I->dontSeeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
@@ -146,7 +146,7 @@ class ModalWindowsCest {
 		$I->SwitchModalWindow('Highslide');
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#miscpart');
-		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
 
 	}
 

@@ -82,7 +82,7 @@ document.addEventListener(
 		);
 		jQuery( '[data-field_activate]' ).trigger( 'change' );
 
-		/************************************** admin/submenu/class-general.php
+		/************************************** admin/submenu/class-main.php
 		 *
 		 */
 
@@ -91,7 +91,7 @@ document.addEventListener(
 			'change',
 			function(){
 				var value = jQuery( this ).val();
-				/* @since 4.0.1 removed imdb_imdbpopuplarg that is now displayed in admin general menu, added bootstrap_explain */
+				/* @since 4.0.1 removed imdb_imdbpopuplarg that is now displayed in admin main menu, added bootstrap_explain */
 				if ( value === 'bootstrap' ) {
 					var ele = document.getElementById( 'imdb_imdbpopuplong' );
 					ele.style.display = 'none';

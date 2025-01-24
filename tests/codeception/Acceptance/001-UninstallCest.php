@@ -188,7 +188,7 @@ class UninstallCest {
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->wait(2);
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
-		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
+		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
 
 		// Deactivate plugin
 		$I->amOnPluginsPage();

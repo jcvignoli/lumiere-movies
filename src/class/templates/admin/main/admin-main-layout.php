@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Template for the layout options of general page
+ * Template for the layout options of Main page
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway

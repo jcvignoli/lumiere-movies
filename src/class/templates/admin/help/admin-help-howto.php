@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Template for the submenu of general options pages
+ * Template for the submenu of help howto pages
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
@@ -130,7 +130,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 
 				<h4><?php esc_html_e( 'I want to get rid of thoses links opening popups', 'lumiere-movies' ); ?></h4>
-				<?php esc_html_e( "It could happen you do not want popups at all. Since by default Lumière Movies adds links whenever relevant to movie's details inside your article, you may change that behaviour. In order to do so, look for 'General options / Advanced / Remove popup links' and uncheck the box. No links will be displayed, both for the widget and within your articles.", 'lumiere-movies' ); ?>
+				<?php esc_html_e( "It could happen you do not want popups at all. Since by default Lumière Movies adds links whenever relevant to movie's details inside your article, you may change that behaviour. In order to do so, look for 'Main options / Advanced / Remove popup links' and uncheck the box. No links will be displayed, both for the widget and within your articles.", 'lumiere-movies' ); ?>
 				</div>
 			</div>
 
@@ -269,7 +269,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<a href="<?php echo esc_url( $lumiere_pics_url . 'admin-taxonomy-details.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $lumiere_pics_url . 'admin-taxonomy-details.png' ); ?>" alt="taxonomy details"></a>
 
-				<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and already activated. You can however disable it by unchecking the box in 'General options -> Advanced -> 'Use taxonomy'. Note that since taxonomy is related to movie details (such as directors, actors, etc), the movie detail you want to be used as taxonomy has to be also activated in 'Data -> Display'.", 'lumiere-movies' ); ?>
+				<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and already activated. You can however disable it by unchecking the box in 'Main options -> Advanced -> 'Use taxonomy'. Note that since taxonomy is related to movie details (such as directors, actors, etc), the movie detail you want to be used as taxonomy has to be also activated in 'Data -> Display'.", 'lumiere-movies' ); ?>
 				<br>
 				<?php esc_html_e( 'After that, pay a visit to your post or page; on the first refresh, links to taxonomy pages will be created. ', 'lumiere-movies' );
 				/* translators: %s is an admin URL */
@@ -325,7 +325,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 					<?php
 					/* translators: %s are HTML URL tags */
-					echo wp_kses( sprintf( esc_html__( 'Add a Lumières!\'s %1$s widget %2$s to your sidebar, and go to "General Options / Advanced" and check "Auto title widget" option.', 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
+					echo wp_kses( sprintf( esc_html__( 'Add a Lumières!\'s %1$s widget %2$s to your sidebar, and go to "Main Options / Advanced" and check "Auto title widget" option.', 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
 					?>
 
 					<div align="center">
@@ -360,7 +360,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<div id="inside_help_explain_searchoptions" class="hidesection">
 
-				<?php esc_html_e( "Lumière queries the IMDb for every movie or person you are looking for. You can modify the results from the IMDb displayed in your blog will tweaking the search options available in menu options 'General / Advanced'.", 'lumiere-movies' ); ?>
+				<?php esc_html_e( "Lumière queries the IMDb for every movie or person you are looking for. You can modify the results from the IMDb displayed in your blog will tweaking the search options available in menu options 'Main / Advanced'.", 'lumiere-movies' ); ?>
 
 				<br clear="both">
 				<br clear="both">

@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Template for the submenu of general options pages
+ * Template for the submenu of help pages
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway

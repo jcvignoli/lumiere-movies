@@ -65,7 +65,7 @@ class InstallCest {
 		// Disable keep settings option, so get a confirmation popup
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
+		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
 		$I->amOnPluginsPage();
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
@@ -84,7 +84,7 @@ class InstallCest {
 		// Enable keep settings option, so no popup
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
+		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
 		$I->amOnPluginsPage();
 		$I->wait(10);
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");

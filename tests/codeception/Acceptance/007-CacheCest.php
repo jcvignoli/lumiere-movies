@@ -55,7 +55,7 @@ class CacheCest {
 		$I->SwitchModalWindow('Highslide');
 		
 		// Make sure cache folders are properly created by visiting any admin page
-		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
 		$I->see( 'Layout' );
 		$I->wait(2);
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );

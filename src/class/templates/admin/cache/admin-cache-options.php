@@ -31,7 +31,7 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 	<div class="lumiere_border_shadow">
 
-		<div class="titresection"><?php esc_html_e( 'General options', 'lumiere-movies' ); ?></div>
+		<div class="titresection"><?php esc_html_e( 'Main options', 'lumiere-movies' ); ?></div>
 			
 			<div class="lumiere_display_flex lumiere_flex_make_responsive">
 				<div class="lumiere_flex_container_content_thirty lumiere_padding_five">

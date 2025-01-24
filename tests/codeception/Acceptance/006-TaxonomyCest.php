@@ -59,7 +59,7 @@ class TaxonomyCest {
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_general_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_main_settings' );
 
 	}
 
@@ -76,7 +76,7 @@ class TaxonomyCest {
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is activated, uncheck it and then click $submit (form) */
-		$I->CustomDisableCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_general_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_main_settings' );
 
 	}
 

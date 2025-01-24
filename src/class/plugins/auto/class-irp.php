@@ -68,7 +68,7 @@ class Irp {
 	/**
 	 * Detect if there is a movie in the post
 	 * If there is any, remove the IRP filter that adds a related post
-	 * If the default behaviour is overriden with imdbirpdisplay var activated in advanced general admin options, doesn't remove the filter
+	 * If the default behaviour is overriden with imdbirpdisplay var activated in advanced main admin options, doesn't remove the filter
 	 * Doesn't detect movies in widget, as related posts are not added to widgets
 	 *
 	 * @param null|string $content Text in the_content

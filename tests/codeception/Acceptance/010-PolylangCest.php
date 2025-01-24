@@ -35,7 +35,7 @@ class PolylangCest {
 	private function highslide(AcceptanceTester $I) {
 
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
 		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Highslide", "update_imdbSettings" );
 	}
 

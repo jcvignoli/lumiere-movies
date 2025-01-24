@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Support\Helper;
 
 /** 
- * Class including global general options for all testing (Local+Remote)
+ * Class including global main options for all testing (Local+Remote)
  */
 class AcceptanceSettings {
 
 	/** Admin pages */
-	public const LUMIERE_GENERAL_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options';
+	public const LUMIERE_MAIN_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options';
 	public const LUMIERE_ADVANCED_OPTIONS_URL = '/wp-admin/admin.php?page=lumiere_options&subsection=advanced';
 	public const LUMIERE_HELP_GENERAL_URL = '/wp-admin/admin.php?page=lumiere_options_help';
 	public const LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL = '/wp-admin/admin.php?page=lumiere_options_data';

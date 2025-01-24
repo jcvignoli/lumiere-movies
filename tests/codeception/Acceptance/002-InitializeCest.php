@@ -47,9 +47,9 @@ class InitializeCest {
 
 		$I->comment('If reset works');
 		
-		$I->comment('Reset general settings');
-		$I->amOnPage( AcceptanceSettings::LUMIERE_GENERAL_OPTIONS_URL );
-		$I->click("lumiere_reset_general_settings");
+		$I->comment('Reset main settings');
+		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
+		$I->click("lumiere_reset_main_settings");
 		$I->see('Options reset.');
 		
 		$I->comment('Reset cache settings');

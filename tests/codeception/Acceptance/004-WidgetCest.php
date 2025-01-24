@@ -41,7 +41,7 @@ class WidgetCest {
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE );
 
@@ -51,7 +51,7 @@ class WidgetCest {
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->dontSeeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE );
 
@@ -73,7 +73,7 @@ class WidgetCest {
 		// Activate Auto Title Widget
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
-		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
 			
 		// Set auto title widget exclusion in a post and verify if the post doesn't contain it.
 		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );

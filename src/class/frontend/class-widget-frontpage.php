@@ -223,7 +223,7 @@ class Widget_Frontpage {
 		}
 
 		/**
-		 * Display the movie according to the post's title (option in -> general -> advanced).
+		 * Display the movie according to the post's title (option in -> main -> advanced).
 		 * Add the title to the array if auto title widget is enabled and is not disabled for this post
 		 */
 		if (

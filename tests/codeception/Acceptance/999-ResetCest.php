@@ -58,54 +58,54 @@ class EndCest {
 	 *
 	 * @before login
 	 */
-	public function enableAdminGeneralOptions(AcceptanceTester $I) {
+	public function enableAdminMainOptions(AcceptanceTester $I) {
 
-		$I->comment('Reset Admin General Options to their normal state');
+		$I->comment('Reset Admin Main Options to their normal state');
 
 		// Big menu on
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#miscpart');
-		$I->CustomActivateCheckbox('#imdb_imdbwordpress_bigmenu_yes', 'lumiere_update_general_settings');
+		$I->CustomActivateCheckbox('#imdb_imdbwordpress_bigmenu_yes', 'lumiere_update_main_settings');
 
 		// Left menu on
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbwordpress_bigmenu');
-		$I->CustomActivateCheckbox('#imdb_imdbwordpress_tooladminmenu_yes', 'lumiere_update_general_settings');
+		$I->CustomActivateCheckbox('#imdb_imdbwordpress_tooladminmenu_yes', 'lumiere_update_main_settings');
 
 		// Taxonomy on
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
-		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_general_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_main_settings' );
 
 		// Remove all links off
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbtaxonomy');
-		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
 
 		// Auto title widget off
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
-		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_general_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
 
 		// Keep settings on
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_general_settings');
+		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
 
 		// Debug on
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbkeepsettings');
-		$I->CustomActivateCheckbox('#imdb_imdbdebug_yes', '#lumiere_update_general_settings');
+		$I->CustomActivateCheckbox('#imdb_imdbdebug_yes', '#lumiere_update_main_settings');
 
 		// Display one screen on
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomActivateCheckbox('#imdb_imdbdebugscreen_yes', '#lumiere_update_general_settings');
+		$I->CustomActivateCheckbox('#imdb_imdbdebugscreen_yes', '#lumiere_update_main_settings');
 
 		// Save log off
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomDisableCheckbox('#imdb_imdbdebuglog_yes', '#lumiere_update_general_settings');
+		$I->CustomDisableCheckbox('#imdb_imdbdebuglog_yes', '#lumiere_update_main_settings');
 
 		// Switch back To Highslide
 		$I->SwitchModalWindow('Bootstrap');
@@ -113,7 +113,7 @@ class EndCest {
 		// Disable No Links
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#miscpart');
-		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_general_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
 		
 		// Activate keep size under cache cron
 		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
