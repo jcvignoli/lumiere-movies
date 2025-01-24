@@ -68,6 +68,7 @@ class Imdbphp extends Imdbphp_Config {
 		 *
 		 * @see \Imdb\Config The parent class
 		 */
+		$this->throwHttpExceptions = false; // Not an option in Lumière!, prevent throwing Exceptions that stop the execution and prevent pages display
 		$this->useLocalization = true; // Not an option in Lumière!, always use localization
 		$this->language = ''; // Disable language so it's not used but $this->country only.
 		$this->country = strtoupper( $this->imdb_admin_values['imdblanguage'] );
@@ -99,20 +100,12 @@ class Imdbphp extends Imdbphp_Config {
 	 *
 	 * @param string $title Movie's name
 	 * @param Logger|null $logger
-	 * @return array<array-key, mixed>
-	 * @phpstan-return TITLESEARCH_RETURNSEARCH|array{}
+	 * @return array<array-key, array<string, \Imdb\Title|string>>
 	 */
 	public function search_movie_title( string $title, Logger|null $logger = null ): array {
-		/**
-		 * The try catch allow to deal with {@link GraphQL::doRequest()}, line 104, that throws an error if no movie was found, which stops the code.
-		 */
-		try {
-			$search = new TitleSearch( $this, $logger );
-			$return = $search->search( esc_html( $title ), Get_Options::get_type_search() );
-		} catch ( \Exception $e ) {
-			$return = [];
-		}
-		/** @psalm-var TITLESEARCH_RETURNSEARCH|array{} $return */
+		$search = new TitleSearch( $this, $logger );
+		$return = $search->search( esc_html( $title ), Get_Options::get_type_search() );
+		/** @phpstan-var TITLESEARCH_RETURNSEARCH $return Dunno why it must be precised here again... */
 		return $return;
 	}
 
@@ -124,16 +117,8 @@ class Imdbphp extends Imdbphp_Config {
 	 * @return array<array-key, mixed>|array{}
 	 */
 	public function search_person_name( string $name, Logger|null $logger = null ): array {
-		/**
-		 * The try catch allow to deal with {@link GraphQL::doRequest()}, line 104, that throws an error if no movie was found, which stops the code.
-		 */
-		try {
-			$search = new NameSearch( $this, $logger );
-			$return = $search->search( $name );
-		} catch ( \Exception $e ) {
-			$return = [];
-		}
-		return $return;
+		$search = new NameSearch( $this, $logger );
+		return $search->search( $name );
 	}
 
 	/**

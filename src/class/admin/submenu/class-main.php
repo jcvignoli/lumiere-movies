@@ -74,7 +74,6 @@ class Main extends Admin_Menu {
 			&& isset( $_GET['page'] ) && str_contains( $this->page_main_base, sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
-
 			$this->include_with_vars(
 				self::PAGES_NAMES['main_options'],
 				[ $this->config_class->lumiere_pics_dir ], /** Add an array with vars to send in the template */
