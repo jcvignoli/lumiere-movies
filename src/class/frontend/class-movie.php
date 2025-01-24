@@ -20,7 +20,7 @@ use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Movie_Data;
 
 /**
- * The class uses Movie_Data class to display data (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::lumiere_autorized_areas()}
+ * The class uses Movie_Data class to display data (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::movies_autorized_areas()}
  * It is compatible with Polylang WP plugin
  * It uses ImdbPHP Classes to display movies/people data
  *
@@ -92,13 +92,23 @@ class Movie {
 	 * Search the movie and output the results
 	 *
 	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once
+	 * @since 4.3.2 added is_amp_validating() method
 	 *
 	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title
 	 */
 	public function lumiere_show( array $imdb_id_or_title ): string {
 
-		$movies_searched = $this->search_categorized_movies( $imdb_id_or_title );
+		/**
+		 * If it is an AMP validation test, exit
+		 * Create much cache and may lead PHP to a Fatal error
+		 */
+		if ( \Lumiere\Plugins\Auto\Amp::is_amp_validating() === true ) {
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is an AMP validation test, exiting to save server resources' );
+			return '';
+		}
+
 		$output = '';
+		$movies_searched = $this->search_categorized_movies( $imdb_id_or_title );
 
 		foreach ( $movies_searched as $movie_found ) {
 
@@ -123,7 +133,7 @@ class Movie {
 	 * @since 4.2.3
 	 * @return bool True if page is autorized
 	 */
-	private function lumiere_autorized_areas(): bool {
+	private function movies_autorized_areas(): bool {
 		return is_singular( [ 'post', 'page' ] );
 	}
 
@@ -205,7 +215,7 @@ class Movie {
 		}
 
 		// if not run on page or post, return the content untouched.
-		if ( $this->lumiere_autorized_areas() === false ) {
+		if ( $this->movies_autorized_areas() === false ) {
 			return $content;
 		}
 
@@ -254,7 +264,7 @@ class Movie {
 	public function parse_lumiere_tag_transform( string|array $atts, ?string $content ): string {
 
 		// if not run on page or post, return the content untouched.
-		if ( $this->lumiere_autorized_areas() === false ) {
+		if ( $this->movies_autorized_areas() === false ) {
 			return $content ?? '';
 		}
 
@@ -272,7 +282,7 @@ class Movie {
 	public function parse_lumiere_tag_transform_id( $atts, ?string $content ): string {
 
 		// if not run on page or post, return the content untouched.
-		if ( $this->lumiere_autorized_areas() === false ) {
+		if ( $this->movies_autorized_areas() === false ) {
 			return $content ?? '';
 		}
 
@@ -295,7 +305,7 @@ class Movie {
 		}
 
 		// if not run on page or post, return the content untouched.
-		if ( $this->lumiere_autorized_areas() === false ) {
+		if ( $this->movies_autorized_areas() === false ) {
 			return $text;
 		}
 

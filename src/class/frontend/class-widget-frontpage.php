@@ -30,7 +30,7 @@ use Lumiere\Admin\Widget_Selection;
  * Do a search for the movie using one of them
  *
  * @see \Lumiere\Admin\Metabox_Selection Select the metadata to display, whether output auto title widget or not
- * @see \Lumiere\Frontend\Widget_Legacy Is used if the widget legacy is in use
+ * @see \Lumiere\Frontend\Widget_Legacy Is used if the legacy widget is in use
  */
 class Widget_Frontpage {
 
@@ -131,7 +131,9 @@ class Widget_Frontpage {
 		}
 
 		// Regular post-5.8 widgets.
-		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'shortcode_parser' ] );
+		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
+			add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'shortcode_parser' ] );
+		}
 	}
 
 	/**
@@ -139,6 +141,14 @@ class Widget_Frontpage {
 	 */
 	public static function lumiere_widget_frontend_start(): void {
 		$that = new self();
+	}
+
+	/**
+	 * Is this a forbidden area for the Widget
+	 * @return bool True if forbidden
+	 */
+	private function is_forbidden_areas(): bool {
+		return is_home() || is_front_page() || is_404() || is_attachment() || is_archive() || is_author();
 	}
 
 	/**
@@ -152,11 +162,16 @@ class Widget_Frontpage {
 	 */
 	public function shortcode_parser( array|string $attributes, ?string $inside_tags, string $tags ): string {
 
-		if ( isset( $inside_tags ) ) {
-			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Shortcode [' . $tags . '] found.' );
-			return $this->lum_get_widget( $inside_tags );
+		// Exit it's home, frontpage, 404, attachment, etc (must allow people with custom posts to display the widget)
+		if ( $this->is_forbidden_areas() === true ) {
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is a forbidden area for displaying the widget, process stopped.' );
+			return '';
 		}
 
+		if ( isset( $inside_tags ) ) {
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Shortcode [' . $tags . '] added.' );
+			return $this->lum_get_widget( $inside_tags );
+		}
 		return '';
 	}
 
@@ -175,8 +190,8 @@ class Widget_Frontpage {
 	public function lum_get_widget( string $title_box ): string {
 
 		// Exit it's home, frontpage, 404, attachment, etc (must allow people with custom posts to display the widget)
-		if ( is_home() === true || is_front_page() === true || is_404() === true || is_attachment() === true || is_archive() === true ) {
-			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is a forbidden area for the widget, process stopped.' );
+		if ( $this->is_forbidden_areas() === true ) {
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is a forbidden area for displaying the widget, process stopped.' );
 			return '';
 		}
 
@@ -190,7 +205,16 @@ class Widget_Frontpage {
 			return '';
 		}
 
-		// Log what type of widget is utilised.
+		/**
+		 * If autopost widget is active, the validation test of AMP would create any random cache.
+		 * The calling class is detected and if the Lumière autopost widget is active, exit.
+		 */
+		if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' && $this->is_amp_validation_and_autopost() === true ) {
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is an AMP test, exiting to save server resources' );
+			return '';
+		}
+
+		// Log what widget type is in use.
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
 			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Block-based widget found' );
@@ -235,6 +259,13 @@ class Widget_Frontpage {
 
 		// Output the result in a layout wrapper.
 		return $this->wrap_widget_content( $title_box, $movie );
+	}
+
+	/**
+	 * Check if it is an AMP validation
+	 */
+	private function is_amp_validation_and_autopost(): bool {
+		return str_contains( wp_debug_backtrace_summary(), 'AMP_Validation_Callback_Wrapper' );
 	}
 
 	/**

@@ -117,5 +117,15 @@ class Amp {
 			add_action( 'amp_mobile_version_switcher_link_text', '__return_false' ); // @phpstan-ignore return.void (Action callback returns false but should not return anything)
 		}
 	}
+
+	/**
+	 * Detect on a given class if AMP is calling
+	 * @return bool True if AMP is running a function of validation
+	 *
+	 * @see Lumiere\Frontend\Movie::lumiere_show() Calls this method without instanciating plugin, as it is executed ie during activation, amp may be not available
+	 */
+	public static function is_amp_validating(): bool {
+		return defined( 'AMP__VERSION' ) && str_contains( wp_debug_backtrace_summary(), 'AMP_Validation_Callback_Wrapper' );
+	}
 }
 

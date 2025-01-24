@@ -45,6 +45,10 @@ class Frontend {
 	 */
 	public function __construct() {
 
+		if ( is_admin() ) {
+			return;
+		}
+
 		// Get Global Settings class properties.
 		$this->start_main_trait();
 
@@ -58,7 +62,7 @@ class Frontend {
 		add_action( 'init', [ 'Lumiere\Frontend\Movie', 'lumiere_movie_start' ], 11 );
 
 		// Display Widget.
-		add_action( 'init', fn() => Widget_Frontpage::lumiere_widget_frontend_start(), 11 );
+		add_action( 'init', [ 'Lumiere\Frontend\Widget_Frontpage', 'lumiere_widget_frontend_start' ], 11 );
 
 		// Display popups.
 		add_filter( 'template_include', [ $this, 'popup_redirect_include' ] );
@@ -68,9 +72,6 @@ class Frontend {
 	 * @see \Lumiere\Core
 	 */
 	public static function lumiere_static_start(): void {
-		if ( is_admin() ) {
-			return;
-		}
 		$that = new self();
 	}
 

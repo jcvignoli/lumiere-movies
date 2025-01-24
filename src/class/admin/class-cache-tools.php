@@ -61,7 +61,7 @@ class Cache_Tools {
 	public function __construct() {
 
 		// Start Logger class.
-		$this->logger = new Logger( 'adminClass' );
+		$this->logger = new Logger( 'cacheTools' );
 
 		// Get options from database.
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );

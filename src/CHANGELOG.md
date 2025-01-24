@@ -3,6 +3,7 @@
 v.4.3.2
 * [feature] Taxonomy template in user template folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate (etc)" in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated. (new class Auto_Update_Template_Taxonomy, auto update set up in cron and executed on auto/manual Lumière update or Lumière activation)
 * [bug] Widget area limitation was too restrictive and didn't show up in custom posts pages. (rewrite exclusion in Widget_Frontpage::lum_get_widget())
+* [technical] if AMP plugin is validating pages (when activating a new plugin) Lumière is executed an may be lead to a PHP fatal error (hidden). Movie class is now executed only if it's not an AMP validation test (Movie class lumiere_show() method)
 
 v.4.3.1
 * [bug] When displaying the data in a blog in another language than English, field options for title and pics were displayed while they should appear (fix in template admin-data-display, replaced check of $lumiere_item_translated by $lumiere_item)
