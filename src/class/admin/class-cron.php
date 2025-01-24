@@ -54,7 +54,7 @@ class Cron {
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
 
 		// When 'lumiere_exec_once_update' cron is scheduled, execute the following.
-		add_action( 'lumiere_exec_once_update', [ $this, 'lumiere_exec_once_update' ], 0 );
+		add_action( 'lumiere_exec_once_update', [ $this, 'lumiere_exec_once_update' ] );
 
 		// When 'lumiere_cron_deletecacheoversized' cron is scheduled, execute the following.
 		add_action( 'lumiere_cron_deletecacheoversized', [ $this, 'lumiere_cron_exec_cache' ], 0 );
@@ -104,8 +104,12 @@ class Cron {
 
 		$this->logger->log()->debug( '[Lumiere][cronClass] Cron run once started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
+		// Run updating process.
 		$start_update_options = new Updates();
 		$start_update_options->run_update_options();
+
+		// Auto update templates file in user template folder.
+		( new \Lumiere\Admin\Auto_Update_Template_Taxonomy() )->update_auto_dest_theme();
 	}
 
 	/**

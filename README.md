@@ -184,7 +184,9 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
-Major changes:
+### 4.3.2
+
+Taxonomy templates automatically updated, Widget was not executed in custom taxonomy posts (thanks Sean)
 
 ### 4.3.1
 
@@ -202,10 +204,10 @@ More flexibility for the auto title widget users: You can now prevent a post fro
 
 ## Upgrade Notice
 
+### 4.3.2
+
+Taxonomy template in user template folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate (etc)" in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated.
+
 ### 4.3
 
 Delete the cache, as the caching system has changed.
-
-### 4.1.3
-
-Further compliance with WordPress standards and security, notably added nonces

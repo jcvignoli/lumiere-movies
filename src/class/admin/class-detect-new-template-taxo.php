@@ -94,6 +94,7 @@ class Detect_New_Template_Taxo {
 	 * @param null|string $only_one_item If only one taxonomy item has to be checked, pass it, use a loop otherwise
 	 * @return array<int, null|string> Array of updated templates or null if none
 	 * @see \Lumiere\Admin\Submenu\Data::lumiere_display_new_taxo_template() Calls this method
+	 * @see self::get_notif_templates() Calls this method
 	 */
 	public function search_new_update( ?string $only_one_item = null ): array {
 
@@ -130,6 +131,7 @@ class Detect_New_Template_Taxo {
 	 * @since 4.1.1 added extra check for 'imdbtaxonomy'
 	 *
 	 * @return array<int, string> Array of updated templates or null if none
+	 * @see self::get_notif_templates() Calls this method
 	 */
 	private function search_missing_template(): array {
 
@@ -145,14 +147,13 @@ class Detect_New_Template_Taxo {
 
 		foreach ( $array_all as $item => $item_translated ) {
 
-			$lumiere_taxo_file = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
-			$lumiere_current_theme_path_file = get_stylesheet_directory() . '/' . $lumiere_taxo_file;
+			$templates_paths = $this->get_template_paths( $item );
 			$taxo_key = 'imdbtaxonomy' . $item;
 
 			if (
 				isset( $this->imdb_data_values[ $taxo_key ] )
 				&& $this->imdb_data_values[ $taxo_key ] === '1'
-				&& is_file( $lumiere_current_theme_path_file ) === false
+				&& is_file( $templates_paths['destination'] ) === false
 			) {
 				$output[] = $item_translated;
 			}
@@ -166,47 +167,62 @@ class Detect_New_Template_Taxo {
 	 * @param string $item String used to build the taxonomy filename that will be checked against the standard taxo
 	 * @return null|string
 	 */
-	private function find_updated_template( string $item ): ?string {
+	public function find_updated_template( string $item ): ?string {
 
 		global $wp_filesystem;
 
-		$return = '';
-
-		// Initial vars
-		$version_theme = 'no_theme';
-		$version_origin = '';
-		$pattern = '~Version: (.+)~i'; // pattern for regex
+		$return = null;
+		$version_themes = [
+			'destination' => '0',
+			'origin' => '0',
+		];
+		$regex_pattern = '~Version: (.+)~i'; // pattern for regex
 
 		// Files paths built based on $item value
-		$lumiere_taxo_file_tocopy = in_array( $item, array_keys( $this->config_class->array_people ), true ) ? $this->config_class::TAXO_PEOPLE_THEME : $this->config_class::TAXO_ITEMS_THEME;
-		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
-		$lumiere_current_theme_path_file = get_stylesheet_directory() . '/' . $lumiere_taxo_file_copied;
-		$lumiere_taxonomy_theme_file = $this->imdb_admin_values['imdbpluginpath'] . $lumiere_taxo_file_tocopy;
+		$templates_paths = $this->get_template_paths( $item );
 
-		// Make sure we have the credentials to read the files - Function in trait Admin_General.
-		$this->lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file );
+		// Make sure we have the credentials to read the files
+		$this->lumiere_wp_filesystem_cred( $templates_paths['destination'] ); // Function in trait Admin_General.
 
-		// Exit if no current file found.
-		if ( is_file( $lumiere_current_theme_path_file ) === false ) {
+		if ( $wp_filesystem === null || ! is_file( $templates_paths['destination'] ) ) {
 			return null;
 		}
 
-		// Get the taxonomy file version in the theme.
-		$content_intheme = $wp_filesystem !== null ? $wp_filesystem->get_contents( $lumiere_current_theme_path_file ) : null;
-		if ( is_string( $content_intheme ) && preg_match( $pattern, $content_intheme, $match ) === 1 ) {
-			$version_theme = $match[1];
+		// Get the theme version in the lumiere plugins folder.
+		$content_origin = $wp_filesystem->get_contents( $templates_paths['origin'] );
+		if ( is_string( $content_origin ) && preg_match( $regex_pattern, $content_origin, $match ) === 1 ) {
+			$version_themes['origin'] = $match[1];
 		}
 
-		// Get the taxonomy file version in the lumiere theme folder.
-		$content_inplugin = $wp_filesystem !== null ? $wp_filesystem->get_contents( $lumiere_taxonomy_theme_file ) : null;
-		if ( is_string( $content_inplugin ) && preg_match( $pattern, $content_inplugin, $match ) === 1 ) {
-			$version_origin = $match[1];
+		// Get the theme version in the user theme folder.
+		$content_destination = $wp_filesystem->get_contents( $templates_paths['destination'] );
+		if ( is_string( $content_destination ) && preg_match( $regex_pattern, $content_destination, $match ) === 1 ) {
+			$version_themes['destination'] = $match[1];
 		}
 
 		// If version in theme file is older, build the filename and the return it.
-		if ( $version_theme !== $version_origin ) {
-			$return = $item;
+		if ( version_compare( $version_themes['origin'], $version_themes['destination'] ) > 0 ) {
+			return $item;
 		}
-		return strlen( $return ) > 0 ? $return : null;
+		return null;
+	}
+
+	/**
+	 * Build templates paths
+	 * 'template_origin' is the standard template inside Lumière's plugin folder
+	 * 'template_dest' is the destination theme folder where the standard template will be copied
+	 *
+	 * @param string $item Taxonomy string, ie 'director'
+	 * @return array<string, string>
+	 * @phpstan-return array{origin: string, destination: string}
+	 */
+	public function get_template_paths( $item ): array {
+		$template_paths = [];
+		$original_in_plugin = in_array( $item, array_keys( $this->config_class->array_people ), true )
+			? $this->config_class::TAXO_PEOPLE_THEME
+			: $this->config_class::TAXO_ITEMS_THEME;
+		$template_paths['origin'] = LUMIERE_WP_PATH . $original_in_plugin;
+		$template_paths['destination'] = get_stylesheet_directory() . '/taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
+		return $template_paths;
 	}
 }

@@ -110,7 +110,11 @@ class Copy_Template_Taxonomy {
 	 *
 	 * @since 4.0.1 Returns bool
 	 */
-	private function copy_taxonomy_template( string $lumiere_taxonomy_theme_file, string $lumiere_current_theme_path_file, string $lumiere_taxo_title ): bool {
+	protected function copy_taxonomy_template(
+		string $lumiere_taxonomy_theme_file,
+		string $lumiere_current_theme_path_file,
+		string $lumiere_taxo_title
+	): bool {
 
 		global $wp_filesystem;
 
@@ -135,7 +139,8 @@ class Copy_Template_Taxonomy {
 			return false;
 		}
 
-		$content_cleaned = preg_replace( '~\*\sYou can replace.*automatically~s', '* Automatically copied from Lumiere! admin menu', $content );
+		$new_phpdoc_text = '* Automatically copied by Lumière! on ' . gmdate( 'd/m/Y @H:i:s' );
+		$content_cleaned = preg_replace( '~\*\sYou can replace.*do it automatically~s', $new_phpdoc_text, $content );
 		$content = $content_cleaned !== null ? str_replace( 'standard', $lumiere_taxo_title, $content_cleaned ) : $content;
 		$content = str_replace( 'Standard', ucfirst( $lumiere_taxo_title ), $content );
 

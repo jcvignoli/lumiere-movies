@@ -188,7 +188,6 @@ class Core {
 				&& strlen( $plugin->item->slug ) > 0
 				&& $plugin->item->slug === 'lumiere-movies'
 			) {
-
 				// It is Lumière!, so run the functions.
 				$logger->log()->debug( '[Lumiere][coreClass][autoupdate] Starting Lumière automatic update' );
 				$start_update_options = new Updates();
@@ -206,7 +205,7 @@ class Core {
 
 	/**
 	 * Run on plugin activation
-	 * @return void all activation functions have been executed
+	 * @return void All activation functions have been executed
 	 */
 	public function lumiere_on_activation(): void {
 
@@ -248,7 +247,7 @@ class Core {
 
 	/**
 	 * Run on plugin deactivation
-	 * @return void all deactivation functions have been executed
+	 * @return void All deactivation functions have been executed
 	 */
 	public function lumiere_on_deactivation(): void {
 
@@ -301,7 +300,6 @@ class Core {
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 			delete_transient( 'lum_plugin_updated' );
 		}
-
 	}
 
 	/**
