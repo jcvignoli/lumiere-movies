@@ -87,7 +87,7 @@ class Save_Options {
 
 		$class_save = new self();
 
-		if ( isset( $_POST['_nonce_general_settings'] ) && ( wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ) ) { // Nonce
+		if ( isset( $_POST['_nonce_main_settings'] ) && ( wp_verify_nonce( sanitize_key( $_POST['_nonce_main_settings'] ), 'lumiere_nonce_main_settings' ) > 0 ) ) { // Nonce
 
 			$imdburlstringtaxo = isset( $_POST['imdb_imdburlstringtaxo'] ) ? sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) : '';
 			if (
@@ -152,22 +152,22 @@ class Save_Options {
 	 */
 	public function process_headers(): void {
 
-		/** General options */
+		/** Main options */
 		if (
-			isset( $_POST['lumiere_update_general_settings'], $_POST['_nonce_general_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0
+			isset( $_POST['lumiere_update_main_settings'], $_POST['_nonce_main_settings'] )
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_main_settings'] ), 'lumiere_nonce_main_settings' ) > 0
 		) {
-			$this->lumiere_general_options_save(
+			$this->lumiere_main_options_save(
 				$this->get_referer(),
 				// @phpstan-var array{'imdb_imdburlstringtaxo': string|null} $_POST
 				sanitize_text_field( wp_unslash( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ),
 				sanitize_text_field( wp_unslash( $_POST['imdb_imdburlpopups'] ?? '' ) )
 			);
 		} elseif (
-			isset( $_POST['lumiere_reset_general_settings'], $_POST['_nonce_general_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0
+			isset( $_POST['lumiere_reset_main_settings'], $_POST['_nonce_main_settings'] )
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_main_settings'] ), 'lumiere_nonce_main_settings' ) > 0
 		) {
-			$this->lumiere_general_options_reset( $this->get_referer() );
+			$this->lumiere_main_options_reset( $this->get_referer() );
 		}
 
 		/** Cache options */
@@ -233,7 +233,7 @@ class Save_Options {
 	}
 
 	/**
-	 * Save General options
+	 * Save Main options
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @param null|string $imdburlstringtaxo $_POST['imdb_imdburlstringtaxo']
@@ -243,7 +243,7 @@ class Save_Options {
 	 * @phan-suppress PhanTemplateTypeNotUsedInFunctionReturn
 	 */
 	// @phpstan-ignore-next-line method.templateTypeNotInParameter
-	private function lumiere_general_options_save( string|bool $get_referer, ?string $imdburlstringtaxo, ?string $imdburlpopups ): void {
+	private function lumiere_main_options_save( string|bool $get_referer, ?string $imdburlstringtaxo, ?string $imdburlpopups ): void {
 
 		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so exit if they are.
 		if (
@@ -251,7 +251,7 @@ class Save_Options {
 			&& isset( $imdburlpopups )
 			&& '/' . $imdburlstringtaxo === $imdburlpopups
 		) {
-			set_transient( 'notice_lumiere_msg', 'general_options_error_identical_value', 30 );
+			set_transient( 'notice_lumiere_msg', 'main_options_error_identical_value', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
 				exit( 0 );
 			}
@@ -263,14 +263,14 @@ class Save_Options {
 			&& isset( $imdburlpopups ) // always set, not usefull.
 			&& ( $imdburlpopups === '/' || strlen( $imdburlpopups ) === 0 ) // forbid '/' or nothing.
 		) {
-			set_transient( 'notice_lumiere_msg', 'general_options_error_imdburlpopups_invalid', 30 );
+			set_transient( 'notice_lumiere_msg', 'main_options_error_imdburlpopups_invalid', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
 				exit( 0 );
 			}
 		}
 
 		// Check if nonce is a valid value.
-		if ( ! isset( $_POST['_nonce_general_settings'] ) || ! ( wp_verify_nonce( sanitize_key( $_POST['_nonce_general_settings'] ), 'lumiere_nonce_general_settings' ) > 0 ) ) {
+		if ( ! isset( $_POST['_nonce_main_settings'] ) || ! ( wp_verify_nonce( sanitize_key( $_POST['_nonce_main_settings'] ), 'lumiere_nonce_main_settings' ) > 0 ) ) {
 			set_transient( 'notice_lumiere_msg', 'invalid_nonce', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
 				exit( 0 );
@@ -305,7 +305,7 @@ class Save_Options {
 			$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
 
 			// These $_POST values shouldn't be processed
-			$forbidden_terms = [ 'lumiere_update_general_settings', '_wp_http_referer', '_nonce_general_settings' ];
+			$forbidden_terms = [ 'lumiere_update_main_settings', '_wp_http_referer', '_nonce_main_settings' ];
 			if ( in_array( $key_sanitized, $forbidden_terms, true ) ) {
 				continue;
 			}
@@ -328,11 +328,11 @@ class Save_Options {
 	}
 
 	/**
-	 * Reset General options
+	 * Reset Main options
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
-	private function lumiere_general_options_reset( string|bool $get_referer ): void {
+	private function lumiere_main_options_reset( string|bool $get_referer ): void {
 
 		delete_option( Get_Options::get_admin_tablename() );
 		Settings::build_options();

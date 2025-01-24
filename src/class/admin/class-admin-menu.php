@@ -50,8 +50,8 @@ class Admin_Menu {
 	protected string $page_data;
 	protected string $page_data_order;
 	protected string $page_data_taxo;
-	protected string $page_general_base;
-	protected string $page_general_advanced;
+	protected string $page_main_base;
+	protected string $page_main_advanced;
 	protected string $page_help;
 	protected string $page_help_support;
 	protected string $page_help_faqs;
@@ -89,8 +89,8 @@ class Admin_Menu {
 		$this->menu_id = $this->get_id() . '_options';
 
 		// Build pages vars.
-		$this->page_general_base = admin_url( 'admin.php?page=' . $this->menu_id );
-		$this->page_general_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&subsection=advanced' );
+		$this->page_main_base = admin_url( 'admin.php?page=' . $this->menu_id );
+		$this->page_main_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&subsection=advanced' );
 
 		$page_data = 'admin.php?page=' . $this->menu_id . '_data';
 		$this->page_data = admin_url( $page_data );
@@ -122,7 +122,7 @@ class Admin_Menu {
 		 * (2) template checking in Detect_New_Template_Taxo class
 		 * (3) any 'notice_lumiere_msg' transient is found in Admin_Notifications class
 		 */
-		if ( str_contains( $that->lumiere_get_current_admin_url(), $that->page_general_base ) === true ) {
+		if ( str_contains( $that->lumiere_get_current_admin_url(), $that->page_main_base ) === true ) {
 			add_action( 'admin_notices', fn() => Detect_New_Template_Taxo::get_notif_templates( $that->page_data_taxo ), 10, 1 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 		}
@@ -134,7 +134,7 @@ class Admin_Menu {
 		 * @since 4.0
 		 */
 		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start( $that->page_data_taxo ) );
-		add_action( 'init', fn() => Save_Options::lumiere_static_start_taxonomy( $that->page_general_advanced ), 11 );
+		add_action( 'init', fn() => Save_Options::lumiere_static_start_taxonomy( $that->page_main_advanced ), 11 );
 
 		/**
 		 * Copying taxonomy templates in Lumière! data taxonomy options
@@ -236,7 +236,7 @@ class Admin_Menu {
 			);
 			add_submenu_page(
 				$this->menu_id,
-				esc_html__( 'Lumière general page', 'lumiere-movies' ),
+				esc_html__( 'Lumière main page', 'lumiere-movies' ),
 				esc_html__( 'Main', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id,
@@ -281,7 +281,7 @@ class Admin_Menu {
 				'id' => $id,
 				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
 				'parent' => false,
-				'href' => $this->page_general_base,
+				'href' => $this->page_main_base,
 				'meta' => [
 					'title' => esc_html__( 'Lumière Menu', 'lumiere-movies' ),
 				],
@@ -291,9 +291,9 @@ class Admin_Menu {
 		$admin_bar->add_menu(
 			[
 				'parent' => $id,
-				'id' => $this->get_id() . '_top_menu_general',
-				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-general.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'General', 'lumiere-movies' ),
-				'href' => $this->page_general_base,
+				'id' => $this->get_id() . '_top_menu_main',
+				'title' => "<img src='" . $this->config_class->lumiere_pics_dir . "menu/admin-main.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Main', 'lumiere-movies' ),
+				'href' => $this->page_main_base,
 				'meta' => [
 					'title' => esc_html__( 'Main and advanced options', 'lumiere-movies' ),
 				],
@@ -344,7 +344,7 @@ class Admin_Menu {
 	 */
 	public function call_admin_subclass(): void {
 
-		$class_name_from_page = strlen( $this->get_current_page() ) > 0 ? $this->get_current_page() : '_general';
+		$class_name_from_page = strlen( $this->get_current_page() ) > 0 ? $this->get_current_page() : '_main';
 		$class_name_cleaned = ucfirst( str_replace( '_', '', $class_name_from_page ) );
 		$full_class_name = '\Lumiere\Admin\Submenu\\' . $class_name_cleaned;
 

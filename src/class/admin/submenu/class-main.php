@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * General options class
+ * Main options class
  * Child of Admin_Menu
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
@@ -21,19 +21,19 @@ use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_Menu;
 
 /**
- * Display General options menu
+ * Display Main options menu
  * @since 4.0 Using templates instead of having templates here
  */
-class General extends Admin_Menu {
+class Main extends Admin_Menu {
 
 	/**
 	 * Pages name
 	 */
 	private const PAGES_NAMES = [
 		'menu_first'        => 'admin-menu-first-part',
-		'menu_submenu'      => 'general/admin-general-submenu',
-		'general_options'   => 'general/admin-general-layout',
-		'advanced_options'  => 'general/admin-general-advanced',
+		'menu_submenu'      => 'main/admin-main-submenu',
+		'main_options'      => 'main/admin-main-layout',
+		'advanced_options'  => 'main/admin-main-advanced',
 	];
 
 	/**
@@ -63,26 +63,27 @@ class General extends Admin_Menu {
 		// Submenu.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_submenu'],
-			[ $this->config_class->lumiere_pics_dir, $this->page_general_base, $this->page_general_advanced ], /** Add an array with vars to send in the template */
+			[ $this->config_class->lumiere_pics_dir, $this->page_main_base, $this->page_main_advanced ], /** Add an array with vars to send in the template */
 			self::TRANSIENT_ADMIN,
 		);
 
 		// The body.
 		if (
-			// General options.
+			// Main options.
 			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_general_base, sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) === true
+			&& isset( $_GET['page'] ) && str_contains( $this->page_main_base, sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
+
 			$this->include_with_vars(
-				self::PAGES_NAMES['general_options'],
+				self::PAGES_NAMES['main_options'],
 				[ $this->config_class->lumiere_pics_dir ], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
 
 		} elseif (
 			// Advanced options.
-			isset( $_GET['page'] ) && str_contains( $this->page_general_advanced, sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) === true
+			isset( $_GET['page'] ) && str_contains( $this->page_main_advanced, sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) === true
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'advanced'
 			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {

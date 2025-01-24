@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Template for the advanced option of general page
+ * Template for the advanced options of main admin page
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
@@ -539,9 +539,9 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Tools\Get_Options::get_admin_t
 	</div>
 	
 	<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
-		<?php wp_nonce_field( 'lumiere_nonce_general_settings', '_nonce_general_settings' ); ?>
-		<input type="submit"  id="lumiere_update_general_settings" class="button-primary" name="lumiere_update_general_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
-		<input type="submit" id="lumiere_reset_general_settings" class="button-primary" name="lumiere_reset_general_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
+		<?php wp_nonce_field( 'lumiere_nonce_main_settings', '_nonce_main_settings' ); ?>
+		<input type="submit"  id="lumiere_update_main_settings" class="button-primary" name="lumiere_update_main_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+		<input type="submit" id="lumiere_reset_main_settings" class="button-primary" name="lumiere_reset_main_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
 	</div>
 
 	</form>

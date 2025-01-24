@@ -137,7 +137,7 @@ class Data extends Admin_Menu {
 						wp_sprintf(
 							/* translators: %1$s and %2$s are replaced with html ahref tags */
 							__( 'Please %1$sactivate taxonomy%2$s before accessing to taxonomy options.', 'lumiere-movies' ),
-							'<a href="' . esc_url( $this->page_general_advanced ) . '#imdb_imdbtaxonomy_yes">',
+							'<a href="' . esc_url( $this->page_main_advanced ) . '#imdb_imdbtaxonomy_yes">',
 							'</a>'
 						),
 						[ 'a' => [ 'href' => [] ] ]

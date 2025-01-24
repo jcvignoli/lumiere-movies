@@ -15,7 +15,7 @@ import ssh from 'gulp-ssh';
 import changed from 'gulp-changed';
 import rename from 'gulp-rename';
 import fs from 'fs-extra';
-import ext_cred from '../../../bin/.credentials/.gulpcredentials-lumiere.js';		/* private credentials for ssh */
+import ext_cred from './.gulpcredentials-lumiere.js';		/* private credentials for ssh */
 
 var errorHandler = function(error) {							/* handle and display errors with notify */
 	notify.onError({

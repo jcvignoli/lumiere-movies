@@ -4,7 +4,7 @@
  * For admin pages
  */
 
-/************************************** class-widget.php && admin/submenu/class-general.php
+/************************************** class-widget.php && admin/submenu/class-main.php
 *
 */
 

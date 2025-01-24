@@ -19,7 +19,7 @@
 			}
 		)
 	);
-	var linkAutoTitleWidgetOption = '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">' + widget__( 'Lumière general advanced options' , 'lumiere-movies' )	+ '</a>';
+	var linkAutoTitleWidgetOption = '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">' + widget__( 'Lumière main advanced options' , 'lumiere-movies' )	+ '</a>';
 	
 	registerBlockType(
 		'lumiere/widget', {

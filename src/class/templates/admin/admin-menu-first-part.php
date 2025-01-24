@@ -29,8 +29,8 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			<div align="left" class="lumiere_flex_container">
 
 				<div class="lumiere_padding_five lumiere_flex_auto">
-					<img src="<?php echo esc_url( $lum_that->config_class->lumiere_pics_dir . 'menu/admin-general.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-					<a title="<?php esc_html_e( 'General Options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_that->page_general_base ); ?>"> <?php esc_html_e( 'General Options', 'lumiere-movies' ); ?></a>
+					<img src="<?php echo esc_url( $lum_that->config_class->lumiere_pics_dir . 'menu/admin-main.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
+					<a title="<?php esc_html_e( 'Main Options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_that->page_main_base ); ?>"> <?php esc_html_e( 'Main Options', 'lumiere-movies' ); ?></a>
 				</div>
 
 				<?php // Data subpage is relative to what is activated. ?>

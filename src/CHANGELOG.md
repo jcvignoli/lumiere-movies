@@ -2,8 +2,9 @@
 
 v.4.3.2
 * [feature] Taxonomy template in user template folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate (etc)" in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated. (new class Auto_Update_Template_Taxonomy, auto update set up in cron and executed on auto/manual Lumière update or Lumière activation)
-* [bug] Widget area limitation was too restrictive and didn't show up in custom posts pages. (rewrite exclusion in Widget_Frontpage::lum_get_widget())
-* [technical] if AMP plugin is validating pages (when activating a new plugin) Lumière is executed an may be lead to a PHP fatal error (hidden). Movie class is now executed only if it's not an AMP validation test (Movie class lumiere_show() method)
+* [bug] Widget area limitation was too restrictive and didn't show up in custom posts pages. (rewrote exclusion in Widget_Frontpage::lum_get_widget())
+* [technical] If AMP plugin is validating pages (when activating a new plugin) Lumière is executed an may be lead to a PHP fatal error (hidden). Movie class is now executed only if it's not an AMP validation test (new exclusion rule in Movie class lumiere_show() method)
+* [technical] Renamed "general options" into "main options"
 
 v.4.3.1
 * [bug] When displaying the data in a blog in another language than English, field options for title and pics were displayed while they should appear (fix in template admin-data-display, replaced check of $lumiere_item_translated by $lumiere_item)
@@ -843,7 +844,7 @@ v.1.6
 * [feature] updated to highslide js 1.4.8
 * [feature] new functions added to functions.php
 * [feature] added "Filmography as soundtrack" in popup for people (popup-imdb_person.php)
-* [feature] splited "General options" from wordpress admin into two subsections : "Paths & Layout" and "Advanced". Advanced subsection is meant to include the... advanced options. General option is much more readable, now.
+* [feature] splitted "General options" from wordpress admin into two subsections : "Paths & Layout" and "Advanced". Advanced subsection is meant to include the... advanced options. General option is much more readable, now.
 * [feature] cache size is now computed and displayed in admin/cache section 
 * [feature] turned imbd-link-transformer into a class (class imdblt{}); modified inc/popup-imdb_movie.php and inc/help.php according the new structure. As a result of this, one has to open the class (ie $imdblt = new imdblt) before calling the function itself (ie $imdblt->lumiere_external_call('Descent', 'external'))
 * [feature] by default, cover pictures are not displayed as thumbnail, with a size of 100 px. To change this behaviour: "General options -> Imdb cover picture -> Display only thumbnail"
