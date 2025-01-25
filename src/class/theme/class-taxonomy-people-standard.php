@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.8.1
+ * Version: 3.8.2
  *
  * @package lumiere-movies
  *

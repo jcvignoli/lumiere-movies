@@ -287,14 +287,16 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php esc_html_e( "To fully enjoy this taxonomy, make sure you copy the template files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. This can be automatized by using the options available in Lumière! taxonomy :", 'lumiere-movies' ); ?>
 
-				<br>
-
+				<br clear="both">
+				<br clear="both">
+				
 				<a href="<?php echo esc_url( $lumiere_pics_url . 'admin-taxonomy-copytemplate.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $lumiere_pics_url . 'admin-taxonomy-copytemplate.png' ); ?>" alt="taxonomy new options" /></a>
 
-				<?php esc_html_e( "Click on 'copy template', that's it! You will be notified when a new template is available. You can customize even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them:", 'lumiere-movies' ); ?><br>
+				<?php esc_html_e( "Click on 'copy template', that's it! You will be notified when a new template is available. You can customize even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them.", 'lumiere-movies' ); ?><br>
 
-				<br clear="both">
-				<br clear="both">
+				<br>
+
+				<?php esc_html_e( "Since Lumière version 4.3.2, the taxonomy templates you copied in your theme folder will be automatically updated whenever you update Lumière. Should a new template model be released, the latter will be automatically copied in you theme without you needing to manually update the template. However, should you want to change the behaviour, remove the 11th line starting with 'TemplateAutomaticUpdate' and your template will not be automatically updated. Instead, you'll be asked to update it manually when visiting Lumière administration pages.", 'lumiere-movies' ); ?><br>
 
 				<div align="center"><a href="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-10.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="center" width="40%" src="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-10.jpg' ); ?>" alt="taxonomy result" /></a></div>
 
@@ -316,7 +318,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 					<h4><?php esc_html_e( 'When should you use auto-widget?', 'lumiere-movies' ); ?></h4>
 
-					<?php esc_html_e( "Should you have hundreds of posts named after movie's title, and that you don't want to edit them all to manually insert  widgets or a Lumière blocks inside the post. Lumière does everything for you.", 'lumiere-movies' ); ?>
+					<?php esc_html_e( "Should you have hundreds of posts named after movie's title and you don't want to edit them all, manually inserting widgets or a Lumière blocks inside the post, Lumière does everything for you.", 'lumiere-movies' ); ?>
 					
 					<br>
 					<br>
@@ -342,12 +344,12 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					<br><br>
 					
 					<?php
-					esc_html_e( 'Known issue: Lumière offers widgets for both old and modern type of widgets. Old widgets (aka Legacy Widgets) are available if you installed a Classic Widget plugin or any plugin that simplified the way to display your widgets and posts, or if your WordPress install is prior to WordPress 5.8. Modern Widgets (aka Block Widgets) are standard in every new WordPress install as of 5.8 that does not include a Classic Widget plugin. Potential issues could arise should you install both types of Lumière widgets, namely Legacy and Block Widgets. In order to prevent such issues, make sure that both Block and Legacy Widgets are not activated together. Remove any Lumière Block Widget previously added if you use Lumière Legacy Widget when using the pre-5.8/Classic Editor. In the pre-5.8/Classic Widget Editor, no option to add a Block Widget is available, but you may find a Block based Widget previously added in Block Editor, which you need to remove.', 'lumiere-movies' ); ?>
+					esc_html_e( 'Known issue: Lumière offers widgets for both old and modern type of widgets. Old widgets (aka Legacy Widgets) are available if you installed a Classic Widget plugin or any plugin that simplified the way to display your widgets and posts, or if your WordPress install is prior to WordPress 5.8. Modern Widgets (aka Block Widgets) are standard in every new WordPress install as of 5.8. Potential issues could arise should you install both types of Lumière widgets, namely Legacy and Block Widgets. In order to prevent such issues, make sure that both Block and Legacy Widgets are not activated together. Remove any Lumière Block Widget previously added if you use Lumière Legacy Widget when using the pre-5.8/Classic Editor. In the pre-5.8/Classic Widget Editor, no option to add a Block Widget is available, but you may find a Block based Widget previously added in Block Editor, which you need to remove.', 'lumiere-movies' ); ?>
 					
 					<br><br>
 					
 					<?php
-					esc_html_e( 'Should you switch back to the new WordPress Block Editor standard again (by updating WordPress or uninstalling Classic Widget), remove the Legacy widget that will be visible in the block Editor, save, refresh and add a new Lumière Block Widget. In new Widget WordPress installs, only the standard Block Widget is available.', 'lumiere-movies' ); ?>
+					esc_html_e( 'Since Lumière v.4.1, the auto-widget can be removed on a post basis. In Lumière options for your posts, you will find a checkbox to prevent auto-widget to be applied on a given post.', 'lumiere-movies' ); ?>
 					
 				</div>
 			</div>
