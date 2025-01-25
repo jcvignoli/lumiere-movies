@@ -20,12 +20,10 @@ class WidgetCest {
 
 	/**
 	 * Login to Wordpress
-	 *  Trait function to keep the cookie active
+	 * Trait function to keep the cookie active
 	 */
 	private function login(AcceptanceTester $I) {
-
 		$I->login_universal($I);
-
 	}
 
 	/** Check if auto title widget option display a widget based on the title of the page
@@ -43,8 +41,9 @@ class WidgetCest {
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
-		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE );
-
+		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE ); // I see the title that needs auto widget
+		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_NOAUTOTITLE ); // I see the title that doesn't need auto widget
+		
 		// Disable Auto Title Widget
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
@@ -53,8 +52,8 @@ class WidgetCest {
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
-		$I->dontSeeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE );
-
+		$I->dontSeeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE ); // I don't see the title that needs auto widget
+		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_NOAUTOTITLE ); // I still see the title that doesn't need auto widget
 	}
 
 	/**

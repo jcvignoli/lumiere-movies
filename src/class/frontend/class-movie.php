@@ -62,15 +62,6 @@ class Movie {
 		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
 
 		/**
-		 * Maybe activate Lumière plugins if needed
-		 * Is instanciated only if not instanciated already
-		 * Always loads IMDBPHP plugin
-		 *
-		 * @see Lumiere\Frontend\Main
-		 */
-		$this->maybe_activate_plugins();
-
-		/**
 		 * Detect the shortcodes [imdblt][/imdblt] and [imdbltid][/imdbltid] to display the movies, old way
 		 * @deprecated 3.5 kept for compatibility purpose
 		 */
@@ -152,6 +143,16 @@ class Movie {
 
 		// Using singleton to display only once.
 		if ( $this->movie_run_once === false ) {
+
+			/**
+			 * Maybe activate Lumière plugins if needed
+			 * Is instanciated only if not instanciated already
+			 * Always loads IMDBPHP plugin
+			 *
+			 * @see Lumiere\Frontend\Main
+			 */
+			$this->maybe_activate_plugins();
+
 			// Log the current link maker
 			$this->logger->log()->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 			// Log Plugins_Start, $this->plugins_classes_active in trait

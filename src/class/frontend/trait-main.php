@@ -98,13 +98,14 @@ trait Main {
 	 * Build list of active plugins and send them in properties
 	 * Always add an IMDBPHP extra class, needed by all classes.
 	 *
-	 * @param array<string, string> $extra_class An extra class to instanciate
-	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS> $extra_class An extra class to instanciate
+	 * @param array<string, string>|null $extra_class Optional, An extra class to instanciate
+	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_class An extra class to instanciate
 	 * @return void Extra classes have been instanciated
 	 * @since 4.1
 	 */
-	public function maybe_activate_plugins( array $extra_class = [] ): void {
+	public function maybe_activate_plugins( ?array $extra_class = [] ): void {
 		$always_load = [];
+		$extra_class ??= [];
 		if ( count( $this->plugins_classes_active ) === 0 ) {
 			$always_load['imdbphp'] = 'imdbphp';
 			$all_classes = array_merge( $always_load, $extra_class );

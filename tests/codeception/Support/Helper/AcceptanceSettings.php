@@ -41,4 +41,5 @@ class AcceptanceSettings {
 	// WP Post including a test for auto title widget, important to have a movie's name as a title.
 	public const TESTING_PAGE_AUTOTITLEWIDGET_URL = '/2021/y-tu-mama-tambien/';
 	public const TESTING_PAGE_AUTOTITLEWIDGET_TITLE = 'Y Tu Mamá También';
+	public const TESTING_PAGE_AUTOTITLEWIDGET_NOAUTOTITLE = '8 Mile (2002)';
 }

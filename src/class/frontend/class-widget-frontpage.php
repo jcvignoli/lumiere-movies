@@ -200,7 +200,7 @@ class Widget_Frontpage {
 		$movies_array = [];
 		$post_id = get_the_ID();
 
-		if ( is_int( $post_id ) === false ) {
+		if ( is_int( $post_id ) === false || $post_id === 0 ) {
 			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Wrong post ID' );
 			return '';
 		}
@@ -238,15 +238,22 @@ class Widget_Frontpage {
 			$this->imdb_admin_values['imdbautopostwidget'] === '1'
 			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) === 'disabled'
 		) {
-			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget is deactivated for this post' );
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget is specifically deactivated for this post' );
 		}
 
 		// Check if a post ID is available add it.
 		$movies_array[] = $this->maybe_get_lum_post_metada( $post_id );
 
-		// Exit if no metadata, no auto title option activated
-		if ( $this->imdb_admin_values['imdbautopostwidget'] !== '1' ) {
-			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Auto title widget deactivated and no IMDb meta for this post, exiting' );
+		// Remove empty array_values from $movies_arrays
+		$movies_array_cleaned = array_filter(
+			$movies_array,
+			function( $movies_array ) {
+				return count( array_values( $movies_array ) ) > 0;
+			}
+		);
+		// Exit if array is empty (meaning that no metadata was found and auto title option is disabled)
+		if ( count( $movies_array_cleaned ) === 0 ) {
+			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] Neither movie title nor id were passed to be queried for this widget, exit' );
 			return '';
 		}
 
@@ -270,6 +277,8 @@ class Widget_Frontpage {
 
 	/**
 	 * Query WordPress current post using the PostID to get post metadata
+	 * Custom field lumiere_widget_movietitle, which may include the name of the movie if user added it
+	 * Custom field lumiere_widget_movieid, which may include the ID of the movie if user added it
 	 *
 	 * @param int $post_id WordPress post ID to query about metaboxes
 	 * @return array<string, string> Results found in metaboxes if any
