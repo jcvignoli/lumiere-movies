@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.3.3
+
 v.4.3.2.1
 * [bug] Widgets were not displayed anymore if auto widget was not activated
 
