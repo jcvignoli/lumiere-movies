@@ -109,7 +109,7 @@ class Cron {
 		$start_update_options->run_update_options();
 
 		// Auto update templates file in user template folder.
-		( new \Lumiere\Admin\Auto_Update_Template_Taxonomy() )->update_auto_dest_theme();
+		( new \Lumiere\Admin\Taxo\Auto_Update_Template_Taxonomy() )->update_auto_dest_theme();
 	}
 
 	/**

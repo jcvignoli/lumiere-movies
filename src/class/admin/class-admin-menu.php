@@ -20,13 +20,14 @@ use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Cache_Tools;
 use Lumiere\Admin\Admin_General;
+use Lumiere\Admin\Taxo\Detect_New_Template_Taxo;
 
 /**
  * Display Admin Menus: Top, Left and default menus
  * Taxonomy theme pages copy class is called here
  * It is checked priorly if the user can manage options
  *
- * @see \Lumiere\Admin\Copy_Template_Taxonomy to copy new page template
+ * @see \Lumiere\Admin\Taxo\Copy_Template_Taxonomy to copy new page template
  * @see \Lumiere\Admin\Save_Options Check the $_GET to know if we need to save the submitted data
  * @see \Lumiere\Admin\Admin_Notifications
  */
@@ -144,7 +145,7 @@ class Admin_Menu {
 			&& isset( $_GET['_wpnonce_linkcopytaxo'] )
 			&& wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
 		) {
-			add_action( 'admin_init', fn() => Copy_Template_Taxonomy::lumiere_start_copy_taxo( $that->page_data_taxo ) );
+			add_action( 'admin_init', fn() => Taxo\Copy_Template_Taxonomy::lumiere_start_copy_taxo( $that->page_data_taxo ) );
 		}
 
 		/**

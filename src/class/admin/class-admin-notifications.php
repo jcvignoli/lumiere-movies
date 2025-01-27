@@ -21,7 +21,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
  *
  * @since 4.1
  * @since 4.1.1 More OOP, self::admin_msg_missing_taxo() and self::admin_msg_new_taxo() are called by Detect_New_Template_Taxo class, admin_notice_messages are now translated
- * @see \Lumiere\Admin\Detect_New_Template_Taxo to check if a message regarding the taxonomy should be displayed
+ * @see \Lumiere\Admin\Taxo\Detect_New_Template_Taxo to check if a message regarding the taxonomy should be displayed
  */
 class Admin_Notifications {
 
@@ -72,7 +72,7 @@ class Admin_Notifications {
 	 * @param array<string> $missing_taxo_template Name(s) of the missing taxonomy templates
 	 * @param string $page_data_taxo The URL of the taxonomy page option
 	 * @return void Display notification message if relevant
-	 * @see \Lumiere\Admin\Detect_New_Template_Taxo::lumiere_static_start()
+	 * @see \Lumiere\Admin\Taxo\Detect_New_Template_Taxo::lumiere_static_start()
 	 */
 	public function admin_msg_install_missing_template( array $missing_taxo_template, string $page_data_taxo ): void {
 
@@ -111,7 +111,7 @@ class Admin_Notifications {
 	 * @param array<int, null|string> $new_taxo_template Name(s) of the new taxonomy templates found
 	 * @param string $page_data_taxo The URL of the taxonomy page option
 	 * @return void Display notification message if relevant
-	 * @see \Lumiere\Admin\Detect_New_Template_Taxo::lumiere_static_start()
+	 * @see \Lumiere\Admin\Taxo\Detect_New_Template_Taxo::lumiere_static_start()
 	 */
 	public function admin_msg_update_template( array $new_taxo_template, string $page_data_taxo ): void {
 

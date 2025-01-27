@@ -6,15 +6,16 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Admin;
+namespace Lumiere\Admin\Taxo;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'ABSPATH' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use Lumiere\Admin\Copy_Template_Taxonomy;
-use Lumiere\Admin\Detect_New_Template_Taxo;
+use Lumiere\Admin\Admin_General;
+use Lumiere\Admin\Taxo\Copy_Template_Taxonomy;
+use Lumiere\Admin\Taxo\Detect_New_Template_Taxo;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Get_Options;
 

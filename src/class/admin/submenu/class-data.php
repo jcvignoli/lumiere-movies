@@ -19,13 +19,13 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Admin\Admin_Menu;
-use Lumiere\Admin\Detect_New_Template_Taxo;
+use Lumiere\Admin\Taxo\Detect_New_Template_Taxo;
 
 /**
  * Display data options for taxonomy, data order and data selection
  *
  * @since 4.0 Using templates file instead of the HTML code here
- * @see \Lumiere\Admin\Admin_Menu for templates copy, if put it here the transiant is not passed to { @link \Lumiere\Admin\Copy_Template_Taxonomy }
+ * @see \Lumiere\Admin\Admin_Menu for templates copy, if put it here the transiant is not passed to { @link \Lumiere\Admin\Taxo\Copy_Template_Taxonomy }
  */
 class Data extends Admin_Menu {
 
