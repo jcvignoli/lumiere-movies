@@ -23,9 +23,9 @@ use Lumiere\Frontend\Main;
  * This class only returns automatically finded classes
  *
  * @phpstan-type AVAILABLE_AUTO_CLASSES \Lumiere\Plugins\Auto\Amp|\Lumiere\Plugins\Auto\Oceanwp|\Lumiere\Plugins\Auto\Polylang|\Lumiere\Plugins\Auto\Aioseo|\Lumiere\Plugins\Auto\Irp
- * @phpstan-type AVAILABLE_MANUAL_CLASSES \Lumiere\Plugins\Manual\Imdbphp|\Lumiere\Plugins\Manual\Logger
+ * @phpstan-type AVAILABLE_MANUAL_CLASSES \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-type AVAILABLE_AUTO_CLASSES_KEYS 'amp'|'oceanwp'|'polylang'|'aioseo'|'irp'
- * @phpstan-type AVAILABLE_MANUAL_CLASSES_KEYS 'imdbphp'|'logger'
+ * @phpstan-type AVAILABLE_MANUAL_CLASSES_KEYS 'imdbphp'
  * @phpstan-type AVAILABLE_PLUGIN_CLASSES_KEYS AVAILABLE_AUTO_CLASSES_KEYS|AVAILABLE_MANUAL_CLASSES_KEYS
  * @phpstan-type AVAILABLE_PLUGIN_CLASSES AVAILABLE_AUTO_CLASSES|AVAILABLE_MANUAL_CLASSES
  *
@@ -75,7 +75,7 @@ class Plugins_Detect {
 	 * Use the plugin located in "SUBFOLDER_PLUGINS_BIT" subfolder to build the method names, then check if they are active
 	 *
 	 * @return array<string, class-string|null>
-	 * @phpstan-return array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string>
+	 * @phpstan-return array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>}
 	 *
 	 * @see Plugins_Detect::find_available_plugins() that builds the list of available plugins
 	 */
@@ -88,14 +88,15 @@ class Plugins_Detect {
 				$subfolder_plugins = strlen( self::SUBFOLDER_PLUGINS_BIT ) > 0 ? ucfirst( self::SUBFOLDER_PLUGINS_BIT ) . '\\' : '';
 				// @phpstan-var class-string<AVAILABLE_AUTO_CLASSES> $namespace_class
 				$namespace_class = __NAMESPACE__ . '\\' . $subfolder_plugins . ucfirst( $plugin );
-				// @phpstan-var array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>> $plugins_class
+				// @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_PLUGIN_CLASSES>} $plugins_class
 				$plugins_class[ $plugin ] = $namespace_class;
 				continue;
 			}
 
-			// @phpstan-var array<AVAILABLE_PLUGIN_CLASSES_KEYS, null> $plugins_class
+			// @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: null} $plugins_class
 			$plugins_class[ $plugin ] = null;
 		}
+		/** @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>|null}|array{} $plugins_class */
 		return $this->filter_active_plugins( $plugins_class );
 	}
 
@@ -104,12 +105,14 @@ class Plugins_Detect {
 	 * If the array-value is null, the plugin will be removed from the list.
 	 *
 	 * @param array<string, string|null> $plugin_name
-	 * @phpstan-param array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string|null> $plugin_name An array of the plugins active
+	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>|null}|array{} $plugin_name An array of the plugins active
 	 * @return array<string, class-string>
-	 * @phpstan-return array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string>
+	 * @phpstan-return array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>}
 	 */
 	private function filter_active_plugins( array $plugin_name ): array {
-		return array_filter( $plugin_name, 'is_string' );
+		$return = array_filter( $plugin_name, 'is_string' );
+		/** @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>} $return */
+		return $return;
 	}
 
 	/**
@@ -118,7 +121,7 @@ class Plugins_Detect {
 	 * @return bool true if OceanWP them is active
 	 */
 	private function oceanwp_is_active(): bool {
-		return class_exists( 'OCEANWP_Theme_Class' ) && has_filter( 'ocean_display_page_header' ) === true;
+		return class_exists( 'OCEANWP_Theme_Class' ) && defined( 'OCEANWP_THEME_DIR' );
 	}
 
 	/**

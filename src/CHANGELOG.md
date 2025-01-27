@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.3.3
+* [bug] CLI functions (copy_taxo and update_options) were broken. (Fixed the new path for Get_Options)
 
 v.4.3.2.1
 * [bug] Widgets were not displayed anymore if auto widget was not activated

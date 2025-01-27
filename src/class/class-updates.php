@@ -19,7 +19,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 }
 
 use FilesystemIterator;
-use Lumiere\Plugins\Manual\Logger;
+use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Settings_Global;
 
 /**

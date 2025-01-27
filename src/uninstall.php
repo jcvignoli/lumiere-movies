@@ -22,7 +22,7 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 use Lumiere\Tools\Get_Options;
 use Lumiere\Tools\Data;
 use Lumiere\Admin\Admin_General;
-use Lumiere\Plugins\Manual\Logger;
+use Lumiere\Plugins\Logger;
 
 /**
  * Uninstall plugin

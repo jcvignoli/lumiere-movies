@@ -17,30 +17,33 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Plugins\Manual\Logger;
+use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Get_Options;
 use Lumiere\Tools\Validate_Get;
 
 /**
  * Plugin for Polylang WordPress plugin
  * This class offers specific functions if Polylang is in use
- * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->active_plugins
+ * The styles/scripts are supposed to go in construct with add_action()
+ * Can method get_active_plugins() to get an extra property $active_plugins, as available in {@link Plugins_Start::activate_plugins()}
  * Executed in Frontend only (except for {@see Polylang::add_polylang_taxonomy()} that can be called from ie admin)
  *
  * @since 4.3 Using add_filter() and more OOP, removing custom Polylang translation for taxonomy terms (same term will have one entry only, no translation anymore)
  *
- * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  * @link Polylang reference hooks https://polylang.pro/doc/filter-reference/
+ *
+ * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  */
 class Polylang {
 
 	/**
 	 * Array of plugins currently in use
 	 *
-	 * @phpstan-var array<AVAILABLE_PLUGIN_CLASSES_KEYS, AVAILABLE_PLUGIN_CLASSES>
-	 * @var array<string, string>
+	 * @phpstan-var non-empty-array<'AVAILABLE_AUTO_CLASSES_KEYS'|'AVAILABLE_MANUAL_CLASSES_KEYS', class-string<AVAILABLE_PLUGIN_CLASSES>>
+	 * @var array<string, class-string>
 	 */
 	private array $active_plugins;
 
@@ -52,13 +55,8 @@ class Polylang {
 	/**
 	 * Constructor
 	 *
-	 * @phpstan-param array<AVAILABLE_PLUGIN_CLASSES_KEYS, AVAILABLE_PLUGIN_CLASSES> $active_plugins
-	 * @param array<string, string> $active_plugins
 	 */
-	final public function __construct( array $active_plugins ) {
-
-		// Get the list of active plugins.
-		$this->active_plugins = $active_plugins;
+	final public function __construct() {
 
 		$this->logger = new Logger( 'Polylang' );
 
@@ -76,9 +74,14 @@ class Polylang {
 	}
 
 	/**
-	 * Static start for extra functions not to be run in self::__construct. No $this available!
+	 * Get for extra params not to be run in self::__construct. Automatically executed from Plugins_Start
+	 * @phpstan-param non-empty-array<'AVAILABLE_AUTO_CLASSES_KEYS'|'AVAILABLE_MANUAL_CLASSES_KEYS', class-string<AVAILABLE_PLUGIN_CLASSES>> $active_plugins
+	 * @param array<string, class-string> $active_plugins
 	 */
-	public static function start_init_hook(): void {}
+	public function get_active_plugins( array $active_plugins ): void {
+		// Get the list of active plugins.
+		$this->active_plugins = $active_plugins;
+	}
 
 	/**
 	 * Static start for Admin Polylang specific filters and actions
@@ -93,7 +96,7 @@ class Polylang {
 			return;
 		}
 
-		$polylang_class = new self( [] );
+		$polylang_class = new self();
 
 		// It may run several times, limit it to once.
 		if ( did_filter( 'pll_get_taxonomies' ) === 0 ) {

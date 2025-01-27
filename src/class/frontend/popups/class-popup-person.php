@@ -106,10 +106,10 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	 */
 	private function get_result( string $person_id ): Name {
 
-		$person_class = $this->plugins_classes_active['imdbphp']?->get_name_class( $person_id, $this->logger->log() );
+		$person_class = $this->plugins_classes_active['imdbphp']->get_name_class( $person_id, $this->logger->log() );
 
 		// if neither film nor mid are set, throw a 404 error
-		if ( $person_class === null ) {
+		if ( $person_class->name() === null ) {
 			status_header( 404 );
 			$text = __( 'Could not find any IMDb person with this query.', 'lumiere-movies' );
 			$this->logger->log()->error( '[Lumiere][Popup_Person] ' . esc_html( $text ) );

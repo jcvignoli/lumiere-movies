@@ -22,6 +22,8 @@ use Lumiere\Plugins\Plugins_Detect;
 /**
  * Instanciate the plugins that are available and in active
  *
+ * @phpstan-import-type AVAILABLE_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
@@ -36,14 +38,14 @@ class Plugins_Start {
 	 * The active class can be used when they exist and called with this property
 	 *
 	 * @var array<string, object>
-	 * @phpstan-var array<AVAILABLE_PLUGIN_CLASSES_KEYS, AVAILABLE_PLUGIN_CLASSES>
+	 * @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES, 'imdbphp'?: AVAILABLE_MANUAL_CLASSES}
 	 */
 	public array $plugins_classes_active;
 
 	/**
 	 * Constructor
-	 * @param array<string, string>|array<string>|null $extra_manual_classes Extra classes to add
-	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_manual_classes
+	 * @param array<string>|null $extra_manual_classes Extra classes to add
+	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_manual_classes
 	 */
 	public function __construct( ?array $extra_manual_classes = null ) {
 
@@ -52,63 +54,69 @@ class Plugins_Start {
 
 		// Add an extra class in properties.
 		if ( isset( $extra_manual_classes ) && count( $extra_manual_classes ) > 0 ) {
-			$array_plugin_names = $this->add_manual_plugins( $extra_manual_classes, $array_plugin_names );
+			$array_plugin_names = $this->add_manual_to_auto_plugins( $extra_manual_classes, $array_plugin_names );
 		}
 
-		$this->plugins_classes_active = $this->start_active_plugins( $array_plugin_names );
+		$this->plugins_classes_active = $this->activate_plugins( $array_plugin_names );
 	}
 
 	/**
 	 * Start the plugins and return those who got activated
 	 * Classes are located in Plugins_Detect::SUBFOLDER_PLUGINS_BIT
 	 *
-	 * @phpstan-param array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string> $active_plugins
-	 * @return array<string, object>
-	 * @phpstan-return array<AVAILABLE_PLUGIN_CLASSES_KEYS, AVAILABLE_PLUGIN_CLASSES> Classes have been activated
+	 * @param array<string, class-string> $active_plugins
+	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>, AVAILABLE_MANUAL_CLASSES_KEYS?: class-string<AVAILABLE_MANUAL_CLASSES>} $active_plugins
+	 * @return array<string, object> Classes have been activated
+	 * @phpstan-return array{AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES, AVAILABLE_MANUAL_CLASSES?: AVAILABLE_MANUAL_CLASSES}
 	 */
-	private function start_active_plugins( array $active_plugins ): array {
+	private function activate_plugins( array $active_plugins ): array {
 
 		$all_plugins_activated = [];
 
 		foreach ( $active_plugins as $plugin_name => $plugin_path ) {
-
-			/** @phpstan-var AVAILABLE_PLUGIN_CLASSES $current_plugin_activated */
-			$current_plugin_activated = new $plugin_path( $active_plugins ); // Instanciate plugin classes.
+			$current_plugin_activated = new $plugin_path(); // Instanciate plugin classes.
 			$all_plugins_activated[ $plugin_name ] = $current_plugin_activated;
-			if ( method_exists( $plugin_path, 'start_init_hook' ) ) {
-				// $current_plugin_activated::start_init_hook();
-				/**
-				 * @psalm-suppress UndefinedMethod
-				 * @phpstan-ignore argument.type
-				 */
-				add_action( 'init', [ $current_plugin_activated, 'start_init_hook' ], 40 ); // 40 so make sure it's always executed.
+			// Start get_active_plugins() method in class if the method exists. The method allows to get the active plugins as strings.
+			if ( method_exists( $current_plugin_activated, 'get_active_plugins' ) ) {
+				$current_plugin_activated->get_active_plugins( $active_plugins );
+				//add_action( 'init', fn() => $current_plugin_activated->get_active_plugins( $active_plugins ), 20 ); // 20 so make sure it's always executed.
 			}
 		}
+		/** @phpstan-ignore return.type ("Method...returns non-empty-array<'AVAILABLE_AUTO…'|'AVAILABLE_MANUAL…'" => I don't get it, it's associative!) */
 		return $all_plugins_activated;
 	}
 
 	/**
 	 * Add extra manual classe(s)
 	 * They're not in SUBFOLDER_PLUGINS_BIT, they're in "plugins"
-	 * @psalm-suppress InvalidDocblock
-	 * @param array<string, string> $extra_classes Extra classes to add, ie [ 'imdbphp' => 'imdbphp' ]
-	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS> $extra_classes
-	 * @param array<string, class-string|string> $array_plugin_names
-	 * @phpstan-param array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>|non-falsy-string> $array_plugin_names
-	 * @return array<string, class-string|string>
-	 * @phpstan-return ($array_plugin_names is array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>> ? array<AVAILABLE_PLUGIN_CLASSES_KEYS, class-string<AVAILABLE_PLUGIN_CLASSES>> : array<AVAILABLE_PLUGIN_CLASSES_KEYS, non-falsy-string>)
+	 *
+	 * @param array<string> $extra_classes Extra classes to add, ie [ 'imdbphp' ]
+	 * @phpstan-param non-empty-array<AVAILABLE_MANUAL_CLASSES_KEYS> $extra_classes
+	 * @param array<string, class-string> $array_plugin_names
+	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>} $array_plugin_names
+	 * @return array<string, class-string>
+	 * @phpstan-return array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>, AVAILABLE_MANUAL_CLASSES_KEYS?: class-string<AVAILABLE_MANUAL_CLASSES>}
 	 */
-	private function add_manual_plugins( array $extra_classes, array $array_plugin_names ): array {
-		if ( count( $extra_classes ) === 0 ) {
-			return $array_plugin_names;
-		}
+	private function add_manual_to_auto_plugins( array $extra_classes, array $array_plugin_names ): array {
 
-		foreach ( $extra_classes as $extra_class_name => $extra_class_path ) {
-			$full_class_name = __NAMESPACE__ . '\\Manual\\' . ucfirst( $extra_class_path );
+		foreach ( $extra_classes as $extra_class_name ) {
+			/** @phpstan-var class-string<AVAILABLE_MANUAL_CLASSES> $full_class_name */
+			$full_class_name = __NAMESPACE__ . '\\Manual\\' . ucfirst( $extra_class_name );
 			if ( class_exists( $full_class_name ) ) {
 				$array_plugin_names[ $extra_class_name ] = $full_class_name;
 			}
 		}
 		return $array_plugin_names;
+	}
+
+	/**
+	 * Is the plugin activated?
+	 *
+	 * @since 4.3
+	 * @param string $plugin Plugin's name
+	 * @return bool True if active
+	 */
+	public function is_plugin_active( string $plugin ): bool {
+		return in_array( $plugin, array_keys( $this->plugins_classes_active ), true );
 	}
 }

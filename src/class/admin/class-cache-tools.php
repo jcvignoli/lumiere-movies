@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Plugins\Manual\Imdbphp;
-use Lumiere\Plugins\Manual\Logger;
+use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Tools\Files;
 use Lumiere\Tools\Get_Options;

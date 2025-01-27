@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.8.2
+ * Version: 3.8.3
  *
  * @package lumiere-movies
  *
@@ -21,6 +21,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 use Imdb\Name;
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Frontend\Main;
+use Lumiere\Plugins\Plugins_Start;
 use WP_Query;
 
 /**
@@ -69,6 +70,11 @@ class Taxonomy_People_Standard {
 	private string $taxonomy_title;
 
 	/**
+	 * Class of Lumière plugins started
+	 */
+	private Plugins_Start $plugins_start;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -77,13 +83,10 @@ class Taxonomy_People_Standard {
 		$this->start_main_trait();
 
 		/**
-		 * Start Plugins_Start class in trait
-		 * Set $plugins_classes_active var in trait
-		 * @since 3.8
+		 * Get an array with all objects plugins
+		 * Always loads IMDBPHP plugin
 		 */
-		if ( count( $this->plugins_classes_active ) === 0 ) {
-			$this->maybe_activate_plugins();
-		}
+		$this->plugins_start = new Plugins_Start( [ 'imdbphp' ] );
 
 		// Build the Link Maker var in trait.
 		$this->link_maker = Link_Factory::lumiere_link_factory_start();
@@ -100,8 +103,8 @@ class Taxonomy_People_Standard {
 		 * Should allow to use AJAX in $_POST instead of $_GET
 		 * Not in use
 		 */
-		if ( $this->is_plugin_active( 'amp' ) === true && $this->is_plugin_active( 'polylang' ) === true ) { // Method in Trait Main.
-			$class_polylang = $this->plugins_classes_active['polylang'];
+		if ( $this->plugins_start->is_plugin_active( 'amp' ) === true && $this->plugins_start->is_plugin_active( 'polylang' ) === true ) { // Method in Trait Main.
+			$class_polylang = $this->plugins_start->plugins_classes_active['polylang'];
 			add_action( 'wp_ajax_amp_comment_submit', [ $class_polylang, 'amp_form_submit' ] );
 			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $class_polylang, 'amp_form_submit' ] );
 		}
@@ -134,9 +137,9 @@ class Taxonomy_People_Standard {
 		$get_title = sanitize_title( single_tag_title( '', false ) ?? '' );
 
 		// If we are in a WP taxonomy page, the info from imdbphp libraries.
-		$results = $this->plugins_classes_active['imdbphp']->search_person_name( $get_title, $this->logger->log_null() ); // no log, breaks layout, executed too early.
+		$results = $this->plugins_start->plugins_classes_active['imdbphp']->search_person_name( $get_title, $this->logger->log_null() ); // no log, breaks layout, executed too early.
 		if ( array_key_exists( 0, $results ) ) {
-			return $this->plugins_classes_active['imdbphp']->get_name_class( esc_html( $results[0]['id'] ), $this->logger->log_null() ); // no log, breaks layout, executed too early. => search the class Name using the first result found earlier.
+			return $this->plugins_start->plugins_classes_active['imdbphp']->get_name_class( esc_html( $results[0]['id'] ), $this->logger->log_null() ); // no log, breaks layout, executed too early. => search the class Name using the first result found earlier.
 		}
 		return null;
 	}
@@ -242,7 +245,7 @@ class Taxonomy_People_Standard {
 		get_header();
 
 		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -281,7 +284,7 @@ class Taxonomy_People_Standard {
 		</header>
 		<?php
 		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>

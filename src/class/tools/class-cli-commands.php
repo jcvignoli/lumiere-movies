@@ -172,10 +172,10 @@ class Cli_Commands {
 		}
 
 		// Build the constant to call in Get_Options - can be admin, cache or data
-		$settings_name = constant( '\Lumiere\Tools\Get_Options::LUMIERE_' . strtoupper( $args[1] ) . '_OPTIONS' );
+		$settings_name = '\Lumiere\Tools\Get_Options::get_' . strtolower( $args[1] ) . '_tablename';
 
 		// Get options from DB and get the (first) array key from the passed values in $dashed_extra_args.
-		$database_options = get_option( $settings_name );
+		$database_options = get_option( $settings_name() );
 		$array_key = array_key_first( $dashed_extra_args );
 
 		// Exit if the array key doesn't exist in Lumière! DB admin options
@@ -225,7 +225,7 @@ class Cli_Commands {
 
 		// Build source filename, except if no second main argument was passed exit.
 		if ( in_array( $args[1], $template_types, true ) === true ) {
-			$source_file = constant( '\Lumiere\Tools\Get_Options::TAXO_' . strtoupper( $args[1] ) . '_THEME' );
+			$source_file = constant( '\Lumiere\Settings::TAXO_' . strtoupper( $args[1] ) . '_THEME' );
 		} else {
 			WP_CLI::error( "The extra argument must be either items or people as follows:\nwp lum copy_taxo " . implode( '|', $template_types ) . ' --template=' . implode( '|', $all ) );
 		}

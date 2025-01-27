@@ -21,7 +21,8 @@ use Lumiere\Tools\Get_Options;
 
 /**
  * Plugin to ensure Lumiere compatibility with IRP (Intelly Related Post) plugin
- * The styles/scripts are supposed to go in construct with add_action(), the methods can be called with Plugins_Start $this->active_plugins
+ * The styles/scripts are supposed to go in construct with add_action()
+ * Can method get_active_plugins() to get an extra property $active_plugins, as available in {@link Plugins_Start::activate_plugins()}
  * Executed in Frontend only
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
@@ -37,20 +38,9 @@ class Irp {
 	private array $imdb_admin_values;
 
 	/**
-	 * List of plugins active (including current class)
-	 * @var array<string> $active_plugins
-	 * @phpstan-ignore-next-line -- Property Lumiere\Plugins\Amp::$active_plugins is never read, only written -- want to keep the possibility in the future
-	 */
-	private array $active_plugins;
-
-	/**
 	 * Constructor
-	 * @param array<string> $active_plugins
 	 */
-	final public function __construct( array $active_plugins ) {
-
-		// Get the list of active plugins.
-		$this->active_plugins = $active_plugins;
+	final public function __construct() {
 
 		// Get the values from database.
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
@@ -59,11 +49,6 @@ class Irp {
 		add_filter( 'the_content', [ $this, 'lumiere_remove_irp_if_relevant' ], 11, 1 );
 
 	}
-
-	/**
-	 * Static start for extra functions not to be run in self::__construct. No $this available!
-	 */
-	public static function start_init_hook(): void {}
 
 	/**
 	 * Detect if there is a movie in the post

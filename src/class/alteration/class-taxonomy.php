@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Get_Options;
-use Lumiere\Plugins\Manual\Logger;
+use Lumiere\Plugins\Logger;
 use Exception;
 use WP_Query;
 

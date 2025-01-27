@@ -15,7 +15,7 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 
 use Lumiere\Admin\Copy_Template_Taxonomy;
 use Lumiere\Admin\Detect_New_Template_Taxo;
-use Lumiere\Plugins\Manual\Logger;
+use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Get_Options;
 
 /**

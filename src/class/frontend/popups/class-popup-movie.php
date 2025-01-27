@@ -54,7 +54,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 		 */
 		$movie_id = $this->get_movieid( Validate_Get::sanitize_url( 'mid' ), Validate_Get::sanitize_url( 'film' ) );
 		$this->movie_class = $this->get_title_class( $movie_id );
-		$this->page_title = $this->get_title( null );
+		$this->page_title = $this->get_title( null /** must pass something due to interface, but will with Movie class the title */ );
 
 		/**
 		 * Display title
@@ -85,7 +85,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 	/**
 	 * Get the title of the page
 	 *
-	 * @param string|null $title Movie's name sanitized
+	 * @param string|null $title Movie's name sanitized -- Here not in use, using Title imdb class to get the title
 	 * @return string
 	 * @since 4.0 lowercase, less cache used.
 	 */
@@ -119,13 +119,13 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 			$this->logger->log()->debug( '[Lumiere][Popup_Movie] Movie title provided in URL: ' . esc_html( $movie_title ) );
 
 			// Search the movie's ID according to the title.
-			$search = $this->plugins_classes_active['imdbphp']?->search_movie_title(
+			$search = $this->plugins_classes_active['imdbphp']->search_movie_title(
 				esc_html( $movie_title ),
 				$this->logger->log(),
 			);
 
 			// Keep the first occurrence.
-			$final_movie_id = isset( $search[0] ) && isset( $search[0]['imdbid'] ) ? esc_html( $search[0]['imdbid'] ) : null;
+			$final_movie_id = isset( $search[0] ) ? esc_html( $search[0]['imdbid'] ) : null;
 		}
 
 		// Exit if no movie was found.

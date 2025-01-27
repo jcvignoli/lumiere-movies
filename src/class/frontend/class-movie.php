@@ -25,6 +25,9 @@ use Lumiere\Frontend\Movie_Data;
  * It uses ImdbPHP Classes to display movies/people data
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Movie {
 
@@ -47,9 +50,21 @@ class Movie {
 	public static int $nb_of_movies = 0;
 
 	/**
-	 * Class constructor
+	 * Lumière plugins started
+	 *
+	 * @var array<string, object>
+	 * @phpstan-var array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES}
 	 */
-	public function __construct() {
+	private array $plugins_classes_active;
+
+	/**
+	 * Class constructor
+	 * @param array<string, object> $plugins_classes_active
+	 * @phpstan-param array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES} $plugins_classes_active
+	 */
+	public function __construct( array $plugins_classes_active ) {
+
+		$this->plugins_classes_active = $plugins_classes_active;
 
 		// Construct Frontend Main trait.
 		$this->start_main_trait();
@@ -74,9 +89,11 @@ class Movie {
 	 *
 	 * @return void Build the class
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
+	 * @param array<string, object> $plugins_classes_active
+	 * @phpstan-param array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES} $plugins_classes_active
 	 */
-	public static function lumiere_movie_start (): void {
-		$start = new self();
+	public static function start( array $plugins_classes_active ): void {
+		$start = new self( $plugins_classes_active );
 	}
 
 	/**
@@ -143,15 +160,6 @@ class Movie {
 
 		// Using singleton to display only once.
 		if ( $this->movie_run_once === false ) {
-
-			/**
-			 * Maybe activate Lumière plugins if needed
-			 * Is instanciated only if not instanciated already
-			 * Always loads IMDBPHP plugin
-			 *
-			 * @see Lumiere\Frontend\Main
-			 */
-			$this->maybe_activate_plugins();
 
 			// Log the current link maker
 			$this->logger->log()->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
@@ -388,7 +396,7 @@ class Movie {
 				$method = 'lum_movies_' . $data_detail;
 
 				// Get the child class with the methods.
-				$movie_data_class = new Movie_Data();
+				$movie_data_class = new Movie_Data( $this->plugins_classes_active );
 
 				// Build the final class+method with the movie_object.
 				if ( ! method_exists( $movie_data_class, $method ) ) {

@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class of Logging.
+ * Class extanding Monolog Logger.
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Plugins\Manual;
+namespace Lumiere\Plugins;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -30,7 +30,8 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Processor\IntrospectionProcessor;
 
 /**
- * Plugin for Monolog Logger
+ * Using Monolog Logger
+ * @Todo: Very poorly written, should extend Monolog
  */
 class Logger {
 

@@ -18,14 +18,19 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use Lumiere\Frontend\Main;
 use Lumiere\Tools\Validate_Get;
+use Lumiere\Plugins\Plugins_Start;
 
 /**
  * Edit <head> for popups
  * Meant to be extended on children classes
  *
  * @since 3.11 created
- * @since 4.1 removed plugins related matter, moved to relevant classes, added activate plugins and trait Main
  * @since 4.3 Is parent class, bots and nonce validation moved from class Frontend to here
+ *
+ * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Head_Popups {
 
@@ -33,6 +38,14 @@ class Head_Popups {
 	 * Traits
 	 */
 	use Main;
+
+	/**
+	 * Lumière plugins started
+	 *
+	 * @var array<string, object>
+	 * @phpstan-var array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES}
+	 */
+	protected array $plugins_classes_active;
 
 	/**
 	 * Constructor
@@ -52,8 +65,12 @@ class Head_Popups {
 		// Check nonce or exit.
 		$this->check_nonce();
 
-		// Get Lumière plugins.
-		$this->maybe_activate_plugins(); // In Trait Main.
+		/**
+		 * Get an array with all objects plugins
+		 * Always loads IMDBPHP plugin
+		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp'. => it does, just called using it!)
+		 */
+		$this->plugins_classes_active = ( new Plugins_Start( [ 'imdbphp' ] ) )->plugins_classes_active;
 
 		/**
 		 * Ban bots
@@ -92,7 +109,7 @@ class Head_Popups {
 	 */
 	public function display_plugins_log(): void {
 
-		// Log Plugins_Start, $this->plugins_classes_active in Main trait.
+		// Log Plugins_Start
 		$this->logger->log()->debug( '[Lumiere][Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 	}
 
@@ -132,7 +149,7 @@ class Head_Popups {
 	public function add_metas_popups(): void {
 
 		// Make sure we use cache. User may have decided not to use cache, but we need to accelerate the call.
-		$this->plugins_classes_active['imdbphp']?->activate_cache();
+		$this->plugins_classes_active['imdbphp']->activate_cache();
 
 		$my_canon = '';
 		$sanitized_film = Validate_Get::sanitize_url( 'film' );
@@ -182,7 +199,7 @@ class Head_Popups {
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
 			$person = $this->plugins_classes_active['imdbphp']->get_name_class( $sanitized_mid, $this->logger->log() );
-			if ( strlen( $person->name() ) > 0 ) {
+			if ( $person->name() !== null && strlen( $person->name() ) > 0 ) {
 				echo "\n" . '<meta property="article:tag" content="' . esc_attr( $person->name() ) . '" />';
 			}
 		}

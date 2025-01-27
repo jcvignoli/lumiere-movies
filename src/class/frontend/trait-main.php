@@ -17,8 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Link_Makers\Link_Factory;
-use Lumiere\Plugins\Manual\Logger;
-use Lumiere\Plugins\Plugins_Start;
+use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Settings_Global;
 
@@ -37,16 +36,6 @@ trait Main {
 	 * Traits
 	 */
 	use Settings_Global;
-
-	/**
-	 * Classes that have been activated
-	 *
-	 * @var array<mixed> $plugins_classes_active
-	 *
-	 * @see Plugins_Start::plugins_classes_active
-	 * @since 4.1
-	 */
-	public array $plugins_classes_active = [];
 
 	/**
 	 * Class for building links, i.e. Highslide
@@ -84,47 +73,6 @@ trait Main {
 	}
 
 	/**
-	 * Get the list of active plugins and send an array to current trait properties
-	 *
-	 * @param array<string, string>|null $extra_class An extra class to instanciate
-	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_class An extra class to instanciate
-	 * @since 4.1
-	 */
-	public function activate_plugins( ?array $extra_class = [] ): void {
-		$this->plugins_classes_active = ( new Plugins_Start( $extra_class ) )->plugins_classes_active;
-	}
-
-	/**
-	 * Build list of active plugins and send them in properties
-	 * Always add an IMDBPHP extra class, needed by all classes.
-	 *
-	 * @param array<string, string>|null $extra_class Optional, An extra class to instanciate
-	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS, AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_class An extra class to instanciate
-	 * @return void Extra classes have been instanciated
-	 * @since 4.1
-	 */
-	public function maybe_activate_plugins( ?array $extra_class = [] ): void {
-		$always_load = [];
-		$extra_class ??= [];
-		if ( count( $this->plugins_classes_active ) === 0 ) {
-			$always_load['imdbphp'] = 'imdbphp';
-			$all_classes = array_merge( $always_load, $extra_class );
-			$this->activate_plugins( $all_classes );
-		}
-	}
-
-	/**
-	 * Is the plugin activated?
-	 *
-	 * @since 4.3
-	 * @param string $plugin Plugin's name
-	 * @return bool True if active
-	 */
-	public function is_plugin_active( string $plugin ): bool {
-		return in_array( $plugin, array_keys( $this->plugins_classes_active ), true );
-	}
-
-	/**
 	 * Are we currently on an AMP URL?
 	 * Always return `false` and show PHP Notice if called before the `wp` hook.
 	 *
@@ -134,16 +82,6 @@ trait Main {
 	public function lumiere_is_amp_page(): bool {
 
 		global $pagenow;
-
-		// If url contains ?amp, it must be an AMP page
-		/** untrue, @obsolete since 4.3
-		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), '?amp' )
-		|| isset( $_GET ['wpamp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
-		|| isset( $_GET ['amp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
-		) {
-			return true;
-		}
-		*/
 
 		/** @psalm-suppress RedundantCondition, UndefinedConstant -- Psalm can't deal with dynamic constants */
 		if (
@@ -161,11 +99,19 @@ trait Main {
 		}
 
 		// Since we are checking later (amp_is_request()) a function which is executed late, make sure we are allowed execute it
-		if ( did_action( 'wp' ) === 0 ) {
-			return false; // If wp wasn't executed, we can't use amp_is_request()
+		if ( did_action( 'wp' ) === 1 && function_exists( 'amp_is_request' ) && amp_is_request() ) {
+			return true;
 		}
 
-		return function_exists( 'amp_is_request' ) && amp_is_request();
+		// If url contains ?amp, it must be an AMP page
+		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), '?amp' )
+		|| isset( $_GET ['wpamp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
+		|| isset( $_GET ['amp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
+		) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

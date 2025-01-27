@@ -31,6 +31,10 @@ use Lumiere\Admin\Widget_Selection;
  *
  * @see \Lumiere\Admin\Metabox_Selection Select the metadata to display, whether output auto title widget or not
  * @see \Lumiere\Frontend\Widget_Legacy Is used if the legacy widget is in use
+ *
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Widget_Frontpage {
 
@@ -111,15 +115,17 @@ class Widget_Frontpage {
 	 * Constructor. Sets up the widget name, description, etc.
 	 * Use Legacy widget if no active Block widget and active Legacy widget are found
 	 * Otherwise use shortcode to display data
+	 *
+	 * @param array<string, object> $plugins_classes_active
+	 * @phpstan-param array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES} $plugins_classes_active
 	 * @return void Either Legacy of Post-5.8 widget displayed
 	 */
-	public function __construct() {
+	public function __construct( array $plugins_classes_active ) {
 
 		// Construct Frontend trait.
 		$this->start_main_trait();
 
-		// @TODO : when updating to PHP8.2, pass this in the constructor params
-		$this->movie_class = new Movie();
+		$this->movie_class = new Movie( $plugins_classes_active );
 
 		// If pre-5.8 widget is active and Block Widget unactive, use Widget_Legacy class.
 		if (
@@ -138,9 +144,11 @@ class Widget_Frontpage {
 
 	/**
 	 * Statically start the class
+	 * @param array<string, object> $plugins_classes_active
+	 * @phpstan-param array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES} $plugins_classes_active
 	 */
-	public static function lumiere_widget_frontend_start(): void {
-		$that = new self();
+	public static function start( array $plugins_classes_active ): void {
+		$that = new self( $plugins_classes_active );
 	}
 
 	/**

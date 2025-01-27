@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.2.1
+ * Version: 3.2.2
  *
  * @package lumiere-movies
  *
@@ -19,6 +19,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Frontend\Main;
+use Lumiere\Plugins\Plugins_Start;
 use WP_Query;
 
 /**
@@ -36,6 +37,11 @@ class Taxonomy_Items_Standard {
 	 * Traits
 	 */
 	use Main;
+
+	/**
+	 * Class of Lumière plugins started
+	 */
+	private Plugins_Start $plugins_start;
 
 	/**
 	 * Set to true to activate the sidebar
@@ -68,13 +74,10 @@ class Taxonomy_Items_Standard {
 		$this->start_main_trait();
 
 		/**
-		 * Start Plugins_Start class in trait
-		 * Set $plugins_active_names and $plugins_classes_active var in trait
-		 * @since 3.8
+		 * Get an array with all objects plugins
+		 * Always loads IMDBPHP plugin
 		 */
-		if ( count( $this->plugins_classes_active ) === 0 ) {
-			$this->maybe_activate_plugins();
-		}
+		$this->plugins_start = new Plugins_Start( [ 'imdbphp' ] );
 
 		// Build the taxonomy name.
 		$this->taxonomy = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] . 'standard' );
@@ -144,7 +147,7 @@ class Taxonomy_Items_Standard {
 		get_header();
 
 		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -252,7 +255,7 @@ class Taxonomy_Items_Standard {
 		</header>
 		<?php
 		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log()->debug( '[Lumiere][Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>

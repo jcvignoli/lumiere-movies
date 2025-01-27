@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Plugins\Manual\Logger;
+use Lumiere\Plugins\Logger;
 use Lumiere\Settings;
 
 /**

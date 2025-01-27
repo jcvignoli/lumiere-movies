@@ -1,7 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
  * Class to send variables to IMDbGraphqlPHP class.
- * This allows to use IMDbGraphqlPHP with customised value of Lumière
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -101,11 +100,12 @@ class Imdbphp extends Imdbphp_Config {
 	 * @param string $title Movie's name
 	 * @param Logger|null $logger
 	 * @return array<array-key, array<string, \Imdb\Title|string>>
+	 * @phpstan-return TITLESEARCH_RETURNSEARCH
 	 */
 	public function search_movie_title( string $title, Logger|null $logger = null ): array {
 		$search = new TitleSearch( $this, $logger );
 		$return = $search->search( esc_html( $title ), Get_Options::get_type_search() );
-		/** @phpstan-var TITLESEARCH_RETURNSEARCH $return Dunno why it must be precised here again... */
+		/** @psalm-var TITLESEARCH_RETURNSEARCH $return Dunno why it must be precised here again... */
 		return $return;
 	}
 
@@ -126,7 +126,7 @@ class Imdbphp extends Imdbphp_Config {
 	 * Can execute all methods of the class Title, fits perfectly in a class property
 	 *
 	 * @param string $movie_id Movie's id to do the Title's query
-	 * @return Title class instanciated with the movie's id
+	 * @return \Imdb\Title class instanciated with the movie's id
 	 */
 	public function get_title_class( string $movie_id, Logger|null $logger = null ): Title {
 		return new Title( $movie_id, $this, $logger );
@@ -137,7 +137,7 @@ class Imdbphp extends Imdbphp_Config {
 	 * Can execute all methods of the class Title, fits perfectly in a class property
 	 *
 	 * @param string $person_id Person's id to do the Name's query
-	 * @return Name class instanciated with the person's id
+	 * @return \Imdb\Name class instanciated with the person's id
 	 */
 	public function get_name_class( string $person_id, Logger|null $logger = null ): Name {
 		return new Name( $person_id, $this, $logger );
