@@ -9,9 +9,8 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types: [ wp_plugin_check ]
-# Automatic run disabled
-#  push:
-#    branches: "*"
+  push:
+    branches: "*"
   pull_request:
 jobs:
   standard:
