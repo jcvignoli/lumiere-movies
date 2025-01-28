@@ -6599,16 +6599,16 @@
         },
         {
             "name": "skaut/wordpress-stubs",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/skaut/wordpress-stubs.git",
-                "reference": "81de215d5711d1ad165eb94d5d3889b7d0bfe654"
+                "reference": "c60941f9614e779312b32b4694356d7626f19230"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/skaut/wordpress-stubs/zipball/81de215d5711d1ad165eb94d5d3889b7d0bfe654",
-                "reference": "81de215d5711d1ad165eb94d5d3889b7d0bfe654",
+                "url": "https://api.github.com/repos/skaut/wordpress-stubs/zipball/c60941f9614e779312b32b4694356d7626f19230",
+                "reference": "c60941f9614e779312b32b4694356d7626f19230",
                 "shasum": ""
             },
             "require": {
@@ -6654,7 +6654,7 @@
                 "source": "https://github.com/skaut/wordpress-stubs",
                 "wiki": "https://github.com/skaut/wordpress-stubs/wiki"
             },
-            "time": "2025-01-16T14:53:28+00:00"
+            "time": "2025-01-28T08:33:48+00:00"
         },
         {
             "name": "spatie/array-to-xml",
@@ -11284,30 +11284,29 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "automattic/phpcs-neutron-ruleset": 0,
+        "lucatume/wp-browser": 0,
         "codeception/module-asserts": 0,
-        "codeception/module-cli": 0,
-        "codeception/module-db": 0,
-        "codeception/module-filesystem": 0,
         "codeception/module-phpbrowser": 0,
         "codeception/module-webdriver": 0,
+        "codeception/module-db": 0,
+        "codeception/module-filesystem": 0,
+        "codeception/module-cli": 0,
         "codeception/util-universalframework": 0,
-        "dealerdirect/phpcodesniffer-composer-installer": 0,
-        "lucatume/wp-browser": 0,
-        "phan/phan": 0,
-        "php-stubs/wp-cli-stubs": 0,
-        "phpmd/phpmd": 0,
+        "vlucas/phpdotenv": 0,
+        "wp-cli/wp-cli-bundle": 0,
         "phpseclib/phpseclib": 0,
-        "phpstan/phpstan": 0,
-        "phpstan/phpstan-strict-rules": 0,
-        "skaut/wordpress-stubs": 0,
         "squizlabs/php_codesniffer": 0,
+        "wp-coding-standards/wpcs": 0,
+        "phpmd/phpmd": 0,
+        "phpstan/phpstan": 0,
+        "automattic/phpcs-neutron-ruleset": 0,
+        "dealerdirect/phpcodesniffer-composer-installer": 0,
+        "phan/phan": 0,
+        "phpstan/phpstan-strict-rules": 0,
         "szepeviktor/phpstan-wordpress": 0,
         "vimeo/psalm": 0,
-        "vlucas/phpdotenv": 0,
         "wapmorgan/php-deprecation-detector": 0,
-        "wp-cli/wp-cli-bundle": 0,
-        "wp-coding-standards/wpcs": 0
+        "php-stubs/wp-cli-stubs": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -11316,9 +11315,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.0"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
