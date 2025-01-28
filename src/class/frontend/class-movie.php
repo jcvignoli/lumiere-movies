@@ -105,7 +105,7 @@ class Movie {
 	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title
 	 */
 	public function lumiere_show( array $imdb_id_or_title ): string {
-
+		var_dump( \Lumiere\Tools\Debug::get_hooks() );
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead PHP to a Fatal error
@@ -347,7 +347,7 @@ class Movie {
 	/**
 	 * Function external call (ie, inside a post)
 	 * Utilized to build from shortcodes
-	 * @obsolete 3.1 not using shortcodes anymore, kept for compatibility purposes -- not marking deprecated, still in use
+	 * @obsolete since 3.1 not using shortcodes anymore, kept for compatibility purposes -- not marking @deprecated, which return phan error
 	 *
 	 * @param string|null $moviename
 	 * @param string|null $filmid

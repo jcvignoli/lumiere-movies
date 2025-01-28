@@ -175,7 +175,7 @@ More flexibility for the auto title widget users: You can now prevent a post fro
 
 = 4.3.2 =
 
-Taxonomy template in user template folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate (etc)" in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated.
+Taxonomy template in your folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate..." in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated.
 
 = 4.3 =
 Delete the cache, as the caching system has changed.
