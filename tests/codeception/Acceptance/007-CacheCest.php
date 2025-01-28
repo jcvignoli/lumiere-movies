@@ -6,7 +6,7 @@ namespace Tests\Support;
 
 use Tests\Support\Helper\AcceptanceSettings;
 
-# Class meant to test Cache (a WebDriver is needed for JS execution)
+# Class meant to test Cache
 
 class CacheCest {
 
@@ -24,16 +24,6 @@ class CacheCest {
 	 */
 	private function login(AcceptanceTester $I) {
 		$I->login_universal($I);
-	}
-
-	/** 
-	 * Check if website is online, otherwise exit
-	 * Internet connection is needed if executed locally but to create the cache will need to fetch IMDb website
-	 */
-	public function checkCanAccessIMDB( AcceptanceTester $I, \Codeception\Module\Cli $shell ) {
-		// Make local connexion
-		$I->activateLocalMount( $I->getCustomBasePath(), $shell );
-		$I->deleteTestFileMount( $I->getCustomBasePath(), $shell );
 	}
 
 	/**

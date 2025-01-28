@@ -258,9 +258,7 @@ class TaxonomyCest {
 	 * @before login
 	 */
 	public function closingCest(AcceptanceTester $I){
-
 		$this->maybeEnableTaxonomy($I);
-
 	}
 }
 

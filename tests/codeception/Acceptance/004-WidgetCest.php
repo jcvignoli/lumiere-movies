@@ -26,13 +26,25 @@ class WidgetCest {
 		$I->login_universal($I);
 	}
 
-	/** Check if auto title widget option display a widget based on the title of the page
+	/**
+	 * Prepare wordpress
+	 * @before login
+	 */
+	public function prepare( AcceptanceTester $I ) {
+		// Title needs to be activated for finding the titles
+		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL);
+		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_settings' );	
+	}
+
+	/**
+	 * Check if auto title widget option display a widget based on the title of the page
 	 *
 	 * @before login
 	 */
 	public function checkAutoTitleWidget( AcceptanceTester $I ) {
 		$I->wantTo('check auto title widget option');
-
+	
 		// Activate Auto Title Widget
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');

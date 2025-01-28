@@ -52,7 +52,8 @@ class UninstallCest {
 		if ( $I->getRemoteOrLocal() === 'remote' ) {
 			$this->remoteUninstall( $I, $shell );
 		} elseif ( $I->getRemoteOrLocal() === 'local' ) {
-			$this->localUninstall( $I, $shell );
+			$this->localUninstallPartI( $I, $shell );
+			$this->localUninstallPartII( $I, $shell );
 		} else {
 			Assert::fail('!!Neither local nor remote environment, something strange happened!!');
 		}
@@ -61,8 +62,10 @@ class UninstallCest {
 	/**
 	 * Uninstall the plugin to do the tests on a fresh install -LOCAL
 	 * Take into account that a symbolic link is used
+	 * First part of the method, goes until the uninstall
+	 * @before login
 	 */
-	private function localUninstall(AcceptanceTester $I, \Codeception\Module\Cli $shell) {
+	private function localUninstallPartI(AcceptanceTester $I, \Codeception\Module\Cli $shell) {
 
 		// Build the path vars
 		$wpcontent = $I->getCustomBasePath() . '/wp-content'; // In acceptance helper
@@ -95,7 +98,19 @@ class UninstallCest {
 
 		// Uninstall plugin
 		$this->uninstall_plugin( $I );
+	}
 		
+	/**
+	 * Second part of the method, meant to see if the plugin uninstalled is seen as uninstalled
+	 * @before login
+	 */
+	private function localUninstallPartII(AcceptanceTester $I, \Codeception\Module\Cli $shell) {
+
+		// Build the path vars
+		$wpcontent = $I->getCustomBasePath() . '/wp-content'; // In acceptance helper
+		$wpplugins = $wpcontent . '/plugins';
+		$dir_plugin_lumiere = $wpplugins . '/lumiere-movies';
+
 		// Revert back the saved plugin directory
 		$I->comment(Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan'));
 		
@@ -103,12 +118,7 @@ class UninstallCest {
 		// These tricks are meant to ensure we really don't see the plugin anymore, it fails quite often
 		$I->amOnPluginsPage();
 		$I->reloadPage();
-		$I->scrollTo('#deactivate-lost-highway-extra-functions');
-		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL_FR );
-		$I->amOnPluginsPage();
-		$I->reloadPage();
-		$I->scrollTo('#deactivate-lost-highway-extra-functions');
-		$I->dontSeePluginInstalled('lumiere-movies');
+		$I->dontSeePluginInstalled('lumiere-movies'); // trying method below.
 		$I->comment( 'Move back the symbolic link' );		
 		$shell->runShellCommand('mv ' . $wpcontent . '/lumiere-save ' . $dir_plugin_lumiere );
 
@@ -128,6 +138,7 @@ class UninstallCest {
 	
 	/**
 	 * Uninstall the plugin to do the tests on a fresh install - REMOTE
+	 * @before login
 	 */
 	private function remoteUninstall(AcceptanceTester $I, \Codeception\Module\Cli $shell) {
 	
@@ -167,7 +178,8 @@ class UninstallCest {
 		// Delete saved lumiere-movies folder in wp-content
 		$I->amOnPluginsPage();
 		$I->wait(2);
-		$I->seePluginInstalled('lumiere-movies');
+//		$I->seePluginInstalled('lumiere-movies');
+		$I->seePluginFileFound('lumiere-movies/lumiere-movies.php');
 		$I->comment( Helper\Color::set('Deleting temporary plugin directory...', 'yellow+blink') );
 		$shell->runShellCommand( 'ssh ' . $remote_cred . " 'rm -R " . $remote_wpcontent_path . "/lumiere-movies'");
 

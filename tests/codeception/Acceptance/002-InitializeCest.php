@@ -64,13 +64,14 @@ class InitializeCest {
 	}
 	
 	/** 
+	 * Polylang compatibility
 	 * Make sure that taxonomies and their URL are created first in French, so they take the extension "-en" which is needed for the tests
 	 * Taxonomy URLs depends on the first time they're called: if in French, the english's ones will take "-en" once they're created.
 	 *
 	 * @before login
 	 */
 	public function ensureTaxoLinksGetCorrectExt(AcceptanceTester $I) {
-
+		$I->maybeActivatePlugin('polylang');
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL_FR );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL_FR_TWO );
 	}

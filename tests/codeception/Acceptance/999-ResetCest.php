@@ -132,8 +132,29 @@ class EndCest {
 	 * @before login
 	 */
 	public function removeAutotitlewidgetPostExclusion(AcceptanceTester $I) {
-	
-		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
+		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID );
 		$I->CustomDisableCheckbox('#lumiere_autotitlewidget_perpost', 'input[id=publish]' );
 	}
+	
+	/**
+	 * Copy cached save to cache directory
+	 */
+	public function copyFullCache(AcceptanceTester $I) {
+		$I->cleanDir( $I->getCustomBasePath() .  '/wp-content/cache/lumiere');
+		$I->copyDir( $I->getCustomBasePath() . '/wp-content/cache/lumiere_save', $I->getCustomBasePath() . '/wp-content/cache/lumiere/' );
+	}
+	
+	/**
+	 * Activate crons for cache
+	 *
+	 * @before login
+	 */
+	public function activateCrons(AcceptanceTester $I) {	
+		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
+		$I->scrollTo('#imdb_imdbcachekeepsizeunder_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbcachekeepsizeunder_yes', '#lumiere_update_cache_settings' );
+		$I->scrollTo('#imdb_imdbcacheautorefreshcron_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbcacheautorefreshcron_yes', '#lumiere_update_cache_settings' );	
+	}
+
 }

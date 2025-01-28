@@ -106,10 +106,10 @@ class PolylangCest {
 	 * @before login
 	 */
 	public function checkCustomTaxoPolylangForcedActivated( AcceptanceTester $I ) {
-			$I->maybeActivatePlugin('polylang');
-			$I->amOnAdminPage('/admin.php?page=mlang_settings');
-			$I->seeInPageSource('<input name="taxonomies[lumiere-director]" type="checkbox" value="1" checked="checked" disabled="disabled">' );
-			$I->seeInPageSource('<input name="taxonomies[lumiere-genre]" type="checkbox" value="1" checked="checked" disabled="disabled">' );
+		$I->maybeActivatePlugin('polylang');
+		$I->amOnAdminPage('/admin.php?page=mlang_settings');
+		$I->seeInPageSource('<input name="taxonomies[lumiere-director]" type="checkbox" value="1" checked="checked" disabled="disabled">' );
+		$I->seeInPageSource('<input name="taxonomies[lumiere-genre]" type="checkbox" value="1" checked="checked" disabled="disabled">' );
 	}
 }
 
