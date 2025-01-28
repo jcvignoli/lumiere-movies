@@ -138,7 +138,8 @@ class Widget_Frontpage {
 
 		/**
 		 * Regular post-5.8 widgets.
-		 * Check deactivated: the condition prevents some customized WP to see the widget https://wordpress.org/support/topic/4-3-2-1/page/2/
+		 * @INFO Check deactivated: the condition prevents some customized WP to see the widget https://wordpress.org/support/topic/4-3-2-1/page/2/
+		 * @INFO Perhaps changing Widget_Selection::lumiere_block_widget_isactive() could fix it
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 		 */
 		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'shortcode_parser' ] );
@@ -215,15 +216,6 @@ class Widget_Frontpage {
 			return '';
 		}
 
-		/**
-		 * If autopost widget is active, the validation test of AMP would create any random cache.
-		 * The calling class is detected and if the Lumière autopost widget is active, exit.
-		 */
-		if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' && $this->is_amp_validation_and_autopost() === true ) {
-			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is an AMP test, exiting to save server resources' );
-			return '';
-		}
-
 		// Log what widget type is in use.
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
@@ -276,13 +268,6 @@ class Widget_Frontpage {
 
 		// Output the result in a layout wrapper.
 		return $this->wrap_widget_content( $title_box, $movie );
-	}
-
-	/**
-	 * Check if it is an AMP validation
-	 */
-	private function is_amp_validation_and_autopost(): bool {
-		return str_contains( wp_debug_backtrace_summary(), 'AMP_Validation_Callback_Wrapper' );
 	}
 
 	/**

@@ -109,7 +109,7 @@ class Widget_Selection extends WP_Widget {
 			);
 		}
 
-		// Register Block-based Widget by default if no classic widget plugin is available
+		// Always register Block-based Widget by default.
 		add_action( 'widgets_init', [ $this, 'lumiere_register_widget_block' ], 12 );
 	}
 
@@ -228,7 +228,7 @@ class Widget_Selection extends WP_Widget {
 	 *
 	 * @param string $blockname Name of the block to look for
 	 * @return bool True if found
-	 * @since 4.1 moved from Utils to here
+	 * @INFO Perhaps "return \WP_Block_Type_Registry::get_instance()->is_registered( $blockname );" could address issue https://wordpress.org/support/topic/have-had-to-revert-to-4-3-1/ and https://wordpress.org/support/topic/4-3-2-1/
 	 */
 	public static function lumiere_block_widget_isactive( string $blockname ): bool {
 		$widget_blocks = get_option( 'widget_block' );
