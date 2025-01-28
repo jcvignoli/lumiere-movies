@@ -136,10 +136,12 @@ class Widget_Frontpage {
 			return;
 		}
 
-		// Regular post-5.8 widgets.
+		/**
+		 * Regular post-5.8 widgets.
+		 * Check deactivated: the condition prevents some customized WP to see the widget https://wordpress.org/support/topic/4-3-2-1/page/2/
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
-			add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'shortcode_parser' ] );
-		}
+		 */
+		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'shortcode_parser' ] );
 	}
 
 	/**
