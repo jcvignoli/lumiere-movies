@@ -6599,16 +6599,16 @@
         },
         {
             "name": "skaut/wordpress-stubs",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/skaut/wordpress-stubs.git",
-                "reference": "81de215d5711d1ad165eb94d5d3889b7d0bfe654"
+                "reference": "c60941f9614e779312b32b4694356d7626f19230"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/skaut/wordpress-stubs/zipball/81de215d5711d1ad165eb94d5d3889b7d0bfe654",
-                "reference": "81de215d5711d1ad165eb94d5d3889b7d0bfe654",
+                "url": "https://api.github.com/repos/skaut/wordpress-stubs/zipball/c60941f9614e779312b32b4694356d7626f19230",
+                "reference": "c60941f9614e779312b32b4694356d7626f19230",
                 "shasum": ""
             },
             "require": {
@@ -6654,7 +6654,7 @@
                 "source": "https://github.com/skaut/wordpress-stubs",
                 "wiki": "https://github.com/skaut/wordpress-stubs/wiki"
             },
-            "time": "2025-01-16T14:53:28+00:00"
+            "time": "2025-01-28T08:33:48+00:00"
         },
         {
             "name": "spatie/array-to-xml",
