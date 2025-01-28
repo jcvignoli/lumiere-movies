@@ -43,6 +43,7 @@ class Admin_Notifications {
 			'main_options_error_identical_value' => [ __( 'Wrong values. You can not select the same URL string for taxonomy pages and popups.', 'lumiere-movies' ) . ' ' . __( 'No data was saved.', 'lumiere-movies' ), 3 ],
 			'main_options_error_imdburlpopups_invalid' => [ __( 'Wrong value. The popup URL path must respect the specified value.', 'lumiere-movies' ) . ' ' . __( 'No data was saved.', 'lumiere-movies' ), 3 ],
 			'cache_delete_all_msg' => [ __( 'All cache files deleted.', 'lumiere-movies' ), 5 ],
+			'cache_refresh_ticked_msg' => [ __( 'Ticked file(s) refreshed.', 'lumiere-movies' ), 5 ],
 			'cache_delete_ticked_msg' => [ __( 'Ticked file(s) deleted.', 'lumiere-movies' ), 5 ],
 			'cache_delete_individual_msg' => [ __( 'The selected cache file was deleted.', 'lumiere-movies' ), 5 ],
 			'cache_refresh_individual_msg' => [ __( 'The selected cache file was refreshed.', 'lumiere-movies' ), 5 ],

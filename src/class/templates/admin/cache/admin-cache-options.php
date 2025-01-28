@@ -142,7 +142,7 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 					<div class="lumiere_flex_container">
 						<div id="imdb_imdbcacheautorefreshcron_id" class="lumiere_padding_right_fifteen">
-							<?php esc_html_e( 'Cache auto-refresh', 'lumiere-movies' ); ?>&nbsp;
+							<?php esc_html_e( 'Cache auto refresh', 'lumiere-movies' ); ?>&nbsp;
 							<input type="hidden" id="imdb_imdbcacheautorefreshcron_no" name="imdb_imdbcacheautorefreshcron" value="0">
 							<input type="checkbox" id="imdb_imdbcacheautorefreshcron_yes" name="imdb_imdbcacheautorefreshcron" value="1" <?php
 							if ( $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '1' ) {
@@ -153,14 +153,14 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 						echo $lumiere_imdb_cache_values['imdbcacheexpire'] === '0' ? '2592000' : esc_html( $lumiere_imdb_cache_values['imdbcacheexpire'] ); ?>">
 						</div>
 					</div>
-					<div class="explain"><?php esc_html_e( 'Auto-refresh the cache every two weeks. Selecting this option will remove the time expiration of the cache, which will be automatically set to forever.', 'lumiere-movies' ); ?><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ) ?><div class="lumiere_green"><?php
+					<div class="explain"><?php esc_html_e( 'Automatically refresh the cache over a span of two weeks. Selecting this option will remove the time expiration of the cache, which will be automatically set to forever.', 'lumiere-movies' ); ?><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ) ?><div class="lumiere_green"><?php
 
 					// Display next schedule if cron is activated
-					$lumiere_next_cron_run = wp_next_scheduled( 'lumiere_cron_autofreshcache' );
+					$lumiere_next_cron_run = get_transient( 'lum_cache_cron_refresh_all_time_started' );
 					if ( $lumiere_next_cron_run !== false && $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '1' ) {
-						$lumiere_next_cron_run = gmdate( 'd/m/Y @H:i:sa', $lumiere_next_cron_run );
+						$lumiere_next_cron_run = gmdate( 'd/m/Y @H:i:sa', intval( $lumiere_next_cron_run ) );
 						/* translators: %s is replaced with a date in numbers */
-						echo sprintf( esc_html__( 'Auto-refresh activated, next cache refresh will take place on %s', 'lumiere-movies' ), esc_html( $lumiere_next_cron_run ) );
+						echo sprintf( esc_html__( 'Currently refreshing the cache. The process will restart from the first item on %s', 'lumiere-movies' ), esc_html( $lumiere_next_cron_run ) );
 					}
 					?></div>
 					</div>

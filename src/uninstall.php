@@ -282,22 +282,21 @@ class Uninstall {
 
 	/**
 	 * Delete transients
+	 * Probably too much, who deletes transients anyway? Wordpress does it alone.
+	 * @return bool Probably always true or always false
 	 */
 	private function lumiere_delete_transients(): bool {
 
 		$processed = false;
-		if ( delete_transient( 'cron_settings_updated' ) ) {
-			$processed = true;
-			$this->logger->log()->debug( '[Lumiere][uninstall][Transients] Lumière cron_settings_updated transients deleted.' );
+		$list_transients = [ 'cron_settings_updated', 'notice_lumiere_msg', 'admin_template_pass_vars', 'lum_cache_cron_refresh_all_movie', 'lum_cache_cron_refresh_all_people', 'lum_cache_cron_refresh_all_time_started' ];
+
+		foreach ( $list_transients as $transient ) {
+			if ( delete_transient( $transient ) ) {
+				$processed = true;
+				$this->logger->log()->debug( '[Lumiere][uninstall][Transients] Lumière ' . $transient . ' transients deleted.' );
+			}
 		}
-		if ( delete_transient( 'notice_lumiere_msg' ) ) {
-			$processed = true;
-			$this->logger->log()->debug( '[Lumiere][uninstall][Transients]  Lumière notice_lumiere_msg transients deleted.' );
-		}
-		if ( delete_transient( 'admin_template_pass_vars' ) ) {
-			$processed = true;
-			$this->logger->log()->debug( '[Lumiere][uninstall][Transients]  Lumière admin_template_pass_vars transients deleted.' );
-		}
+
 		$this->logger->log()->debug( '[Lumiere][uninstall][Transients] Lumière transients deletion processed.' );
 		return $processed;
 	}

@@ -32,6 +32,11 @@ use Lumiere\Updates;
 class Cron {
 
 	/**
+	 * Number of day before the autorefresh of cache starts a new round of cache refreshing
+	 */
+	public const CACHE_DAYS_AUTO_REFRESH_ROUND = 14;
+
+	/**
 	 * @var array<string, string> $imdb_cache_values
 	 * @phpstan-var OPTIONS_CACHE $imdb_cache_values
 	 */
@@ -57,10 +62,10 @@ class Cron {
 		add_action( 'lumiere_exec_once_update', [ $this, 'lumiere_exec_once_update' ] );
 
 		// When 'lumiere_cron_deletecacheoversized' cron is scheduled, execute the following.
-		add_action( 'lumiere_cron_deletecacheoversized', [ $this, 'lumiere_cron_exec_cache' ], 0 );
+		add_action( 'lumiere_cron_deletecacheoversized', [ $this, 'lum_cache_delete_oversized' ], 0 );
 
 		// When 'lumiere_cron_autofreshcache' cron is scheduled, execute the following.
-		add_action( 'lumiere_cron_autofreshcache', [ $this, 'lumiere_cron_exec_autorefresh' ], 0 );
+		add_action( 'lumiere_cron_autofreshcache', [ $this, 'lum_cache_autorefresh' ], 0 );
 
 		// Add or remove crons.
 		add_action( 'init', [ $this, 'lumiere_add_remove_crons_cache' ], 11 );
@@ -96,13 +101,13 @@ class Cron {
 	}
 
 	/**
-	 * Cron that runs once the update
-	 * Runs once after activation or updates
+	 * Cron that runs once
+	 * Runs once after plugin activation or update
 	 * @see \Lumiere\Core
 	 */
 	public function lumiere_exec_once_update(): void {
 
-		$this->logger->log()->debug( '[Lumiere][cronClass] Cron run once started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
+		$this->logger->log()->debug( '[Lumiere][Cron] Cron run once started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
 		// Run updating process.
 		$start_update_options = new Updates();
@@ -114,29 +119,38 @@ class Cron {
 
 	/**
 	 * Cache Cron to run delete oversized cache
+	 * Relevant log executed in cache class
+	 *
+	 * @see \Lumiere\Admin\Cache_Tools::lumiere_cache_delete_files_over_limit()
 	 */
-	public function lumiere_cron_exec_cache(): void {
-
-		// $this->logger->log()->debug( '[Lumiere][cronClass] Cron delete oversized cache started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
+	public function lum_cache_delete_oversized(): void {
 
 		$cache_class = new Cache_Tools();
 		$cache_class->lumiere_cache_delete_files_over_limit(
 			intval( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] )
 		);
+
 	}
 
 	/**
 	 * Cache Cron to run autorefresh
+	 * It is bound to the custom hook 'lumiere_cron_autofreshcache', which runs x times per day/week
+	 * But lumiere_all_cache_refresh() will refresh only once per overall refresh (second parameter lumiere_all_cache_refresh())
 	 *
+	 * @see \Lumiere\Admin\Cache_Tools::lumiere_all_cache_refresh()
 	 * @since 4.0 Added method
-	 * @return void
 	 */
-	public function lumiere_cron_exec_autorefresh(): void {
+	public function lum_cache_autorefresh(): void {
+
+		$this->logger->log()->debug( '[Lumiere][Cron] Cron refreshing cache started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
 		$cache_class = new Cache_Tools();
-		$cache_class->lumiere_all_cache_refresh();
+		$cache_class->lumiere_all_cache_refresh(
+			10, /* nb of files refreshed per cron call*/
+			self::CACHE_DAYS_AUTO_REFRESH_ROUND /* nb of days before having a new overall refresh */
+		);
 
-		$this->logger->log()->debug( '[Lumiere][cronClass] Cron refreshing cache ended at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
+		$this->logger->log()->debug( '[Lumiere][Cron] Cron refreshing cache ended at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 	}
 
 	/**
@@ -177,7 +191,7 @@ class Cron {
 		) {
 			// Cron to run twice Daily, first time in 1 minute
 			wp_schedule_event( time() + 1, 'hourly', 'lumiere_cron_deletecacheoversized' );
-			$this->logger->log()->debug( '[Lumiere] Cron lumiere_cron_deletecacheoversized added' );
+			$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_deletecacheoversized added' );
 
 			// Remove cron imdbcachekeepsizeunder.
 		} elseif (
@@ -190,7 +204,7 @@ class Cron {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
 					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */
 					wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
-					$this->logger->log()->debug( '[Lumiere] Cron lumiere_cron_deletecacheoversized removed' );
+					$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_deletecacheoversized removed' );
 				}
 			}
 		}
@@ -200,6 +214,7 @@ class Cron {
 	 * Add or Remove WP Cron a monthly cron that refresh cache files
 	 *
 	 * @since 4.0 Added method
+	 * @since 4.3.3 Runs twice a day instead of every two weeks, now processing the refresh by batches + added transient to know the rounds lenght
 	 *
 	 * @return void Files exceeding provided limited are deleted
 	 */
@@ -210,12 +225,17 @@ class Cron {
 			// Add WP cron if not already registred.
 			&& wp_get_scheduled_event( 'lumiere_cron_autofreshcache' ) === false
 		) {
-
-			// Cron to run Every Two Weeks, will run for the first time next Monday.
-			$next_monday = strtotime( 'next monday', time() );
+			// Set a transient to know when is the next round of refreshing.
+			if ( get_transient( 'lum_cache_cron_refresh_all_time_started' ) === false ) {
+				$next_round_delay = self::CACHE_DAYS_AUTO_REFRESH_ROUND * 24 * 60 * 60;
+				$next_round_date = $next_round_delay + time();
+				set_transient( 'lum_cache_cron_refresh_all_time_started', $next_round_date, $next_round_delay );
+			}
+			// Cron running every day
+			$starting_time = strtotime( '+6 hours', time() );
 			/** @psalm-suppress InvalidArgument -- With time(), it's always int! */
-			wp_schedule_event( $next_monday, 'everytwoweeks', 'lumiere_cron_autofreshcache' );
-			$this->logger->log()->debug( '[Lumiere] Cron lumiere_cron_autofreshcache added' );
+			wp_schedule_event( $starting_time, 'twicedaily', 'lumiere_cron_autofreshcache' );
+			$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_autofreshcache added' );
 
 			// Remove cron imdbcacheautorefreshcron.
 		} elseif (
@@ -228,9 +248,10 @@ class Cron {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_autofreshcache' );
 					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */
 					wp_unschedule_event( $timestamp, 'lumiere_cron_autofreshcache' );
-					$this->logger->log()->debug( '[Lumiere] Cron lumiere_cron_autofreshcache removed' );
+					$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_autofreshcache removed' );
 				}
 			}
+			delete_transient( 'lum_cache_cron_refresh_all_time_started' );
 		}
 	}
 }

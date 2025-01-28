@@ -10,11 +10,12 @@
 return [
 
 	// Supported values: `'5.6'`, `'7.0'`, `'7.1'`, `'7.2'`, `'7.3'`, `'7.4'`,
-	// `'8.0'`, `'8.1'`, `null`.
+	// '8.0', '8.1', '8.2', '8.3' `null`.
 	// If this is set to `null`,
 	// then Phan assumes the PHP version which is closest to the minor version
 	// of the php executable used to execute Phan.
-	'target_php_version' => 8.0,
+	// @info: never got this to work
+	'target_php_version' => '8.0',
 
 	// Issue::SEVERITY_LOW(0), Issue::SEVERITY_NORMAL(5), Issue::SEVERITY_CRITICAL(10)
 	// Low is the highest level
@@ -73,7 +74,7 @@ return [
 	// Perfect for getting bootstrap files
 	'file_list' => [
 		//      'tests/bootstrap-testing.php', // Doesn't work as a real bootstrap, not finding below declarations
-					'tests/extra_statics_tools/constants.php',
+		'tests/extra_statics_tools/constants.php',
 		'tests/extra_statics_tools/functions.php',
 		'tests/extra_statics_tools/classes.php',
 		'vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php',

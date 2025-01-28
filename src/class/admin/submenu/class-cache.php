@@ -83,8 +83,8 @@ class Cache extends Admin_Menu {
 				[
 					$cache_tools_class->cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] ), // nb of cached files
 					$cache_tools_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ), // cache total size
-					$cache_tools_class->get_movie_cache_object(), // list of movies cached
-					$cache_tools_class->get_people_cache_object(), // list of people cached
+					$cache_tools_class->get_cache_list_per_cat( 'movie' ), // list of movies cached
+					$cache_tools_class->get_cache_list_per_cat( 'people' ), // list of people cached
 					$cache_tools_class->cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ), // picture cache size
 					$this,
 					$this->page_cache_manage,

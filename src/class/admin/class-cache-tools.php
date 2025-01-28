@@ -1,7 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
  * Cache tools class
- * Child of Admin
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
@@ -27,12 +26,13 @@ use RecursiveIteratorIterator;
 use Exception;
 
 /**
- * Methods utilized by Class Cache to delete and build cache
- * Cron class calls { @see Cache_Tools::lumiere_all_cache_refresh() }
+ * Class used by Submenu\Cache to delete and build cache
+ * Class used by Cron to set refreshes and delete files
+ * Method lumiere_create_cache() is used by many classes that need to check if cache folders exist
  *
- * @see \Lumiere\Admin\Cache
+ * @see \Lumiere\Admin\Submenu\Cache
  * @see \Lumiere\Admin\Cron
- * @since 4.0 Methods extracted from Class cache and factorized here
+ * @since 4.0 Methods extracted from Submenu\Cache class and refactored
  *
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
  */
@@ -71,11 +71,13 @@ class Cache_Tools {
 	}
 
 	/**
-	 * Delete a specific file by clicking on it
-	 * @param string $type result of $_GET['type'] to define either people or movie
-	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
+	 * Delete a specific file, either movie or people
+	 * Used by the selection in ticking the boxes, ie
+	 *
+	 * @param 'movie'|'people'|string $type Define either 'people' or 'movie'
+	 * @param string $imdb_id the people's or movie's IMDb ID
 	 */
-	public function cache_delete_specific_file( string $type, string $where ): void {
+	public function cache_delete_specific_file( string $type, string $imdb_id ): void {
 
 		$this->lumiere_wp_filesystem_cred( $this->imdb_cache_values['imdbcachedir'] ); // from Files trait.
 		global $wp_filesystem;
@@ -85,7 +87,7 @@ class Cache_Tools {
 			wp_die( esc_html__( 'Missing cache directory.', 'lumiere-movies' ) );
 		}
 
-		$id_sanitized = esc_html( $where );
+		$id_sanitized = esc_html( $imdb_id );
 
 		// delete single movie.
 		if ( $type === 'movie' ) {
@@ -141,70 +143,73 @@ class Cache_Tools {
 	}
 
 	/**
-	 * Refresh all cache files that are available
-	 * 1/ Retrieve the movies and people's IMDb IDs already cached
-	 * 2/ Delete all cache files
-	 * 3/ Recreate the cache folder (needed for images)
-	 * 4/ Recreate the cache by querying the IMDb with an incremental sleep (to avoid HTTP errors)
+	 * Refresh all cache files
 	 *
-	 * Meant to be called by cron
-	 * @see \Lumiere\Admin\Cron::lumiere_cron_exec_autorefresh()
-	 * @since 4.0 new method
+	 * 1/ Refresh the cache using $this->cache_refresh_specific_file()
+	 * 2/ Use transient to initialy store all movies to refresh in an array (transient's names either 'lum_cache_cron_refresh_all_movie' or 'lum_cache_cron_refresh_all_people'
+	 * 3/ The movies refreshed will be deleted from the array in the transiant
+	 * 4/ Only $batch_limit movies are processed per batch
+	 * 5/ A new round of refresh will happen when $days_next_start is passed
 	 *
-	 * @param int<0, max> $sleep Optional, the time to sleep before each query to IMDb (this is incremental, each new file adds 0.25 seconds by default)
+	 * @see \Lumiere\Admin\Cron::lumiere_cron_exec_autorefresh() Cron refreshes all cache
+	 * @since 4.0 Method created
+	 * @since 4.3.3 Deeply reviewed, removed sleep, using batches, using transiants => needs to be executed more often
+	 *
+	 * @param int $batch_limit OPTIONAL: number of files processed in every call to this method (every cron call)
+	 * @param int $days_next_start OPTIONAL: Number of days before starting a brand new serie of refresh.
 	 * @return void All cache files has been refreshed
 	 */
-	public function lumiere_all_cache_refresh( int $sleep = 250000 ): void {
+	public function lumiere_all_cache_refresh( int $batch_limit = 10, int $days_next_start = 14 ): void {
 
 		$refresh_ids = [];
-
-		// Get movies ids.
-		foreach ( $this->get_movie_cache_object() as $movie_title_object ) {
-			$refresh_ids['movies'][] = $movie_title_object->imdbid();
-		}
-		// Get people ids.
-		foreach ( $this->get_people_cache_object() as $people_person_object ) {
-			$refresh_ids['people'][] = $people_person_object->imdbid();
-		}
-
-		// Delete all cache, otherwise neither gql files nor pictures won't be deleted, in Admin_General Files.
-		$this->lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] );
+		$types = [ 'movie', 'people' ];
+		$day_in_seconds = 24 * 60 * 60;
 
 		// Make sure cache folder exists and is writable.
 		$this->lumiere_create_cache( true );
 
-		// Get back the movie's cache by querying the IMDb.
-		if ( isset( $refresh_ids['movies'] ) ) {
-			$i = 1;
-			foreach ( $refresh_ids['movies'] as $movie_id ) {
-				usleep( $i * $sleep ); // Add an incremental sleep, to minimize the number of queries made to IMDb
-				$this->lumiere_create_movie_file( $movie_id );
-				$i++;
-			}
-		}
+		foreach ( $types as $movie_or_people ) {
 
-		// @since 4.0.1 added a sleep
-		sleep( 10 );
+			$array_all_items = get_transient( 'lum_cache_cron_refresh_all_' . $movie_or_people );
 
-		// Get back the people's cache by querying the IMDb.
-		if ( isset( $refresh_ids['people'] ) ) {
-			$i = 1;
-			foreach ( $refresh_ids['people'] as $person_id ) {
-				usleep( $i * $sleep ); // Add an incremental sleep, to minimize the number of queries made to IMDb
-				$this->lumiere_create_people_cache( $person_id );
-				$i++;
+			// Transient didn't exist, so create an array of all movies/people in the cache and put it in a transient.
+			if ( $array_all_items === false ) {
+				foreach ( $this->get_cache_list_per_cat( $movie_or_people ) as $movie_title_object ) { // Build array of movies to refresh.
+					$refresh_ids[ $movie_or_people ][] = $movie_title_object->imdbid();
+				}
+				set_transient( 'lum_cache_cron_refresh_all_' . $movie_or_people, $refresh_ids[ $movie_or_people ], $days_next_start * $day_in_seconds );
+				$array_all_items = $refresh_ids[ $movie_or_people ];
 			}
+
+			// Everything has already been processed, exit.
+			if ( count( $array_all_items ) === 0 ) {
+				$this->logger->log()->info( '[Lumiere][Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start after the defined time ' . gmdate( 'd \d\a\y\s H:i:s', $days_next_start * $day_in_seconds ) . ' since the first run' );
+				return;
+			}
+
+			$last_row = $array_all_items !== false ? intval( array_keys( $array_all_items )[0] ) : 0;
+			$nb_remaining_rows = count( $array_all_items );
+
+			for ( $i = 0 + $last_row; $i < ( $batch_limit + $last_row ) && $i < ( $nb_remaining_rows + $last_row ); $i++ ) {
+				$this->logger->log()->info( '[Lumiere][Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . count( $array_all_items ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
+				// Refresh (delete and get it again) the item.
+				$this->cache_refresh_specific_file( $movie_or_people, $array_all_items[ $i ] );
+				// Delete the row we just processed from the array.
+				unset( $array_all_items[ $i ] );
+			}
+			// Set the transient with an updated array (processed lines were removed).
+			set_transient( 'lum_cache_cron_refresh_all_' . $movie_or_people, $array_all_items );
 		}
 	}
 
 	/**
 	 * Refresh a specific file by clicking on it
 	 *
-	 * @param 'movie'|'people'|string $type result of $_GET['type'] to define either people or movie
-	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
+	 * @param 'movie'|'people'|string $type Define either 'people' or 'movie'
+	 * @param string $imdb_id the people's or movie's IMDb ID
 	 * @return void File was refreshed (deleted and got back)
 	 */
-	public function cache_refresh_specific_file( string $type, string $where ): void {
+	public function cache_refresh_specific_file( string $type, string $imdb_id ): void {
 
 		$this->lumiere_wp_filesystem_cred( $this->imdb_cache_values['imdbcachedir'] ); // from Files trait.
 		global $wp_filesystem;
@@ -214,7 +219,7 @@ class Cache_Tools {
 			wp_die( esc_html__( 'Missing cache directory.', 'lumiere-movies' ) );
 		}
 
-		$id_sanitized = esc_html( $where );
+		$id_sanitized = esc_html( $imdb_id );
 
 		// delete single movie.
 		if ( $type === 'movie' ) {
@@ -243,7 +248,7 @@ class Cache_Tools {
 			}
 
 			// Get again the movie.
-			$this->lumiere_create_movie_file( $id_sanitized );
+			$this->create_movie_file( $id_sanitized );
 			return;
 
 		} elseif ( $type === 'people' ) {
@@ -271,7 +276,7 @@ class Cache_Tools {
 			}
 
 			// Get again the person.
-			$this->lumiere_create_people_cache( $id_sanitized );
+			$this->create_people_file( $id_sanitized );
 			return;
 		}
 		/* translators: %s is either "people" or "movie" */
@@ -282,7 +287,7 @@ class Cache_Tools {
 	 * Create Movie files
 	 * @param string $id The movie's ID
 	 */
-	public function lumiere_create_movie_file( string $id ): void {
+	private function create_movie_file( string $id ): void {
 
 		$movie = $this->imdbphp_class->get_title_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
 
@@ -320,7 +325,7 @@ class Cache_Tools {
 	 * Create People files
 	 * @param string $id The People's ID
 	 */
-	public function lumiere_create_people_cache( string $id ): void {
+	private function create_people_file( string $id ): void {
 
 		// Get again the person.
 		$person = $this->imdbphp_class->get_name_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
@@ -356,7 +361,7 @@ class Cache_Tools {
 		$files_query = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.Search.*' );
 
 		// if file doesn't exist.
-		if ( $files_query === false || count( $files_query ) < 1 ) {
+		if ( $files_query === false || count( $files_query ) === 0 ) {
 			throw new Exception( esc_html__( 'No query files found.', 'lumiere-movies' ) );
 		}
 
@@ -370,6 +375,42 @@ class Cache_Tools {
 
 			// the file exists, it is neither . nor .., so delete!
 			$wp_filesystem->delete( $cache_to_delete );
+		}
+	}
+
+	/**
+	 * Refresh several ticked files
+	 *
+	 * @param array<string> $list_ids_to_delete The list of ids of movies/people to refresh
+	 * @param 'movie'|'people'|string $type_to_delete The kind of data passed
+	 *
+	 * @since 4.3.3 Method created
+	 */
+	public function cache_refresh_ticked_files( array $list_ids_to_delete, string $type_to_delete ): void {
+
+		global $wp_filesystem;
+
+		// prevent drama.
+		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) || $wp_filesystem->is_dir( $this->imdb_cache_values['imdbcachedir'] ) === false ) {
+			wp_die( esc_html__( 'Missing cache directory.', 'lumiere-movies' ) );
+		}
+
+		// Any of the WordPress data sanitization functions can be used here
+		$ids_sanitized = array_map( 'sanitize_key', $list_ids_to_delete );
+
+		// Delete files
+		$this->cache_delete_ticked_files( $ids_sanitized, $type_to_delete );
+
+		// For People.
+		if ( $type_to_delete === 'people' ) {
+			foreach ( $ids_sanitized as $id_found ) {
+				$this->create_people_file( $id_found );
+			}
+			// For movies.
+		} elseif ( $type_to_delete === 'movie' ) {
+			foreach ( $ids_sanitized as $id_found ) {
+				$this->create_movie_file( $id_found );
+			}
 		}
 	}
 
@@ -556,14 +597,14 @@ class Cache_Tools {
 
 	/**
 	 * Delete files that are over a given limit
-	 * Visibility 'public' because called by add_action() in cron task in Core class
-	 * @see Lumiere\Core
+	 *
+	 * Cron deletes files if their size is above a given limit in {@see \Lumiere\Admin\Cron::lumiere_cron_exec_cache()}
 	 *
 	 * @param int $size_limit Limit in megabits
 	 * @return void Files exceeding provided limited are deleted
 	 */
 	public function lumiere_cache_delete_files_over_limit( int $size_limit ): void {
-		$this->logger->log()->info( '[Lumiere] Oversized Cache cron called with the following value: ' . $size_limit . ' MB' );
+		$this->logger->log()->info( '[Lumiere][Cache_Tools] Oversized Cache cron called with the following value: ' . $size_limit . ' MB' );
 		$files = $this->lumiere_cache_find_files_over_limit( $size_limit ) ?? [];
 		foreach ( $files as $file ) {
 			if ( is_file( $file ) ) {
@@ -571,22 +612,35 @@ class Cache_Tools {
 			}
 		}
 		if ( count( $files ) > 0 ) {
-			$this->logger->log()->info( '[Lumiere] Oversized Cache cron deleted the following files: ' . join( $files ) );
+			$this->logger->log()->info( '[Lumiere][Cache_Tools] Oversized Cache cron deleted the following files: ' . join( $files ) );
 			return;
 		}
-		$this->logger->log()->info( '[Lumiere] Oversized Cache cron did not find any file to delete' );
+		$this->logger->log()->info( '[Lumiere][Cache_Tools] Oversized Cache cron did not find any file to delete' );
 	}
 
 	/**
-	 * Return an array of Title object(s) for all movies in cache
-	 * Check for files starting with "gql.TitleYear.{.id...tt", then do a query with Title
+	 * Return an array of cache per category
 	 *
-	 * @return array<int, \Imdb\Title>
+	 * @see \Lumiere\Admin\Submenu\Cache Use this method to display the categories
+	 * @see self::lumiere_all_cache_refresh() Use this method to refresh all cache
+	 *
+	 * @param 'movie'|'people'|string $movie_or_people Define either 'people' or 'movie'
+	 * @return array<int, \Imdb\Title|\Imdb\Name>
 	 */
-	public function get_movie_cache_object(): array {
+	public function get_cache_list_per_cat( string $movie_or_people ): array {
+
+		$pattern_glob = [
+			'movie' => 'gql.TitleYear.{.id...tt*',
+			'people' => 'gql.Name.{.id...nm*',
+		];
+
+		$pattern_preg = [
+			'movie' => '!gql\.TitleYear\.\{\.id\.\.\.tt(\d{7,8})\.!i',
+			'people' => '!gql\.Name\.\{\.id\.\.\.nm(\d{7,8})\.!i',
+		];
 
 		// Find related files
-		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.TitleYear.{.id...tt*' );
+		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . $pattern_glob[ $movie_or_people ] );
 
 		if ( $cache_files === false || count( $cache_files ) === 0 ) {
 			return [];
@@ -594,36 +648,16 @@ class Cache_Tools {
 
 		$results = [];
 		foreach ( $cache_files as $file ) {
+
 			// Retrieve imdb id in file.
-			if ( preg_match( '!gql\.TitleYear\.\{\.id\.\.\.tt(\d{7,8})\.!i', basename( $file ), $match ) === 1 ) {
-				// Do a query using imdb id.
-				$results[] = $this->imdbphp_class->get_title_class( $match[1], $this->logger->log_null() /* keep it quiet, no logger */ );
-			}
-		}
-		return $results;
-	}
+			if ( preg_match( $pattern_preg[ $movie_or_people ], basename( $file ), $match ) === 1 ) {
 
-	/**
-	 * Return an array of Name object(s) for all people in cache
-	 * Check for files starting with "gql.Name.{.id...nm", then do a query with Name
-	 *
-	 * @return array<int, \Imdb\Name>
-	 */
-	public function get_people_cache_object(): array {
-
-		// Find related files
-		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . 'gql.Name.{.id...nm*' );
-
-		if ( $cache_files === false || count( $cache_files ) === 0 ) {
-			return [];
-		}
-
-		$results = [];
-		foreach ( $cache_files as $file ) {
-			// Retrieve imdb id in file.
-			if ( preg_match( '!gql\.Name\.\{\.id\.\.\.nm(\d{7,8})\.!i', basename( $file ), $match ) === 1 ) {
-				// Do a query using imdb id.
-				$results[] = $this->imdbphp_class->get_name_class( $match[1], $this->logger->log_null() /* keep it quiet, no logger */ );
+				// Do a query using imdb id but the function will depend on the category.
+				if ( $movie_or_people === 'movie' ) {
+					$results[] = $this->imdbphp_class->get_title_class( $match[1], $this->logger->log_null() /* keep it quiet, no logger */ );
+				} elseif ( $movie_or_people === 'people' ) {
+					$results[] = $this->imdbphp_class->get_name_class( $match[1], $this->logger->log_null() /* keep it quiet, no logger */ );
+				}
 			}
 		}
 		return $results;

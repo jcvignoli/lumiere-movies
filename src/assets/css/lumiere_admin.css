@@ -13,6 +13,10 @@
 	border-color: #ff8484;
 	background: #ff4b4b;
 }
+.red_background { /* force a red background, meant to superseed WP colors */
+	border-color: #ff8484 !important;
+	background: #ff4b4b !important;
+}
 
 .help_titles{ /** Main titles in help section */
 	cursor:pointer;

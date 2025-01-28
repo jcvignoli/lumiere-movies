@@ -1,6 +1,8 @@
 **Changelog**
 
 v.4.3.3
+* [feature] Cache: ticked people or movie can be refreshed (Cache_Tools::cache_refresh_ticked_files() created). Also improved cache files layout.
+* [feature] Cache auto-refresh entirely reviewed. It now works per batches of movies and people and is bullet-proof (Cache_Tools::lumiere_all_cache_refresh() rewritten)
 * [bug] CLI functions (copy_taxo and update_options) were broken. (Fixed the new path for Get_Options)
 
 v.4.3.2.1
@@ -9,7 +11,7 @@ v.4.3.2.1
 v.4.3.2
 * [feature] Taxonomy template in user template folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate (etc)" in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated. (new class Auto_Update_Template_Taxonomy, auto update set up in cron and executed on auto/manual Lumière update or Lumière activation)
 * [bug] Widget area limitation was too restrictive and didn't show up in custom posts pages. (rewrote exclusion in Widget_Frontpage::lum_get_widget())
-* [technical] If AMP plugin is validating pages (when activating a new plugin) Lumière is executed an may be lead to a PHP fatal error (hidden). Movie class is now executed only if it's not an AMP validation test (new exclusion rule in Movie class lumiere_show() method)
+* [technical] If AMP plugin is validating pages (when activating a new plugin) Lumière is executed and may be lead to a PHP fatal error (hidden). Movie class is now executed only if it's not an AMP validation test (new exclusion rule in Movie class lumiere_show() method)
 * [technical] Renamed "general options" into "main options"
 
 v.4.3.1
