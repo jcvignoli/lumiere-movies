@@ -105,7 +105,7 @@ class Movie {
 	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title
 	 */
 	public function lumiere_show( array $imdb_id_or_title ): string {
-		var_dump( \Lumiere\Tools\Debug::get_hooks() );
+
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead PHP to a Fatal error
