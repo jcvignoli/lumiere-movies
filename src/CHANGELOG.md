@@ -1,8 +1,11 @@
 **Changelog**
 
+v.4.3.4
+
 v.4.3.3
 * [feature] Cache: ticked people or movie can be refreshed (Cache_Files_Management::refresh_multiple_file() created). Also improved cache files layout.
 * [feature] Cache auto-refresh entirely reviewed. It now works per batches of movies and people and is bullet-proof (Cache_Files_Management::all_cache_refresh() rewritten)
+* [bug] On [customized WordPress](https://wordpress.org/support/topic/4-3-2-1/ "Bug widget"), widget is unavailable 
 * [bug] CLI functions (copy_taxo and update_options) were broken. (Fixed the new path for Get_Options)
 
 v.4.3.2.1

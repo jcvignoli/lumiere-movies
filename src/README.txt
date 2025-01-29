@@ -3,7 +3,7 @@ Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 5.6
 Tested up to: 6.7.1
-Stable tag: 4.3.3
+Stable tag: 4.3.4
 Requires PHP: 8.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -153,6 +153,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
+= 4.3.3 =
+
+Cache auto-refresh entirely reviewed. It now works per batches.
+
 = 4.3.2 =
 
 Taxonomy templates automatically updated, Widget was not executed in custom taxonomy posts (thanks Sean)
@@ -172,6 +176,10 @@ Popup spinners to make you visitors wait, nicer popup layouts, faster taxonomy p
 More flexibility for the auto title widget users: You can now prevent a post from displaying the auto title widget by ticking in the post edition's the Lumiere option "Deactivate autowidget for this post".
 
 == Upgrade Notice ==
+
+= 4.3.3 =
+
+If you automatically refresh the cache, make sure to deactivate then reactivate the option in Lumière admin.
 
 = 4.3.2 =
 
