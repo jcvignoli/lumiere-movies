@@ -145,8 +145,8 @@ class Cron {
 		$this->logger->log()->debug( '[Lumiere][Cron] Cron refreshing cache started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
 		$cache_class = new Cache_Files_Management();
-		$cache_class->all_cache_refresh(
-			10, /* nb of files refreshed per cron call*/
+		$cache_class->cron_all_cache_refresh(
+			7, /* nb of files refreshed per cron call*/
 			self::CACHE_DAYS_AUTO_REFRESH_ROUND /* nb of days before having a new overall refresh */
 		);
 
@@ -251,9 +251,9 @@ class Cron {
 					$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_autofreshcache removed' );
 				}
 			}
-			delete_transient( 'lum_cache_cron_refresh_all_time_started' );
-			delete_transient( 'lum_cache_cron_refresh_all_movie' ); // In class Cache_Files_Management.
-			delete_transient( 'lum_cache_cron_refresh_all_people' ); // In class Cache_Files_Management.
+			delete_transient( 'lum_cache_cron_refresh_time_started' );
+			delete_transient( 'lum_cache_cron_refresh_store_movie' ); // In class Cache_Files_Management.
+			delete_transient( 'lum_cache_cron_refresh_store_people' ); // In class Cache_Files_Management.
 		}
 	}
 }

@@ -34,15 +34,14 @@ use Lumiere\Tools\Validate_Get;
  * @link Polylang reference hooks https://polylang.pro/doc/filter-reference/
  *
  * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  */
 class Polylang {
 
 	/**
 	 * Array of plugins currently in use
 	 *
-	 * @phpstan-var non-empty-array<'AVAILABLE_AUTO_CLASSES_KEYS'|'AVAILABLE_MANUAL_CLASSES_KEYS', class-string<AVAILABLE_PLUGIN_CLASSES>>
+	 * @phpstan-var array{AVAILABLE_PLUGIN_CLASSES_KEYS?: class-string<AVAILABLE_PLUGIN_CLASSES>}
 	 * @var array<string, class-string>
 	 */
 	private array $active_plugins;
@@ -75,7 +74,7 @@ class Polylang {
 
 	/**
 	 * Get for extra params not to be run in self::__construct. Automatically executed from Plugins_Start
-	 * @phpstan-param non-empty-array<'AVAILABLE_AUTO_CLASSES_KEYS'|'AVAILABLE_MANUAL_CLASSES_KEYS', class-string<AVAILABLE_PLUGIN_CLASSES>> $active_plugins
+	 * @phpstan-param array{AVAILABLE_PLUGIN_CLASSES_KEYS?: class-string<AVAILABLE_PLUGIN_CLASSES>} $active_plugins
 	 * @param array<string, class-string> $active_plugins
 	 */
 	public function get_active_plugins( array $active_plugins ): void {
@@ -154,7 +153,7 @@ class Polylang {
 		/**
 		 * Use AMP form if AMP plugin is active
 		 */
-		if ( in_array( 'amp', array_keys( $this->active_plugins ), true ) === true ) {
+		if ( in_array( 'amp', $this->active_plugins, true ) === true ) {
 			return $this->amp_form_polylang_selection( $all_lang_array, $selected_lang );
 		}
 

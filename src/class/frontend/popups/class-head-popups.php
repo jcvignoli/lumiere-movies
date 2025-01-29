@@ -29,7 +29,6 @@ use Lumiere\Plugins\Plugins_Start;
  *
  * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Head_Popups {

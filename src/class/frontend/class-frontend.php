@@ -57,7 +57,7 @@ class Frontend {
 		 * Get an array with all objects plugins
 		 * Always loads IMDBPHP plugin
 		 */
-		$plugins_start = new Plugins_Start( [ 'imdbphp' ] );
+		$plugins_start = ( new Plugins_Start( [ 'imdbphp' ] ) )->plugins_classes_active;
 
 		// Registers javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_register_assets' ] );
@@ -67,15 +67,13 @@ class Frontend {
 
 		/**
 		 * Display movie(s) into the post.
-		 * @phpstan-ignore argument.type ("Array does not have offset 'imdbphp'" => just called it above!)
 		 */
-		add_action( 'init', fn() => Movie::start( $plugins_start->plugins_classes_active ), 11 );
+		add_action( 'init', fn() => Movie::start( $plugins_start ), 11 );
 
 		/**
 		 * Display Widget
-		 * @phpstan-ignore argument.type ("Array does not have offset 'imdbphp'" => just called it above!)
 		 */
-		add_action( 'init', fn() => Widget_Frontpage::start( $plugins_start->plugins_classes_active ), 11 );
+		add_action( 'init', fn() => Widget_Frontpage::start( $plugins_start ), 11 );
 
 		// Display popups.
 		add_filter( 'template_include', [ $this, 'popup_redirect_include' ] );

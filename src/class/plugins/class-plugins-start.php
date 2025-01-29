@@ -38,7 +38,7 @@ class Plugins_Start {
 	 * The active class can be used when they exist and called with this property
 	 *
 	 * @var array<string, object>
-	 * @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES, 'imdbphp'?: AVAILABLE_MANUAL_CLASSES}
+	 * @phpstan-var array{AVAILABLE_PLUGIN_CLASSES_KEYS?: AVAILABLE_PLUGIN_CLASSES}
 	 */
 	public array $plugins_classes_active;
 
@@ -65,9 +65,9 @@ class Plugins_Start {
 	 * Classes are located in Plugins_Detect::SUBFOLDER_PLUGINS_BIT
 	 *
 	 * @param array<string, class-string> $active_plugins
-	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>, AVAILABLE_MANUAL_CLASSES_KEYS?: class-string<AVAILABLE_MANUAL_CLASSES>} $active_plugins
+	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS?: class-string<AVAILABLE_AUTO_CLASSES>, AVAILABLE_MANUAL_CLASSES_KEYS?: class-string<AVAILABLE_MANUAL_CLASSES>} $active_plugins
 	 * @return array<string, object> Classes have been activated
-	 * @phpstan-return array{AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES, AVAILABLE_MANUAL_CLASSES?: AVAILABLE_MANUAL_CLASSES}
+	 * @phpstan-return array{AVAILABLE_MANUAL_CLASSES_KEYS?: AVAILABLE_MANUAL_CLASSES}
 	 */
 	private function activate_plugins( array $active_plugins ): array {
 
@@ -93,9 +93,9 @@ class Plugins_Start {
 	 * @param array<string> $extra_classes Extra classes to add, ie [ 'imdbphp' ]
 	 * @phpstan-param non-empty-array<AVAILABLE_MANUAL_CLASSES_KEYS> $extra_classes
 	 * @param array<string, class-string> $array_plugin_names
-	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>} $array_plugin_names
+	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS?: class-string<AVAILABLE_AUTO_CLASSES>} $array_plugin_names
 	 * @return array<string, class-string>
-	 * @phpstan-return array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>, AVAILABLE_MANUAL_CLASSES_KEYS?: class-string<AVAILABLE_MANUAL_CLASSES>}
+	 * @phpstan-return array{AVAILABLE_PLUGIN_CLASSES_KEYS?: class-string<AVAILABLE_PLUGIN_CLASSES>}
 	 */
 	private function add_manual_to_auto_plugins( array $extra_classes, array $array_plugin_names ): array {
 

@@ -20,7 +20,7 @@ use Lumiere\Frontend\Main;
 
 /**
  * Detect which WP plugins are available in SUBFOLDER_PLUGINS_BIT subfolder and are active
- * This class only returns automatically finded classes
+ * This class only returns automatically found classes
  *
  * @phpstan-type AVAILABLE_AUTO_CLASSES \Lumiere\Plugins\Auto\Amp|\Lumiere\Plugins\Auto\Oceanwp|\Lumiere\Plugins\Auto\Polylang|\Lumiere\Plugins\Auto\Aioseo|\Lumiere\Plugins\Auto\Irp
  * @phpstan-type AVAILABLE_MANUAL_CLASSES \Lumiere\Plugins\Manual\Imdbphp

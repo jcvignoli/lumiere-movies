@@ -25,9 +25,12 @@ use Lumiere\Frontend\Movie_Data;
  * It uses ImdbPHP Classes to display movies/people data
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type AVAILABLE_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Movie {
 
@@ -60,10 +63,11 @@ class Movie {
 	/**
 	 * Class constructor
 	 * @param array<string, object> $plugins_classes_active
-	 * @phpstan-param array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES} $plugins_classes_active
+	 * @phpstan-param array{AVAILABLE_PLUGIN_CLASSES_KEYS?: AVAILABLE_PLUGIN_CLASSES} $plugins_classes_active
 	 */
 	public function __construct( array $plugins_classes_active ) {
 
+		/** @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp'. => find better notation) */
 		$this->plugins_classes_active = $plugins_classes_active;
 
 		// Construct Frontend Main trait.
@@ -90,7 +94,7 @@ class Movie {
 	 * @return void Build the class
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
 	 * @param array<string, object> $plugins_classes_active
-	 * @phpstan-param array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES} $plugins_classes_active
+	 * @phpstan-param array{AVAILABLE_PLUGIN_CLASSES_KEYS?: AVAILABLE_PLUGIN_CLASSES} $plugins_classes_active
 	 */
 	public static function start( array $plugins_classes_active ): void {
 		$start = new self( $plugins_classes_active );
