@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Logger;
-use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Admin\Taxo\Detect_New_Template_Taxo;
 
@@ -354,7 +354,7 @@ class Admin_Menu {
 			$instance = new $full_class_name();
 
 			if ( method_exists( $instance, 'lum_submenu_start' ) ) {
-				$instance->lum_submenu_start( new Cache_Tools(), wp_create_nonce( 'check_display_page' ) );
+				$instance->lum_submenu_start( new Cache_Files_Management(), wp_create_nonce( 'check_display_page' ) );
 			}
 
 			$this->lumiere_add_signature_menus();

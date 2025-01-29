@@ -67,11 +67,11 @@ class Help extends Admin_Menu {
 	/**
 	 * Display the layout
 	 *
-	 * @param \Lumiere\Admin\Cache_Tools $cache_tools_class Not utilised in this class, but needed in some other Submenu classes
+	 * @param \Lumiere\Admin\Cache\Cache_Files_Management $cache_mngmt_class Not utilised in this class, but needed in some other Submenu classes
 	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	public function lum_submenu_start( \Lumiere\Admin\Cache_Tools $cache_tools_class, string $nonce ): void {
+	public function lum_submenu_start( \Lumiere\Admin\Cache\Cache_Files_Management $cache_mngmt_class, string $nonce ): void {
 
 		do_action( 'lumiere_add_meta_boxes_help' );
 

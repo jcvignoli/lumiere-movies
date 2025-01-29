@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Lumiere\Settings;
 use Lumiere\Tools\Get_Options;
-use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Plugins\Logger;
 use Lumiere\Updates;
 use FilesystemIterator;
@@ -229,9 +229,9 @@ class Core {
 		/* Create the cache folders */
 
 		// Make sure cache folder exists and is writable.
-		$cache_tools_class = new Cache_Tools();
+		$cache_mngmt_class = new Cache_Files_Management();
 
-		if ( $cache_tools_class->lumiere_create_cache() === true ) {
+		if ( $cache_mngmt_class->lumiere_create_cache() === true ) {
 			$logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
 		} else {
 			$logger->log()->info( '[Lumiere][coreClass][activation] Lumière cache could not be created (check permissions?)' );

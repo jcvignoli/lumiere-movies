@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Get_Options;
-use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Plugins\Logger;
 use Lumiere\Updates;
 
@@ -121,11 +121,11 @@ class Cron {
 	 * Cache Cron to run delete oversized cache
 	 * Relevant log executed in cache class
 	 *
-	 * @see \Lumiere\Admin\Cache_Tools::lumiere_cache_delete_files_over_limit()
+	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::lumiere_cache_delete_files_over_limit()
 	 */
 	public function lum_cache_delete_oversized(): void {
 
-		$cache_class = new Cache_Tools();
+		$cache_class = new Cache_Files_Management();
 		$cache_class->lumiere_cache_delete_files_over_limit(
 			intval( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] )
 		);
@@ -135,17 +135,17 @@ class Cron {
 	/**
 	 * Cache Cron to run autorefresh
 	 * It is bound to the custom hook 'lumiere_cron_autofreshcache', which runs x times per day/week
-	 * But lumiere_all_cache_refresh() will refresh only once per overall refresh (second parameter lumiere_all_cache_refresh())
+	 * But all_cache_refresh() will refresh only once per overall refresh (in second parameter of the function)
 	 *
-	 * @see \Lumiere\Admin\Cache_Tools::lumiere_all_cache_refresh()
+	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::all_cache_refresh()
 	 * @since 4.0 Added method
 	 */
 	public function lum_cache_autorefresh(): void {
 
 		$this->logger->log()->debug( '[Lumiere][Cron] Cron refreshing cache started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
-		$cache_class = new Cache_Tools();
-		$cache_class->lumiere_all_cache_refresh(
+		$cache_class = new Cache_Files_Management();
+		$cache_class->all_cache_refresh(
 			10, /* nb of files refreshed per cron call*/
 			self::CACHE_DAYS_AUTO_REFRESH_ROUND /* nb of days before having a new overall refresh */
 		);
@@ -252,6 +252,8 @@ class Cron {
 				}
 			}
 			delete_transient( 'lum_cache_cron_refresh_all_time_started' );
+			delete_transient( 'lum_cache_cron_refresh_all_movie' ); // In class Cache_Files_Management.
+			delete_transient( 'lum_cache_cron_refresh_all_people' ); // In class Cache_Files_Management.
 		}
 	}
 }

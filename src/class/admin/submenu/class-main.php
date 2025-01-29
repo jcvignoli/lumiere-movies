@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_Menu;
 
 /**
@@ -39,11 +39,11 @@ class Main extends Admin_Menu {
 	/**
 	 * Display the options
 	 *
-	 * @param Cache_Tools $cache_tools_class To create cache folder if it doesn't exists
+	 * @param Cache_Files_Management $cache_mngmt_class To create cache folder if it doesn't exists
 	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function lum_submenu_start( Cache_Tools $cache_tools_class, string $nonce ): void {
+	protected function lum_submenu_start( Cache_Files_Management $cache_mngmt_class, string $nonce ): void {
 
 		// First part of the menu.
 		$this->include_with_vars(
@@ -53,7 +53,7 @@ class Main extends Admin_Menu {
 		);
 
 		// Create the cache if it doesn't exists.
-		$cache_tools_class->lumiere_create_cache( true );
+		$cache_mngmt_class->lumiere_create_cache( true );
 
 		// Show the vars if debug is activated.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {

@@ -1,8 +1,8 @@
 **Changelog**
 
 v.4.3.3
-* [feature] Cache: ticked people or movie can be refreshed (Cache_Tools::cache_refresh_ticked_files() created). Also improved cache files layout.
-* [feature] Cache auto-refresh entirely reviewed. It now works per batches of movies and people and is bullet-proof (Cache_Tools::lumiere_all_cache_refresh() rewritten)
+* [feature] Cache: ticked people or movie can be refreshed (Cache_Files_Management::refresh_multiple_file() created). Also improved cache files layout.
+* [feature] Cache auto-refresh entirely reviewed. It now works per batches of movies and people and is bullet-proof (Cache_Files_Management::all_cache_refresh() rewritten)
 * [bug] CLI functions (copy_taxo and update_options) were broken. (Fixed the new path for Get_Options)
 
 v.4.3.2.1
@@ -80,7 +80,7 @@ v.4.1.8
 * [technical] Added cache option to not display any cache detail (for very slow computers, for sites with a lot of cache data that even simplify the cache is not enough
 
 v.4.1.7
-* [bug] Fixed fatal error on WordPress 6.6 when deleting cache files (added Files trait in cache_delete_specific_file() of class Cache_Tools, "global $wp_filesystem" wasn't working alone anymore)
+* [bug] Fixed fatal error on WordPress 6.6 when deleting cache files (added Files trait in cache_delete_specific_file() of class Cache_Files_Management, "global $wp_filesystem" wasn't working alone anymore)
 * [technical] Redondant link to "showtimes" folder pictures built (double "//" iin class Abstract_Link_Makern lumiere_movies_rating_picture_abstract() 
 
 v.4.1.6
@@ -153,7 +153,7 @@ v.4.1
 
 v.4.0.2
 * [feature] Thumbnail pictures (those which are displayed automatically into the posts, in cache, in popups) are now automatically resized should they weight more that 80kb, which should display all pages faster. Maintained the possiblity to click on these thumbnails to display the big posters (Cover option in Lumière admin).
-* [bug] Refresh cache person was broken (left a bracket in glob search in Cache_Tools::cache_refresh_specific_file())
+* [bug] Refresh cache person was broken (left a bracket in glob search in Cache_Files_Management::cache_refresh_specific_file())
 * [bug] Refresh cache person didn't recreate the big picture
 * [bug] The movie/person big poster wasn't producing expected effects. Changed the way IMDBPHP lib ImageProcess class works: it now resizes the thumbs only if they weight too much (above 80 Ko).
 
@@ -203,7 +203,7 @@ v.4.0
 * [technical] Rewrote the bot banning. It is now executed before doing IMDb searches, avoiding cache creationg (and 504 HTML errors when calling IMDb website)
 * [technical] In admin, notices for update/reset options is now WP notification system compliant (using transients in child classes to display notifications messages set in admin parent class)
 * [technical] Removed tipee donation, kept Paypal only.
-* [technical] Factorization of classes: Movie class (new class Movie_Data), Cache class (new class Cache_Tools), moved Frontend popups in new folder (frontend/popups/)
+* [technical] Factorization of classes: Movie class (new class Movie_Data), Cache class (new class Cache_Files_Management), moved Frontend popups in new folder (frontend/popups/)
 * [technical] Automatized task that runs to delete oversized cache folder (option "Keep automatically cache size below a limit") runs now hourly instead of every two hours.
 * [technical] Updated to bootstrap 5.3.3
 * [technical] Replaced obsolete PHP functions, compatibility with PHP > 8.0, compatibility with PHP8.3 too ( function get_class() removed/updated ).

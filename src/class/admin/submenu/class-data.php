@@ -81,11 +81,11 @@ class Data extends Admin_Menu {
 	/**
 	 * Display the body
 	 *
-	 * @param \Lumiere\Admin\Cache_Tools $cache_tools_class Not utilised in this class, but needed in some other Submenu classes
+	 * @param \Lumiere\Admin\Cache\Cache_Files_Management $cache_mngmt_class Not utilised in this class, but needed in some other Submenu classes
 	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function lum_submenu_start( \Lumiere\Admin\Cache_Tools $cache_tools_class, string $nonce ): void {
+	protected function lum_submenu_start( \Lumiere\Admin\Cache\Cache_Files_Management $cache_mngmt_class, string $nonce ): void {
 
 		// First part of the menu
 		$this->include_with_vars(

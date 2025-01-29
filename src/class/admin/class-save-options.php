@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Settings;
-use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Get_Options;
@@ -193,7 +193,7 @@ class Save_Options {
 			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_all_and_query_check'] ), 'cache_all_and_query_check' ) > 0
 		) {
 			// delete all query cache files.
-			$this->lumiere_cache_delete_query( $this->get_referer(), new Cache_Tools() );
+			$this->lumiere_cache_delete_query( $this->get_referer(), new Cache_Files_Management() );
 		} elseif (
 			isset( $_POST['refresh_ticked_cache'], $_POST['_nonce_cache_settings'] )
 			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) > 0
@@ -201,7 +201,7 @@ class Save_Options {
 			// Refresh several ticked files, they can be either movies or people, using same method. Using checkboxes of delete.
 			$refresh_movies = isset( $_POST['imdb_cachedeletefor_movies'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_movies'] ) : null;
 			$refresh_people = isset( $_POST['imdb_cachedeletefor_people'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_people'] ) : null;
-			$this->lumiere_cache_refresh_ticked_files( $this->get_referer(), new Cache_Tools(), $refresh_movies, $refresh_people );
+			$this->cache_refresh_ticked_files( $this->get_referer(), new Cache_Files_Management(), $refresh_movies, $refresh_people );
 		} elseif (
 			isset( $_POST['delete_ticked_cache'], $_POST['_nonce_cache_settings'] )
 			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) > 0
@@ -209,21 +209,21 @@ class Save_Options {
 			// delete several ticked files, they can be either movies or people, using same method.
 			$delete_movies = isset( $_POST['imdb_cachedeletefor_movies'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_movies'] ) : null;
 			$delete_people = isset( $_POST['imdb_cachedeletefor_people'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_people'] ) : null;
-			$this->lumiere_cache_delete_ticked_files( $this->get_referer(), new Cache_Tools(), $delete_movies, $delete_people );
+			$this->cache_delete_ticked_files( $this->get_referer(), new Cache_Files_Management(), $delete_movies, $delete_people );
 		} elseif (
 			isset( $_GET['dothis'] ) && $_GET['dothis'] === 'delete'
 			&& isset( $_GET['type'], $_GET['where'], $_GET['_nonce_cache_deleteindividual'] )
 			&& wp_verify_nonce( sanitize_key( $_GET['_nonce_cache_deleteindividual'] ), 'deleteindividual' ) > 0
 		) {
 			// delete a specific file by clicking on it.
-			$this->lumiere_cache_delete_linked_file( $this->get_referer(), new Cache_Tools(), sanitize_text_field( wp_unslash( $_GET['type'] ) ), sanitize_text_field( wp_unslash( $_GET['where'] ) ) );
+			$this->do_delete_cache_linked_file( $this->get_referer(), new Cache_Files_Management(), sanitize_text_field( wp_unslash( $_GET['type'] ) ), sanitize_text_field( wp_unslash( $_GET['where'] ) ) );
 		} elseif (
 			isset( $_GET['dothis'] ) && $_GET['dothis'] === 'refresh'
 			&& isset( $_GET['type'], $_GET['where'], $_GET['_nonce_cache_refreshindividual'] )
 			&& wp_verify_nonce( sanitize_key( $_GET['_nonce_cache_refreshindividual'] ), 'refreshindividual' ) > 0
 		) {
 			// refresh a specific file by clicking on it.
-			$this->lumiere_cache_refresh_linked_file( $this->get_referer(), new Cache_Tools(), sanitize_text_field( wp_unslash( $_GET['type'] ) ), sanitize_text_field( wp_unslash( $_GET['where'] ) ) );
+			$this->do_refresh_cache_linked_file( $this->get_referer(), new Cache_Files_Management(), sanitize_text_field( wp_unslash( $_GET['type'] ) ), sanitize_text_field( wp_unslash( $_GET['where'] ) ) );
 		}
 
 		/** Data options */
@@ -451,8 +451,8 @@ class Save_Options {
 	 * Delete all Query files
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
-	private function lumiere_cache_delete_query( string|bool $get_referer, Cache_Tools $cache_tools_class ): void {
-		$cache_tools_class->cache_delete_query_cache_files();
+	private function lumiere_cache_delete_query( string|bool $get_referer, Cache_Files_Management $cache_mngmt_class ): void {
+		$cache_mngmt_class->delete_query_cache_files();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_query_deleted', 30 );
@@ -464,21 +464,21 @@ class Save_Options {
 	 * Refresh ticked People/Movie files (based on inputs)
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
-	 * @param Cache_Tools $cache_tools_class object with the methods needed
+	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
 	 * @param null|array<string> $refresh_movies $_POST['imdb_cachedeletefor_movies']
 	 * @param null|array<string> $refresh_people $_POST['imdb_cachedeletefor_people']
 	 */
-	private function lumiere_cache_refresh_ticked_files(
+	private function cache_refresh_ticked_files(
 		string|bool $get_referer,
-		Cache_Tools $cache_tools_class,
+		Cache_Files_Management $cache_mngmt_class,
 		?array $refresh_movies,
 		?array $refresh_people
 	): void {
 
 		if ( isset( $refresh_movies ) ) {
-			$cache_tools_class->cache_refresh_ticked_files( $refresh_movies, 'movie' );
+			$cache_mngmt_class->refresh_multiple_files( $refresh_movies, 'movie' );
 		} elseif ( isset( $refresh_people ) ) {
-			$cache_tools_class->cache_refresh_ticked_files( $refresh_people, 'people' );
+			$cache_mngmt_class->refresh_multiple_files( $refresh_people, 'people' );
 		}
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
@@ -491,21 +491,21 @@ class Save_Options {
 	 * Delete ticked People/Movie files (based on inputs)
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
-	 * @param Cache_Tools $cache_tools_class object with the methods needed
+	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
 	 * @param null|array<string> $delete_movies $_POST['imdb_cachedeletefor_movies']
 	 * @param null|array<string> $delete_people $_POST['imdb_cachedeletefor_people']
 	 */
-	private function lumiere_cache_delete_ticked_files(
+	private function cache_delete_ticked_files(
 		string|bool $get_referer,
-		Cache_Tools $cache_tools_class,
+		Cache_Files_Management $cache_mngmt_class,
 		?array $delete_movies,
 		?array $delete_people
 	): void {
 
 		if ( isset( $delete_movies ) ) {
-			$cache_tools_class->cache_delete_ticked_files( $delete_movies, 'movie' );
+			$cache_mngmt_class->delete_multiple_files( $delete_movies, 'movie' );
 		} elseif ( isset( $delete_people ) ) {
-			$cache_tools_class->cache_delete_ticked_files( $delete_people, 'people' );
+			$cache_mngmt_class->delete_multiple_files( $delete_people, 'people' );
 		}
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
@@ -517,13 +517,13 @@ class Save_Options {
 	/**
 	 * Delete specific People/Movie files (based on html links)
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
-	 * @param Cache_Tools $cache_tools_class object with the methods needed
+	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
 	 * @param 'movie'|'people'|string $type result of $_GET['type'] to define either people or movie
 	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
 	 */
-	private function lumiere_cache_delete_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class, string $type, string $where ): void {
+	private function do_delete_cache_linked_file( string|bool $get_referer, Cache_Files_Management $cache_mngmt_class, string $type, string $where ): void {
 
-		$cache_tools_class->cache_delete_specific_file( $type, $where );
+		$cache_mngmt_class->delete_file( $type, $where );
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_individual_msg', 30 );
@@ -534,13 +534,13 @@ class Save_Options {
 	/**
 	 * Refresh specific People/Movie files (based on html links)
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
-	 * @param Cache_Tools $cache_tools_class object with the methods needed
+	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
 	 * @param 'movie'|'people'|string $type result of $_GET['type'] to define either people or movie
 	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
 	 */
-	private function lumiere_cache_refresh_linked_file( string|bool $get_referer, Cache_Tools $cache_tools_class, string $type, string $where ): void {
+	private function do_refresh_cache_linked_file( string|bool $get_referer, Cache_Files_Management $cache_mngmt_class, string $type, string $where ): void {
 
-		$cache_tools_class->cache_refresh_specific_file( $type, $where );
+		$cache_mngmt_class->refresh_file( $type, $where );
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_refresh_individual_msg', 30 );

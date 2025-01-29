@@ -17,24 +17,24 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Admin\Cache_Tools;
+use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_Menu;
 
 /**
  * Display cache admin menu
  *
- * @since 4.0 Methods moved from this class into Cache_Tools, using templates instead of having templates here
+ * @since 4.0 Methods moved from this class into Cache_Files_Management, using templates instead of having templates here
  */
 class Cache extends Admin_Menu {
 
 	/**
 	 * Display the body
 	 *
-	 * @param Cache_Tools $cache_tools_class To create cache folder if it doesn't exists
+	 * @param Cache_Files_Management $cache_mngmt_class To create cache folder if it doesn't exists
 	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function lum_submenu_start( Cache_Tools $cache_tools_class, string $nonce ): void {
+	protected function lum_submenu_start( Cache_Files_Management $cache_mngmt_class, string $nonce ): void {
 
 		// First part of the menu
 		$this->include_with_vars(
@@ -44,7 +44,7 @@ class Cache extends Admin_Menu {
 		);
 
 		// Make sure cache folder exists and is writable
-		$cache_tools_class->lumiere_create_cache( true );
+		$cache_mngmt_class->lumiere_create_cache( true );
 
 		// Show the vars if debug is activated.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
@@ -65,7 +65,7 @@ class Cache extends Admin_Menu {
 		) {
 
 			// Cache options menu.
-			$size = $this->lumiere_format_bytes( $cache_tools_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
+			$size = $this->lumiere_format_bytes( $cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
 			$this->include_with_vars(
 				'cache/admin-cache-options',
 				[ $size ], /** Add an array with vars to send in the template */
@@ -81,14 +81,14 @@ class Cache extends Admin_Menu {
 			$this->include_with_vars(
 				'cache/admin-cache-manage',
 				[
-					$cache_tools_class->cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] ), // nb of cached files
-					$cache_tools_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ), // cache total size
-					$cache_tools_class->get_cache_list_per_cat( 'movie' ), // list of movies cached
-					$cache_tools_class->get_cache_list_per_cat( 'people' ), // list of people cached
-					$cache_tools_class->cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ), // picture cache size
+					$cache_mngmt_class->cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] ), // nb of cached files
+					$cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ), // cache total size
+					$cache_mngmt_class->get_imdb_object_per_cat( 'movie' ), // imdbphp objects for all cached movies
+					$cache_mngmt_class->get_imdb_object_per_cat( 'people' ), // imdbphp objects for all cached movies
+					$cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ), // picture cache size
 					$this,
 					$this->page_cache_manage,
-					$cache_tools_class->get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ), // array of query files info
+					$cache_mngmt_class->get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ), // array of query files info
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);

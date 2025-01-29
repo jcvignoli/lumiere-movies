@@ -278,9 +278,13 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			<img id="pic_' . $lum_title_sanitized . '" class="lum_cache_pic_float" ' . $lum_moviepicturelink . ' width="40px">
 
 			<input type="checkbox" id="imdb_cachedeletefor_movies_' . str_replace( ' ', '_', $lum_title_sanitized ) . '" name="imdb_cachedeletefor_movies[]" value="' . $lum_obj_sanitized . '" /><span class="lumiere_font_smaller"><label for="imdb_cachedeletefor_movies[]" class="lum_bold">' . $lum_title_sanitized . '</label><br>' . esc_html__( 'last updated on ', 'lumiere-movies' ) . gmdate( 'j M Y H:i:s', $lum_filetime_movie ) . '</span> 
-			<div id="refresh_edit_' . $lum_title_sanitized . '" class="row-actions">
+			<div id="refresh_edit_' . $lum_title_sanitized . '" class="row-actions lum_align_left">
 			
-				<span class="edit"><a id="refreshindividual_' . $lum_title_sanitized . '" href="' . wp_nonce_url( $lum_this_cache_manage_page . '&dothis=refresh&where=' . $lum_obj_sanitized . '&type=movie', 'refreshindividual', '_nonce_cache_refreshindividual' ) . '" class="admin-cache-confirm-refresh" data-confirm="' . esc_html__( 'Refresh cache for *', 'lumiere-movies' ) . $lum_title_sanitized . '*?">' . esc_html__( 'refresh', 'lumiere-movies' ) . '</a></span>
+				&nbsp;&nbsp;
+				
+				<span class="edit"><a id="refreshindividual_' . $lum_title_sanitized . '" href="' . wp_nonce_url( $lum_this_cache_manage_page . '&dothis=refresh&where=' . $lum_obj_sanitized . '&type=movie', 'refreshindividual', '_nonce_cache_refreshindividual' ) . '" class="admin-cache-confirm-refresh">' . esc_html__( 'refresh', 'lumiere-movies' ) . '</a></span>
+				
+				&nbsp;
 
 				<span class="delete"><a id="deleteindividual_' . $lum_title_sanitized . '" href="' . wp_nonce_url( $lum_this_cache_manage_page . '&dothis=delete&where=' . $lum_obj_sanitized . '&type=movie', 'deleteindividual', '_nonce_cache_deleteindividual' ) . '" class="admin-cache-confirm-delete" data-confirm="' . esc_html__( 'Delete *', 'lumiere-movies' ) . $lum_title_sanitized . esc_html__( '* from cache?', 'lumiere-movies' ) . '" title="' . esc_html__( 'Delete *', 'lumiere-movies' ) . $lum_title_sanitized . esc_html__( '* from cache?', 'lumiere-movies' ) . '">' . esc_html__( 'delete', 'lumiere-movies' ) . '</a></span>
 			</div></td></tr></table>
@@ -314,7 +318,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		<br>
 
 		<div class="lumiere_align_center">
-			<input type="submit" class="button-primary" name="refresh_ticked_cache" data-confirm="<?php esc_html_e( 'Refresh selected cache files?', 'lumiere-movies' ); ?>" value="<?php esc_html_e( 'Refresh selected files', 'lumiere-movies' ); ?>" />
+			<input type="submit" class="button-primary" name="refresh_ticked_cache" value="<?php esc_html_e( 'Refresh selected files', 'lumiere-movies' ); ?>" />
 			<input type="submit" class="button-primary red_background" name="delete_ticked_cache" data-confirm="<?php esc_html_e( 'Delete selected cache files?', 'lumiere-movies' ); ?>" value="<?php esc_html_e( 'Delete selected files', 'lumiere-movies' ); ?>" />
 			<br/>
 			<br/>
@@ -382,8 +386,13 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 	<img id="pic_' . $lum_name_sanitized . '" class="lum_cache_pic_float" ' . $lum_picturelink . ' width="40px" alt="no pic">
 	<input type="checkbox" id="imdb_cachedeletefor_people_' . str_replace( ' ', '_', $lum_name_sanitized ) . '" name="imdb_cachedeletefor_people[]" value="' . $lum_objpiple_sanitized . '" /><span class="lumiere_font_smaller"><label for="imdb_cachedeletefor_people_[]" class="lum_bold">' . $lum_name_sanitized . '</label><br>' . esc_html__( 'last updated on ', 'lumiere-movies' ) . gmdate( 'j M Y H:i:s', $lum_filetime_people ) . '
 	</span>
-	<div class="row-actions">
-		<span class="view"><a href="' . wp_nonce_url( $lum_this_cache_manage_page . '&dothis=refresh&where=' . $lum_objpiple_sanitized . '&type=people', 'refreshindividual', '_nonce_cache_refreshindividual' ) . '" class="admin-cache-confirm-refresh" data-confirm="Refresh cache for *' . $lum_name_sanitized . '*" title="Refresh cache for *' . $lum_name_sanitized . '*">' . esc_html__( 'refresh', 'lumiere-movies' ) . '</a></span> 
+	<div class="row-actions lum_align_left">
+		
+		&nbsp;&nbsp;
+		
+		<span class="view"><a href="' . wp_nonce_url( $lum_this_cache_manage_page . '&dothis=refresh&where=' . $lum_objpiple_sanitized . '&type=people', 'refreshindividual', '_nonce_cache_refreshindividual' ) . '" class="admin-cache-confirm-refresh" title="Refresh cache for *' . $lum_name_sanitized . '*">' . esc_html__( 'refresh', 'lumiere-movies' ) . '</a></span> 
+		
+		&nbsp;
 
 		<span class="delete"><a href="' . wp_nonce_url( $lum_this_cache_manage_page . '&dothis=delete&where=' . $lum_objpiple_sanitized . '&type=people', 'deleteindividual', '_nonce_cache_deleteindividual' ) . '" class="admin-cache-confirm-delete" data-confirm="You are about to delete *' . $lum_name_sanitized . '* from cache. Click Cancel to stop or OK to continue." title="Delete cache for *' . $lum_name_sanitized . '*">' . esc_html__( 'delete', 'lumiere-movies' ) . '</a></span>
 		
@@ -418,7 +427,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		<br>
 
 		<div align="center">
-			<input type="submit" class="button-primary" data-confirm="<?php esc_html_e( 'Refresh selected cache files?', 'lumiere-movies' ); ?>" name="refresh_ticked_cache" value="<?php esc_html_e( 'Refresh selected files', 'lumiere-movies' ); ?>" />
+			<input type="submit" class="button-primary" name="refresh_ticked_cache" value="<?php esc_html_e( 'Refresh selected files', 'lumiere-movies' ); ?>" />
 			<input type="submit" class="button-primary red_background" data-confirm="<?php esc_html_e( 'Delete selected cache files?', 'lumiere-movies' ); ?>" name="delete_ticked_cache" value="<?php esc_html_e( 'Delete selected files', 'lumiere-movies' ); ?>" />
 		</div>
 		
