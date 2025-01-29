@@ -234,7 +234,7 @@ class Cron {
 			// Cron running every day
 			$starting_time = strtotime( '+6 hours', time() );
 			/** @psalm-suppress InvalidArgument -- With time(), it's always int! */
-			wp_schedule_event( $starting_time, 'twicedaily', 'lumiere_cron_autofreshcache' );
+			wp_schedule_event( $starting_time, 'hourly', 'lumiere_cron_autofreshcache' );
 			$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_autofreshcache added' );
 
 			// Remove cron imdbcacheautorefreshcron.
