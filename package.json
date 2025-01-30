@@ -30,6 +30,7 @@
     "phpcs": "vendor/bin/phpcs | tee tmp/logs/Results-phpcs-wp.txt",
     "phpmd": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/logs/Results-phpmd.html",
     "phpstan": "vendor/bin/phpstan -v | tee tmp/logs/Results-phpstan.txt",
+    "phpstan-clean": "if [ -d \"tmp/cache/phpstan\" ];then rm -R tmp/cache/phpstan && vendor/bin/phpstan -v | tee tmp/logs/Results-phpstan.txt; else vendor/bin/phpstan -v | tee tmp/logs/Results-phpstan.txt; fi",
     "psalm": "vendor/bin/psalm --show-info=true --report=tmp/logs/Results-psalm.txt",
     "psalm-clean": "if [ -d \"tmp/cache/psalm\" ];then rm -R tmp/cache/psalm && npm run psalm; else npm run psalm; fi",
     "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) | tee tmp/logs/Results-phpdd-deprecated.txt",

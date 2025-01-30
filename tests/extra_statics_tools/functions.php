@@ -2,22 +2,6 @@
 // PHPStan Extras functions
 
 namespace {
-	
-	if ( ! function_exists( 'get_terms' ) ) {
-		/**
-		 *
-		 * @param array|string $args       Optional. Array or string of arguments. See WP_Term_Query::__construct()
-		 *                                 for information on accepted arguments. Default empty array.
-		 * @param array|string $deprecated Optional. Argument array, when using the legacy function parameter format.
-		 *                                 If present, this parameter will be interpreted as `$args`, and the first
-		 *                                 function parameter will be parsed as a taxonomy or array of taxonomies.
-		 *                                 Default empty.
-		 * @return WP_Term[]|int[]|string[]|string|WP_Error Array of terms, a count thereof as a numeric string,
-		 *                                                  or WP_Error if any of the taxonomies do not exist.
-		 *                                                  See the function description for more information.
-		 */
-		function get_terms( $args = array(), $deprecated = '' ) {}
-	}
 
 	/**
 	 * Returns true if Polylang manages languages and translations for this taxonomy.
@@ -186,30 +170,17 @@ namespace {
 	 * @return bool Whether it is the AMP endpoint.
 	 * @global WP_Query $wp_query
 	 */
-	function amp_is_request() {
-		global $wp_query;
+	function amp_is_request() {}
 
-		$is_amp_url = (
-			amp_is_canonical()
-			||
-			amp_has_paired_endpoint()
-		);
-
-		// If AMP is not available, then it's definitely not an AMP endpoint.
-		if ( ! amp_is_available() ) {
-			// But, if WP_Query was not available yet, then we will just assume the query is supported since at this point we do
-			// know either that the site is in Standard mode or the URL was requested with the AMP query var. This can still
-			// produce an undesired result when a Standard mode site has a post that opts out of AMP, but this issue will
-			// have been flagged via _doing_it_wrong() in amp_is_available() above.
-			if ( ! did_action( 'wp' ) || ! $wp_query instanceof WP_Query ) {
-				return $is_amp_url && AMP_Options_Manager::get_option( Option::ALL_TEMPLATES_SUPPORTED );
-			}
-
-			return false;
-		}
-
-		return $is_amp_url;
-	}
-
+	/**
+	 * Intelly related posts
+	 */
+	function irp_head() {}
+	function irp_footer() {}
+	function irp_shortcode($atts, $content='') {}
+	function irp_ui_get_box($ids, $options=NULL) {}
+	function irp_the_content($content){}
+	function irp_ui_first_time() {}
+	function irp_get_list_posts(){}
 }
 

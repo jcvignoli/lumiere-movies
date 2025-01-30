@@ -290,10 +290,8 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 
 // Task 7 - Build all files
 gulp.task('build', (cb) => {
-	gulp.series( 'javascripts')( cb );
-	gulp.series( 'stylesheets')( cb );
-	gulp.series( 'images')( cb );
-	gulp.series( 'files_copy')( cb );
+	flagssh = false;
+	gulp.parallel( 'javascripts', 'stylesheets', 'images', 'files_copy' )(cb);
 });
 
 // Task 8 - Default

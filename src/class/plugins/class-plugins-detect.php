@@ -22,12 +22,12 @@ use Lumiere\Frontend\Main;
  * Detect which WP plugins are available in SUBFOLDER_PLUGINS_BIT subfolder and are active
  * This class only returns automatically found classes
  *
- * @phpstan-type AVAILABLE_AUTO_CLASSES \Lumiere\Plugins\Auto\Amp|\Lumiere\Plugins\Auto\Oceanwp|\Lumiere\Plugins\Auto\Polylang|\Lumiere\Plugins\Auto\Aioseo|\Lumiere\Plugins\Auto\Irp
- * @phpstan-type AVAILABLE_MANUAL_CLASSES \Lumiere\Plugins\Manual\Imdbphp
- * @phpstan-type AVAILABLE_AUTO_CLASSES_KEYS 'amp'|'oceanwp'|'polylang'|'aioseo'|'irp'
- * @phpstan-type AVAILABLE_MANUAL_CLASSES_KEYS 'imdbphp'
- * @phpstan-type AVAILABLE_PLUGIN_CLASSES_KEYS AVAILABLE_AUTO_CLASSES_KEYS|AVAILABLE_MANUAL_CLASSES_KEYS
- * @phpstan-type AVAILABLE_PLUGIN_CLASSES AVAILABLE_AUTO_CLASSES|AVAILABLE_MANUAL_CLASSES
+ * @phpstan-type PLUGINS_AUTO_CLASSES \Lumiere\Plugins\Auto\Amp|\Lumiere\Plugins\Auto\Oceanwp|\Lumiere\Plugins\Auto\Polylang|\Lumiere\Plugins\Auto\Aioseo|\Lumiere\Plugins\Auto\Irp
+ * @phpstan-type PLUGINS_MANUAL_CLASSES \Lumiere\Plugins\Manual\Imdbphp
+ * @phpstan-type PLUGINS_AUTO_KEYS 'amp'|'oceanwp'|'polylang'|'aioseo'|'irp'
+ * @phpstan-type PLUGINS_MANUAL_KEYS 'imdbphp'
+ * @phpstan-type PLUGINS_ALL_KEYS PLUGINS_AUTO_KEYS|PLUGINS_MANUAL_KEYS
+ * @phpstan-type PLUGINS_ALL_CLASSES PLUGINS_MANUAL_CLASSES|PLUGINS_MANUAL_CLASSES
  *
  * @since 3.7 Class created
  * @since 4.1 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_BIT folder, and get_active_plugins() returns an array of plugins available
@@ -54,7 +54,7 @@ class Plugins_Detect {
 	 * Return list of plugins available in "external" subfolder
 	 * Plugins located there are automatically checked
 	 *
-	 * @phpstan-return list<AVAILABLE_AUTO_CLASSES_KEYS>
+	 * @phpstan-return list<PLUGINS_AUTO_KEYS>
 	 * @return list<string>
 	 */
 	private function find_available_auto_plugins(): array {
@@ -62,7 +62,7 @@ class Plugins_Detect {
 		$find_files = glob( __DIR__ . '/' . self::SUBFOLDER_PLUGINS_BIT . '/*' );
 		$files = $find_files !== false ? array_filter( $find_files, 'is_file' ) : [];
 		foreach ( $files as $file ) {
-			/** @phpstan-var AVAILABLE_AUTO_CLASSES_KEYS $filename */
+			/** @phpstan-var PLUGINS_AUTO_KEYS $filename */
 			$filename = preg_replace( '~.*class-(.+)\.php$~', '$1', $file );
 			$available_plugins[] = $filename;
 		}
@@ -75,7 +75,7 @@ class Plugins_Detect {
 	 * Use the plugin located in "SUBFOLDER_PLUGINS_BIT" subfolder to build the method names, then check if they are active
 	 *
 	 * @return array<string, class-string|null>
-	 * @phpstan-return array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>}
+	 * @phpstan-return array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>}
 	 *
 	 * @see Plugins_Detect::find_available_plugins() that builds the list of available plugins
 	 */
@@ -86,17 +86,17 @@ class Plugins_Detect {
 			$method = $plugin . '_is_active';
 			if ( method_exists( $this, $method ) && $this->{$method}() === true ) {
 				$subfolder_plugins = strlen( self::SUBFOLDER_PLUGINS_BIT ) > 0 ? ucfirst( self::SUBFOLDER_PLUGINS_BIT ) . '\\' : '';
-				// @phpstan-var class-string<AVAILABLE_AUTO_CLASSES> $namespace_class
+				// @phpstan-var class-string<PLUGINS_AUTO_CLASSES> $namespace_class
 				$namespace_class = __NAMESPACE__ . '\\' . $subfolder_plugins . ucfirst( $plugin );
-				// @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_PLUGIN_CLASSES>} $plugins_class
+				// @phpstan-var array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>} $plugins_class
 				$plugins_class[ $plugin ] = $namespace_class;
 				continue;
 			}
 
-			// @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: null} $plugins_class
+			// @phpstan-var array{PLUGINS_AUTO_KEYS: null} $plugins_class
 			$plugins_class[ $plugin ] = null;
 		}
-		/** @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>|null}|array{} $plugins_class */
+		/** @phpstan-var array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>|null}|array{} $plugins_class */
 		return $this->filter_active_plugins( $plugins_class );
 	}
 
@@ -105,13 +105,13 @@ class Plugins_Detect {
 	 * If the array-value is null, the plugin will be removed from the list.
 	 *
 	 * @param array<string, string|null> $plugin_name
-	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>|null}|array{} $plugin_name An array of the plugins active
+	 * @phpstan-param array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>|null}|array{} $plugin_name An array of the plugins active
 	 * @return array<string, class-string>
-	 * @phpstan-return array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>}
+	 * @phpstan-return array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>}
 	 */
 	private function filter_active_plugins( array $plugin_name ): array {
 		$return = array_filter( $plugin_name, 'is_string' );
-		/** @phpstan-var array{AVAILABLE_AUTO_CLASSES_KEYS: class-string<AVAILABLE_AUTO_CLASSES>} $return */
+		/** @phpstan-var array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>} $return */
 		return $return;
 	}
 

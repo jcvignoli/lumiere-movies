@@ -66,17 +66,18 @@ return [
 	// your application should be included in this list.
 	'directory_list' => [
 		'src/',
-		'tests/extra_statics_tools/phan/',
 	],
 
 	// A list of files that should be parsed for class and
 	// method information.
 	// Perfect for getting bootstrap files
 	'file_list' => [
-		//      'tests/bootstrap-testing.php', // Doesn't work as a real bootstrap, not finding below declarations
+		// 'tests/bootstrap-testing.php', // Doesn't work as a real bootstrap, not finding below declarations
 		'tests/extra_statics_tools/constants.php',
 		'tests/extra_statics_tools/functions.php',
 		'tests/extra_statics_tools/classes.php',
+		// 'tests/extra_statics_tools/phan/bootstrap-phan.php',
+		'tests/extra_statics_tools/phan/functions.php',
 		'vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
@@ -100,7 +101,7 @@ return [
 		'tests/extra_statics_tools/constants.php',
 		'tests/extra_statics_tools/functions.php',
 		'tests/extra_statics_tools/classes.php',
-		'tests/extra_statics_tools/phan/irp-core.php',
+		'tests/extra_statics_tools/phan/functions.php',
 		'src/vendor/',
 		'assets/js/highslide/',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',

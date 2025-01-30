@@ -25,12 +25,12 @@ use Lumiere\Frontend\Movie_Data;
  * It uses ImdbPHP Classes to display movies/people data
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
- * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Movie {
 
@@ -56,14 +56,14 @@ class Movie {
 	 * Lumière plugins started
 	 *
 	 * @var array<string, object>
-	 * @phpstan-var array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES}
+	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS: PLUGINS_AUTO_CLASSES}
 	 */
 	private array $plugins_classes_active;
 
 	/**
 	 * Class constructor
 	 * @param array<string, object> $plugins_classes_active
-	 * @phpstan-param array{AVAILABLE_PLUGIN_CLASSES_KEYS?: AVAILABLE_PLUGIN_CLASSES} $plugins_classes_active
+	 * @phpstan-param array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES} $plugins_classes_active
 	 */
 	public function __construct( array $plugins_classes_active ) {
 
@@ -94,7 +94,7 @@ class Movie {
 	 * @return void Build the class
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
 	 * @param array<string, object> $plugins_classes_active
-	 * @phpstan-param array{AVAILABLE_PLUGIN_CLASSES_KEYS?: AVAILABLE_PLUGIN_CLASSES} $plugins_classes_active
+	 * @phpstan-param array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES} $plugins_classes_active
 	 */
 	public static function start( array $plugins_classes_active ): void {
 		$start = new self( $plugins_classes_active );

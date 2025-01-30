@@ -42,9 +42,9 @@ class Debug {
 		foreach ( $array as $key => $val ) {
 			if ( is_array( $val ) ) {
 				$output .= '<li><span style="color:red;">' . $key . '</span><b> => </b><span style="color:blue;">' . self::colorise_output( $val ) . '</span></li>';
-			} else {
-				$output .= '<li><span style="color:red;">' . $key . '</span><b> => </b><span style="color:blue;">' . $val . '</span></li>';
+				continue;
 			}
+			$output .= '<li><span style="color:red;">' . $key . '</span><b> => </b><span style="color:blue;">' . $val . '</span></li>';
 		}
 
 		return $output . '</ul>';
@@ -52,7 +52,7 @@ class Debug {
 
 	/**
 	 * Internal function to display a wp error
-	 * @param callable-string $method
+	 * @param string $method
 	 */
 	private static function trigger_wp_error( string $method, string $text ): void {
 		wp_trigger_error( $method, $text );

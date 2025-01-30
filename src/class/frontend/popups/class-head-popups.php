@@ -27,9 +27,9 @@ use Lumiere\Plugins\Plugins_Start;
  * @since 3.11 created
  * @since 4.3 Is parent class, bots and nonce validation moved from class Frontend to here
  *
- * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Head_Popups {
 
@@ -42,7 +42,7 @@ class Head_Popups {
 	 * Lumière plugins started
 	 *
 	 * @var array<string, object>
-	 * @phpstan-var array{'imdbphp': AVAILABLE_MANUAL_CLASSES, AVAILABLE_AUTO_CLASSES_KEYS: AVAILABLE_AUTO_CLASSES}
+	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS: PLUGINS_AUTO_CLASSES}
 	 */
 	protected array $plugins_classes_active;
 

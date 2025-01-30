@@ -22,12 +22,12 @@ use Lumiere\Plugins\Plugins_Detect;
 /**
  * Instanciate the plugins that are available and in active
  *
- * @phpstan-import-type AVAILABLE_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_AUTO_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  *
  * @see \Lumiere\Plugins\Plugins_Detect Detect the plugins available should be instanciated
  */
@@ -38,14 +38,14 @@ class Plugins_Start {
 	 * The active class can be used when they exist and called with this property
 	 *
 	 * @var array<string, object>
-	 * @phpstan-var array{AVAILABLE_PLUGIN_CLASSES_KEYS?: AVAILABLE_PLUGIN_CLASSES}
+	 * @phpstan-var array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES}
 	 */
 	public array $plugins_classes_active;
 
 	/**
 	 * Constructor
 	 * @param array<string>|null $extra_manual_classes Extra classes to add
-	 * @phpstan-param array<AVAILABLE_MANUAL_CLASSES_KEYS>|null $extra_manual_classes
+	 * @phpstan-param array<PLUGINS_MANUAL_KEYS>|null $extra_manual_classes
 	 */
 	public function __construct( ?array $extra_manual_classes = null ) {
 
@@ -65,9 +65,9 @@ class Plugins_Start {
 	 * Classes are located in Plugins_Detect::SUBFOLDER_PLUGINS_BIT
 	 *
 	 * @param array<string, class-string> $active_plugins
-	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS?: class-string<AVAILABLE_AUTO_CLASSES>, AVAILABLE_MANUAL_CLASSES_KEYS?: class-string<AVAILABLE_MANUAL_CLASSES>} $active_plugins
+	 * @phpstan-param array{PLUGINS_AUTO_KEYS?: class-string<PLUGINS_AUTO_CLASSES>, PLUGINS_MANUAL_KEYS?: class-string<PLUGINS_MANUAL_CLASSES>} $active_plugins
 	 * @return array<string, object> Classes have been activated
-	 * @phpstan-return array{AVAILABLE_MANUAL_CLASSES_KEYS?: AVAILABLE_MANUAL_CLASSES}
+	 * @phpstan-return array{PLUGINS_MANUAL_KEYS?: PLUGINS_MANUAL_CLASSES}
 	 */
 	private function activate_plugins( array $active_plugins ): array {
 
@@ -88,19 +88,19 @@ class Plugins_Start {
 
 	/**
 	 * Add extra manual classe(s)
-	 * They're not in SUBFOLDER_PLUGINS_BIT, they're in "plugins"
+	 * They're not in SUBFOLDER_PLUGINS_BIT, they're in "plugins/manual"
 	 *
 	 * @param array<string> $extra_classes Extra classes to add, ie [ 'imdbphp' ]
-	 * @phpstan-param non-empty-array<AVAILABLE_MANUAL_CLASSES_KEYS> $extra_classes
+	 * @phpstan-param non-empty-array<PLUGINS_MANUAL_KEYS> $extra_classes
 	 * @param array<string, class-string> $array_plugin_names
-	 * @phpstan-param array{AVAILABLE_AUTO_CLASSES_KEYS?: class-string<AVAILABLE_AUTO_CLASSES>} $array_plugin_names
+	 * @phpstan-param array{PLUGINS_AUTO_KEYS?: class-string<PLUGINS_AUTO_CLASSES>} $array_plugin_names
 	 * @return array<string, class-string>
-	 * @phpstan-return array{AVAILABLE_PLUGIN_CLASSES_KEYS?: class-string<AVAILABLE_PLUGIN_CLASSES>}
+	 * @phpstan-return array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>}
 	 */
 	private function add_manual_to_auto_plugins( array $extra_classes, array $array_plugin_names ): array {
 
 		foreach ( $extra_classes as $extra_class_name ) {
-			/** @phpstan-var class-string<AVAILABLE_MANUAL_CLASSES> $full_class_name */
+			/** @phpstan-var class-string<PLUGINS_MANUAL_CLASSES> $full_class_name */
 			$full_class_name = __NAMESPACE__ . '\\Manual\\' . ucfirst( $extra_class_name );
 			if ( class_exists( $full_class_name ) ) {
 				$array_plugin_names[ $extra_class_name ] = $full_class_name;

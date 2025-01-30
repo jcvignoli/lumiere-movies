@@ -33,15 +33,15 @@ use Lumiere\Tools\Validate_Get;
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  * @link Polylang reference hooks https://polylang.pro/doc/filter-reference/
  *
- * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type AVAILABLE_PLUGIN_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Polylang {
 
 	/**
 	 * Array of plugins currently in use
 	 *
-	 * @phpstan-var array{AVAILABLE_PLUGIN_CLASSES_KEYS?: class-string<AVAILABLE_PLUGIN_CLASSES>}
+	 * @phpstan-var array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>}
 	 * @var array<string, class-string>
 	 */
 	private array $active_plugins;
@@ -74,7 +74,7 @@ class Polylang {
 
 	/**
 	 * Get for extra params not to be run in self::__construct. Automatically executed from Plugins_Start
-	 * @phpstan-param array{AVAILABLE_PLUGIN_CLASSES_KEYS?: class-string<AVAILABLE_PLUGIN_CLASSES>} $active_plugins
+	 * @phpstan-param array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>} $active_plugins
 	 * @param array<string, class-string> $active_plugins
 	 */
 	public function get_active_plugins( array $active_plugins ): void {

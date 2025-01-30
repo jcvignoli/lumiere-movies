@@ -27,7 +27,6 @@ use Lumiere\Tools\Settings_Global;
  * Allow to use the logger, function utilities, and settings
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
- * @phpstan-import-type AVAILABLE_MANUAL_CLASSES_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
  */
 trait Main {
