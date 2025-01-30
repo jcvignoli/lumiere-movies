@@ -288,22 +288,37 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 				<span class="delete"><a id="deleteindividual_' . $lum_title_sanitized . '" href="' . wp_nonce_url( $lum_this_cache_manage_page . '&dothis=delete&where=' . $lum_obj_sanitized . '&type=movie', 'deleteindividual', '_nonce_cache_deleteindividual' ) . '" class="admin-cache-confirm-delete" data-confirm="' . esc_html__( 'Delete *', 'lumiere-movies' ) . $lum_title_sanitized . esc_html__( '* from cache?', 'lumiere-movies' ) . '" title="' . esc_html__( 'Delete *', 'lumiere-movies' ) . $lum_title_sanitized . esc_html__( '* from cache?', 'lumiere-movies' ) . '">' . esc_html__( 'delete', 'lumiere-movies' ) . '</a></span>
 			</div></td></tr></table>
-		</div>'; // send input and results into array
+		</div>';
 
-				} //end quick/long loading $lum_imdb_cache_values['imdbcachedetailsshort']
+				}
 
 			}
 
 			// sort alphabetically the data
 			asort( $lum_data );
 
+			// Count number of items to add extra divs and complete to have a multiple of 3
+			$lum_i = 1;
+			$lum_nb_items = count( $lum_data );
+			$lum_end_row_multiple_three = $lum_nb_items - $lum_nb_items % 3; // find latest multiple of 3, the latest case.
+
 			// print all lines
-			foreach ( $lum_data as $lum_inputline ) {
+			foreach ( $lum_data as $lum_key => $lum_inputline ) {
 
 				echo wp_kses(
-					$lum_inputline,
+					$lum_data[ $lum_key ],
 					$lum_cache_wpkses,
 				);
+
+				// Add missing divs to complete a multiple of 3: check if current row is included in an ending column, and if next rows doesn't exist
+				if ( $lum_i === ( $lum_end_row_multiple_three + 1 ) && ! isset( $lum_data[ $lum_end_row_multiple_three + 1 ] ) ) {
+
+					echo '<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table width="100%"><tr><td></td></tr></table></div>';
+				}
+				if ( $lum_i === $lum_end_row_multiple_three + 2 && ! isset( $lum_data[ $lum_end_row_multiple_three + 2 ] ) ) {
+					echo '<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table width="100%"><tr><td></td></tr></table></div>';
+				}
+				$lum_i++;
 			} ?>
 		</div>
 		
@@ -406,12 +421,28 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			// sort alphabetically the data.
 			asort( $lum_datapeople );
 
-			// print all lines.
-			foreach ( $lum_datapeople as $lum_inputline ) {
+			// Count number of items to add extra divs and complete to have a multiple of 3
+			$lum_i = 1;
+			$lum_nb_items_ppl = count( $lum_datapeople );
+			$lum_end_row_multiple_three_ppl = $lum_nb_items_ppl - ( $lum_nb_items_ppl % 3 ); // find latest multiple of 3, the latest case.
+
+			// print all lines
+			foreach ( $lum_datapeople as $lum_key => $lum_inputline_ppl ) {
+
 				echo wp_kses(
-					$lum_inputline,
-					$lum_cache_wpkses
+					$lum_datapeople[ $lum_key ],
+					$lum_cache_wpkses,
 				);
+
+				// Add missing divs to complete a multiple of 3: check if current row is included in an ending column, and if next rows doesn't exist
+				if ( $lum_i === ( $lum_end_row_multiple_three_ppl + 1 ) && ! isset( $lum_datapeople[ $lum_end_row_multiple_three_ppl + 1 ] ) ) {
+
+					echo '<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table width="100%"><tr><td></td></tr></table></div>';
+				}
+				if ( $lum_i === $lum_end_row_multiple_three_ppl + 2 && ! isset( $lum_datapeople[ $lum_end_row_multiple_three_ppl + 2 ] ) ) {
+					echo '<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table width="100%"><tr><td></td></tr></table></div>';
+				}
+				$lum_i++;
 			}
 			?>
 		</div>

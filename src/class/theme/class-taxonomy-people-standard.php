@@ -96,7 +96,7 @@ class Taxonomy_People_Standard {
 
 		// Class person, find also name of the current taxo
 		$this->person_class = $this->get_imdbphp_person_searched();
-		$this->person_name = isset( $this->person_class ) ? $this->person_class->name() : '';
+		$this->person_name = isset( $this->person_class ) && $this->person_class->name() !== null ? $this->person_class->name() : '';
 
 		/**
 		 * Start AMP headers if AMP page and Polylang
@@ -105,8 +105,8 @@ class Taxonomy_People_Standard {
 		 */
 		if ( $this->plugins_start->is_plugin_active( 'amp' ) === true && $this->plugins_start->is_plugin_active( 'polylang' ) === true ) { // Method in Trait Main.
 			$class_polylang = $this->plugins_start->plugins_classes_active['polylang'];
-			add_action( 'wp_ajax_amp_comment_submit', [ $class_polylang, 'amp_form_submit' ] );
-			add_action( 'wp_ajax_nopriv_amp_comment_submit', [ $class_polylang, 'amp_form_submit' ] );
+			add_action( 'wp_ajax_amp_comment_submit', fn() => $class_polylang->amp_form_submit() );
+			add_action( 'wp_ajax_nopriv_amp_comment_submit', fn() => $class_polylang->amp_form_submit() );
 		}
 	}
 
@@ -316,12 +316,10 @@ class Taxonomy_People_Standard {
 			$output .= $this->lum_taxo_portrait( $this->person_name );
 
 		} else {
-
 			// No imdb result, so display a basic title.
 			$title_from_tag = single_tag_title( '', false );
 			$output .= "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . ' as <i>standard</i></h1>';
 			$output .= "\n\t\t" . '<div>' . esc_html__( 'No IMDb result found for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . '</div>';
-
 		}
 
 		// Display the related posts part.
@@ -476,7 +474,8 @@ class Taxonomy_People_Standard {
 		$output .= '<span class="lumiere_font_small">';
 
 		# Birth
-		$birthday = isset( $this->person_class ) && $this->person_class->born() !== null ? array_filter( $this->person_class->born() ) : [];
+		$birthday = isset( $this->person_class ) && $this->person_class->born() !== null ? $this->person_class->born() : [];
+		/** @psalm-suppress PossiblyNullArgument (It can't be null!) */
 		if ( count( $birthday ) > 0 ) {
 
 			$birthday_day = isset( $birthday['day'] ) && strlen( strval( $birthday['day'] ) ) > 0 ? strval( $birthday['day'] ) . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
