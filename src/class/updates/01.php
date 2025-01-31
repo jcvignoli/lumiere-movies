@@ -55,7 +55,7 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 		}
 
 		// Simplify the coding.
-		$logger = $this->logger->log();
+		$logger = $this->logger->log;
 
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 

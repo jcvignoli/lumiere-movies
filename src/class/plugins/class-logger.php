@@ -39,26 +39,19 @@ class Logger {
 	use Settings_Global, Files;
 
 	/**
-	 * Screen output, whether to show the logging on screen
-	 * @var bool $screen_output
-	 */
-	private bool $screen_output = true;
-
-	/**
-	 * The name of the logger, shown as the origin
-	 * @var string $logger_name
-	 */
-	private string $logger_name = 'unknownOrigin';
-
-	/**
 	 * Is the current page an editing page?
 	 */
 	private bool $is_editor_page;
 
 	/**
+	 * Won't be executed on these pages
+	 */
+	const PAGES_PROHIBITED = [ '/wp-admin/admin-ajax.php', '/wp-admin/post.php', '/wp-json/wp/v2/posts' ];
+
+	/**
 	 * Class Monolog\Logger
 	 */
-	public LoggerMonolog $logger_class;
+	public LoggerMonolog $log;
 
 	/**
 	 * Constructor
@@ -66,25 +59,15 @@ class Logger {
 	 * @param string $logger_name Title of Monolog logger
 	 * @param bool $screen_output whether to output Monolog on screen or not
 	 */
-	public function __construct( string $logger_name, bool $screen_output = true ) {
+	public function __construct( string $logger_name = 'unknownOrigin', bool $screen_output = true ) {
 
 		// Get Global Settings class properties.
 		$this->get_db_options();
 
-		// Send the variables passed in construct to global properties.
-		$this->logger_name = $logger_name;
-		$this->screen_output = $screen_output;
-
 		// Run WordPress block editor identificator giving value to $this->is_editor_page.
 		$this->is_editor_page = $this->lumiere_is_screen_editor();
 
-		// Add a hook so we can activate manually. Using anonymous function so can send the params.
-		add_action(
-			'lumiere_logger',
-			function(): void {
-				$this->lumiere_start_logger( $this->logger_name, $this->screen_output );
-			}
-		);
+		$this->log = $this->set_logger( $logger_name, $screen_output );
 	}
 
 	/**
@@ -109,49 +92,46 @@ class Logger {
 				|| $GLOBALS['hook_suffix'] === 'post-new.php'
 			)
 		) {
-
 			return true;
 		}
 
 		// If the referer of current page is a specific one, set $is_editor_page on true.
 		// This is useful when saving a post in editor interface.
-		$referer = strlen( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) > 0 ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) : '';
-		$pages_prohibited = [ '/wp-admin/admin-ajax.php', '/wp-admin/post.php', '/wp-json/wp/v2/posts' ];
-		if ( Data::lumiere_array_contains_term( $pages_prohibited, esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) ) ) {
+		$referer = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
+		if ( Data::lumiere_array_contains_term( self::PAGES_PROHIBITED, $referer ) ) {
 			return true;
 		}
-
 		return false;
 	}
 
+	/**
+	 * Kept for compatibility purposes, avoid fatal error
+	 * @TODO To be removed as of > v4.3.4
+	 * @obsolete
+	 */
+	public function log(): LoggerMonolog {
+		return new LoggerMonolog( 'null' );
+	}
 	/**
 	 * Start and select which Logger to use
 	 *
 	 * Can be called by the hook 'lumiere_logger_hook' or directly as a function
 	 *
-	 * @param null|string $logger_name: title applied to the logger in the logs under origin
-	 * @param null|bool $screen_output: whether to display the screen output. Useful for plugin activation.
+	 * @param string $logger_name: title applied to the logger in the logs under origin
+	 * @param bool $screen_output: whether to display the screen output. Useful for plugin activation.
 	 *
-	 * @return void the logger in set in $logger_class
+	 * @return LoggerMonolog the logger in set in $log
 	 */
-	public function lumiere_start_logger( ?string $logger_name, ?bool $screen_output = true ): void {
+	private function set_logger( string $logger_name, bool $screen_output = true ): LoggerMonolog {
 
-		global $wp_filesystem;
+		// Start Monolog class.
+		$log = new LoggerMonolog( $logger_name );
 
-		// Get local vars and send to global class properties if set, if empty get the global vars.
-		$logger_name = isset( $logger_name ) ? $this->logger_name = $logger_name : $logger_name = $this->logger_name;
-		$screen_output = isset( $screen_output ) ? $this->screen_output = $screen_output : $screen_output = $this->screen_output;
-
-		// Start Monolog logger.
 		/** @psalm-suppress UndefinedConstant, RedundantCondition -- Psalm can't deal with dynamic constants */
 		if (
 			( current_user_can( 'manage_options' ) && $this->imdb_admin_values['imdbdebug'] === '1' )
 			|| ( $this->imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON )
 		) {
-
-			// Start Monolog logger.
-			$this->logger_class = new LoggerMonolog( $logger_name );
-
 			// Get the verbosity from options and build the constant.
 			$logger_verbosity = constant( '\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel'] );
 
@@ -165,18 +145,16 @@ class Logger {
 
 				// Create log file if it doesn't exist, use null logger and exit if can't write to the log.
 				// @since 3.9.1 created create_log() method, using its output to exit if no path created.
-				$final_log_file = $this->imdb_admin_values['imdbdebuglogpath'];
-				$final_log_file = $this->maybe_create_log( $final_log_file );
+				$final_log_file = $this->maybe_create_log( $this->imdb_admin_values['imdbdebuglogpath'] );
 
 				if ( $final_log_file === null ) {
-					$this->logger_class = new LoggerMonolog( $logger_name );
-					$this->logger_class->pushHandler( new NullHandler() );
+					$log->pushHandler( new NullHandler() );
 					error_log( '***WP Lumiere Plugin ERROR***: cannot use any log file' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-					return;
+					return $log;
 				}
 
 				// Add the file, the line, the class, the function to the log.
-				$this->logger_class->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
+				$log->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
 				$filelogger = new StreamHandler( $final_log_file, $logger_verbosity );
 
 				// Change the date and output formats of the log.
@@ -186,8 +164,7 @@ class Logger {
 				$filelogger->setFormatter( $screenformater );
 
 				// Use the new format and processor.
-				$this->logger_class->pushHandler( $filelogger );
-
+				$log->pushHandler( $filelogger );
 			}
 
 			/**
@@ -196,13 +173,12 @@ class Logger {
 			 */
 			if (
 				// IF: option 'debug on screen' is activated.
-				( $this->imdb_admin_values['imdbdebugscreen'] === '1' )
+				$this->imdb_admin_values['imdbdebugscreen'] === '1'
 				// IF: variable 'output on screen' is selected.
-				&& ( $screen_output === true )
+				&& $screen_output === true
 				// IF: the page is not block editor (gutenberg).
-				&& ( $this->is_editor_page === false )
+				&& $this->is_editor_page === false
 			) {
-
 				// Change the format. @since 4.0.1 added class lumiere_wrap that is only in admin.
 				$output = "<div class=\"lumiere_wrap\">[%level_name%] %message%</div>\n";
 				$screenformater = new LineFormatter( $output );
@@ -212,27 +188,14 @@ class Logger {
 				$screenlogger->setFormatter( $screenformater );
 
 				// Utilise the new handler and format
-				$this->logger_class->pushHandler( $screenlogger );
+				$log->pushHandler( $screenlogger );
 			}
-			return;
+			return $log;
 		}
 
 		// Run null logger for all other cases.
-		$this->logger_class = new LoggerMonolog( $logger_name );
-		$this->logger_class->pushHandler( new NullHandler() );
-	}
-
-	/**
-	 * Function to call the Monolog Logger
-	 *
-	 * @return LoggerMonolog the Monolog class
-	 */
-	public function log(): LoggerMonolog {
-
-		// Start the logger.
-		do_action( 'lumiere_logger' );
-
-		return $this->logger_class;
+		$log->pushHandler( new NullHandler() );
+		return $log;
 	}
 
 	/**
@@ -265,7 +228,7 @@ class Logger {
 		// Debug file doesn't exist, create it.
 		if ( $wp_filesystem->is_file( $log_file ) === false ) {
 			$wp_filesystem->put_contents( $log_file, '' );
-			error_log( '***WP Lumiere Plugin***: created debug file ' . $log_file ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( '***WP Lumiere Plugin***: Debug did not exist, created a debug file ' . $log_file ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
 
 		// Debug file permissions are wrong, change them.
@@ -301,9 +264,7 @@ class Logger {
 			error_log( '***WP Lumiere Plugin ERROR***: Tried everything, cannot create any debug log both neither in wp-content nor in Lumiere plugin folder.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			return null;
 		}
-
 		return $log_file;
 	}
-
 }
 

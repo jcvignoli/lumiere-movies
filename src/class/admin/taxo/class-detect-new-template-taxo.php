@@ -209,8 +209,8 @@ class Detect_New_Template_Taxo {
 
 	/**
 	 * Build templates paths
-	 * 'template_origin' is the standard template inside Lumière's plugin folder
-	 * 'template_dest' is the destination theme folder where the standard template will be copied
+	 * $template_paths['origin']  is the standard template inside Lumière's plugin folder
+	 * $template_paths['destination'] is the destination theme folder where the standard template will be copied
 	 *
 	 * @param string $item Taxonomy string, ie 'director'
 	 * @return array<string, string>

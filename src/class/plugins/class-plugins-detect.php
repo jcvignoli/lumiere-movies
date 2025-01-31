@@ -19,18 +19,18 @@ if ( ! defined( 'WPINC' ) ) {
 use Lumiere\Frontend\Main;
 
 /**
- * Detect which WP plugins are available in SUBFOLDER_PLUGINS_BIT subfolder and are active
- * This class only returns automatically found classes
+ * Detect which WP plugins are available in SUBFOLDER_PLUGINS_AUTO subfolder and are active
+ * This class only returns automatically active plugins
  *
+ * @phpstan-type PLUGINS_AUTO_KEYS 'amp'|'aioseo'|'irp'|'oceanwp'|'polylang'
  * @phpstan-type PLUGINS_AUTO_CLASSES \Lumiere\Plugins\Auto\Amp|\Lumiere\Plugins\Auto\Oceanwp|\Lumiere\Plugins\Auto\Polylang|\Lumiere\Plugins\Auto\Aioseo|\Lumiere\Plugins\Auto\Irp
- * @phpstan-type PLUGINS_MANUAL_CLASSES \Lumiere\Plugins\Manual\Imdbphp
- * @phpstan-type PLUGINS_AUTO_KEYS 'amp'|'oceanwp'|'polylang'|'aioseo'|'irp'
  * @phpstan-type PLUGINS_MANUAL_KEYS 'imdbphp'
+ * @phpstan-type PLUGINS_MANUAL_CLASSES \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-type PLUGINS_ALL_KEYS PLUGINS_AUTO_KEYS|PLUGINS_MANUAL_KEYS
- * @phpstan-type PLUGINS_ALL_CLASSES PLUGINS_MANUAL_CLASSES|PLUGINS_MANUAL_CLASSES
+ * @phpstan-type PLUGINS_ALL_CLASSES PLUGINS_AUTO_CLASSES|PLUGINS_MANUAL_CLASSES
  *
  * @since 3.7 Class created
- * @since 4.1 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_BIT folder, and get_active_plugins() returns an array of plugins available
+ * @since 4.1 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_AUTO folder, and get_active_plugins() returns an array of plugins available
  * @since 4.3 Use trait Main from Frontend to detect if it's an AMP Page
  */
 class Plugins_Detect {
@@ -43,7 +43,8 @@ class Plugins_Detect {
 	/**
 	 * Subfolder name of the plugins that can be automatically started
 	 */
-	public const SUBFOLDER_PLUGINS_BIT = 'auto';
+	public const SUBFOLDER_PLUGINS_AUTO = 'auto';
+	public const SUBFOLDER_PLUGINS_MANUAL = 'manual';
 
 	/**
 	 * Constructor
@@ -59,7 +60,7 @@ class Plugins_Detect {
 	 */
 	private function find_available_auto_plugins(): array {
 		$available_plugins = [];
-		$find_files = glob( __DIR__ . '/' . self::SUBFOLDER_PLUGINS_BIT . '/*' );
+		$find_files = glob( __DIR__ . '/' . self::SUBFOLDER_PLUGINS_AUTO . '/*' );
 		$files = $find_files !== false ? array_filter( $find_files, 'is_file' ) : [];
 		foreach ( $files as $file ) {
 			/** @phpstan-var PLUGINS_AUTO_KEYS $filename */
@@ -72,10 +73,10 @@ class Plugins_Detect {
 	/**
 	 * Return list of active plugins
 	 * Put "null" in associative array if the plugin is inactive, and then filters null plugins to return only active ones
-	 * Use the plugin located in "SUBFOLDER_PLUGINS_BIT" subfolder to build the method names, then check if they are active
+	 * Use the plugin located in "SUBFOLDER_PLUGINS_AUTO" subfolder to build the method names, then check if they are active
 	 *
-	 * @return array<string, class-string|null>
-	 * @phpstan-return array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>}
+	 * @return array<string, class-string>
+	 * @phpstan-return array<PLUGINS_AUTO_KEYS, class-string<PLUGINS_AUTO_CLASSES>>
 	 *
 	 * @see Plugins_Detect::find_available_plugins() that builds the list of available plugins
 	 */
@@ -85,34 +86,16 @@ class Plugins_Detect {
 		foreach ( $available_plugins as $plugin ) {
 			$method = $plugin . '_is_active';
 			if ( method_exists( $this, $method ) && $this->{$method}() === true ) {
-				$subfolder_plugins = strlen( self::SUBFOLDER_PLUGINS_BIT ) > 0 ? ucfirst( self::SUBFOLDER_PLUGINS_BIT ) . '\\' : '';
-				// @phpstan-var class-string<PLUGINS_AUTO_CLASSES> $namespace_class
+				$subfolder_plugins = ucfirst( self::SUBFOLDER_PLUGINS_AUTO ) . '\\';
+				/** @phpstan-var class-string<PLUGINS_AUTO_CLASSES> $namespace_class */
 				$namespace_class = __NAMESPACE__ . '\\' . $subfolder_plugins . ucfirst( $plugin );
-				// @phpstan-var array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>} $plugins_class
 				$plugins_class[ $plugin ] = $namespace_class;
 				continue;
 			}
-
-			// @phpstan-var array{PLUGINS_AUTO_KEYS: null} $plugins_class
 			$plugins_class[ $plugin ] = null;
 		}
-		/** @phpstan-var array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>|null}|array{} $plugins_class */
-		return $this->filter_active_plugins( $plugins_class );
-	}
 
-	/**
-	 * Filter in an array plugins that are not active
-	 * If the array-value is null, the plugin will be removed from the list.
-	 *
-	 * @param array<string, string|null> $plugin_name
-	 * @phpstan-param array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>|null}|array{} $plugin_name An array of the plugins active
-	 * @return array<string, class-string>
-	 * @phpstan-return array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>}
-	 */
-	private function filter_active_plugins( array $plugin_name ): array {
-		$return = array_filter( $plugin_name, 'is_string' );
-		/** @phpstan-var array{PLUGINS_AUTO_KEYS: class-string<PLUGINS_AUTO_CLASSES>} $return */
-		return $return;
+		return array_filter( $plugins_class, 'is_string' );
 	}
 
 	/**

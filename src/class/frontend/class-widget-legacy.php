@@ -73,7 +73,7 @@ class Widget_Legacy extends Widget_Selection {
 		$get_plugins_classes_active = ( new Plugins_Start( [ 'imdbphp' ] ) )->plugins_classes_active;
 		$widget_class = new Widget_Frontpage( $get_plugins_classes_active );
 		$lum_widget_name = isset( $args['widget_name'] ) && is_string( $args['widget_name'] ) ? esc_html( $args['widget_name'] ) : '';
-		$widget_class->logger->log()->debug( '[Lumiere][Widget_Legacy] Using ' . $lum_widget_name . '.' );
+		$widget_class->logger->log->debug( '[Lumiere][Widget_Legacy] Using ' . $lum_widget_name . '.' );
 
 		$kses_escape = [
 			'div' => [

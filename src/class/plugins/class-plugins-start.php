@@ -65,9 +65,8 @@ class Plugins_Start {
 	 * Classes are located in Plugins_Detect::SUBFOLDER_PLUGINS_BIT
 	 *
 	 * @param array<string, class-string> $active_plugins
-	 * @phpstan-param array{PLUGINS_AUTO_KEYS?: class-string<PLUGINS_AUTO_CLASSES>, PLUGINS_MANUAL_KEYS?: class-string<PLUGINS_MANUAL_CLASSES>} $active_plugins
-	 * @return array<string, object> Classes have been activated
-	 * @phpstan-return array{PLUGINS_MANUAL_KEYS?: PLUGINS_MANUAL_CLASSES}
+	 * @phpstan-param array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>} $active_plugins
+	 * @phpstan-return array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES}
 	 */
 	private function activate_plugins( array $active_plugins ): array {
 
@@ -82,13 +81,13 @@ class Plugins_Start {
 				//add_action( 'init', fn() => $current_plugin_activated->get_active_plugins( $active_plugins ), 20 ); // 20 so make sure it's always executed.
 			}
 		}
-		/** @phpstan-ignore return.type ("Method...returns non-empty-array<'AVAILABLE_AUTO…'|'AVAILABLE_MANUAL…'" => I don't get it, it's associative!) */
+		/** @psalm-var array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES} $all_plugins_activated (No idea why Psalm needs this) */
 		return $all_plugins_activated;
 	}
 
 	/**
 	 * Add extra manual classe(s)
-	 * They're not in SUBFOLDER_PLUGINS_BIT, they're in "plugins/manual"
+	 * They're not in SUBFOLDER_PLUGINS_AUTO, they're in "plugins/manual"
 	 *
 	 * @param array<string> $extra_classes Extra classes to add, ie [ 'imdbphp' ]
 	 * @phpstan-param non-empty-array<PLUGINS_MANUAL_KEYS> $extra_classes
@@ -101,7 +100,7 @@ class Plugins_Start {
 
 		foreach ( $extra_classes as $extra_class_name ) {
 			/** @phpstan-var class-string<PLUGINS_MANUAL_CLASSES> $full_class_name */
-			$full_class_name = __NAMESPACE__ . '\\Manual\\' . ucfirst( $extra_class_name );
+			$full_class_name = __NAMESPACE__ . '\\' . ucfirst( Plugins_Detect::SUBFOLDER_PLUGINS_MANUAL ) . '\\' . ucfirst( $extra_class_name );
 			if ( class_exists( $full_class_name ) ) {
 				$array_plugin_names[ $extra_class_name ] = $full_class_name;
 			}

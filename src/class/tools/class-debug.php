@@ -55,7 +55,10 @@ class Debug {
 	 * @param string $method
 	 */
 	private static function trigger_wp_error( string $method, string $text ): void {
-		/* @phpstan-ignore argument.type (This is wrong, until fixed upstream https://github.com/php-stubs/wordpress-stubs/issues/270) */
+		/**
+		 * @psalm-suppress ArgumentTypeCoercion
+		 * @phpstan-ignore argument.type (This is wrong, until fixed upstream https://github.com/php-stubs/wordpress-stubs/issues/270)
+		 */
 		wp_trigger_error( $method, $text );
 	}
 }

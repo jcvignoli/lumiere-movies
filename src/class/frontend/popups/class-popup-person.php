@@ -106,17 +106,17 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	 */
 	private function get_result( string $person_id ): Name {
 
-		$person_class = $this->plugins_classes_active['imdbphp']->get_name_class( $person_id, $this->logger->log() );
+		$person_class = $this->plugins_classes_active['imdbphp']->get_name_class( $person_id, $this->logger->log );
 
 		// if neither film nor mid are set, throw a 404 error
 		if ( $person_class->name() === null ) {
 			status_header( 404 );
 			$text = __( 'Could not find any IMDb person with this query.', 'lumiere-movies' );
-			$this->logger->log()->error( '[Lumiere][Popup_Person] ' . esc_html( $text ) );
+			$this->logger->log->error( '[Lumiere][Popup_Person] ' . esc_html( $text ) );
 			wp_die( esc_html( $text ) );
 		}
 
-		$this->logger->log()->debug( '[Lumiere] Movie person IMDb ID provided in URL: ' . esc_html( $person_id ) );
+		$this->logger->log->debug( '[Lumiere] Movie person IMDb ID provided in URL: ' . esc_html( $person_id ) );
 		return $person_class;
 	}
 
@@ -137,7 +137,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		 */
 		echo '<div id="spinner-placeholder"></div>';
 
-		$this->logger->log()->debug( '[Lumiere][Popup_Person] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log->debug( '[Lumiere][Popup_Person] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 		// Show menu.
 		$this->display_menu();
