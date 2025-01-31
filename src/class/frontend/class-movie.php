@@ -67,7 +67,10 @@ class Movie {
 	 */
 	public function __construct( array $plugins_classes_active ) {
 
-		/** @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp'. => find better notation) */
+		/**
+		 * @psalm-suppress InvalidPropertyAssignmentValue
+		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp' => find better notation)
+		 */
 		$this->plugins_classes_active = $plugins_classes_active;
 
 		// Construct Frontend Main trait.
@@ -115,7 +118,7 @@ class Movie {
 		 * Create much cache and may lead PHP to a Fatal error
 		 */
 		if ( \Lumiere\Plugins\Auto\Amp::is_amp_validating() === true ) {
-			$this->logger->log()->debug( '[Lumiere][Widget_Frontpage] This is an AMP validation test, exiting to save server resources' );
+			$this->logger->log->debug( '[Lumiere][Widget_Frontpage] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
 
@@ -124,7 +127,7 @@ class Movie {
 
 		foreach ( $movies_searched as $movie_found ) {
 
-			$this->logger->log()->debug( "[Lumiere][Movie] Displaying rows for *$movie_found*" );
+			$this->logger->log->debug( "[Lumiere][Movie] Displaying rows for *$movie_found*" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- Lumière! movies plugin -->';
 			$output .= "\n\t<div class='lum_results_frame";
@@ -166,9 +169,10 @@ class Movie {
 		if ( $this->movie_run_once === false ) {
 
 			// Log the current link maker
-			$this->logger->log()->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+			$this->logger->log->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+
 			// Log Plugins_Start, $this->plugins_classes_active in trait
-			$this->logger->log()->debug( '[Lumiere][Movie] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+			$this->logger->log->debug( '[Lumiere][Movie] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 			$this->movie_run_once = true;
 		}
 
@@ -179,31 +183,31 @@ class Movie {
 
 				$film = strtolower( $films_array[ $i ]['byname'] ); // @since 4.0 lowercase, less cache used.
 
-				$this->logger->log()->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $film ) );
+				$this->logger->log->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $film ) );
 
 				// check a the movie title exists.
-				$this->logger->log()->debug( '[Lumiere][Movie] searching for ' . $film );
+				$this->logger->log->debug( '[Lumiere][Movie] searching for ' . $film );
 				/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
 				$results = $this->plugins_classes_active['imdbphp']->search_movie_title(
 					esc_html( $film ),
-					$this->logger->log(),
+					$this->logger->log,
 				);
 
 				// No results were found in imdbphp query.
 				if ( ! isset( $results[0] ) ) {
-					$this->logger->log()->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
+					$this->logger->log->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
 					// no result, so jump to the next query.
 					continue;
 				}
 
 				// Get the first result from the search
 				$movies_found[] = esc_html( $results[0]['imdbid'] );
-				$this->logger->log()->debug( '[Lumiere][Movie] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
+				$this->logger->log->debug( '[Lumiere][Movie] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
 
 				// A movie's ID was passed.
 			} elseif ( isset( $films_array[ $i ]['bymid'] ) ) {
 				$movies_found[] = esc_html( strval( $films_array[ $i ]['bymid'] ) );
-				$this->logger->log()->debug( '[Lumiere][Movie] IMDb ID provided: *' . $movies_found[ $i ] . '*' );
+				$this->logger->log->debug( '[Lumiere][Movie] IMDb ID provided: *' . $movies_found[ $i ] . '*' );
 			}
 
 		}
@@ -385,7 +389,7 @@ class Movie {
 		// Find the Title based on $mid_premier_resultat.
 		$movie_title_object = $this->plugins_classes_active['imdbphp']->get_title_class(
 			esc_html( $mid_premier_resultat ), // The IMDb ID.
-			$this->logger->log(),
+			$this->logger->log,
 		);
 
 		foreach ( $this->imdb_data_values['imdbwidgetorder'] as $data_detail => $order ) {
@@ -399,12 +403,15 @@ class Movie {
 				// Build the method name according to the data detail name.
 				$method = 'lum_movies_' . $data_detail;
 
-				// Get the child class with the methods.
+				/**
+				 * Get the child class with the methods.
+				 * @psalm-suppress InvalidArgument
+				 */
 				$movie_data_class = new Movie_Data( $this->plugins_classes_active );
 
 				// Build the final class+method with the movie_object.
 				if ( ! method_exists( $movie_data_class, $method ) ) {
-					$this->logger->log()->warning( '[Lumiere][Movie] The method ' . $method . ' does not exist in class ' . get_class( $movie_data_class ) . ', aborting' );
+					$this->logger->log->warning( '[Lumiere][Movie] The method ' . $method . ' does not exist in class ' . get_class( $movie_data_class ) . ', aborting' );
 
 					exit( 1 );
 				}
@@ -497,7 +504,7 @@ class Movie {
 				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
 				$term_for_log = wp_json_encode( $term_inserted );
 				if ( $term_for_log !== false ) {
-					$this->logger->log()->debug( '[Lumiere][Movie] Taxonomy term *' . $taxonomy_term . '* added to *' . $taxonomy_category_full . '* (association numbers ' . $term_for_log . ' )' );
+					$this->logger->log->debug( '[Lumiere][Movie] Taxonomy term *' . $taxonomy_term . '* added to *' . $taxonomy_category_full . '* (association numbers ' . $term_for_log . ' )' );
 				}
 			}
 
@@ -510,7 +517,7 @@ class Movie {
 			 */
 			if ( ! $term_for_set_object instanceof \WP_Error ) {
 				$term_taxonomy_id = wp_set_object_terms( $page_id, $term_for_set_object, $taxonomy_category_full, true );
-				// $this->logger->log()->debug( '[Lumiere][Movie] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
+				// $this->logger->log->debug( '[Lumiere][Movie] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
 			}
 		}
 

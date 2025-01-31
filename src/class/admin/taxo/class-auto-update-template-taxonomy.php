@@ -40,11 +40,6 @@ class Auto_Update_Template_Taxonomy extends Copy_Template_Taxonomy {
 	private Detect_New_Template_Taxo $detect_new_template_taxo;
 
 	/**
-	 * Logger class
-	 */
-	private Logger $logger;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -88,7 +83,7 @@ class Auto_Update_Template_Taxonomy extends Copy_Template_Taxonomy {
 		global $wp_filesystem;
 
 		if ( ! isset( $destination_file ) || ! isset( $origin_file ) ) {
-			$this->logger->log()->error( 'Missing origin or destination file' );
+			$this->logger->log->error( 'Missing origin or destination file' );
 			return;
 		}
 
@@ -102,10 +97,10 @@ class Auto_Update_Template_Taxonomy extends Copy_Template_Taxonomy {
 			// Copy files.
 			parent::copy_taxonomy_template( $origin_file, $destination_file, $item );
 			// set_transient( 'notice_lumiere_msg', 'taxotemplateautoupdate_success', 1 ); // What for? Run in cron.
-			$this->logger->log()->debug( 'Template file ' . $destination_file . ' has been updated to the latest version' );
+			$this->logger->log->debug( 'Template file ' . $destination_file . ' has been updated to the latest version' );
 			return;
 		}
-		$this->logger->log()->info( 'Template file ' . $destination_file . ' was not updated, probably TemplateAutomaticUpdate was removed.' );
+		$this->logger->log->info( 'Template file ' . $destination_file . ' was not updated, probably TemplateAutomaticUpdate was removed.' );
 	}
 
 	/**

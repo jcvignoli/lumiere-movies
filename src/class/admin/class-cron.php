@@ -107,7 +107,7 @@ class Cron {
 	 */
 	public function lumiere_exec_once_update(): void {
 
-		$this->logger->log()->debug( '[Lumiere][Cron] Cron run once started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
+		$this->logger->log->debug( '[Lumiere][Cron] Cron run once started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
 		// Run updating process.
 		$start_update_options = new Updates();
@@ -142,7 +142,7 @@ class Cron {
 	 */
 	public function lum_cache_autorefresh(): void {
 
-		$this->logger->log()->debug( '[Lumiere][Cron] Cron refreshing cache started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
+		$this->logger->log->debug( '[Lumiere][Cron] Cron refreshing cache started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
 		$cache_class = new Cache_Files_Management();
 		$cache_class->cron_all_cache_refresh(
@@ -150,7 +150,7 @@ class Cron {
 			self::CACHE_DAYS_AUTO_REFRESH_ROUND /* nb of days before having a new overall refresh */
 		);
 
-		$this->logger->log()->debug( '[Lumiere][Cron] Cron refreshing cache ended at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
+		$this->logger->log->debug( '[Lumiere][Cron] Cron refreshing cache ended at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 	}
 
 	/**
@@ -191,7 +191,7 @@ class Cron {
 		) {
 			// Cron to run twice Daily, first time in 1 minute
 			wp_schedule_event( time() + 1, 'hourly', 'lumiere_cron_deletecacheoversized' );
-			$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_deletecacheoversized added' );
+			$this->logger->log->debug( '[Lumiere][Cron] Cron lumiere_cron_deletecacheoversized added' );
 
 			// Remove cron imdbcachekeepsizeunder.
 		} elseif (
@@ -204,7 +204,7 @@ class Cron {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
 					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */
 					wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
-					$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_deletecacheoversized removed' );
+					$this->logger->log->debug( '[Lumiere][Cron] Cron lumiere_cron_deletecacheoversized removed' );
 				}
 			}
 		}
@@ -235,7 +235,7 @@ class Cron {
 			$starting_time = strtotime( '+6 hours', time() );
 			/** @psalm-suppress InvalidArgument -- With time(), it's always int! */
 			wp_schedule_event( $starting_time, 'hourly', 'lumiere_cron_autofreshcache' );
-			$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_autofreshcache added' );
+			$this->logger->log->debug( '[Lumiere][Cron] Cron lumiere_cron_autofreshcache added' );
 
 			// Remove cron imdbcacheautorefreshcron.
 		} elseif (
@@ -248,7 +248,7 @@ class Cron {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_autofreshcache' );
 					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */
 					wp_unschedule_event( $timestamp, 'lumiere_cron_autofreshcache' );
-					$this->logger->log()->debug( '[Lumiere][Cron] Cron lumiere_cron_autofreshcache removed' );
+					$this->logger->log->debug( '[Lumiere][Cron] Cron lumiere_cron_autofreshcache removed' );
 				}
 			}
 			delete_transient( 'lum_cache_cron_refresh_time_started' );

@@ -13,6 +13,7 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
+use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Admin\Admin_General;
 use Exception;
@@ -31,12 +32,21 @@ class Copy_Template_Taxonomy {
 	use Settings_Global, Admin_General;
 
 	/**
+	 * Logger class
+	 */
+	protected Logger $logger;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
+
 		// Get Global Settings class properties.
 		$this->get_settings_class();
 		$this->get_db_options();
+
+		// Start Logger class.
+		$this->logger = new Logger( 'copyTemplateTaxonomy' );
 	}
 
 	/**
@@ -56,7 +66,10 @@ class Copy_Template_Taxonomy {
 	 */
 	private function maybe_copy_taxonomy_template( string $url_data_taxo_page ): void {
 		// Escape gets and get taxotype and nonce.
-		$lumiere_taxo_title = isset( $_GET['taxotype'] ) && isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0 ? sanitize_key( $_GET['taxotype'] ) : null;
+		$lumiere_taxo_title =
+			isset( $_GET['taxotype'] ) && isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
+			? sanitize_key( $_GET['taxotype'] )
+			: null;
 
 		// Build links and vars.
 		if ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( $this->config_class->array_people ), true ) ) {
@@ -92,6 +105,7 @@ class Copy_Template_Taxonomy {
 				set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );
 			}
 			if ( wp_safe_redirect( $url_data_taxo_page ) ) {
+				$this->logger->log->info( 'Template file ' . $lumiere_taxonomy_theme_file . ' was copied.' );
 				exit;
 			}
 		}

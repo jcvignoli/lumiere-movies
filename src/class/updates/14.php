@@ -55,7 +55,7 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		}
 
 		// Simplify the coding.
-		$logger = $this->logger->log();
+		$logger = $this->logger->log;
 
 		// Update the number of updates already processed in Lumière options.
 		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );

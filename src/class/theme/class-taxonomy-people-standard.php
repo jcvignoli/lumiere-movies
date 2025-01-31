@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.8.3
+ * Version: 3.8.5
  *
  * @package lumiere-movies
  *
@@ -19,7 +19,6 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Imdb\Name;
-use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Frontend\Main;
 use Lumiere\Plugins\Plugins_Start;
 use WP_Query;
@@ -33,7 +32,7 @@ use WP_Query;
  * 2/ wp-blog-header.php:19 calls template-loader.php:106 which call current taxonomy, as set in Taxonomy
  *
  * @see \Lumiere\Alteration\Taxonomy Build the taxonomy system and taxonomy pages
- * @see \Lumiere\Main Trait to builds $this->link_maker var
+ * @see \Lumiere\Main Trait to get $this->link_maker var (builds the links, AMP being the most relevant), the config class, the options
  *
  * @since 4.1 Use of plugins detection, lumiere_medaillon_bio() returns larger number of characters for introduction, Polylang form with AMP works
  * @since 4.3 More OOP, Polylang and Imdbphp plugins fully utilised, returning the current job queried only
@@ -51,16 +50,16 @@ class Taxonomy_People_Standard {
 	private bool $activate_sidebar = false;
 
 	/**
-	 * Class \Imdb\Name
+	 * Class \Imdb\Name instanciated
 	 */
 	private ?Name $person_class;
 
 	/**
 	 * Name of the person sanitized
 	 *
-	 * @var string $person_name
+	 * @var string|null $person_name
 	 */
-	private string $person_name;
+	private ?string $person_name;
 
 	/**
 	 * Taxonomy category
@@ -79,7 +78,7 @@ class Taxonomy_People_Standard {
 	 */
 	public function __construct() {
 
-		// Construct Frontend trait.
+		// Get options, settings, links from Frontend trait.
 		$this->start_main_trait();
 
 		/**
@@ -88,15 +87,12 @@ class Taxonomy_People_Standard {
 		 */
 		$this->plugins_start = new Plugins_Start( [ 'imdbphp' ] );
 
-		// Build the Link Maker var in trait.
-		$this->link_maker = Link_Factory::lumiere_link_factory_start();
-
 		// Full taxonomy title.
 		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
 
 		// Class person, find also name of the current taxo
 		$this->person_class = $this->get_imdbphp_person_searched();
-		$this->person_name = isset( $this->person_class ) && $this->person_class->name() !== null ? $this->person_class->name() : '';
+		$this->person_name = isset( $this->person_class ) && $this->person_class->name() !== null ? $this->person_class->name() : null;
 
 		/**
 		 * Start AMP headers if AMP page and Polylang
@@ -104,9 +100,10 @@ class Taxonomy_People_Standard {
 		 * Not in use
 		 */
 		if ( $this->plugins_start->is_plugin_active( 'amp' ) === true && $this->plugins_start->is_plugin_active( 'polylang' ) === true ) { // Method in Trait Main.
+			/** @psalm-suppress InvalidArrayOffset (Cannot access value offset...value of 'polylang', expecting 'PLUGINS_ALL_KEYS') */
 			$class_polylang = $this->plugins_start->plugins_classes_active['polylang'];
-			add_action( 'wp_ajax_amp_comment_submit', fn() => $class_polylang->amp_form_submit() );
-			add_action( 'wp_ajax_nopriv_amp_comment_submit', fn() => $class_polylang->amp_form_submit() );
+			add_action( 'wp_ajax_amp_comment_submit', fn(): mixed => $class_polylang->amp_form_submit() );
+			add_action( 'wp_ajax_nopriv_amp_comment_submit', fn(): mixed => $class_polylang->amp_form_submit() );
 		}
 	}
 
@@ -137,6 +134,7 @@ class Taxonomy_People_Standard {
 		$get_title = sanitize_title( single_tag_title( '', false ) ?? '' );
 
 		// If we are in a WP taxonomy page, the info from imdbphp libraries.
+		/** @psalm-suppress InvalidArrayOffset (Cannot access value offset...value of 'polylang', expecting 'PLUGINS_ALL_KEYS') */
 		$results = $this->plugins_start->plugins_classes_active['imdbphp']->search_person_name( $get_title, $this->logger->log_null() ); // no log, breaks layout, executed too early.
 		if ( array_key_exists( 0, $results ) ) {
 			return $this->plugins_start->plugins_classes_active['imdbphp']->get_name_class( esc_html( $results[0]['id'] ), $this->logger->log_null() ); // no log, breaks layout, executed too early. => search the class Name using the first result found earlier.
@@ -244,8 +242,8 @@ class Taxonomy_People_Standard {
 
 		get_header();
 
-		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->log->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -283,8 +281,8 @@ class Taxonomy_People_Standard {
 		<?php block_header_area(); ?>
 		</header>
 		<?php
-		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log()->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->log->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>
@@ -311,9 +309,11 @@ class Taxonomy_People_Standard {
 		$output .= '<div id="content-wrap" class="container clr">';
 
 		 // end of section if a result was found for the taxonomy.
-		if ( strlen( $this->person_name ) > 0 ) {
+		if ( isset( $this->person_name ) ) {
 
 			$output .= $this->lum_taxo_portrait( $this->person_name );
+			// Display the related posts part.
+			$output .= $this->run_person_query( $this->person_name );
 
 		} else {
 			// No imdb result, so display a basic title.
@@ -321,9 +321,6 @@ class Taxonomy_People_Standard {
 			$output .= "\n\t\t" . '<h1 class="pagetitle">' . esc_html__( 'Taxonomy for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . ' as <i>standard</i></h1>';
 			$output .= "\n\t\t" . '<div>' . esc_html__( 'No IMDb result found for ', 'lumiere-movies' ) . ' ' . esc_html( $title_from_tag ?? '' ) . '</div>';
 		}
-
-		// Display the related posts part.
-		$output .= $this->run_person_query( $this->person_name );
 
 		$output .= '</div>';
 		$output .= '</main>';
@@ -428,7 +425,7 @@ class Taxonomy_People_Standard {
 		if ( count( $check_if_no_result ) === 0 && strlen( $person_name ) > 0 ) {
 
 			/* translators: %1$s is the name of a person */
-			$output .= '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">' . esc_html( sprintf( __( 'No post written about %1$s', 'lumiere-movies' ), $this->person_name ) ) . '</div>';
+			$output .= '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">' . esc_html( sprintf( __( 'No post written about %1$s', 'lumiere-movies' ), $person_name ) ) . '</div>';
 
 		}
 

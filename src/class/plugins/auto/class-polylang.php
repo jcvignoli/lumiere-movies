@@ -41,19 +41,18 @@ class Polylang {
 	/**
 	 * Array of plugins currently in use
 	 *
-	 * @phpstan-var array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>}
 	 * @var array<string, class-string>
+	 * @phpstan-var array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>}
 	 */
 	private array $active_plugins;
 
 	/**
 	 * Logger class
 	 */
-	public ?Logger $logger = null;
+	public Logger $logger;
 
 	/**
 	 * Constructor
-	 *
 	 */
 	final public function __construct() {
 
@@ -74,8 +73,9 @@ class Polylang {
 
 	/**
 	 * Get for extra params not to be run in self::__construct. Automatically executed from Plugins_Start
-	 * @phpstan-param array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>} $active_plugins
+	 *
 	 * @param array<string, class-string> $active_plugins
+	 * @phpstan-param array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>} $active_plugins
 	 */
 	public function get_active_plugins( array $active_plugins ): void {
 		// Get the list of active plugins.
@@ -353,19 +353,19 @@ class Polylang {
 	 */
 	public function update_taxonomy_terms( ?Logger $logger, int $page_id, string $full_new_taxonomy, string $full_old_taxonomy, string $title ): bool {
 
-		$logger?->log()->info( '[Lumiere][Taxonomy][Update terms][Polylang] Polylang taxonomy version started' );
-		$logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" being processed' );
+		$logger?->log->info( '[Lumiere][Taxonomy][Update terms][Polylang] Polylang taxonomy version started' );
+		$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" being processed' );
 
 		$get_lang = pll_get_post_language( $page_id );
 		$lang = $get_lang !== false ? $get_lang : '';
 		$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
 
 		if ( $terms_post === false || $terms_post instanceof \WP_Error ) {
-			$logger?->log()->error( '[Lumiere][Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
+			$logger?->log->error( '[Lumiere][Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
 			return false;
 		}
 
-		$logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" in lang ' . esc_html( $lang ) . ' being processed' );
+		$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" in lang ' . esc_html( $lang ) . ' being processed' );
 
 		foreach ( $terms_post as $key => $term_post ) {
 
@@ -384,7 +384,7 @@ class Polylang {
 				/** @psalm-suppress PossiblyInvalidPropertyFetch (it's always object!) */
 				$term_slug = isset( $term_post ) && ! $term_post instanceof \WP_Error ? $term_post->slug : '';
 
-				$logger?->log()->notice( '[Lumiere][Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );
+				$logger?->log->notice( '[Lumiere][Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );
 
 			} else {
 				// Set the term's language.
@@ -402,11 +402,11 @@ class Polylang {
 
 			// Insert sucess.
 			if ( isset( $adding_terms ) && ! $adding_terms instanceof \WP_Error && count( $adding_terms ) > 0 ) {
-				$logger?->log()->info( '[Lumiere][Taxonomy][Update terms][Polylang][Added] Term *' . esc_html( $term_slug ) . '* to post *' . esc_html( $title ) . '* in lang ' . esc_html( $lang ) );
+				$logger?->log->info( '[Lumiere][Taxonomy][Update terms][Polylang][Added] Term *' . esc_html( $term_slug ) . '* to post *' . esc_html( $title ) . '* in lang ' . esc_html( $lang ) );
 			}
-			$logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Processed] Term *' . esc_html( $term_slug ) . '* processed' );
+			$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Processed] Term *' . esc_html( $term_slug ) . '* processed' );
 		}
-		$logger?->log()->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title *' . esc_html( $title ) . '* processed' );
+		$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title *' . esc_html( $title ) . '* processed' );
 		return true;
 	}
 }

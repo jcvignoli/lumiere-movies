@@ -67,6 +67,7 @@ class Head_Popups {
 		/**
 		 * Get an array with all objects plugins
 		 * Always loads IMDBPHP plugin
+		 * @psalm-suppress InvalidPropertyAssignmentValue
 		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp'. => it does, just called using it!)
 		 */
 		$this->plugins_classes_active = ( new Plugins_Start( [ 'imdbphp' ] ) )->plugins_classes_active;
@@ -75,9 +76,6 @@ class Head_Popups {
 		 * Ban bots
 		 */
 		add_action( 'wp_head', [ 'Lumiere\Tools\Ban_Bots', 'lumiere_static_start' ], 11 );
-
-		// Display the plugins active.
-		add_action( 'wp_head', [ $this, 'display_plugins_log' ] );
 
 		// Remove useless or unwanted filters and actions
 		$this->remove_filters_and_actions();
@@ -99,17 +97,6 @@ class Head_Popups {
 		if ( $nonce_valid === false ) {
 			wp_die( esc_html__( 'Invalid or missing nonce.', 'lumiere-movies' ), 'Lumière Movies', [ 'response' => 400 ] );
 		}
-	}
-
-	/**
-	 * Display which plugins are in use
-	 *
-	 * @return void
-	 */
-	public function display_plugins_log(): void {
-
-		// Log Plugins_Start
-		$this->logger->log()->debug( '[Lumiere][Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 	}
 
 	/**
@@ -197,13 +184,16 @@ class Head_Popups {
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
-			$person = $this->plugins_classes_active['imdbphp']->get_name_class( $sanitized_mid, $this->logger->log() );
-			if ( $person->name() !== null && strlen( $person->name() ) > 0 ) {
-				echo "\n" . '<meta property="article:tag" content="' . esc_attr( $person->name() ) . '" />';
+			$person = $this->plugins_classes_active['imdbphp']->get_name_class( $sanitized_mid, $this->logger->log );
+			$name = $person->name();
+			if ( $name !== null && strlen( $name ) > 0 ) {
+				echo "\n" . '<meta property="article:tag" content="' . esc_attr( $name ) . '" />';
 			}
 		}
 
 		echo "\n\t\t" . '<!-- /Lumière! Movies -->' . "\n";
+
+		$this->logger->log->debug( '[Lumiere][Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 	}
 
 }
