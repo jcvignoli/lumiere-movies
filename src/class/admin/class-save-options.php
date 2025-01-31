@@ -438,8 +438,7 @@ class Save_Options {
 		}
 
 		// Delete all cache
-		/** @psalm-suppress PossiblyNullArgument -- Argument 1 of lumiere_unlink_recursive cannot be null -- it can't, just checked! */
-		$this->lumiere_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] ); // in trait Files.
+		$this->dir_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] ); // in trait Files which is in trait Admin_General.
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 30 );

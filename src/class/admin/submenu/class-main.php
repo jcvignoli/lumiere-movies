@@ -19,6 +19,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_Menu;
+use Lumiere\Tools\Debug;
 
 /**
  * Display Main options menu
@@ -57,7 +58,7 @@ class Main extends Admin_Menu {
 
 		// Show the vars if debug is activated.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
-			$this->lumiere_display_vars( $this->imdb_admin_values, 'no_var_dump', null ); // Method in trait Admin_General.
+			Debug::display_lum_vars( $this->imdb_admin_values, 'no_var_dump', null );
 		}
 
 		// Submenu.

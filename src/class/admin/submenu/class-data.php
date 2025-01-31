@@ -17,9 +17,10 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Taxo\Detect_New_Template_Taxo;
+use Lumiere\Settings;
+use Lumiere\Tools\Debug;
 
 /**
  * Display data options for taxonomy, data order and data selection
@@ -96,7 +97,7 @@ class Data extends Admin_Menu {
 
 		// Show the vars if debug is activated.
 		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
-			$this->lumiere_display_vars( $this->imdb_data_values, 'no_var_dump', null ); // Method in trait Admin_General.
+			Debug::display_lum_vars( $this->imdb_data_values, 'no_var_dump', null );
 		}
 
 		// Display submenu

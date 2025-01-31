@@ -123,7 +123,7 @@ class Admin_Menu {
 		 * (2) template checking in Detect_New_Template_Taxo class
 		 * (3) any 'notice_lumiere_msg' transient is found in Admin_Notifications class
 		 */
-		if ( str_contains( $that->lumiere_get_current_admin_url(), $that->page_main_base ) === true ) {
+		if ( str_contains( $that->get_current_admin_url(), $that->page_main_base ) === true ) {
 			add_action( 'admin_notices', fn() => Detect_New_Template_Taxo::get_notif_templates( $that->page_data_taxo ), 10, 1 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 		}
@@ -177,9 +177,8 @@ class Admin_Menu {
 	private function get_current_page(): string {
 
 		$get_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_URL );
-		/** @psalm-suppress RedundantCondition, TypeDoesNotContainNull -- Type string for $get_page is never null => according to PHPStan, it can! */
-		$current_step = $get_page !== false && $get_page !== null ? $get_page : '';
-
+		$current_step = $get_page !== false ? $get_page : '';
+		/** @phpstan-ignore argument.type (Parameter #3 $subject of function str_replace expects array<string>|string, string|null given => it can't be null, not using FILTER_NULL_ON_FAILURE flag) */
 		return str_replace( $this->get_id() . '_options', '', $current_step );
 	}
 

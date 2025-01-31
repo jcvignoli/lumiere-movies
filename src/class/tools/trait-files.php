@@ -135,5 +135,35 @@ trait Files {
 			WP_Filesystem( $creds_two );
 		}
 	}
+
+	/**
+	 * Recursively delete a directory, keeping the directory path provided
+	 *
+	 * @param string $dir Directory path
+	 * @return void true on success
+	 */
+	public function dir_unlink_recursive( string $dir ): void {
+
+		global $wp_filesystem;
+		$files = [];
+
+		// Make sure we have the correct credentials.
+		$this->lumiere_wp_filesystem_cred( $dir );
+
+		if ( $wp_filesystem->is_dir( $dir ) === false ) {
+			return;
+		}
+
+		$files = $wp_filesystem->dirlist( $dir );
+
+		foreach ( $files as $file ) {
+
+			if ( $wp_filesystem->is_dir( $dir . $file['name'] ) === true ) {
+				$wp_filesystem->delete( $dir . $file['name'], true );
+				continue;
+			}
+			$wp_filesystem->delete( $dir . $file['name'] );
+		}
+	}
 }
 
