@@ -52,10 +52,9 @@ class Debug {
 
 	/**
 	 * Internal function to display a wp error
-	 * @param string $method
+	 * @phpstan-param callable-string $method
 	 */
 	private static function trigger_wp_error( string $method, string $text ): void {
-		/* @phpstan-ignore argument.type (This is wrong, until fixed upstream https://github.com/php-stubs/wordpress-stubs/issues/270) */
 		wp_trigger_error( $method, $text );
 	}
 }
