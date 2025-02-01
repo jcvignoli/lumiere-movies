@@ -105,14 +105,6 @@ class Logger {
 	}
 
 	/**
-	 * Kept for compatibility purposes, avoid fatal error
-	 * @TODO To be removed as of > v4.3.4
-	 * @obsolete
-	 */
-	public function log(): LoggerMonolog {
-		return new LoggerMonolog( 'null' );
-	}
-	/**
 	 * Start and select which Logger to use
 	 *
 	 * Can be called by the hook 'lumiere_logger_hook' or directly as a function
