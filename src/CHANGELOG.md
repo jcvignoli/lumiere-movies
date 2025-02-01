@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.3.4
+* [technical] PHP < 8.1 support dropped. The plugin is no more compatible with PHP 8.0 and lower.
 
 v.4.3.3.1
 * [feature] When using Lumière search admin, no message was returned if the query found no results (added a return text in class Search)

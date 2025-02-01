@@ -13,7 +13,7 @@
  * Description:       Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post.
  * Version:           4.3.4
  * Requires at least: 5.6
- * Requires PHP:      8.0
+ * Requires PHP:      8.1
  * Author:            psykonevro
  * Author URI:        https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
  * Text Domain:       lumiere-movies
@@ -43,6 +43,9 @@ if ( file_exists( LUMIERE_WP_PATH . 'functions.php' ) ) {
 
 // Global function: Lumière is uninstalled if crappy plugins are found.
 lum_incompatible_plugins_uninstall( LUMIERE_INCOMPATIBLE_PLUGINS, __FILE__ );
+
+// Global function: Lumière is uninstalled if PHP version is lower than expected.
+lum_php_min_version( '8.1', __FILE__ );
 
 // Instanciate Core class.
 $lumiere_core = new Lumiere\Core();
