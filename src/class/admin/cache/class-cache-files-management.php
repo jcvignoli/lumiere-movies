@@ -86,7 +86,7 @@ class Cache_Files_Management {
 
 		// prevent drama.
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) || $wp_filesystem->is_dir( $this->imdb_cache_values['imdbcachedir'] ) === false ) {
-			throw new Exception( esc_html__( 'Missing cache directory.', 'lumiere-movies' ) );
+			throw new Exception( 'Cache directory does not exist.' );
 		}
 
 		$id_sanitized = esc_html( $imdb_id );
@@ -111,7 +111,7 @@ class Cache_Files_Management {
 
 		// It wouldn't make sense the file doesn't exist, means something bad took place.
 		if ( $list_items === false || count( $list_items ) === 0 ) {
-			throw new Exception( esc_html__( 'This file does does not exist.', 'lumiere-movies' ) );
+			throw new Exception( 'This file does does not exist.' );
 		}
 
 		foreach ( $list_items as $cache_to_delete ) {
@@ -144,7 +144,7 @@ class Cache_Files_Management {
 
 		// Get again the item.
 		$function_movie_or_people = 'create_' . $movie_or_people . '_file'; // Methods create_movie_file() or create_people_file()
-		$this->$function_movie_or_people( sanitize_key( $imdb_id ) );
+		$this->$function_movie_or_people( esc_html( $imdb_id ) );
 	}
 
 	/**
@@ -157,7 +157,7 @@ class Cache_Files_Management {
 	 */
 	public function refresh_multiple_files( array $ids_array, string $movie_or_people ): void {
 		foreach ( $ids_array as $id_found ) {
-			$this->refresh_file( sanitize_key( $movie_or_people ), sanitize_key( $id_found ) );
+			$this->refresh_file( esc_html( $movie_or_people ), esc_html( $id_found ) );
 		}
 	}
 
@@ -169,7 +169,7 @@ class Cache_Files_Management {
 	 */
 	public function delete_multiple_files( array $ids_array, string $movie_or_people ): void {
 		foreach ( $ids_array as $id_found ) {
-			$this->delete_file( sanitize_key( $movie_or_people ), sanitize_key( $id_found ) );
+			$this->delete_file( esc_html( $movie_or_people ), esc_html( $id_found ) );
 		}
 	}
 
@@ -213,7 +213,7 @@ class Cache_Files_Management {
 				}
 				// Everything has already been processed, exit.
 			} elseif ( count( $array_all_items ) === 0 ) {
-				$this->logger->log->info( '[Lumiere][Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start after the defined time ' . gmdate( 'd \d\a\y\s H:i:s', $days_next_start * $day_in_seconds ) . ' since the first run' );
+				$this->logger->log->info( '[Lumiere][Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start after the defined time ' . gmdate( 'd \d\a\y\s', $days_next_start * $day_in_seconds ) . ' since the first run' );
 				return;
 			}
 
@@ -309,7 +309,7 @@ class Cache_Files_Management {
 
 		// prevent drama.
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
-			throw new Exception( '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' );
+			throw new Exception( 'Cache folder does not exist' );
 		}
 
 		// Delete cache.
@@ -317,7 +317,7 @@ class Cache_Files_Management {
 
 		// if file doesn't exist.
 		if ( $files_query === false || count( $files_query ) === 0 ) {
-			throw new Exception( esc_html__( 'No query files found.', 'lumiere-movies' ) );
+			throw new Exception( 'No query files found.' );
 		}
 
 		$this->lumiere_wp_filesystem_cred( $files_query[0] ); // in trait Admin_General that includes trait Files.
