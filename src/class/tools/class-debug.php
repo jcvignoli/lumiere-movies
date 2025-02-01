@@ -26,7 +26,6 @@ class Debug {
 	 * Return the hooks currently used
 	 */
 	public static function get_hooks(): string {
-		/** @psalm-suppress InvalidArgument */
 		self::trigger_wp_error( __METHOD__, 'This is a debugging function, should not permanently added' );
 		global $wp_filter;
 		return '<pre>' . self::colorise_output( array_keys( $wp_filter ) ) . '</pre>';
@@ -55,7 +54,7 @@ class Debug {
 
 	/**
 	 * Internal function to display a wp error
-	 * @phpstan-param callable-string $method
+	 * @param string $method
 	 */
 	private static function trigger_wp_error( string $method, string $text ): void {
 		/**
