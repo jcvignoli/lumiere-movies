@@ -4,7 +4,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
 **Tested up to:** 6.7.1 \
-**Stable tag:** 4.3.3 \
+**Stable tag:** 4.3.3.1 \
 **Requires PHP:** 8.0 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -184,6 +184,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
+### 4.3.3
+
+Cache auto-refresh entirely reviewed. It now works per batches.
+
 ### 4.3.2
 
 Taxonomy templates automatically updated, Widget was not executed in custom taxonomy posts (thanks Sean)
@@ -204,9 +208,13 @@ More flexibility for the auto title widget users: You can now prevent a post fro
 
 ## Upgrade Notice
 
+### 4.3.3
+
+If you automatically refresh the cache, make sure to deactivate then reactivate the option in Lumière admin.
+
 ### 4.3.2
 
-Taxonomy template in user template folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate (etc)" in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated.
+Taxonomy template in your folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate..." in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated.
 
 ### 4.3
 
