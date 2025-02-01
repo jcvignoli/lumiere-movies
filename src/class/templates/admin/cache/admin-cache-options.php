@@ -162,10 +162,13 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 					if ( $lumiere_next_cron_run !== false && $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '1' ) {
 						$lumiere_next_cron_run = gmdate( 'd/m/Y', intval( $lumiere_next_cron_run ) );
-						$lum_total_cron = strval( count( $lum_cron_ppl_left ) + count( $lum_cron_mv_left ) );
-
-						/* translators: %1s is a number, %2s is replaced with a date in numbers */
-						echo sprintf( esc_html__( 'Currently refreshing the cache, %1$1s files remain to be refreshed. A new full refresh will start on %2$2s.', 'lumiere-movies' ), esc_html( $lum_total_cron ), esc_html( $lumiere_next_cron_run ) );
+						$lum_total_cron = $lum_cron_ppl_left !== false && $lum_cron_mv_left !== false ? strval( count( $lum_cron_ppl_left ) + count( $lum_cron_mv_left ) ) : 0;
+						if ( $lum_total_cron !== 0 ) {
+							/* translators: %1s is a number, %2s is replaced with a date in numbers */
+							echo sprintf( esc_html__( 'Currently refreshing the cache, %1$1s files remain to be refreshed. A new full refresh will start on %2$2s.', 'lumiere-movies' ), esc_html( $lum_total_cron ), esc_html( $lumiere_next_cron_run ) );
+						} else {
+							esc_html_e( 'Started refreshing cache, this message will be updated as first batch of files has been run.', 'lumiere-movies' );
+						}
 					}
 					?></div>
 					</div>
