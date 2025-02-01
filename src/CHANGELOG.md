@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.3.4
+
 v.4.3.3.1
 * [feature] When using Lumière search admin, no message was returned if the query found no results (added a return text in class Search)
 * [technical] Better layout for cache manage (add extra columns if need to reach multiple of 3 in people/movies)
