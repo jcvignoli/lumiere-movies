@@ -156,11 +156,16 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					<div class="explain"><?php esc_html_e( 'Automatically refresh the cache over a span of two weeks. Selecting this option will remove the time expiration of the cache, which will be automatically set to forever.', 'lumiere-movies' ); ?><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ) ?><div class="lumiere_green"><?php
 
 					// Display next schedule if cron is activated
-					$lumiere_next_cron_run = get_transient( 'lum_cache_cron_refresh_all_time_started' );
+					$lumiere_next_cron_run = get_transient( 'lum_cache_cron_refresh_time_started' );
+					$lum_cron_ppl_left = get_transient( 'lum_cache_cron_refresh_store_people' );
+					$lum_cron_mv_left = get_transient( 'lum_cache_cron_refresh_store_movie' );
+
 					if ( $lumiere_next_cron_run !== false && $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '1' ) {
-						$lumiere_next_cron_run = gmdate( 'd/m/Y @H:i:sa', intval( $lumiere_next_cron_run ) );
-						/* translators: %s is replaced with a date in numbers */
-						echo sprintf( esc_html__( 'Currently refreshing the cache. The process will restart from the first item on %s', 'lumiere-movies' ), esc_html( $lumiere_next_cron_run ) );
+						$lumiere_next_cron_run = gmdate( 'd/m/Y', intval( $lumiere_next_cron_run ) );
+						$lum_total_cron = strval( count( $lum_cron_ppl_left ) + count( $lum_cron_mv_left ) );
+
+						/* translators: %1s is a number, %2s is replaced with a date in numbers */
+						echo sprintf( esc_html__( 'Currently refreshing the cache, %1$1s files remain to be refreshed. A new full refresh will start on %2$2s.', 'lumiere-movies' ), esc_html( $lum_total_cron ), esc_html( $lumiere_next_cron_run ) );
 					}
 					?></div>
 					</div>

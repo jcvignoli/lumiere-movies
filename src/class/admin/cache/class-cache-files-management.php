@@ -197,9 +197,6 @@ class Cache_Files_Management {
 		$types = [ 'movie', 'people' ];
 		$day_in_seconds = 24 * 60 * 60;
 
-		// Make sure cache folder exists and is writable.
-		$this->lumiere_create_cache( true );
-
 		foreach ( $types as $movie_or_people ) {
 
 			$array_all_items = get_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people );
@@ -210,8 +207,9 @@ class Cache_Files_Management {
 					$refresh_ids[ $movie_or_people ][] = $movie_title_object->imdbid();
 				}
 				if ( isset( $refresh_ids[ $movie_or_people ] ) ) {
-					set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $refresh_ids[ $movie_or_people ], $days_next_start * $day_in_seconds );
 					$array_all_items = $refresh_ids[ $movie_or_people ];
+					set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items, $days_next_start * $day_in_seconds );
+					$this->logger->log->error( '[Lumiere][Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
 				}
 				// Everything has already been processed, exit.
 			} elseif ( count( $array_all_items ) === 0 ) {
@@ -235,7 +233,7 @@ class Cache_Files_Management {
 				unset( $array_all_items[ $i ] );
 			}
 			// Set the transient with an updated array (processed lines were removed).
-			set_transient( 'lum_cache_cron_refresh_' . $movie_or_people, $array_all_items );
+			set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items );
 		}
 	}
 

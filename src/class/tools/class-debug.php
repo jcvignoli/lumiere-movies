@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 /**
  * Class for debuging operations
- * Those methods shouldn't be permanentely included in code, they're temporary in nature
+ * They should all be static
  */
 class Debug {
 
@@ -26,6 +26,10 @@ class Debug {
 	 * Return the hooks currently used
 	 */
 	public static function get_hooks(): string {
+		/**
+		 * @psalm-suppress ArgumentTypeCoercion
+		 * @phpstan-ignore argument.type (This is wrong, wait phpstan to fix it https://github.com/phpstan/phpstan/issues/12509)
+		 */
 		self::trigger_wp_error( __METHOD__, 'This is a debugging function, should not permanently added' );
 		global $wp_filter;
 		return '<pre>' . self::colorise_output( array_keys( $wp_filter ) ) . '</pre>';
@@ -41,7 +45,9 @@ class Debug {
 
 		foreach ( $array as $key => $val ) {
 			if ( is_array( $val ) ) {
-				$output .= '<li><span style="color:red;">' . $key . '</span><b> => </b><span style="color:blue;">' . self::colorise_output( $val ) . '</span></li>';
+				$output .= '<li><span style="color:red;">' . $key . '</span><b> => </b><span style="color:blue;">'
+					. self::colorise_output( $val )
+					. '</span></li>';
 				continue;
 			}
 			$output .= '<li><span style="color:red;">' . $key . '</span><b> => </b><span style="color:blue;">' . $val . '</span></li>';
@@ -52,13 +58,9 @@ class Debug {
 
 	/**
 	 * Internal function to display a wp error
-	 * @param string $method
+	 * @phpstan-param class-string $method
 	 */
 	private static function trigger_wp_error( string $method, string $text ): void {
-		/**
-		 * @psalm-suppress ArgumentTypeCoercion
-		 * @phpstan-ignore argument.type (This is wrong, until fixed upstream https://github.com/php-stubs/wordpress-stubs/issues/270)
-		 */
 		wp_trigger_error( $method, $text );
 	}
 

@@ -1,6 +1,10 @@
 **Changelog**
 
-v.4.3.4
+v.4.3.3.1
+* [feature] When using Lumière search admin, no message was returned if the query found no results (added a return text in class Search)
+* [technical] Better layout for cache manage (add extra columns if need to reach multiple of 3 in people/movies)
+* [technical] Logging system improved. (Logger class was a mess inherited for generations. Now it's a true class that one can understand)
+* [bug] Cache auto-refresh wasn't working (Cache_Files_Management::cron_all_cache_refresh() wasn't setting correct transient name, missing "_store")
 
 v.4.3.3
 * [feature] Cache: ticked people or movie can be refreshed (Cache_Files_Management::refresh_multiple_file() created). Also improved cache files layout.

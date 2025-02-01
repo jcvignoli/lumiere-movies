@@ -59,19 +59,19 @@ class Cron {
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
 
 		// When 'lumiere_exec_once_update' cron is scheduled, execute the following.
-		add_action( 'lumiere_exec_once_update', [ $this, 'lumiere_exec_once_update' ] );
+		add_action( 'lumiere_exec_once_update', [ $this, 'exec_once_update' ] );
 
 		// When 'lumiere_cron_deletecacheoversized' cron is scheduled, execute the following.
-		add_action( 'lumiere_cron_deletecacheoversized', [ $this, 'lum_cache_delete_oversized' ], 0 );
+		add_action( 'lumiere_cron_deletecacheoversized', [ $this, 'delete_cache_oversized' ] );
 
 		// When 'lumiere_cron_autofreshcache' cron is scheduled, execute the following.
-		add_action( 'lumiere_cron_autofreshcache', [ $this, 'lum_cache_autorefresh' ], 0 );
+		add_action( 'lumiere_cron_autofreshcache', [ $this, 'cache_auto_refresh' ] );
 
 		// Add or remove crons.
-		add_action( 'init', [ $this, 'lumiere_add_remove_crons_cache' ], 11 );
+		add_action( 'init', [ $this, 'add_remove_crons_cache' ], 11 );
 
 		// Add new schedules in cron recurrences.
-		add_filter( 'cron_schedules', [ $this, 'lumiere_add_cron_job_recurrence' ] );
+		add_filter( 'cron_schedules', [ $this, 'add_custom_job_recurrence' ] );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Cron {
 	 * @param array<int|string, array<string, int|string>|string> $schedules
 	 * @return array<int|string, array<string, int|string>|string> The new schedule is added
 	 */
-	public function lumiere_add_cron_job_recurrence( array $schedules ): array {
+	public function add_custom_job_recurrence( array $schedules ): array {
 		$schedules['everytwoweeks'] = [
 			'display' => __( 'Every two weeks', 'lumiere-movies' ),
 			'interval' => 1317600,
@@ -105,7 +105,7 @@ class Cron {
 	 * Runs once after plugin activation or update
 	 * @see \Lumiere\Core
 	 */
-	public function lumiere_exec_once_update(): void {
+	public function exec_once_update(): void {
 
 		$this->logger->log->debug( '[Lumiere][Cron] Cron run once started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
@@ -123,7 +123,7 @@ class Cron {
 	 *
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::lumiere_cache_delete_files_over_limit()
 	 */
-	public function lum_cache_delete_oversized(): void {
+	public function delete_cache_oversized(): void {
 
 		$cache_class = new Cache_Files_Management();
 		$cache_class->lumiere_cache_delete_files_over_limit(
@@ -140,7 +140,7 @@ class Cron {
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::all_cache_refresh()
 	 * @since 4.0 Added method
 	 */
-	public function lum_cache_autorefresh(): void {
+	public function cache_auto_refresh(): void {
 
 		$this->logger->log->debug( '[Lumiere][Cron] Cron refreshing cache started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
 
@@ -160,17 +160,17 @@ class Cron {
 	 *
 	 * @return void Crons schedules have been added or removed
 	 */
-	public function lumiere_add_remove_crons_cache(): void {
+	public function add_remove_crons_cache(): void {
 
 		// Set up/remove cron imdbcachekeepsizeunder
 		if ( get_transient( 'cron_settings_imdbcachekeepsizeunder_updated' ) === 'imdbcachekeepsizeunder' ) {
 			delete_transient( 'cron_settings_imdbcachekeepsizeunder_updated' );
-			$this->lumiere_edit_cron_deleteoversizedfolder();
+			$this->cron_delete_oversize();
 		}
-		// Set up/remove cron imdbcachekeepsizeunder
+		// Set up/remove cron imdbcacheautorefreshcron
 		if ( get_transient( 'cron_settings_imdbcacheautorefreshcron_updated' ) === 'imdbcacheautorefreshcron' ) {
 			delete_transient( 'cron_settings_imdbcacheautorefreshcron_updated' );
-			$this->lumiere_edit_cron_refresh_cache();
+			$this->cron_refresh_cache();
 		}
 	}
 
@@ -181,7 +181,7 @@ class Cron {
 	 *
 	 * @return void Files exceeding provided limited are deleted
 	 */
-	private function lumiere_edit_cron_deleteoversizedfolder(): void {
+	private function cron_delete_oversize(): void {
 
 		if (
 			$this->imdb_cache_values['imdbcachekeepsizeunder'] === '1'
@@ -218,7 +218,7 @@ class Cron {
 	 *
 	 * @return void Files exceeding provided limited are deleted
 	 */
-	private function lumiere_edit_cron_refresh_cache(): void {
+	private function cron_refresh_cache(): void {
 
 		if (
 			$this->imdb_cache_values['imdbcacheautorefreshcron'] === '1'
@@ -226,13 +226,13 @@ class Cron {
 			&& wp_get_scheduled_event( 'lumiere_cron_autofreshcache' ) === false
 		) {
 			// Set a transient to know when is the next round of refreshing.
-			if ( get_transient( 'lum_cache_cron_refresh_all_time_started' ) === false ) {
+			if ( get_transient( 'lum_cache_cron_refresh_time_started' ) === false ) {
 				$next_round_delay = self::CACHE_DAYS_AUTO_REFRESH_ROUND * 24 * 60 * 60;
 				$next_round_date = $next_round_delay + time();
-				set_transient( 'lum_cache_cron_refresh_all_time_started', $next_round_date, $next_round_delay );
+				set_transient( 'lum_cache_cron_refresh_time_started', $next_round_date, $next_round_delay );
 			}
 			// Cron running every day
-			$starting_time = strtotime( '+6 hours', time() );
+			$starting_time = strtotime( '+1 hours', time() );
 			/** @psalm-suppress InvalidArgument -- With time(), it's always int! */
 			wp_schedule_event( $starting_time, 'hourly', 'lumiere_cron_autofreshcache' );
 			$this->logger->log->debug( '[Lumiere][Cron] Cron lumiere_cron_autofreshcache added' );
