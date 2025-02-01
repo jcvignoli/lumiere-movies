@@ -48,17 +48,11 @@ class Detect_New_Template_Taxo {
 	public array $imdb_data_values;
 
 	/**
-	 * Class \Lumiere\Settings
-	 */
-	public Settings $config_class;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
 		$this->imdb_data_values = get_option( Get_Options::get_data_tablename() );
-		$this->config_class = new Settings();
 	}
 
 	/**
@@ -111,7 +105,7 @@ class Detect_New_Template_Taxo {
 			}
 		} else {
 			// Build array of people and items from config
-			$array_all = array_merge( array_keys( $this->config_class->array_people ), array_keys( $this->config_class->array_items ) );
+			$array_all = array_merge( array_keys( Get_Options::get_list_people() ), array_keys( Get_Options::get_list_items() ) );
 			asort( $array_all );
 
 			foreach ( $array_all as $item ) {
@@ -142,7 +136,7 @@ class Detect_New_Template_Taxo {
 		}
 
 		// Build array of people and items from config
-		$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
+		$array_all = array_merge( Get_Options::get_list_people(), Get_Options::get_list_items() );
 		asort( $array_all );
 
 		foreach ( $array_all as $item => $item_translated ) {
@@ -218,9 +212,9 @@ class Detect_New_Template_Taxo {
 	 */
 	public function get_template_paths( $item ): array {
 		$template_paths = [];
-		$original_in_plugin = in_array( $item, array_keys( $this->config_class->array_people ), true )
-			? $this->config_class::TAXO_PEOPLE_THEME
-			: $this->config_class::TAXO_ITEMS_THEME;
+		$original_in_plugin = in_array( $item, array_keys( Get_Options::get_list_people() ), true )
+			? Settings::TAXO_PEOPLE_THEME
+			: Settings::TAXO_ITEMS_THEME;
 		$template_paths['origin'] = LUMIERE_WP_PATH . $original_in_plugin;
 		$template_paths['destination'] = get_stylesheet_directory() . '/taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
 		return $template_paths;

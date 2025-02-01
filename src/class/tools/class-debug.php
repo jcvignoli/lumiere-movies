@@ -41,12 +41,12 @@ class Debug {
 
 		foreach ( $array as $key => $val ) {
 			if ( is_array( $val ) ) {
-				$output .= '<li><span style="color:red;">' . $key . '</span><b> => </b><span style="color:blue;">'
+				$output .= '<li><span class="lum_color_red">' . $key . '</span><b> => </b><span class="lum_color_blue">'
 					. self::colorise_output( $val )
 					. '</span></li>';
 				continue;
 			}
-			$output .= '<li><span style="color:red;">' . $key . '</span><b> => </b><span style="color:blue;">' . $val . '</span></li>';
+			$output .= '<li><span class="lum_color_red">' . $key . '</span><b> => </b><span class="lum_color_blue">' . $val . '</span></li>';
 		}
 
 		return $output . '</ul>';

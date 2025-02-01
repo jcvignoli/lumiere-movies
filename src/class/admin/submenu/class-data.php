@@ -21,6 +21,7 @@ use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Taxo\Detect_New_Template_Taxo;
 use Lumiere\Settings;
 use Lumiere\Tools\Debug;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Display data options for taxonomy, data order and data selection
@@ -179,7 +180,7 @@ class Data extends Admin_Menu {
 
 		$output = '';
 		$array_all = [];
-		$array_all = array_merge( $this->config_class->array_people, $this->config_class->array_items );
+		$array_all = array_merge( Get_Options::get_list_people(), Get_Options::get_list_items() );
 		asort( $array_all );
 
 		foreach ( $array_all as $item_key => $item_value ) {
@@ -233,8 +234,8 @@ class Data extends Admin_Menu {
 		// Merge the list of items and people with two extra lists
 		$array_full = array_unique(
 			array_merge(
-				$this->config_class->array_people,
-				$this->config_class->array_items,
+				Get_Options::get_list_people(),
+				Get_Options::get_list_items(),
 				$this->details_extra,
 				$this->details_with_numbers,
 			)
@@ -294,7 +295,7 @@ class Data extends Admin_Menu {
 		$list_updated_fields = $class_check_taxo->search_new_update( $lumiere_taxo_title );
 
 		// Files paths
-		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, $this->config_class->array_people, true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
+		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, Get_Options::get_list_people(), true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;

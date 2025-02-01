@@ -15,6 +15,7 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Settings_Global;
+use Lumiere\Tools\Get_Options;
 use Lumiere\Admin\Admin_General;
 use Exception;
 
@@ -32,21 +33,14 @@ class Copy_Template_Taxonomy {
 	use Settings_Global, Admin_General;
 
 	/**
-	 * Logger class
-	 */
-	protected Logger $logger;
-
-	/**
 	 * Constructor
 	 */
-	public function __construct() {
-
+	public function __construct(
+		protected Logger $logger = new Logger( 'copyTemplateTaxonomy' ),
+	) {
 		// Get Global Settings class properties.
 		$this->get_settings_class();
 		$this->get_db_options();
-
-		// Start Logger class.
-		$this->logger = new Logger( 'copyTemplateTaxonomy' );
 	}
 
 	/**
@@ -72,9 +66,9 @@ class Copy_Template_Taxonomy {
 			: null;
 
 		// Build links and vars.
-		if ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( $this->config_class->array_people ), true ) ) {
+		if ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_people() ), true ) ) {
 			$lumiere_taxo_file_tocopy = $this->config_class::TAXO_PEOPLE_THEME;
-		} elseif ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( $this->config_class->array_items ), true ) ) {
+		} elseif ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_items() ), true ) ) {
 			$lumiere_taxo_file_tocopy = $this->config_class::TAXO_ITEMS_THEME;
 		} else {
 			throw new Exception( 'This template ' . esc_html( $lumiere_taxo_title ?? '' ) . ' does not exist, aborting' );

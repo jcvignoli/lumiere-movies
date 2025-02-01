@@ -38,17 +38,6 @@ class Search {
 	use Settings_Global;
 
 	/**
-	 * Class \Lumiere\Logger
-	 *
-	 */
-	private Logger $logger;
-
-	/**
-	 * Class \Lumiere\Imdbphp
-	 */
-	private Imdbphp $imdbphp_class;
-
-	/**
 	 * Name of the movie queried
 	 */
 	private ?string $movie_searched;
@@ -56,7 +45,10 @@ class Search {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct(
+		private Logger $logger = new Logger( 'admin search' ),
+		private Imdbphp $imdbphp_class = new Imdbphp(),
+	) {
 
 		// By default, returns a 404, change that.
 		status_header( 200 );
@@ -65,12 +57,6 @@ class Search {
 		$this->get_settings_class();
 		$this->get_db_options();
 		$this->movie_searched = Validate_Get::sanitize_url( 'moviesearched' );
-
-		// Start logger class.
-		$this->logger = new Logger( 'admin search' );
-
-		// Start Imdbphp class.
-		$this->imdbphp_class = new Imdbphp();
 
 		// Register admin scripts.
 		add_action( 'wp_enqueue_scripts', [ $this, 'search_register_scripts' ] );
@@ -255,7 +241,7 @@ class Search {
 			'lumiere_search_admin',
 			$this->config_class->lumiere_js_dir . 'lumiere_scripts_search.min.js',
 			[ 'jquery' ],
-			$this->config_class->lumiere_version,
+			lum_get_version(),
 			true
 		);
 	}

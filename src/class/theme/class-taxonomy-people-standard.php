@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.8.5
+ * Version: 3.8.6
  *
  * @package lumiere-movies
  *
@@ -20,6 +20,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 
 use Imdb\Name;
 use Lumiere\Frontend\Main;
+use Lumiere\Tools\Get_Options;
 use Lumiere\Plugins\Plugins_Start;
 use WP_Query;
 
@@ -69,23 +70,18 @@ class Taxonomy_People_Standard {
 	private string $taxonomy_title;
 
 	/**
-	 * Class of Lumière plugins started
-	 */
-	private Plugins_Start $plugins_start;
-
-	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct(
+		private Plugins_Start $plugins_start,
+	) {
+		// Run on taxonomy pages only.
+		if ( is_tax() === false ) {
+			return;
+		}
 
 		// Get options, settings, links from Frontend trait.
 		$this->start_main_trait();
-
-		/**
-		 * Get an array with all objects plugins
-		 * Always loads IMDBPHP plugin
-		 */
-		$this->plugins_start = new Plugins_Start( [ 'imdbphp' ] );
 
 		// Full taxonomy title.
 		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
@@ -105,23 +101,6 @@ class Taxonomy_People_Standard {
 			add_action( 'wp_ajax_amp_comment_submit', fn(): mixed => $class_polylang->amp_form_submit() );
 			add_action( 'wp_ajax_nopriv_amp_comment_submit', fn(): mixed => $class_polylang->amp_form_submit() );
 		}
-	}
-
-	/**
-	 * Static start
-	 * @since 4.2.3 Run on taxonomy pages only
-	 */
-	public static function lumiere_static_start(): void {
-
-		// Run on taxonomy pages only.
-		if ( is_tax() === false ) {
-			return;
-		}
-
-		$class = new self();
-
-		// Display the page. Must not be included into an add_action(), as should be displayed directly, since it's a template.
-		$class->lum_select_layout();
 	}
 
 	/**
@@ -339,7 +318,7 @@ class Taxonomy_People_Standard {
 
 		$taxonomy_name = esc_html( $this->taxonomy_title ); // Such as 'lumiere-standard'.
 		$job = str_replace( $this->imdb_admin_values['imdburlstringtaxo'], '', $taxonomy_name ); // Such as 'standard'.
-		$job_translated = $this->config_class->array_people[ esc_html( $job ) ]; // Such as 'standard' in local language.
+		$job_translated = Get_Options::get_list_people()[ esc_html( $job ) ]; // Such as 'standard' in local language.
 
 		// Var to include all rows and check if it is null.
 		$check_if_no_result = [];
@@ -545,5 +524,6 @@ class Taxonomy_People_Standard {
 	}
 }
 
-$lumiere_people_standard_class = new Taxonomy_People_Standard();
-$lumiere_people_standard_class->lumiere_static_start();
+$lumiere_people_standard_class = new Taxonomy_People_Standard( new Plugins_Start( [ 'imdbphp' ] ) ); // always start imdbphp.
+// Display the page. Must not be included into an add_action(), as should be displayed directly, since it's a template.
+$lumiere_people_standard_class->lum_select_layout();

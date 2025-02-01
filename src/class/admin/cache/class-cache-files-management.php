@@ -49,24 +49,14 @@ class Cache_Files_Management {
 	private array $imdb_cache_values;
 
 	/**
-	 * Classes
-	 */
-	private Imdbphp $imdbphp_class;
-	private Logger $logger;
-
-	/**
 	 *  Constructor
 	 */
-	public function __construct() {
-
-		// Start Logger class.
-		$this->logger = new Logger( 'cacheTools' );
-
+	public function __construct(
+		private Logger $logger = new Logger( 'cacheFilesManagement' ),
+		private Imdbphp $imdbphp_class = new Imdbphp()
+	) {
 		// Get options from database.
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
-
-		// Start Imdbphp class.
-		$this->imdbphp_class = new Imdbphp();
 	}
 
 	/**
@@ -463,8 +453,9 @@ class Cache_Files_Management {
 	 * @return void Files exceeding provided limited are deleted
 	 */
 	public function lumiere_cache_delete_files_over_limit( int $size_limit ): void {
-		$this->logger->log->info( '[Lumiere][Cache_Tools] Oversized Cache cron called with the following value: ' . $size_limit . ' MB' );
+
 		$files = $this->lumiere_cache_find_files_over_limit( $size_limit ) ?? [];
+
 		foreach ( $files as $file ) {
 			if ( is_file( $file ) ) {
 				wp_delete_file( $file );

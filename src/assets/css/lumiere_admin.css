@@ -197,4 +197,6 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .lum_adm_make_popup {color: #0073aa;text-decoration: none;cursor:pointer;}
 .lum_adm_make_popup:hover {color: #005177;text-decoration: none;cursor:pointer;}
 
-
+/* Debug */
+.lum_color_red{color:red;}
+.lum_color_blue{color:blue;}

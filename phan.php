@@ -15,7 +15,7 @@ return [
 	// then Phan assumes the PHP version which is closest to the minor version
 	// of the php executable used to execute Phan.
 	// @info: never got this to work
-	'target_php_version' => '8.0',
+	'target_php_version' => '8.1',
 
 	// Issue::SEVERITY_LOW(0), Issue::SEVERITY_NORMAL(5), Issue::SEVERITY_CRITICAL(10)
 	// Low is the highest level

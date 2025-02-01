@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.2.3
+ * Version: 3.2.4
  *
  * @package lumiere-movies
  *
@@ -39,11 +39,6 @@ class Taxonomy_Items_Standard {
 	use Main;
 
 	/**
-	 * Class of Lumière plugins started
-	 */
-	private Plugins_Start $plugins_start;
-
-	/**
 	 * Set to true to activate the sidebar
 	 */
 	private bool $activate_sidebar = false;
@@ -68,42 +63,25 @@ class Taxonomy_Items_Standard {
 	 * Constructor
 	 * @since 4.0 Ban bots from display the page.
 	 */
-	public function __construct() {
+	public function __construct(
+		private Plugins_Start $plugins_start,
+	) {
+		// Run on taxonomy pages only.
+		if ( is_tax() === false ) {
+			return;
+		}
 
 		// Construct Frontend trait.
 		$this->start_main_trait();
-
-		/**
-		 * Get an array with all objects plugins
-		 * Always loads IMDBPHP plugin
-		 */
-		$this->plugins_start = new Plugins_Start( [ 'imdbphp' ] );
 
 		// Build the taxonomy name.
 		$this->taxonomy = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] . 'standard' );
 	}
 
 	/**
-	 * Static start
-	 * @since 4.2.3 Run on taxonomy pages only
-	 */
-	public static function lumiere_static_start(): void {
-
-		// Run on taxonomy pages only.
-		if ( is_tax() === false ) {
-			return;
-		}
-
-		$class = new self();
-
-		// Display the page. Must not be included into an add_action(), as should be displayed directly, since it's a template.
-		$class->lum_select_layout();
-	}
-
-	/**
 	 *  Display layout
 	 */
-	private function lum_select_layout(): void {
+	public function lum_select_layout(): void {
 
 		$kses_esc_html = [
 			'br' => [],
@@ -307,5 +285,5 @@ class Taxonomy_Items_Standard {
 	}
 }
 
-$lumiere_item_standard_class = new Taxonomy_Items_Standard();
-$lumiere_item_standard_class->lumiere_static_start();
+$lumiere_item_standard_class = new Taxonomy_Items_Standard( new Plugins_Start( [ 'imdbphp' ] ) );
+$lumiere_item_standard_class->lum_select_layout();

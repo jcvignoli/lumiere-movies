@@ -39,11 +39,6 @@ class Admin_Menu {
 	use Settings_Global, Admin_General;
 
 	/**
-	 * Classes
-	 */
-	protected Logger $logger;
-
-	/**
 	 * Store directories, pages
 	 */
 	protected string $page_cache_manage;
@@ -77,14 +72,13 @@ class Admin_Menu {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct(
+		protected Logger $logger = new Logger( 'adminClass' ),
+	) {
 
 		// Get Global Settings class properties.
 		$this->get_settings_class();
 		$this->get_db_options();
-
-		// Start Logger class.
-		$this->logger = new Logger( 'adminClass' );
 
 		// Build vars.
 		$this->menu_id = $this->get_id() . '_options';
@@ -368,7 +362,7 @@ class Admin_Menu {
 		// Signature.
 		$this->include_with_vars(
 			'admin-menu-signature',
-			[ $this->page_help_support, $this->config_class->lumiere_version ], /** Add in an array all vars to send in the template */
+			[ $this->page_help_support ], /** Add in an array all vars to send in the template */
 			self::TRANSIENT_ADMIN,
 		);
 	}

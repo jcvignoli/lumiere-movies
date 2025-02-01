@@ -43,18 +43,13 @@ class Cron {
 	private array $imdb_cache_values;
 
 	/**
-	 * @var Logger $logger Logger class
-	 */
-	private Logger $logger;
-
-	/**
 	 * Return the default suggested privacy policy content.
 	 *
 	 * @return void The default policy content has been added to WP policy page
 	 */
-	public function __construct() {
-
-		$this->logger = new Logger( 'cronClass' );
+	public function __construct(
+		private Logger $logger = new Logger( 'cronClass' ),
+	) {
 
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
 

@@ -39,25 +39,20 @@ class Taxonomy {
 	private array $imdb_admin_values;
 
 	/**
-	 * Logging class
-	 */
-	private ?Logger $logger = null;
-
-	/**
 	 * Constructor
 	 */
-	public function __construct( string $old_taxonomy = '', string $new_taxonomy = '', string $action = '' ) {
+	public function __construct(
+		string $old_taxonomy = '',
+		string $new_taxonomy = '',
+		string $action = '',
+		private ?Logger $logger = new Logger( 'Taxonomy' ), // Can be null for certain functions that execute early.
+	) {
 
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
 
 		// If taxonomy is not activated, exit.
 		if ( ! isset( $this->imdb_admin_values['imdbtaxonomy'] ) || $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 			return;
-		}
-
-		// Start Logger class.
-		if ( current_user_can( 'manage_options' ) && is_admin() ) {
-			$this->logger = new Logger( 'Taxonomy' );
 		}
 
 		// Register new taxonomy and create custom taxonomy pages.
@@ -220,7 +215,6 @@ class Taxonomy {
 				if (
 					apply_filters(
 						'lum_polylang_update_taxonomy_terms',
-						$this->logger,
 						intval( $the_id ),
 						$full_new_taxonomy,
 						$full_old_taxonomy,
@@ -232,7 +226,6 @@ class Taxonomy {
 
 				// Normal update.
 				$this->update_taxonomy_terms(
-					$this->logger,
 					intval( $the_id ),
 					$full_new_taxonomy,
 					$full_old_taxonomy,
@@ -249,22 +242,21 @@ class Taxonomy {
 	 * @since 4.3
 	 * @info Using "instanceof \WP_Error" instead of "is_wp_error()" because PHPStan doesn't understand the latter
 	 *
-	 * @param null|Logger $logger Logger
 	 * @param int $page_id Post Id
 	 * @param string $full_new_taxonomy the new taxonomy
 	 * @param string $full_old_taxonomy the taxonomy to be replaced
 	 * @param string $title Post title
 	 * @return bool True if terms were updated
 	 */
-	private function update_taxonomy_terms( ?Logger $logger, int $page_id, string $full_new_taxonomy, string $full_old_taxonomy, string $title ): bool {
+	private function update_taxonomy_terms( int $page_id, string $full_new_taxonomy, string $full_old_taxonomy, string $title ): bool {
 
-		$logger?->log->info( '[Lumiere][Taxonomy][Update terms] Regular taxonomy version started' );
+		$this->logger?->log->info( '[Lumiere][Taxonomy][Update terms] Regular taxonomy version started' );
 
 		$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
-		$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Post] Title "' . esc_html( $title ) . '" being processed' );
+		$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Post] Title "' . esc_html( $title ) . '" being processed' );
 
 		if ( $terms_post === false || $terms_post instanceof \WP_Error ) {
-			$logger?->log->error( '[Lumiere][Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
+			$this->logger?->log->error( '[Lumiere][Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
 			return false;
 		}
 
@@ -287,11 +279,11 @@ class Taxonomy {
 
 			// No term found
 			if ( ! $adding_terms instanceof \WP_Error && count( $adding_terms ) > 0 ) {
-				$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Added] Term *' . esc_html( $term_post->name ) . '* to post *' . esc_html( $title ) . '*' );
+				$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Added] Term *' . esc_html( $term_post->name ) . '* to post *' . esc_html( $title ) . '*' );
 			}
-			$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Process] Term *' . esc_html( $term_post->name ) );
+			$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Process] Term *' . esc_html( $term_post->name ) );
 		}
-		$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Post] Title *' . esc_html( $title ) . '* processed.' );
+		$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Post] Title *' . esc_html( $title ) . '* processed.' );
 		return true;
 	}
 }

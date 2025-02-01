@@ -47,17 +47,11 @@ class Polylang {
 	private array $active_plugins;
 
 	/**
-	 * Logger class
-	 */
-	public Logger $logger;
-
-	/**
 	 * Constructor
 	 */
-	final public function __construct() {
-
-		$this->logger = new Logger( 'Polylang' );
-
+	final public function __construct(
+		private ?Logger $logger = new Logger( 'Polylang' ), // Can be null for certain functions that execute early.
+	) {
 		// Return URLs with Polylang lang extension in domain name.
 		add_filter( 'lum_polylang_rewrite_url_with_lang', [ $this, 'rewrite_url_with_lang' ], 10, 1 );
 
@@ -102,7 +96,7 @@ class Polylang {
 			add_filter( 'pll_get_taxonomies', [ $polylang_class, 'add_tax_to_pll' ], 10, 2 );
 		}
 
-		add_filter( 'lum_polylang_update_taxonomy_terms', [ $polylang_class, 'update_taxonomy_terms' ], 10, 5 );
+		add_filter( 'lum_polylang_update_taxonomy_terms', [ $polylang_class, 'update_taxonomy_terms' ], 10, 4 );
 	}
 
 	/**
@@ -344,28 +338,32 @@ class Polylang {
 	 * @since 4.3
 	 * @info Using "instanceof \WP_Error" instead of "is_wp_error()" because PHPStan doesn't understand the latter
 	 *
-	 * @param null|Logger $logger Logger
 	 * @param int $page_id Post Id
 	 * @param string $full_new_taxonomy the new taxonomy
 	 * @param string $full_old_taxonomy the taxonomy to be replaced
 	 * @param string $title Post title
 	 * @return bool True if terms were updated
 	 */
-	public function update_taxonomy_terms( ?Logger $logger, int $page_id, string $full_new_taxonomy, string $full_old_taxonomy, string $title ): bool {
+	public function update_taxonomy_terms( int $page_id, string $full_new_taxonomy, string $full_old_taxonomy, string $title ): bool {
 
-		$logger?->log->info( '[Lumiere][Taxonomy][Update terms][Polylang] Polylang taxonomy version started' );
-		$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" being processed' );
+		// Method executed in init so logging prevents throws a "headers already sent" -> trick to prevent logger to be run
+		if ( did_action( 'wp_loaded' ) !== 1 ) {
+			$this->logger = null;
+		}
+
+		$this->logger?->log->info( '[Lumiere][Taxonomy][Update terms][Polylang] Polylang taxonomy version started' );
+		$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" being processed' );
 
 		$get_lang = pll_get_post_language( $page_id );
 		$lang = $get_lang !== false ? $get_lang : '';
 		$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
 
 		if ( $terms_post === false || $terms_post instanceof \WP_Error ) {
-			$logger?->log->error( '[Lumiere][Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
+			$this->logger?->log->error( '[Lumiere][Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
 			return false;
 		}
 
-		$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" in lang ' . esc_html( $lang ) . ' being processed' );
+		$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" in lang ' . esc_html( $lang ) . ' being processed' );
 
 		foreach ( $terms_post as $key => $term_post ) {
 
@@ -384,7 +382,7 @@ class Polylang {
 				/** @psalm-suppress PossiblyInvalidPropertyFetch (it's always object!) */
 				$term_slug = isset( $term_post ) && ! $term_post instanceof \WP_Error ? $term_post->slug : '';
 
-				$logger?->log->notice( '[Lumiere][Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );
+				$this->logger?->log->notice( '[Lumiere][Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );
 
 			} else {
 				// Set the term's language.
@@ -402,11 +400,11 @@ class Polylang {
 
 			// Insert sucess.
 			if ( isset( $adding_terms ) && ! $adding_terms instanceof \WP_Error && count( $adding_terms ) > 0 ) {
-				$logger?->log->info( '[Lumiere][Taxonomy][Update terms][Polylang][Added] Term *' . esc_html( $term_slug ) . '* to post *' . esc_html( $title ) . '* in lang ' . esc_html( $lang ) );
+				$this->logger?->log->info( '[Lumiere][Taxonomy][Update terms][Polylang][Added] Term *' . esc_html( $term_slug ) . '* to post *' . esc_html( $title ) . '* in lang ' . esc_html( $lang ) );
 			}
-			$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Processed] Term *' . esc_html( $term_slug ) . '* processed' );
+			$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Processed] Term *' . esc_html( $term_slug ) . '* processed' );
 		}
-		$logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title *' . esc_html( $title ) . '* processed' );
+		$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Polylang][Post] Title *' . esc_html( $title ) . '* processed' );
 		return true;
 	}
 }

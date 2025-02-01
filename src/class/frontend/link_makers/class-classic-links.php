@@ -50,7 +50,7 @@ class Classic_Links extends Abstract_Link_Maker {
 			'lumiere_classic_links',
 			$this->config_class->lumiere_js_dir . 'lumiere_classic_links.min.js',
 			[],
-			$this->config_class->lumiere_version,
+			lum_get_version(),
 			true
 		);
 	}

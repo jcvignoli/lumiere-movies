@@ -35,19 +35,13 @@ class Auto_Update_Template_Taxonomy extends Copy_Template_Taxonomy {
 	use Admin_General;
 
 	/**
-	 * Detect_New_Template_Taxo class
-	 */
-	private Detect_New_Template_Taxo $detect_new_template_taxo;
-
-	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		parent::__construct();
-		$this->detect_new_template_taxo = new Detect_New_Template_Taxo();
-
-		// Start Logger class.
-		$this->logger = new Logger( 'autoUpdateTemplateTaxonomy' );
+	public function __construct(
+		private Detect_New_Template_Taxo $detect_new_template_taxo = new Detect_New_Template_Taxo(),
+		protected Logger $logger = new Logger( 'autoUpdateTemplateTaxonomy' ),
+	) {
+		parent::__construct( $logger ); // Override logger name.
 
 		// add_action( 'admin_notices', [ 'Lumiere\Admin\Admin_Notifications', 'lumiere_static_start'], 11 ); // What for? Run in cron.
 	}

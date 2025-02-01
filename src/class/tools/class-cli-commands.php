@@ -207,8 +207,8 @@ class Cli_Commands {
 
 		// Build the principal vars.
 		$template_types = [ 'items', 'people' ];
-		$items = [ 'color', 'country', 'genre', 'keyword', 'language' ];
-		$people = [ 'actor', 'composer', 'creator', 'director', 'producer', 'writer' ];
+		$items = Get_Options::get_list_items();
+		$people = Get_Options::get_list_people();
 		$all = array_merge( $items, $people );
 		$array_items = [ $template_types[0] => $items ];
 		$array_people = [ $template_types[1] => $people ];

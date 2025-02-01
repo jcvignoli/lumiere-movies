@@ -31,8 +31,6 @@ use Lumiere\Settings;
  */
 class Rewrite_Rules {
 
-	private Logger $logger_class;
-
 	/**
 	 * Rules to be added in add_rewrite_rule()
 	 */
@@ -57,10 +55,9 @@ class Rewrite_Rules {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-
-		$this->logger_class = new Logger( 'RewriteRules' );
-
+	public function __construct(
+		private Logger $logger_class = new Logger( 'RewriteRules' ),
+	) {
 		$this->final_array_rules = $this->get_real_array_rules( self::LUMIERE_REWRITE_RULES );
 
 		// Add 'popup' as as valid query var in WP query_vars.

@@ -16,7 +16,6 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 }
 
 use FilesystemIterator;
-use Exception;
 use Lumiere\Tools\Files;
 use Lumiere\Tools\Get_Options;
 
@@ -73,7 +72,7 @@ class Settings {
 	const LUMIERE_ACTIVE = 'LUMIERE_ACTIVE';
 
 	/**
-	 * URL Strings for popups, built in lumiere_define_constants()
+	 * URL Strings for popups, built in define_constants_after_globals()
 	 */
 	public string $lumiere_urlstring;
 	public string $lumiere_urlstringfilms;
@@ -123,7 +122,7 @@ class Settings {
 	const UPDATE_OPTIONS_PAGE = 'class/class-updates.php'; // not included in $lumiere_list_all_pages.
 
 	/**
-	 * URL string for taxonomy, 'lumiere-' by default (built in lumiere_define_constants() )
+	 * URL string for taxonomy, 'lumiere-' by default
 	 */
 	const URL_STRING_TAXO = 'lumiere-';
 
@@ -144,12 +143,6 @@ class Settings {
 	public string $lumiere_scripts_admin_vars;
 
 	/**
-	 * Lumière plugin version var is built from the readme
-	 * Useful for updates
-	 */
-	public string $lumiere_version;
-
-	/**
 	 * Number of files inside /class/updates
 	 * Allows to start with a fresh installation with the right number of updates
 	 * Is built in lumiere_define_nb_updates()
@@ -163,28 +156,14 @@ class Settings {
 	const LUMIERE_FOLDER_CACHE = WP_CONTENT_DIR . '/cache/lumiere/';
 
 	/**
-	 * List of types of people available
-	 * is built in define_constants_after_globals()
-	 * @var array<string> $array_people
-	 */
-	public array $array_people = [];
-
-	/**
-	 * List of types of people available
-	 * is built in define_constants_after_globals()
-	 * @var array<string> $array_items
-	 */
-	public array $array_items = [];
-
-	/**
 	 * Constructor
 	 *
 	 * @since 4.0 added properties $imdb_cache_values and $imdb_data_values, checking if options are not available, creation of the options
 	 */
 	public function __construct() {
 
-		// Define Lumière constants.
-		$this->lumiere_define_constants();
+		// BUILD $imdb_admin_option['imdbplugindirectory']
+		$this->imdb_admin_option['imdbplugindirectory'] ??= LUMIERE_WP_URL;
 
 		/**
 		 * Build options, get them from database if they exist, build them otherwise.
@@ -213,12 +192,6 @@ class Settings {
 
 		// Define Lumière constants once global options have been created.
 		$this->define_constants_after_globals();
-
-		/**
-		 * Build list of taxonomy for people and items
-		 */
-		$this->array_people = $this->build_people();
-		$this->array_items = $this->build_items();
 	}
 
 	/**
@@ -228,32 +201,6 @@ class Settings {
 	 */
 	public static function build_options(): void {
 		$build_options = new self();
-	}
-
-	/**
-	 * Define global constants
-	 * Run before the creation of the database options, database options may need these constants
-	 * @throws Exception
-	 */
-	private function lumiere_define_constants(): void {
-
-		// BUILD $imdb_admin_option['imdbplugindirectory']
-		$this->imdb_admin_option['imdbplugindirectory'] ??= LUMIERE_WP_URL;
-
-		/**
-		 * BUILD LUMIERE_VERSION
-		 * @since 4.3 use of $wp_filesystem instead of file_get_contents()
-		 */
-		global $wp_filesystem;
-		$readme_file = LUMIERE_WP_PATH . 'README.txt';
-		$this->lumiere_wp_filesystem_cred( $readme_file );
-		$lumiere_version_recherche = $wp_filesystem->get_contents( $readme_file );
-		if ( $lumiere_version_recherche === false ) {
-			throw new Exception( esc_html__( 'Lumiere plugin: Readme file either missing or corrupted ', 'lumiere-movies' ) );
-		}
-		$lumiere_version = preg_match( '#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match );
-		$this->lumiere_version = $lumiere_version_match[1] ?? '0';
-
 	}
 
 	/**
@@ -327,7 +274,7 @@ class Settings {
 	 *
 	 * @return array<string, string>
 	 */
-	private function build_people(): array {
+	public static function build_people(): array {
 		return [
 			'actor' => __( 'actor', 'lumiere-movies' ),
 			'composer' => __( 'composer', 'lumiere-movies' ),
@@ -343,7 +290,7 @@ class Settings {
 	 *
 	 * @return array<string, string>
 	 */
-	private function build_items(): array {
+	public static function build_items(): array {
 		return [
 			'color' => __( 'color', 'lumiere-movies' ),
 			'country' => __( 'country', 'lumiere-movies' ),

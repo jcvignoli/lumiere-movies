@@ -88,3 +88,20 @@ if ( ! function_exists( 'lum_php_min_version' ) ) {
 		}
 	}
 }
+
+if ( ! function_exists( 'lum_get_version' ) ) {
+	/**
+	 * Get the version of Lumière automatically from the Readme
+	 * @return string
+	 */
+	function lum_get_version(): string {
+		global $wp_filesystem;
+		$readme_file = plugin_dir_path( __FILE__ ) . '/README.txt';
+		$lumiere_version_recherche = $wp_filesystem->get_contents( $readme_file );
+		if ( $lumiere_version_recherche === false ) {
+			throw new Exception( 'Lumière readme file is either missing or corrupted' );
+		}
+		$lumiere_version = preg_match( '#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match );
+		return $lumiere_version_match[1] ?? '0';
+	}
+}

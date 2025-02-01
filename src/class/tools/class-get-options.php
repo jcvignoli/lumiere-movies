@@ -52,7 +52,7 @@ class Get_Options {
 	 * @return string
 	 */
 	public static function get_lumiere_version(): string {
-		return ( new Settings() )->lumiere_version;
+		return lum_get_version();
 	}
 
 	/**
@@ -113,6 +113,24 @@ class Get_Options {
 	 */
 	public static function get_cache_tablename(): string {
 		return Settings::LUMIERE_CACHE_OPTIONS;
+	}
+
+	/**
+	 * Get all people's data
+	 *
+	 * @return array<string, string>
+	 */
+	public static function get_list_people(): array {
+		return Settings::build_people();
+	}
+
+	/**
+	 * Get all item's data
+	 *
+	 * @return array<string, string>
+	 */
+	public static function get_list_items(): array {
+		return Settings::build_items();
 	}
 }
 
