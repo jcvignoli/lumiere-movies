@@ -164,7 +164,7 @@ class Admin {
 	 * Add assets of Lumière admin pages
 	 * @param string $page_caller
 	 */
-	public function lumiere_execute_admin_assets ( string $page_caller ): void {
+	public function lumiere_execute_admin_assets( string $page_caller ): void {
 
 		// Load assets only on Lumière admin pages.
 		// + WordPress edition pages + Lumière own pages (ie gutenberg search).
@@ -191,7 +191,7 @@ class Admin {
 			// Load main js.
 			wp_enqueue_script( 'lumiere_scripts_admin' );
 
-			// Register paths, fake script to get a hook for add inline scripts
+			// Add inline scripts.
 			wp_add_inline_script(
 				'lumiere_scripts_admin',
 				Settings::get_scripts_admin_vars(),

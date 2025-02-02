@@ -54,6 +54,7 @@ trait Settings_Global {
 
 	/**
 	 * Build database options properties
+	 * @since 4.4 Added false checks and Settings::create_database_options(), since during a first install the Frontend may fail (according to WP Plugin Check)
 	 */
 	public function get_db_options(): void {
 

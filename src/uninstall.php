@@ -59,23 +59,14 @@ class Uninstall {
 	private ?array $imdb_cache_values;
 
 	/**
-	 * Logging class
-	 *
-	 */
-	private Logger $logger;
-
-	/**
 	 * Constructor
 	 */
-	public function __construct() {
-
-		// Get options from database.
-		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() ) !== false ? get_option( Get_Options::get_admin_tablename() ) : null;
-		$this->imdb_data_values = get_option( Get_Options::get_data_tablename() ) !== false ? get_option( Get_Options::get_data_tablename() ) : null;
-		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() ) !== false ? get_option( Get_Options::get_cache_tablename() ) : null;
-
-		// Start Logger class.
-		$this->logger = new Logger( 'uninstallClass', false );
+	public function __construct(
+		private Logger $logger = new Logger( 'uninstallClass', false )
+	) {
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), null );
+		$this->imdb_data_values = get_option( Get_Options::get_data_tablename(), null );
+		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename(), null );
 	}
 
 	/**

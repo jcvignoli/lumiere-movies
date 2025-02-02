@@ -84,17 +84,15 @@ class Settings {
 	/**
 	 * Internal URL pages constants
 	 */
-	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/admin/class-copy-template-taxonomy.php'; // not included in get_all_lumiere_pages().
-	const VIRTUAL_PAGE_MAKER = 'class/alteration/class-virtual-page.php';
+	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/admin/taxo/class-copy-template-taxonomy.php'; // not included in get_all_lumiere_pages().
 	const GUTENBERG_SEARCH_PAGE = 'class/admin/class-search.php';
 	const GUTENBERG_SEARCH_URL_STRING = 'lumiere/search/';
 	const GUTENBERG_SEARCH_URL = '/wp-admin/' . self::GUTENBERG_SEARCH_URL_STRING;
-	const POPUP_SEARCH_URL = 'class/frontend/popups/class-popup-movie-search.php';
-	const POPUP_MOVIE_URL = 'class/frontend/popups/class-popup-movie.php';
-	const POPUP_PERSON_URL = 'class/frontend/popups/class-popup-person.php';
+	const POPUP_SEARCH_PATH = 'class/frontend/popups/class-popup-movie-search.php';
+	const POPUP_MOVIE_PATH = 'class/frontend/popups/class-popup-movie.php';
+	const POPUP_PERSON_PATH = 'class/frontend/popups/class-popup-person.php';
 	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php'; // not included in get_all_lumiere_pages().
 	const TAXO_ITEMS_THEME = 'class/theme/class-taxonomy-items-standard.php'; // not included in get_all_lumiere_pages().
-	const UPDATE_OPTIONS_PAGE = 'class/class-updates.php'; // not included in get_all_lumiere_pages().
 
 	/**
 	 * URL string for taxonomy, 'lumiere-' by default
@@ -103,18 +101,17 @@ class Settings {
 
 	/**
 	 * Cache folder path.
-	 * This const is utilised to determine the default cache path value in get_cache_option()
 	 */
 	const LUMIERE_FOLDER_CACHE = '/cache/lumiere/';
 
 	/**
-	 * Reset all options
 	 * Create database options if they don't exist
 	 *
 	 * @see \Lumiere\Core::lumiere_on_activation() On first plugin activation, create the options
 	 * @see \Lumiere\Save_Options On every reset, calling this method
+	 * @see \Lumiere\Tools\Settings_Global::get_db_options() if options are not yet available, which may happend on first install (according to WP Plugin Check)
 	 *
-	 * @since 4.3.4 method created
+	 * @since 4.4 method created
 	 */
 	public static function create_database_options(): void {
 
@@ -137,7 +134,10 @@ class Settings {
 	}
 
 	/**
-	 * Get admin vars for javascript
+	 * Get ADMIN vars for javascript
+	 * @see \Lumiere\Admin\Admin::lumiere_execute_admin_assets() Add this to wp_add_inline_script()
+	 *
+	 * @return string The full javascript piece to be included
 	 */
 	public static function get_scripts_admin_vars(): string {
 		$imdb_admin_option = get_option( Get_Options::get_admin_tablename() );
@@ -158,7 +158,10 @@ class Settings {
 	}
 
 	/**
-	 * Get frontend vars for javascript
+	 * Get FRONTEND vars for javascript
+	 * @see \Lumiere\Frontend\Frontend::frontpage_execute_assets() Add this to wp_add_inline_script()
+	 *
+	 * @return string The full javascript piece to be included
 	 */
 	public static function get_scripts_frontend_vars(): string {
 		$imdb_admin_option = get_option( Get_Options::get_admin_tablename() );
@@ -177,7 +180,8 @@ class Settings {
 	}
 
 	/**
-	 * Define all the pages of the Plugin
+	 * Define all the pages of Lumiere
+	 * @see \Lumiere\Admin\Admin:lumiere_execute_admin_assets()
 	 *
 	 * @return array<string>
 	 */
@@ -190,9 +194,9 @@ class Settings {
 			self::MOVE_TEMPLATE_TAXONOMY_PAGE,
 			self::GUTENBERG_SEARCH_PAGE,
 			self::GUTENBERG_SEARCH_URL,
-			self::POPUP_SEARCH_URL,
-			self::POPUP_MOVIE_URL,
-			self::POPUP_PERSON_URL,
+			self::POPUP_SEARCH_PATH,
+			self::POPUP_MOVIE_PATH,
+			self::POPUP_PERSON_PATH,
 		];
 	}
 
