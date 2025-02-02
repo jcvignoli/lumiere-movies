@@ -5,7 +5,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version       2.0
+ * @version       3.0
  * @package lumiere-movies
  */
 namespace Lumiere;
@@ -26,12 +26,11 @@ if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
 
 /**
  * Configuration class
- * Some settings are created from the outset, others are processed in __construct()
- * On calling __construct(), options are created in database
+ * Call create_database_options() to set the options in WP config database
  *
- * @TODO options should be created only when installing/activating the plugin
- * @since 4.0 moved cache folder creation to class cache tools
- * @since 4.1 renamed *imdb_widget_* to *imdb_data_* all over the website
+ * @since 4.0 Moved cache folder creation to class cache tools
+ * @since 4.1 Renamed *imdb_widget_* to *imdb_data_* all over the website
+ * @since 4.4 Options are created only when installing/activating the plugin
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global

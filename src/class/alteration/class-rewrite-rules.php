@@ -65,7 +65,7 @@ class Rewrite_Rules {
 	public function __construct(
 		private Logger $logger_class = new Logger( 'RewriteRules' ),
 	) {
-		$this->imdb_admin_option = get_option( Get_Options::get_admin_tablename() );
+		$this->imdb_admin_option = get_option( Get_Options::get_admin_tablename(), [] );
 
 		$this->final_array_rules = $this->get_real_array_rules( self::LUMIERE_REWRITE_RULES );
 
