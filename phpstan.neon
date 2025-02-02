@@ -23,6 +23,7 @@ parameters:
         - tests/bootstrap-testing.php
     ignoreErrors:
         - '#Variable method call on#'
+        - '#Variable static method call on#'
         - '#Path in require_once\(\) "#' # Phpstan can't resolve paths
         - '#Unable to resolve the template type T in call to function wp_unslash#' #=> waiting for the PRs to be accepted on Github
         - '#Parameter \#1 \$url of function esc_url_raw expects string, array<string>\|string given#' #=> waiting for the PRs to be accepted on Github

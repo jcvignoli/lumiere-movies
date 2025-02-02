@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Plugins\Logger;
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Rules for all types of *popups*
@@ -28,6 +28,7 @@ use Lumiere\Settings;
  * 3/ On closing the class, check if the rules are correctly added. If they aren't, a flush_rewrite_rules() is done
  * @since 3.11
  * @see \Lumiere\Frontend\Popups Folder that includes the popup classes
+  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  */
 class Rewrite_Rules {
 
@@ -53,11 +54,19 @@ class Rewrite_Rules {
 	private array $final_array_rules;
 
 	/**
+	 * @var array<string, string> $imdb_admin_option
+	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_option
+	 */
+	private array $imdb_admin_option;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(
 		private Logger $logger_class = new Logger( 'RewriteRules' ),
 	) {
+		$this->imdb_admin_option = get_option( Get_Options::get_admin_tablename() );
+
 		$this->final_array_rules = $this->get_real_array_rules( self::LUMIERE_REWRITE_RULES );
 
 		// Add 'popup' as as valid query var in WP query_vars.
@@ -100,15 +109,14 @@ class Rewrite_Rules {
 	}
 
 	/**
-	 * Rewrite the rules in the keys of LUMIERE_REWRITE_RULES should have $settings_class->lumiere_urlstring been edited by user
+	 * Rewrite the rules in the keys of LUMIERE_REWRITE_RULES should have $this->imdb_admin_option['imdburlpopups'] been edited by user
 	 *
 	 * @param array<string, string> $rules
 	 * @return array<string, string>
 	 */
 	public function get_real_array_rules( array $rules ): array {
 
-		$settings_class = new Settings();
-		$url_string_trimmed = trim( $settings_class->lumiere_urlstring, '/' );
+		$url_string_trimmed = trim( $this->imdb_admin_option['imdburlpopups'], '/' );
 		$array_key_replaced = [];
 		foreach ( $rules as $key => $value ) {
 			$new_key = str_replace( 'lumiere', $url_string_trimmed, $key );

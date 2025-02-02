@@ -20,6 +20,7 @@ use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Settings_Global;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Frontend trait
@@ -61,7 +62,6 @@ trait Main {
 		/**
 		 * Create the properties needed
 		 */
-		$this->get_settings_class(); // In Trait Settings_Global.
 		$this->get_db_options(); // In Trait Settings_Global.
 
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
@@ -121,17 +121,14 @@ trait Main {
 	 */
 	public function is_popup_page(): bool {
 
-		// Create the properties $this->config_class
-		$this->get_settings_class(); // In Trait Settings_Global.
-
 		$get_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : null;
 		if (
 			isset( $get_request_uri )
 			&&
 			(
-				str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), $this->config_class->lumiere_urlstringfilms )
-				|| str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), $this->config_class->lumiere_urlstringsearch )
-				|| str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), $this->config_class->lumiere_urlstringperson )
+				str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), Get_Options::get_popup_url( 'movies' ) )
+				|| str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), Get_Options::get_popup_url( 'movies_search' ) )
+				|| str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), Get_Options::get_popup_url( 'people' ) )
 			)
 		) {
 			return true;

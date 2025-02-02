@@ -18,6 +18,8 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Settings;
+
 /**
  * This class is used when bootstrap option is selected
  *
@@ -53,9 +55,9 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		);
 		wp_register_style(
 			'lumiere_bootstrap_custom',
-			$this->config_class->lumiere_css_dir . 'lumiere-bootstrap-custom.min.css',
+			Settings::LUM_CSS_URL . 'lumiere-bootstrap-custom.min.css',
 			[ 'lumiere_bootstrap_core' ],
-			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere-bootstrap-custom.min.css' ) )
+			strval( filemtime( Settings::LUM_CSS_PATH . 'lumiere-bootstrap-custom.min.css' ) )
 		);
 
 		// Scripts.
@@ -68,9 +70,9 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		);
 		wp_register_script(
 			'lumiere_bootstrap_scripts',
-			$this->config_class->lumiere_js_dir . 'lumiere-bootstrap-links.min.js',
+			Settings::LUM_JS_URL . 'lumiere-bootstrap-links.min.js',
 			[ 'lumiere_scripts' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere-bootstrap-links.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere-bootstrap-links.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 	}

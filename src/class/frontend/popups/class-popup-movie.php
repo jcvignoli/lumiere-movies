@@ -19,6 +19,8 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
+use Lumiere\Tools\Get_Options;
+use Lumiere\Settings;
 use Imdb\Title;
 
 /**
@@ -209,8 +211,8 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_menu( Title $movie_class, string $film_title_sanitized ): void {
 		// If polylang plugin is active, rewrite the URL to append the lang string
-		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', $this->config_class->lumiere_urlpopupsfilms );
-		$url_if_polylang_search = apply_filters( 'lum_polylang_rewrite_url_with_lang', $this->config_class->lumiere_urlpopupsearch );
+		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'movies', site_url() ) );
+		$url_if_polylang_search = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'movies_search', site_url() ) );
 		?>
 					<!-- top page menu -->
 
@@ -242,7 +244,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 	 */
 	public function display_portrait( Title $movie_class ): void {
 		?>
-		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center lum_padding_bott_2vh">
+		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center lum_padding_bott_2vh lum_padding_top_6vh">
 			<div class="lumiere_flex_auto lum_width_fit_cont">
 				<div class="titrefilm">
 				<?php
@@ -270,10 +272,10 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 			}
 
 				// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
-				$photo_url_href = strlen( $photo_url ) === 0 ? $this->config_class->lumiere_pics_dir . 'no_pics.gif' : $photo_url;
+				$photo_url_href = strlen( $photo_url ) === 0 ? Settings::LUM_PICS_URL . 'no_pics.gif' : $photo_url;
 
 				// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-				$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_thumb;
+				$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Settings::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
 
 				echo '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
@@ -323,7 +325,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 
 				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 					. esc_url(
-						wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $director[ $i ]['imdb'] )
+						wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . $director[ $i ]['imdb'] )
 					)
 					. '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . esc_html( $director[ $i ]['name'] );
@@ -351,7 +353,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 			echo '<span class="lum_results_section_subtitle">' . esc_html__( 'Main actors', 'lumiere-movies' ) . '</span>';
 
 			for ( $i = 0; ( $i < $nbactors ) && ( $i < $nbtotalactors ); $i++ ) {
-				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . $cast[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
+				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . $cast[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . esc_html( $cast[ $i ]['name'] ) . '</a>';
 
 				if ( ( $i < $nbactors - 1 ) && ( $i < $nbtotalactors - 1 ) ) {
@@ -393,7 +395,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 			echo '<span class="lum_results_section_subtitle">'
 				. esc_html__( 'Rating', 'lumiere-movies' )
 				. '</span>';
-			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( $this->config_class->lumiere_showtimes_dir . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
+			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( Settings::LUM_PICS_SHOWTIMES_URL . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
 			. ' title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . esc_attr( $rating_string ) . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  width="102" height="12" / >';
 			echo ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
 
@@ -674,7 +676,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 					. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 					. esc_url(
 						wp_nonce_url(
-							$this->config_class->lumiere_urlpopupsperson . $cast[ $i ]['imdb'] . '/?mid=' . $cast[ $i ]['imdb']
+							Get_Options::get_popup_url( 'people', site_url() ) . $cast[ $i ]['imdb'] . '/?mid=' . $cast[ $i ]['imdb']
 						)
 					)
 					. '" title="'
@@ -713,7 +715,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
 					wp_nonce_url(
-						$this->config_class->lumiere_urlpopupsperson . $director[ $i ]['imdb'] . '/?mid=' . $director[ $i ]['imdb']
+						Get_Options::get_popup_url( 'people', site_url() ) . $director[ $i ]['imdb'] . '/?mid=' . $director[ $i ]['imdb']
 					)
 				)
 					. '" title="'
@@ -750,7 +752,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
 					wp_nonce_url(
-						$this->config_class->lumiere_urlpopupsperson . $writer[ $i ]['imdb'] . '/?mid=' . $writer[ $i ]['imdb']
+						Get_Options::get_popup_url( 'people', site_url() ) . $writer[ $i ]['imdb'] . '/?mid=' . $writer[ $i ]['imdb']
 					)
 				)
 					. '" title="'
@@ -784,7 +786,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
 					wp_nonce_url(
-						$this->config_class->lumiere_urlpopupsperson . $producer[ $i ]['imdb'] . '/?mid=' . $producer[ $i ]['imdb']
+						Get_Options::get_popup_url( 'people', site_url() ) . $producer[ $i ]['imdb'] . '/?mid=' . $producer[ $i ]['imdb']
 					)
 				)
 					. '" title="'

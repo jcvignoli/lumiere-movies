@@ -21,6 +21,7 @@ use Lumiere\Frontend\Popups\Popup_Movie;
 use Lumiere\Frontend\Popups\Popup_Movie_Search;
 use Lumiere\Frontend\Main;
 use Lumiere\Plugins\Plugins_Start;
+use Lumiere\Settings;
 
 /**
  * Start everything for frontend pages
@@ -94,27 +95,27 @@ class Frontend {
 		// hide/show script
 		wp_register_script(
 			'lumiere_hide_show',
-			$this->config_class->lumiere_js_dir . 'lumiere_hide_show.min.js',
+			Settings::LUM_JS_URL . 'lumiere_hide_show.min.js',
 			[ 'jquery' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_hide_show.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_hide_show.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 
 		// Frontpage scripts
 		wp_register_script(
 			'lumiere_scripts',
-			$this->config_class->lumiere_js_dir . 'lumiere_scripts.min.js',
+			Settings::LUM_JS_URL . 'lumiere_scripts.min.js',
 			[ 'jquery' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_scripts.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_scripts.min.js' ) ),
 			[ 'strategy' => 'async' ]
 		);
 
 		// Main style
 		wp_register_style(
 			'lumiere_style_main',
-			$this->config_class->lumiere_css_dir . 'lumiere.min.css',
+			Settings::LUM_CSS_URL . 'lumiere.min.css',
 			[],
-			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere.min.css' ) )
+			strval( filemtime( Settings::LUM_CSS_PATH . 'lumiere.min.css' ) )
 		);
 
 		// Customized style: register instead of the main style a customised main style located in active theme directory
@@ -146,7 +147,7 @@ class Frontend {
 		 */
 		wp_add_inline_script(
 			'lumiere_scripts',
-			$this->config_class->lumiere_scripts_vars,
+			Settings::get_scripts_frontend_vars(),
 		);
 
 		// Do not enqueue it more than once.
@@ -174,7 +175,7 @@ class Frontend {
 			return $template_path;
 		}
 
-		// 'popup' query_var must match against $this->config_class->lumiere_urlstring* vars that are encoded in javascript URL.
+		// 'popup' query_var must match against Settings::URL_BIT_POPUPS_* vars that are encoded in javascript URL.
 		switch ( $query_popup ) {
 			case 'film':
 				( new Popup_Movie() )->get_layout();

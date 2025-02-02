@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Imdb\Title;
+use Lumiere\Settings;
 
 /**
  * Those methods are utilised by class Movie to display the sections
@@ -71,7 +72,7 @@ class Movie_Data extends Movie {
 		}
 
 		// If cache is deactived, display no_pics.gif
-		$no_pic_url = $this->config_class->lumiere_pics_dir . 'no_pics.gif';
+		$no_pic_url = Settings::LUM_PICS_URL . 'no_pics.gif';
 		return $this->link_maker->lumiere_link_picture( $no_pic_url, $no_pic_url, $movie->title() );
 	}
 

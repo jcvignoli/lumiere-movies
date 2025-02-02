@@ -15,6 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Settings;
 use Lumiere\Tools\Settings_Global;
 use WP_Widget;
 
@@ -53,7 +54,6 @@ class Widget_Selection extends WP_Widget {
 	public function __construct() {
 
 		// Get Global Settings class properties from trait Settings_Global.
-		$this->get_settings_class();
 		$this->get_db_options();
 
 		parent::__construct(
@@ -159,7 +159,7 @@ class Widget_Selection extends WP_Widget {
 		$output .= "\n\t" . '<div class="lumiere_display_inline_flex lum_legacy_wrapper">';
 		$output .= "\n\t\t" . '<div class="lumiere_padding_ten">';
 		$output .= "\n\t\t\t" . '<img class="lumiere_flex_auto" width="40" height="40" src="'
-				. esc_url( $this->config_class->lumiere_pics_dir . 'lumiere-ico80x80.png' ) . '" />';
+				. esc_url( Settings::LUM_PICS_URL . 'lumiere-ico80x80.png' ) . '" />';
 		$output .= "\n\t\t" . '</div>';
 
 		$output .= "\n\t\t" . '<div class="lumiere_flex_auto lumiere_flex_nowrap_container">';

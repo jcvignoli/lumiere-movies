@@ -18,6 +18,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 }
 
 use Lumiere\Admin\Admin_Menu;
+use Lumiere\Settings;
 use Exception;
 
 /**
@@ -87,7 +88,7 @@ class Help extends Admin_Menu {
 			self::PAGES_NAMES['menu_submenu'],
 			/** Add an array with vars to send in the template */
 			[
-				$this->config_class->lumiere_pics_dir,
+				Settings::LUM_PICS_URL,
 				$this->page_help,
 				$this->page_help_support,
 				$this->page_help_faqs,
@@ -121,7 +122,7 @@ class Help extends Admin_Menu {
 				self::PAGES_NAMES['menu_howto'],
 				/** Add an array with vars to send in the template */
 				[
-					$this->config_class->lumiere_pics_dir,
+					Settings::LUM_PICS_URL,
 					$this->page_help,
 					$this->page_help_support,
 					$this->page_help_faqs,
@@ -337,7 +338,6 @@ class Help extends Admin_Menu {
 				$this->page_help,
 				$this->page_help_faqs,
 				$acknowledgefile,
-				$this->config_class->lumiere_pics_dir,
 			],
 			self::TRANSIENT_ADMIN,
 		);

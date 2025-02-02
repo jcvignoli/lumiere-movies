@@ -20,6 +20,8 @@ use Imdb\Name;
 use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
+use Lumiere\Tools\Get_Options;
+use Lumiere\Settings;
 
 /**
  * Display star information in a popup
@@ -263,7 +265,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_menu(): void {
 		// If polylang plugin is active, rewrite the URL to append the lang string
-		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', $this->config_class->lumiere_urlpopupsperson );
+		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'people', site_url() ) );
 		?>
 												<!-- top page menu -->
 		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">
@@ -353,7 +355,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			for ( $i = 0; $i < $nbtotalspouses; ++$i ) {
 
 				if ( isset( $spouses[ $i ]['imdb'] ) && strlen( $spouses[ $i ]['imdb'] ) > 0 ) {
-					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . intval( $spouses[ $i ]['imdb'] ) ) ) . "'>";
+					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . intval( $spouses[ $i ]['imdb'] ) ) ) . "'>";
 				}
 
 				if ( isset( $spouses[ $i ]['name'] ) && strlen( $spouses[ $i ]['name'] ) > 0 ) {
@@ -385,7 +387,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			for ( $i = 0; $i < $nbtotalchildren; ++$i ) {
 
 				if ( isset( $children[ $i ]['imdb'] ) && strlen( $children[ $i ]['imdb'] ) > 0 ) {
-					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsperson . '?mid=' . intval( $children[ $i ]['imdb'] ) ) ) . "'>";
+					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . intval( $children[ $i ]['imdb'] ) ) ) . "'>";
 				}
 
 				if ( isset( $children[ $i ]['name'] ) && strlen( $children[ $i ]['name'] ) > 0 ) {
@@ -418,7 +420,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 			for ( $i = 0; $i < $nbtotalbiomovie; ++$i ) {
 
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
+				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
 
 				if ( isset( $biomovie[ $i ]['year'] ) && $biomovie[ $i ]['year'] > 0 ) {
 					$output .= ' (' . intval( $biomovie[ $i ]['year'] ) . ') ';
@@ -441,7 +443,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 			for ( $i = 0; $i < $nbtotalportrayedmovie; ++$i ) {
 
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $portrayedmovie[ $i ]['id'] ) ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['title'] ) . '</a>';
+				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . esc_html( $portrayedmovie[ $i ]['id'] ) ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['title'] ) . '</a>';
 
 				if ( isset( $portrayedmovie[ $i ]['year'] ) && strlen( strval( $portrayedmovie[ $i ]['year'] ) ) > 0 ) {
 					$output .= ' (' . esc_html( $portrayedmovie[ $i ]['year'] ) . ') ';
@@ -739,7 +741,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_portrait(): void { ?>
 												<!-- Photo & identity -->
-		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center lum_padding_bott_2vh">
+		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center lum_padding_bott_2vh lum_padding_top_6vh">
 			<div class="lumiere_flex_auto lum_width_fit_cont">
 				<div class="identity"><?php echo esc_html( $this->page_title ); ?></div>
 
@@ -830,10 +832,10 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			}
 
 			// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
-			$photo_url_href = strlen( $photo_url ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
+			$photo_url_href = strlen( $photo_url ) === 0 ? esc_url( Settings::LUM_PICS_URL . 'no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
 			// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-			$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( $this->config_class->lumiere_pics_dir . 'no_pics.gif' ) : $photo_thumb;
+			$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Settings::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
 
 			echo "\n\t\t\t\t" . '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 			echo "\n\t\t\t\t\t" . '<img loading="lazy" src="'
@@ -894,7 +896,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 			foreach ( $all_movies[ $role ] as $credit_role ) {
 
-				$output .= " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( $this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $credit_role['titleId'] ) ) ) . "'>" . esc_html( $credit_role['titleName'] ) . '</a>';
+				$output .= " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . esc_html( $credit_role['titleId'] ) ) ) . "'>" . esc_html( $credit_role['titleName'] ) . '</a>';
 
 				if ( isset( $credit_role['year'] ) ) {
 					$output .= ' (';

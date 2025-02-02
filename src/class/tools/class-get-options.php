@@ -132,5 +132,22 @@ class Get_Options {
 	public static function get_list_items(): array {
 		return Settings::build_items();
 	}
+
+	/**
+	 * Build the URLs for popups
+	 *
+	 * @param 'movies'|'people'|'movies_search' $column Type of URL we want to get
+	 * @param string $domain_url OPTIONAL: Full URL of the domain, usually passed with site_url()
+	 * @return string
+	 */
+	public static function get_popup_url( string $column, $domain_url = '' ): string {
+		$imdb_admin_option = get_option( self::get_admin_tablename() );
+		$url = [
+			'movies'        => $domain_url . $imdb_admin_option['imdburlpopups'] . Settings::URL_BIT_POPUPS_MOVIES,
+			'people'        => $domain_url . $imdb_admin_option['imdburlpopups'] . Settings::URL_BIT_POPUPS_PEOPLE,
+			'movies_search' => $domain_url . $imdb_admin_option['imdburlpopups'] . Settings::URL_BIT_POPUPS_MOVIES_SEARCH,
+		];
+		return $url[ $column ];
+	}
 }
 

@@ -16,7 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
 use Lumiere\Tools\Get_Options;
 
 /**
@@ -53,26 +52,12 @@ trait Settings_Global {
 	public array $imdb_cache_values;
 
 	/**
-	 * Class \Lumiere\Settings
-	 */
-	public Settings $config_class;
-
-	/**
 	 * Build database options properties
 	 */
 	public function get_db_options(): void {
-
-		Settings::build_options();
-		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
-		$this->imdb_data_values = get_option( Get_Options::get_data_tablename() );
-		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
-	}
-
-	/**
-	 * Build Settings class properties
-	 */
-	public function get_settings_class(): void {
-		$this->config_class = new Settings();
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
+		$this->imdb_data_values = get_option( Get_Options::get_data_tablename(), [] );
+		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename(), [] );
 	}
 }
 

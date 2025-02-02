@@ -210,13 +210,13 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<blockquote class="lumiere_bloquote_help lum_align_left">
 					&lt;?php<br>
 					if (class_exists("\Lumiere\Settings")) {<br>
-						$config_class = new \Lumiere\Settings();<br>
+						$config_imdb = new \Lumiere\Plugins\Manual\Imdbphp();<br>
 						// Get the type of search: movies, series, games<br>
 						$typeSearch = \Lumiere\Tools\Get_Options::get_type_search();<br>
 					}<br>
 					<br>
 					# Initialization of IMDBphp libraries<br>
-					$search = new \Imdb\TitleSearch($config_class );<br>
+					$search = new \Imdb\TitleSearch($config_imdb );<br>
 
 					if ( (isset ($_GET["moviesearched"])) && (!empty ($_GET["moviesearched"])) ){<br>
 						$search_sanitized = isset($_GET["moviesearched"]) ? sanitize_text_field( $_GET["moviesearched"] ) : NULL;<br>

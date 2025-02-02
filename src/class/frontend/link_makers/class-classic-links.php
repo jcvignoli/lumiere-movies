@@ -16,6 +16,8 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Settings;
+
 /**
  * Is called by the Link Factory class, implements abstract Link Maker class
  *
@@ -48,7 +50,7 @@ class Classic_Links extends Abstract_Link_Maker {
 
 		wp_register_script(
 			'lumiere_classic_links',
-			$this->config_class->lumiere_js_dir . 'lumiere_classic_links.min.js',
+			Settings::LUM_JS_URL . 'lumiere_classic_links.min.js',
 			[],
 			lum_get_version(),
 			true

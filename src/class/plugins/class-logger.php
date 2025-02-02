@@ -121,8 +121,8 @@ class Logger {
 
 		/** @psalm-suppress UndefinedConstant, RedundantCondition -- Psalm can't deal with dynamic constants */
 		if (
-			( current_user_can( 'manage_options' ) && $this->imdb_admin_values['imdbdebug'] === '1' )
-			|| ( $this->imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON )
+			( current_user_can( 'manage_options' ) && isset( $this->imdb_admin_values['imdbdebug'] ) && $this->imdb_admin_values['imdbdebug'] === '1' )
+			|| ( isset( $this->imdb_admin_values['imdbdebug'] ) && $this->imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON )
 		) {
 			// Get the verbosity from options and build the constant.
 			$logger_verbosity = constant( '\Monolog\Logger::' . $this->imdb_admin_values['imdbdebuglevel'] );
@@ -212,10 +212,10 @@ class Logger {
 	 * @param bool $second_try Whether the function is called a second time
 	 * @return null|string Null if log creation was unsuccessful, Log full path file if successfull
 	 */
-	private function maybe_create_log( string $log_file, bool $second_try = false ): ?string {
+	public function maybe_create_log( string $log_file, bool $second_try = false ): ?string {
 
 		global $wp_filesystem;
-		$this->lumiere_wp_filesystem_cred( $log_file ); // in trait files.
+		$this->lumiere_wp_filesystem_cred( $log_file ); // in trait Files.
 
 		// Debug file doesn't exist, create it.
 		if ( $wp_filesystem->is_file( $log_file ) === false ) {

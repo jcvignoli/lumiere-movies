@@ -319,7 +319,7 @@ class Data extends Admin_Menu {
 					. "' title='"
 					. esc_html__( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' )
 					. "' ><img src='"
-					. esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' )
+					. esc_url( Settings::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' )
 					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' /> "
 					. esc_html__( 'Copy template', 'lumiere-movies' )
 					. '</a>';
@@ -346,7 +346,7 @@ class Data extends Admin_Menu {
 				. $link_taxo_copy
 				. "' title='"
 				. esc_html__( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' )
-				. "' ><img src='" . esc_url( $this->config_class->lumiere_pics_dir . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' /> "
+				. "' ><img src='" . esc_url( Settings::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' /> "
 				. esc_html__( 'Update template', 'lumiere-movies' ) . '</a>';
 
 		$output .= "\n\t" . '<div><font color="red">'

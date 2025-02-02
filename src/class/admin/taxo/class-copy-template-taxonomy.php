@@ -17,6 +17,7 @@ use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Get_Options;
 use Lumiere\Admin\Admin_General;
+use Lumiere\Settings;
 use Exception;
 
 /**
@@ -39,39 +40,45 @@ class Copy_Template_Taxonomy {
 		protected Logger $logger = new Logger( 'copyTemplateTaxonomy' ),
 	) {
 		// Get Global Settings class properties.
-		$this->get_settings_class();
 		$this->get_db_options();
 	}
 
 	/**
-	 * Static class call for add_action()
+	 * Regular static class call
 	 * @param string $url_data_taxo_page The admin taxonomy page URL, used for redirects
 	 */
 	public static function lumiere_start_copy_taxo( string $url_data_taxo_page ): void {
-		$class = new self();
-		$class->maybe_copy_taxonomy_template( $url_data_taxo_page );
+		( new self() )->maybe_copy_taxonomy_template( $url_data_taxo_page );
+	}
+
+	/**
+	 * WP-CLI static class call
+	 * @see \Lumiere\Tools\Cli_Commands::sub_copy_taxo()
+	 * @param string $wp_cli_taxonomy The short taxonomy name, such as 'director'
+	 */
+	public static function wp_cli_copy_taxo( string $wp_cli_taxonomy ): void {
+		( new self() )->maybe_copy_taxonomy_template( '', $wp_cli_taxonomy );
 	}
 
 	/**
 	 * Maybe copy the standard taxonomy template to the theme folder
 	 * @param string $url_data_taxo_page The admin taxonomy page URL, used for redirects
+	 * @param string|null $wp_cli_taxonomy The short taxonomy name, such as 'director', passed only if wp-cli is used
 	 * @return void Copy on success, display error message if failure
 	 * @throws Exception if the template doesn't exist
 	 */
-	private function maybe_copy_taxonomy_template( string $url_data_taxo_page ): void {
-		// Escape gets and get taxotype and nonce.
-		$lumiere_taxo_title =
-			isset( $_GET['taxotype'] ) && isset( $_GET['_wpnonce_linkcopytaxo'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
-			? sanitize_key( $_GET['taxotype'] )
-			: null;
+	private function maybe_copy_taxonomy_template( string $url_data_taxo_page, ?string $wp_cli_taxonomy = null ): void {
+
+		// Use $_GET['taxotype'] if available (copy from admin page) or the taxonomy provided in second param if wp-cli called otherwise.
+		$lumiere_taxo_title = esc_html( $this->get_taxotype_url() ?? $wp_cli_taxonomy ?? '' );
 
 		// Build links and vars.
-		if ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_people() ), true ) ) {
-			$lumiere_taxo_file_tocopy = $this->config_class::TAXO_PEOPLE_THEME;
-		} elseif ( isset( $lumiere_taxo_title ) && in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_items() ), true ) ) {
-			$lumiere_taxo_file_tocopy = $this->config_class::TAXO_ITEMS_THEME;
+		if ( in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_people() ), true ) ) {
+			$lumiere_taxo_file_tocopy = Settings::TAXO_PEOPLE_THEME;
+		} elseif ( in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_items() ), true ) ) {
+			$lumiere_taxo_file_tocopy = Settings::TAXO_ITEMS_THEME;
 		} else {
-			throw new Exception( 'This template ' . esc_html( $lumiere_taxo_title ?? '' ) . ' does not exist, aborting' );
+			throw new Exception( 'This template ' . esc_html( $lumiere_taxo_title ) . ' does not exist, aborting' );
 		}
 
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
@@ -83,29 +90,56 @@ class Copy_Template_Taxonomy {
 		// No $_GET["taxotype"] found or not in array, exit.
 		if ( strlen( $lumiere_taxo_title ) === 0 ) {
 			set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_failed', 1 );
-			// Get the taxonomy option page from calling class
-			if ( wp_safe_redirect( $url_data_taxo_page ) ) {
-				exit;
-			}
+			$this->maybe_redirect( $url_data_taxo_page, $wp_cli_taxonomy );
 		}
 
-		/* Taxonomy is activated in the panel, and $_GET['taxotype'] exists
-		   as a $imdb_data_values, and there is a nonce from Data class */
+		/**
+		 * Taxonomy is activated in the admin and
+		 * $_GET['taxotype'] exists in $imdb_data_values
+		 */
 		if (
 			$this->imdb_admin_values['imdbtaxonomy'] === '1'
 			&& $this->imdb_data_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1'
 		) {
 			if ( $this->copy_taxonomy_template( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, $lumiere_taxo_title ) === true ) {
 				set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );
-			}
-			if ( wp_safe_redirect( $url_data_taxo_page ) ) {
 				$this->logger->log->info( 'Template file ' . $lumiere_taxonomy_theme_file . ' was copied.' );
-				exit;
+				$this->maybe_redirect( $url_data_taxo_page, $wp_cli_taxonomy );
+				return;
 			}
 		}
 
 		// If none of the previous conditions are met
-		esc_html_e( 'Template copy failed for some reasons.', 'lumiere-movies' );
+		throw new Exception( 'Template copy failed for some reasons' );
+	}
+
+	/**
+	 * Return the var $_GET['taxotype'] found in URL
+	 * Used for admin panel copy
+	 * @return string|null
+	 */
+	private function get_taxotype_url(): ?string {
+		if (
+			isset( $_GET['taxotype'] )
+			&& isset( $_GET['_wpnonce_linkcopytaxo'] )
+			&& wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
+		) {
+			return sanitize_key( $_GET['taxotype'] );
+		}
+		return null;
+	}
+
+	/**
+	 * Redirect to the calling page if it's not wp-cli calling
+	 * @return void If it's an admin panel copy, exit, return if it wp-cli call
+	 */
+	private function maybe_redirect( string $url_data_taxo_page, ?string $wp_cli_taxonomy ): void {
+		if ( isset( $wp_cli_taxonomy ) ) {
+			return;
+		}
+		if ( wp_safe_redirect( $url_data_taxo_page ) ) {
+			exit( 0 );
+		}
 	}
 
 	/**

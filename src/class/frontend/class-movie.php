@@ -207,7 +207,7 @@ class Movie {
 				// A movie's ID was passed.
 			} elseif ( isset( $films_array[ $i ]['bymid'] ) ) {
 				$movies_found[] = esc_html( strval( $films_array[ $i ]['bymid'] ) );
-				$this->logger->log->debug( '[Lumiere][Movie] IMDb ID provided: *' . $movies_found[ $i ] . '*' );
+				$this->logger->log->debug( '[Lumiere][Movie] IMDb ID provided: *' . $movies_found[0] . '*' );
 			}
 
 		}

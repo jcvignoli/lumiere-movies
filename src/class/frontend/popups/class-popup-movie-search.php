@@ -20,6 +20,7 @@ use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Validate_Get;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Displays movie search results in a popup
@@ -181,7 +182,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 				echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
 					. esc_url(
 						wp_nonce_url(
-							$this->config_class->lumiere_urlpopupsfilms . '?mid=' . esc_html( $res['titleSearchObject']->imdbid() )
+							Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . esc_html( $res['titleSearchObject']->imdbid() )
 							. '&film=' . Data::lumiere_name_htmlize( $res['titleSearchObject']->title() )
 						)
 					)
@@ -201,7 +202,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 					echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
 						. esc_url(
 							wp_nonce_url(
-								$this->config_class->lumiere_urlpopupsperson
+								Get_Options::get_popup_url( 'people', site_url() )
 								. '?mid=' . esc_html( $realisateur['0']['imdb'] ?? '' )
 							)
 						)

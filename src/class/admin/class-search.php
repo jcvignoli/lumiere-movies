@@ -54,7 +54,6 @@ class Search {
 		status_header( 200 );
 
 		// Get Global Settings class properties.
-		$this->get_settings_class();
 		$this->get_db_options();
 		$this->movie_searched = Validate_Get::sanitize_url( 'moviesearched' );
 
@@ -239,7 +238,7 @@ class Search {
 
 		wp_register_script(
 			'lumiere_search_admin',
-			$this->config_class->lumiere_js_dir . 'lumiere_scripts_search.min.js',
+			Settings::LUM_JS_URL . 'lumiere_scripts_search.min.js',
 			[ 'jquery' ],
 			lum_get_version(),
 			true

@@ -205,16 +205,28 @@ class Core {
 
 		// Start Logger class.
 		$logger = new Logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
-
 		$current_admin = get_option( Get_Options::get_cache_tablename() );
 
-		/* Create the value of number of updates on first install */
-		if ( ! isset( $current_admin['imdbHowManyUpdates'] ) ) {
-			// Start Settings class to create it. Not optimal.
-			$settings_class = new Settings();
-			$logger->log->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' successfully created." );
+		/* First install, create everything that is required */
+		if ( $current_admin === false ) {
+
+			// Create the options in database.
+			Settings::create_database_options();
+
+			// Create the debug file if WP_DEBUG and 'imdbdebug' are defined.
+			$current_admin = get_option( Get_Options::get_cache_tablename() );
+			if (
+				defined( 'WP_DEBUG' )
+				&& $current_admin !== false
+				&& isset( $current_admin['imdbdebug'] )
+				&& $current_admin['imdbdebug'] === '1'
+				&& isset( $current_admin['imdbdebuglogpath'] )
+			) {
+				$logger->maybe_create_log( $current_admin['imdbdebuglogpath'] );
+			}
+			$logger->log->info( '[Lumiere][coreClass][activation] Lumière options and log successfully created.' );
 		} else {
-			$logger->log->info( "[Lumiere][coreClass][activation] Lumière option 'imdbHowManyUpdates' already exists." );
+			$logger->log->info( '[Lumiere][coreClass][activation] Lumière options already exists.' );
 		}
 
 		/* Create the cache folders */

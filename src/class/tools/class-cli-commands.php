@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Files;
+use Lumiere\Admin\Taxo\Copy_Template_Taxonomy;
 use Lumiere\Tools\Get_Options;
 use WP_CLI;
 use \ReflectionClass;
@@ -172,10 +173,10 @@ class Cli_Commands {
 		}
 
 		// Build the constant to call in Get_Options - can be admin, cache or data
-		$settings_name = '\Lumiere\Tools\Get_Options::get_' . strtolower( $args[1] ) . '_tablename';
+		$settings_name = 'get_' . strtolower( $args[1] ) . '_tablename';
 
 		// Get options from DB and get the (first) array key from the passed values in $dashed_extra_args.
-		$database_options = get_option( $settings_name() );
+		$database_options = get_option( Get_Options::$settings_name() );
 		$array_key = array_key_first( $dashed_extra_args );
 
 		// Exit if the array key doesn't exist in Lumière! DB admin options
@@ -187,7 +188,7 @@ class Cli_Commands {
 
 		// Build new array and update database.
 		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ];
-		update_option( $settings_name, $database_options );
+		update_option( Get_Options::$settings_name(), $database_options );
 
 		WP_CLI::success( 'Updated var ' . $array_key . ' with value ' . $database_options[ $array_key ] );
 	}
@@ -223,36 +224,9 @@ class Cli_Commands {
 			WP_CLI::error( "Selected options are wrong, must comply with:\nwp lum copy_taxo " . implode( '|', $template_types ) . ' --template=' . implode( '|', $all ) );
 		}
 
-		// Build source filename, except if no second main argument was passed exit.
-		if ( in_array( $args[1], $template_types, true ) === true ) {
-			$source_file = constant( '\Lumiere\Settings::TAXO_' . strtoupper( $args[1] ) . '_THEME' );
-		} else {
-			WP_CLI::error( "The extra argument must be either items or people as follows:\nwp lum copy_taxo " . implode( '|', $template_types ) . ' --template=' . implode( '|', $all ) );
-		}
-
 		// Build taxonomy new filename, directory and source.
-		$template_name = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $taxonomy . '.php';
-		$destination_full_name = get_stylesheet_directory() . '/' . $template_name;
-		/** @psalm-suppress PossiblyUndefinedVariable -- psalm doesn't understand when building $source_full_name that WP_CLI::error is an exit function */
-		$source_full_name = $this->imdb_admin_values['imdbpluginpath'] . $source_file; /** @phan-suppress-current-line PhanPossiblyUndeclaredVariable -- phan doesn't understand when building $source_full_name that WP_CLI::error is an exit function */
-
-		// Copy templates to user's theme folder.
-		global $wp_filesystem;
-		$this->lumiere_wp_filesystem_cred( $destination_full_name ); // in trait Files.
-		$wp_filesystem->touch( $destination_full_name );
-
-		// Replace the content to adapt it to its new structure and wording.
-		$content = $wp_filesystem->get_contents( $source_full_name );
-		$content_cleaned = preg_replace( '~\*\sYou can replace.*automatically~s', '* Automatically copied from Lumiere! admin menu', $content );
-		$content = $content_cleaned !== null ? str_replace( 'standard', $taxonomy, $content_cleaned ) : $content;
-		$content = str_replace( 'Standard', ucfirst( $taxonomy ), $content );
-
-		if ( $wp_filesystem->put_contents( $destination_full_name, $content ) === true ) {
-			WP_CLI::success( 'The template ' . $template_name . ' has been copied to ' . $destination_full_name );
-			return;
-		}
-
-		WP_CLI::error( 'Could not copy the selected template, check the permissions' );
+		Copy_Template_Taxonomy::wp_cli_copy_taxo( $taxonomy );
+		WP_CLI::success( 'The template *' . $this->imdb_admin_values['imdburlstringtaxo'] . $taxonomy . '* has been successfuly copied' );
 	}
 }
 

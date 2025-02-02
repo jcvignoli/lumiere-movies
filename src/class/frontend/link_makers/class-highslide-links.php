@@ -21,6 +21,8 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Settings;
+
 /*
  * Class to build Highslide links
  * Is called by the {@see Link_Factory} class, implements and extends abstract {@see Link_Maker} class
@@ -54,31 +56,31 @@ class Highslide_Links extends Abstract_Link_Maker {
 		// Styles.
 		wp_register_style(
 			'lumiere_highslide_core_style',
-			$this->config_class->lumiere_css_dir . 'lumiere-highslide.min.css',
+			Settings::LUM_CSS_URL . 'lumiere-highslide.min.css',
 			[ 'lumiere_style_main' ],
-			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere-highslide.min.css' ) )
+			strval( filemtime( Settings::LUM_CSS_PATH . 'lumiere-highslide.min.css' ) )
 		);
 
 		// Scripts.
 		wp_register_script(
 			'lumiere_highslide_core',
-			$this->config_class->lumiere_js_dir . 'highslide/highslide-with-html.min.js',
+			Settings::LUM_JS_URL . 'highslide/highslide-with-html.min.js',
 			[],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'highslide/highslide-with-html.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'highslide/highslide-with-html.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(
 			'lumiere_highslide_options',
-			$this->config_class->lumiere_js_dir . 'lumiere-highslide-options.min.js',
+			Settings::LUM_JS_URL . 'lumiere-highslide-options.min.js',
 			[ 'lumiere_highslide_scripts' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere-highslide-options.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere-highslide-options.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(
 			'lumiere_highslide_scripts',
-			$this->config_class->lumiere_js_dir . 'lumiere-highslide-links.min.js',
+			Settings::LUM_JS_URL . 'lumiere-highslide-links.min.js',
 			[ 'jquery', 'lumiere_scripts' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere-highslide-links.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere-highslide-links.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 	}

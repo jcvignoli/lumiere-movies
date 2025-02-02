@@ -1,7 +1,12 @@
 **Changelog**
 
-v.4.3.4
+v.4.4
+* [bug] Activating the plugin could throw error in Logger class (due to debug file creation)
+* [bug] Increased the padding between the layout and menu in popups movies & people 
+* [bug] CLI functions (update_options) was not correctly updating the table option name. (Missing an extra "()" in update_options() of method sub_update_options() in Cli_Commands class)
+* [bug] CLI functions (copy taxonomy template) was updated to the latest way to copy template (Cli_Commands class now use Copy_Taxo_Template class)
 * [technical] PHP < 8.1 support dropped. The plugin is no more compatible with PHP 8.0 and lower.
+* [technical] Refactorized Settings class to set the options only on activation (overdue for years: now Settings class is understandable, without properties and only constant, executed as such only on activation and when resetting options in admin panel, with proper static functions => most are called in Get_Options class)
 
 v.4.3.3.1
 * [feature] When using Lumière search admin, no message was returned if the query found no results (added a return text in class Search)

@@ -44,7 +44,6 @@ class Admin {
 	public function __construct() {
 
 		// Get Global Settings class properties.
-		$this->get_settings_class();
 		$this->get_db_options();
 	}
 
@@ -110,53 +109,53 @@ class Admin {
 		// Register hide/show script
 		wp_register_script(
 			'lumiere_hide_show',
-			$this->config_class->lumiere_js_dir . 'lumiere_hide_show.min.js',
+			Settings::LUM_JS_URL . 'lumiere_hide_show.min.js',
 			[ 'jquery' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_hide_show.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_hide_show.min.js' ) ),
 			true
 		);
 
 		// Register admin styles
 		wp_register_style(
 			'lumiere_css_admin',
-			$this->config_class->lumiere_css_dir . 'lumiere_admin.min.css',
+			Settings::LUM_CSS_URL . 'lumiere_admin.min.css',
 			[],
-			strval( filemtime( $this->config_class->lumiere_css_path . 'lumiere_admin.min.css' ) )
+			strval( filemtime( Settings::LUM_CSS_PATH . 'lumiere_admin.min.css' ) )
 		);
 
 		// Register admin scripts
 		wp_register_script(
 			'lumiere_scripts_admin',
-			$this->config_class->lumiere_js_dir . 'lumiere_scripts_admin.min.js',
+			Settings::LUM_JS_URL . 'lumiere_scripts_admin.min.js',
 			[ 'jquery' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_scripts_admin.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_scripts_admin.min.js' ) ),
 			false
 		);
 
 		// Register gutenberg admin scripts
 		wp_register_script(
 			'lumiere_scripts_admin_gutenberg',
-			$this->config_class->lumiere_js_dir . 'lumiere_scripts_admin_gutenberg.min.js',
+			Settings::LUM_JS_URL . 'lumiere_scripts_admin_gutenberg.min.js',
 			[ 'jquery' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_scripts_admin_gutenberg.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_scripts_admin_gutenberg.min.js' ) ),
 			false
 		);
 
 		// Register confirmation script upon deactivation
 		wp_register_script(
 			'lumiere_deactivation_plugin_message',
-			$this->config_class->lumiere_js_dir . 'lumiere_admin_deactivation_msg.min.js',
+			Settings::LUM_JS_URL . 'lumiere_admin_deactivation_msg.min.js',
 			[ 'jquery' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_admin_deactivation_msg.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_admin_deactivation_msg.min.js' ) ),
 			true
 		);
 
 		// Quicktag
 		wp_register_script(
 			'lumiere_quicktag_addbutton',
-			$this->config_class->lumiere_js_dir . 'lumiere_admin_quicktags.min.js',
+			Settings::LUM_JS_URL . 'lumiere_admin_quicktags.min.js',
 			[ 'quicktags' ],
-			strval( filemtime( $this->config_class->lumiere_js_path . 'lumiere_admin_quicktags.min.js' ) ),
+			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_admin_quicktags.min.js' ) ),
 			true
 		);
 	}
@@ -175,7 +174,7 @@ class Admin {
 			|| 'post-new.php' === $page_caller
 			|| 'widgets.php' === $page_caller
 			// All Lumière pages.
-			|| Data::lumiere_array_contains_term( $this->config_class->lumiere_list_all_pages, esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) )
+			|| Data::lumiere_array_contains_term( Settings::get_all_lumiere_pages(), esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) )
 			// Extra WP Admin pages.
 			|| Data::lumiere_array_contains_term(
 				[
@@ -195,7 +194,7 @@ class Admin {
 			// Register paths, fake script to get a hook for add inline scripts
 			wp_add_inline_script(
 				'lumiere_scripts_admin',
-				$this->config_class->lumiere_scripts_admin_vars,
+				Settings::get_scripts_admin_vars(),
 				'before'
 			);
 
@@ -256,7 +255,7 @@ class Admin {
 	 */
 	public function lumiere_tinymce_addbutton( array $plugin_array ): array {
 
-		$plugin_array['lumiere_tiny'] = $this->config_class->lumiere_js_dir . 'lumiere_admin_tinymce_editor.min.js';
+		$plugin_array['lumiere_tiny'] = Settings::LUM_JS_URL . 'lumiere_admin_tinymce_editor.min.js';
 		return $plugin_array;
 	}
 

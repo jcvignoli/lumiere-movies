@@ -343,7 +343,7 @@ class Save_Options {
 	private function lumiere_main_options_reset( string|bool $get_referer ): void {
 
 		delete_option( Get_Options::get_admin_tablename() );
-		Settings::build_options();
+		Settings::create_database_options();
 
 		set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
@@ -417,7 +417,7 @@ class Save_Options {
 	 */
 	private function lumiere_cache_options_reset( string|bool $get_referer ): void {
 		delete_option( Get_Options::get_cache_tablename() );
-		Settings::build_options();
+		Settings::create_database_options();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
@@ -642,7 +642,7 @@ class Save_Options {
 	private function lumiere_data_options_reset( string|bool $get_referer, ): void {
 
 		delete_option( Get_Options::get_data_tablename() );
-		Settings::build_options();
+		Settings::create_database_options();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
