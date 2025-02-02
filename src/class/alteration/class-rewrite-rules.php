@@ -65,7 +65,15 @@ class Rewrite_Rules {
 	public function __construct(
 		private Logger $logger_class = new Logger( 'RewriteRules' ),
 	) {
-		$this->imdb_admin_option = get_option( Get_Options::get_admin_tablename(), [] );
+		/** @phpstan-var OPTIONS_ADMIN|false $database_options */
+		$database_options = get_option( Get_Options::get_admin_tablename() );
+
+		if ( is_array( $database_options ) === false ) {
+			$this->logger_class->log->info( '[Lumiere][RewriteRules] Admin options in database are not available, probably first install, exit' );
+			return;
+		}
+
+		$this->imdb_admin_option = $database_options;
 
 		$this->final_array_rules = $this->get_real_array_rules( self::LUMIERE_REWRITE_RULES );
 
