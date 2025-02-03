@@ -96,8 +96,12 @@ if ( ! function_exists( 'lum_get_version' ) ) {
 	 */
 	function lum_get_version(): string {
 		global $wp_filesystem;
+		if ( $wp_filesystem === null ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
 		$readme_file = plugin_dir_path( __FILE__ ) . '/README.txt';
-		$lumiere_version_recherche = $wp_filesystem->get_contents( $readme_file );
+		$lumiere_version_recherche = isset( $wp_filesystem ) ? $wp_filesystem->get_contents( $readme_file ) : false;
 		if ( $lumiere_version_recherche === false ) {
 			throw new Exception( 'Lumière readme file is either missing or corrupted' );
 		}

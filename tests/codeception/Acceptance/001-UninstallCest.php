@@ -72,7 +72,7 @@ class UninstallCest {
 		$wpplugins = $wpcontent . '/plugins';
 		$dir_plugin_lumiere = $wpplugins . '/lumiere-movies';
 		
-		$I->comment('Do Lumière *LOCAL* plugin uninstall for a fresh start');
+		$I->comment( Helper\Color::set('Do Lumière *LOCAL* plugin uninstall for a fresh start', "italic+bold+cyan" ) );
 
 		// Disable keep settings options and deactivate Lumière
 		$this->disable_keepsettings_and_deactivate( $I );
@@ -81,19 +81,19 @@ class UninstallCest {
 		$I->comment( Helper\Color::set( "**See if Lumière directory exists and copy**", "italic+bold+cyan" ) );
 		$I->amOnPluginsPage();
 		$I->seePluginInstalled('lumiere-movies');
-		$I->comment( Helper\Color::set('Saving plugin directory...', 'yellow+blink') );
+		$I->comment( Helper\Color::set('Saving plugin directory...', 'italic+bold+cyan+blink') );
 		
 		// Copy with removing the symbolic link property from the origin, making a regular directory
-		$I->comment('Copy the plugin as a regular folder');
+		$I->comment( Helper\Color::set( 'Copy the plugin as a regular folder', 'italic+bold+cyan' ) );
 		$shell->runShellCommand( 'cp -Ra -L ' . $dir_plugin_lumiere . ' ' . $wpcontent . '/' );
 		// Move the plugin
-		$I->comment('Move and rename the symbolic link');
+		$I->comment( Helper\Color::set( 'Move and rename the symbolic link', 'italic+bold+cyan' ) );
 		$shell->runShellCommand( 'mv ' . $dir_plugin_lumiere . ' ' . $wpcontent . '/lumiere-save' );
 		// Copy back the regular directory into plugins/
-		$I->comment('Copy the plugin saved in wp-content back to plugins');
+		$I->comment( Helper\Color::set( 'Copy the plugin saved in wp-content back to plugins', 'italic+bold+cyan' ) );
 		$shell->runShellCommand( 'cp -Ra ' . $wpcontent . '/lumiere-movies ' . $wpplugins . '/' );
 		// Make sure we can delete plugins/lumiere-movies, give full rights
-		$I->comment('Give the permissions to the lumiere-movies');
+		$I->comment( Helper\Color::set( 'Give the permissions to the lumiere-movies', 'italic+bold+cyan' ) );
 		$shell->runShellCommand( 'chmod -R 777 ' . $dir_plugin_lumiere );
 
 		// Uninstall plugin
@@ -112,19 +112,21 @@ class UninstallCest {
 		$dir_plugin_lumiere = $wpplugins . '/lumiere-movies';
 
 		// Revert back the saved plugin directory
-		$I->comment(Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan'));
+		$I->comment( Helper\Color::set("**Copy back to the saved plugin directory**", 'italic+bold+cyan') );
 		
 		// Restore the symbolic link
 		// These tricks are meant to ensure we really don't see the plugin anymore, it fails quite often
 		$I->amOnPluginsPage();
+		$I->wait( 2 );
 		$I->reloadPage();
-		$I->dontSeePluginInstalled('lumiere-movies'); // trying method below.
+		$I->wait( 2 );
+		$I->dontSeePluginInstalled('lumiere-movies');
 		$I->comment( 'Move back the symbolic link' );		
 		$shell->runShellCommand('mv ' . $wpcontent . '/lumiere-save ' . $dir_plugin_lumiere );
 
 		// Delete the plugin
 		$I->amOnPluginsPage();
-		$I->wait(4);
+		$I->wait( 4 );
 		$I->seePluginInstalled('lumiere-movies');
 		$I->comment( Helper\Color::set('Deleting temporary plugin directory...', 'yellow') );
 		$shell->runShellCommand( 'rm -R ' . $wpcontent . '/lumiere-movies' );
@@ -221,6 +223,6 @@ class UninstallCest {
 		$I->executeJS("return jQuery('#delete-lumiere-movies').get(0).click()");
 		$I->wait(2);
 		$I->acceptPopup(); # Are you sure you want to remove the plugin?
-		$I->comment(Helper\Color::set("**Lumière plugin deleted**", "italic+bold+cyan"));
+		$I->comment( Helper\Color::set( "**Lumière plugin deleted**", 'italic+bold+cyan' ) );
 	}
 }
