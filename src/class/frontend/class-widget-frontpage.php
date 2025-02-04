@@ -116,9 +116,8 @@ class Widget_Frontpage {
 	 * Otherwise use shortcode to display data
 	 *
 	 * @param array<string, object> $plugins_classes_active
-	 * @phpstan-assert array{PLUGINS_ALL_KEYS: PLUGINS_ALL_CLASSES} $plugins_classes_active
 	 * @phpstan-param array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES} $plugins_classes_active
-	 * @return void Either Legacy of Post-5.8 widget displayed
+	 * @return void Either Legacy or Block-based widget displayed
 	 */
 	public function __construct( array $plugins_classes_active ) {
 

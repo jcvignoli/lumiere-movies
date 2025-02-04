@@ -55,8 +55,24 @@ class Cache_Files_Management {
 		private Logger $logger = new Logger( 'cacheFilesManagement' ),
 		private Imdbphp $imdbphp_class = new Imdbphp()
 	) {
-		// Get options from database.
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
+	}
+
+	/**
+	 * Find all files in relation of an IMDBID and a type of data (movie or people)
+	 *
+	 * @param string $imdb_id the people's or movie's IMDb ID
+	 * @param 'movie'|'people'|string $movie_or_people Define the type of data to delete
+	 * @return list<string>|null Null on error or files not found, array of files found otherwise
+	 */
+	private function find_files( string $imdb_id, string $movie_or_people ): ?array {
+		$id_sanitized = esc_html( $imdb_id );
+		$pattern_glob = [
+			'movie' => '*tt' . $id_sanitized . '*',
+			'people' => '*nm' . $id_sanitized . '*',
+		];
+		$files_found = glob( $this->imdb_cache_values['imdbcachedir'] . $pattern_glob[ $movie_or_people ] );
+		return $files_found !== false && count( $files_found ) > 0 ? $files_found : null;
 	}
 
 	/**
@@ -66,12 +82,12 @@ class Cache_Files_Management {
 	 *
 	 * @param 'movie'|'people'|string $movie_or_people Define the type of data to delete
 	 * @param string $imdb_id the people's or movie's IMDb ID
-	 * @return void File was deleted
-	 * @throws Exception if a files doesn't exist or if $movie_or_people doesn't exist
+	 * @return bool True if a file was deleted
 	 */
-	public function delete_file( string $movie_or_people, string $imdb_id ): void {
+	public function delete_file( string $movie_or_people, string $imdb_id ): bool {
 
 		$this->lumiere_wp_filesystem_cred( $this->imdb_cache_values['imdbcachedir'] ); // from Files trait.
+
 		global $wp_filesystem;
 
 		// prevent drama.
@@ -81,10 +97,13 @@ class Cache_Files_Management {
 
 		$id_sanitized = esc_html( $imdb_id );
 
-		$pattern_glob = [
-			'movie' => '*tt' . $id_sanitized . '*',
-			'people' => '*nm' . $id_sanitized . '*',
-		];
+		$list_items = $this->find_files( sanitize_key( $id_sanitized ), sanitize_key( $movie_or_people ) );
+
+		// Check if the file exist.
+		if ( $list_items === null ) {
+			$this->logger->log->error( '[Lumiere][Cache_Tools] The file ' . $id_sanitized . ' does not exist ' );
+			return false;
+		}
 
 		$pattern_pictures = [
 			'movie' => [
@@ -97,27 +116,20 @@ class Cache_Files_Management {
 			],
 		];
 
-		$list_items = glob( $this->imdb_cache_values['imdbcachedir'] . $pattern_glob[ $movie_or_people ] );
-
-		// It wouldn't make sense the file doesn't exist, means something bad took place.
-		if ( $list_items === false || count( $list_items ) === 0 ) {
-			throw new Exception( 'This file does does not exist.' );
-		}
-
 		foreach ( $list_items as $cache_to_delete ) {
-			$this->lumiere_wp_filesystem_cred( $cache_to_delete ); // in trait Admin_General that includes trait Files.
-			$wp_filesystem->delete( $cache_to_delete );
+			wp_delete_file( $cache_to_delete );
 		}
 
 		// Delete pictures, small and big.
 		$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $pattern_pictures[ $movie_or_people ]['small'];
 		$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $pattern_pictures[ $movie_or_people ]['big'];
 		if ( file_exists( $pic_small_sanitized ) ) {
-			$wp_filesystem->delete( $pic_small_sanitized );
+			wp_delete_file( $pic_small_sanitized );
 		}
 		if ( file_exists( $pic_big_sanitized ) ) {
-			$wp_filesystem->delete( $pic_big_sanitized );
+			wp_delete_file( $pic_big_sanitized );
 		}
+		return true;
 	}
 
 	/**
@@ -130,11 +142,11 @@ class Cache_Files_Management {
 	public function refresh_file( string $movie_or_people, string $imdb_id ): void {
 
 		// Delete the specific item.
-		$this->delete_file( sanitize_key( $movie_or_people ), sanitize_key( $imdb_id ) );
-
-		// Get again the item.
-		$function_movie_or_people = 'create_' . $movie_or_people . '_file'; // Methods create_movie_file() or create_people_file()
-		$this->$function_movie_or_people( esc_html( $imdb_id ) );
+		if ( $this->delete_file( sanitize_key( $movie_or_people ), sanitize_key( $imdb_id ) ) === true ) {
+			// Get again the item.
+			$function_movie_or_people = 'create_' . $movie_or_people . '_file'; // Methods create_movie_file() or create_people_file()
+			$this->$function_movie_or_people( esc_html( $imdb_id ) );
+		}
 	}
 
 	/**
@@ -295,8 +307,6 @@ class Cache_Files_Management {
 	 */
 	public function delete_query_cache_files(): void {
 
-		global $wp_filesystem;
-
 		// prevent drama.
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
 			throw new Exception( 'Cache folder does not exist' );
@@ -310,15 +320,13 @@ class Cache_Files_Management {
 			throw new Exception( 'No query files found.' );
 		}
 
-		$this->lumiere_wp_filesystem_cred( $files_query[0] ); // in trait Admin_General that includes trait Files.
-
 		foreach ( $files_query as $cache_to_delete ) {
 
 			if ( $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '.' || $cache_to_delete === $this->imdb_cache_values['imdbcachedir'] . '..' ) {
 				continue;
 			}
 			// the file exists, it is neither . nor .., so delete!
-			$wp_filesystem->delete( $cache_to_delete );
+			wp_delete_file( $cache_to_delete );
 		}
 	}
 

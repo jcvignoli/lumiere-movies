@@ -562,22 +562,23 @@ class Save_Options {
 			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
 		}
 
+		// These $_POST values shouldn't be processed
+		$forbidden_terms = [
+			// Keep $_POST['imdbwidgetorderContainer'] and $_POST['imdbwidgetorder'] untouched
+			'imdbwidgetordercontainer',
+			'imdb_imdbwidgetorder',
+			// Nonce and others
+			'lumiere_nonce_data_settings',
+			'lumiere_update_data_settings',
+			'_wp_http_referer',
+			'_nonce_data_settings',
+		];
+
 		foreach ( $_POST as $key => $postvalue ) {
 
 			// Sanitize
 			$key_sanitized = sanitize_text_field( $key );
 
-			// These $_POST values shouldn't be processed
-			$forbidden_terms = [
-				// Keep $_POST['imdbwidgetorderContainer'] and $_POST['imdbwidgetorder'] untouched
-				'imdbwidgetordercontainer',
-				'imdb_imdbwidgetorder',
-				// Nonce and others
-				'lumiere_nonce_data_settings',
-				'lumiere_update_data_settings',
-				'_wp_http_referer',
-				'_nonce_data_settings',
-			];
 			if ( in_array( $key_sanitized, $forbidden_terms, true ) ) {
 				continue;
 			}
