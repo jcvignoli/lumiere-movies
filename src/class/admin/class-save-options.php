@@ -554,7 +554,7 @@ class Save_Options {
 	 *
 	 * @throws Exception if nonces are incorrect
 	 * @since 4.1 added flush_rewrite_rules()
-	 * @TODO refactorize, function is too much complex
+	 * @TODO refactorize, function is too complex
 	 */
 	private function lumiere_data_options_save( string|bool $get_referer, ): void {
 

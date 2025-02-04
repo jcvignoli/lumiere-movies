@@ -23,10 +23,7 @@ use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Settings_Global;
 
 /**
- * Parent class Updates
- *
- * The updating rules are in this parent class, the data to be updated is in child classes
- *
+ * The updating rules are in this current parent class, the data to be updated are in child classes (in /updates folder)
  * When is the upate processed
  * (a) A manual update is run {@link self::run_update_options()} is triggered when needed {@link \Lumiere\Core::lum_update_needed()} on every visit of admin page
  * (b) On the Lumière plugin activation {@link \Lumiere\Core::lumiere_on_activation()} a cron with update is triggered

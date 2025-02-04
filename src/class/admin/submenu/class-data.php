@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 }
 
 use Lumiere\Admin\Admin_Menu;
-use Lumiere\Admin\Taxo\Detect_New_Template_Taxo;
+use Lumiere\Admin\Copy_Templates\Detect_New_Theme;
 use Lumiere\Settings;
 use Lumiere\Tools\Debug;
 use Lumiere\Tools\Get_Options;
@@ -27,7 +27,7 @@ use Lumiere\Tools\Get_Options;
  * Display data options for taxonomy, data order and data selection
  *
  * @since 4.0 Using templates file instead of the HTML code here
- * @see \Lumiere\Admin\Admin_Menu for templates copy, if put it here the transiant is not passed to { @link \Lumiere\Admin\Taxo\Copy_Template_Taxonomy }
+ * @see \Lumiere\Admin\Admin_Menu for templates copy, if put it here the transiant is not passed to { @link \Lumiere\Admin\Copy_Templates\Copy_Theme }
  */
 class Data extends Admin_Menu {
 
@@ -291,7 +291,7 @@ class Data extends Admin_Menu {
 		$lumiere_taxo_title = esc_html( $type );
 
 		// Get updated items/people from parent class method. Null if not template to update found.
-		$class_check_taxo = new Detect_New_Template_Taxo();
+		$class_check_taxo = new Detect_New_Theme();
 		$list_updated_fields = $class_check_taxo->search_new_update( $lumiere_taxo_title );
 
 		// Files paths

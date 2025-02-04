@@ -24,7 +24,8 @@ use Lumiere\Settings;
 
 /**
  * Edit <head> for popups
- * Meant to be extended on children classes
+ * Add stylesheets, css, check if popup, nonce, get plugins, get link_makers, use ban_bots, add metas html
+ * Extended by children classes
  *
  * @since 3.11 created
  * @since 4.3 Is parent class, bots and nonce validation moved from class Frontend to here

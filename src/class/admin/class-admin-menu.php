@@ -21,14 +21,14 @@ use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
-use Lumiere\Admin\Taxo\Detect_New_Template_Taxo;
+use Lumiere\Admin\Copy_Templates\Detect_New_Theme;
 
 /**
  * Display Admin Menus: Top, Left and default menus
  * Taxonomy theme pages copy class is called here
  * It is checked priorly if the user can manage options
  *
- * @see \Lumiere\Admin\Taxo\Copy_Template_Taxonomy to copy new page template
+ * @see \Lumiere\Admin\Copy_Templates\Copy_Theme to copy new page template
  * @see \Lumiere\Admin\Save_Options Check the $_GET to know if we need to save the submitted data
  * @see \Lumiere\Admin\Admin_Notifications
  */
@@ -113,11 +113,11 @@ class Admin_Menu {
 		/**
 		 * Display notices based on
 		 * (1) only in Lumiere Admin options pages
-		 * (2) template checking in Detect_New_Template_Taxo class
+		 * (2) template checking in Detect_New_Theme class
 		 * (3) any 'notice_lumiere_msg' transient is found in Admin_Notifications class
 		 */
 		if ( str_contains( $that->get_current_admin_url(), $that->page_main_base ) === true ) {
-			add_action( 'admin_notices', fn() => Detect_New_Template_Taxo::get_notif_templates( $that->page_data_taxo ), 10, 1 );
+			add_action( 'admin_notices', fn() => Detect_New_Theme::get_notif_templates( $that->page_data_taxo ), 10, 1 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 		}
 
@@ -138,7 +138,7 @@ class Admin_Menu {
 			&& isset( $_GET['_wpnonce_linkcopytaxo'] )
 			&& wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
 		) {
-			add_action( 'admin_init', fn() => Taxo\Copy_Template_Taxonomy::lumiere_start_copy_taxo( $that->page_data_taxo ) );
+			add_action( 'admin_init', fn() => Copy_Templates\Copy_Theme::start_copy_theme( $that->page_data_taxo ) );
 		}
 
 		/**

@@ -1,12 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class to build no HTML Links
- * Is called by the Link Factory class, implements abstract Link Maker class
- *
- * This class is used for AMP pages
- *
- * External HTML links are kept but no popup link is created
- * Only links to 1/ taxonomy pages and 2/ internal links
+ * Class to build AMP Links
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -23,6 +17,12 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+/**
+ * This class is used for AMP pages
+ * Is called by the Link Factory class, implements abstract Link Maker class
+ * 1/ External HTML links are kept
+ * 2/ But no popup link is created, only links to the content of popups
+ */
 class AMP_Links extends Abstract_Link_Maker {
 
 	/**

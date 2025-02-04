@@ -1,12 +1,12 @@
 <?php declare( strict_types = 1 );
 /**
- * Copy Taxonomy templates
+ * Copy Taxonomy Themes templates based on taxonomy
  *
  * @version 1.0
  * @package lumiere-movies
  */
 
-namespace Lumiere\Admin\Taxo;
+namespace Lumiere\Admin\Copy_Templates;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'ABSPATH' ) ) ) {
@@ -26,7 +26,7 @@ use Exception;
  * @since 4.0.1 removed wp_die()
  * @see \Lumiere\Admin\Admin_Menu This class is called in hook
  */
-class Copy_Template_Taxonomy {
+class Copy_Theme {
 
 	/**
 	 * Traits.
@@ -47,8 +47,8 @@ class Copy_Template_Taxonomy {
 	 * Regular static class call
 	 * @param string $url_data_taxo_page The admin taxonomy page URL, used for redirects
 	 */
-	public static function lumiere_start_copy_taxo( string $url_data_taxo_page ): void {
-		( new self() )->maybe_copy_taxonomy_template( $url_data_taxo_page );
+	public static function start_copy_theme( string $url_data_taxo_page ): void {
+		( new self() )->maybe_copy_theme_template( $url_data_taxo_page );
 	}
 
 	/**
@@ -56,8 +56,8 @@ class Copy_Template_Taxonomy {
 	 * @see \Lumiere\Tools\Cli_Commands::sub_copy_taxo()
 	 * @param string $wp_cli_taxonomy The short taxonomy name, such as 'director'
 	 */
-	public static function wp_cli_copy_taxo( string $wp_cli_taxonomy ): void {
-		( new self() )->maybe_copy_taxonomy_template( '', $wp_cli_taxonomy );
+	public static function wp_cli_copy_theme( string $wp_cli_taxonomy ): void {
+		( new self() )->maybe_copy_theme_template( '', $wp_cli_taxonomy );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Copy_Template_Taxonomy {
 	 * @return void Copy on success, display error message if failure
 	 * @throws Exception if the template doesn't exist
 	 */
-	private function maybe_copy_taxonomy_template( string $url_data_taxo_page, ?string $wp_cli_taxonomy = null ): void {
+	private function maybe_copy_theme_template( string $url_data_taxo_page, ?string $wp_cli_taxonomy = null ): void {
 
 		// Use $_GET['taxotype'] if available (copy from admin page) or the taxonomy provided in second param if wp-cli called otherwise.
 		$lumiere_taxo_title = esc_html( $this->get_taxotype_url() ?? $wp_cli_taxonomy ?? '' );
@@ -101,7 +101,7 @@ class Copy_Template_Taxonomy {
 			$this->imdb_admin_values['imdbtaxonomy'] === '1'
 			&& $this->imdb_data_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1'
 		) {
-			if ( $this->copy_taxonomy_template( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, $lumiere_taxo_title ) === true ) {
+			if ( $this->copy_theme_template( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, $lumiere_taxo_title ) === true ) {
 				set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );
 				$this->logger->log->info( 'Template file ' . $lumiere_taxonomy_theme_file . ' was copied.' );
 				$this->maybe_redirect( $url_data_taxo_page, $wp_cli_taxonomy );
@@ -152,7 +152,7 @@ class Copy_Template_Taxonomy {
 	 *
 	 * @since 4.0.1 Returns bool
 	 */
-	protected function copy_taxonomy_template(
+	protected function copy_theme_template(
 		string $lumiere_taxonomy_theme_file,
 		string $lumiere_current_theme_path_file,
 		string $lumiere_taxo_title

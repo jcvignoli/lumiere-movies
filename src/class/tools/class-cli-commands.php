@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Files;
-use Lumiere\Admin\Taxo\Copy_Template_Taxonomy;
+use Lumiere\Admin\Copy_Templates\Copy_Theme;
 use Lumiere\Tools\Get_Options;
 use WP_CLI;
 use \ReflectionClass;
@@ -225,7 +225,7 @@ class Cli_Commands {
 		}
 
 		// Build taxonomy new filename, directory and source.
-		Copy_Template_Taxonomy::wp_cli_copy_taxo( $taxonomy );
+		Copy_Theme::wp_cli_copy_theme( $taxonomy );
 		WP_CLI::success( 'The template *' . $this->imdb_admin_values['imdburlstringtaxo'] . $taxonomy . '* has been successfuly copied' );
 	}
 }

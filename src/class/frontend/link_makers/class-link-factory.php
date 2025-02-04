@@ -1,7 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
  * Factory class for selecting the link maker
- * These link makers can open popups (Highslide, Classic) or remove all HTML links (No_Links)
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -27,6 +26,9 @@ use Lumiere\Frontend\Main;
 use Exception;
 
 /**
+ * The class select the "link makers" according to the current settings and plugins used
+ * Some "link makers" build links that can open popups (Highslide, Classic) or remove HTML links (No_Links, AMP)
+ *
  * @phpstan-type LINKMAKERCLASSES \Lumiere\Link_Makers\AMP_Links|\Lumiere\Link_Makers\Bootstrap_Links|\Lumiere\Link_Makers\Classic_Links|\Lumiere\Link_Makers\Highslide_Links|\Lumiere\Link_Makers\No_Links
  */
 class Link_Factory {
@@ -55,13 +57,13 @@ class Link_Factory {
 	 * Select which class to use to build the HTML links.
 	 * @phpstan-return AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links Class to build the links with.
 	 *
-	 * @see \Lumiere\Frontend\Main::lumiere_is_amp_page() Detects if AMP is active and current
+	 * @see \Lumiere\Frontend\Main::is_amp_page() Detects if AMP is active and current
 	 * @throws Exception if no link was found
 	 */
 	public function select_link_maker(): AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links {
 
 		// Checks if the current page is AMP
-		if ( $this->lumiere_is_amp_page() === true ) { // Method in Main trait.
+		if ( $this->is_amp_page() === true ) { // Method in Main trait.
 			return new AMP_Links();
 
 			// Not display Lumière! links is selected in admin options
@@ -89,7 +91,7 @@ class Link_Factory {
 	 *
 	 * @phpstan-return LINKMAKERCLASSES Build the class
 	 */
-	public static function lumiere_link_factory_start(): AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links {
+	public static function select_link_type(): AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links {
 		return ( new self() )->select_link_maker();
 	}
 }

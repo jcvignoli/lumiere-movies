@@ -6,7 +6,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Admin\Taxo;
+namespace Lumiere\Admin\Copy_Templates;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'ABSPATH' ) ) ) {
@@ -14,8 +14,8 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 }
 
 use Lumiere\Admin\Admin_General;
-use Lumiere\Admin\Taxo\Copy_Template_Taxonomy;
-use Lumiere\Admin\Taxo\Detect_New_Template_Taxo;
+use Lumiere\Admin\Copy_Templates\Copy_Theme;
+use Lumiere\Admin\Copy_Templates\Detect_New_Theme;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Get_Options;
 
@@ -27,7 +27,7 @@ use Lumiere\Tools\Get_Options;
  * @see Lumiere\Admin\Cron::lumiere_exec_once_update() Executes this file
  * @since 4.3.2
  */
-class Auto_Update_Template_Taxonomy extends Copy_Template_Taxonomy {
+class Auto_Update_Theme extends Copy_Theme {
 
 	/**
 	 * Traits.
@@ -38,7 +38,7 @@ class Auto_Update_Template_Taxonomy extends Copy_Template_Taxonomy {
 	 * Constructor
 	 */
 	public function __construct(
-		private Detect_New_Template_Taxo $detect_new_template_taxo = new Detect_New_Template_Taxo(),
+		private Detect_New_Theme $detect_new_theme = new Detect_New_Theme(),
 		protected Logger $logger = new Logger( 'autoUpdateTemplateTaxonomy' ),
 	) {
 		parent::__construct( $logger ); // Override logger name.
@@ -55,8 +55,8 @@ class Auto_Update_Template_Taxonomy extends Copy_Template_Taxonomy {
 		$valid_taxos = $this->get_taxonomy_activated_items();
 		foreach ( $valid_taxos as $item ) {
 			// Check if the active taxonomy needs an update.
-			if ( $this->detect_new_template_taxo->find_updated_template( $item ) === $item ) {
-				$destination_file = $this->detect_new_template_taxo->get_template_paths( $item );
+			if ( $this->detect_new_theme->find_updated_template( $item ) === $item ) {
+				$destination_file = $this->detect_new_theme->get_template_paths( $item );
 				// Update the template files in user theme folder.
 				$this->update_new_templates( $item, $destination_file['origin'], $destination_file['destination'] );
 			}
@@ -87,9 +87,9 @@ class Auto_Update_Template_Taxonomy extends Copy_Template_Taxonomy {
 		// If 'TemplateAutomaticUpdate' is found, auto update
 		$content_destination = $wp_filesystem->get_contents( $destination_file );
 		if ( is_string( $content_destination ) && preg_match( '~TemplateAutomaticUpdate~i', $content_destination ) > 0 ) {
-			$templates_paths = $this->detect_new_template_taxo->get_template_paths( $item );
+			$templates_paths = $this->detect_new_theme->get_template_paths( $item );
 			// Copy files.
-			parent::copy_taxonomy_template( $origin_file, $destination_file, $item );
+			parent::copy_theme_template( $origin_file, $destination_file, $item );
 			// set_transient( 'notice_lumiere_msg', 'taxotemplateautoupdate_success', 1 ); // What for? Run in cron.
 			$this->logger->log->debug( 'Template file ' . $destination_file . ' has been updated to the latest version' );
 			return;

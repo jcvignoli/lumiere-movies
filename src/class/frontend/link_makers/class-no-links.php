@@ -18,12 +18,9 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Is called by the Link Factory class, implements abstract Link Maker class
- *
  * This class is used when "kill all links" option is selected in Lumière advanced admin
  * No external HTML link, no popup will be made
- *
- * Links to 1/ taxonomy pages and 2/ internal links => are kept
- * 3/ all popups are either turned into internal links or removed
+ * Links to 1/ taxonomy pages and 2/ internal links => are kept 3/ all popups are either turned into internal links or removed
  *
  * @since 3.8
  */

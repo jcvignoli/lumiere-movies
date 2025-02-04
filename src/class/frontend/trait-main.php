@@ -69,7 +69,7 @@ trait Main {
 		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ), $screen_output );
 
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
-		$this->link_maker = Link_Factory::lumiere_link_factory_start();
+		$this->link_maker = Link_Factory::select_link_type();
 	}
 
 	/**
@@ -79,7 +79,7 @@ trait Main {
 	 * @since 3.7.1
 	 * @return bool true if amp url, false otherwise
 	 */
-	public function lumiere_is_amp_page(): bool {
+	public function is_amp_page(): bool {
 
 		global $pagenow;
 

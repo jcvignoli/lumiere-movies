@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Detect new taxonomy templates
+ * Detect new theme template based on custom Lumière taxonomy
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Admin\Taxo;
+namespace Lumiere\Admin\Copy_Templates;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -24,11 +24,12 @@ use Lumiere\Tools\Get_Options;
 /**
  * Detect if new templates templates are available, or templates should be installed
  * Taxonomy theme pages copy class is called here
+ *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
  * @since 4.1
  */
-class Detect_New_Template_Taxo {
+class Detect_New_Theme {
 
 	/**
 	 * Traits

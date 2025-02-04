@@ -6,9 +6,8 @@
  *
  * Version: 3.2.4
  *
+ * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package lumiere-movies
- *
- * TemplateAutomaticUpdate ==> remove this line if you do not want this template to be automatically updated when a new template version is released
  */
 
 namespace Lumiere;

@@ -24,7 +24,7 @@ v.4.3.2.1
 * [bug] Widgets were not displayed anymore if auto widget was not activated
 
 v.4.3.2
-* [feature] Taxonomy template in user template folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate (etc)" in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated. (new class Auto_Update_Template_Taxonomy, auto update set up in cron and executed on auto/manual Lumière update or Lumière activation)
+* [feature] Taxonomy template in user template folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate (etc)" in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated. (new class Auto_Update_Themes, auto update set up in cron and executed on auto/manual Lumière update or Lumière activation)
 * [bug] Widget area limitation was too restrictive and didn't show up in custom posts pages. (rewrote exclusion in Widget_Frontpage::lum_get_widget())
 * [technical] If AMP plugin is validating pages (when activating a new plugin) Lumière is executed and may be lead to a PHP fatal error (hidden). Movie class is now executed only if it's not an AMP validation test (new exclusion rule in Movie class lumiere_show() method)
 * [technical] Renamed "general options" into "main options"
@@ -64,7 +64,7 @@ v.4.2.3
 * [technical] Increased security: Movie class is executed only on posts and pages (class Movie modified)
 * [bug] If AMP plugin is used, showing the admin bar, as it needs it (exception for AMP added to Popup_Movie, Popup_Person, Popup_Search classes)
 * [bug] "Click more" links in taxonomy pages and persons popups wasn't working (changed strategy from async to defer for lumiere_hide_show js in class Frontend, hopefully will work)
-* [bug] If WordPress is displayed in any language but English, taxonomy copy in Lumière admin was dysfunctional (use of array_keys() in Copy_Template_taxonomy and Detect_New_Template_Taxo classes to get the untranslated job/item instead of translated one, the comparaison was made between the translated and English version of the words, in Data class also in method lumiere_data_display_taxo_fields() using $items_key and $items_value)
+* [bug] If WordPress is displayed in any language but English, taxonomy copy in Lumière admin was dysfunctional (use of array_keys() in Copy_Template_taxonomy and Detect_New_Theme classes to get the untranslated job/item instead of translated one, the comparaison was made between the translated and English version of the words, in Data class also in method lumiere_data_display_taxo_fields() using $items_key and $items_value)
 * [bug] HTML labels and select in WordPress block editions compliants with HTML specifications (block movie index.js and Widget_Selection class fixed)
 
 v.4.2.2
@@ -135,7 +135,7 @@ v.4.1.1
 * [bug] Notification of new templates was provided even if taxonomy was not active (extra check in class "Detect new template taxo" added)
 * [bug] When updating/reseting options, or when refreshing/deleting cache items, notifications were not shown on slow systems (increased transient time in class Save_Options, added a delete_transient in Admin_Notificationadmin_msg_transients())
 * [technical] Ensure greater reliability of the WordPress update process. (A cron meant to execute updates is added on manual/automatic update, so we make sure that latest updates are really run. Also a check about any new update available is processed on every admin page).
-* [technical] Notification system more OOP (Class Admin_Notification is called by class Detect_New_Template_Taxo, not the other way round)
+* [technical] Notification system more OOP (Class Admin_Notification is called by class Detect_New_Theme, not the other way round)
 
 v.4.1
 * [feature] Auto title widget can be excluded on a per-post basis. New option in the post edition that allows to exclude a specific post from the auto title widget. Brings a much needed flexibility for blogs using the auto title widget feature. (added the new options in Metabox_Selection class and new rules in Widget_Frontpage)
