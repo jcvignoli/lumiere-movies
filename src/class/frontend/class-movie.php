@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Movie_Data;
+use Lumiere\Plugins\Plugins_Start;
 
 /**
  * The class uses Movie_Data class to display data (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::movies_autorized_areas()}
@@ -56,22 +57,22 @@ class Movie {
 	 * Lumière plugins started
 	 *
 	 * @var array<string, object>
-	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS: PLUGINS_AUTO_CLASSES}
+	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS?: PLUGINS_AUTO_CLASSES}
 	 */
 	private array $plugins_classes_active;
 
 	/**
 	 * Class constructor
-	 * @param array<string, object> $plugins_classes_active
-	 * @phpstan-param array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES} $plugins_classes_active
 	 */
-	public function __construct( array $plugins_classes_active ) {
+	public function __construct(
+		private Plugins_Start $plugins = new Plugins_Start( [ 'imdbphp' ] )
+	) {
 
 		/**
 		 * @psalm-suppress InvalidPropertyAssignmentValue
 		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp' => find better notation)
 		 */
-		$this->plugins_classes_active = $plugins_classes_active;
+		$this->plugins_classes_active = $this->plugins->plugins_classes_active;
 
 		// Construct Frontend Main trait.
 		$this->start_main_trait();
@@ -96,11 +97,9 @@ class Movie {
 	 *
 	 * @return void Build the class
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
-	 * @param array<string, object> $plugins_classes_active
-	 * @phpstan-param array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES} $plugins_classes_active
 	 */
-	public static function start( array $plugins_classes_active ): void {
-		$start = new self( $plugins_classes_active );
+	public static function start(): void {
+		$start = new self();
 	}
 
 	/**
@@ -116,8 +115,10 @@ class Movie {
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead PHP to a Fatal error
+		 * @psalm-suppress InvalidArrayOffset
+		 * @phpstan-ignore offsetAccess.notFound (Offset 'amp' does not exist on array)
 		 */
-		if ( \Lumiere\Plugins\Auto\Amp::is_amp_validating() === true ) {
+		if ( $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
 			$this->logger->log->debug( '[Lumiere][Widget_Frontpage] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
@@ -407,7 +408,7 @@ class Movie {
 				 * Get the child class with the methods.
 				 * @psalm-suppress InvalidArgument
 				 */
-				$movie_data_class = new Movie_Data( $this->plugins_classes_active );
+				$movie_data_class = new Movie_Data();
 
 				// Build the final class+method with the movie_object.
 				if ( ! method_exists( $movie_data_class, $method ) ) {

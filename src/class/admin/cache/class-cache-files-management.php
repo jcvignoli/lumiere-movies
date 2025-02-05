@@ -438,7 +438,7 @@ class Cache_Files_Management {
 	 * @param int $size_limit Limit in megabits ( '100' = 100 MB )
 	 * @return null|array<int, string> Array of files paths that exceeds the passed size_limit
 	 */
-	private function lumiere_cache_find_files_over_limit( int $size_limit ): ?array {
+	private function find_cache_files_over_limit( int $size_limit ): ?array {
 
 		$size_limit_in_bits = $size_limit * 1000000; // convert in bits
 		$current_size = 0;
@@ -462,7 +462,7 @@ class Cache_Files_Management {
 	 */
 	public function lumiere_cache_delete_files_over_limit( int $size_limit ): void {
 
-		$files = $this->lumiere_cache_find_files_over_limit( $size_limit ) ?? [];
+		$files = $this->find_cache_files_over_limit( $size_limit ) ?? [];
 
 		foreach ( $files as $file ) {
 			if ( is_file( $file ) ) {

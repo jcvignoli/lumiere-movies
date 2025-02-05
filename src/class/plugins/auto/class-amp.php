@@ -98,9 +98,9 @@ class Amp {
 	 * Detect on a given class if AMP is calling
 	 * @return bool True if AMP is running a function of validation
 	 *
-	 * @see Lumiere\Frontend\Movie::lumiere_show() Calls this method without instanciating plugin, as it is executed ie during activation, amp may be not available
+	 * @see Lumiere\Frontend\Movie::lumiere_show()
 	 */
-	public static function is_amp_validating(): bool {
+	public function is_amp_validating(): bool {
 		return defined( 'AMP__VERSION' ) && str_contains( wp_debug_backtrace_summary(), 'AMP_Validation_Callback_Wrapper' );
 	}
 }

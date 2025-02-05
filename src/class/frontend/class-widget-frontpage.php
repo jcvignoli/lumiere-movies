@@ -115,16 +115,14 @@ class Widget_Frontpage {
 	 * Use Legacy widget if no active Block widget and active Legacy widget are found
 	 * Otherwise use shortcode to display data
 	 *
-	 * @param array<string, object> $plugins_classes_active
-	 * @phpstan-param array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES} $plugins_classes_active
 	 * @return void Either Legacy or Block-based widget displayed
 	 */
-	public function __construct( array $plugins_classes_active ) {
+	public function __construct() {
 
 		// Construct Frontend trait.
 		$this->start_main_trait();
 
-		$this->movie_class = new Movie( $plugins_classes_active );
+		$this->movie_class = new Movie();
 
 		// If pre-5.8 widget is active and Block Widget unactive, use Widget_Legacy class.
 		if (
@@ -146,11 +144,9 @@ class Widget_Frontpage {
 
 	/**
 	 * Statically start the class
-	 * @param array<string, object> $plugins_classes_active
-	 * @phpstan-param array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES} $plugins_classes_active
 	 */
-	public static function start( array $plugins_classes_active ): void {
-		$that = new self( $plugins_classes_active );
+	public static function start(): void {
+		$that = new self();
 	}
 
 	/**

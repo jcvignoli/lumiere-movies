@@ -107,7 +107,7 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					?>
 					/>
 
-					<div class="explain"><?php esc_html_e( 'Do not display any cache data in "manage cache" option page. Useful when you have really have too many cache data to display.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+					<div class="explain"><?php esc_html_e( 'Do not display any cache data in "manage cache" option page. Useful when you really have too many cache data to display.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 				</div>
 			</div>

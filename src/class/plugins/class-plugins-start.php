@@ -50,14 +50,14 @@ class Plugins_Start {
 	public function __construct( ?array $extra_manual_classes = null ) {
 
 		// Get the active plugins.
-		$array_plugin_names = ( new Plugins_Detect() )->get_active_plugins();
+		$plugins_unactive = ( new Plugins_Detect() )->get_active_plugins();
 
 		// Add an extra class in properties.
 		if ( isset( $extra_manual_classes ) && count( $extra_manual_classes ) > 0 ) {
-			$array_plugin_names = $this->add_manual_to_auto_plugins( $extra_manual_classes, $array_plugin_names );
+			$plugins_unactive = array_merge( $plugins_unactive, $this->find_manual_plugins( $extra_manual_classes ) );
 		}
 
-		$this->plugins_classes_active = $this->activate_plugins( $array_plugin_names );
+		$this->plugins_classes_active = $this->activate_plugins( $plugins_unactive );
 	}
 
 	/**
@@ -87,25 +87,35 @@ class Plugins_Start {
 
 	/**
 	 * Add extra manual classe(s)
-	 * They're not in SUBFOLDER_PLUGINS_AUTO, they're in "plugins/manual"
+	 * They're not in SUBFOLDER_PLUGINS_AUTO, they're in SUBFOLDER_PLUGINS_MANUAL
 	 *
 	 * @param array<string> $extra_classes Extra classes to add, ie [ 'imdbphp' ]
 	 * @phpstan-param non-empty-array<PLUGINS_MANUAL_KEYS> $extra_classes
-	 * @param array<string, class-string> $array_plugin_names
-	 * @phpstan-param array{PLUGINS_AUTO_KEYS?: class-string<PLUGINS_AUTO_CLASSES>} $array_plugin_names
 	 * @return array<string, class-string>
-	 * @phpstan-return array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>}
+	 * @phpstan-return array{PLUGINS_MANUAL_KEYS?: class-string<PLUGINS_MANUAL_CLASSES>}
 	 */
-	private function add_manual_to_auto_plugins( array $extra_classes, array $array_plugin_names ): array {
+	private function find_manual_plugins( array $extra_classes ): array {
 
+		$plugins = [];
 		foreach ( $extra_classes as $extra_class_name ) {
 			/** @phpstan-var class-string<PLUGINS_MANUAL_CLASSES> $full_class_name */
 			$full_class_name = __NAMESPACE__ . '\\' . ucfirst( Plugins_Detect::SUBFOLDER_PLUGINS_MANUAL ) . '\\' . ucfirst( $extra_class_name );
 			if ( class_exists( $full_class_name ) ) {
-				$array_plugin_names[ $extra_class_name ] = $full_class_name;
+				$plugins[ $extra_class_name ] = $full_class_name;
 			}
 		}
-		return $array_plugin_names;
+		return $plugins;
+	}
+
+	/**
+	 * Get a Plugin class instanciated
+	 *
+	 * @phpstan-param PLUGINS_ALL_KEYS $plugin Plugin's class name
+	 * @phpstan-return PLUGINS_ALL_CLASSES
+	 */
+	public function get_plugin_class( string $plugin ): object {
+		/** @phpstan-ignore offsetAccess.notFound */
+		return $this->plugins_classes_active[ $plugin ];
 	}
 
 	/**

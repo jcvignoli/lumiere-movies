@@ -20,7 +20,6 @@ use Lumiere\Frontend\Popups\Popup_Person;
 use Lumiere\Frontend\Popups\Popup_Movie;
 use Lumiere\Frontend\Popups\Popup_Movie_Search;
 use Lumiere\Frontend\Main;
-use Lumiere\Plugins\Plugins_Start;
 use Lumiere\Settings;
 
 /**
@@ -54,12 +53,6 @@ class Frontend {
 		// Get Global Settings class properties.
 		$this->start_main_trait();
 
-		/**
-		 * Get an array with all objects plugins
-		 * Always loads IMDBPHP plugin
-		 */
-		$plugins_start = ( new Plugins_Start( [ 'imdbphp' ] ) )->plugins_classes_active;
-
 		// Registers javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_register_assets' ] );
 
@@ -69,12 +62,12 @@ class Frontend {
 		/**
 		 * Display movie(s) into the post.
 		 */
-		add_action( 'init', fn() => Movie::start( $plugins_start ), 11 );
+		add_action( 'init', fn() => Movie::start(), 11 );
 
 		/**
 		 * Display Widget
 		 */
-		add_action( 'init', fn() => Widget_Frontpage::start( $plugins_start ), 11 );
+		add_action( 'init', fn() => Widget_Frontpage::start(), 11 );
 
 		// Display popups.
 		add_filter( 'template_include', [ $this, 'popup_redirect_include' ] );

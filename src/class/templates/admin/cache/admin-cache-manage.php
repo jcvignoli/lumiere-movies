@@ -496,7 +496,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					<?php
 					// display cache folder size.
 					if ( $lum_cache_file_count > 0 ) {
-						echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . esc_html( $lum_that->lumiere_format_bytes( $lum_size_cache_total ) ) . "\n";
+						echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . esc_html( $lum_that->lumiere_format_bytes( $lum_size_cache_total ) ) . ' ' . esc_html__( '(including images)', 'lumiere-movies' ) . "\n";
 					} else {
 						esc_html_e( 'Movies\' cache is empty.', 'lumiere-movies' );
 					}
@@ -638,19 +638,6 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 				} ?>
 
 				</div>
-			</div>
-
-			<div>
-				<div class="titresection lumiere_padding_five">
-					<?php esc_html_e( 'Photo URL (relative to the website and the cache path)', 'lumiere-movies' ); ?>
-				</div>			
-
-				<div class="explain lumiere_breakall">
-					<?php esc_html_e( 'URL corresponding to photo directory.', 'lumiere-movies' ); ?> 
-					<br>
-					<?php esc_html_e( 'Current:', 'lumiere-movies' ); ?> "<?php echo esc_url( $lum_imdb_cache_values['imdbphotodir'] ); ?>"
-				</div>
-
 			</div>
 
 			<div class="submit lumiere_align_center" align="center">
