@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Movie;
+use Lumiere\Frontend\Movie\Movie_Display;
 use Lumiere\Tools\Get_Options;
 
 /**
@@ -69,7 +69,7 @@ class Irp {
 		}
 
 		// Remove the filter is one or more movies are detected using a static property in the relevant class.
-		if ( Movie::$nb_of_movies > 0 ) {
+		if ( Movie_Display::$nb_of_movies > 0 ) {
 			remove_filter( 'the_content', 'irp_the_content', intval( get_option( 'IRP_HookPriority', '99999' ) ) );
 		}
 

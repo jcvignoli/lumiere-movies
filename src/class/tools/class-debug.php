@@ -54,13 +54,11 @@ class Debug {
 
 	/**
 	 * Internal function to display a wp error
-	 * @param string $method
+	 *
+	 * @param string $method Calling method name
+	 * @param string $text Display this text
 	 */
 	private static function trigger_wp_error( string $method, string $text ): void {
-		/**
-		 * @psalm-suppress ArgumentTypeCoercion
-		 * @phpstan-ignore argument.type (This is wrong, wait phpstan to fix it https://github.com/phpstan/phpstan/issues/12509)
-		 */
 		wp_trigger_error( $method, $text );
 	}
 

@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Frontend;
+namespace Lumiere\Frontend\Movie;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -17,13 +17,13 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Frontend\Main;
-use Lumiere\Frontend\Movie_Data;
+use Lumiere\Frontend\Movie\Movie_Data;
 use Lumiere\Plugins\Plugins_Start;
 
 /**
- * The class uses Movie_Data class to display data (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::movies_autorized_areas()}
+ * The class uses Data class to display items (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::movies_autorized_areas()}
  * It is compatible with Polylang WP plugin
- * It uses ImdbPHP Classes to display movies/people data
+ * It uses ImdbPHP Classes to display movies/people items
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
@@ -33,7 +33,7 @@ use Lumiere\Plugins\Plugins_Start;
  * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
-class Movie {
+class Movie_Display {
 
 	/**
 	 * Traits
@@ -376,15 +376,17 @@ class Movie {
 
 	/**
 	 * Build the methods to be called in class Movie_Data
+	 * Use imdbphp class to get the Title class
 	 *
-	 * @param string $mid_premier_resultat -> IMDb ID, not as int since it loses its heading 0s
+	 * @param string $mid_premier_resultat IMDb ID, not as int since it loses its heading 0s
+	 * @param Movie_Data $movie_data_class Movie_Data child class, instanciated by default
 	 */
-	private function lumiere_methods_factory( string $mid_premier_resultat ): string {
+	private function lumiere_methods_factory( string $mid_premier_resultat, Movie_Data $movie_data_class = new Movie_Data() ): string {
 
 		$outputfinal = '';
 
 		// Find the Title based on $mid_premier_resultat.
-		$movie_title_object = $this->plugins_classes_active['imdbphp']->get_title_class(
+		$title_object = $this->plugins_classes_active['imdbphp']->get_title_class(
 			esc_html( $mid_premier_resultat ), // The IMDb ID.
 			$this->logger->log,
 		);
@@ -400,19 +402,12 @@ class Movie {
 				// Build the method name according to the data detail name.
 				$method = 'lum_movies_' . $data_detail;
 
-				/**
-				 * Get the child class with the methods.
-				 * @psalm-suppress InvalidArgument
-				 */
-				$movie_data_class = new Movie_Data();
-
-				// Build the final class+method with the movie_object.
+				// Build the final class+method with the movie_object and child class.
 				if ( ! method_exists( $movie_data_class, $method ) ) {
 					$this->logger->log->warning( '[Lumiere][Movie] The method ' . $method . ' does not exist in class ' . get_class( $movie_data_class ) . ', aborting' );
-
 					exit( 1 );
 				}
-				$outputfinal .= $this->movie_wrapper( $movie_data_class->$method( $movie_title_object ), $data_detail );
+				$outputfinal .= $this->movie_wrapper( $movie_data_class->$method( $title_object ), $data_detail );
 			}
 		}
 		return $outputfinal;
@@ -453,55 +448,41 @@ class Movie {
 	}
 
 	/**
-	 * Do taxonomy layouts and insert taxonomy and create the taxonomy relationship
+	 * Insert taxonomy and return final options
 	 *
-	 * @since 4.0 rewritten taxonomy system, not using Polylang anymore, links between languages created, hierarchical taxonomy terms
+	 * @since 4.0 Rewritten taxonomy system, not using Polylang anymore, links between languages created, hierarchical taxonomy terms
+	 * @since 4.4 Splitted Taxonomy from layout, now the method is meant to create and get taxonomy details only
 	 *
-	 * @param string $type_item mandatory: the general category of the item, ie 'director', 'color'
-	 * @param string $first_title mandatory: the name of the first string to display, ie "Stanley Kubrick"
-	 * @param string|null $second_title optional: the name of a second string to display, utilised in $layout 'two', ie "director"
-	 * @param string $layout optional: the type of the layout, either 'one' or 'two', one by default
-	 * @param string|null $movie_title Optional: movie's title, null by default
-	 *
-	 * @return string the text to be outputed
+	 * @param string $type_item The general category of the item, ie 'director', 'color'
+	 * @param string $taxonomy_term The name of the first string to display, ie "Stanley Kubrick"
+	 * @return array<string, string>
+	 * @phstan-return array{'custom_taxonomy_fullname': string, 'taxonomy_term': string}
 	 */
-	protected function lumiere_make_display_taxonomy(
-		string $type_item,
-		string $first_title,
-		?string $second_title = null,
-		string $layout = 'one',
-		?string $movie_title = null
-	): string {
+	protected function create_taxonomy_options( string $type_item, string $taxonomy_term ): array {
 
-		/**
-		 * Vars and sanitization
-		 */
-		$lang_term = strtok( get_bloginfo( 'language' ), '-' ); // Language to register the term with, English by default, first language characters if WP
-		$output = '';
-		$taxonomy_term = esc_attr( $first_title );
-		$second_title ??= '';
-		$taxonomy_category_full = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] . $type_item );
+		$taxonomy_term = esc_html( $taxonomy_term );
+		$custom_taxonomy_fullname = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] . $type_item ); // ie 'lumiere-director'
 		$page_id = get_the_ID();
 
 		/**
 		 * Insert the taxonomies, add a relationship if a previous taxo exists
 		 * Insert the current language displayed and the hierarchical value (child_of) if a previous taxo exists (needs register taxonomy with hierarchical)
 		 */
-		if ( $page_id !== false && taxonomy_exists( $taxonomy_category_full ) ) {
+		if ( $page_id !== false && taxonomy_exists( $custom_taxonomy_fullname ) ) {
 
 			// delete if exists, for debugging purposes
-			# $array_term_existing = get_term_by('name', $taxonomy_term, $taxonomy_category_full );
+			# $array_term_existing = get_term_by('name', $taxonomy_term, $custom_taxonomy_fullname );
 			# if ( $array_term_existing )
-			#	 wp_delete_term( $array_term_existing->term_id, $taxonomy_category_full) ;
+			#	 wp_delete_term( $array_term_existing->term_id, $custom_taxonomy_fullname) ;
 
-			$existent_term = term_exists( $taxonomy_term, $taxonomy_category_full );
+			$existent_term = term_exists( $taxonomy_term, $custom_taxonomy_fullname );
 
 			// The term doesn't exist in the post.
 			if ( $existent_term === null ) {
-				$term_inserted = wp_insert_term( $taxonomy_term, $taxonomy_category_full );
+				$term_inserted = wp_insert_term( $taxonomy_term, $custom_taxonomy_fullname );
 				$term_for_log = wp_json_encode( $term_inserted );
 				if ( $term_for_log !== false ) {
-					$this->logger->log->debug( '[Lumiere][Movie] Taxonomy term *' . $taxonomy_term . '* added to *' . $taxonomy_category_full . '* (association numbers ' . $term_for_log . ' )' );
+					$this->logger->log->debug( '[Lumiere][Movie] Taxonomy term *' . $taxonomy_term . '* added to *' . $custom_taxonomy_fullname . '* (association numbers ' . $term_for_log . ' )' );
 				}
 			}
 
@@ -513,46 +494,65 @@ class Movie {
 			 * wp_set_object_terms() is almost always executed in order to add new relationships even if a new term wasn't inserted
 			 */
 			if ( ! $term_for_set_object instanceof \WP_Error ) {
-				$term_taxonomy_id = wp_set_object_terms( $page_id, $term_for_set_object, $taxonomy_category_full, true );
+				$term_taxonomy_id = wp_set_object_terms( $page_id, $term_for_set_object, $custom_taxonomy_fullname, true );
 				// $this->logger->log->debug( '[Lumiere][Movie] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
 			}
 		}
 
-		/**
-		 * Layout
-		 */
+		return [
+			'custom_taxonomy_fullname' => $custom_taxonomy_fullname,
+			'taxonomy_term' => $taxonomy_term,
+		];
+	}
+
+	/**
+	 * Layout selection depends on $item_line_name value
+	 * If data was passed, use the first layout, if null was passed, use the second layout
+	 * First layout display two items per row
+	 * Second layout display items comma-separated
+	 *
+	 * @param string $movie_title
+	 * @param array<string, string> $taxo_options
+	 * @phstan-param array{'custom_taxonomy_fullname': string, 'taxonomy_term': string} $taxo_options
+	 * @param string|null $item_line_name Null if the second layout should be utilised
+	 * @return string
+	 */
+	protected function get_layout_items( string $movie_title, array $taxo_options, ?string $item_line_name = null ): string {
+
+		$lang = strtok( get_bloginfo( 'language' ), '-' );
+		$lang_term = $lang !== false ? $lang : '';
+		$output = '';
 
 		// Build the id for the link <a id="$link_id">
-		$link_id = esc_html( $movie_title ?? '' ) . '_' . $lang_term . '_' . $taxonomy_category_full . '_' . $taxonomy_term;
-		$link_id = preg_replace( "/^'|[^A-Za-z0-9\'-]|'|\-$/", '_', $link_id ) ?? '';
-		$link_id = 'link_taxo_' . strtolower( str_replace( '-', '_', $link_id ) );
+		$link_id = esc_html( $movie_title ) . '_' . esc_html( $lang_term ) . '_' . esc_html( $taxo_options['custom_taxonomy_fullname'] ) . '_' . esc_html( $taxo_options['taxonomy_term'] );
+		$link_id_cleaned = preg_replace( "/^'|[^A-Za-z0-9\'-]|'|\-$/", '_', $link_id ) ?? '';
+		$link_id_final = 'link_taxo_' . strtolower( str_replace( '-', '_', $link_id_cleaned ) );
 
-		// layout=two: display the layout for double entry details, ie actors
-		if ( $layout === 'two' ) {
+		// layout one: display the layout for two items per row, ie actors, writers, producers
+		if ( is_string( $item_line_name ) === true ) {
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-			$output .= "\n\t\t\t\t\t<a id=\"" . $link_id . '" class="lum_link_taxo_page" href="'
-					. esc_url( $this->lumiere_get_taxo_link( $taxonomy_term, $taxonomy_category_full ) )
+			$output .= "\n\t\t\t\t\t<a id=\"" . $link_id_final . '" class="lum_link_taxo_page" href="'
+					. esc_url( $this->create_taxonomy_link( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
 					. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
 					. '">';
-			$output .= "\n\t\t\t\t\t" . $taxonomy_term;
+			$output .= "\n\t\t\t\t\t" . $taxo_options['taxonomy_term'];
 			$output .= "\n\t\t\t\t\t" . '</a>';
 			$output .= "\n\t\t\t\t" . '</div>';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-			$output .= preg_replace( '/\n/', '', wp_kses( $second_title, [ 'i' => [] ] ) ); // remove breaking space, keep some html tags.
+			$output .= preg_replace( '/\n/', '', $item_line_name ); // remove breaking space.
 			$output .= "\n\t\t\t\t" . '</div>';
 			$output .= "\n\t\t\t" . '</div>';
-
-			// layout=one: display the layout for all details separated by comas, ie keywords
-		} elseif ( $layout === 'one' ) {
-			$output .= '<a id="' . $link_id . '" class="lum_link_taxo_page" '
-					. 'href="' . esc_url( $this->lumiere_get_taxo_link( $taxonomy_term, $taxonomy_category_full ) )
-					. '" '
-					. 'title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' ) . '">';
-			$output .= $taxonomy_term;
-			$output .= '</a>';
+			return $output;
 		}
 
+		// layout two: display the layout for all details separated by commas, ie keywords
+		$output .= '<a id="' . $link_id_final . '" class="lum_link_taxo_page" '
+				. 'href="' . esc_url( $this->create_taxonomy_link( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
+				. '" '
+				. 'title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' ) . '">';
+		$output .= $taxo_options['taxonomy_term'];
+		$output .= '</a>';
 		return $output;
 	}
 
@@ -565,7 +565,7 @@ class Movie {
 	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'
 	 * @return string The WordPress full HTML link for the name with that category
 	 */
-	private function lumiere_get_taxo_link( string $name_searched, string $taxo_category ): string {
+	private function create_taxonomy_link( string $name_searched, string $taxo_category ): string {
 		$find_term = get_term_by( 'name', $name_searched, $taxo_category );
 		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->term_id, $taxo_category ) : '';
 		return $taxo_link instanceof \WP_Error ? '' : $taxo_link;

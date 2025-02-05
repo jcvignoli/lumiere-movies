@@ -20,6 +20,7 @@ use Lumiere\Frontend\Popups\Popup_Person;
 use Lumiere\Frontend\Popups\Popup_Movie;
 use Lumiere\Frontend\Popups\Popup_Movie_Search;
 use Lumiere\Frontend\Main;
+use Lumiere\Frontend\Movie\Movie_Display;
 use Lumiere\Settings;
 
 /**
@@ -62,7 +63,7 @@ class Frontend {
 		/**
 		 * Display movie(s) into the post.
 		 */
-		add_action( 'init', fn() => Movie::start(), 11 );
+		add_action( 'init', fn() => Movie_Display::start(), 11 );
 
 		/**
 		 * Display Widget

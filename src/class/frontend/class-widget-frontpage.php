@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Movie;
+use Lumiere\Frontend\Movie\Movie_Display;
 use Lumiere\Frontend\Widget_Legacy;
 use Lumiere\Frontend\Main;
 use Lumiere\Admin\Widget_Selection;
@@ -106,23 +106,18 @@ class Widget_Frontpage {
 	];
 
 	/**
-	 * Movie class
-	 */
-	private Movie $movie_class;
-
-	/**
 	 * Constructor. Sets up the widget name, description, etc.
 	 * Use Legacy widget if no active Block widget and active Legacy widget are found
 	 * Otherwise use shortcode to display data
 	 *
 	 * @return void Either Legacy or Block-based widget displayed
 	 */
-	public function __construct() {
+	public function __construct(
+		private Movie_Display $display_movies = new Movie_Display(),
+	) {
 
 		// Construct Frontend trait.
 		$this->start_main_trait();
-
-		$this->movie_class = new Movie();
 
 		// If pre-5.8 widget is active and Block Widget unactive, use Widget_Legacy class.
 		if (
@@ -255,11 +250,11 @@ class Widget_Frontpage {
 		}
 
 		/**
-		 * Get movie's data from {@link \Lumiere\Frontend\Movie}
+		 * Get movie's data from {@link \Lumiere\Frontend\Movie\Movie_Display}
 		 *
 		 * @psalm-var array<array-key, array{bymid?: string, byname?: string}> $movies_array
 		 */
-		$movie = $this->movie_class->lumiere_show( $movies_array );
+		$movie = $this->display_movies->lumiere_show( $movies_array );
 
 		// Output the result in a layout wrapper.
 		return $this->wrap_widget_content( $title_box, $movie );

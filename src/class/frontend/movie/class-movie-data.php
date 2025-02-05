@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Frontend;
+namespace Lumiere\Frontend\Movie;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
@@ -26,7 +26,7 @@ use Lumiere\Settings;
  *
  * @since 4.0 new class, methods were extracted from Movie class
  */
-class Movie_Data extends Movie {
+class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the title and possibly the year
@@ -101,7 +101,9 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'country', esc_attr( $country[ $i ] ), '', 'one', sanitize_text_field( $movie->title() ) );
+				$get_taxo_options = $this->create_taxonomy_options( 'country', esc_html( $country[ $i ] ) );
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+
 				if ( $i < $nbtotalcountry - 1 ) {
 					$output .= ', ';
 				}
@@ -167,7 +169,9 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'language', esc_attr( $languages[ $i ] ), '', 'one', sanitize_text_field( $movie->title() ) );
+				$get_taxo_options = $this->create_taxonomy_options( 'language', esc_html( $languages[ $i ] ) );
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+
 				if ( $i < $nbtotallanguages - 1 ) {
 					$output .= ', ';
 				}
@@ -240,7 +244,9 @@ class Movie_Data extends Movie {
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomygenre'] === '1' ) ) {
 			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
 
-				$output .= isset( $genre[ $i ]['mainGenre'] ) ? $this->lumiere_make_display_taxonomy( 'genre', sanitize_text_field( $genre[ $i ]['mainGenre'] ), '', 'one', sanitize_text_field( $movie->title() ) ) : '';
+				$get_taxo_options = $this->create_taxonomy_options( 'genre', esc_html( $genre[ $i ]['mainGenre'] ) );
+				$output .= isset( $genre[ $i ]['mainGenre'] ) ? $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options ) : '';
+
 				if ( $i < $nbtotalgenre - 1 ) {
 					$output .= ', ';
 				}
@@ -285,7 +291,9 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalkeywords && $i < $limit_keywords; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'keyword', esc_attr( $keywords[ $i ] ), '', 'one', sanitize_text_field( $movie->title() ) );
+				$get_taxo_options = $this->create_taxonomy_options( 'keyword', sanitize_text_field( $keywords[ $i ] ) );
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+
 				if ( $i < $nbtotalkeywords - 1 ) {
 					$output .= ', ';
 				}
@@ -463,7 +471,9 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalcolors; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'coloration', esc_attr( $colors[ $i ]['type'] ), '', 'one', sanitize_text_field( $movie->title() ) );
+				$get_taxo_options = $this->create_taxonomy_options( 'coloration', sanitize_text_field( $colors[ $i ]['type'] ) );
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+
 				if ( $i < $nbtotalcolors - 1 ) {
 					$output .= ', ';
 				}
@@ -555,7 +565,9 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy( 'composer', esc_attr( $composer[ $i ]['name'] ), '', 'one', sanitize_text_field( $movie->title() ) );
+				$get_taxo_options = $this->create_taxonomy_options( 'composer', esc_html( $composer[ $i ]['name'] ) );
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+
 				if ( $i < $nbtotalcomposer - 1 ) {
 					$output .= ', ';
 				}
@@ -725,13 +737,8 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy(
-					'director',
-					esc_html( $director[ $i ]['name'] ),
-					'',
-					'one',
-					sanitize_text_field( $movie->title() )
-				);
+				$get_taxo_options = $this->create_taxonomy_options( 'director', esc_html( $director[ $i ]['name'] ) );
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotaldirector - 1 ) {
 					$output .= ', ';
@@ -786,13 +793,8 @@ class Movie_Data extends Movie {
 
 			for ( $i = 0; $i < $nbtotalcinematographer; $i++ ) {
 
-				$output .= $this->lumiere_make_display_taxonomy(
-					'cinematographer',
-					esc_attr( $cinematographer[ $i ]['name'] ),
-					'',
-					'one',
-					sanitize_text_field( $movie->title() )
-				);
+				$get_taxo_options = $this->create_taxonomy_options( 'cinematographer', esc_html( $cinematographer[ $i ]['name'] ) );
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalcinematographer - 1 ) {
 					$output .= ', ';
@@ -854,14 +856,13 @@ class Movie_Data extends Movie {
 						$jobs .= ', ';
 					}
 				}
-				$output .= $this->lumiere_make_display_taxonomy(
+
+				$get_taxo_options = $this->create_taxonomy_options(
 					'producer',
 					// @phan-suppress-next-line PhanTypeInvalidDimOffset, PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-					isset( $producer[ $i ]['name'] ) ? esc_html( $producer[ $i ]['name'] ) : '',
-					$jobs,
-					'two',
-					sanitize_text_field( $movie->title() )
+					isset( $producer[ $i ]['name'] ) ? esc_html( $producer[ $i ]['name'] ) : ''
 				);
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
 			}
 			return $output;
 		}
@@ -949,14 +950,14 @@ class Movie_Data extends Movie {
 					}
 
 				}
-				$output .= $this->lumiere_make_display_taxonomy(
+
+				$get_taxo_options = $this->create_taxonomy_options(
 					'writer',
-					// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypePossiblyInvalidDimOffset (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-					isset( $writer[ $i ]['name'] ) && is_string( $writer[ $i ]['name'] ) ? esc_attr( $writer[ $i ]['name'] ) : '',
-					$jobs,
-					'two',
-					sanitize_text_field( $movie->title() )
+					// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
+					isset( $writer[ $i ]['name'] ) ? esc_html( $writer[ $i ]['name'] ) : ''
 				);
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
+
 			}
 			return $output;
 		}
@@ -1035,13 +1036,12 @@ class Movie_Data extends Movie {
 					continue;
 				}
 
-				$output .= $this->lumiere_make_display_taxonomy(
+				$get_taxo_options = $this->create_taxonomy_options(
 					'actor',
-					esc_attr( $cast[ $i ]['name'] ),
-					esc_attr( $cast[ $i ]['character'][0] ),
-					'two',
-					sanitize_text_field( $movie->title() )
+					esc_html( $cast[ $i ]['name'] )
 				);
+				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, esc_attr( $cast[ $i ]['character'][0] ) );
+
 			}
 
 			return $output;
