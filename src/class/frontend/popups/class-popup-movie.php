@@ -312,7 +312,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 		$director = $movie_class->director();
 
 		// director shown only if selected so in options.
-		if ( count( $director ) !== 0 && $this->imdb_data_values['imdbwidgetdirector'] === '1' ) {
+		if ( count( $director ) !== 0 ) {
 
 			$nbtotaldirector = count( $director );
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Director -->";
@@ -341,22 +341,21 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 
 		// Main actors, limited by admin options.
 		$cast = $movie_class->cast();
-		$nbactors = $this->imdb_data_values['imdbwidgetactornumber'] === 0 ? 1 : intval( $this->imdb_data_values['imdbwidgetactornumber'] );
 		$nbtotalactors = count( $cast );
 
 		// actor shown only if selected so in options.
-		if ( $nbtotalactors !== 0 && ( $this->imdb_data_values['imdbwidgetactor'] === '1' ) ) {
+		if ( $nbtotalactors !== 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Main actors -->";
 			echo "\n\t<div>";
 
 			echo '<span class="lum_results_section_subtitle">' . esc_html__( 'Main actors', 'lumiere-movies' ) . '</span>';
 
-			for ( $i = 0; ( $i < $nbactors ) && ( $i < $nbtotalactors ); $i++ ) {
+			for ( $i = 0; $i < $nbtotalactors; $i++ ) {
 				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . $cast[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . esc_html( $cast[ $i ]['name'] ) . '</a>';
 
-				if ( ( $i < $nbactors - 1 ) && ( $i < $nbtotalactors - 1 ) ) {
+				if ( $i < $nbtotalactors - 1 ) {
 					echo ', ';
 				}
 			}
@@ -368,7 +367,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 		$runtime = isset( $runtime[0]['time'] ) ? esc_html( strval( $runtime[0]['time'] ) ) : '';
 
 		// Runtime shown only if selected so in admin options.
-		if ( strlen( $runtime ) > 0 && ( $this->imdb_data_values['imdbwidgetruntime'] === '1' ) ) {
+		if ( strlen( $runtime ) > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Runtime -->";
 			echo "\n\t<div>";
@@ -387,7 +386,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 		$rating_int = intval( $movie_class->rating() );
 		$rating_string = strval( $movie_class->rating() );
 
-		if ( strlen( $rating_string ) > 0 && ( $this->imdb_data_values['imdbwidgetrating'] === '1' ) ) {
+		if ( strlen( $rating_string ) > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Rating -->";
 			echo "\n\t<div>";
@@ -407,7 +406,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 		$nbtotallanguages = count( $languages );
 
 		// language shown only if selected so in options.
-		if ( $nbtotallanguages > 0 && ( $this->imdb_data_values['imdbwidgetlanguage'] === '1' ) ) {
+		if ( $nbtotallanguages > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t<!-- Language -->";
 			echo "\n\t<div>";
@@ -431,7 +430,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 		$nbtotalcountry = count( $country );
 
 		// country shown only if selected so in options.
-		if ( $nbtotalcountry > 0 && ( $this->imdb_data_values['imdbwidgetcountry'] === '1' ) ) {
+		if ( $nbtotalcountry > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Country -->";
 			echo "\n\t<div>";
@@ -456,7 +455,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 		$nbtotalgenre = count( $genre );
 
 		// Genre shown only if selected so in options.
-		if ( $nbtotalgenre > 0 && ( $this->imdb_data_values['imdbwidgetgenre'] === '1' ) ) {
+		if ( $nbtotalgenre > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Genre -->";
 			echo "\n\t<div>";

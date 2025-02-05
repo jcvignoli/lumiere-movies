@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.4
+* [bug] Movie popups shouldn't depend on items selections for the posts (Removed links between the admin data selection and popups in Popup_Movie)
 * [bug] Activating the plugin could throw error in Logger class (due to debug file creation)
 * [bug] Increased the padding between the layout and menu in popups movies & people 
 * [bug] CLI functions (update_options) was not correctly updating the table option name. (Missing an extra "()" in update_options() of method sub_update_options() in Cli_Commands class)
