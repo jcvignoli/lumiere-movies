@@ -216,19 +216,19 @@ class Cache_Files_Management {
 				// Everything has already been processed, exit.
 			} elseif ( count( $array_all_items ) === 0 ) {
 				$this->logger->log->info( '[Lumiere][Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start after the defined time ' . gmdate( 'd \d\a\y\s', $days_next_start * $day_in_seconds ) . ' since the first run' );
-				return;
+				continue;
 			}
 
 			if ( $array_all_items === false ) {
-				$this->logger->log->error( '[Lumiere][Cache_Tools] Could not retrieve any file to refresh' );
-				return;
+				$this->logger->log->info( '[Lumiere][Cache_Tools] Could not retrieve any file to refresh' );
+				continue;
 			}
 
 			$last_row = intval( array_keys( $array_all_items )[0] );
 			$nb_remaining_rows = count( $array_all_items );
 
 			for ( $i = 0 + $last_row; $i < ( $batch_limit + $last_row ) && $i < ( $nb_remaining_rows + $last_row ); $i++ ) {
-				$this->logger->log->info( '[Lumiere][Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . count( $array_all_items ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
+				$this->logger->log->debug( '[Lumiere][Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . count( $array_all_items ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
 				// Refresh (delete and get it again) the item.
 				$this->refresh_file( $movie_or_people, $array_all_items[ $i ] );
 				// Delete the row in the array we just processed so it won't be processed again.

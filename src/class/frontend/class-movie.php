@@ -114,12 +114,12 @@ class Movie {
 
 		/**
 		 * If it is an AMP validation test, exit
-		 * Create much cache and may lead PHP to a Fatal error
+		 * Create much cache and may lead to a PHP Fatal error
 		 * @psalm-suppress InvalidArrayOffset
-		 * @phpstan-ignore offsetAccess.notFound (Offset 'amp' does not exist on array)
+		 * @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse (Call to function array_key_exists() with 'amp' and array...will always evaluate to false)
 		 */
-		if ( $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
-			$this->logger->log->debug( '[Lumiere][Widget_Frontpage] This is an AMP validation test, exiting to save server resources' );
+		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
+			$this->logger->log->debug( '[Lumiere][Movie] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
 
@@ -168,11 +168,7 @@ class Movie {
 
 		// Using singleton to display only once.
 		if ( $this->movie_run_once === false ) {
-
-			// Log the current link maker
 			$this->logger->log->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
-
-			// Log Plugins_Start, $this->plugins_classes_active in trait
 			$this->logger->log->debug( '[Lumiere][Movie] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 			$this->movie_run_once = true;
 		}
@@ -188,6 +184,7 @@ class Movie {
 
 				// check a the movie title exists.
 				$this->logger->log->debug( '[Lumiere][Movie] searching for ' . $film );
+
 				/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
 				$results = $this->plugins_classes_active['imdbphp']->search_movie_title(
 					esc_html( $film ),
@@ -197,7 +194,6 @@ class Movie {
 				// No results were found in imdbphp query.
 				if ( ! isset( $results[0] ) ) {
 					$this->logger->log->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
-					// no result, so jump to the next query.
 					continue;
 				}
 
@@ -416,20 +412,20 @@ class Movie {
 
 					exit( 1 );
 				}
-				$outputfinal .= $this->lumiere_movie_wrapper( $movie_data_class->$method( $movie_title_object ), $data_detail );
+				$outputfinal .= $this->movie_wrapper( $movie_data_class->$method( $movie_title_object ), $data_detail );
 			}
 		}
 		return $outputfinal;
 	}
 
 	/**
-	 * Function adding an HTML wrapper to text, here <div>
+	 * Function wrapping with <div> the text
 	 *
-	 * @param string $html -> text to wrap
-	 * @param string $item -> the item to transform, such as director, title, etc
+	 * @param string $html Text to wrap
+	 * @param string $item The item to transform, such as director, title, etc
 	 * @return string
 	 */
-	private function lumiere_movie_wrapper( string $html, string $item ): string {
+	private function movie_wrapper( string $html, string $item ): string {
 
 		if ( strlen( $html ) === 0 ) {
 			return '';
