@@ -127,7 +127,8 @@ if [ "$FILES" != "" ];then
         printf "\033[1;32m[Pre-commit] Successfully fixed phpcs errors.\033[0m"
         
         # Add modified files in git before commiting, otherwise would send the unmodified files -- Added sleep so the files have the time to be copied in dist
-        sleep 6 && git add $FILES
+        # sleep 6 && => removed sleep, since /dist doesn't exist anymore
+        git add $FILES
         
     fi
 fi

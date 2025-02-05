@@ -123,7 +123,7 @@ class Search {
 		if (
 			(
 				! isset( $_GET['moviesearched'], $_GET['search_nonce'] )
-				|| wp_verify_nonce( sanitize_key( $_GET['search_nonce'] ), 'lumiere_search' ) === 0
+				|| ( wp_verify_nonce( sanitize_key( $_GET['search_nonce'] ), 'lumiere_search' ) > 0 ) === false
 				|| strlen( sanitize_key( $_GET['moviesearched'] ) ) === 0
 			)
 			&&

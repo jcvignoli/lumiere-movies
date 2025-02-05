@@ -108,17 +108,6 @@ class Plugins_Start {
 	}
 
 	/**
-	 * Get a Plugin class instanciated
-	 *
-	 * @phpstan-param PLUGINS_ALL_KEYS $plugin Plugin's class name
-	 * @phpstan-return PLUGINS_ALL_CLASSES
-	 */
-	public function get_plugin_class( string $plugin ): object {
-		/** @phpstan-ignore offsetAccess.notFound */
-		return $this->plugins_classes_active[ $plugin ];
-	}
-
-	/**
 	 * Is the plugin activated?
 	 *
 	 * @since 4.3
