@@ -215,7 +215,7 @@ class Cache_Files_Management {
 				}
 				// Everything has already been processed, exit.
 			} elseif ( count( $array_all_items ) === 0 ) {
-				$this->logger->log->info( '[Lumiere][Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start after the defined time ' . gmdate( 'd \d\a\y\s', $days_next_start * $day_in_seconds ) . ' since the first run' );
+				$this->logger->log->debug( '[Lumiere][Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start after the defined time ' . gmdate( 'd \d\a\y\s', $days_next_start * $day_in_seconds ) . ' since the first run' );
 				continue;
 			}
 
@@ -470,10 +470,10 @@ class Cache_Files_Management {
 			}
 		}
 		if ( count( $files ) > 0 ) {
-			$this->logger->log->info( '[Lumiere][Cache_Tools] Oversized Cache cron deleted the following files: ' . join( $files ) );
+			$this->logger->log->debug( '[Lumiere][Cache_Tools] Oversized Cache cron deleted the following files: ' . join( $files ) );
 			return;
 		}
-		$this->logger->log->info( '[Lumiere][Cache_Tools] Oversized Cache cron did not find any file to delete' );
+		$this->logger->log->debug( '[Lumiere][Cache_Tools] Oversized Cache cron did not find any file to delete' );
 	}
 
 	/**

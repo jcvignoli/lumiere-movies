@@ -18,26 +18,44 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Imdb\Title;
 use Lumiere\Settings;
+use Lumiere\Frontend\Main;
+use Lumiere\Frontend\Movie\Movie_Layout;
 
 /**
  * Those methods are utilised by class Movie to display the sections
  * The class uses \Lumiere\Link_Makers\Link_Factory to automatically select the appropriate Link maker class to display data ( i.e. Classic links, Highslide/Bootstrap, No Links, AMP)
  * It uses ImdbPHP Classes to display movies/people data
+ * It uses Layout defined in Movie_Layout
+ * It uses taxonomy functions in Movie_Layout
+ * It is extended by Movie_Display, child class
  *
- * @since 4.0 new class, methods were extracted from Movie class
+ * @since 4.0 new class, methods were extracted from Movie_Display class
  */
-class Movie_Data extends Movie_Display {
+class Movie_Data {
+
+	/**
+	 * Traits
+	 */
+	use Main;
+
+	public function __construct(
+		protected Movie_Layout $movie_layout = new Movie_Layout(),
+		protected Movie_Taxonomy $movie_taxo = new Movie_Taxonomy()
+	) {
+		// Construct Frontend Main trait with options and links.
+		$this->start_main_trait();
+	}
 
 	/**
 	 * Display the title and possibly the year
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_title( Title $movie ): string {
+	protected function get_item_title( Title $movie, string $item_name ): string {
 
 		$year = strlen( strval( $movie->year() ) ) !== 0 ? strval( $movie->year() ) : null;
-		$title_sanitized = esc_html( $movie->title() );
+		$title_sanitized = esc_html( $movie->$item_name() );
 
 		$output = "\n\t\t\t<span id=\"title_$title_sanitized\">" . $title_sanitized;
 
@@ -53,13 +71,13 @@ class Movie_Data extends Movie_Display {
 	/**
 	 * Display the picture
 	 *
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @since 3.7 improved compatibility with AMP WP plugin in relevant class
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_pic( Title $movie ): string {
+	protected function get_item_pic( Title $movie, string $item_name ): string {
 
 		/**
 		 * Use links builder classes.
@@ -71,20 +89,20 @@ class Movie_Data extends Movie_Display {
 			return $this->link_maker->lumiere_link_picture( $movie->photoLocalurl( false ), $movie->photoLocalurl( true ), $movie->title() );
 		}
 
-		// If cache is deactived, display no_pics.gif
+		// If cache is deactivated, display no_pics.gif
 		$no_pic_url = Settings::LUM_PICS_URL . 'no_pics.gif';
 		return $this->link_maker->lumiere_link_picture( $no_pic_url, $no_pic_url, $movie->title() );
 	}
 
 	/**
 	 * Display the country of origin
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_country( Title $movie ): string {
+	protected function get_item_country( Title $movie, string $item_name ): string {
 
-		$country = $movie->country();
+		$country = $movie->$item_name();
 		$nbtotalcountry = count( $country );
 
 		// if no result, exit.
@@ -97,12 +115,12 @@ class Movie_Data extends Movie_Display {
 		$output .= ':</span>';
 
 		// Taxonomy is active.
-		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && $this->imdb_data_values['imdbtaxonomycountry'] === '1' ) {
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
 
 			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
 
-				$get_taxo_options = $this->create_taxonomy_options( 'country', esc_html( $country[ $i ] ) );
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $country[ $i ] ), $this->imdb_admin_values );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalcountry - 1 ) {
 					$output .= ', ';
@@ -124,13 +142,13 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the runtime
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_runtime( Title $movie ): string {
+	protected function get_item_runtime( Title $movie, string $item_name ): string {
 
-		$runtime_sanitized = isset( $movie->runtime()[0]['time'] ) ? esc_html( strval( $movie->runtime()[0]['time'] ) ) : '';
+		$runtime_sanitized = isset( $movie->$item_name()[0]['time'] ) ? esc_html( strval( $movie->$item_name()[0]['time'] ) ) : '';
 
 		if ( strlen( $runtime_sanitized ) === 0 ) {
 			return '';
@@ -146,14 +164,13 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the language
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_language( Title $movie ): string {
+	protected function get_item_language( Title $movie, string $item_name ): string {
 
-		// @var array<int, string> $languages
-		$languages = $movie->language();
+		$languages = $movie->$item_name();
 		$nbtotallanguages = count( $languages );
 
 		if ( $nbtotallanguages === 0 ) {
@@ -165,12 +182,12 @@ class Movie_Data extends Movie_Display {
 		$output .= ':</span>';
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomylanguage'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
 
-				$get_taxo_options = $this->create_taxonomy_options( 'language', esc_html( $languages[ $i ] ) );
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $languages[ $i ] ), $this->imdb_admin_values );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotallanguages - 1 ) {
 					$output .= ', ';
@@ -193,14 +210,14 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the rating
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_rating( Title $movie ): string {
+	protected function get_item_rating( Title $movie, string $item_name ): string {
 
 		$votes_sanitized = intval( $movie->votes() );
-		$rating_sanitized = intval( $movie->rating() );
+		$rating_sanitized = intval( $movie->$item_name() );
 
 		if ( $votes_sanitized === 0 ) {
 			return '';
@@ -222,13 +239,13 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the genre
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_genre( Title $movie ): string {
+	protected function get_item_genre( Title $movie, string $item_name ): string {
 
-		$genre = $movie->genre();
+		$genre = $movie->$item_name();
 		$nbtotalgenre = count( $genre ) > 0 ? count( $genre ) : 0;
 
 		if ( $nbtotalgenre === 0 ) {
@@ -241,11 +258,11 @@ class Movie_Data extends Movie_Display {
 		$output .= ':</span>';
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomygenre'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
 
-				$get_taxo_options = $this->create_taxonomy_options( 'genre', esc_html( $genre[ $i ]['mainGenre'] ) );
-				$output .= isset( $genre[ $i ]['mainGenre'] ) ? $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options ) : '';
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $genre[ $i ]['mainGenre'] ), $this->imdb_admin_values );
+				$output .= isset( $genre[ $i ]['mainGenre'] ) ? $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options ) : '';
 
 				if ( $i < $nbtotalgenre - 1 ) {
 					$output .= ', ';
@@ -268,13 +285,13 @@ class Movie_Data extends Movie_Display {
 	/**
 	 * Display the keywords
 	 * Using $limit_keywords var to limit the total (not selected in the plugin options, hardcoded here)
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_keyword( Title $movie ): string {
+	protected function get_item_keyword( Title $movie, string $item_name ): string {
 
-		$keywords = $movie->keyword();
+		$keywords = $movie->$item_name();
 		$nbtotalkeywords = count( $keywords );
 		$limit_keywords = 10;
 
@@ -287,12 +304,12 @@ class Movie_Data extends Movie_Display {
 		$output .= ':</span>';
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomykeyword'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalkeywords && $i < $limit_keywords; $i++ ) {
 
-				$get_taxo_options = $this->create_taxonomy_options( 'keyword', sanitize_text_field( $keywords[ $i ] ) );
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, sanitize_text_field( $keywords[ $i ] ), $this->imdb_admin_values );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalkeywords - 1 ) {
 					$output .= ', ';
@@ -315,15 +332,15 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the goofs
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_goof( Title $movie ): string {
+	protected function get_item_goof( Title $movie, string $item_name ): string {
 
-		$goofs = $movie->goof();
-		$settings_nbgoofs = intval( $this->imdb_data_values['imdbwidgetgoofnumber'] ) === 0 || $this->imdb_data_values['imdbwidgetgoofnumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetgoofnumber'] );
-		$filter_nbtotalgoofs = array_filter( $goofs, fn( $goofs ) => ( count( array_values( $goofs ) ) > 0 ) ); // counts the actual goofs, not their categories
+		$goofs = $movie->$item_name();
+		$settings_nbgoofs = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$filter_nbtotalgoofs = array_filter( $goofs, fn( array $goofs ) => ( count( array_values( $goofs ) ) > 0 ) ); // counts the actual goofs, not their categories
 		$nbtotalgoofs = count( $filter_nbtotalgoofs );
 		$overall_loop = 1;
 
@@ -361,28 +378,28 @@ class Movie_Data extends Movie_Display {
 	/**
 	 * Display the quotes
 	 * Quotes are what People said, Quotes do not exists in Movie's pages, which do not display people's data
-	 * Kept for compatibility purposes: the function lum_movies_quote() is automatically created from config data, the class would complain that method doesn't exist
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * Kept for compatibility purposes: the function get_item_quote() is automatically created from config data, the class would complain that method doesn't exist
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @since 4.0 Removed the method's content, since this function is for compatibility and does nothing
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 * @return string Nothing
 	 */
-	protected function lum_movies_quote( Title $movie ): string {
+	protected function get_item_quote( Title $movie, string $item_name ): string {
 		return '';
 	}
 
 	/**
 	 * Display the taglines
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_tagline( Title $movie ): string {
+	protected function get_item_tagline( Title $movie, string $item_name ): string {
 
-		$taglines = $movie->tagline();
-		$nbtaglines = intval( $this->imdb_data_values['imdbwidgettaglinenumber'] ) === 0 || $this->imdb_data_values['imdbwidgettaglinenumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgettaglinenumber'] );
+		$taglines = $movie->$item_name();
+		$nbtaglines = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotaltaglines = count( $taglines );
 
 		// If no result, exit.
@@ -406,15 +423,15 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the trailer
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_trailer( Title $movie ): string {
+	protected function get_item_trailer( Title $movie, string $item_name ): string {
 
 		$trailers = $movie->video(); // Title::video() works faster than Title::trailer()
 		$trailers = $trailers['Trailer'] ?? null; // Two rows available: Clip and Trailer
-		$nbtrailers = intval( $this->imdb_data_values['imdbwidgettrailernumber'] ) === 0 || $this->imdb_data_values['imdbwidgettrailernumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgettrailernumber'] );
+		$nbtrailers = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotaltrailers = isset( $trailers ) ? count( $trailers ) : null;
 
 		// if no results, exit.
@@ -448,13 +465,13 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the color
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_color( Title $movie ): string {
+	protected function get_item_color( Title $movie, string $item_name ): string {
 
-		$colors = $movie->color();
+		$colors = $movie->$item_name();
 		$nbtotalcolors = count( $colors );
 
 		// if no result, exit.
@@ -467,12 +484,12 @@ class Movie_Data extends Movie_Display {
 		$output .= ':</span>';
 
 		// Taxonomy activated.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycolor'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcolors; $i++ ) {
 
-				$get_taxo_options = $this->create_taxonomy_options( 'coloration', sanitize_text_field( $colors[ $i ]['type'] ) );
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, sanitize_text_field( $colors[ $i ]['type'] ), $this->imdb_admin_values );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalcolors - 1 ) {
 					$output .= ', ';
@@ -496,14 +513,14 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the as known as, aka
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_alsoknow( Title $movie ): string {
+	protected function get_item_alsoknow( Title $movie, string $item_name ): string {
 
-		$alsoknow = $movie->alsoknow();
-		$nbalsoknow = intval( $this->imdb_data_values['imdbwidgetalsoknownumber'] ) === 0 || $this->imdb_data_values['imdbwidgetalsoknownumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetalsoknownumber'] ) + 1; // Adding 1 since first array line is the title
+		$alsoknow = $movie->$item_name();
+		$nbalsoknow = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) + 1; // Adding 1 since first array line is the title
 		$nbtotalalsoknow = count( $alsoknow );
 
 		// if no result, exit.
@@ -517,7 +534,7 @@ class Movie_Data extends Movie_Display {
 
 		for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $nbalsoknow ); $i++ ) {
 
-			// Title line, not returning it.
+			// Orignal title, already using it in the box.
 			if ( $i === 0 ) {
 				continue;
 			}
@@ -542,13 +559,13 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the composers
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_composer( Title $movie ): string {
+	protected function get_item_composer( Title $movie, string $item_name ): string {
 
-		$composer = $movie->composer();
+		$composer = $movie->$item_name();
 		$nbtotalcomposer = count( $composer );
 
 		// if no results, exit.
@@ -561,12 +578,12 @@ class Movie_Data extends Movie_Display {
 		$output .= ':</span>';
 
 		// Taxonomy
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycomposer'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
 
-				$get_taxo_options = $this->create_taxonomy_options( 'composer', esc_html( $composer[ $i ]['name'] ) );
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $composer[ $i ]['name'] ), $this->imdb_admin_values );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalcomposer - 1 ) {
 					$output .= ', ';
@@ -592,14 +609,14 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the soundtrack
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_soundtrack( Title $movie ): string {
+	protected function get_item_soundtrack( Title $movie, string $item_name ): string {
 
-		$soundtrack = $movie->soundtrack();
-		$nbsoundtracks = intval( $this->imdb_data_values['imdbwidgetsoundtracknumber'] ) === 0 || $this->imdb_data_values['imdbwidgetsoundtracknumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetsoundtracknumber'] );
+		$soundtrack = $movie->$item_name();
+		$nbsoundtracks = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotalsoundtracks = count( $soundtrack );
 
 		// if no results, exit.
@@ -635,11 +652,11 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the production companies
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_prodcompany( Title $movie ): string {
+	protected function get_item_prodcompany( Title $movie, string $item_name ): string {
 
 		$prodcompany = $movie->prodCompany();
 		$nbtotalprodcompany = count( $prodcompany );
@@ -672,11 +689,11 @@ class Movie_Data extends Movie_Display {
 	/**
 	 * Display the official site
 	 * @since 4.3 using extSites from new IMDBphpGraphQL, but kept ol official sites names
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_officialsites( Title $movie ): string {
+	protected function get_item_officialsites( Title $movie, string $item_name ): string {
 
 		$get_external_sites = $movie->extSites();
 		$external_sites = $get_external_sites['official'] ?? $get_external_sites['misc'] ?? [];
@@ -714,13 +731,13 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the director
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_director( Title $movie ): string {
+	protected function get_item_director( Title $movie, string $item_name ): string {
 
-		$director = $movie->director();
+		$director = $movie->$item_name();
 		$nbtotaldirector = count( $director );
 
 		// if no result, exit.
@@ -733,12 +750,12 @@ class Movie_Data extends Movie_Display {
 		$output .= ':</span>';
 
 		// If Taxonomy is selected, build links to taxonomy pages
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomydirector'] === '1' )  ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' )  ) {
 
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
-				$get_taxo_options = $this->create_taxonomy_options( 'director', esc_html( $director[ $i ]['name'] ) );
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $director[ $i ]['name'] ), $this->imdb_admin_values );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotaldirector - 1 ) {
 					$output .= ', ';
@@ -771,11 +788,11 @@ class Movie_Data extends Movie_Display {
 	/**
 	 * Display the cinemoatographer (directeur photo)
 	 * For historical reasons, imdb config has "creator", so the method's name is based on the word
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_creator( Title $movie ): string {
+	protected function get_item_creator( Title $movie, string $item_name ): string {
 
 		$cinematographer = $movie->cinematographer();
 		$nbtotalcinematographer = count( $cinematographer );
@@ -793,8 +810,8 @@ class Movie_Data extends Movie_Display {
 
 			for ( $i = 0; $i < $nbtotalcinematographer; $i++ ) {
 
-				$get_taxo_options = $this->create_taxonomy_options( 'cinematographer', esc_html( $cinematographer[ $i ]['name'] ) );
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( 'cinematographer', esc_html( $cinematographer[ $i ]['name'] ), $this->imdb_admin_values );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalcinematographer - 1 ) {
 					$output .= ', ';
@@ -824,14 +841,14 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the producer
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_producer( Title $movie ): string {
+	protected function get_item_producer( Title $movie, string $item_name ): string {
 
-		$producer = $movie->producer();
-		$nbproducer = intval( $this->imdb_data_values['imdbwidgetproducernumber'] ) === 0 || $this->imdb_data_values['imdbwidgetproducernumber'] === false ? '1' : intval( $this->imdb_data_values['imdbwidgetproducernumber'] );
+		$producer = $movie->$item_name();
+		$nbproducer = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotalproducer = count( $producer );
 
 		if ( $nbtotalproducer === 0 ) {
@@ -857,12 +874,13 @@ class Movie_Data extends Movie_Display {
 					}
 				}
 
-				$get_taxo_options = $this->create_taxonomy_options(
-					'producer',
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
+					$item_name,
 					// @phan-suppress-next-line PhanTypeInvalidDimOffset, PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-					isset( $producer[ $i ]['name'] ) ? esc_html( $producer[ $i ]['name'] ) : ''
+					isset( $producer[ $i ]['name'] ) ? esc_html( $producer[ $i ]['name'] ) : '',
+					$this->imdb_admin_values
 				);
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
 			}
 			return $output;
 		}
@@ -904,13 +922,13 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the writers
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_writer( Title $movie ): string {
+	protected function get_item_writer( Title $movie, string $item_name ): string {
 
-		$writer = $movie->writer();
+		$writer = $movie->$item_name();
 		$nbtotalwriters = count( $writer );
 
 		if ( $nbtotalwriters === 0 ) {
@@ -922,7 +940,7 @@ class Movie_Data extends Movie_Display {
 		$output .= ':</span>';
 
 		// With taxonomy.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomywriter'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalwriters; $i++ ) {
 
@@ -951,12 +969,13 @@ class Movie_Data extends Movie_Display {
 
 				}
 
-				$get_taxo_options = $this->create_taxonomy_options(
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
 					'writer',
 					// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-					isset( $writer[ $i ]['name'] ) ? esc_html( $writer[ $i ]['name'] ) : ''
+					isset( $writer[ $i ]['name'] ) ? esc_html( $writer[ $i ]['name'] ) : '',
+					$this->imdb_admin_values
 				);
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
 
 			}
 			return $output;
@@ -1009,14 +1028,14 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display actors
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_actor( Title $movie ): string {
+	protected function get_item_actor( Title $movie, string $item_name ): string {
 
 		$cast = $movie->cast();
-		$nbactors = intval( $this->imdb_data_values['imdbwidgetactornumber'] ) === 0 ? 1 : intval( $this->imdb_data_values['imdbwidgetactornumber'] );
+		$nbactors = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 ? 1 : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotalactors = count( $cast );
 
 		if ( $nbtotalactors === 0 ) {
@@ -1027,7 +1046,7 @@ class Movie_Data extends Movie_Display {
 		$output .= esc_html( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) );
 		$output .= ':</span>';
 
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomyactor'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
 			for ( $i = 0; ( $i < $nbtotalactors ) && ( $i < $nbactors ); $i++ ) {
 
@@ -1036,11 +1055,12 @@ class Movie_Data extends Movie_Display {
 					continue;
 				}
 
-				$get_taxo_options = $this->create_taxonomy_options(
+				$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
 					'actor',
-					esc_html( $cast[ $i ]['name'] )
+					esc_html( $cast[ $i ]['name'] ),
+					$this->imdb_admin_values
 				);
-				$output .= $this->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, esc_attr( $cast[ $i ]['character'][0] ) );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, esc_attr( $cast[ $i ]['character'][0] ) );
 
 			}
 
@@ -1072,14 +1092,14 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display plots
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_plot( Title $movie ): string {
+	protected function get_item_plot( Title $movie, string $item_name ): string {
 
-		$plot = $movie->plot();
-		$nbplots = intval( $this->imdb_data_values['imdbwidgetplotnumber'] ) === 0 ? 1 : intval( $this->imdb_data_values['imdbwidgetplotnumber'] );
+		$plot = $movie->$item_name();
+		$nbplots = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 ? 1 : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotalplots = count( $plot );
 
 		// tested if the array contains data; if not, doesn't go further
@@ -1111,15 +1131,15 @@ class Movie_Data extends Movie_Display {
 
 	/**
 	 * Display the credit link
-	 * @see Movie::lumiere_movie_design() that builds this method
+	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 */
-	protected function lum_movies_source( Title $movie ): string {
+	protected function get_item_source( Title $movie, string $item_name ): string {
 
-		$mid_premier_resultat_sanitized = strlen( $movie->imdbid() ) > 0 ? strval( $movie->imdbid() ) : null;
+		$get_mid = strlen( $movie->imdbid() ) > 0 ? strval( $movie->imdbid() ) : null;
 
-		if ( $mid_premier_resultat_sanitized === null ) {
+		if ( $get_mid === null ) {
 			return '';
 		}
 
@@ -1132,7 +1152,7 @@ class Movie_Data extends Movie_Display {
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
-		$output .= $this->link_maker->lumiere_movies_source_details( $mid_premier_resultat_sanitized );
+		$output .= $this->link_maker->lumiere_movies_source_details( $get_mid );
 
 		return $output;
 	}
