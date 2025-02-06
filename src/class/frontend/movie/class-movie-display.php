@@ -401,7 +401,7 @@ class Movie_Display extends Movie_Data {
 
 				// Something bad happened.
 				if ( ! method_exists( __CLASS__, $method ) ) {
-					throw new Exception( 'The method ' . $method . ' does not exist in class ' . __CLASS__ );
+					throw new Exception( 'The method ' . esc_html( $method ) . ' does not exist in class ' . __CLASS__ );
 				}
 
 				// Build the final class+method with the movie_object and child class.
