@@ -111,7 +111,7 @@ class Metabox_Selection {
 		<div class="lumiere_padding_five">
 			<?php
 			echo wp_kses(
-				sprintf(
+				wp_sprintf(
 					/* translators: %1$s and %2$s are HTML tags */
 					__( 'Use %1$sthe query tool%2$s to find the IMDb\'s ID.', 'lumiere-movies' ),
 					'<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded" title="' . esc_html__( 'Open a popup to search the movie\'s ID', 'lumiere-movies' ) . '">',
@@ -138,7 +138,7 @@ class Metabox_Selection {
 			<label class="lum_metabox_label_checkbox" for="lumiere_autotitlewidget_perpost">
 			<?php
 			echo wp_kses(
-				sprintf(
+				wp_sprintf(
 					/* translators: %1$s and %2$s are HTML tags */
 					__( 'Deactivate %1$sauto title widget%2$s for this post', 'lumiere-movies' ),
 					'<a id="lin_to_imdbautopostwidget" href="' . admin_url( 'admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget' ) . '">',

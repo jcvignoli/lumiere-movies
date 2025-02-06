@@ -172,7 +172,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Tools\Get_Options::get_admin_t
 				<div class="explain">
 				<?php
 				echo wp_kses(
-					sprintf(
+					wp_sprintf(
 						/* translators: %1$s and %2$s are HTML A tag */
 						__( 'By default, Lumière deactivates %1$sIntelly Related Post plugin%2$s on posts that display Lumiere movies. You can overrides this Lumière feature and always display IRP instead, even if a movie is displayed in your post.', 'lumiere-movies' ),
 						'<a target="_blank" href="https://wordpress.org/plugins/intelly-related-posts/">',

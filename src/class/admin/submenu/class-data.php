@@ -47,7 +47,6 @@ class Data extends Admin_Menu {
 
 	/**
 	 * Constructor
-	 *
 	 */
 	protected function __construct() {
 
@@ -287,12 +286,11 @@ class Data extends Admin_Menu {
 
 		$output = '';
 
-		// Get the type to build the links
+		// Get the type to build the links.
 		$lumiere_taxo_title = esc_html( $type );
 
-		// Get updated items/people from parent class method. Null if not template to update found.
-		$class_check_taxo = new Detect_New_Theme();
-		$list_updated_fields = $class_check_taxo->search_new_update( $lumiere_taxo_title );
+		// Get updated items/people from Detect_New_Theme.
+		$list_updated_fields = ( new Detect_New_Theme() )->search_new_update( $lumiere_taxo_title );
 
 		// Files paths
 		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, Get_Options::get_list_people(), true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
@@ -306,7 +304,6 @@ class Data extends Admin_Menu {
 		$this->lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file ); // in trait Admin_General.
 
 		// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
-
 		$link_taxo_copy = add_query_arg( '_wpnonce_linkcopytaxo', wp_create_nonce( 'linkcopytaxo' ), $this->page_data_taxo . '&taxotype=' . $lumiere_taxo_title );
 
 		// No file in the theme folder found and no template to be updated found, offer to copy it and exit.
@@ -323,8 +320,8 @@ class Data extends Admin_Menu {
 					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' /> "
 					. esc_html__( 'Copy template', 'lumiere-movies' )
 					. '</a>';
-
-			$output .= "\n\t" . '<div><font color="red">' . esc_html( "No $lumiere_taxo_title template found" ) . '</font></div>';
+			/* translators: %s is replaced with a movie item name, ie 'director' */
+			$output .= "\n\t" . '<div><font color="red">' . wp_sprintf( __( 'No %s template found', 'lumiere-movies' ), $lumiere_taxo_title ) . '</font></div>';
 			$output .= "\n\t" . '</div>';
 
 			return $output;
@@ -350,7 +347,7 @@ class Data extends Admin_Menu {
 				. esc_html__( 'Update template', 'lumiere-movies' ) . '</a>';
 
 		$output .= "\n\t" . '<div><font color="red">'
-			/* translators: %s is replaced with a movie job name */
+			/* translators: %s is replaced with a movie item name, ie 'director' */
 			. wp_sprintf( __( 'New %s template version available', 'lumiere-movies' ), $lumiere_taxo_title )
 			. '</font></div>';
 		$output .= "\n\t" . '</div>';

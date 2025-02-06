@@ -88,7 +88,7 @@ class Search {
 
 		$new_title = isset( $this->movie_searched ) && strlen( $this->movie_searched ) > 0
 			/* translators: %1s is a movie's title */
-			? sprintf( __( 'Lumière Query Interface %1s', 'lumiere-movies' ), '[ searching for ' . esc_html( ucfirst( $this->movie_searched ) ) . ' ]' )
+			? wp_sprintf( __( 'Lumière Query Interface %1s', 'lumiere-movies' ), '[ searching for ' . esc_html( ucfirst( $this->movie_searched ) ) . ' ]' )
 			: '[ ' . __( 'Lumière Query Interface', 'lumiere-movies' ) . ' ]';
 
 		$title['title'] = $new_title;

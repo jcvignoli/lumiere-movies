@@ -51,21 +51,22 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_title( Title $movie, string $item_name ): string {
 
-		$year = strlen( strval( $movie->year() ) ) !== 0 ? strval( $movie->year() ) : null;
+		$year = $movie->year();
 		$title_sanitized = esc_html( $movie->$item_name() );
 
-		$output = "\n\t\t\t<span id=\"title_$title_sanitized\">" . $title_sanitized;
-
-		if ( $year !== null && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
-			$output .= ' (' . esc_html( $year ) . ')';
+		$year_text = '';
+		if ( strlen( strval( $year ) ) > 0 && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
+			$year_text = ' (' . strval( $year ) . ')';
 		}
 
-		$output .= '</span>';
-
-		return $output;
+		return $this->movie_layout->subtitle_item_title(
+			$title_sanitized,
+			$year_text
+		);
 	}
 
 	/**
@@ -76,6 +77,7 @@ class Movie_Data {
 	 * @since 3.7 improved compatibility with AMP WP plugin in relevant class
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_pic( Title $movie, string $item_name ): string {
 
@@ -99,6 +101,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_country( Title $movie, string $item_name ): string {
 
@@ -110,9 +113,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcountry ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) )
+		);
 
 		// Taxonomy is active.
 		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
@@ -145,6 +148,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_runtime( Title $movie, string $item_name ): string {
 
@@ -154,12 +158,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= esc_html__( 'Runtime', 'lumiere-movies' );
-		$output .= ':</span>';
-		$output .= $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
-
-		return $output;
+		return $this->movie_layout->subtitle_item(
+			esc_html__( 'Runtime', 'lumiere-movies' )
+		) . $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
 	}
 
 	/**
@@ -167,6 +168,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_language( Title $movie, string $item_name ): string {
 
@@ -177,9 +179,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) ), number_format_i18n( $nbtotallanguages ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) )
+		);
 
 		// Taxonomy is active.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
@@ -196,7 +198,6 @@ class Movie_Data {
 			return $output;
 		}
 
-		// Taxonomy is unactive.
 		for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
 
 			$output .= sanitize_text_field( $languages[ $i ] );
@@ -213,6 +214,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_rating( Title $movie, string $item_name ): string {
 
@@ -242,6 +244,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_genre( Title $movie, string $item_name ): string {
 
@@ -252,10 +255,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Genre', 'Genres', $nbtotalgenre, 'lumiere-movies' ) ), number_format_i18n( $nbtotalgenre ) );
-
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Genre', 'Genres', $nbtotalgenre, 'lumiere-movies' ) )
+		);
 
 		// Taxonomy is active.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
@@ -288,6 +290,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_keyword( Title $movie, string $item_name ): string {
 
@@ -299,9 +302,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Keyword', 'Keywords', $nbtotalkeywords, 'lumiere-movies' ) ), number_format_i18n( $nbtotalkeywords ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Keyword', 'Keywords', $nbtotalkeywords, 'lumiere-movies' ) )
+		);
 
 		// Taxonomy is active.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
@@ -335,6 +338,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_goof( Title $movie, string $item_name ): string {
 
@@ -355,9 +359,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Goof', 'Goofs', $nbtotalgoofs, 'lumiere-movies' ) ), number_format_i18n( $nbtotalgoofs ) );
-		$output .= ':</span><br>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Goof', 'Goofs', $nbtotalgoofs, 'lumiere-movies' ) )
+		);
 
 		// Process goof type after goof type
 		foreach ( $goofs_type as $type ) {
@@ -384,6 +388,7 @@ class Movie_Data {
 	 * @since 4.0 Removed the method's content, since this function is for compatibility and does nothing
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 * @return string Nothing
 	 */
 	protected function get_item_quote( Title $movie, string $item_name ): string {
@@ -407,9 +412,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Tagline', 'Taglines', $nbtotaltaglines, 'lumiere-movies' ) ), number_format_i18n( $nbtotaltaglines ) ) . ':';
-		$output .= '</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Tagline', 'Taglines', $nbtotaltaglines, 'lumiere-movies' ) )
+		);
 
 		for ( $i = 0; $i < $nbtaglines && ( $i < $nbtotaltaglines ); $i++ ) {
 
@@ -426,6 +431,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_trailer( Title $movie, string $item_name ): string {
 
@@ -439,9 +445,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Trailer', 'Trailers', $nbtotaltrailers, 'lumiere-movies' ) ), number_format_i18n( $nbtotaltrailers ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Trailer', 'Trailers', $nbtotaltrailers, 'lumiere-movies' ) )
+		);
 
 		for ( $i = 0; ( $i < $nbtrailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
 
@@ -468,6 +474,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_color( Title $movie, string $item_name ): string {
 
@@ -479,9 +486,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Colorisation', 'Colorisations', $nbtotalcolors, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcolors ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Colorisation', 'Colorisations', $nbtotalcolors, 'lumiere-movies' ) )
+		);
 
 		// Taxonomy activated.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
@@ -516,6 +523,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_alsoknow( Title $movie, string $item_name ): string {
 
@@ -528,9 +536,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= esc_html__( 'Also known as', 'lumiere-movies' );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html__( 'Also known as', 'lumiere-movies' )
+		);
 
 		for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $nbalsoknow ); $i++ ) {
 
@@ -562,6 +570,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_composer( Title $movie, string $item_name ): string {
 
@@ -573,9 +582,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Composer', 'Composers', $nbtotalcomposer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcomposer ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Composer', 'Composers', $nbtotalcomposer, 'lumiere-movies' ) )
+		);
 
 		// Taxonomy
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
@@ -612,6 +621,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_soundtrack( Title $movie, string $item_name ): string {
 
@@ -624,9 +634,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ), number_format_i18n( $nbtotalsoundtracks ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) )
+		);
 
 		for ( $i = 0; $i < $nbsoundtracks && ( $i < $nbtotalsoundtracks ); $i++ ) {
 			$soundtrack_name = "\n\t\t\t" . ucfirst( strtolower( $soundtrack[ $i ]['soundtrack'] ) );
@@ -655,6 +665,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_prodcompany( Title $movie, string $item_name ): string {
 
@@ -666,9 +677,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Production company', 'Production companies', $nbtotalprodcompany, 'lumiere-movies' ) ), number_format_i18n( $nbtotalprodcompany ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Production company', 'Production companies', $nbtotalprodcompany, 'lumiere-movies' ) )
+		);
 
 		for ( $i = 0; $i < $nbtotalprodcompany; $i++ ) {
 			$comment = isset( $prodcompany[ $i ]['attribute'][0] ) ? '"' . $prodcompany[ $i ]['attribute'][0] . '"' : '';
@@ -692,6 +703,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_officialsites( Title $movie, string $item_name ): string {
 
@@ -704,9 +716,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= esc_html( _n( 'Official website', 'Official websites', $nbtotalext_sites, 'lumiere-movies' ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Official website', 'Official websites', $nbtotalext_sites, 'lumiere-movies' ) )
+		);
 
 		// Hardcoded 7 sites max.
 		for ( $i = 0; $i < $nbtotalext_sites && $i < 7; $i++  ) {
@@ -734,6 +746,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_director( Title $movie, string $item_name ): string {
 
@@ -745,9 +758,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) ), number_format_i18n( $nbtotaldirector ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) )
+		);
 
 		// If Taxonomy is selected, build links to taxonomy pages
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' )  ) {
@@ -766,7 +779,6 @@ class Movie_Data {
 
 		}
 
-		// Taxonomy is not selected
 		for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
 			/**
@@ -791,6 +803,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_creator( Title $movie, string $item_name ): string {
 
@@ -802,9 +815,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Cinematographer', 'Cinematographers', $nbtotalcinematographer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalcinematographer ) );
-		$output .= ':</span>&nbsp;';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Cinematographer', 'Cinematographers', $nbtotalcinematographer, 'lumiere-movies' ) )
+		);
 
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycreator'] === '1' ) ) {
 
@@ -844,6 +857,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_producer( Title $movie, string $item_name ): string {
 
@@ -855,11 +869,11 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) ), number_format_i18n( $nbtotalproducer ) );
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) )
+		);
 
-		$output .= ':</span>';
-
+		// Taxonomy is active.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomyproducer'] === '1' ) ) {
 
 			for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $nbproducer ); $i++ ) {
@@ -885,6 +899,7 @@ class Movie_Data {
 			return $output;
 		}
 
+		// No taxonomy.
 		for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $nbproducer ); $i++ ) {
 
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
@@ -925,6 +940,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_writer( Title $movie, string $item_name ): string {
 
@@ -935,9 +951,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= sprintf( esc_html( _n( 'Writer', 'Writers', $nbtotalwriters, 'lumiere-movies' ) ), number_format_i18n( $nbtotalwriters ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Writer', 'Writers', $nbtotalwriters, 'lumiere-movies' ) )
+		);
 
 		// With taxonomy.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
@@ -970,7 +986,7 @@ class Movie_Data {
 				}
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
-					'writer',
+					$item_name,
 					// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
 					isset( $writer[ $i ]['name'] ) ? esc_html( $writer[ $i ]['name'] ) : '',
 					$this->imdb_admin_values
@@ -1031,6 +1047,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_actor( Title $movie, string $item_name ): string {
 
@@ -1042,10 +1059,11 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= esc_html( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) )
+		);
 
+		// Taxonomy
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
 			for ( $i = 0; ( $i < $nbtotalactors ) && ( $i < $nbactors ); $i++ ) {
@@ -1095,6 +1113,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_plot( Title $movie, string $item_name ): string {
 
@@ -1107,9 +1126,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= esc_html( _n( 'Plot', 'Plots', $nbplots, 'lumiere-movies' ) );
-		$output .= ':</span><br />';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Plot', 'Plots', $nbplots, 'lumiere-movies' ) )
+		);
 
 		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $nbplots ); $i++ ) {
 
@@ -1134,6 +1153,7 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_source( Title $movie, string $item_name ): string {
 
@@ -1143,9 +1163,9 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">';
-		$output .= esc_html__( 'Source', 'lumiere-movies' );
-		$output .= ':</span>';
+		$output = $this->movie_layout->subtitle_item(
+			esc_html__( 'Source', 'lumiere-movies' )
+		);
 
 		/**
 		 * Use links builder classes.

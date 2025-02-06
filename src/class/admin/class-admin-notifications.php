@@ -86,7 +86,7 @@ class Admin_Notifications {
 		echo wp_kses(
 			$this->lumiere_notice(
 				6,
-				sprintf(
+				wp_sprintf(
 					/* translators: %1$s is one or many items like director, composer, etc., %2$s and %3$s are HTML tags */
 					_n( 'Taxonomy template is activated, but the following template is missing: %2$s%1$s%3$s.', 'Taxonomy template is activated, but the following templates are missing: %2$s%1$s%3$s.', $nb_missing, 'lumiere-movies' ),
 					implode( ', ', $missing_taxo_template ),
@@ -94,7 +94,7 @@ class Admin_Notifications {
 					'</i>'
 				)
 				/* translators: %1$s and %2$s are HTML 'a' tags links */
-				. ' ' . sprintf( _n( 'Please %1$sinstall%2$s it.', 'Please %1$sinstall%2$s them.', $nb_missing, 'lumiere-movies' ), '<a href="' . $page_data_taxo . '#imdb_imdbtaxonomyactor_yes">', '</a>' )
+				. ' ' . wp_sprintf( _n( 'Please %1$sinstall%2$s it.', 'Please %1$sinstall%2$s them.', $nb_missing, 'lumiere-movies' ), '<a href="' . $page_data_taxo . '#imdb_imdbtaxonomyactor_yes">', '</a>' )
 			),
 			[
 				'a' => [ 'href' => [] ],
@@ -125,7 +125,7 @@ class Admin_Notifications {
 		echo wp_kses(
 			$this->lumiere_notice(
 				6,
-				sprintf(
+				wp_sprintf(
 					/* translators: %1$s is one or many items like director, composer, etc., %2$s and %3$s are HTML tags */
 					_n( 'New taxonomy template file found: %2$s%1$s%3$s.', 'New taxonomy template files found: %2$s%1$s%3$s.', $nb_new, 'lumiere-movies' ),
 					implode( ', ', $new_taxo_template ),
@@ -133,7 +133,7 @@ class Admin_Notifications {
 					'</i>'
 				)
 				/* translators: %1$s and %2$s are HTML 'a' tags links */
-				. ' ' . sprintf( _n( 'Please %1$supdate%2$s it.', 'Please %1$supdate%2$s them.', $nb_new, 'lumiere-movies' ), '<a href="' . $page_data_taxo . '#imdb_imdbtaxonomyactor_yes">', '</a>' )
+				. ' ' . wp_sprintf( _n( 'Please %1$supdate%2$s it.', 'Please %1$supdate%2$s them.', $nb_new, 'lumiere-movies' ), '<a href="' . $page_data_taxo . '#imdb_imdbtaxonomyactor_yes">', '</a>' )
 			),
 			[
 				'a' => [ 'href' => [] ],

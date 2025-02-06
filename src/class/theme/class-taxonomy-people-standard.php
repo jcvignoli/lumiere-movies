@@ -403,7 +403,7 @@ class Taxonomy_People_Standard {
 		if ( count( $check_if_no_result ) === 0 && strlen( $person_name ) > 0 ) {
 
 			/* translators: %1$s is the name of a person */
-			$output .= '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">' . esc_html( sprintf( __( 'No post written about %1$s', 'lumiere-movies' ), $person_name ) ) . '</div>';
+			$output .= '<div class="lumiere_align_center lumiere_italic lumiere_padding_five">' . esc_html( wp_sprintf( __( 'No post written about %1$s', 'lumiere-movies' ), $person_name ) ) . '</div>';
 
 		}
 

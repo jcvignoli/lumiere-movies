@@ -76,7 +76,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 
 		$new_title = strlen( $this->page_title ) > 0
 			/* translators: %1s is a movie's title */
-			? sprintf( __( 'Informations about %1s', 'lumiere-movies' ), esc_html( $this->page_title ) ) . ' - Lumi&egrave;re movies'
+			? wp_sprintf( __( 'Informations about %1s', 'lumiere-movies' ), esc_html( $this->page_title ) ) . ' - Lumi&egrave;re movies'
 			: __( 'Unknown - Lumière movies', 'lumiere-movies' );
 
 		$title['title'] = $new_title;
@@ -663,7 +663,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 		if ( count( $cast ) > 0 ) {
 
 			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Actors -->";
-			echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( sprintf( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ), number_format_i18n( $nbtotalactors ) ) ) . '</div>';
+			echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) ) . '</div>';
 
 			for ( $i = 0; ( $i < $nbtotalactors ); $i++ ) {
 				echo "\n\t\t" . '<div align="center" class="lumiere_container">';

@@ -43,7 +43,7 @@ $lumiere_aknowledgefile = get_transient( Admin_Menu::TRANSIENT_ADMIN )[2];
 		<h3 id="layout" name="layout">
 			<?php
 			/* translators: %1$s and %2$s are HTML tags */
-			echo wp_kses( sprintf( __( 'Two ways to support %1$sLumiere Movies%2$s plugin development', 'lumiere-movies' ), '<i>', '</i>' ), [ 'i' => [] ] ); ?>
+			echo wp_kses( wp_sprintf( __( 'Two ways to support %1$sLumiere Movies%2$s plugin development', 'lumiere-movies' ), '<i>', '</i>' ), [ 'i' => [] ] ); ?>
 		</h3>
 	</div>
 	

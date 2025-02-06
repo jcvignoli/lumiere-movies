@@ -25,40 +25,54 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 class Movie_Layout {
 
 	/**
-	 * Function wrapping with <div> the final text
+	 * Subtitles to the items
+	 * Title specifically
+	 * @see Movie_Data::get_item_title()
+	 */
+	public function subtitle_item_title( string $title_sanitized, string $year ): string {
+		return "\n\t\t\t<span id=\"title_$title_sanitized\">" . $title_sanitized . $year . '</span>';
+	}
+
+	/**
+	 * Subtitles to the items
+	 * @see Movie_Data
+	 *
+	 * @param string $text The text to be embeded with the layout
+	 */
+	public function subtitle_item( string $text ): string {
+		return "\n\t\t\t" . '<span class="lum_results_section_subtitle">' . $text . ':</span>';
+	}
+
+	/**
+	 * Function wrapping with <div> the final text with the theme selected in admin options
 	 * @see Movie_Display::factory_items_methods()
 	 *
-	 * @param string $html Text to wrap
+	 * @param string $text The text to be embeded with the layout
 	 * @param string $item The item to transform, such as director, title, etc
 	 * @param non-empty-array<string, string> $imdb_admin_values
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 * @return string
 	 */
-	public function final_div_wrapper( string $html, string $item, array $imdb_admin_values ): string {
+	public function final_div_wrapper( string $text, string $item, array $imdb_admin_values ): string {
 
-		if ( strlen( $html ) === 0 ) {
-			return '';
-		}
-
-		$outputfinal = '';
 		$item = sanitize_text_field( $item );
 		$item_caps = strtoupper( $item );
 
-		$outputfinal .= "\n\t\t\t\t\t\t\t" . '<!-- ' . $item . ' -->';
+		$output = "\n\t\t\t\t\t\t\t" . '<!-- ' . $item . ' -->';
 
 		// title doesn't take item 'lumiere-lines-common' as a class
 		if ( $item !== 'title' ) {
-			$outputfinal .= "\n\t\t" . '<div class="lumiere-lines-common';
+			$output .= "\n\t\t" . '<div class="lumiere-lines-common';
 		} else {
-			$outputfinal .= "\n\t\t" . '<div class="imdbelement' . $item_caps;
+			$output .= "\n\t\t" . '<div class="imdbelement' . $item_caps;
 		}
 
-		$outputfinal .= ' lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'] . ' imdbelement' . $item_caps . '_' . $imdb_admin_values['imdbintotheposttheme'];
-		$outputfinal .= '">';
-		$outputfinal .= $html;
-		$outputfinal .= "\n\t\t" . '</div>';
+		$output .= ' lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'] . ' imdbelement' . $item_caps . '_' . $imdb_admin_values['imdbintotheposttheme'];
+		$output .= '">';
+		$output .= $text;
+		$output .= "\n\t\t" . '</div>';
 
-		return $outputfinal;
+		return $output;
 	}
 
 	/**
@@ -71,7 +85,7 @@ class Movie_Layout {
 	 * @param string $movie_title
 	 * @param array<string, string> $taxo_options
 	 * @phstan-param array{'custom_taxonomy_fullname': string, 'taxonomy_term': string} $taxo_options
-	 * @param string|null $item_line_name Null if the second layout should be utilised
+	 * @param string|null $item_line_name Null if the layout two should be utilised
 	 * @return string
 	 */
 	public function get_layout_items( string $movie_title, array $taxo_options, ?string $item_line_name = null ): string {
@@ -90,7 +104,7 @@ class Movie_Layout {
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			$output .= "\n\t\t\t\t\t<a id=\"" . $link_id_final . '" class="lum_link_taxo_page" href="'
-					. esc_url( $this->create_taxonomy_link( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
+					. esc_url( $this->create_taxonomy_weblink( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
 					. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
 					. '">';
 			$output .= "\n\t\t\t\t\t" . $taxo_options['taxonomy_term'];
@@ -105,7 +119,7 @@ class Movie_Layout {
 
 		// layout two: display the layout for all details separated by commas, ie keywords
 		$output .= '<a id="' . $link_id_final . '" class="lum_link_taxo_page" '
-				. 'href="' . esc_url( $this->create_taxonomy_link( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
+				. 'href="' . esc_url( $this->create_taxonomy_weblink( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
 				. '" '
 				. 'title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' ) . '">';
 		$output .= $taxo_options['taxonomy_term'];
@@ -120,7 +134,7 @@ class Movie_Layout {
 	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'
 	 * @return string The WordPress full HTML link for the name with that category
 	 */
-	private function create_taxonomy_link( string $name_searched, string $taxo_category ): string {
+	private function create_taxonomy_weblink( string $name_searched, string $taxo_category ): string {
 		$find_term = get_term_by( 'name', $name_searched, $taxo_category );
 		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->term_id, $taxo_category ) : '';
 		return $taxo_link instanceof \WP_Error ? '' : $taxo_link;

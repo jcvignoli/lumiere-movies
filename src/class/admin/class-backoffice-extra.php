@@ -56,7 +56,7 @@ class Backoffice_Extra {
 	public function lumiere_add_left_links( array $plugin_meta, string $plugin_file_name ): ?array {
 
 		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
-			$plugin_meta['settings'] = sprintf( '<a href="%s"> %s </a>', admin_url( 'admin.php?page=lumiere_options' ), esc_html__( 'Settings', 'lumiere-movies' ) );
+			$plugin_meta['settings'] = wp_sprintf( '<a href="%s"> %s </a>', admin_url( 'admin.php?page=lumiere_options' ), esc_html__( 'Settings', 'lumiere-movies' ) );
 		}
 		return $plugin_meta;
 	}
@@ -76,12 +76,12 @@ class Backoffice_Extra {
 	public function lumiere_add_table_links( array $plugin_meta, string $plugin_file_name ): ?array {
 
 		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
-			$plugin_meta[] = sprintf(
+			$plugin_meta[] = wp_sprintf(
 				'<a href="%1$s"><span class="dashicons dashicons-coffee" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>%2$s</a>',
 				'https://www.paypal.me/jcvignoli',
 				esc_html__( 'Sponsor', 'lumiere-movies' )
 			);
-			$plugin_meta[] = sprintf(
+			$plugin_meta[] = wp_sprintf(
 				'<a href="%1$s"><span class="dashicons dashicons-cloud" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>GIT repository</a>',
 				Settings::LUMIERE_GIT
 			);
@@ -113,7 +113,7 @@ class Backoffice_Extra {
 	 * @return string The default policy content.
 	 */
 	private function lumiere_get_default_privacy_content(): string {
-		return sprintf(
+		return wp_sprintf(
 			'<h2>' . __( 'What personal data does Lumière Movies plugin collect?', 'lumiere-movies' ) . '</h2>' .
 			/* translators: %s: An HTML link to IMDb website */
 			'<p>' . __( 'Although we are bound ourselves to the <a href="%s">IMDb privacy policy</a> when retrieving information from IMDb, Lumière Movies WordPress plugin does not collect data by itself. You remain anonymous to IMDb by visiting our website, your data is not sent to any third-party.', 'lumiere-movies' ) . '</p>',

@@ -71,7 +71,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 		$filmname_complete = ' : [ ' . ucwords( $this->page_title ) . ' ]';
 
 		/* translators: %1s is the title of a movie */
-		$new_title = sprintf( __( 'Lumiere Query Interface %1s', 'lumiere-movies' ), $filmname_complete );
+		$new_title = wp_sprintf( __( 'Lumiere Query Interface %1s', 'lumiere-movies' ), $filmname_complete );
 
 		$title['title'] = $new_title;
 

@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 
 use Lumiere\Frontend\Movie\Movie_Data;
 use Lumiere\Plugins\Plugins_Start;
+use Exception;
 
 /**
  * Main class display items (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::movies_autorized_areas()}
@@ -375,13 +376,14 @@ class Movie_Display extends Movie_Data {
 	 * Use imdbphp class to get the Title class
 	 *
 	 * @param string $mid_premier_resultat IMDb ID, not as int since it loses its heading 0s
+	 * @throws Exception
 	 */
 	private function factory_items_methods( string $mid_premier_resultat ): string {
 
 		$outputfinal = '';
 
 		// Find the Title based on $mid_premier_resultat.
-		$title_object = $this->plugins_classes_active['imdbphp']->get_title_class(
+		$title_mid_object = $this->plugins_classes_active['imdbphp']->get_title_class(
 			esc_html( $mid_premier_resultat ), // The IMDb ID.
 			$this->logger->log,
 		);
@@ -397,13 +399,14 @@ class Movie_Display extends Movie_Data {
 				// Build the method name according to the data detail name.
 				$method = 'get_item_' . $data_detail;
 
-				// Build the final class+method with the movie_object and child class.
-				if ( ! method_exists( $this, $method ) ) {
-					$this->logger->log->warning( '[Lumiere][Movie] The method ' . $method . ' does not exist in class ' . get_class( $this ) . ', aborting' );
-					exit( 1 );
+				// Something bad happened.
+				if ( ! method_exists( __CLASS__, $method ) ) {
+					throw new Exception( 'The method ' . $method . ' does not exist in class ' . __CLASS__ );
 				}
+
+				// Build the final class+method with the movie_object and child class.
 				$outputfinal .= $this->movie_layout->final_div_wrapper(
-					parent::$method( $title_object, $data_detail ),
+					parent::$method( $title_mid_object, $data_detail ),
 					$data_detail,
 					$this->imdb_admin_values
 				);

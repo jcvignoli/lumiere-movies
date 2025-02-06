@@ -81,7 +81,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 		$new_title = strlen( $this->page_title ) > 0
 			/* translators: %1s is a movie's title */
-			? sprintf( __( 'Informations about %1s', 'lumiere-movies' ), $this->page_title ) . ' - Lumi&egrave;re movies'
+			? wp_sprintf( __( 'Informations about %1s', 'lumiere-movies' ), $this->page_title ) . ' - Lumi&egrave;re movies'
 			: __( 'Unknown - Lumière movies', 'lumiere-movies' );
 
 		$title['title'] = $new_title;

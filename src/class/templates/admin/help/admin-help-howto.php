@@ -50,7 +50,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php
 				/* translators: %1$s and %2$s are HTML tags */
-				echo wp_kses( sprintf( __( 'To create a link to a popup window, you only need to put the %1$smovie\'s title%2$s inside dedicated tags. Depending on the visual interface you use (modern WordPress, wysiwig old WordPress, or pure text interface), you may add these tags in different ways.', 'lumiere-movies' ), '<b>', '</b>' ), [ 'b' => [] ] ); ?>
+				echo wp_kses( wp_sprintf( __( 'To create a link to a popup window, you only need to put the %1$smovie\'s title%2$s inside dedicated tags. Depending on the visual interface you use (modern WordPress, wysiwig old WordPress, or pure text interface), you may add these tags in different ways.', 'lumiere-movies' ), '<b>', '</b>' ), [ 'b' => [] ] ); ?>
 
 				 <br clear="both"><br>
 
@@ -164,7 +164,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<br>
 				<?php
 				/** translators: %1$s and %2$s are HTML tags */
-				echo wp_kses( sprintf( __( '<strong>Second</strong>, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected.', 'lumiere-movies' ), '<strong>', '</strong>' ), [ 'strong' => [] ] ); ?>
+				echo wp_kses( wp_sprintf( __( '<strong>Second</strong>, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected.', 'lumiere-movies' ), '<strong>', '</strong>' ), [ 'strong' => [] ] ); ?>
 
 				<a href="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-5.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="50%" src="<?php echo esc_url( \Lumiere\Settings::LUMIERE_WORDPRESS_IMAGES . '/screenshot-5.jpg' ); ?>" alt="<?php esc_html_e( 'Lumière metabox to add a movie in a widget', 'lumiere-movies' ); ?>" /></a>
 
@@ -183,7 +183,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php
 				/* translators: %1$s and %2$s are HTML tags */
-				echo wp_kses( sprintf( __( 'Get IMDb ids from links provided everywhere in the plugin interface. Even %1$shere%2$s.', 'lumiere-movies' ), '<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded">', '</a>' ), [ 'a' => [ 'data-lumiere_admin_search_popup' => [] ] ] );
+				echo wp_kses( wp_sprintf( __( 'Get IMDb ids from links provided everywhere in the plugin interface. Even %1$shere%2$s.', 'lumiere-movies' ), '<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded">', '</a>' ), [ 'a' => [ 'data-lumiere_admin_search_popup' => [] ] ] );
 				?>
 				</div>
 			</div>
@@ -250,7 +250,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php
 				/* translators: %1$s and %2$s are HTML tags */
-				echo wp_kses( sprintf( esc_html__( 'Any modification of the stylesheet you make should be done in your template folder rather than by editing lumiere-movies/css/lumiere.css. Download %1$sunminified css%2$s from the GIT repository, and edit that very file so it suits your needs. Then copy the edited file into you template folder: that file will superseed the plugin\'s one. Whenever you will update, your template\'s file will remain untouched and your edits will make it. Just make sure you are using a child theme, otherwise your customised lumiere.css will be deleted at the next template update.', 'lumiere-movies' ), '<a href="https://github.com/jcvignoli/lumiere-movies/blob/master/src/assets/css/lumiere.css">', '</a>' ), [ 'a' => [ 'href' => [] ] ] ); ?>
+				echo wp_kses( wp_sprintf( esc_html__( 'Any modification of the stylesheet you make should be done in your template folder rather than by editing lumiere-movies/css/lumiere.css. Download %1$sunminified css%2$s from the GIT repository, and edit that very file so it suits your needs. Then copy the edited file into you template folder: that file will superseed the plugin\'s one. Whenever you will update, your template\'s file will remain untouched and your edits will make it. Just make sure you are using a child theme, otherwise your customised lumiere.css will be deleted at the next template update.', 'lumiere-movies' ), '<a href="https://github.com/jcvignoli/lumiere-movies/blob/master/src/assets/css/lumiere.css">', '</a>' ), [ 'a' => [ 'href' => [] ] ] ); ?>
 				</div>
 			</div>
 			
@@ -273,7 +273,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<br>
 				<?php esc_html_e( 'After that, pay a visit to your post or page; on the first refresh, links to taxonomy pages will be created. ', 'lumiere-movies' );
 				/* translators: %s is an admin URL */
-				echo wp_kses( sprintf( esc_html__( 'Important: you need to go to %1$s Permalink Settings %2$s to refresh the rewriting rules, otherwise you will get a page not found error (404).', 'lumiere-movies' ), '<a href="options-permalink.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
+				echo wp_kses( wp_sprintf( esc_html__( 'Important: you need to go to %1$s Permalink Settings %2$s to refresh the rewriting rules, otherwise you will get a page not found error (404).', 'lumiere-movies' ), '<a href="options-permalink.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
 				esc_html_e( 'You can now visit pages that include all your posts grouped by movie details. For instance, if you write a lot about the same movie director, the taxonomy page will include all your posts written about them.', 'lumiere-movies' ); ?>
 
 				<h4><?php esc_html_e( "New option in 'Posts' menu", 'lumiere-movies' ); ?></h4>
@@ -327,7 +327,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 					<?php
 					/* translators: %s are HTML URL tags */
-					echo wp_kses( sprintf( esc_html__( 'Add a Lumières!\'s %1$s widget %2$s to your sidebar, and go to "Main Options / Advanced" and check "Auto title widget" option.', 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
+					echo wp_kses( wp_sprintf( esc_html__( 'Add a Lumières!\'s %1$s widget %2$s to your sidebar, and go to "Main Options / Advanced" and check "Auto title widget" option.', 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
 					?>
 
 					<div align="center">
@@ -339,7 +339,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					<br>
 					<?php
 					/* translators: %s are HTML URL tags */
-					echo wp_kses( sprintf( __( 'Notice: in order to have this feature work, you must add a widget using %1$sWidget Page%2$s option. Take a look at the "Widget" section of this "how to" page.', 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] ); ?>
+					echo wp_kses( wp_sprintf( __( 'Notice: in order to have this feature work, you must add a widget using %1$sWidget Page%2$s option. Take a look at the "Widget" section of this "how to" page.', 'lumiere-movies' ), '<a href="widgets.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] ); ?>
 					
 					<br><br>
 					
@@ -383,7 +383,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<?php
 				echo wp_kses(
 					/* translators: %1$s and %2$s are replaced with HTML tags */
-					sprintf( __( '3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in %1$sthe admin tool of queries to find IMDb id%2$s.', 'lumiere-movies' ), '<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded">', '</a>' ),
+					wp_sprintf( __( '3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in %1$sthe admin tool of queries to find IMDb id%2$s.', 'lumiere-movies' ), '<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded">', '</a>' ),
 					[
 						'a' => [
 							'href' => [],

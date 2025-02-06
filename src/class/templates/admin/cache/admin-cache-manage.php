@@ -122,7 +122,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			<strong><?php esc_html_e( 'Total cache size:', 'lumiere-movies' ); ?>&nbsp;<?php
 
 			echo esc_html(
-				sprintf(
+				wp_sprintf(
 					/* translators: %1$1s is replaced with a number of files, %2$2s the size in MB of a folder */
 					_n( '%1$1s file using %2$2s', '%1$1s files using %2$2s', $lum_cache_file_count, 'lumiere-movies' ),
 					number_format_i18n( $lum_cache_file_count ),
@@ -148,7 +148,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			<br>
 			<?php
 			echo wp_kses(
-				sprintf(
+				wp_sprintf(
 					/* translators: %1s and %2s are html tags */
 					__( 'This button will %1$1sdelete%2$2s all files stored in the following folder:', 'lumiere-movies' ),
 					'<strong>',
@@ -179,7 +179,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			<strong><?php esc_html_e( 'Total query cache size:', 'lumiere-movies' ); ?>&nbsp;<?php
 
 			echo esc_html(
-				sprintf(
+				wp_sprintf(
 					/* translators: first %1$s is replaced with a number of files, %2$s the size in MB of a folder */
 					_n( '%1$s file using %2$s', '%1$s files using %2$s', $lum_query_number_files, 'lumiere-movies' ),
 					$lum_query_number_files,
@@ -545,7 +545,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 				<div class="explain lumiere_breakall">
 					<?php
 					echo wp_kses(
-						sprintf(
+						wp_sprintf(
 							/* translators: %1$s is a html ahref tag, %2$s the closure of that very tag */
 							__( 'Absolute path to store cache retrieved from the IMDb website. Has to be %1$swritable%2$s by the webserver.', 'lumiere-movies' ),
 							'<a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">',
@@ -586,7 +586,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 				<div class="explain lumiere_breakall">
 					<?php
 					echo wp_kses(
-						sprintf(
+						wp_sprintf(
 							/* translators: %1$s is a html ahref tag, %2$s the closure of that very tag */
 							__( 'Absolute path to store images retrieved from the IMDb website. Has to be %1$swritable%2$s by the webserver.', 'lumiere-movies' ),
 							'<a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">',

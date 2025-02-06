@@ -69,7 +69,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			// Extra explanation when bootstrap is selected. Dealt also by JS in lumiere_scripts_admin.js
 			$lumiere_hide_for_bootstrap = $lumiere_imdb_admin_values['imdbpopup_modal_window'] !== 'bootstrap' ? 'hidesection' : '';
 			/* translators: %1$s and %2$s are html tags */
-			echo '<div id="bootstrap_explain" class="' . esc_html( $lumiere_hide_for_bootstrap ) . '">' . wp_kses( sprintf( __( 'Only the width value can be edited with bootstrap modal window. The value entered will be matched against these incremental steps: %1$s300%2$s (small size), %1$s500%2$s (medium size), %1$s800%2$s (large size), %1$s1140%2$s (extra large size)', 'lumiere-movies' ), '<i>', '</i>' ), [ 'i' => [] ] ) . '</div>';
+			echo '<div id="bootstrap_explain" class="' . esc_html( $lumiere_hide_for_bootstrap ) . '">' . wp_kses( wp_sprintf( __( 'Only the width value can be edited with bootstrap modal window. The value entered will be matched against these incremental steps: %1$s300%2$s (small size), %1$s500%2$s (medium size), %1$s800%2$s (large size), %1$s1140%2$s (extra large size)', 'lumiere-movies' ), '<i>', '</i>' ), [ 'i' => [] ] ) . '</div>';
 
 			echo '<div>' . esc_html__( 'Default:', 'lumiere-movies' ) . esc_html( 'Bootstrap' ) . '</div>';
 			echo '</div>';
