@@ -317,7 +317,7 @@ class Taxonomy_People_Standard {
 
 		$taxonomy_name = esc_html( $this->taxonomy_title ); // Such as 'lumiere-standard'.
 		$job = str_replace( $this->imdb_admin_values['imdburlstringtaxo'], '', $taxonomy_name ); // Such as 'standard'.
-		$job_translated = Get_Options::get_list_people()[ esc_html( $job ) ]; // Such as 'standard' in local language.
+		$job_translated = Get_Options::get_list_people_taxo()[ esc_html( $job ) ]; // Such as 'standard' in local language.
 
 		// Var to include all rows and check if it is null.
 		$check_if_no_result = [];

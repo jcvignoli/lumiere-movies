@@ -42,31 +42,29 @@ class Settings {
 	 * Name of the databases as stored in WordPress db
 	 */
 	const LUMIERE_ADMIN_OPTIONS = 'lumiere_admin_options';
-	const LUMIERE_DATA_OPTIONS = 'lumiere_data_options';
+	const LUMIERE_DATA_OPTIONS  = 'lumiere_data_options';
 	const LUMIERE_CACHE_OPTIONS = 'lumiere_cache_options';
 
 	/**
 	 * Website URLs constants
 	 */
-	const IMDBBLOG = 'https://www.jcvignoli.com/blog';
-	const IMDBBLOGENGLISH = self::IMDBBLOG . '/en';
-	const IMDBHOMEPAGE = self::IMDBBLOGENGLISH . '/lumiere-movies-wordpress-plugin';
-	const IMDBABOUTENGLISH = self::IMDBBLOGENGLISH . '/presentation-of-jean-claude-vignoli';
-	const LUMIERE_WORDPRESS = 'https://wordpress.org/plugins/lumiere-movies/';
-	const LUMIERE_WORDPRESS_IMAGES = 'https://ps.w.org/lumiere-movies/assets';
-	const LUMIERE_GIT = 'https://github.com/jcvignoli/lumiere-movies';
+	const LUM_BLOG_PLUGIN          = 'https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin';
+	const LUM_BLOG_PLUGIN_ABOUT    = 'https://www.jcvignoli.com/blog/en/presentation-of-jean-claude-vignoli';
+	const LUM_WORDPRESS_URL        = 'https://wordpress.org/plugins/lumiere-movies/';
+	const LUM_WORDPRESS_IMAGES_URL = 'https://ps.w.org/lumiere-movies/assets';
+	const LUM_GIT_URL              = 'https://github.com/jcvignoli/lumiere-movies';
 
 	/**
 	 * URL Strings for popups, built in define_constants_after_globals()
 	 */
-	const URL_BIT_POPUPS_MOVIES = 'film/';
-	const URL_BIT_POPUPS_PEOPLE = 'person/';
+	const URL_BIT_POPUPS_MOVIES        = 'film/';
+	const URL_BIT_POPUPS_PEOPLE        = 'person/';
 	const URL_BIT_POPUPS_MOVIES_SEARCH = 'movie_search/';
 
 	/**
 	 * URLs for pictures and menu images
 	 */
-	const LUM_PICS_URL = LUMIERE_WP_URL . 'assets/pics/';
+	const LUM_PICS_URL           = LUMIERE_WP_URL . 'assets/pics/';
 	const LUM_PICS_SHOWTIMES_URL = self::LUM_PICS_URL . '/showtimes/';
 
 	/**
@@ -79,20 +77,20 @@ class Settings {
 	 * URL and Path for stylesheets
 	 */
 	const LUM_CSS_PATH = LUMIERE_WP_PATH . 'assets/css/';
-	const LUM_CSS_URL = LUMIERE_WP_URL . 'assets/css/';
+	const LUM_CSS_URL  = LUMIERE_WP_URL . 'assets/css/';
 
 	/**
 	 * Internal URL pages constants
 	 */
-	const MOVE_TEMPLATE_TAXONOMY_PAGE = 'class/admin/taxo/class-copy-template-taxonomy.php'; // not included in get_all_lumiere_pages().
-	const GUTENBERG_SEARCH_PAGE = 'class/admin/class-search.php';
-	const GUTENBERG_SEARCH_URL_STRING = 'lumiere/search/';
-	const GUTENBERG_SEARCH_URL = '/wp-admin/' . self::GUTENBERG_SEARCH_URL_STRING;
+	const FILE_COPY_THEME_TAXONOMY = 'class/admin/taxo/class-copy-template-taxonomy.php';
+	const GUTENBERG_SEARCH_FILE = 'class/admin/class-search.php';
+	const SEARCH_URL_BIT = 'lumiere/search/';
+	const SEARCH_URL_ADMIN = '/wp-admin/' . self::SEARCH_URL_BIT;
 	const POPUP_SEARCH_PATH = 'class/frontend/popups/class-popup-movie-search.php';
 	const POPUP_MOVIE_PATH = 'class/frontend/popups/class-popup-movie.php';
 	const POPUP_PERSON_PATH = 'class/frontend/popups/class-popup-person.php';
-	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php'; // not included in get_all_lumiere_pages().
-	const TAXO_ITEMS_THEME = 'class/theme/class-taxonomy-items-standard.php'; // not included in get_all_lumiere_pages().
+	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php';
+	const TAXO_ITEMS_THEME = 'class/theme/class-taxonomy-items-standard.php';
 
 	/**
 	 * URL string for taxonomy, 'lumiere-' by default
@@ -117,19 +115,19 @@ class Settings {
 
 		$that = new self();
 
-		$lum_admin_option = get_option( Get_Options::get_admin_tablename() );
+		$lum_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		if ( is_array( $lum_admin_option ) === false ) {
-			update_option( Get_Options::get_admin_tablename(), $that->get_admin_option() );
+			update_option( self::LUMIERE_ADMIN_OPTIONS, $that->get_admin_option() );
 		}
 
-		$lum_data_option = get_option( Get_Options::get_data_tablename() );
+		$lum_data_option = get_option( self::LUMIERE_DATA_OPTIONS );
 		if ( is_array( $lum_data_option ) === false  ) {
-			update_option( Get_Options::get_data_tablename(), $that->get_data_option() );
+			update_option( self::LUMIERE_DATA_OPTIONS, $that->get_data_option() );
 		}
 
-		$lum_cache_option = get_option( Get_Options::get_cache_tablename() );
+		$lum_cache_option = get_option( self::LUMIERE_CACHE_OPTIONS );
 		if ( is_array( $lum_cache_option ) === false  ) {
-			update_option( Get_Options::get_cache_tablename(), $that->get_cache_option() );
+			update_option( self::LUMIERE_CACHE_OPTIONS, $that->get_cache_option() );
 		}
 	}
 
@@ -140,21 +138,21 @@ class Settings {
 	 * @return string The full javascript piece to be included
 	 */
 	public static function get_scripts_admin_vars(): string {
-		$imdb_admin_option = get_option( Get_Options::get_admin_tablename() );
+		$imdb_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		/* BUILD options constant for javascripts  */
-		$notfalse_lumiere_scripts_admin_vars = wp_json_encode(
+		$scripts_admin_vars = wp_json_encode(
 			[
 				'imdb_path' => LUMIERE_WP_URL,
 				'wordpress_path' => site_url(),
 				'wordpress_admin_path' => admin_url(),
-				'gutenberg_search_url_string' => self::GUTENBERG_SEARCH_URL_STRING,
-				'gutenberg_search_url' => self::GUTENBERG_SEARCH_URL,
+				'gutenberg_search_url_string' => self::SEARCH_URL_BIT,
+				'gutenberg_search_url' => self::SEARCH_URL_ADMIN,
 				'ico80' => LUMIERE_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
 				'popupLarg' => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong' => $imdb_admin_option['imdbpopuplong'],
 			]
 		);
-		return $notfalse_lumiere_scripts_admin_vars !== false ? 'const lumiere_admin_vars = ' . $notfalse_lumiere_scripts_admin_vars : '';
+		return $scripts_admin_vars !== false ? 'const lumiere_admin_vars = ' . $scripts_admin_vars : '';
 	}
 
 	/**
@@ -164,8 +162,8 @@ class Settings {
 	 * @return string The full javascript piece to be included
 	 */
 	public static function get_scripts_frontend_vars(): string {
-		$imdb_admin_option = get_option( Get_Options::get_admin_tablename() );
-		$notfalse_lumiere_scripts_vars = wp_json_encode(
+		$imdb_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		$scripts_vars = wp_json_encode(
 			[
 				'imdb_path' => LUMIERE_WP_URL,
 				'urlpopup_film' => Get_Options::get_popup_url( 'movies', site_url() ),
@@ -176,7 +174,7 @@ class Settings {
 				'popupLong' => $imdb_admin_option['imdbpopuplong'],
 			]
 		);
-		return $notfalse_lumiere_scripts_vars !== false ? 'const lumiere_vars = ' . $notfalse_lumiere_scripts_vars : '';
+		return $scripts_vars !== false ? 'const lumiere_vars = ' . $scripts_vars : '';
 	}
 
 	/**
@@ -186,14 +184,15 @@ class Settings {
 	 * @return array<string>
 	 */
 	public static function get_all_lumiere_pages(): array {
+		$imdb_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		return [
-			self::URL_STRING_TAXO,
+			$imdb_admin_option !== false ? $imdb_admin_option['imdburlstringtaxo'] : self::URL_STRING_TAXO, // dunno if self is really needed
 			Get_Options::get_popup_url( 'movies' ),
 			Get_Options::get_popup_url( 'people' ),
 			Get_Options::get_popup_url( 'movies_search' ),
-			self::MOVE_TEMPLATE_TAXONOMY_PAGE,
-			self::GUTENBERG_SEARCH_PAGE,
-			self::GUTENBERG_SEARCH_URL,
+			self::FILE_COPY_THEME_TAXONOMY,
+			self::GUTENBERG_SEARCH_FILE, // For access to search in clicking a link (ie gutenberg)
+			self::SEARCH_URL_ADMIN, // For access to search in URL lumiere/search
 			self::POPUP_SEARCH_PATH,
 			self::POPUP_MOVIE_PATH,
 			self::POPUP_PERSON_PATH,
@@ -201,11 +200,11 @@ class Settings {
 	}
 
 	/**
-	 * Define the type of people
+	 * Define the type of people items that are used for taxonomy
 	 *
 	 * @return array<string, string>
 	 */
-	public static function build_people(): array {
+	public static function define_list_taxo_people(): array {
 		return [
 			'actor'    => __( 'actor', 'lumiere-movies' ),
 			'composer' => __( 'composer', 'lumiere-movies' ),
@@ -217,17 +216,52 @@ class Settings {
 	}
 
 	/**
-	 * Define the type of items
+	 * Define the type items that are used for taxonomy
 	 *
 	 * @return array<string, string>
 	 */
-	public static function build_items(): array {
+	public static function define_list_taxo_items(): array {
 		return [
-			'color' => __( 'color', 'lumiere-movies' ),
-			'country' => __( 'country', 'lumiere-movies' ),
-			'genre' => __( 'genre', 'lumiere-movies' ),
-			'keyword' => __( 'keyword', 'lumiere-movies' ),
+			'color'    => __( 'color', 'lumiere-movies' ),
+			'country'  => __( 'country', 'lumiere-movies' ),
+			'genre'    => __( 'genre', 'lumiere-movies' ),
+			'keyword'  => __( 'keyword', 'lumiere-movies' ),
 			'language' => __( 'language', 'lumiere-movies' ),
+		];
+	}
+
+	/**
+	 * Define all types of items
+	 * This lists merge taxonomy items with those that are not meant for taxo
+	 *
+	 * @return array<string, string>
+	 */
+	public static function define_list_all_items(): array {
+		return array_merge(
+			self::define_list_taxo_items(),
+			[
+				'officialsites' => __( 'official websites', 'lumiere-movies' ),
+				'prodcompany'   => __( 'production company', 'lumiere-movies' ),
+				'rating'        => __( 'rating', 'lumiere-movies' ),
+				'runtime'       => __( 'runtime', 'lumiere-movies' ),
+				'source'        => __( 'source', 'lumiere-movies' ),
+				'year'          => __( 'year of release', 'lumiere-movies' ),
+			]
+		);
+	}
+
+	/**
+	 * Define the type items to show in connected/related movies
+	 *
+	 * @since 4.4 method added
+	 * @return array<string, string>
+	 */
+	public static function define_list_connect_cat(): array {
+		return [
+			'featured'   => __( 'Featured in', 'lumiere-movies' ),
+			'follows'    => __( 'Follows', 'lumiere-movies' ),
+			'followedBy' => __( 'Followed by', 'lumiere-movies' ),
+			'remakeOf'   => __( 'Remake of', 'lumiere-movies' ),
 		];
 	}
 
@@ -245,7 +279,7 @@ class Settings {
 	/**
 	 * Make an array of ADMIN options
 	 *
-	 * @phpstan-return non-empty-array<OPTIONS_ADMIN>
+	 * @phpstan-return OPTIONS_ADMIN
 	 * @psalm-return array{imdbHowManyUpdates?: mixed|string, imdbautopostwidget?: mixed|string, imdbcoversize?: mixed|string, imdbcoversizewidth?: mixed|string, imdbdebug?: mixed|string, imdbdebuglevel?: mixed|string, imdbdebuglog?: mixed|string, imdbdebuglogpath?: mixed|string, imdbdebugscreen?: mixed|string, imdbdelayimdbrequest?: mixed|string, imdbintotheposttheme?: mixed|string, imdbkeepsettings?: mixed|string, imdblanguage?: mixed|string, imdblinkingkill?: mixed|string, imdbmaxresults?: mixed|string, imdbplugindirectory: non-falsy-string, imdbplugindirectory_partial?: mixed|string, imdbpluginpath?: mixed|string, imdbpopup_modal_window?: mixed|string, imdbpopuplarg?: mixed|string, imdbpopuplong?: mixed|string, imdbpopuptheme?: mixed|string, imdbseriemovies?: mixed|string, imdbtaxonomy?: mixed|string, imdburlpopups?: mixed|string, imdburlstringtaxo?: mixed|string, imdbwordpress_bigmenu?: mixed|string, imdbwordpress_tooladminmenu?: mixed|string, imdbirpdisplay?: mixed|string, ...<array-key, mixed|string>}
 	 * @return array<mixed>
 	 */
@@ -255,7 +289,10 @@ class Settings {
 		 * Build debug path: 1/ Use it as it is if it starts with '/', it's absolute, 2/ Add ABSPATH if it doesn't start with '/'
 		 */
 		$debug_path = null;
-		/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
+		/**
+		 * @psalm-suppress InvalidArgument (Psalm can't understand that WP_DEBUG_LOG is a const that can be string and bool)
+		 * @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool
+		 */
 		if ( defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) && str_starts_with( WP_DEBUG_LOG, '/' ) ) {
 			$debug_path = WP_DEBUG_LOG;
 			/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
@@ -264,61 +301,50 @@ class Settings {
 		}
 
 		$imdb_admin_options = [
-
 			#--------------------------------------------------=[ Basic ]=--
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
-			'imdbpluginpath' => LUMIERE_WP_PATH,
-			'imdburlpopups' => '/lumiere/',
-			'imdbkeepsettings' => '1',
-			'imdburlstringtaxo' => self::URL_STRING_TAXO,
-			'imdbcoversize' => '1',
-			'imdbcoversizewidth' => '100',
+			'imdbpluginpath'              => LUMIERE_WP_PATH,
+			'imdburlpopups'               => '/lumiere/',
+			'imdbkeepsettings'            => '1',
+			'imdburlstringtaxo'           => self::URL_STRING_TAXO,
+			'imdbcoversize'               => '1',
+			'imdbcoversizewidth'          => '100',
+
 			#--------------------------------------------------=[ Technical ]=--
-
-			'imdbmaxresults' => '10',
-			'imdbdelayimdbrequest' => '0',
-			'imdbpopuptheme' => 'white',
-			'imdbpopuplarg' => '800',
-			'imdbpopuplong' => '500',
-			'imdbintotheposttheme' => 'grey',
-			'imdblinkingkill' => '0',
-			'imdbautopostwidget' => '0',
-			'imdblanguage' => 'US',
-			'imdbdebug' => '0',                                         /* Debug */
-			'imdbdebuglog' => '0',                                      /* Log debug */
+			'imdbmaxresults'              => '10',
+			'imdbdelayimdbrequest'        => '0',
+			'imdbpopuptheme'              => 'white',
+			'imdbpopuplarg'               => '800',
+			'imdbpopuplong'               => '500',
+			'imdbintotheposttheme'        => 'grey',
+			'imdblinkingkill'             => '0',
+			'imdbautopostwidget'          => '0',
+			'imdblanguage'                => 'US',
+			'imdbdebug'                   => '0',                        /* Debug */
+			'imdbdebuglog'                => '0',                        /* Log debug */
 			/** @phpstan-ignore nullCoalesce.variable (PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool) */
-			'imdbdebuglogpath' => $debug_path ?? WP_CONTENT_DIR . '/debug.log',
-			'imdbdebuglevel' => 'DEBUG',                                /* Debug levels: emergency, alert, critical,
-													error, warning, notice, info, debug */
-			'imdbdebugscreen' => '1',                                   /* Show debug on screen */
-			'imdbwordpress_bigmenu' => '0',                             /* Left menu */
-			'imdbwordpress_tooladminmenu' => '1',                       /* Top menu */
-			'imdbpopup_modal_window' => 'bootstrap',
-			'imdbtaxonomy' => '1',
-			'imdbHowManyUpdates' => $this->define_nb_updates(),         /* define the number of updates. */
-			'imdbseriemovies' => 'movies+series',                       /* options: movies, series, movies+series, videogames */
-			'imdbirpdisplay' => '0',                                    /* intelly related post plugin, overrides normal Lumiere behaviour */
+			'imdbdebuglogpath'            => $debug_path ?? WP_CONTENT_DIR . '/debug.log',
+			'imdbdebuglevel'              => 'DEBUG',                    /* Debug levels: emergency, alert, critical,
+											error, warning, notice, info, debug */
+			'imdbdebugscreen'             => '1',                        /* Show debug on screen */
+			'imdbwordpress_bigmenu'       => '0',                        /* Left menu */
+			'imdbwordpress_tooladminmenu' => '1',                        /* Top menu */
+			'imdbpopup_modal_window'      => 'bootstrap',
+			'imdbtaxonomy'                => '1',
+			'imdbHowManyUpdates'          => $this->define_nb_updates(),  /* define the number of updates. */
+			'imdbseriemovies'             => 'movies+series',             /* options: movies, series, movies+series, videogames */
+			'imdbirpdisplay'              => '0',                         /* intelly related post plugin, overrides normal Lumiere behaviour */
 		];
+
+		// Needs an option from above.
 		$imdb_admin_options['imdbplugindirectory'] = get_site_url() . $imdb_admin_options['imdbplugindirectory_partial'];
-
-		$imdb_options_a = get_option( Get_Options::get_admin_tablename() );
-
-		if ( $imdb_options_a !== false && count( $imdb_options_a ) !== 0 ) { // if not empty.
-
-			foreach ( $imdb_options_a as $key => $option ) {
-				$imdb_admin_options[ $key ] = $option;
-			}
-
-			// Agregate var to construct 'imdbplugindirectory'
-			$imdb_admin_options['imdbplugindirectory'] = get_site_url() . $imdb_admin_options['imdbplugindirectory_partial'];
-		}
 
 		// For debugging purpose.
 		// Update imdbHowManyUpdates option.
 		/*
-		$option_array_search = get_option( Get_Options::get_admin_tablename() );
+		$option_array_search = get_option( self::LUMIERE_ADMIN_OPTIONS );
 		$option_array_search['imdbHowManyUpdates'] = 18; // Chosen number of updates.
-		update_option( Get_Options::get_admin_tablename(), $option_array_search );
+		update_option( self::LUMIERE_ADMIN_OPTIONS, $option_array_search );
 		*/
 
 		return $imdb_admin_options;
@@ -327,149 +353,118 @@ class Settings {
 	/**
 	 * Makes an array of CACHE options
 	 *
-	 * @phpstan-return non-empty-array<OPTIONS_CACHE>
-	 * @psalm-return array{imdbcacheautorefreshcron?: non-empty-string, imdbcachedetailshidden?: non-empty-string, imdbcachedetailsshort?: non-empty-string, imdbcachedir: 'wp-content/cache/lumiere/', imdbcachedir_partial?: non-empty-string, imdbcacheexpire?: non-empty-string, imdbcachekeepsizeunder?: non-empty-string, imdbcachekeepsizeunder_sizelimit?: non-empty-string, imdbphotodir?: non-empty-string, imdbphotoroot: 'wp-content/cache/lumiere/images/', imdbusecache?: non-empty-string, ...<array-key, mixed|non-empty-string>}
+	 * @phpstan-return OPTIONS_CACHE
+	 * @psalm-return array{imdbcacheautorefreshcron: '0', imdbcachedetailshidden: '0', imdbcachedetailsshort: '0', imdbcachedir: non-falsy-string, imdbcachedir_partial: '/cache/lumiere/', imdbcacheexpire: '2592000', imdbcachekeepsizeunder: '0', imdbcachekeepsizeunder_sizelimit: '100', imdbphotodir: non-falsy-string, imdbphotoroot: non-falsy-string, imdbusecache: '1'}
 	 * @return array<mixed>
 	 */
 	private function get_cache_option(): array {
 
 		$imdb_cache_options = [
-
-			'imdbcachedir_partial' => self::LUMIERE_FOLDER_CACHE,
-			'imdbusecache' => '1',
-			'imdbcacheexpire' => '2592000',                 /* one month */
-			'imdbcachedetailsshort' => '0',
-			'imdbcacheautorefreshcron' => '0',
-			'imdbcachekeepsizeunder' => '0',                /* Disabled by default */
+			'imdbcachedir_partial'             => self::LUMIERE_FOLDER_CACHE,
+			'imdbusecache'                     => '1',
+			'imdbcacheexpire'                  => '2592000',                 /* one month */
+			'imdbcachedetailsshort'            => '0',
+			'imdbcacheautorefreshcron'         => '0',
+			'imdbcachekeepsizeunder'           => '0',                /* Disabled by default */
 			'imdbcachekeepsizeunder_sizelimit' => '100',    /* 100 MB */
-			'imdbcachedetailshidden' => '0',
-
+			'imdbcachedetailshidden'           => '0',
+			'imdbphotodir'                     => content_url() . '/cache/lumiere/images/',
 		];
 
-		$imdb_cache_options['imdbcachedir'] = WP_CONTENT_DIR . $imdb_cache_options['imdbcachedir_partial'];
-		$imdb_cache_options['imdbphotoroot'] = $imdb_cache_options['imdbcachedir'] . 'images/';
-		$imdb_cache_options['imdbphotodir'] = content_url() . '/cache/lumiere/images/';
+		// Needs an option from above.
+		$imdb_cache_options['imdbcachedir']        = WP_CONTENT_DIR . $imdb_cache_options['imdbcachedir_partial'];
+		$imdb_cache_options['imdbphotoroot']       = $imdb_cache_options['imdbcachedir'] . 'images/';
 
-		$imdb_options_c = get_option( Get_Options::get_cache_tablename() );
-		$imdb_options_a = get_option( Get_Options::get_admin_tablename() );
-
-		if (  is_array( $imdb_options_c ) === true && count( $imdb_options_c ) !== 0 ) { // if not empty.
-
-			foreach ( $imdb_options_c as $key => $option ) {
-				$imdb_cache_options[ $key ] = $option;
-			}
-
-			// Agregate vars to construct 'imdbcachedir'
-			$imdb_cache_options['imdbcachedir'] = WP_CONTENT_DIR . $imdb_cache_options['imdbcachedir_partial'];
-
-			// Agregate vars to construct 'imdbphotoroot'
-			$imdb_cache_options['imdbphotoroot'] = $imdb_cache_options['imdbcachedir'] . 'images/';
-		}
-		if ( is_array( $imdb_options_a ) === true && count( $imdb_options_a ) !== 0 && isset( $imdb_cache_options['imdbcachedir_partial'] ) ) { // if not empty.
-
-			// Agregate vars to construct 'imdbphotodir'
-			$imdb_cache_options['imdbphotodir'] = content_url() . $imdb_cache_options['imdbcachedir_partial'] . 'images/';
-		}
 		return $imdb_cache_options;
 	}
 
 	/**
 	 * Makes an array of DATA options
 	 *
-	 * @phpstan-return non-empty-array<OPTIONS_DATA>
-	 * @psalm-return non-empty-array<array-key, '0'|'1'|'10'|'2'|array{actor: '6', alsoknow: '20', color: '19', composer: '21', country: '5', creator: '7', director: '4', genre: '10', goof: '16', keyword: '13', language: '9', officialsites: '24', pic: '2', plot: '15', prodcompany: '14', producer: '12', quote: '17', rating: '8', runtime: '3', soundtrack: '22', source: '25', tagline: '18', title: '1', trailer: '23', writer: '11'}|false|mixed>
+	 * @phpstan-return OPTIONS_DATA
+	 * @psalm-return non-empty-array<array-key, '0'|'1'|'10'|'2'|array{actor: '6', alsoknow: '21', color: '20', composer: '22', connection: '15', country: '5', creator: '7', director: '4', genre: '10', goof: '17', keyword: '13', language: '9', officialsites: '25', pic: '2', plot: '16', prodcompany: '14', producer: '12', quote: '18', rating: '8', runtime: '3', soundtrack: '23', source: '26', tagline: '19', title: '1', trailer: '24', writer: '11'}>
 	 * @return array<mixed>
 	 */
 	private function get_data_option(): array {
-
-		$imdb_data_options = [
-
-			'imdbwidgettitle' => '1',
-			'imdbwidgetpic' => '1',
-			'imdbwidgetruntime' => '0',
-			'imdbwidgetdirector' => '1',
-			'imdbwidgetcountry' => '0',
-			'imdbwidgetactor' => '1',
-			'imdbwidgetactornumber' => '10',
-			'imdbwidgetcreator' => '0',
-			'imdbwidgetrating' => '0',
-			'imdbwidgetlanguage' => '0',
-			'imdbwidgetgenre' => '1',
-			'imdbwidgetwriter' => '1',
-			'imdbwidgetproducer' => '0',
-			'imdbwidgetproducernumber' => false,
-			'imdbwidgetkeyword' => '0',
-			'imdbwidgetprodcompany' => '0',
-			'imdbwidgetplot' => '1',
-			'imdbwidgetplotnumber' => '2',
-			'imdbwidgetgoof' => '0',
-			'imdbwidgetgoofnumber' => false,
-			'imdbwidgetcomment' => '0',
-			'imdbwidgetquote' => '0',
-			'imdbwidgetquotenumber' => false,
-			'imdbwidgettagline' => '0',
-			'imdbwidgettaglinenumber' => false,
-			'imdbwidgetcolor' => '0',
-			'imdbwidgetalsoknow' => '0',
-			'imdbwidgetalsoknownumber' => false,
-			'imdbwidgetcomposer' => '0',
-			'imdbwidgetsoundtrack' => '0',
-			'imdbwidgetsoundtracknumber' => false,
-			'imdbwidgetofficialsites' => '0',
-			'imdbwidgetsource' => '0',
-			'imdbwidgetyear' => '0',
-			'imdbwidgettrailer' => '0',
-			'imdbwidgettrailernumber' => false,
+		return [
+			'imdbwidgettitle'            => '1',
+			'imdbwidgetpic'              => '1',
+			'imdbwidgetruntime'          => '0',
+			'imdbwidgetdirector'         => '1',
+			'imdbwidgetconnection'       => '0',                           /* @since 4.4 */
+			'imdbwidgetconnectionnumber' => '0',                           /* @since 4.4 */
+			'imdbwidgetcountry'          => '0',
+			'imdbwidgetactor'            => '1',
+			'imdbwidgetactornumber'      => '10',
+			'imdbwidgetcreator'          => '0',
+			'imdbwidgetrating'           => '0',
+			'imdbwidgetlanguage'         => '0',
+			'imdbwidgetgenre'            => '1',
+			'imdbwidgetwriter'           => '1',
+			'imdbwidgetproducer'         => '0',
+			'imdbwidgetproducernumber'   => '0',
+			'imdbwidgetkeyword'          => '0',
+			'imdbwidgetprodcompany'      => '0',
+			'imdbwidgetplot'             => '1',
+			'imdbwidgetplotnumber'       => '2',
+			'imdbwidgetgoof'             => '0',
+			'imdbwidgetgoofnumber'       => '0',
+			'imdbwidgetcomment'          => '0',
+			'imdbwidgetquote'            => '0',
+			'imdbwidgetquotenumber'      => '0',
+			'imdbwidgettagline'          => '0',
+			'imdbwidgettaglinenumber'    => '0',
+			'imdbwidgetcolor'            => '0',
+			'imdbwidgetalsoknow'         => '0',
+			'imdbwidgetalsoknownumber'   => '0',
+			'imdbwidgetcomposer'         => '0',
+			'imdbwidgetsoundtrack'       => '0',
+			'imdbwidgetsoundtracknumber' => '0',
+			'imdbwidgetofficialsites'    => '0',
+			'imdbwidgetsource'           => '0',
+			'imdbwidgetyear'             => '0',
+			'imdbwidgettrailer'          => '0',
+			'imdbwidgettrailernumber'    => '0',
 			'imdbwidgetorder' => [
-				'title' => '1',
-				'pic' => '2',
-				'runtime' => '3',
-				'director' => '4',
-				'country' => '5',
-				'actor' => '6',
-				'creator' => '7',
-				'rating' => '8',
-				'language' => '9',
-				'genre' => '10',
-				'writer' => '11',
-				'producer' => '12',
-				'keyword' => '13',
-				'prodcompany' => '14',
-				'plot' => '15',
-				'goof' => '16',
-				'quote' => '17',
-				'tagline' => '18',
-				'color' => '19',
-				'alsoknow' => '20',
-				'composer' => '21',
-				'soundtrack' => '22',
-				'trailer' => '23',
-				'officialsites' => '24',
-				'source' => '25',
+				'title'         => '1',
+				'pic'           => '2',
+				'runtime'       => '3',
+				'director'      => '4',
+				'country'       => '5',
+				'actor'         => '6',
+				'creator'       => '7',
+				'rating'        => '8',
+				'language'      => '9',
+				'genre'         => '10',
+				'writer'        => '11',
+				'producer'      => '12',
+				'keyword'       => '13',
+				'prodcompany'   => '14',
+				'connection'    => '15',                                    /* @since 4.4 */
+				'plot'          => '16',
+				'goof'          => '17',
+				'quote'         => '18',
+				'tagline'       => '19',
+				'color'         => '20',
+				'alsoknow'      => '21',
+				'composer'      => '22',
+				'soundtrack'    => '23',
+				'trailer'       => '24',
+				'officialsites' => '25',
+				'source'        => '26',
 			],
-			'imdbtaxonomycolor' => '0',
-			'imdbtaxonomycomposer' => '0',
-			'imdbtaxonomycountry' => '0',
-			'imdbtaxonomycreator' => '0',
-			'imdbtaxonomydirector' => '1',
-			'imdbtaxonomygenre' => '1',
-			'imdbtaxonomykeyword' => '0',
-			'imdbtaxonomylanguage' => '0',
-			'imdbtaxonomyproducer' => '0',
-			'imdbtaxonomyactor' => '0',
-			'imdbtaxonomywriter' => '0',
-
+			'imdbtaxonomycolor'          => '0',
+			'imdbtaxonomycomposer'       => '0',
+			'imdbtaxonomycountry'        => '0',
+			'imdbtaxonomycreator'        => '0',
+			'imdbtaxonomydirector'       => '1',
+			'imdbtaxonomygenre'          => '1',
+			'imdbtaxonomykeyword'        => '0',
+			'imdbtaxonomylanguage'       => '0',
+			'imdbtaxonomyproducer'       => '0',
+			'imdbtaxonomyactor'          => '0',
+			'imdbtaxonomywriter'         => '0',
 		];
-
-		$imdb_options_w = get_option( Get_Options::get_data_tablename() );
-
-		if ( is_array( $imdb_options_w ) === true && count( $imdb_options_w ) !== 0 ) { // if not empty.
-
-			foreach ( $imdb_options_w as $key => $option ) {
-				$imdb_data_options[ $key ] = $option;
-			}
-		}
-		return $imdb_data_options;
 	}
 }
 

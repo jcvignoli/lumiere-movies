@@ -19,7 +19,6 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Get_Options;
-use Lumiere\Settings;
 
 /**
  * Defines abstract functions utilised in Link Maker classes
@@ -95,13 +94,23 @@ abstract class Abstract_Link_Maker {
 	abstract protected function lumiere_imdburl_of_soundtrack( string $text ): string;
 
 	/**
-	 * Build an HTML link to open a popup for searching a movie
+	 * Build an HTML link to open a popup for searching a movie inside a post
 	 *
 	 * @param array<int, string> $link_parsed html tags and text to be modified
 	 * @param null|string $popuplarg -> window width, if nothing passed takes database value
 	 * @param null|string $popuplong -> window height, if nothing passed takes database value
 	 */
-	abstract protected function lumiere_popup_film_link ( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string;
+	abstract protected function popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string;
+
+	/**
+	 * Build an HTML link to open a popup in movie box (not inside a post)
+	 *
+	 * @param string $title The movie's title
+	 * @param string $imdbid The movie's imdbid
+	 * @param null|string $popuplarg -> window width, if nothing passed takes database value
+	 * @param null|string $popuplong -> window height, if nothing passed takes database value
+	 */
+	abstract protected function popup_film_link_inbox( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string;
 
 	/**
 	 * Trailer data details
@@ -166,7 +175,7 @@ abstract class Abstract_Link_Maker {
 		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Rating', 'lumiere-movies' ) . ':</span>';
 
 		$find_showtimes_pic = round( $rating * 2, 0 ) / 0.2;
-		$output .= ' <img src="' . Settings::LUM_PICS_SHOWTIMES_URL . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
+		$output .= ' <img src="' . Get_Options::LUM_PICS_SHOWTIMES_URL . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
 
 		return $output;
 	}
@@ -204,10 +213,10 @@ abstract class Abstract_Link_Maker {
 		}
 
 		// Picture for a href: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
-		$photo_url_final_href = strlen( $photo_localurl ) === 0 ? esc_url( Settings::LUM_PICS_URL . 'no_pics.gif' ) : $photo_localurl;
+		$photo_url_final_href = strlen( $photo_localurl ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_localurl;
 
 		// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-		$photo_url_final_img = is_string( $photo_thumb ) === false || strlen( $photo_thumb ) === 0 ? esc_url( Settings::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
+		$photo_url_final_img = is_string( $photo_thumb ) === false || strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
 
 		// Normal class or Bootstrap class
 		if ( $window_type === 0 || $window_type === 2 ) {
@@ -567,7 +576,7 @@ abstract class Abstract_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function lumiere_popup_film_link_abstract ( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
+	protected function popup_film_link_abstract( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
 
 		$txt = '';
 		$title_attr = sanitize_title( $link_parsed[1] );
@@ -596,6 +605,52 @@ abstract class Abstract_Link_Maker {
 		} elseif ( $window_type === 2 ) {
 
 			$txt = '<a class="lum_link_make_popup lum_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?film=' . $title_attr ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
+
+		}
+
+		return $txt;
+	}
+
+	/**
+	 * Inside a box Popup movie builder
+	 * Build an HTML link to open a popup in movie box (not inside a post)
+	 *
+	 * @param string $title The movie's title
+	 * @param string $imdbid The movie's imdb ID
+	 * @param null|string $popuplarg Modal window width, if nothing passed takes database value
+	 * @param null|string $popuplong Modal window height, if nothing passed takes database value
+	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
+	 * @param string $specific_class Extra class to be added in popup building link, none by default
+	 *
+	 * @return string
+	 */
+	protected function popup_film_link_inbox_abstract( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
+
+		$txt = '';
+
+		if ( $popuplarg !== null ) {
+			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
+		}
+
+		if ( $popuplong !== null ) {
+			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
+		}
+
+		// Highslide & Classic modal
+		if ( $window_type === 0 ) {
+
+			$txt = '<a class="lum_link_with_movie_inbox" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
+
+			// Bootstrap modal
+		} elseif ( $window_type === 1 ) {
+
+			$txt = '<a class="lum_link_with_movie_inbox" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . esc_attr( $title ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>'
+			. $this->bootstrap_modal( esc_html( $imdbid ), esc_html( $title ) );
+
+			// AMP & No Link modal
+		} elseif ( $window_type === 2 ) {
+
+			$txt = '<a class="lum_link_make_popup lum_link_with_movie_inbox" href="' . wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
 
 		}
 
@@ -688,7 +743,7 @@ abstract class Abstract_Link_Maker {
 			return "\n\t\t\t"
 				. '<img class="imdbelementSOURCE-picture" alt="link to imdb" width="33" height="15" src="'
 				. esc_url(
-					Settings::LUM_PICS_URL
+					Get_Options::LUM_PICS_URL
 					. '/imdb-link.png'
 				) . '" />'
 				. ' https://www.imdb.com/title/tt' . $mid;
@@ -702,7 +757,7 @@ abstract class Abstract_Link_Maker {
 		}
 
 		$return .= ' alt="link to imdb" width="33" height="15" src="'
-			. esc_url( Settings::LUM_PICS_URL . '/imdb-link.png' ) . '" />'
+			. esc_url( Get_Options::LUM_PICS_URL . '/imdb-link.png' ) . '" />'
 			. '<a class="lum_link_sourceimdb" title="'
 			. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
 			. esc_url( 'https://www.imdb.com/title/tt' . $mid ) . '" >'

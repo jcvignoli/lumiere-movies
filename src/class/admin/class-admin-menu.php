@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Cache\Cache_Files_Management;
@@ -185,7 +185,7 @@ class Admin_Menu {
 
 			add_options_page(
 				'Lumière Options',
-				'<img src="' . Settings::LUM_PICS_URL . 'lumiere-ico13x13.png" align="absmiddle"> Lumière',
+				'<img src="' . Get_Options::LUM_PICS_URL . 'lumiere-ico13x13.png" align="absmiddle"> Lumière',
 				'manage_options',
 				$this->menu_id,
 				[ $this, 'call_admin_subclass' ],
@@ -224,7 +224,7 @@ class Admin_Menu {
 				'manage_options',
 				$this->menu_id,
 				[ $this, 'call_admin_subclass' ],
-				Settings::LUM_PICS_URL . 'lumiere-ico13x13.png',
+				Get_Options::LUM_PICS_URL . 'lumiere-ico13x13.png',
 				65
 			);
 			add_submenu_page(
@@ -272,7 +272,7 @@ class Admin_Menu {
 		$admin_bar->add_menu(
 			[
 				'id' => $id,
-				'title' => "<img src='" . Settings::LUM_PICS_URL . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
+				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
 				'parent' => false,
 				'href' => $this->page_main_base,
 				'meta' => [
@@ -285,7 +285,7 @@ class Admin_Menu {
 			[
 				'parent' => $id,
 				'id' => $this->get_id() . '_top_menu_main',
-				'title' => "<img src='" . Settings::LUM_PICS_URL . "menu/admin-main.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Main', 'lumiere-movies' ),
+				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-main.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Main', 'lumiere-movies' ),
 				'href' => $this->page_main_base,
 				'meta' => [
 					'title' => esc_html__( 'Main and advanced options', 'lumiere-movies' ),
@@ -296,7 +296,7 @@ class Admin_Menu {
 			[
 				'parent' => $id,
 				'id' => $this->get_id() . '_top_menu_data',
-				'title' => "<img src='" . Settings::LUM_PICS_URL . "menu/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data', 'lumiere-movies' ),
+				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data', 'lumiere-movies' ),
 				'href' => $this->page_data,
 				'meta' => [
 					'title' => esc_html__( 'Data option and taxonomy', 'lumiere-movies' ),
@@ -307,7 +307,7 @@ class Admin_Menu {
 			[
 				'parent' => $id,
 				'id' => $this->get_id() . '_top_menu_cache',
-				'title' => "<img src='" . Settings::LUM_PICS_URL . "menu/admin-cache.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Cache', 'lumiere-movies' ),
+				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-cache.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Cache', 'lumiere-movies' ),
 				'href' => $this->page_cache_option,
 				'meta' => [
 					'title' => esc_html__( 'Cache options', 'lumiere-movies' ),
@@ -319,7 +319,7 @@ class Admin_Menu {
 			[
 				'parent' => $id,
 				'id' => $this->get_id() . '_top_menu_help',
-				'title' => "<img src='" . Settings::LUM_PICS_URL . "menu/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Help', 'lumiere-movies' ),
+				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Help', 'lumiere-movies' ),
 				'href' => $this->page_help,
 				'meta' => [
 					'title' => esc_html__( 'Get support and support plugin development', 'lumiere-movies' ),

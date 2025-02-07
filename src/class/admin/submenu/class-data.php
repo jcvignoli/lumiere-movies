@@ -19,7 +19,6 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Copy_Templates\Detect_New_Theme;
-use Lumiere\Settings;
 use Lumiere\Tools\Debug;
 use Lumiere\Tools\Get_Options;
 
@@ -32,18 +31,16 @@ use Lumiere\Tools\Get_Options;
 class Data extends Admin_Menu {
 
 	/**
-	 * List of data details that display a field to fill in
-	 * A limit number in "Display" section
-	 * @var array<string> $details_with_numbers
+	 * List of data details that display a field to fill a limit number in "Data Display" section
+	 * @var array<string>
 	 */
-	private array $details_with_numbers = [];
+	private array $details_with_numbers;
 
 	/**
-	 * List of data details missing in the previous lists
-	 * These are not meant to be limited in their numbers, are no taxo items or people
-	 * @var array<string> $details_extra
+	 * List of data comments
+	 * @var array<string>
 	 */
-	private array $details_extra = [];
+	private array $details_comments;
 
 	/**
 	 * Constructor
@@ -55,28 +52,51 @@ class Data extends Admin_Menu {
 
 		// Build the list of data details that include a number limit
 		$this->details_with_numbers = [
-			'actor' => __( 'actor', 'lumiere-movies' ),
-			'alsoknow' => __( 'also known as', 'lumiere-movies' ),
-			'goof' => __( 'goof', 'lumiere-movies' ),
-			'plot' => __( 'plot', 'lumiere-movies' ),
-			'producer' => __( 'producer', 'lumiere-movies' ),
-			'quote' => __( 'quote', 'lumiere-movies' ),
+			'actor'      => __( 'actor', 'lumiere-movies' ),
+			'alsoknow'   => __( 'also known as', 'lumiere-movies' ),
+			'connection' => __( 'connected movies', 'lumiere-movies' ),
+			'goof'       => __( 'goof', 'lumiere-movies' ),
+			'plot'       => __( 'plot', 'lumiere-movies' ),
+			'producer'   => __( 'producer', 'lumiere-movies' ),
+			'quote'      => __( 'quote', 'lumiere-movies' ),
 			'soundtrack' => __( 'soundtrack', 'lumiere-movies' ),
-			'tagline' => __( 'tagline', 'lumiere-movies' ),
-			'trailer' => __( 'trailer', 'lumiere-movies' ),
-			'title' => __( 'title', 'lumiere-movies' ),
-			'pic' => __( 'pic', 'lumiere-movies' ),
+			'tagline'    => __( 'tagline', 'lumiere-movies' ),
+			'trailer'    => __( 'trailer', 'lumiere-movies' ),
+			'title'      => __( 'title', 'lumiere-movies' ),
+			'pic'        => __( 'pic', 'lumiere-movies' ),
 		];
 
-		// Build the list of the rest
-		$this->details_extra = [
-			'officialsites' => __( 'official websites', 'lumiere-movies' ),
-			'prodcompany' => __( 'production company', 'lumiere-movies' ),
-			'rating' => __( 'rating', 'lumiere-movies' ),
-			'runtime' => __( 'runtime', 'lumiere-movies' ),
-			'source' => __( 'source', 'lumiere-movies' ),
-			'year' => __( 'year of release', 'lumiere-movies' ),
+		// Build the list of data comments
+		$this->details_comments = [
+			'actor'         => esc_html__( 'Display (how many) actors.', 'lumiere-movies' ),
+			'alsoknow'      => esc_html__( 'Display (how many) alternative movie names and in other languages', 'lumiere-movies' ),
+			'color'         => esc_html__( 'Display colors', 'lumiere-movies' ),
+			'composer'      => esc_html__( 'Display composer', 'lumiere-movies' ),
+			'connection'    => esc_html__( 'Display related movies', 'lumiere-movies' ),
+			'country'       => esc_html__( 'Display country.', 'lumiere-movies' ),
+			'creator'       => esc_html__( 'Display Creator', 'lumiere-movies' ),
+			'director'      => esc_html__( 'Display directors.', 'lumiere-movies' ),
+			'genre'         => esc_html__( 'Display genre.', 'lumiere-movies' ),
+			'goof'          => esc_html__( 'Display (how many) goofs', 'lumiere-movies' ),
+			'keyword'       => esc_html__( 'Display keywords', 'lumiere-movies' ),
+			'language'      => esc_html__( 'Display languages.', 'lumiere-movies' ),
+			'officialsites' => esc_html__( 'Display official websites', 'lumiere-movies' ),
+			'pic'           => esc_html__( 'Display the main poster', 'lumiere-movies' ),
+			'plot'          => esc_html__( 'Display plots. This field may require much size in your page.', 'lumiere-movies' ),
+			'producer'      => esc_html__( 'Display (how many) producers', 'lumiere-movies' ),
+			'prodcompany'   => esc_html__( 'Display the production companies', 'lumiere-movies' ),
+			'quote'         => esc_html__( 'Display (how many) quotes.', 'lumiere-movies' ),
+			'rating'        => esc_html__( 'Display rating.', 'lumiere-movies' ),
+			'runtime'       => esc_html__( 'Display the runtime.', 'lumiere-movies' ),
+			'soundtrack'    => esc_html__( 'Display (how many) soundtracks', 'lumiere-movies' ),
+			'source'        => esc_html__( 'Display IMDb website source of the movie', 'lumiere-movies' ),
+			'tagline'       => esc_html__( 'Display (how many) taglines', 'lumiere-movies' ),
+			'title'         => esc_html__( 'Display the title', 'lumiere-movies' ),
+			'trailer'       => esc_html__( 'Display (how many) trailers', 'lumiere-movies' ),
+			'writer'        => esc_html__( 'Display writers', 'lumiere-movies' ),
+			'year'          => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
 		];
+
 	}
 
 	/**
@@ -179,7 +199,7 @@ class Data extends Admin_Menu {
 
 		$output = '';
 		$array_all = [];
-		$array_all = array_merge( Get_Options::get_list_people(), Get_Options::get_list_items() );
+		$array_all = array_merge( Get_Options::get_list_people_taxo(), Get_Options::get_list_items_taxo() );
 		asort( $array_all );
 
 		foreach ( $array_all as $item_key => $item_value ) {
@@ -233,9 +253,8 @@ class Data extends Admin_Menu {
 		// Merge the list of items and people with two extra lists
 		$array_full = array_unique(
 			array_merge(
-				Get_Options::get_list_people(),
-				Get_Options::get_list_items(),
-				$this->details_extra,
+				Get_Options::get_list_people_taxo(),
+				Get_Options::get_all_items(),
 				$this->details_with_numbers,
 			)
 		);
@@ -243,36 +262,8 @@ class Data extends Admin_Menu {
 		// Sort the array to display in alphabetical order
 		asort( $array_full );
 
-		$comment = [
-			'actor' => esc_html__( 'Display (how many) actors. This option also applies to the pop-up summary', 'lumiere-movies' ),
-			'alsoknow' => esc_html__( 'Display (how many) alternative movie names and in other languages', 'lumiere-movies' ),
-			'color' => esc_html__( 'Display colors', 'lumiere-movies' ),
-			'composer' => esc_html__( 'Display composer', 'lumiere-movies' ),
-			'country' => esc_html__( 'Display country. This option also applies to the pop-up summary', 'lumiere-movies' ),
-			'creator' => esc_html__( 'Display Creator', 'lumiere-movies' ),
-			'director' => esc_html__( 'Display directors. This option also applies to the pop-up summary', 'lumiere-movies' ),
-			'genre' => esc_html__( 'Display genre. This option also applies to the pop-up summary', 'lumiere-movies' ),
-			'goof' => esc_html__( 'Display (how many) goofs', 'lumiere-movies' ),
-			'keyword' => esc_html__( 'Display keywords', 'lumiere-movies' ),
-			'language' => esc_html__( 'Display languages. This option also applies to the pop-up summary', 'lumiere-movies' ),
-			'officialsites' => esc_html__( 'Display official websites', 'lumiere-movies' ),
-			'pic' => esc_html__( 'Display the main poster', 'lumiere-movies' ),
-			'plot' => esc_html__( 'Display plots. This field may require much size in your page.', 'lumiere-movies' ),
-			'producer' => esc_html__( 'Display (how many) producers', 'lumiere-movies' ),
-			'prodcompany' => esc_html__( 'Display the production companies', 'lumiere-movies' ),
-			'quote' => esc_html__( 'Display (how many) quotes of the person. This applies only to people pop-up summary.', 'lumiere-movies' ),
-			'rating' => esc_html__( 'Display rating. This option also applies to the pop-up summary', 'lumiere-movies' ),
-			'runtime' => esc_html__( 'Display the runtime. This option also applies to the pop-up summary', 'lumiere-movies' ),
-			'soundtrack' => esc_html__( 'Display (how many) soundtracks', 'lumiere-movies' ),
-			'source' => esc_html__( 'Display IMDb website source of the movie', 'lumiere-movies' ),
-			'tagline' => esc_html__( 'Display (how many) taglines', 'lumiere-movies' ),
-			'title' => esc_html__( 'Display the title', 'lumiere-movies' ),
-			'trailer' => esc_html__( 'Display (how many) trailers', 'lumiere-movies' ),
-			'writer' => esc_html__( 'Display writers', 'lumiere-movies' ),
-			'year' => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
-		];
-
-		return [ $array_full, $comment ];
+		// Add the comments to the arrays of items and people
+		return [ $array_full, $this->details_comments ];
 	}
 
 	/**
@@ -293,7 +284,7 @@ class Data extends Admin_Menu {
 		$list_updated_fields = ( new Detect_New_Theme() )->search_new_update( $lumiere_taxo_title );
 
 		// Files paths
-		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, Get_Options::get_list_people(), true ) ? Settings::TAXO_PEOPLE_THEME : Settings::TAXO_ITEMS_THEME;
+		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, Get_Options::get_list_people_taxo(), true ) ? Get_Options::TAXO_PEOPLE_THEME : Get_Options::TAXO_ITEMS_THEME;
 		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
@@ -316,7 +307,7 @@ class Data extends Admin_Menu {
 					. "' title='"
 					. esc_html__( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' )
 					. "' ><img src='"
-					. esc_url( Settings::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' )
+					. esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' )
 					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' /> "
 					. esc_html__( 'Copy template', 'lumiere-movies' )
 					. '</a>';
@@ -343,7 +334,7 @@ class Data extends Admin_Menu {
 				. $link_taxo_copy
 				. "' title='"
 				. esc_html__( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' )
-				. "' ><img src='" . esc_url( Settings::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' /> "
+				. "' ><img src='" . esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' /> "
 				. esc_html__( 'Update template', 'lumiere-movies' ) . '</a>';
 
 		$output .= "\n\t" . '<div><font color="red">'
@@ -355,6 +346,5 @@ class Data extends Admin_Menu {
 		return $output;
 
 	}
-
 }
 

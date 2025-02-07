@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Settings_Global;
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Add a metabox in admin post editing interface
@@ -83,7 +83,7 @@ class Metabox_Selection {
 
 		<p>
 		
-		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( Settings::LUM_PICS_URL . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Enter a movie to display', 'lumiere-movies' ); ?></div>
+		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Enter a movie to display', 'lumiere-movies' ); ?></div>
 
 		<div class="lumiere_display_flex lumiere_flex_make_responsive_metabox">
 
@@ -130,7 +130,7 @@ class Metabox_Selection {
 		
 		<?php if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' ) { ?>
 
-		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( Settings::LUM_PICS_URL . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Extra options', 'lumiere-movies' ); ?></div>
+		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Extra options', 'lumiere-movies' ); ?></div>
 		
 		<div class="lumiere_padding_five">
 			

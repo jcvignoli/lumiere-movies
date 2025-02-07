@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /*
  * Class to build Highslide links
@@ -56,31 +56,31 @@ class Highslide_Links extends Abstract_Link_Maker {
 		// Styles.
 		wp_register_style(
 			'lumiere_highslide_core_style',
-			Settings::LUM_CSS_URL . 'lumiere-highslide.min.css',
+			Get_Options::LUM_CSS_URL . 'lumiere-highslide.min.css',
 			[ 'lumiere_style_main' ],
-			strval( filemtime( Settings::LUM_CSS_PATH . 'lumiere-highslide.min.css' ) )
+			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lumiere-highslide.min.css' ) )
 		);
 
 		// Scripts.
 		wp_register_script(
 			'lumiere_highslide_core',
-			Settings::LUM_JS_URL . 'highslide/highslide-with-html.min.js',
+			Get_Options::LUM_JS_URL . 'highslide/highslide-with-html.min.js',
 			[],
-			strval( filemtime( Settings::LUM_JS_PATH . 'highslide/highslide-with-html.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'highslide/highslide-with-html.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(
 			'lumiere_highslide_options',
-			Settings::LUM_JS_URL . 'lumiere-highslide-options.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere-highslide-options.min.js',
 			[ 'lumiere_highslide_scripts' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere-highslide-options.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere-highslide-options.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(
 			'lumiere_highslide_scripts',
-			Settings::LUM_JS_URL . 'lumiere-highslide-links.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere-highslide-links.min.js',
 			[ 'jquery', 'lumiere_scripts' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere-highslide-links.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere-highslide-links.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 	}
@@ -159,10 +159,18 @@ class Highslide_Links extends Abstract_Link_Maker {
 	/**
 	 * @inheritdoc
 	 */
-	public function lumiere_popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
+	public function popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
 
-		// Function in abstract class, fourth param for bootstrap.
-		return parent::lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong );
+		// Function in abstract class, fourth param for highslide.
+		return parent::popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong );
+	}
+
+	/**
+	 * @inherit
+	 */
+	public function popup_film_link_inbox( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string {
+		// Function in abstract class, fifth param for highslide.
+		return parent::popup_film_link_inbox_abstract( $title, $imdbid, $popuplarg, $popuplong );
 	}
 
 	/**

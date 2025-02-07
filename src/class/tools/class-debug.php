@@ -32,11 +32,11 @@ class Debug {
 	}
 
 	/**
-	 * Internal function to colorise the output
+	 * Colorise the output
 	 * Allows to avoid print_r() or var_dump()
 	 * @param array<int<0, max>|string, array<string, string>|int|string> $array
 	 */
-	private static function colorise_output( array $array ): string {
+	public static function colorise_output( array $array ): string {
 		$output = '<ul>';
 
 		foreach ( $array as $key => $val ) {

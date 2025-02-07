@@ -20,7 +20,7 @@ use Lumiere\Tools\Settings_Global;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Tools\Validate_Get;
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Display search results related to a movie to get their IMDbID
@@ -202,7 +202,7 @@ class Search {
 		} ?>
 
 <br>
-<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
+<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Get_Options::SEARCH_URL_BIT ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
 <br>
 <br><?php
 	}
@@ -238,7 +238,7 @@ class Search {
 
 		wp_register_script(
 			'lumiere_search_admin',
-			Settings::LUM_JS_URL . 'lumiere_scripts_search.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere_scripts_search.min.js',
 			[ 'jquery' ],
 			lum_get_version(),
 			true

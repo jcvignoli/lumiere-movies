@@ -1,13 +1,17 @@
 **Changelog**
 
 v.4.4
+* [feature] New item: connected movies, movies related the movie can be displayed
+* [feature] Movie's quotes are back (just select it in admin data)
+* [bug] Text if "no taxonomy theme is found" wasn't translated
 * [bug] Movie popups shouldn't depend on items selections for the posts (Removed links between the admin data selection and popups in Popup_Movie)
 * [bug] Activating the plugin could throw error in Logger class (due to debug file creation)
 * [bug] Increased the padding between the layout and menu in popups movies & people 
 * [bug] CLI functions (update_options) was not correctly updating the table option name. (Missing an extra "()" in update_options() of method sub_update_options() in Cli_Commands class)
 * [bug] CLI functions (copy taxonomy template) was updated to the latest way to copy template (Cli_Commands class now use Copy_Taxo_Template class)
-* [technical] PHP < 8.1 support dropped. The plugin is no more compatible with PHP 8.0 and lower.
+* [technical] PHP < 8.1 support dropped. The plugin is no more compatible with PHP 8.0 and lower. (refactored all classes with properties, not backward compatible)
 * [technical] Refactorized Settings class to set the options only on activation (overdue for years: now Settings class is understandable, without properties and only constant, executed as such only on activation and when resetting options in admin panel, with proper static functions => most are called in Get_Options class)
+* [technical] It is not possible to limit data in popups anymore. All data will be displayed.
 
 v.4.3.3.1
 * [feature] When using Lumière search admin, no message was returned if the query found no results (added a return text in class Search)

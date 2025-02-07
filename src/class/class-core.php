@@ -16,7 +16,6 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
 use Lumiere\Tools\Get_Options;
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Plugins\Logger;
@@ -211,7 +210,7 @@ class Core {
 		if ( $current_admin === false ) {
 
 			// Create the options in database.
-			Settings::create_database_options();
+			Get_Options::create_database_options();
 
 			// Create the debug file if WP_DEBUG and 'imdbdebug' are defined.
 			$current_admin = get_option( Get_Options::get_cache_tablename() );

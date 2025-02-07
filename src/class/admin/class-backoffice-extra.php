@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Add policy, sponsor pages, etc
@@ -83,7 +83,7 @@ class Backoffice_Extra {
 			);
 			$plugin_meta[] = wp_sprintf(
 				'<a href="%1$s"><span class="dashicons dashicons-cloud" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>GIT repository</a>',
-				Settings::LUMIERE_GIT
+				Get_Options::LUM_GIT_URL
 			);
 		}
 		return $plugin_meta;

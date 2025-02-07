@@ -21,7 +21,7 @@ use Lumiere\Frontend\Popups\Popup_Movie;
 use Lumiere\Frontend\Popups\Popup_Movie_Search;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Movie\Movie_Display;
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Start everything for frontend pages
@@ -89,27 +89,27 @@ class Frontend {
 		// hide/show script
 		wp_register_script(
 			'lumiere_hide_show',
-			Settings::LUM_JS_URL . 'lumiere_hide_show.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere_hide_show.min.js',
 			[ 'jquery' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_hide_show.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_hide_show.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 
 		// Frontpage scripts
 		wp_register_script(
 			'lumiere_scripts',
-			Settings::LUM_JS_URL . 'lumiere_scripts.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere_scripts.min.js',
 			[ 'jquery' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_scripts.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_scripts.min.js' ) ),
 			[ 'strategy' => 'async' ]
 		);
 
 		// Main style
 		wp_register_style(
 			'lumiere_style_main',
-			Settings::LUM_CSS_URL . 'lumiere.min.css',
+			Get_Options::LUM_CSS_URL . 'lumiere.min.css',
 			[],
-			strval( filemtime( Settings::LUM_CSS_PATH . 'lumiere.min.css' ) )
+			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lumiere.min.css' ) )
 		);
 
 		// Customized style: register instead of the main style a customised main style located in active theme directory
@@ -141,7 +141,7 @@ class Frontend {
 		 */
 		wp_add_inline_script(
 			'lumiere_scripts',
-			Settings::get_scripts_frontend_vars(),
+			Get_Options::get_scripts_frontend_vars(),
 		);
 
 		// Do not enqueue it more than once.
@@ -153,7 +153,7 @@ class Frontend {
 	/**
 	 * Popups redirection, return a new text replacing the normal expected text
 	 * Use template_redirect hook to call it
-	 * 1. A var in {@see \Lumiere\Settings::define_constants_after_globals()} is made available (for movie, people, search, etc.)
+	 * 1. A var in {@see \Lumiere\Settings::URL_BIT_POPUPS_*} is made available (for movie, people, search, etc.)
 	 * 2. That var is compared against the query_var 'popup' in a switch() function here in {@link Frontend::popup_redirect_include()}
 	 * 3. If found, it returns the relevant Popup class, method get_layout() (which echoes instead of returning, needs therefore an ending return)
 	 *
@@ -169,7 +169,7 @@ class Frontend {
 			return $template_path;
 		}
 
-		// 'popup' query_var must match against Settings::URL_BIT_POPUPS_* vars that are encoded in javascript URL.
+		// 'popup' query_var must match against Get_Options::URL_BIT_POPUPS_* vars that are encoded in javascript URL.
 		switch ( $query_popup ) {
 			case 'film':
 				( new Popup_Movie() )->get_layout();

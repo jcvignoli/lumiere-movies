@@ -17,7 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Get_Options;
-use Lumiere\Settings;
 
 /**
  * Trait for including database options
@@ -27,7 +26,7 @@ use Lumiere\Settings;
  * @phpstan-type LEVEL_LOG_NAME 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
  * @phpstan-type OPTIONS_ADMIN array{imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: string,imdburlpopups: string,imdbkeepsettings: string,imdburlstringtaxo: string,imdbcoversize: string,imdbcoversizewidth: string, imdbmaxresults: string, imdbdelayimdbrequest: string, imdbpopuptheme: string, imdbpopuplarg: string,imdbpopuplong: string, imdbintotheposttheme: string, imdblinkingkill: string, imdbautopostwidget: string, imdblanguage: string, imdbdebug: string, imdbdebuglog: string, imdbdebuglogpath: string, imdbdebuglevel: string|LEVEL_LOG_NAME, imdbdebugscreen: string, imdbwordpress_bigmenu: string, imdbwordpress_tooladminmenu: string, imdbpopup_modal_window: string, imdbtaxonomy: string, imdbHowManyUpdates: string, imdbseriemovies: string, imdbirpdisplay: string}
  * @phpstan-type OPTIONS_CACHE array{imdbcacheautorefreshcron: string, imdbcachedetailsshort: string, imdbcachedir: string, imdbcachedir_partial: string, imdbcacheexpire: string, imdbcachekeepsizeunder: string, imdbcachekeepsizeunder_sizelimit: string, imdbphotodir: string, imdbphotoroot: string, imdbusecache: string, imdbcachedetailshidden: string}
- * @phpstan-type OPTIONS_DATA array{imdbwidgettitle: string, imdbwidgetpic: string,imdbwidgetruntime: string, imdbwidgetdirector: string, imdbwidgetcountry: string, imdbwidgetactor:string, imdbwidgetactornumber:int|string, imdbwidgetcreator: string, imdbwidgetrating: string, imdbwidgetlanguage: string, imdbwidgetgenre: string, imdbwidgetwriter: string, imdbwidgetproducer: string, imdbwidgetproducernumber: bool|string, imdbwidgetkeyword: string, imdbwidgetprodcompany: string, imdbwidgetplot: string, imdbwidgetplotnumber: string, imdbwidgetgoof: string, imdbwidgetgoofnumber: string|bool, imdbwidgetcomment: string, imdbwidgetquote: string, imdbwidgetquotenumber: string|bool, imdbwidgettagline: string, imdbwidgettaglinenumber: string|bool, imdbwidgetcolor: string, imdbwidgetalsoknow: string, imdbwidgetalsoknownumber: string|bool, imdbwidgetcomposer: string, imdbwidgetsoundtrack: string, imdbwidgetsoundtracknumber: string|bool, imdbwidgetofficialsites: string, imdbwidgetsource: string, imdbwidgetyear: string, imdbwidgettrailer: string, imdbwidgettrailernumber: bool|string, imdbwidgetorder: array<string|int>, imdbtaxonomycolor: string, imdbtaxonomycomposer: string, imdbtaxonomycountry: string, imdbtaxonomycreator: string, imdbtaxonomydirector: string, imdbtaxonomygenre: string, imdbtaxonomykeyword: string, imdbtaxonomylanguage: string, imdbtaxonomyproducer: string, imdbtaxonomyactor: string, imdbtaxonomywriter: string}
+ * @phpstan-type OPTIONS_DATA array{imdbwidgettitle: string, imdbwidgetpic: string,imdbwidgetruntime: string, imdbwidgetdirector: string, imdbwidgetcountry: string, imdbwidgetactor:string, imdbwidgetactornumber:string, imdbwidgetconnection: string, imdbwidgetconnectionnumber:string, imdbwidgetcreator: string, imdbwidgetrating: string, imdbwidgetlanguage: string, imdbwidgetgenre: string, imdbwidgetwriter: string, imdbwidgetproducer: string, imdbwidgetproducernumber:string, imdbwidgetkeyword: string, imdbwidgetprodcompany: string, imdbwidgetplot: string, imdbwidgetplotnumber: string, imdbwidgetgoof: string, imdbwidgetgoofnumber:string, imdbwidgetcomment: string, imdbwidgetquote: string, imdbwidgetquotenumber:string, imdbwidgettagline: string, imdbwidgettaglinenumber:string, imdbwidgetcolor: string, imdbwidgetalsoknow: string, imdbwidgetalsoknownumber:string, imdbwidgetcomposer: string, imdbwidgetsoundtrack: string, imdbwidgetsoundtracknumber:string, imdbwidgetofficialsites: string, imdbwidgetsource: string, imdbwidgetyear: string, imdbwidgettrailer: string, imdbwidgettrailernumber:string, imdbwidgetorder: array<string|int>, imdbtaxonomycolor: string, imdbtaxonomycomposer: string, imdbtaxonomycountry: string, imdbtaxonomycreator: string, imdbtaxonomydirector: string, imdbtaxonomygenre: string, imdbtaxonomykeyword: string, imdbtaxonomylanguage: string, imdbtaxonomyproducer: string, imdbtaxonomyactor: string, imdbtaxonomywriter: string}
  */
 trait Settings_Global {
 
@@ -41,7 +40,7 @@ trait Settings_Global {
 	/**
 	 * Data options
 	 * // PHPStan bug #5091, remove below line later @phpstan-var OPTIONS_DATA $imdb_data_values
-	 * @phpstan-var array{imdbwidgettitle: string, imdbwidgetpic: string,imdbwidgetruntime: string, imdbwidgetdirector: string, imdbwidgetcountry: string, imdbwidgetactor:string, imdbwidgetactornumber:int|string, imdbwidgetcreator: string, imdbwidgetrating: string, imdbwidgetlanguage: string, imdbwidgetgenre: string, imdbwidgetwriter: string, imdbwidgetproducer: string, imdbwidgetproducernumber: bool|string, imdbwidgetkeyword: string, imdbwidgetprodcompany: string, imdbwidgetplot: string, imdbwidgetplotnumber: string, imdbwidgetgoof: string, imdbwidgetgoofnumber: string|bool, imdbwidgetcomment: string, imdbwidgetquote: string, imdbwidgetquotenumber: string|bool, imdbwidgettagline: string, imdbwidgettaglinenumber: string|bool, imdbwidgetcolor: string, imdbwidgetalsoknow: string, imdbwidgetalsoknownumber: string|bool, imdbwidgetcomposer: string, imdbwidgetsoundtrack: string, imdbwidgetsoundtracknumber: string|bool, imdbwidgetofficialsites: string, imdbwidgetsource: string, imdbwidgetyear: string, imdbwidgettrailer: string, imdbwidgettrailernumber: bool|string, imdbwidgetorder: array<int|string>, imdbtaxonomycolor: string, imdbtaxonomycomposer: string, imdbtaxonomycountry: string, imdbtaxonomycreator: string, imdbtaxonomydirector: string, imdbtaxonomygenre: string, imdbtaxonomykeyword: string, imdbtaxonomylanguage: string, imdbtaxonomyproducer: string, imdbtaxonomyactor: string, imdbtaxonomywriter: string} $imdb_data_values
+	 * @phpstan-var array{imdbwidgettitle: string, imdbwidgetpic: string,imdbwidgetruntime: string, imdbwidgetdirector: string, imdbwidgetcountry: string, imdbwidgetactor:string, imdbwidgetactornumber:string, imdbwidgetcreator: string, imdbwidgetconnection: string, imdbwidgetconnectionnumber:string, imdbwidgetrating: string, imdbwidgetlanguage: string, imdbwidgetgenre: string, imdbwidgetwriter: string, imdbwidgetproducer: string, imdbwidgetproducernumber:string, imdbwidgetkeyword: string, imdbwidgetprodcompany: string, imdbwidgetplot: string, imdbwidgetplotnumber:string, imdbwidgetgoof: string, imdbwidgetgoofnumber:string, imdbwidgetcomment: string, imdbwidgetquote: string, imdbwidgetquotenumber:string, imdbwidgettagline: string, imdbwidgettaglinenumber:string, imdbwidgetcolor: string, imdbwidgetalsoknow: string, imdbwidgetalsoknownumber:string, imdbwidgetcomposer: string, imdbwidgetsoundtrack: string, imdbwidgetsoundtracknumber:string, imdbwidgetofficialsites: string, imdbwidgetsource: string, imdbwidgetyear: string, imdbwidgettrailer: string, imdbwidgettrailernumber:string, imdbwidgetorder: array<int|string>, imdbtaxonomycolor: string, imdbtaxonomycomposer: string, imdbtaxonomycountry: string, imdbtaxonomycreator: string, imdbtaxonomydirector: string, imdbtaxonomygenre: string, imdbtaxonomykeyword: string, imdbtaxonomylanguage: string, imdbtaxonomyproducer: string, imdbtaxonomyactor: string, imdbtaxonomywriter: string} $imdb_data_values
 	 */
 	public array $imdb_data_values;
 
@@ -54,7 +53,7 @@ trait Settings_Global {
 
 	/**
 	 * Build database options properties
-	 * @since 4.4 Added false checks and Settings::create_database_options(), since during a first install the Frontend may fail (according to WP Plugin Check)
+	 * @since 4.4 Added fake checks and Settings::create_database_options(), since during a first install the Frontend may fail (according to WP Plugin Check)
 	 */
 	public function get_db_options(): void {
 
@@ -63,7 +62,7 @@ trait Settings_Global {
 		$cache_values = get_option( Get_Options::get_cache_tablename() );
 
 		if ( $admin_values === false || $data_values === false || $cache_values === false ) {
-			Settings::create_database_options();
+			Get_Options::create_database_options();
 			$admin_values = get_option( Get_Options::get_admin_tablename() );
 			$data_values = get_option( Get_Options::get_data_tablename() );
 			$cache_values = get_option( Get_Options::get_cache_tablename() );

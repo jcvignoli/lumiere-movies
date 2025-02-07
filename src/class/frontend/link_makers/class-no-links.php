@@ -78,9 +78,17 @@ class No_Links extends Abstract_Link_Maker {
 	/**
 	 * @inheritdoc
 	 */
-	public function lumiere_popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
-		// Function in abstract class, fourth param for AMP.
-		return $this->lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 2 );
+	public function popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
+		// Function in abstract class, fourth param for No links.
+		return parent::popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 2 );
+	}
+
+	/**
+	 * @inherit
+	 */
+	public function popup_film_link_inbox( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string {
+		// Function in abstract class, fifth param for No links.
+		return parent::popup_film_link_inbox_abstract( $title, $imdbid, $popuplarg, $popuplong, 2 );
 	}
 
 	/**
@@ -88,7 +96,7 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_trailer_details( string $url, string $website_title ): string {
 		// Function in abstract class, third param for removing links.
-		return $this->lumiere_movies_trailer_details_abstract( $url, $website_title, 1 );
+		return parent::lumiere_movies_trailer_details_abstract( $url, $website_title, 1 );
 	}
 
 	/**
@@ -96,7 +104,7 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_prodcompany_details( string $name, string $comp_id = '', string $notes = '' ): string {
 		// Function in abstract class, fifth param for links.
-		return $this->lumiere_movies_prodcompany_details_abstract( $name, '', '', 1 );
+		return parent::lumiere_movies_prodcompany_details_abstract( $name, '', '', 1 );
 
 	}
 
@@ -105,7 +113,7 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_officialsites_details( string $url, string $name ): string {
 		// Function in abstract class, third param for no links.
-		return $this->lumiere_movies_officialsites_details_abstract( $url, $name, 1 );
+		return parent::lumiere_movies_officialsites_details_abstract( $url, $name, 1 );
 	}
 
 	/**
@@ -113,7 +121,7 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_plot_details( string $plot ): string {
 		// Function in abstract class
-		return $this->lumiere_movies_plot_details_abstract( $plot );
+		return parent::lumiere_movies_plot_details_abstract( $plot );
 	}
 
 	/**
@@ -121,7 +129,7 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_source_details( string $mid ): string {
 		// Function in abstract class, second param to remove links.
-		return $this->lumiere_movies_source_details_abstract( $mid, 1 );
+		return parent::lumiere_movies_source_details_abstract( $mid, 1 );
 	}
 
 	/**
@@ -129,6 +137,6 @@ class No_Links extends Abstract_Link_Maker {
 	 */
 	public function lumiere_movies_rating_picture ( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string {
 		// Function in abstract class, last param with 1 to display class="imdbelementRATING-picture".
-		return $this->lumiere_movies_rating_picture_abstract( $rating, $votes, $votes_average_txt, $out_of_ten_txt, $votes_txt, 1 );
+		return parent::lumiere_movies_rating_picture_abstract( $rating, $votes, $votes_average_txt, $out_of_ten_txt, $votes_txt, 1 );
 	}
 }

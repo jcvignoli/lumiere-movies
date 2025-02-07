@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 }
 
 use Imdb\Title;
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Movie\Movie_Layout;
 
@@ -92,7 +92,7 @@ class Movie_Data {
 		}
 
 		// If cache is deactivated, display no_pics.gif
-		$no_pic_url = Settings::LUM_PICS_URL . 'no_pics.gif';
+		$no_pic_url = Get_Options::LUM_PICS_URL . 'no_pics.gif';
 		return $this->link_maker->lumiere_link_picture( $no_pic_url, $no_pic_url, $movie->title() );
 	}
 
@@ -204,6 +204,61 @@ class Movie_Data {
 
 			if ( $i < $nbtotallanguages - 1 ) {
 				$output .= ', ';
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Display connected/realted movies
+	 * @see Movie_Display::factory_items_methods() that builds this method
+	 *
+	 * @since 4.4 New method
+	 *
+	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 */
+	protected function get_item_connection( Title $movie, string $item_name ): string {
+
+		$connected_movies = $movie->$item_name();
+		$admin_max_connected = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$nbtotalconnected = count( $connected_movies );
+
+		if ( $nbtotalconnected === 0 ) {
+			return '';
+		}
+
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Related movie', 'Related movies', $nbtotalconnected, 'lumiere-movies' ) )
+		);
+
+		foreach ( Get_Options::define_list_connect_cat() as $category => $data_explain ) {
+
+			// Total items for this category.
+			$nb_items = count( $connected_movies[ $category ] );
+
+			for ( $i = 0; $i < $admin_max_connected; $i++ ) {
+				if ( isset( $connected_movies[ $category ][ $i ]['titleId'] ) && $connected_movies[ $category ][ $i ]['titleName'] ) {
+
+					if ( $i === 0 ) {
+						$output .= "<br><strong>$data_explain</strong>: ";
+					}
+
+					/**
+					 * Use links builder classes.
+					 * Each one has its own class passed in $link_maker,
+					 * according to which option the lumiere_select_link_maker() found in Frontend.
+					 */
+					$output .= $this->link_maker->popup_film_link_inbox(
+						$connected_movies[ $category ][ $i ]['titleName'],
+						$connected_movies[ $category ][ $i ]['titleId']
+					);
+
+					$output .= isset( $connected_movies[ $category ][ $i ]['description'] ) ? ' (' . esc_html( $connected_movies[ $category ][ $i ]['description'] ) . ')' : '';
+					if ( $i < ( $admin_max_connected - 1 ) && $i < ( $nbtotalconnected ) && $i < ( $nb_items - 1 ) ) {
+						$output .= ', '; // add comma to every connected movie but the last.
+					}
+				}
 			}
 		}
 		return $output;
@@ -343,7 +398,7 @@ class Movie_Data {
 	protected function get_item_goof( Title $movie, string $item_name ): string {
 
 		$goofs = $movie->$item_name();
-		$settings_nbgoofs = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$admin_max_goofs = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$filter_nbtotalgoofs = array_filter( $goofs, fn( array $goofs ) => ( count( array_values( $goofs ) ) > 0 ) ); // counts the actual goofs, not their categories
 		$nbtotalgoofs = count( $filter_nbtotalgoofs );
 		$overall_loop = 1;
@@ -366,7 +421,7 @@ class Movie_Data {
 		// Process goof type after goof type
 		foreach ( $goofs_type as $type ) {
 			// Loop conditions: less than the total number of goofs available AND less than the goof limit setting, using a loop counter.
-			for ( $i = 0; ( $i < $nbtotalgoofs ) && ( $overall_loop <= $settings_nbgoofs ); $i++ ) {
+			for ( $i = 0; ( $i < $nbtotalgoofs ) && ( $overall_loop <= $admin_max_goofs ); $i++ ) {
 				if ( isset( $goofs[ $type ][ $i ]['content'] ) && strlen( $goofs[ $type ][ $i ]['content'] ) > 0 ) {
 					$text_final_edited = preg_replace( '/\B([A-Z])/', '&nbsp;$1', $type ); // type is agglutinated, add space before capital letters.
 					/** @psalm-suppress PossiblyInvalidOperand,PossiblyInvalidArgument (PossiblyInvalidOperand: Cannot concatenate with a array<array-key, string>|string -- it's always string according to PHPStan) */
@@ -382,17 +437,37 @@ class Movie_Data {
 	/**
 	 * Display the quotes
 	 * Quotes are what People said, Quotes do not exists in Movie's pages, which do not display people's data
-	 * Kept for compatibility purposes: the function get_item_quote() is automatically created from config data, the class would complain that method doesn't exist
 	 * @see Movie_Display::factory_items_methods() that builds this method
-	 *
-	 * @since 4.0 Removed the method's content, since this function is for compatibility and does nothing
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 * @return string Nothing
 	 */
 	protected function get_item_quote( Title $movie, string $item_name ): string {
-		return '';
+
+		$quotes_merged = array_merge( ...$movie->$item_name() ); // Merge the multidimensional array to two dimensions.
+		$admin_max_quotes = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+
+		$nbtotalquotes = count( $quotes_merged );
+
+		// If no result, exit.
+		if ( $nbtotalquotes === 0 ) {
+			return '';
+		}
+
+		$output = $this->movie_layout->subtitle_item(
+			esc_html( _n( 'Quote', 'Quotes', $nbtotalquotes, 'lumiere-movies' ) )
+		);
+
+		for ( $i = 0; $i < $admin_max_quotes && ( $i < $nbtotalquotes ); $i++ ) {
+
+			$output .= "\n\t\t\t&laquo; " . esc_html( $quotes_merged[ $i ] ) . ' &raquo; ';
+
+			if ( $i < ( $admin_max_quotes - 1 ) && $i < ( $nbtotalquotes - 1 ) ) {
+				$output .= "\n\t\t\t\t<hr>";
+			}
+		}
+		return $output;
 	}
 
 	/**
@@ -404,7 +479,7 @@ class Movie_Data {
 	protected function get_item_tagline( Title $movie, string $item_name ): string {
 
 		$taglines = $movie->$item_name();
-		$nbtaglines = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$admin_max_taglines = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotaltaglines = count( $taglines );
 
 		// If no result, exit.
@@ -416,11 +491,11 @@ class Movie_Data {
 			esc_html( _n( 'Tagline', 'Taglines', $nbtotaltaglines, 'lumiere-movies' ) )
 		);
 
-		for ( $i = 0; $i < $nbtaglines && ( $i < $nbtotaltaglines ); $i++ ) {
+		for ( $i = 0; $i < $admin_max_taglines && ( $i < $nbtotaltaglines ); $i++ ) {
 
-			$output .= "\n\t\t\t&laquo; " . sanitize_text_field( $taglines[ $i ] ) . ' &raquo; ';
-			if ( $i < ( $nbtaglines - 1 ) && $i < ( $nbtotaltaglines - 1 ) ) {
-				$output .= ', '; // add comma to every quote but the last.
+			$output .= "\n\t\t\t&laquo; " . esc_html( $taglines[ $i ] ) . ' &raquo; ';
+			if ( $i < ( $admin_max_taglines - 1 ) && $i < ( $nbtotaltaglines - 1 ) ) {
+				$output .= ', '; // add comma to every tagline but the last.
 			}
 		}
 		return $output;
@@ -437,7 +512,7 @@ class Movie_Data {
 
 		$trailers = $movie->video(); // Title::video() works faster than Title::trailer()
 		$trailers = $trailers['Trailer'] ?? null; // Two rows available: Clip and Trailer
-		$nbtrailers = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$admin_max_trailers = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotaltrailers = isset( $trailers ) ? count( $trailers ) : null;
 
 		// if no results, exit.
@@ -449,7 +524,7 @@ class Movie_Data {
 			esc_html( _n( 'Trailer', 'Trailers', $nbtotaltrailers, 'lumiere-movies' ) )
 		);
 
-		for ( $i = 0; ( $i < $nbtrailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
+		for ( $i = 0; ( $i < $admin_max_trailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
 
 			if ( ! isset( $trailers[ $i ]['playbackUrl'] ) ) {
 				continue;
@@ -462,7 +537,7 @@ class Movie_Data {
 			 */
 			$output .= $this->link_maker->lumiere_movies_trailer_details( $trailers[ $i ]['playbackUrl'], $trailers[ $i ]['name'] );
 
-			if ( $i < ( $nbtrailers - 1 ) && $i < ( $nbtotaltrailers - 1 ) ) {
+			if ( $i < ( $admin_max_trailers - 1 ) && $i < ( $nbtotaltrailers - 1 ) ) {
 				$output .= ', '; // add comma to every trailer but the last.
 			}
 		}
@@ -528,7 +603,7 @@ class Movie_Data {
 	protected function get_item_alsoknow( Title $movie, string $item_name ): string {
 
 		$alsoknow = $movie->$item_name();
-		$nbalsoknow = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) + 1; // Adding 1 since first array line is the title
+		$admin_max_aka = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) + 1; // Adding 1 since first array line is the title
 		$nbtotalalsoknow = count( $alsoknow );
 
 		// if no result, exit.
@@ -540,7 +615,7 @@ class Movie_Data {
 			esc_html__( 'Also known as', 'lumiere-movies' )
 		);
 
-		for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $nbalsoknow ); $i++ ) {
+		for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $admin_max_aka ); $i++ ) {
 
 			// Orignal title, already using it in the box.
 			if ( $i === 0 ) {
@@ -558,7 +633,7 @@ class Movie_Data {
 				$output .= ')';
 			}
 
-			if ( $i < ( $nbtotalalsoknow - 1 ) && $i < ( $nbalsoknow - 1 ) ) {
+			if ( $i < ( $nbtotalalsoknow - 1 ) && $i < ( $admin_max_aka - 1 ) ) {
 				$output .= ', ';
 			}
 		}
@@ -626,7 +701,7 @@ class Movie_Data {
 	protected function get_item_soundtrack( Title $movie, string $item_name ): string {
 
 		$soundtrack = $movie->$item_name();
-		$nbsoundtracks = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$admin_max_sndtrk = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotalsoundtracks = count( $soundtrack );
 
 		// if no results, exit.
@@ -638,7 +713,7 @@ class Movie_Data {
 			esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) )
 		);
 
-		for ( $i = 0; $i < $nbsoundtracks && ( $i < $nbtotalsoundtracks ); $i++ ) {
+		for ( $i = 0; $i < $admin_max_sndtrk && ( $i < $nbtotalsoundtracks ); $i++ ) {
 			$soundtrack_name = "\n\t\t\t" . ucfirst( strtolower( $soundtrack[ $i ]['soundtrack'] ) );
 
 			$output .= "\n\t\t\t" .
@@ -653,7 +728,7 @@ class Movie_Data {
 			$output .= isset( $soundtrack[ $i ]['credits'][0] ) ? ' <i>' . $soundtrack[ $i ]['credits'][0] . '</i>' : '';
 			$output .= isset( $soundtrack[ $i ]['credits'][1] ) ? ' <i>' . $soundtrack[ $i ]['credits'][1] . '</i>' : '';
 
-			if ( $i < ( $nbsoundtracks - 1 ) && $i < ( $nbtotalsoundtracks - 1 ) ) {
+			if ( $i < ( $admin_max_sndtrk - 1 ) && $i < ( $nbtotalsoundtracks - 1 ) ) {
 				$output .= ', ';
 			}
 		}
@@ -798,7 +873,7 @@ class Movie_Data {
 	}
 
 	/**
-	 * Display the cinemoatographer (directeur photo)
+	 * Display the cinematographer (directeur photo)
 	 * For historical reasons, imdb config has "creator", so the method's name is based on the word
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
@@ -819,7 +894,7 @@ class Movie_Data {
 			esc_html( _n( 'Cinematographer', 'Cinematographers', $nbtotalcinematographer, 'lumiere-movies' ) )
 		);
 
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomycreator'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
 			for ( $i = 0; $i < $nbtotalcinematographer; $i++ ) {
 
@@ -862,7 +937,7 @@ class Movie_Data {
 	protected function get_item_producer( Title $movie, string $item_name ): string {
 
 		$producer = $movie->$item_name();
-		$nbproducer = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 || $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] === false ? '1' : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$admin_max_producer = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotalproducer = count( $producer );
 
 		if ( $nbtotalproducer === 0 ) {
@@ -874,9 +949,9 @@ class Movie_Data {
 		);
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values['imdbtaxonomyproducer'] === '1' ) ) {
+		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
-			for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $nbproducer ); $i++ ) {
+			for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $admin_max_producer ); $i++ ) {
 
 				$count_jobs = isset( $producer[ $i ]['jobs'] ) && count( $producer[ $i ]['jobs'] ) > 0 ? count( $producer[ $i ]['jobs'] ) : 0;
 
@@ -900,7 +975,7 @@ class Movie_Data {
 		}
 
 		// No taxonomy.
-		for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $nbproducer ); $i++ ) {
+		for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $admin_max_producer ); $i++ ) {
 
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
@@ -1051,9 +1126,9 @@ class Movie_Data {
 	 */
 	protected function get_item_actor( Title $movie, string $item_name ): string {
 
-		$cast = $movie->cast();
-		$nbactors = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 ? 1 : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		$nbtotalactors = count( $cast );
+		$actor = $movie->cast();
+		$admin_total_actor = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$nbtotalactors = count( $actor );
 
 		if ( $nbtotalactors === 0 ) {
 			return '';
@@ -1066,26 +1141,26 @@ class Movie_Data {
 		// Taxonomy
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
-			for ( $i = 0; ( $i < $nbtotalactors ) && ( $i < $nbactors ); $i++ ) {
+			for ( $i = 0; ( $i < $nbtotalactors ) && ( $i < $admin_total_actor ); $i++ ) {
 
 				// If either name or character are not available, jump.
-				if ( ! isset( $cast[ $i ]['character'][0] ) || ! isset( $cast[ $i ]['name'] ) ) {
+				if ( ! isset( $actor[ $i ]['character'][0] ) || ! isset( $actor[ $i ]['name'] ) ) {
 					continue;
 				}
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
 					'actor',
-					esc_html( $cast[ $i ]['name'] ),
+					esc_html( $actor[ $i ]['name'] ),
 					$this->imdb_admin_values
 				);
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, esc_attr( $cast[ $i ]['character'][0] ) );
+				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, esc_attr( $actor[ $i ]['character'][0] ) );
 
 			}
 
 			return $output;
 		}
 
-		for ( $i = 0; $i < $nbactors && ( $i < $nbtotalactors ); $i++ ) {
+		for ( $i = 0; $i < $admin_total_actor && ( $i < $nbtotalactors ); $i++ ) {
 
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
@@ -1095,11 +1170,11 @@ class Movie_Data {
 			 * Each one has its own class passed in $link_maker,
 			 * according to which option the lumiere_select_link_maker() found in Frontend.
 			 */
-			$output .= $this->link_maker->lumiere_link_popup_people( $cast, $i );
+			$output .= $this->link_maker->lumiere_link_popup_people( $actor, $i );
 
 			$output .= '</div>';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-			$output .= isset( $cast[ $i ]['character'][0] ) && strlen( $cast[ $i ]['character'][0] ) > 0 ? esc_html( $cast[ $i ]['character'][0] ) : '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>';
+			$output .= isset( $actor[ $i ]['character'][0] ) && strlen( $actor[ $i ]['character'][0] ) > 0 ? esc_html( $actor[ $i ]['character'][0] ) : '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>';
 			$output .= '</div>';
 			$output .= "\n\t\t\t" . '</div>';
 
@@ -1118,7 +1193,7 @@ class Movie_Data {
 	protected function get_item_plot( Title $movie, string $item_name ): string {
 
 		$plot = $movie->$item_name();
-		$nbplots = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) === 0 ? 1 : intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$admin_max_plots = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotalplots = count( $plot );
 
 		// tested if the array contains data; if not, doesn't go further
@@ -1127,10 +1202,10 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Plot', 'Plots', $nbplots, 'lumiere-movies' ) )
+			esc_html( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) )
 		);
 
-		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $nbplots ); $i++ ) {
+		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $admin_max_plots ); $i++ ) {
 
 			/**
 			 * Use links builder classes.
@@ -1140,7 +1215,7 @@ class Movie_Data {
 			$output .= $plot[ $i ]['plot'] !== null ? $this->link_maker->lumiere_movies_plot_details( $plot[ $i ]['plot'] ) : esc_html__( 'No plot found', 'lumiere-movies' );
 
 			// add hr to every plot but the last.
-			if ( $i < ( $nbtotalplots - 1 ) && $i < ( $nbplots - 1 ) ) {
+			if ( $i < ( $nbtotalplots - 1 ) && $i < ( $admin_max_plots - 1 ) ) {
 				$output .= "\n\t\t\t\t<hr>";
 			}
 		}

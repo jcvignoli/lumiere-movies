@@ -17,7 +17,6 @@ use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Settings_Global;
 use Lumiere\Tools\Get_Options;
 use Lumiere\Admin\Admin_General;
-use Lumiere\Settings;
 use Exception;
 
 /**
@@ -73,10 +72,10 @@ class Copy_Theme {
 		$lumiere_taxo_title = esc_html( $this->get_taxotype_url() ?? $wp_cli_taxonomy ?? '' );
 
 		// Build links and vars.
-		if ( in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_people() ), true ) ) {
-			$lumiere_taxo_file_tocopy = Settings::TAXO_PEOPLE_THEME;
-		} elseif ( in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_items() ), true ) ) {
-			$lumiere_taxo_file_tocopy = Settings::TAXO_ITEMS_THEME;
+		if ( in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_people_taxo() ), true ) ) {
+			$lumiere_taxo_file_tocopy = Get_Options::TAXO_PEOPLE_THEME;
+		} elseif ( in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_items_taxo() ), true ) ) {
+			$lumiere_taxo_file_tocopy = Get_Options::TAXO_ITEMS_THEME;
 		} else {
 			throw new Exception( 'This template ' . esc_html( $lumiere_taxo_title ) . ' does not exist, aborting' );
 		}

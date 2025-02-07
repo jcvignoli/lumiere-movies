@@ -20,7 +20,6 @@ use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Tools\Get_Options;
-use Lumiere\Settings;
 use Imdb\Title;
 
 /**
@@ -272,10 +271,10 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 			}
 
 				// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
-				$photo_url_href = strlen( $photo_url ) === 0 ? Settings::LUM_PICS_URL . 'no_pics.gif' : $photo_url;
+				$photo_url_href = strlen( $photo_url ) === 0 ? Get_Options::LUM_PICS_URL . 'no_pics.gif' : $photo_url;
 
 				// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-				$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Settings::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
+				$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
 
 				echo '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
@@ -394,7 +393,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 			echo '<span class="lum_results_section_subtitle">'
 				. esc_html__( 'Rating', 'lumiere-movies' )
 				. '</span>';
-			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( Settings::LUM_PICS_SHOWTIMES_URL . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
+			echo ' <img class="imdbelementRATING-picture" src="' . esc_url( Get_Options::LUM_PICS_SHOWTIMES_URL . ( round( $rating_int * 2, 0 ) / 0.2 ) . '.gif' ) . '"'
 			. ' title="' . esc_html__( 'vote average ', 'lumiere-movies' ) . esc_attr( $rating_string ) . esc_html__( ' out of 10', 'lumiere-movies' ) . '"  width="102" height="12" / >';
 			echo ' (' . number_format( $votes_sanitized, 0, '', "'" ) . ' ' . esc_html__( 'votes', 'lumiere-movies' ) . ')';
 
@@ -480,6 +479,51 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 	 * Show misc part
 	 */
 	private function display_misc( Title $movie_class ): void {
+
+		// Connected movies
+		$connected_movies = $movie_class->connection();
+		$admin_max_connected = intval( $this->imdb_data_values['imdbwidgetconnectionnumber'] );
+		$nbtotalconnected = count( $connected_movies );
+
+		if ( $nbtotalconnected < 1 ) {
+			esc_html_e( 'No connected movies found.', 'lumiere-movies' );
+		}
+
+		echo "\n\t\t\t\t\t\t\t" . ' <!-- Connected movies -->';
+		echo "\n" . '<div id="lumiere_popup_plots_group">';
+		echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Connected movie', 'Connected movies', $nbtotalconnected, 'lumiere-movies' ) ) . '</div>';
+
+		foreach ( Get_Options::get_list_connect_cat() as $category => $data_explain ) {
+			// Total items for this category.
+			$nb_items = count( $connected_movies[ $category ] );
+
+			for ( $i = 0; $i < $admin_max_connected && $i < $nbtotalconnected; $i++ ) {
+				if ( isset( $connected_movies[ $category ][ $i ]['titleId'] ) && $connected_movies[ $category ][ $i ]['titleName'] ) {
+
+					if ( $i === 0 ) {
+						echo '<strong>' . esc_html( $data_explain ) . '</strong>: ';
+					}
+
+					echo "\n\t\t\t\t"
+						. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
+						. esc_url(
+							wp_nonce_url(
+								Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . $connected_movies[ $category ][ $i ]['titleId']
+							)
+						)
+						. '" title="' . esc_html( $connected_movies[ $category ][ $i ]['titleName'] ) . '">';
+					echo "\n\t\t\t\t" . esc_html( $connected_movies[ $category ][ $i ]['titleName'] );
+					echo '</a>';
+
+					echo isset( $connected_movies[ $category ][ $i ]['description'] ) ? ' (' . esc_html( $connected_movies[ $category ][ $i ]['year'] ) . ') (<i>' . esc_html( $connected_movies[ $category ][ $i ]['description'] ) . '</i>)' : '';
+					if ( $i < ( $admin_max_connected - 1 ) && $i < ( $nbtotalconnected ) && $i < ( $nb_items - 1 ) ) {
+						echo ', '; // add comma to every connected movie but the last.
+					}
+				}
+			}
+		}
+		echo "\n\t</div>";
+		echo "\n</div>";
 
 		// Trivia.
 

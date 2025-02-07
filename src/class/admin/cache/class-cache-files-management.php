@@ -211,7 +211,7 @@ class Cache_Files_Management {
 				if ( isset( $refresh_ids[ $movie_or_people ] ) ) {
 					$array_all_items = $refresh_ids[ $movie_or_people ];
 					set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items, $days_next_start * $day_in_seconds );
-					$this->logger->log->error( '[Lumiere][Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
+					$this->logger->log->info( '[Lumiere][Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
 				}
 				// Everything has already been processed, exit.
 			} elseif ( count( $array_all_items ) === 0 ) {
@@ -253,6 +253,7 @@ class Cache_Files_Management {
 		$movie->color();
 		$movie->composer();
 		$movie->country();
+		$movie->connection();
 		$movie->cinematographer();
 		$movie->director();
 		$movie->genre();

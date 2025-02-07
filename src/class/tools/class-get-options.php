@@ -17,13 +17,12 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
 }
 
 use Lumiere\Tools\Data;
-use Lumiere\Settings;
 
 /**
  * Trait for getting database options
  * All methods shoud be static
  */
-class Get_Options {
+class Get_Options extends \Lumiere\Settings {
 
 	/**
 	 * Get an array of the taxonomy in use in the form of taxonomy
@@ -42,7 +41,6 @@ class Get_Options {
 			}
 			$taxonomy_item = is_string( $option ) ? str_replace( 'imdbtaxonomy', '', $option ) : ''; // Such as "director"
 			$taxonomy_full_name[] = $imdb_admin_values['imdburlstringtaxo'] . $taxonomy_item; // Such as "lumiere-director"
-
 		}
 		return $taxonomy_full_name;
 	}
@@ -62,10 +60,8 @@ class Get_Options {
 	 * @see \Imdb\TitleSearch For the options
 	 */
 	public static function get_type_search(): string {
-
 		$imdb_admin_option = get_option( self::get_admin_tablename() );
 		switch ( $imdb_admin_option['imdbseriemovies'] ) {
-
 			case 'movies':
 				return 'MOVIE';
 			case 'movies+series':
@@ -78,7 +74,6 @@ class Get_Options {
 				return 'PODCAST_EPISODE';
 			default:
 				return 'MOVIE,TV';
-
 		}
 	}
 
@@ -90,7 +85,7 @@ class Get_Options {
 	 * @since 4.2.2 method renamed and returns only the new row name
 	 */
 	public static function get_admin_tablename(): string {
-		return Settings::LUMIERE_ADMIN_OPTIONS;
+		return parent::LUMIERE_ADMIN_OPTIONS;
 	}
 
 	/**
@@ -101,7 +96,7 @@ class Get_Options {
 	 * @since 4.2.2 method renamed and returns only the new row name
 	 */
 	public static function get_data_tablename(): string {
-		return Settings::LUMIERE_DATA_OPTIONS;
+		return parent::LUMIERE_DATA_OPTIONS;
 	}
 
 	/**
@@ -112,30 +107,50 @@ class Get_Options {
 	 * @since 4.2.2 method renamed and returns only the new row name
 	 */
 	public static function get_cache_tablename(): string {
-		return Settings::LUMIERE_CACHE_OPTIONS;
+		return parent::LUMIERE_CACHE_OPTIONS;
 	}
 
 	/**
-	 * Get all people's data
+	 * Get the type of people items that are used for taxonomy
 	 *
 	 * @return array<string, string>
 	 */
-	public static function get_list_people(): array {
-		return Settings::build_people();
+	public static function get_list_people_taxo(): array {
+		return parent::define_list_taxo_people();
 	}
 
 	/**
-	 * Get all item's data
+	 * Get the type items that are used for taxonomy
 	 *
 	 * @return array<string, string>
 	 */
-	public static function get_list_items(): array {
-		return Settings::build_items();
+	public static function get_list_items_taxo(): array {
+		return parent::define_list_taxo_items();
+	}
+
+	/**
+	 * Get all type items that are used for taxonomy
+	 *
+	 * @return array<string, string>
+	 */
+	public static function get_list_connect_cat(): array {
+		return parent::define_list_connect_cat();
+	}
+
+	/**
+	 * Get all type items that are used for taxonomy
+	 *
+	 * @since 4.4 method added
+	 * @return array<string, string>
+	 */
+	public static function get_all_items(): array {
+		return parent::define_list_all_items();
 	}
 
 	/**
 	 * Build the URLs for popups
 	 *
+	 * @since 4.4 method added
 	 * @param 'movies'|'people'|'movies_search' $column Type of URL we want to get
 	 * @param string $domain_url OPTIONAL: Full URL of the domain, usually passed with site_url()
 	 * @return string
@@ -143,9 +158,9 @@ class Get_Options {
 	public static function get_popup_url( string $column, $domain_url = '' ): string {
 		$imdb_admin_option = get_option( self::get_admin_tablename() );
 		$url = [
-			'movies'        => $domain_url . $imdb_admin_option['imdburlpopups'] . Settings::URL_BIT_POPUPS_MOVIES,
-			'people'        => $domain_url . $imdb_admin_option['imdburlpopups'] . Settings::URL_BIT_POPUPS_PEOPLE,
-			'movies_search' => $domain_url . $imdb_admin_option['imdburlpopups'] . Settings::URL_BIT_POPUPS_MOVIES_SEARCH,
+			'movies'        => $domain_url . $imdb_admin_option['imdburlpopups'] . parent::URL_BIT_POPUPS_MOVIES,
+			'people'        => $domain_url . $imdb_admin_option['imdburlpopups'] . parent::URL_BIT_POPUPS_PEOPLE,
+			'movies_search' => $domain_url . $imdb_admin_option['imdburlpopups'] . parent::URL_BIT_POPUPS_MOVIES_SEARCH,
 		];
 		return $url[ $column ];
 	}

@@ -33,6 +33,6 @@ $lumiere_helpage = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 	?></div>
 	<br />
 	<div>
-		&copy; 2005-<?php echo esc_html( gmdate( 'Y' ) ); ?> <a href="<?php echo esc_html( \Lumiere\Settings::IMDBABOUTENGLISH ); ?>" target="_blank">Lost Highway</a>, <a href="<?php echo esc_html( \Lumiere\Settings::IMDBHOMEPAGE ); ?>" target="_blank">Lumière! WordPress plugin</a> version <?php echo esc_html( lum_get_version() ); ?>.
+		&copy; 2005-<?php echo esc_html( gmdate( 'Y' ) ); ?> <a href="<?php echo esc_html( \Lumiere\Tools\Get_Options::LUM_BLOG_PLUGIN_ABOUT ); ?>" target="_blank">Lost Highway</a>, <a href="<?php echo esc_html( \Lumiere\Tools\Get_Options::LUM_BLOG_PLUGIN ); ?>" target="_blank">Lumière! WordPress plugin</a> version <?php echo esc_html( lum_get_version() ); ?>.
 	</div>
 </div>

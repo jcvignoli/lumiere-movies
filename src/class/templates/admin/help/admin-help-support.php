@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * HTML allowed for use of wp_kses()
@@ -53,7 +53,7 @@ $lumiere_aknowledgefile = get_transient( Admin_Menu::TRANSIENT_ADMIN )[2];
 	
 			<?php esc_html_e( 'You will never believe there is so many ways to be supported. You can:', 'lumiere-movies' ); ?><br>
 
-	<strong>1</strong>. <?php esc_html_e( 'visit', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( Settings::IMDBHOMEPAGE ); ?>">Lumière website</a> <?php esc_html_e( 'to ask for help. ', 'lumiere-movies' ); ?><br>
+	<strong>1</strong>. <?php esc_html_e( 'visit', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( Get_Options::LUM_BLOG_PLUGIN ); ?>">Lumière website</a> <?php esc_html_e( 'to ask for help. ', 'lumiere-movies' ); ?><br>
 
 	<strong>2</strong>. <?php esc_html_e( 'check the', 'lumiere-movies' ); ?> <a href="<?php echo esc_url( $lumiere_page_faqs ) ?>"><?php esc_html_e( 'FAQs ', 'lumiere-movies' ); ?></a>.<br>
 
@@ -64,11 +64,11 @@ $lumiere_aknowledgefile = get_transient( Admin_Menu::TRANSIENT_ADMIN )[2];
 
 		<?php esc_html_e( 'You will never believe there is so many ways to thank me. Yes, you can:', 'lumiere-movies' ); ?><br>
 		
-		<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies' ); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( Settings::LUM_PICS_URL . 'paypal-donate.png' ); ?>" width="40px" class="paypal lumiere_valign_middle" /></a>.<br>
-		<strong>2</strong>. <?php esc_html_e( 'vote on', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( Settings::LUMIERE_WORDPRESS ); ?>"><?php esc_html_e( "WordPress' website", 'lumiere-movies' ); ?></a> <?php esc_html_e( 'for Lumière plugin', 'lumiere-movies' ); ?>.<br>
+		<strong>1</strong>. <?php esc_html_e( 'pay whatever you want on', 'lumiere-movies' ); ?> <a href="https://www.paypal.me/jcvignoli">paypal <img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'paypal-donate.png' ); ?>" width="40px" class="paypal lumiere_valign_middle" /></a>.<br>
+		<strong>2</strong>. <?php esc_html_e( 'vote on', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( Get_Options::LUM_WORDPRESS_URL ); ?>"><?php esc_html_e( "WordPress' website", 'lumiere-movies' ); ?></a> <?php esc_html_e( 'for Lumière plugin', 'lumiere-movies' ); ?>.<br>
 		<strong>3</strong>. <?php esc_html_e( 'send as many bugfixes and propositions as you can on Lumiere Movies website.', 'lumiere-movies' ); ?><br>
 		<strong>4</strong>. <?php esc_html_e( 'translate the plugin into your own language.', 'lumiere-movies' ); ?><br>
-		<strong>5</strong>. <?php esc_html_e( 'help me to improve the plugin.', 'lumiere-movies' ); ?> <?php esc_html_e( 'Report at the development', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( Settings::LUMIERE_GIT ); ?>">GIT</a>'s <?php esc_html_e( 'website', 'lumiere-movies' ); ?> <br>
+		<strong>5</strong>. <?php esc_html_e( 'help me to improve the plugin.', 'lumiere-movies' ); ?> <?php esc_html_e( 'Report at the development', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( Get_Options::LUM_GIT_URL ); ?>">GIT</a>'s <?php esc_html_e( 'website', 'lumiere-movies' ); ?> <br>
 		<strong>6</strong>. <?php esc_html_e( 'do a trackback, make some noise about this plugin!', 'lumiere-movies' ); ?><br>
 
 		<div class="titresection"><?php esc_html_e( 'Credits:', 'lumiere-movies' ); ?></div>

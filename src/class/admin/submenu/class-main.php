@@ -20,7 +20,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Tools\Debug;
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Display Main options menu
@@ -65,7 +65,7 @@ class Main extends Admin_Menu {
 		// Submenu.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_submenu'],
-			[ Settings::LUM_PICS_URL, $this->page_main_base, $this->page_main_advanced ], /** Add an array with vars to send in the template */
+			[ Get_Options::LUM_PICS_URL, $this->page_main_base, $this->page_main_advanced ], /** Add an array with vars to send in the template */
 			self::TRANSIENT_ADMIN,
 		);
 
@@ -78,7 +78,7 @@ class Main extends Admin_Menu {
 		) {
 			$this->include_with_vars(
 				self::PAGES_NAMES['main_options'],
-				[ Settings::LUM_PICS_URL ], /** Add an array with vars to send in the template */
+				[ Get_Options::LUM_PICS_URL ], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
 

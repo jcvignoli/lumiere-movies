@@ -155,7 +155,7 @@ Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lum
 
 = 4.3.4 =
 
-PHP >= 8.1 is now required.
+PHP >= 8.1 is now required. New item: connected movies.
 
 = 4.3.3 =
 
@@ -180,6 +180,10 @@ Popup spinners to make you visitors wait, nicer popup layouts, faster taxonomy p
 More flexibility for the auto title widget users: You can now prevent a post from displaying the auto title widget by ticking in the post edition's the Lumiere option "Deactivate autowidget for this post".
 
 == Upgrade Notice ==
+
+= 4.4 =
+
+Check after a few minutes if the display order of data is the same you want. You may have to fix it.
 
 = 4.3.3 =
 

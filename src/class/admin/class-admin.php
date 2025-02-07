@@ -16,12 +16,12 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Backoffice_Extra;
 use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Admin\Search;
 use Lumiere\Tools\Data;
+use Lumiere\Tools\Get_Options;
 use Lumiere\Tools\Settings_Global;
 
 /**
@@ -109,53 +109,53 @@ class Admin {
 		// Register hide/show script
 		wp_register_script(
 			'lumiere_hide_show',
-			Settings::LUM_JS_URL . 'lumiere_hide_show.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere_hide_show.min.js',
 			[ 'jquery' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_hide_show.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_hide_show.min.js' ) ),
 			true
 		);
 
 		// Register admin styles
 		wp_register_style(
 			'lumiere_css_admin',
-			Settings::LUM_CSS_URL . 'lumiere_admin.min.css',
+			Get_Options::LUM_CSS_URL . 'lumiere_admin.min.css',
 			[],
-			strval( filemtime( Settings::LUM_CSS_PATH . 'lumiere_admin.min.css' ) )
+			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lumiere_admin.min.css' ) )
 		);
 
 		// Register admin scripts
 		wp_register_script(
 			'lumiere_scripts_admin',
-			Settings::LUM_JS_URL . 'lumiere_scripts_admin.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere_scripts_admin.min.js',
 			[ 'jquery' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_scripts_admin.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_scripts_admin.min.js' ) ),
 			false
 		);
 
 		// Register gutenberg admin scripts
 		wp_register_script(
 			'lumiere_scripts_admin_gutenberg',
-			Settings::LUM_JS_URL . 'lumiere_scripts_admin_gutenberg.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere_scripts_admin_gutenberg.min.js',
 			[ 'jquery' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_scripts_admin_gutenberg.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_scripts_admin_gutenberg.min.js' ) ),
 			false
 		);
 
 		// Register confirmation script upon deactivation
 		wp_register_script(
 			'lumiere_deactivation_plugin_message',
-			Settings::LUM_JS_URL . 'lumiere_admin_deactivation_msg.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere_admin_deactivation_msg.min.js',
 			[ 'jquery' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_admin_deactivation_msg.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_admin_deactivation_msg.min.js' ) ),
 			true
 		);
 
 		// Quicktag
 		wp_register_script(
 			'lumiere_quicktag_addbutton',
-			Settings::LUM_JS_URL . 'lumiere_admin_quicktags.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere_admin_quicktags.min.js',
 			[ 'quicktags' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere_admin_quicktags.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_admin_quicktags.min.js' ) ),
 			true
 		);
 	}
@@ -174,7 +174,7 @@ class Admin {
 			|| 'post-new.php' === $page_caller
 			|| 'widgets.php' === $page_caller
 			// All Lumière pages.
-			|| Data::lumiere_array_contains_term( Settings::get_all_lumiere_pages(), esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) )
+			|| Data::lumiere_array_contains_term( Get_Options::get_all_lumiere_pages(), esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) )
 			// Extra WP Admin pages.
 			|| Data::lumiere_array_contains_term(
 				[
@@ -194,7 +194,7 @@ class Admin {
 			// Add inline scripts.
 			wp_add_inline_script(
 				'lumiere_scripts_admin',
-				Settings::get_scripts_admin_vars(),
+				Get_Options::get_scripts_admin_vars(),
 				'before'
 			);
 
@@ -255,7 +255,7 @@ class Admin {
 	 */
 	public function lumiere_tinymce_addbutton( array $plugin_array ): array {
 
-		$plugin_array['lumiere_tiny'] = Settings::LUM_JS_URL . 'lumiere_admin_tinymce_editor.min.js';
+		$plugin_array['lumiere_tiny'] = Get_Options::LUM_JS_URL . 'lumiere_admin_tinymce_editor.min.js';
 		return $plugin_array;
 	}
 
@@ -269,7 +269,7 @@ class Admin {
 
 		// Display only if URL is ok and is not admin (to save time.
 		if (
-			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Settings::GUTENBERG_SEARCH_URL ) !== 0
+			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options::SEARCH_URL_BIT ) !== 0
 			|| is_admin()
 		) {
 			return $template_path;

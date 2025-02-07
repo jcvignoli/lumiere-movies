@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * Is called by the Link Factory class, implements abstract Link Maker class
@@ -50,7 +50,7 @@ class Classic_Links extends Abstract_Link_Maker {
 
 		wp_register_script(
 			'lumiere_classic_links',
-			Settings::LUM_JS_URL . 'lumiere_classic_links.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere_classic_links.min.js',
 			[],
 			lum_get_version(),
 			true
@@ -95,11 +95,6 @@ class Classic_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
-	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
-	 *
-	 * @return ?string
 	 */
 	public function lumiere_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string {
 
@@ -109,8 +104,6 @@ class Classic_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inherit
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into an internal link
 	 */
 	public function lumiere_imdburl_to_internalurl( string $text ): string {
 
@@ -132,8 +125,6 @@ class Classic_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inherit
-	 *
-	 * @param string $text Text that includes IMDb URL to convert
 	 */
 	public function lumiere_imdburl_of_soundtrack( string $text ): string {
 
@@ -143,15 +134,20 @@ class Classic_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param array<int, string> $link_parsed html tags and text to be modified
-	 * @param null|string $popuplarg -> window width, if nothing passed takes database value
-	 * @param null|string $popuplong -> window height, if nothing passed takes database value
 	 */
-	public function lumiere_popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
+	public function popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
 
 		// Function in abstract class, fourth param for bootstrap.
-		return parent::lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong );
+		return parent::popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong );
+	}
+
+	/**
+	 * @inherit
+	 */
+	public function popup_film_link_inbox( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string {
+
+		// Function in abstract class, fifth param for bootstrap.
+		return parent::popup_film_link_inbox_abstract( $title, $imdbid, $popuplarg, $popuplong );
 	}
 
 	/**

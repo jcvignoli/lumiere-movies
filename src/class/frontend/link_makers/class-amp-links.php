@@ -111,10 +111,18 @@ class AMP_Links extends Abstract_Link_Maker {
 	 * @param null|string $popuplarg Not in use
 	 * @param null|string $popuplong Not in use
 	 */
-	public function lumiere_popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
+	public function popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
 
 		// Function in abstract class, fourth param for AMP.
-		return parent::lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 2 );
+		return parent::popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 2 );
+	}
+
+	/**
+	 * @inherit
+	 */
+	public function popup_film_link_inbox( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string {
+		// Function in abstract class, fifth param for AMP.
+		return parent::popup_film_link_inbox_abstract( $title, $imdbid, $popuplarg, $popuplong, 2 );
 	}
 
 	/**

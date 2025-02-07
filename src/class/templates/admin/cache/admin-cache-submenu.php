@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 // Retrieve the vars from calling class.
 $lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
@@ -24,11 +24,11 @@ $lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 <div id="tabswrap" class="lumiere_wrap">
 
 	<div class="lumiere_flex_container lumiere_padding_five">
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( Settings::LUM_PICS_URL . 'menu/admin-cache-options.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_cache_option ); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-cache-options.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_cache_option ); ?>"><?php esc_html_e( 'Cache options', 'lumiere-movies' ); ?></a></div>
 		<?php
 		if ( $lumiere_that->imdb_cache_values['imdbusecache'] === '1' ) {
 			?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Settings::LUM_PICS_URL . 'menu/admin-cache-management.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_cache_manage ); ?>"><?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-cache-management.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_cache_manage ); ?>"><?php esc_html_e( 'Manage Cache', 'lumiere-movies' ); ?></a></div>
 			<?php
 		};
 		?>

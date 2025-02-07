@@ -59,9 +59,13 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 .lum_link_make_popup, .lum_link_make_popup:hover, .lum_link_make_popup:visited { /** Link to all types of modal windows popup */
 }
 
-.lum_link_with_movie { /* Link to a movie popup */
+.lum_link_with_movie { /* Link to a movie popup into the post */
 	background: url(../pics/lumiere-ico-noir13x13.png) no-repeat left;
 	padding-left: 16px;
+	cursor:pointer;
+}
+
+.lum_link_with_movie_inbox { /* Link to a movie popup INSIDE a box */
 	cursor:pointer;
 }
 
@@ -177,7 +181,7 @@ text-align:left;
 }
 
 .lumiere-lines-common {			/* common div to all elements */
-	padding: 0 10px 0 10px;
+	padding: 10px 10px 0 10px;
 	text-align:left;
 }
 .lumiere-lines-common hr {

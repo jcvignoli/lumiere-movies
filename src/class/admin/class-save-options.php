@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Tools\Settings_Global;
@@ -29,7 +28,7 @@ use Exception;
  * @since 4.0 Created by extracting all the methods from the main admin menu and its subclasses and factorized them here, added check nonces for refresh/delete individual movies, added transiants to trigger notices in {@see \Lumiere\Admin\Admin_Menu::lumiere_admin_display_messages() } and crons in {@see \Lumiere\Admin\Cron::lumiere_add_remove_crons_cache() }
  *
  * @info: the following OPTIONS_DATA_MINUS doesn't include 'imdbwidgetorder': array<string>, recreate it for phpstan
- * @phpstan-type OPTIONS_DATA_MINUS array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':int|string, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber': bool|string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber': string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber': string|bool, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber': string|bool, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber': string|bool, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber': string|bool, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber': string|bool, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber': bool|string, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
+ * @phpstan-type OPTIONS_DATA_MINUS array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':string, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber':string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber':string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber':string, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber':string, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber':string, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber':string, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber':string, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber':string, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
@@ -343,7 +342,7 @@ class Save_Options {
 	private function lumiere_main_options_reset( string|bool $get_referer ): void {
 
 		delete_option( Get_Options::get_admin_tablename() );
-		Settings::create_database_options();
+		Get_Options::create_database_options();
 
 		set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
@@ -417,7 +416,7 @@ class Save_Options {
 	 */
 	private function lumiere_cache_options_reset( string|bool $get_referer ): void {
 		delete_option( Get_Options::get_cache_tablename() );
-		Settings::create_database_options();
+		Get_Options::create_database_options();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
@@ -643,7 +642,7 @@ class Save_Options {
 	private function lumiere_data_options_reset( string|bool $get_referer, ): void {
 
 		delete_option( Get_Options::get_data_tablename() );
-		Settings::create_database_options();
+		Get_Options::create_database_options();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );

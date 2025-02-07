@@ -141,7 +141,7 @@ class Cron {
 
 		$cache_class = new Cache_Files_Management();
 		$cache_class->cron_all_cache_refresh(
-			7, /* nb of files refreshed per cron call*/
+			5, /* nb of files refreshed per cron call, lowered to 5 since 4.4 as connection method is resource intensive */
 			self::CACHE_DAYS_AUTO_REFRESH_ROUND /* nb of days before having a new overall refresh */
 		);
 

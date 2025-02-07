@@ -20,7 +20,6 @@ use Lumiere\Frontend\Main;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Tools\Get_Options;
 use Lumiere\Plugins\Plugins_Start;
-use Lumiere\Settings;
 
 /**
  * Edit <head> for popups
@@ -151,10 +150,10 @@ class Head_Popups {
 		echo "\n" . '<meta name="robots" content="nofollow" />';
 
 		// Add favicons.
-		echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url( Settings::LUM_PICS_URL . 'favicon/apple-touch-icon.png' ) . '" />';
-		echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( Settings::LUM_PICS_URL . 'favicon/favicon-32x32.png' ) . '" />';
-		echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url( Settings::LUM_PICS_URL . 'favicon/favicon-16x16.png' ) . '" />';
-		echo "\n" . '<link rel="manifest" href="' . esc_url( Settings::LUM_PICS_URL . 'favicon/site.webmanifest' ) . '" />';
+		echo "\n" . '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url( Get_Options::LUM_PICS_URL . 'favicon/apple-touch-icon.png' ) . '" />';
+		echo "\n" . '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( Get_Options::LUM_PICS_URL . 'favicon/favicon-32x32.png' ) . '" />';
+		echo "\n" . '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url( Get_Options::LUM_PICS_URL . 'favicon/favicon-16x16.png' ) . '" />';
+		echo "\n" . '<link rel="manifest" href="' . esc_url( Get_Options::LUM_PICS_URL . 'favicon/site.webmanifest' ) . '" />';
 
 		// Add canonical.
 		// Canonical for search popup.

@@ -21,7 +21,6 @@ use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Tools\Get_Options;
-use Lumiere\Settings;
 
 /**
  * Display star information in a popup
@@ -832,10 +831,10 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			}
 
 			// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
-			$photo_url_href = strlen( $photo_url ) === 0 ? esc_url( Settings::LUM_PICS_URL . 'no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
+			$photo_url_href = strlen( $photo_url ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
 			// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-			$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Settings::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
+			$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
 
 			echo "\n\t\t\t\t" . '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 			echo "\n\t\t\t\t\t" . '<img loading="lazy" src="'

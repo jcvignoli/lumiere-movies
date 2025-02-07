@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Settings;
+use Lumiere\Tools\Get_Options;
 
 /**
  * This class is used when bootstrap option is selected
@@ -55,9 +55,9 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		);
 		wp_register_style(
 			'lumiere_bootstrap_custom',
-			Settings::LUM_CSS_URL . 'lumiere-bootstrap-custom.min.css',
+			Get_Options::LUM_CSS_URL . 'lumiere-bootstrap-custom.min.css',
 			[ 'lumiere_bootstrap_core' ],
-			strval( filemtime( Settings::LUM_CSS_PATH . 'lumiere-bootstrap-custom.min.css' ) )
+			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lumiere-bootstrap-custom.min.css' ) )
 		);
 
 		// Scripts.
@@ -70,9 +70,9 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 		);
 		wp_register_script(
 			'lumiere_bootstrap_scripts',
-			Settings::LUM_JS_URL . 'lumiere-bootstrap-links.min.js',
+			Get_Options::LUM_JS_URL . 'lumiere-bootstrap-links.min.js',
 			[ 'lumiere_scripts' ],
-			strval( filemtime( Settings::LUM_JS_PATH . 'lumiere-bootstrap-links.min.js' ) ),
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere-bootstrap-links.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 	}
@@ -141,9 +141,17 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 	/**
 	 * @inherit
 	 */
-	public function lumiere_popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
+	public function popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
 		// Function in abstract class, fourth param for bootstrap.
-		return parent::lumiere_popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 1 );
+		return parent::popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 1 );
+	}
+
+	/**
+	 * @inherit
+	 */
+	public function popup_film_link_inbox( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string {
+		// Function in abstract class, fifth param for bootstrap.
+		return parent::popup_film_link_inbox_abstract( $title, $imdbid, $popuplarg, $popuplong, 1 );
 	}
 
 	/**

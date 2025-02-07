@@ -341,7 +341,7 @@ class Movie_Display extends Movie_Data {
 	 */
 	private function lumiere_build_popup_link( array $correspondances ): string {
 		$result = isset( $correspondances[0] )
-			? str_replace( $correspondances[0], $this->link_maker->lumiere_popup_film_link( $correspondances ), $correspondances[0] )
+			? str_replace( $correspondances[0], $this->link_maker->popup_film_link( $correspondances ), $correspondances[0] )
 			: '';
 		return $result;
 	}
@@ -384,7 +384,7 @@ class Movie_Display extends Movie_Data {
 
 		// Find the Title based on $mid_premier_resultat.
 		$title_mid_object = $this->plugins_classes_active['imdbphp']->get_title_class(
-			esc_html( $mid_premier_resultat ), // The IMDb ID.
+			esc_html( $mid_premier_resultat ),
 			$this->logger->log,
 		);
 

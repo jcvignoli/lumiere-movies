@@ -208,8 +208,8 @@ class Cli_Commands {
 
 		// Build the principal vars.
 		$template_types = [ 'items', 'people' ];
-		$items = Get_Options::get_list_items();
-		$people = Get_Options::get_list_people();
+		$items = Get_Options::get_list_items_taxo();
+		$people = Get_Options::get_list_people_taxo();
 		$all = array_merge( $items, $people );
 		$array_items = [ $template_types[0] => $items ];
 		$array_people = [ $template_types[1] => $people ];
