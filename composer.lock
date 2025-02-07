@@ -703,16 +703,16 @@
         },
         {
             "name": "codeception/module-db",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-db.git",
-                "reference": "23bc6a37472b9d5935bc8cf8defc9d59e852c0c2"
+                "reference": "8a295c40d009f9821fae5e32c4d3ce10273e57a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-db/zipball/23bc6a37472b9d5935bc8cf8defc9d59e852c0c2",
-                "reference": "23bc6a37472b9d5935bc8cf8defc9d59e852c0c2",
+                "url": "https://api.github.com/repos/Codeception/module-db/zipball/8a295c40d009f9821fae5e32c4d3ce10273e57a6",
+                "reference": "8a295c40d009f9821fae5e32c4d3ce10273e57a6",
                 "shasum": ""
             },
             "require": {
@@ -755,9 +755,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-db/issues",
-                "source": "https://github.com/Codeception/module-db/tree/3.2.0"
+                "source": "https://github.com/Codeception/module-db/tree/3.2.1"
             },
-            "time": "2025-01-31T21:25:45+00:00"
+            "time": "2025-02-06T19:34:04+00:00"
         },
         {
             "name": "codeception/module-filesystem",
@@ -4682,16 +4682,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.44",
+            "version": "10.5.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1381c62769be4bb88fa4c5aec1366c7c66ca4f36"
+                "reference": "bd68a781d8e30348bc297449f5234b3458267ae8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1381c62769be4bb88fa4c5aec1366c7c66ca4f36",
-                "reference": "1381c62769be4bb88fa4c5aec1366c7c66ca4f36",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bd68a781d8e30348bc297449f5234b3458267ae8",
+                "reference": "bd68a781d8e30348bc297449f5234b3458267ae8",
                 "shasum": ""
             },
             "require": {
@@ -4763,7 +4763,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.44"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.45"
             },
             "funding": [
                 {
@@ -4779,7 +4779,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-31T07:00:38+00:00"
+            "time": "2025-02-06T16:08:12+00:00"
         },
         {
             "name": "psr/container",
@@ -11270,30 +11270,29 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "automattic/phpcs-neutron-ruleset": 0,
+        "lucatume/wp-browser": 0,
         "codeception/module-asserts": 0,
-        "codeception/module-cli": 0,
-        "codeception/module-db": 0,
-        "codeception/module-filesystem": 0,
         "codeception/module-phpbrowser": 0,
         "codeception/module-webdriver": 0,
+        "codeception/module-filesystem": 0,
+        "codeception/module-cli": 0,
         "codeception/util-universalframework": 0,
-        "dealerdirect/phpcodesniffer-composer-installer": 0,
-        "lucatume/wp-browser": 0,
-        "phan/phan": 0,
-        "php-stubs/wp-cli-stubs": 0,
-        "phpmd/phpmd": 0,
+        "vlucas/phpdotenv": 0,
+        "wp-cli/wp-cli-bundle": 0,
         "phpseclib/phpseclib": 0,
-        "phpstan/phpstan": 0,
-        "phpstan/phpstan-strict-rules": 0,
-        "skaut/wordpress-stubs": 0,
         "squizlabs/php_codesniffer": 0,
+        "wp-coding-standards/wpcs": 0,
+        "phpmd/phpmd": 0,
+        "phpstan/phpstan": 0,
+        "automattic/phpcs-neutron-ruleset": 0,
+        "dealerdirect/phpcodesniffer-composer-installer": 0,
+        "phan/phan": 0,
+        "skaut/wordpress-stubs": 0,
+        "phpstan/phpstan-strict-rules": 0,
         "szepeviktor/phpstan-wordpress": 0,
         "vimeo/psalm": 0,
-        "vlucas/phpdotenv": 0,
         "wapmorgan/php-deprecation-detector": 0,
-        "wp-cli/wp-cli-bundle": 0,
-        "wp-coding-standards/wpcs": 0
+        "php-stubs/wp-cli-stubs": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -11302,9 +11301,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
