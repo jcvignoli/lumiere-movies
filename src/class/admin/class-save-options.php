@@ -373,10 +373,9 @@ class Save_Options {
 				$val_final = sanitize_text_field( $postvalue );
 				// Dirty code that should be in Settings: Relative cache paths to be updated if 'imdbcachedir_partial' is updated.
 				if ( $key_final === 'imdbcachedir_partial' ) {
-					$imdb_cache_values['imdbcachedir'] = WP_CONTENT_DIR . $val_final;
-				}
-				if ( $key_final === 'imdbcachedir_partial' && isset( $imdb_cache_values['imdbcachedir'] ) ) {
-					$imdb_cache_values['imdbphotoroot'] = $imdb_cache_values['imdbcachedir'] . 'images/';
+					$imdb_cache_values['imdbcachedir']  = WP_CONTENT_DIR . $val_final;
+					$imdb_cache_values['imdbphotoroot'] = WP_CONTENT_DIR . $val_final . 'images/';
+					$imdb_cache_values['imdbphotodir']  = content_url() . $val_final . 'images/';
 				}
 			}
 

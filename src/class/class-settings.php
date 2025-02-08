@@ -421,9 +421,11 @@ class Settings {
 	 * @return array<string, string|array<string, string>>
 	 */
 	private function get_cache_option(): array {
-
-		$imdb_cache_options = [
+		return [
 			'imdbcachedir_partial'             => self::LUMIERE_FOLDER_CACHE,
+			'imdbcachedir'                     => WP_CONTENT_DIR . self::LUMIERE_FOLDER_CACHE,
+			'imdbphotoroot'                    => WP_CONTENT_DIR . self::LUMIERE_FOLDER_CACHE . 'images/',
+			'imdbphotodir'                     => content_url() . self::LUMIERE_FOLDER_CACHE . 'images/',
 			'imdbusecache'                     => '1',
 			'imdbcacheexpire'                  => '2592000',                     /* one month */
 			'imdbcachedetailsshort'            => '0',
@@ -431,14 +433,7 @@ class Settings {
 			'imdbcachekeepsizeunder'           => '0',
 			'imdbcachekeepsizeunder_sizelimit' => '100',                         /* 100 MB */
 			'imdbcachedetailshidden'           => '0',
-			'imdbphotodir'                     => content_url() . '/cache/lumiere/images/',
 		];
-
-		// Needs an option from above.
-		$imdb_cache_options['imdbcachedir']        = WP_CONTENT_DIR . $imdb_cache_options['imdbcachedir_partial'];
-		$imdb_cache_options['imdbphotoroot']       = $imdb_cache_options['imdbcachedir'] . 'images/';
-
-		return $imdb_cache_options;
 	}
 
 	/**
@@ -454,7 +449,7 @@ class Settings {
 	 */
 	private function get_data_option(): array {
 		return array_merge(
-			$this->get_data_rows_taxo( self::DATA_OPTION_TAXO_ACTIVE_DEFAULT    /* Activated rows by default */ ),
+			$this->get_data_rows_taxo( self::DATA_OPTION_TAXO_ACTIVE_DEFAULT        /* Activated rows by default */ ),
 			$this->get_data_rows_withnumbers( self::DATA_OPTION_WITHNUMBER_DEFAULT  /* Rows that must have a specific number */ ),
 			$this->get_data_rows_widget( self::DATA_OPTION_WIDGET_ACTIVE_DEFAULT    /* Activated rows by default */ ),
 			$this->get_data_rows_imdbwidgetorder(),
