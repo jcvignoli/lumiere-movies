@@ -138,13 +138,22 @@ class Get_Options extends \Lumiere\Settings {
 	}
 
 	/**
-	 * Get all type items that are used for taxonomy
+	 * Get all type items (taxo+non taxo)
 	 *
 	 * @since 4.4 method added
 	 * @return array<string, string>
 	 */
 	public static function get_all_items(): array {
 		return parent::define_list_all_items();
+	}
+
+	/**
+	 * Get all type items that are used for taxonomy
+	 *
+	 * @return array<string, string>
+	 */
+	public static function get_items_with_numbers(): array {
+		return parent::define_list_items_with_numbers();
 	}
 
 	/**

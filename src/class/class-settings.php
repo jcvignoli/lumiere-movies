@@ -205,6 +205,7 @@ class Settings {
 
 	/**
 	 * Define the type of people items that are used for taxonomy
+	 * All items in type people are actually taxonomy
 	 * @see self::get_data_option() use this list to create the options
 	 *
 	 * @return array<string, string>
@@ -223,6 +224,7 @@ class Settings {
 
 	/**
 	 * Define the type items that are used for taxonomy
+	 * Complements define_list_non_taxo_items() which are for non-taxo items
 	 * @see self::get_data_option() use this list to create the options
 	 *
 	 * @return array<string, string>
@@ -239,6 +241,55 @@ class Settings {
 	}
 
 	/**
+	 * Define the type items that are NOT used for taxonomy
+	 * Complements define_list_taxo_items() which are for taxo items
+	 *
+	 * @return array<string, string>
+	 * @phpstan-return array{ 'officialsites':string,'prodcompany':string, 'rating':string,'runtime':string, 'source':string, 'year':string, 'title': string, 'pic':string, 'alsoknow': string, 'connection':string, 'goof': string, 'plot':string, 'quote':string, 'soundtrack':string, 'tagline':string, 'trailer':string }
+	 */
+	public static function define_list_non_taxo_items(): array {
+		return [
+			'officialsites' => __( 'official websites', 'lumiere-movies' ),
+			'prodcompany'   => __( 'production company', 'lumiere-movies' ),
+			'rating'        => __( 'rating', 'lumiere-movies' ),
+			'runtime'       => __( 'runtime', 'lumiere-movies' ),
+			'source'        => __( 'source', 'lumiere-movies' ),
+			'year'          => __( 'year of release', 'lumiere-movies' ),
+			'title'         => __( 'title', 'lumiere-movies' ),
+			'pic'           => __( 'pic', 'lumiere-movies' ),
+			'alsoknow'      => __( 'also known as', 'lumiere-movies' ),
+			'connection'    => __( 'connected movies', 'lumiere-movies' ),
+			'goof'          => __( 'goof', 'lumiere-movies' ),
+			'plot'          => __( 'plot', 'lumiere-movies' ),
+			'quote'         => __( 'quote', 'lumiere-movies' ),
+			'soundtrack'    => __( 'soundtrack', 'lumiere-movies' ),
+			'tagline'       => __( 'tagline', 'lumiere-movies' ),
+			'trailer'       => __( 'trailer', 'lumiere-movies' ),
+		];
+	}
+
+	/**
+	 * Define the type items that can get an extra number in admin data options
+	 *
+	 * @return array<string, string>
+	 * @phpstan-return array{ 'actor': string, 'alsoknow': string, 'connection':string, 'goof':string, 'plot':string, 'producer':string, 'quote':string, 'soundtrack':string, 'tagline':string, 'trailer':string }
+	 */
+	public static function define_list_items_with_numbers(): array {
+		return [
+			'actor'      => __( 'actor', 'lumiere-movies' ),
+			'alsoknow'   => __( 'also known as', 'lumiere-movies' ),
+			'connection' => __( 'connected movies', 'lumiere-movies' ),
+			'goof'       => __( 'goof', 'lumiere-movies' ),
+			'plot'       => __( 'plot', 'lumiere-movies' ),
+			'producer'   => __( 'producer', 'lumiere-movies' ),
+			'quote'      => __( 'quote', 'lumiere-movies' ),
+			'soundtrack' => __( 'soundtrack', 'lumiere-movies' ),
+			'tagline'    => __( 'tagline', 'lumiere-movies' ),
+			'trailer'    => __( 'trailer', 'lumiere-movies' ),
+		];
+	}
+
+	/**
 	 * Define all types of items
 	 * This lists merge taxonomy items with those that are not meant for taxo
 	 *
@@ -246,15 +297,9 @@ class Settings {
 	 */
 	public static function define_list_all_items(): array {
 		return array_merge(
+			self::define_list_taxo_people(), // Taxo_people is all people options, since there are no people options that are not taxonomy.
 			self::define_list_taxo_items(),
-			[
-				'officialsites' => __( 'official websites', 'lumiere-movies' ),
-				'prodcompany'   => __( 'production company', 'lumiere-movies' ),
-				'rating'        => __( 'rating', 'lumiere-movies' ),
-				'runtime'       => __( 'runtime', 'lumiere-movies' ),
-				'source'        => __( 'source', 'lumiere-movies' ),
-				'year'          => __( 'year of release', 'lumiere-movies' ),
-			]
+			self::define_list_non_taxo_items(),
 		);
 	}
 

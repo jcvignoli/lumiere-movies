@@ -31,12 +31,6 @@ use Lumiere\Tools\Get_Options;
 class Data extends Admin_Menu {
 
 	/**
-	 * List of data details that display a field to fill a limit number in "Data Display" section
-	 * @var array<string>
-	 */
-	private array $details_with_numbers;
-
-	/**
 	 * List of data comments
 	 * @var array<string>
 	 */
@@ -49,22 +43,6 @@ class Data extends Admin_Menu {
 
 		// Construct parent class
 		parent::__construct();
-
-		// Build the list of data details that include a number limit
-		$this->details_with_numbers = [
-			'actor'      => __( 'actor', 'lumiere-movies' ),
-			'alsoknow'   => __( 'also known as', 'lumiere-movies' ),
-			'connection' => __( 'connected movies', 'lumiere-movies' ),
-			'goof'       => __( 'goof', 'lumiere-movies' ),
-			'plot'       => __( 'plot', 'lumiere-movies' ),
-			'producer'   => __( 'producer', 'lumiere-movies' ),
-			'quote'      => __( 'quote', 'lumiere-movies' ),
-			'soundtrack' => __( 'soundtrack', 'lumiere-movies' ),
-			'tagline'    => __( 'tagline', 'lumiere-movies' ),
-			'trailer'    => __( 'trailer', 'lumiere-movies' ),
-			'title'      => __( 'title', 'lumiere-movies' ),
-			'pic'        => __( 'pic', 'lumiere-movies' ),
-		];
 
 		// Build the list of data comments
 		$this->details_comments = [
@@ -140,7 +118,7 @@ class Data extends Admin_Menu {
 					$this->imdb_data_values, // data options.
 					$this->get_display_options()[0], // list of items and people with two extra lists.
 					$this->get_display_options()[1], // explaination of items and people with the two extra lists.
-					$this->details_with_numbers, // data details in a field to fill in.
+					Get_Options::get_items_with_numbers(), // data details in a field to fill in.
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
@@ -251,13 +229,7 @@ class Data extends Admin_Menu {
 	private function get_display_options(): array {
 
 		// Merge the list of items and people with two extra lists
-		$array_full = array_unique(
-			array_merge(
-				Get_Options::get_list_people_taxo(),
-				Get_Options::get_all_items(),
-				$this->details_with_numbers,
-			)
-		);
+		$array_full = Get_Options::get_all_items();
 
 		// Sort the array to display in alphabetical order
 		asort( $array_full );
