@@ -211,7 +211,7 @@ class Settings {
 	 * @return array<string, string>
 	 * @phpstan-return array{ 'actor': string, 'composer': string, 'creator':string, 'director':string, 'producer':string, 'writer':string }
 	 */
-	public static function define_list_taxo_people(): array {
+	protected static function define_list_taxo_people(): array {
 		return [
 			'actor'    => __( 'actor', 'lumiere-movies' ),
 			'composer' => __( 'composer', 'lumiere-movies' ),
@@ -230,7 +230,7 @@ class Settings {
 	 * @return array<string, string>
 	 * @phpstan-return array{ 'color': string, 'country': string, 'genre':string, 'keyword':string, 'language':string }
 	 */
-	public static function define_list_taxo_items(): array {
+	protected static function define_list_taxo_items(): array {
 		return [
 			'color'    => __( 'color', 'lumiere-movies' ),
 			'country'  => __( 'country', 'lumiere-movies' ),
@@ -247,7 +247,7 @@ class Settings {
 	 * @return array<string, string>
 	 * @phpstan-return array{ 'officialsites':string,'prodcompany':string, 'rating':string,'runtime':string, 'source':string, 'year':string, 'title': string, 'pic':string, 'alsoknow': string, 'connection':string, 'goof': string, 'plot':string, 'quote':string, 'soundtrack':string, 'tagline':string, 'trailer':string }
 	 */
-	public static function define_list_non_taxo_items(): array {
+	protected static function define_list_non_taxo_items(): array {
 		return [
 			'officialsites' => __( 'official websites', 'lumiere-movies' ),
 			'prodcompany'   => __( 'production company', 'lumiere-movies' ),
@@ -274,7 +274,7 @@ class Settings {
 	 * @return array<string, string>
 	 * @phpstan-return array{ 'actor': string, 'alsoknow': string, 'connection':string, 'goof':string, 'plot':string, 'producer':string, 'quote':string, 'soundtrack':string, 'tagline':string, 'trailer':string }
 	 */
-	public static function define_list_items_with_numbers(): array {
+	protected static function define_list_items_with_numbers(): array {
 		return [
 			'actor'      => __( 'actor', 'lumiere-movies' ),
 			'alsoknow'   => __( 'also known as', 'lumiere-movies' ),
@@ -295,7 +295,7 @@ class Settings {
 	 *
 	 * @return array<string, string>
 	 */
-	public static function define_list_all_items(): array {
+	protected static function define_list_all_items(): array {
 		return array_merge(
 			self::define_list_taxo_people(), // Taxo_people is all people options, since there are no people options that are not taxonomy.
 			self::define_list_taxo_items(),
@@ -433,6 +433,7 @@ class Settings {
 	/**
 	 * Return standard  DATA options
 	 * @see self::get_data_rows_taxo() Import automatically taxonomy built vars
+	 * @TODO: everything should be automatized with define_list_items_with_numbers() and define_list_all_items()
 	 *
 	 * @phpstan-return non-empty-array<'imdbtaxonomyactor'|'imdbtaxonomycolor'|'imdbtaxonomycomposer'|'imdbtaxonomycountry'|'imdbtaxonomycreator'|'imdbtaxonomydirector'|'imdbtaxonomygenre'|'imdbtaxonomykeyword'|'imdbtaxonomylanguage'|'imdbtaxonomyproducer'|'imdbtaxonomywriter'|'imdbwidgetactor'|'imdbwidgetactornumber'|'imdbwidgetalsoknow'|'imdbwidgetalsoknownumber'|'imdbwidgetcolor'|'imdbwidgetcomment'|'imdbwidgetcomposer'|'imdbwidgetconnection'|'imdbwidgetconnectionnumber'|'imdbwidgetcountry'|'imdbwidgetcreator'|'imdbwidgetdirector'|'imdbwidgetgenre'|'imdbwidgetgoof'|'imdbwidgetgoofnumber'|'imdbwidgetkeyword'|'imdbwidgetlanguage'|'imdbwidgetofficialsites'|'imdbwidgetorder'|'imdbwidgetpic'|'imdbwidgetplot'|'imdbwidgetplotnumber'|'imdbwidgetprodcompany'|'imdbwidgetproducer'|'imdbwidgetproducernumber'|'imdbwidgetquote'|'imdbwidgetquotenumber'|'imdbwidgetrating'|'imdbwidgetruntime'|'imdbwidgetsoundtrack'|'imdbwidgetsoundtracknumber'|'imdbwidgetsource'|'imdbwidgettagline'|'imdbwidgettaglinenumber'|'imdbwidgettitle'|'imdbwidgettrailer'|'imdbwidgettrailernumber'|'imdbwidgetwriter'|'imdbwidgetyear',  '0'|'1'|'10'|'2'|array{'actor': '6', 'alsoknow': '21', 'color': '20', 'composer': '22', 'connection': '11', 'country': '5', 'creator': '7', 'director': '4', 'genre': '10', 'goof': '17', 'keyword': '14', 'language': '9', 'officialsites': '25', 'pic': '2', 'plot': '16', 'prodcompany': '15', 'producer': '13', 'quote': '18', 'rating': '8', 'runtime': '3', 'soundtrack': '23', 'source': '26', 'tagline': '19', 'title': '1', 'trailer': '24', 'writer': '12'}>
 	 * @return array<string, mixed>
@@ -440,7 +441,7 @@ class Settings {
 	private function get_data_option(): array {
 
 		return array_merge(
-			self::get_data_rows_taxo(),
+			$this->get_data_rows_taxo(),
 			[
 				'imdbwidgettitle'            => '1',
 				'imdbwidgetpic'              => '1',
@@ -521,7 +522,7 @@ class Settings {
 	 * @phpstan-return non-empty-array<'imdbtaxonomyactor'| 'imdbtaxonomycolor'| 'imdbtaxonomycomposer'|'imdbtaxonomycountry'|'imdbtaxonomycreator'| 'imdbtaxonomydirector'| 'imdbtaxonomygenre'|'imdbtaxonomykeyword'| 'imdbtaxonomylanguage'| 'imdbtaxonomyproducer'|'imdbtaxonomywriter', '0'|'1'>
 	 * @psalm-return array{imdbtaxonomyactor?: '0', imdbtaxonomycolor?: '0', imdbtaxonomycomposer?: '0', imdbtaxonomycountry?: '0', imdbtaxonomycreator?: '0', imdbtaxonomydirector?: '1', imdbtaxonomygenre?: '1', imdbtaxonomykeyword?: '0', imdbtaxonomylanguage?: '0', imdbtaxonomyproducer?: '0', imdbtaxonomywriter?: '0'}
 	 */
-	private static function get_data_rows_taxo() {
+	private function get_data_rows_taxo() {
 		$taxonomy_keys = array_merge( array_keys( self::define_list_taxo_people() ), array_keys( self::define_list_taxo_items() ) );
 		$array_taxonomy = [];
 		$activated = [ 'director', 'genre' ]; // Taxonomy activated by default.
