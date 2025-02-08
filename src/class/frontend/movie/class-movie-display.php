@@ -392,8 +392,10 @@ class Movie_Display extends Movie_Data {
 
 			if (
 				// Use order to select the position of the data detail.
-				$this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order
+				isset( $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] )
+				&& $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order
 				// Is the data detail activated?
+				/** @psalm-suppress PossiblyUndefinedArrayOffset (even adding an extra check doesn't suppress the error) */
 				&& $this->imdb_data_values[ 'imdbwidget' . $data_detail ] === '1'
 			) {
 				// Build the method name according to the data detail name.

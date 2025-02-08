@@ -243,11 +243,7 @@ class Save_Options {
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @param null|string $imdburlstringtaxo $_POST['imdb_imdburlstringtaxo']
 	 * @param null|string $imdburlpopups $_POST['imdbpopup_modal_window']
-	 *
-	 * @template T as OPTIONS_ADMIN
-	 * @phan-suppress PhanTemplateTypeNotUsedInFunctionReturn
 	 */
-	// @phpstan-ignore-next-line method.templateTypeNotInParameter
 	private function lumiere_main_options_save( string|bool $get_referer, ?string $imdburlstringtaxo, ?string $imdburlpopups ): void {
 
 		// Check if $_POST['imdb_imdburlstringtaxo'] and $_POST['imdb_imdburlpopups'] are identical, because they can't be, so exit if they are.
@@ -302,29 +298,27 @@ class Save_Options {
 			flush_rewrite_rules();
 		}
 
+		$forbidden_terms = [ 'lumiere_update_main_settings', '_wp_http_referer', '_nonce_main_settings' ];
+		$imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
+
 		foreach ( $_POST as $key => $postvalue ) {
 
-			// Sanitize keys
-			$key_sanitized = sanitize_text_field( $key );
-			/** @phpstan-var key-of<T> $keynoimdb */
-			$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
-
-			// These $_POST values shouldn't be processed
-			$forbidden_terms = [ 'lumiere_update_main_settings', '_wp_http_referer', '_nonce_main_settings' ];
-			if ( in_array( $key_sanitized, $forbidden_terms, true ) ) {
+			if ( in_array( $key, $forbidden_terms, true ) ) {
 				continue;
+			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
+				// Sanitize
+				$key_san = sanitize_text_field( $key );
+				// remove "imdb_" from $key
+				$key_final = str_replace( 'imdb_', '', $key_san );
+				$val_final = sanitize_text_field( $postvalue );
 			}
 
-			/** @phpstan-var value-of<T>|null $post_sanitized */
-			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( wp_unslash( $_POST[ $key_sanitized ] ) ) : null;
-			if ( isset( $post_sanitized ) ) {
-				/** @psalm-suppress InvalidArrayOffset, InvalidPropertyAssignmentValue */
-				$this->imdb_admin_values[ $keynoimdb ] = $post_sanitized;
+			if ( isset( $key_final ) && isset( $val_final ) ) {
+				$imdb_admin_values[ $key_final ] = $val_final;
 			}
 		}
 
-		// update options, keep the originals if there is a problem.
-		update_option( Get_Options::get_admin_tablename(), $this->imdb_admin_values );
+		update_option( Get_Options::get_admin_tablename(), $imdb_admin_values );
 
 		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 		if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
@@ -355,11 +349,7 @@ class Save_Options {
 	 *
 	 * @see Lumiere\Admin\Cron::lumiere_add_remove_crons_cache()
 	 * @throws Exception if nonces are incorrect
-	 *
-	 * @template T as OPTIONS_CACHE
-	 * @phan-suppress PhanTemplateTypeNotUsedInFunctionReturn
 	 */
-	// @phpstan-ignore-next-line method.templateTypeNotInParameter
 	private function lumiere_cache_options_save( string|bool $get_referer ): void {
 
 		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) === false ) {
@@ -369,27 +359,26 @@ class Save_Options {
 		// These $_POST values shouldn't be processed
 		$forbidden_terms = [ 'lumiere_update_cache_settings', '_wp_http_referer', '_nonce_cache_settings' ];
 
+		$imdb_cache_values = get_option( Get_Options::get_cache_tablename(), [] );
+
 		foreach ( $_POST as $key => $postvalue ) {
 
-			// Sanitize
-			$key_sanitized = sanitize_text_field( $key );
-
-			if ( in_array( $key_sanitized, $forbidden_terms, true ) ) {
+			if ( in_array( $key, $forbidden_terms, true ) ) {
 				continue;
+			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
+				// Sanitize
+				$key_san = sanitize_text_field( $key );
+				// remove "imdb_" from $key
+				$key_final = str_replace( 'imdb_', '', $key_san );
+				$val_final = sanitize_text_field( $postvalue );
 			}
 
-			$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
-			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( wp_unslash( $_POST[ $key_sanitized ] ) ) : null;
-			if ( isset( $post_sanitized ) ) {
-				/**
-				 * @phpstan-var key-of<T> $keynoimdb
-				 * @psalm-suppress InvalidArrayOffset, InvalidPropertyAssignmentValue
-				 */
-				$this->imdb_cache_values[ $keynoimdb ] = $post_sanitized;
+			if ( isset( $key_final ) && isset( $val_final ) ) {
+				$imdb_cache_values[ $key_final ] = $val_final;
 			}
 		}
 
-		update_option( Get_Options::get_cache_tablename(), $this->imdb_cache_values );
+		update_option( Get_Options::get_cache_tablename(), $imdb_cache_values );
 
 		set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 

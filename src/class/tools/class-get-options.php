@@ -81,8 +81,6 @@ class Get_Options extends \Lumiere\Settings {
 	 * Get Admin options row name as in wp_options
 	 *
 	 * @return string
-	 * @since 4.2.1 method added, returning old row name if exists, new name otherwise
-	 * @since 4.2.2 method renamed and returns only the new row name
 	 */
 	public static function get_admin_tablename(): string {
 		return parent::LUMIERE_ADMIN_OPTIONS;
@@ -92,8 +90,6 @@ class Get_Options extends \Lumiere\Settings {
 	 * Get Data options row name as in wp_options
 	 *
 	 * @return string
-	 * @since 4.2.1 method added, returning old row name if exists, new name otherwise
-	 * @since 4.2.2 method renamed and returns only the new row name
 	 */
 	public static function get_data_tablename(): string {
 		return parent::LUMIERE_DATA_OPTIONS;
@@ -103,8 +99,6 @@ class Get_Options extends \Lumiere\Settings {
 	 * Get Cache options row name as in wp_options
 	 *
 	 * @return string
-	 * @since 4.2.1 method added, returning old row name if exists, new name otherwise
-	 * @since 4.2.2 method renamed and returns only the new row name
 	 */
 	public static function get_cache_tablename(): string {
 		return parent::LUMIERE_CACHE_OPTIONS;

@@ -59,7 +59,7 @@ class Movie_Data {
 		$title_sanitized = esc_html( $movie->$item_name() );
 
 		$year_text = '';
-		if ( strlen( strval( $year ) ) > 0 && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
+		if ( strlen( strval( $year ) ) > 0 && isset( $this->imdb_data_values['imdbwidgetyear'] ) && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
 			$year_text = ' (' . strval( $year ) . ')';
 		}
 

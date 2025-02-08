@@ -482,7 +482,7 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 
 		// Connected movies
 		$connected_movies = $movie_class->connection();
-		$admin_max_connected = intval( $this->imdb_data_values['imdbwidgetconnectionnumber'] );
+		$admin_max_connected = isset( $this->imdb_data_values['imdbwidgetconnectionnumber'] ) ? intval( $this->imdb_data_values['imdbwidgetconnectionnumber'] ) : 0;
 		$nbtotalconnected = count( $connected_movies );
 
 		if ( $nbtotalconnected < 1 ) {
