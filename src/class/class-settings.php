@@ -345,8 +345,7 @@ class Settings {
 	 * Return standard ADMIN options
 	 *
 	 * @phpstan-return OPTIONS_ADMIN
-	 * @psalm-return array{imdbHowManyUpdates: string, imdbautopostwidget: '0', imdbcoversize: '1', imdbcoversizewidth: '100', imdbdebug: '0', imdbdebuglevel: 'DEBUG', imdbdebuglog: '0', imdbdebuglogpath: mixed|string, imdbdebugscreen: '1', imdbdelayimdbrequest: '0', imdbintotheposttheme: 'grey', imdbirpdisplay: '0', imdbkeepsettings: '1', imdblanguage: 'US', imdblinkingkill: '0', imdbmaxresults: '10', imdbplugindirectory: non-falsy-string, imdbplugindirectory_partial: '/wp-content/plugins/lumiere-movies/', imdbpluginpath: mixed, imdbpopup_modal_window: 'bootstrap', imdbpopuplarg: '800', imdbpopuplong: '500', imdbpopuptheme: 'white', imdbseriemovies: 'movies+series', imdbtaxonomy: '1', imdburlpopups: '/lumiere/', imdburlstringtaxo: 'lumiere-', imdbwordpress_bigmenu: '0', imdbwordpress_tooladminmenu: '1'}
-	 * @return array<mixed>
+	 * @return array<string, string|array<string, string>>
 	 */
 	private function get_admin_option(): array {
 
@@ -419,7 +418,7 @@ class Settings {
 	 * Return standard CACHE options
 	 *
 	 * @phpstan-return OPTIONS_CACHE
-	 * @return array<string, mixed>
+	 * @return array<string, string|array<string, string>>
 	 */
 	private function get_cache_option(): array {
 
@@ -451,7 +450,7 @@ class Settings {
 	 * @see self::get_data_rows_imdbwidgetorder() Import automatically array 'imdbwidgetorder' built vars
 	 *
 	 * @phpstan-return OPTIONS_DATA
-	 * @return array<string, mixed>
+	 * @return array<string, string|array<string, string>>
 	 */
 	private function get_data_option(): array {
 		return array_merge(
