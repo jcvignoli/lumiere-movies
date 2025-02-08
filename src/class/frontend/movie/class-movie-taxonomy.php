@@ -22,7 +22,7 @@ use Lumiere\Plugins\Logger;
  * The class is meant to deal with taxonomy
  *
  * @since 4.4 Class created, using methods that were in Movie_Display
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  */
 class Movie_Taxonomy {
 

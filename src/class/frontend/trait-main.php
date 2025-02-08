@@ -29,7 +29,7 @@ use Lumiere\Tools\Get_Options;
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
-  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
+  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  */
 trait Main {
 

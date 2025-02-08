@@ -28,7 +28,7 @@ use Lumiere\Tools\Get_Options;
  * 3/ On closing the class, check if the rules are correctly added. If they aren't, a flush_rewrite_rules() is done
  * @since 3.11
  * @see \Lumiere\Frontend\Popups Folder that includes the popup classes
-  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
+  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
  */
 class Rewrite_Rules {
 

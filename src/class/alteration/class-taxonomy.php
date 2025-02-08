@@ -28,8 +28,8 @@ use WP_Query;
  * 2/ URL based on taxonomy  Taxonomy Pages names are added to the database
  * @Info Use of conditions for instanciate Logger class, otherwhise "Notice: Function _load_textdomain_just_in_time was called incorrectly."
  *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
  */
 class Taxonomy {
 

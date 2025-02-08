@@ -29,9 +29,9 @@ use Lumiere\Plugins\Logger;
  * If imdbkeepsettings is set (advanced admin options), exit earlier to keep database settings
  *
  * @since 4.0 option properties can be null and construct is different.
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
  */
 class Uninstall {
 

@@ -27,11 +27,9 @@ use Exception;
  *
  * @since 4.0 Created by extracting all the methods from the main admin menu and its subclasses and factorized them here, added check nonces for refresh/delete individual movies, added transiants to trigger notices in {@see \Lumiere\Admin\Admin_Menu::lumiere_admin_display_messages() } and crons in {@see \Lumiere\Admin\Cron::lumiere_add_remove_crons_cache() }
  *
- * @info: the following OPTIONS_DATA_MINUS doesn't include 'imdbwidgetorder': array<string>, recreate it for phpstan
- * @phpstan-type OPTIONS_DATA_MINUS array{'imdbwidgettitle': string, 'imdbwidgetpic': string,'imdbwidgetruntime': string, 'imdbwidgetdirector': string, 'imdbwidgetcountry': string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':string, 'imdbwidgetcreator': string, 'imdbwidgetrating': string, 'imdbwidgetlanguage': string, 'imdbwidgetgenre': string, 'imdbwidgetwriter': string, 'imdbwidgetproducer': string, 'imdbwidgetproducernumber':string, 'imdbwidgetkeyword': string, 'imdbwidgetprodcompany': string, 'imdbwidgetplot': string, 'imdbwidgetplotnumber':string, 'imdbwidgetgoof': string, 'imdbwidgetgoofnumber':string, 'imdbwidgetcomment': string, 'imdbwidgetquote': string, 'imdbwidgetquotenumber':string, 'imdbwidgettagline': string, 'imdbwidgettaglinenumber':string, 'imdbwidgetcolor': string, 'imdbwidgetalsoknow': string, 'imdbwidgetalsoknownumber':string, 'imdbwidgetcomposer': string, 'imdbwidgetsoundtrack': string, 'imdbwidgetsoundtracknumber':string, 'imdbwidgetofficialsites': string, 'imdbwidgetsource': string, 'imdbwidgetyear': string, 'imdbwidgettrailer': string, 'imdbwidgettrailernumber':string, 'imdbtaxonomycolor': string, 'imdbtaxonomycomposer': string, 'imdbtaxonomycountry': string, 'imdbtaxonomycreator': string, 'imdbtaxonomydirector': string, 'imdbtaxonomygenre': string, 'imdbtaxonomykeyword': string, 'imdbtaxonomylanguage': string, 'imdbtaxonomyproducer': string, 'imdbtaxonomyactor': string, 'imdbtaxonomywriter': string}
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
  */
 class Save_Options {
 
@@ -43,7 +41,7 @@ class Save_Options {
 	/**
 	 * Allows to limit the calls to rewrite rules refresh
 	 * @var string|null $page_data_taxo Full URL to data page taxonomy subpage
-	 * @see Save_Options::lumiere_data_options_save()
+	 * @see Save_Options::save_data_options()
 	 * @since 4.1
 	 */
 	private null|string $page_data_taxo;
@@ -64,11 +62,11 @@ class Save_Options {
 	}
 
 	/**
-	 * Call from a WordPress hook
+	 * Called in hook
 	 * @param string|null $page_data_taxo Full URL to data page taxonomy subpage
 	 *
 	 * @since 4.1 added param, I need it to restrain rewrite rules flush to data taxo pages
-	 * @see self::lumiere_data_options_save() use $this->page_data_taxo
+	 * @see self::save_data_options() use $this->page_data_taxo
 	 */
 	public static function lumiere_static_start( ?string $page_data_taxo = null ): void {
 		$class_save = new self( $page_data_taxo );
@@ -230,7 +228,7 @@ class Save_Options {
 			isset( $_POST['lumiere_update_data_settings'], $_POST['_nonce_data_settings'] )
 			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) > 0
 		) {
-			$this->lumiere_data_options_save( $this->get_referer() );
+			$this->save_data_options( $this->get_referer() );
 		} elseif (
 			isset( $_POST['lumiere_reset_data_settings'], $_POST['_nonce_data_settings'] )
 			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) > 0
@@ -368,13 +366,14 @@ class Save_Options {
 			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
 		}
 
+		// These $_POST values shouldn't be processed
+		$forbidden_terms = [ 'lumiere_update_cache_settings', '_wp_http_referer', '_nonce_cache_settings' ];
+
 		foreach ( $_POST as $key => $postvalue ) {
 
 			// Sanitize
 			$key_sanitized = sanitize_text_field( $key );
 
-			// These $_POST values shouldn't be processed
-			$forbidden_terms = [ 'lumiere_update_cache_settings', '_wp_http_referer', '_nonce_cache_settings' ];
 			if ( in_array( $key_sanitized, $forbidden_terms, true ) ) {
 				continue;
 			}
@@ -531,6 +530,7 @@ class Save_Options {
 
 	/**
 	 * Refresh specific People/Movie files (based on html links)
+	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
 	 * @param 'movie'|'people'|string $type result of $_GET['type'] to define either people or movie
@@ -548,24 +548,24 @@ class Save_Options {
 
 	/**
 	 * Save Data options
+	 * Do the distinction between value in associative array as array ('imdbwidgetorder') and string (the others)
+	 * Remove string 'imdb_' sent in $_POST
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 *
 	 * @throws Exception if nonces are incorrect
 	 * @since 4.1 added flush_rewrite_rules()
-	 * @TODO refactorize, function is too complex
+	 * @since 4.4 refactorized
 	 */
-	private function lumiere_data_options_save( string|bool $get_referer, ): void {
+	private function save_data_options( string|bool $get_referer, ): void {
 
 		if ( ! isset( $_POST['_nonce_data_settings'] ) || wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) === false ) {
-			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
+			throw new Exception( 'Wrong nounce error' );
 		}
 
 		// These $_POST values shouldn't be processed
 		$forbidden_terms = [
-			// Keep $_POST['imdbwidgetorderContainer'] and $_POST['imdbwidgetorder'] untouched
-			'imdbwidgetordercontainer',
-			'imdb_imdbwidgetorder',
+			'imdb_imdbwidgetorder', // empty value, using 'imdbwidgetorderContainer' instead.
 			// Nonce and others
 			'lumiere_nonce_data_settings',
 			'lumiere_update_data_settings',
@@ -573,51 +573,33 @@ class Save_Options {
 			'_nonce_data_settings',
 		];
 
+		$imdb_data_values = get_option( Get_Options::get_data_tablename(), [] );
 		foreach ( $_POST as $key => $postvalue ) {
 
-			// Sanitize
-			$key_sanitized = sanitize_text_field( $key );
-
-			if ( in_array( $key_sanitized, $forbidden_terms, true ) ) {
+			if ( in_array( $key, $forbidden_terms, true ) ) {
 				continue;
-			}
-
-			$post_sanitized = isset( $_POST[ $key_sanitized ] ) && is_string( $_POST[ $key_sanitized ] ) ? sanitize_text_field( wp_unslash( $_POST[ $key_sanitized ] ) ) : null;
-			// Copy $_POST to $this->imdb_data_values var
-			if ( isset( $post_sanitized ) ) {
-
+			} elseif ( $key === 'imdbwidgetorderContainer' && is_array( $postvalue ) ) { // build 'imdbwidgetorder' row.
+				$post_value_san = map_deep( $postvalue, 'sanitize_text_field' );
+				$key_final = 'imdbwidgetorder';
+				$val_final = [];
+				foreach ( $post_value_san as $val_array_key => $val_array_value ) {
+					// use the row number as value; add one since it's supposed to start at 1 in Settings.
+					$val_final[ $val_array_value ] = strval( $val_array_key + 1 );
+				}
+			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
+				// Sanitize
+				$key_san = sanitize_key( $key );
 				// remove "imdb_" from $key
-				$keynoimdb = str_replace( 'imdb_', '', $key_sanitized );
+				$key_final = str_replace( 'imdb_', '', $key_san );
+				$val_final = sanitize_key( $postvalue );
+			}
 
-				/**
-				 * The following OPTIONS_DATA_MINUS doesn't include 'imdbwidgetorder': array<string> which is dealt with later
-				 * @phpstan-var key-of<OPTIONS_DATA_MINUS> $keynoimdb  */
-				$this->imdb_data_values[ $keynoimdb ] = $post_sanitized;
+			if ( isset( $key_final ) && isset( $val_final ) ) {
+				$imdb_data_values[ $key_final ] = $val_final;
 			}
 		}
 
-		/**
-		 * Special part related to details order
-		 * Sanitize and reverse keys and values to insert $_POST['imdbwidgetorderContainer'] into $imdb_data_values['imdbwidgetorder']
-		 */
-		if ( isset( $_POST['imdbwidgetorderContainer'] ) ) {
-
-			/**
-			 * @psalm-suppress InvalidArgument
-			 */
-			$datafiltered = map_deep( wp_unslash( $_POST['imdbwidgetorderContainer'] ), 'sanitize_text_field' );
-
-			$data_keys_filtered = array_keys( $datafiltered );
-
-			$data_values_filtered = $datafiltered;
-
-			$imdbwidgetorder_sanitized = array_combine( $data_values_filtered, $data_keys_filtered );
-
-			$this->imdb_data_values['imdbwidgetorder'] = $imdbwidgetorder_sanitized;
-		}
-
-		// update options
-		update_option( Get_Options::get_data_tablename(), $this->imdb_data_values );
+		update_option( Get_Options::get_data_tablename(), $imdb_data_values );
 
 		/**
 		 * New custom pages need a flush rewrite rules to make sure taxonomy pages are available.

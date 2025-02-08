@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class of configuration
+ * Settings
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
@@ -25,17 +25,21 @@ if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
 }
 
 /**
- * Configuration class
+ * Settings class
  * Call create_database_options() to set the options in WP config database
  *
  * @since 4.0 Moved cache folder creation to class cache tools
  * @since 4.1 Renamed *imdb_widget_* to *imdb_data_* all over the website
- * @since 4.4 Options are created only when installing/activating the plugin
+ * @since 4.4 Options are created only when installing/activating the plugin, widely rewritten and simplified. Use of Get_Options class.
  *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
- */
+ * @phpstan-type LEVEL_LOG_NAME 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
+ *
+ * @phpstan-type OPTIONS_ADMIN array{imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: string,imdburlpopups: string,imdbkeepsettings: string,imdburlstringtaxo: string,imdbcoversize: string,imdbcoversizewidth: string, imdbmaxresults: string, imdbdelayimdbrequest: string, imdbpopuptheme: string, imdbpopuplarg: string,imdbpopuplong: string, imdbintotheposttheme: string, imdblinkingkill: string, imdbautopostwidget: string, imdblanguage: string, imdbdebug: string, imdbdebuglog: string, imdbdebuglogpath: string, imdbdebuglevel: string|LEVEL_LOG_NAME, imdbdebugscreen: string, imdbwordpress_bigmenu: string, imdbwordpress_tooladminmenu: string, imdbpopup_modal_window: string, imdbtaxonomy: string, imdbHowManyUpdates: string, imdbseriemovies: string, imdbirpdisplay: string}
+ *
+ * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
+ *
+ * @phpstan-type OPTIONS_DATA array{'imdbtaxonomyactor':string, 'imdbtaxonomycolor':string, 'imdbtaxonomycomposer':string, 'imdbtaxonomycountry':string, 'imdbtaxonomycreator':string, 'imdbtaxonomydirector':string, 'imdbtaxonomygenre':string, 'imdbtaxonomykeyword':string, 'imdbtaxonomylanguage':string, 'imdbtaxonomyproducer':string, 'imdbtaxonomywriter':string, 'imdbwidgetactor':string, 'imdbwidgetactornumber':numeric-string, 'imdbwidgetalsoknow':string, 'imdbwidgetalsoknownumber':numeric-string, 'imdbwidgetcolor':string, 'imdbwidgetcomment':string, 'imdbwidgetcomposer':string, 'imdbwidgetconnection':string, 'imdbwidgetconnectionnumber':string, 'imdbwidgetcountry':string, 'imdbwidgetcreator':string, 'imdbwidgetdirector':string, 'imdbwidgetgenre':string, 'imdbwidgetgoof':string, 'imdbwidgetgoofnumber':numeric-string, 'imdbwidgetkeyword':string, 'imdbwidgetlanguage':string, 'imdbwidgetofficialsites':string, 'imdbwidgetpic':string, 'imdbwidgetplot':string, 'imdbwidgetplotnumber':numeric-string, 'imdbwidgetprodcompany':string, 'imdbwidgetproducer':string, 'imdbwidgetproducernumber':numeric-string, 'imdbwidgetquote':string, 'imdbwidgetquotenumber':numeric-string, 'imdbwidgetrating':string, 'imdbwidgetruntime':string, 'imdbwidgetsoundtrack':string, 'imdbwidgetsoundtracknumber':numeric-string, 'imdbwidgetsource':string, 'imdbwidgettagline':string, 'imdbwidgettaglinenumber':numeric-string, 'imdbwidgettitle':string, 'imdbwidgettrailer':string, 'imdbwidgettrailernumber':numeric-string, 'imdbwidgetwriter':string, 'imdbwidgetyear':string,'imdbwidgetorder': array{'actor': numeric-string, 'alsoknow': numeric-string, 'color': numeric-string, 'composer': numeric-string, 'connection': numeric-string, 'country': numeric-string, 'creator': numeric-string, 'director': numeric-string, 'genre': numeric-string, 'goof': numeric-string, 'keyword': numeric-string, 'language': numeric-string, 'officialsites': numeric-string, 'pic': numeric-string, 'plot': numeric-string, 'prodcompany': numeric-string, 'producer': numeric-string, 'quote': numeric-string, 'rating': numeric-string, 'runtime': numeric-string, 'soundtrack': numeric-string, 'source': numeric-string, 'tagline': numeric-string, 'title': numeric-string, 'trailer': numeric-string, 'writer': numeric-string } }
+  */
 class Settings {
 
 	/**
@@ -201,8 +205,10 @@ class Settings {
 
 	/**
 	 * Define the type of people items that are used for taxonomy
+	 * @see self::get_data_option() use this list to create the options
 	 *
 	 * @return array<string, string>
+	 * @phpstan-return array{ 'actor': string, 'composer': string, 'creator':string, 'director':string, 'producer':string, 'writer':string }
 	 */
 	public static function define_list_taxo_people(): array {
 		return [
@@ -217,8 +223,10 @@ class Settings {
 
 	/**
 	 * Define the type items that are used for taxonomy
+	 * @see self::get_data_option() use this list to create the options
 	 *
 	 * @return array<string, string>
+	 * @phpstan-return array{ 'color': string, 'country': string, 'genre':string, 'keyword':string, 'language':string }
 	 */
 	public static function define_list_taxo_items(): array {
 		return [
@@ -277,10 +285,10 @@ class Settings {
 	}
 
 	/**
-	 * Make an array of ADMIN options
+	 * Return standard ADMIN options
 	 *
 	 * @phpstan-return OPTIONS_ADMIN
-	 * @psalm-return array{imdbHowManyUpdates?: mixed|string, imdbautopostwidget?: mixed|string, imdbcoversize?: mixed|string, imdbcoversizewidth?: mixed|string, imdbdebug?: mixed|string, imdbdebuglevel?: mixed|string, imdbdebuglog?: mixed|string, imdbdebuglogpath?: mixed|string, imdbdebugscreen?: mixed|string, imdbdelayimdbrequest?: mixed|string, imdbintotheposttheme?: mixed|string, imdbkeepsettings?: mixed|string, imdblanguage?: mixed|string, imdblinkingkill?: mixed|string, imdbmaxresults?: mixed|string, imdbplugindirectory: non-falsy-string, imdbplugindirectory_partial?: mixed|string, imdbpluginpath?: mixed|string, imdbpopup_modal_window?: mixed|string, imdbpopuplarg?: mixed|string, imdbpopuplong?: mixed|string, imdbpopuptheme?: mixed|string, imdbseriemovies?: mixed|string, imdbtaxonomy?: mixed|string, imdburlpopups?: mixed|string, imdburlstringtaxo?: mixed|string, imdbwordpress_bigmenu?: mixed|string, imdbwordpress_tooladminmenu?: mixed|string, imdbirpdisplay?: mixed|string, ...<array-key, mixed|string>}
+	 * @psalm-return array{imdbHowManyUpdates: string, imdbautopostwidget: '0', imdbcoversize: '1', imdbcoversizewidth: '100', imdbdebug: '0', imdbdebuglevel: 'DEBUG', imdbdebuglog: '0', imdbdebuglogpath: mixed|string, imdbdebugscreen: '1', imdbdelayimdbrequest: '0', imdbintotheposttheme: 'grey', imdbirpdisplay: '0', imdbkeepsettings: '1', imdblanguage: 'US', imdblinkingkill: '0', imdbmaxresults: '10', imdbplugindirectory: non-falsy-string, imdbplugindirectory_partial: '/wp-content/plugins/lumiere-movies/', imdbpluginpath: mixed, imdbpopup_modal_window: 'bootstrap', imdbpopuplarg: '800', imdbpopuplong: '500', imdbpopuptheme: 'white', imdbseriemovies: 'movies+series', imdbtaxonomy: '1', imdburlpopups: '/lumiere/', imdburlstringtaxo: 'lumiere-', imdbwordpress_bigmenu: '0', imdbwordpress_tooladminmenu: '1'}
 	 * @return array<mixed>
 	 */
 	private function get_admin_option(): array {
@@ -351,11 +359,10 @@ class Settings {
 	}
 
 	/**
-	 * Makes an array of CACHE options
+	 * Return standard CACHE options
 	 *
 	 * @phpstan-return OPTIONS_CACHE
-	 * @psalm-return array{imdbcacheautorefreshcron: '0', imdbcachedetailshidden: '0', imdbcachedetailsshort: '0', imdbcachedir: non-falsy-string, imdbcachedir_partial: '/cache/lumiere/', imdbcacheexpire: '2592000', imdbcachekeepsizeunder: '0', imdbcachekeepsizeunder_sizelimit: '100', imdbphotodir: non-falsy-string, imdbphotoroot: non-falsy-string, imdbusecache: '1'}
-	 * @return array<mixed>
+	 * @return array<string, mixed>
 	 */
 	private function get_cache_option(): array {
 
@@ -379,92 +386,108 @@ class Settings {
 	}
 
 	/**
-	 * Makes an array of DATA options
+	 * Return standard  DATA options
+	 * @see self::get_data_rows_taxo() Import automatically taxonomy built vars
 	 *
-	 * @phpstan-return OPTIONS_DATA
-	 * @psalm-return non-empty-array<array-key, '0'|'1'|'10'|'2'|array{actor: '6', alsoknow: '21', color: '20', composer: '22', connection: '15', country: '5', creator: '7', director: '4', genre: '10', goof: '17', keyword: '13', language: '9', officialsites: '25', pic: '2', plot: '16', prodcompany: '14', producer: '12', quote: '18', rating: '8', runtime: '3', soundtrack: '23', source: '26', tagline: '19', title: '1', trailer: '24', writer: '11'}>
-	 * @return array<mixed>
+	 * @phpstan-return non-empty-array<'imdbtaxonomyactor'|'imdbtaxonomycolor'|'imdbtaxonomycomposer'|'imdbtaxonomycountry'|'imdbtaxonomycreator'|'imdbtaxonomydirector'|'imdbtaxonomygenre'|'imdbtaxonomykeyword'|'imdbtaxonomylanguage'|'imdbtaxonomyproducer'|'imdbtaxonomywriter'|'imdbwidgetactor'|'imdbwidgetactornumber'|'imdbwidgetalsoknow'|'imdbwidgetalsoknownumber'|'imdbwidgetcolor'|'imdbwidgetcomment'|'imdbwidgetcomposer'|'imdbwidgetconnection'|'imdbwidgetconnectionnumber'|'imdbwidgetcountry'|'imdbwidgetcreator'|'imdbwidgetdirector'|'imdbwidgetgenre'|'imdbwidgetgoof'|'imdbwidgetgoofnumber'|'imdbwidgetkeyword'|'imdbwidgetlanguage'|'imdbwidgetofficialsites'|'imdbwidgetorder'|'imdbwidgetpic'|'imdbwidgetplot'|'imdbwidgetplotnumber'|'imdbwidgetprodcompany'|'imdbwidgetproducer'|'imdbwidgetproducernumber'|'imdbwidgetquote'|'imdbwidgetquotenumber'|'imdbwidgetrating'|'imdbwidgetruntime'|'imdbwidgetsoundtrack'|'imdbwidgetsoundtracknumber'|'imdbwidgetsource'|'imdbwidgettagline'|'imdbwidgettaglinenumber'|'imdbwidgettitle'|'imdbwidgettrailer'|'imdbwidgettrailernumber'|'imdbwidgetwriter'|'imdbwidgetyear',  '0'|'1'|'10'|'2'|array{'actor': '6', 'alsoknow': '21', 'color': '20', 'composer': '22', 'connection': '11', 'country': '5', 'creator': '7', 'director': '4', 'genre': '10', 'goof': '17', 'keyword': '14', 'language': '9', 'officialsites': '25', 'pic': '2', 'plot': '16', 'prodcompany': '15', 'producer': '13', 'quote': '18', 'rating': '8', 'runtime': '3', 'soundtrack': '23', 'source': '26', 'tagline': '19', 'title': '1', 'trailer': '24', 'writer': '12'}>
+	 * @return array<string, mixed>
 	 */
 	private function get_data_option(): array {
-		return [
-			'imdbwidgettitle'            => '1',
-			'imdbwidgetpic'              => '1',
-			'imdbwidgetruntime'          => '0',
-			'imdbwidgetdirector'         => '1',
-			'imdbwidgetconnection'       => '0',                           /* @since 4.4 */
-			'imdbwidgetconnectionnumber' => '0',                           /* @since 4.4 */
-			'imdbwidgetcountry'          => '0',
-			'imdbwidgetactor'            => '1',
-			'imdbwidgetactornumber'      => '10',
-			'imdbwidgetcreator'          => '0',
-			'imdbwidgetrating'           => '0',
-			'imdbwidgetlanguage'         => '0',
-			'imdbwidgetgenre'            => '1',
-			'imdbwidgetwriter'           => '1',
-			'imdbwidgetproducer'         => '0',
-			'imdbwidgetproducernumber'   => '0',
-			'imdbwidgetkeyword'          => '0',
-			'imdbwidgetprodcompany'      => '0',
-			'imdbwidgetplot'             => '1',
-			'imdbwidgetplotnumber'       => '2',
-			'imdbwidgetgoof'             => '0',
-			'imdbwidgetgoofnumber'       => '0',
-			'imdbwidgetcomment'          => '0',
-			'imdbwidgetquote'            => '0',
-			'imdbwidgetquotenumber'      => '0',
-			'imdbwidgettagline'          => '0',
-			'imdbwidgettaglinenumber'    => '0',
-			'imdbwidgetcolor'            => '0',
-			'imdbwidgetalsoknow'         => '0',
-			'imdbwidgetalsoknownumber'   => '0',
-			'imdbwidgetcomposer'         => '0',
-			'imdbwidgetsoundtrack'       => '0',
-			'imdbwidgetsoundtracknumber' => '0',
-			'imdbwidgetofficialsites'    => '0',
-			'imdbwidgetsource'           => '0',
-			'imdbwidgetyear'             => '0',
-			'imdbwidgettrailer'          => '0',
-			'imdbwidgettrailernumber'    => '0',
-			'imdbwidgetorder' => [
-				'title'         => '1',
-				'pic'           => '2',
-				'runtime'       => '3',
-				'director'      => '4',
-				'country'       => '5',
-				'actor'         => '6',
-				'creator'       => '7',
-				'rating'        => '8',
-				'language'      => '9',
-				'genre'         => '10',
-				'writer'        => '11',
-				'producer'      => '12',
-				'keyword'       => '13',
-				'prodcompany'   => '14',
-				'connection'    => '15',                                    /* @since 4.4 */
-				'plot'          => '16',
-				'goof'          => '17',
-				'quote'         => '18',
-				'tagline'       => '19',
-				'color'         => '20',
-				'alsoknow'      => '21',
-				'composer'      => '22',
-				'soundtrack'    => '23',
-				'trailer'       => '24',
-				'officialsites' => '25',
-				'source'        => '26',
-			],
-			'imdbtaxonomycolor'          => '0',
-			'imdbtaxonomycomposer'       => '0',
-			'imdbtaxonomycountry'        => '0',
-			'imdbtaxonomycreator'        => '0',
-			'imdbtaxonomydirector'       => '1',
-			'imdbtaxonomygenre'          => '1',
-			'imdbtaxonomykeyword'        => '0',
-			'imdbtaxonomylanguage'       => '0',
-			'imdbtaxonomyproducer'       => '0',
-			'imdbtaxonomyactor'          => '0',
-			'imdbtaxonomywriter'         => '0',
-		];
+
+		return array_merge(
+			self::get_data_rows_taxo(),
+			[
+				'imdbwidgettitle'            => '1',
+				'imdbwidgetpic'              => '1',
+				'imdbwidgetruntime'          => '0',
+				'imdbwidgetdirector'         => '1',
+				'imdbwidgetconnection'       => '0',                           /* @since 4.4 */
+				'imdbwidgetconnectionnumber' => '0',                           /* @since 4.4 */
+				'imdbwidgetcountry'          => '0',
+				'imdbwidgetactor'            => '1',
+				'imdbwidgetactornumber'      => '10',
+				'imdbwidgetcreator'          => '0',
+				'imdbwidgetrating'           => '0',
+				'imdbwidgetlanguage'         => '0',
+				'imdbwidgetgenre'            => '1',
+				'imdbwidgetwriter'           => '1',
+				'imdbwidgetproducer'         => '0',
+				'imdbwidgetproducernumber'   => '0',
+				'imdbwidgetkeyword'          => '0',
+				'imdbwidgetprodcompany'      => '0',
+				'imdbwidgetplot'             => '1',
+				'imdbwidgetplotnumber'       => '2',
+				'imdbwidgetgoof'             => '0',
+				'imdbwidgetgoofnumber'       => '0',
+				'imdbwidgetcomment'          => '0',
+				'imdbwidgetquote'            => '0',
+				'imdbwidgetquotenumber'      => '0',
+				'imdbwidgettagline'          => '0',
+				'imdbwidgettaglinenumber'    => '0',
+				'imdbwidgetcolor'            => '0',
+				'imdbwidgetalsoknow'         => '0',
+				'imdbwidgetalsoknownumber'   => '0',
+				'imdbwidgetcomposer'         => '0',
+				'imdbwidgetsoundtrack'       => '0',
+				'imdbwidgetsoundtracknumber' => '0',
+				'imdbwidgetofficialsites'    => '0',
+				'imdbwidgetsource'           => '0',
+				'imdbwidgetyear'             => '0',
+				'imdbwidgettrailer'          => '0',
+				'imdbwidgettrailernumber'    => '0',
+				'imdbwidgetorder' => [
+					'title'         => '1',
+					'pic'           => '2',
+					'runtime'       => '3',
+					'director'      => '4',
+					'country'       => '5',
+					'actor'         => '6',
+					'creator'       => '7',
+					'rating'        => '8',
+					'language'      => '9',
+					'genre'         => '10',
+					'connection'    => '11',                                    /* @since 4.4 */
+					'writer'        => '12',
+					'producer'      => '13',
+					'keyword'       => '14',
+					'prodcompany'   => '15',
+					'plot'          => '16',
+					'goof'          => '17',
+					'quote'         => '18',
+					'tagline'       => '19',
+					'color'         => '20',
+					'alsoknow'      => '21',
+					'composer'      => '22',
+					'soundtrack'    => '23',
+					'trailer'       => '24',
+					'officialsites' => '25',
+					'source'        => '26',
+				],
+			]
+		);
+	}
+
+	/**
+	 * Create rows for 'imdbtaxonomy' using internal methods
+	 *
+	 * @see self::get_data_option() Meant to be used there
+	 * @return array<string, string>
+	 *
+	 * @phpstan-return non-empty-array<'imdbtaxonomyactor'| 'imdbtaxonomycolor'| 'imdbtaxonomycomposer'|'imdbtaxonomycountry'|'imdbtaxonomycreator'| 'imdbtaxonomydirector'| 'imdbtaxonomygenre'|'imdbtaxonomykeyword'| 'imdbtaxonomylanguage'| 'imdbtaxonomyproducer'|'imdbtaxonomywriter', '0'|'1'>
+	 * @psalm-return array{imdbtaxonomyactor?: '0', imdbtaxonomycolor?: '0', imdbtaxonomycomposer?: '0', imdbtaxonomycountry?: '0', imdbtaxonomycreator?: '0', imdbtaxonomydirector?: '1', imdbtaxonomygenre?: '1', imdbtaxonomykeyword?: '0', imdbtaxonomylanguage?: '0', imdbtaxonomyproducer?: '0', imdbtaxonomywriter?: '0'}
+	 */
+	private static function get_data_rows_taxo() {
+		$taxonomy_keys = array_merge( array_keys( self::define_list_taxo_people() ), array_keys( self::define_list_taxo_items() ) );
+		$array_taxonomy = [];
+		$activated = [ 'director', 'genre' ]; // Taxonomy activated by default.
+		foreach ( $taxonomy_keys as $row_number => $taxonomy_key ) {
+			if ( in_array( $taxonomy_key, $activated, true ) ) {
+				$array_taxonomy[ 'imdbtaxonomy' . $taxonomy_key ] = '1';
+				continue;
+			}
+			$array_taxonomy[ 'imdbtaxonomy' . $taxonomy_key ] = '0';
+		}
+		return $array_taxonomy;
 	}
 }
 

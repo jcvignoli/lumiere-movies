@@ -27,7 +27,7 @@ use Lumiere\Updates;
  * @see \Lumiere\Core This class is called in a hook
  * @since 4.0 add/remove cache cron moved from class cache to here
  *
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
 class Cron {
 
@@ -37,8 +37,8 @@ class Cron {
 	public const CACHE_DAYS_AUTO_REFRESH_ROUND = 14;
 
 	/**
-	 * @var array<string, string> $imdb_cache_values
-	 * @phpstan-var OPTIONS_CACHE $imdb_cache_values
+	 * @var array<string, string>
+	 * @phpstan-var OPTIONS_CACHE
 	 */
 	private array $imdb_cache_values;
 

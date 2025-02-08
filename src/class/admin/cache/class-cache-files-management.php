@@ -33,7 +33,7 @@ use Exception;
  * @see \Lumiere\Admin\Cron
  * @since 4.0 Methods extracted from Submenu\Cache class and refactored
  *
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
 class Cache_Files_Management {
 
@@ -44,7 +44,7 @@ class Cache_Files_Management {
 
 	/**
 	 * Cache options
-	 * @phpstan-var OPTIONS_CACHE $imdb_cache_values
+	 * @phpstan-var OPTIONS_CACHE
 	 */
 	private array $imdb_cache_values;
 

@@ -34,8 +34,8 @@ use Monolog\Logger;
  * Imdb\Title return definition
  * @phpstan-type TITLESEARCH_RETURNSEARCH array<array-key, array{imdbid: string, title: string, originalTitle: string, year: string, movietype: string, titleSearchObject: \Imdb\Title}>
  *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
  */
 class Imdbphp extends Imdbphp_Config {
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Can't change snakeCase properties defined in an external class

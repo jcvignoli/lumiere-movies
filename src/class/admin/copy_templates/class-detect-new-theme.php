@@ -24,8 +24,8 @@ use Lumiere\Tools\Get_Options;
  * Detect if new templates templates are available, or templates should be installed
  * Taxonomy theme pages copy class is called here
  *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Tools\Settings_Global
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Tools\Settings_Global
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
  * @since 4.1
  */
 class Detect_New_Theme {
