@@ -425,11 +425,11 @@ class Settings {
 		$imdb_cache_options = [
 			'imdbcachedir_partial'             => self::LUMIERE_FOLDER_CACHE,
 			'imdbusecache'                     => '1',
-			'imdbcacheexpire'                  => '2592000',                 /* one month */
+			'imdbcacheexpire'                  => '2592000',                     /* one month */
 			'imdbcachedetailsshort'            => '0',
 			'imdbcacheautorefreshcron'         => '0',
-			'imdbcachekeepsizeunder'           => '0',                /* Disabled by default */
-			'imdbcachekeepsizeunder_sizelimit' => '100',    /* 100 MB */
+			'imdbcachekeepsizeunder'           => '0',
+			'imdbcachekeepsizeunder_sizelimit' => '100',                         /* 100 MB */
 			'imdbcachedetailshidden'           => '0',
 			'imdbphotodir'                     => content_url() . '/cache/lumiere/images/',
 		];
@@ -454,9 +454,9 @@ class Settings {
 	 */
 	private function get_data_option(): array {
 		return array_merge(
-			$this->get_data_rows_taxo( self::DATA_OPTION_TAXO_ACTIVE_DEFAULT /* activated rows by default */ ),
-			$this->get_data_rows_withnumbers( self::DATA_OPTION_WITHNUMBER_DEFAULT /* rows that must have a specific number */ ),
-			$this->get_data_rows_widget( self::DATA_OPTION_WIDGET_ACTIVE_DEFAULT /* activated rows by default */ ),
+			$this->get_data_rows_taxo( self::DATA_OPTION_TAXO_ACTIVE_DEFAULT    /* Activated rows by default */ ),
+			$this->get_data_rows_withnumbers( self::DATA_OPTION_WITHNUMBER_DEFAULT  /* Rows that must have a specific number */ ),
+			$this->get_data_rows_widget( self::DATA_OPTION_WIDGET_ACTIVE_DEFAULT    /* Activated rows by default */ ),
 			$this->get_data_rows_imdbwidgetorder(),
 		);
 	}

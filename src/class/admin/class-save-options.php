@@ -371,6 +371,13 @@ class Save_Options {
 				// remove "imdb_" from $key
 				$key_final = str_replace( 'imdb_', '', $key_san );
 				$val_final = sanitize_text_field( $postvalue );
+				// Dirty code that should be in Settings: Relative cache paths to be updated if 'imdbcachedir_partial' is updated.
+				if ( $key_final === 'imdbcachedir_partial' ) {
+					$imdb_cache_values['imdbcachedir'] = WP_CONTENT_DIR . $val_final;
+				}
+				if ( $key_final === 'imdbcachedir_partial' && isset( $imdb_cache_values['imdbcachedir'] ) ) {
+					$imdb_cache_values['imdbphotoroot'] = $imdb_cache_values['imdbcachedir'] . 'images/';
+				}
 			}
 
 			if ( isset( $key_final ) && isset( $val_final ) ) {
