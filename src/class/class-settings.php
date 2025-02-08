@@ -53,68 +53,68 @@ class Settings {
 	/**
 	 * Website URLs constants
 	 */
-	const LUM_BLOG_PLUGIN          = 'https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin';
-	const LUM_BLOG_PLUGIN_ABOUT    = 'https://www.jcvignoli.com/blog/en/presentation-of-jean-claude-vignoli';
-	const LUM_WORDPRESS_URL        = 'https://wordpress.org/plugins/lumiere-movies/';
-	const LUM_WORDPRESS_IMAGES_URL = 'https://ps.w.org/lumiere-movies/assets';
-	const LUM_GIT_URL              = 'https://github.com/jcvignoli/lumiere-movies';
+	const LUM_BLOG_PLUGIN                 = 'https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin';
+	const LUM_BLOG_PLUGIN_ABOUT           = 'https://www.jcvignoli.com/blog/en/presentation-of-jean-claude-vignoli';
+	const LUM_WORDPRESS_URL               = 'https://wordpress.org/plugins/lumiere-movies/';
+	const LUM_WORDPRESS_IMAGES_URL        = 'https://ps.w.org/lumiere-movies/assets';
+	const LUM_GIT_URL                     = 'https://github.com/jcvignoli/lumiere-movies';
 
 	/**
 	 * URL Strings for popups, built in define_constants_after_globals()
 	 */
-	const URL_BIT_POPUPS_MOVIES        = 'film/';
-	const URL_BIT_POPUPS_PEOPLE        = 'person/';
-	const URL_BIT_POPUPS_MOVIES_SEARCH = 'movie_search/';
+	const URL_BIT_POPUPS_MOVIES           = 'film/';
+	const URL_BIT_POPUPS_PEOPLE           = 'person/';
+	const URL_BIT_POPUPS_MOVIES_SEARCH    = 'movie_search/';
 
 	/**
 	 * URLs for pictures and menu images
 	 */
-	const LUM_PICS_URL           = LUMIERE_WP_URL . 'assets/pics/';
-	const LUM_PICS_SHOWTIMES_URL = self::LUM_PICS_URL . '/showtimes/';
+	const LUM_PICS_URL                    = LUMIERE_WP_URL . 'assets/pics/';
+	const LUM_PICS_SHOWTIMES_URL          = self::LUM_PICS_URL . '/showtimes/';
 
 	/**
 	 * URL and Path for javascripts
 	 */
-	const LUM_JS_PATH = LUMIERE_WP_PATH . 'assets/js/';
-	const LUM_JS_URL  = LUMIERE_WP_URL . 'assets/js/';
+	const LUM_JS_PATH                     = LUMIERE_WP_PATH . 'assets/js/';
+	const LUM_JS_URL                      = LUMIERE_WP_URL . 'assets/js/';
 
 	/**
 	 * URL and Path for stylesheets
 	 */
-	const LUM_CSS_PATH = LUMIERE_WP_PATH . 'assets/css/';
-	const LUM_CSS_URL  = LUMIERE_WP_URL . 'assets/css/';
+	const LUM_CSS_PATH                    = LUMIERE_WP_PATH . 'assets/css/';
+	const LUM_CSS_URL                     = LUMIERE_WP_URL . 'assets/css/';
 
 	/**
 	 * Internal URL pages constants
 	 */
-	const FILE_COPY_THEME_TAXONOMY = 'class/admin/taxo/class-copy-template-taxonomy.php';
-	const GUTENBERG_SEARCH_FILE = 'class/admin/class-search.php';
-	const SEARCH_URL_BIT = 'lumiere/search/';
-	const SEARCH_URL_ADMIN = '/wp-admin/' . self::SEARCH_URL_BIT;
-	const POPUP_SEARCH_PATH = 'class/frontend/popups/class-popup-movie-search.php';
-	const POPUP_MOVIE_PATH = 'class/frontend/popups/class-popup-movie.php';
-	const POPUP_PERSON_PATH = 'class/frontend/popups/class-popup-person.php';
-	const TAXO_PEOPLE_THEME = 'class/theme/class-taxonomy-people-standard.php';
-	const TAXO_ITEMS_THEME = 'class/theme/class-taxonomy-items-standard.php';
+	const FILE_COPY_THEME_TAXONOMY        = 'class/admin/taxo/class-copy-template-taxonomy.php';
+	const GUTENBERG_SEARCH_FILE           = 'class/admin/class-search.php';
+	const SEARCH_URL_BIT                  = 'lumiere/search/';
+	const SEARCH_URL_ADMIN                = '/wp-admin/' . self::SEARCH_URL_BIT;
+	const POPUP_SEARCH_PATH               = 'class/frontend/popups/class-popup-movie-search.php';
+	const POPUP_MOVIE_PATH                = 'class/frontend/popups/class-popup-movie.php';
+	const POPUP_PERSON_PATH               = 'class/frontend/popups/class-popup-person.php';
+	const TAXO_PEOPLE_THEME               = 'class/theme/class-taxonomy-people-standard.php';
+	const TAXO_ITEMS_THEME                = 'class/theme/class-taxonomy-items-standard.php';
 
 	/**
 	 * URL string for taxonomy, 'lumiere-' by default
 	 */
-	const URL_STRING_TAXO = 'lumiere-';
+	const URL_STRING_TAXO                 = 'lumiere-';
 
 	/**
 	 * Cache folder path.
 	 */
-	const LUMIERE_FOLDER_CACHE = '/cache/lumiere/';
+	const LUMIERE_FOLDER_CACHE            = '/cache/lumiere/';
 
 	/**
 	 * Default options when creating DATA_OPTIONS
 	 * @see self::get_data_option()
 	 */
-	private const DATA_OPTION_TAXO_ACTIVE_DEFAULT = [ 'director', 'genre' ];
-	private const DATA_OPTION_WITHNUMBER_DEFAULT = [
+	private const DATA_OPTION_TAXO_ACTIVE_DEFAULT   = [ 'director', 'genre' ];
+	private const DATA_OPTION_WITHNUMBER_DEFAULT    = [
 		'actor' => '10',
-		'plot' => '3',
+		'plot'  => '3',
 	];
 	private const DATA_OPTION_WIDGET_ACTIVE_DEFAULT = [ 'title', 'pic', 'director', 'actor', 'genre', 'writer', 'plot' ];
 
