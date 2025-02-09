@@ -50,8 +50,10 @@ $lumiere_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
 					echo "\n\t\t\t\t<option value='" . esc_attr( $lumiere_key ) . "'";
 
 					// search if "imdbwidget'title'" (ie) is activated
-					if ( $lum_that->imdb_data_values[ "imdbwidget$lumiere_key" ] !== '1' ) {
-						echo ' label="' . esc_attr( $lumiere_key ) . ' ' . esc_html__( '(unactivated)', 'lumiere-movies' ) . '">' . esc_html( $lumiere_key );
+					if ( $lumiere_key === 'year' ) {
+						echo ' label="' . esc_attr( $lumiere_key ) . ' (' . esc_html__( 'next to title', 'lumiere-movies' ) . ')">' . esc_html( $lumiere_key );
+					} elseif ( $lum_that->imdb_data_values[ "imdbwidget$lumiere_key" ] !== '1' ) {
+						echo ' label="' . esc_attr( $lumiere_key ) . ' (' . esc_html__( 'unactivated', 'lumiere-movies' ) . ')">' . esc_html( $lumiere_key );
 					} else {
 						echo ' label="' . esc_attr( $lumiere_items_people [ $lumiere_key ] ) . '">' . esc_html( $lumiere_key );
 					}

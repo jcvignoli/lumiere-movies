@@ -119,15 +119,15 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<?php esc_html_e( "The function to be called is <strong>imdb_call_external ()</strong>. It has two parameters, and both are mandatory. The first is the movie's name, and the second take always 'external'. For exemple, one'd like to display 'The Descent' should call the function like this:", 'lumiere-movies' ); ?>
 
 				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
-					$movieClass = new \Lumiere\Movies;<br>
-					$movieClass->lumiere_external_call('Descent', null);
+					$movieClass = new \Lumiere\Frontend\Movie\Movie_Display();<br>
+					echo $movieClass->lumiere_external_call('Descent', null);
 				</blockquote>
 
 				<?php esc_html_e( 'Should you want to call the function using an IMDb ID instead:', 'lumiere-movies' ); ?>
 
 				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
-					$movieClass = new \Lumiere\Movies;<br>
-					$movieClass->lumiere_external_call(null, '0435625');
+					$movieClass = new \Lumiere\Frontend\Movie\Movie_Display();<br>
+					echo $movieClass->lumiere_external_call(null, '0435625');
 				</blockquote>
 
 

@@ -265,6 +265,17 @@ class Movie_Data {
 	}
 
 	/**
+	 * Fake method year
+	 * For compatibility with Data settings that have a 'year' option
+	 *
+	 * @param Title $movie IMDbPHP title class
+	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 */
+	protected function get_item_year( Title $movie, string $item_name ): string {
+		return '';
+	}
+
+	/**
 	 * Display the rating
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *

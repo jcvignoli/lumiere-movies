@@ -42,8 +42,6 @@ class Auto_Update_Theme extends Copy_Theme {
 		protected Logger $logger = new Logger( 'autoUpdateTemplateTaxonomy' ),
 	) {
 		parent::__construct( $logger ); // Override logger name.
-
-		// add_action( 'admin_notices', [ 'Lumiere\Admin\Admin_Notifications', 'lumiere_static_start'], 11 ); // What for? Run in cron.
 	}
 
 	/**
@@ -90,7 +88,6 @@ class Auto_Update_Theme extends Copy_Theme {
 			$templates_paths = $this->detect_new_theme->get_template_paths( $item );
 			// Copy files.
 			parent::copy_theme_template( $origin_file, $destination_file, $item );
-			// set_transient( 'notice_lumiere_msg', 'taxotemplateautoupdate_success', 1 ); // What for? Run in cron.
 			$this->logger->log->debug( 'Template file ' . $destination_file . ' has been updated to the latest version' );
 			return;
 		}

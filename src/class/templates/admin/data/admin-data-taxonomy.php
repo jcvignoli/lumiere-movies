@@ -16,7 +16,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 // Retrieve the vars passed in calling class.
-$lumiere_taxo_fields = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+$lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+$lum_all_taxo_elements = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
 
 $lumiere_escape_wp_kses = [
 	'br' => [],
@@ -70,7 +71,44 @@ $lumiere_escape_wp_kses = [
 		<br /><br />
 
 		<div class="lumiere_flex_container">
-			<?php echo wp_kses( $lumiere_taxo_fields, $lumiere_escape_wp_kses ); ?>
+			<?php
+			foreach ( $lum_all_taxo_elements as $lum_key => $lum_value ) { ?>
+
+			<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
+
+				<input type="hidden" id="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>_no" name="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>" value="0" />
+
+				<input type="checkbox" id="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>_yes" name="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>" value="1"<?php
+				if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
+					echo ' checked="checked"';
+				}
+				echo ' />';
+				?> 
+				<label for="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>_yes">
+				<?php
+				if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
+					if ( $lum_that->imdb_data_values[ 'imdbwidget' . $lum_key ] === '1' ) {
+						echo "\n\t\t<span class=\"lumiere-option-taxo-activated\">";
+					} else {
+						echo "\n\t\t<span class=\"lumiere-option-taxo-deactivated\">";
+					}
+
+					echo esc_html( ucfirst( $lum_value ) );
+					echo '</span>';
+
+				} else {
+					echo esc_html( ucfirst( $lum_value ) ) . '&nbsp;&nbsp;';
+				}
+				echo "\n\t\t</label>";
+
+				// If a new template is available, notify to to update.
+				if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
+					echo wp_kses( $lum_that->display_new_taxo( $lum_key ), $lumiere_escape_wp_kses );
+				}
+				echo "\n\t</div>";
+
+			}
+			?>
 			<div class="lumiere_flex_container_content_thirty lumiere_padding_five"></div>
 		</div>
 	</div>

@@ -72,9 +72,9 @@ class Settings_Build {
 	 */
 	protected static function define_list_all_items(): array {
 		return [
+			...Settings::define_list_non_taxo_items(),
 			...Settings::define_list_taxo_people(), // Taxo_people is all people options, since there are no people options that are not taxonomy.
 			...Settings::define_list_taxo_items(),
-			...Settings::define_list_non_taxo_items(),
 		];
 	}
 
@@ -149,12 +149,21 @@ class Settings_Build {
 			$i++;
 		}
 
-		// Reorder by swapping two columns.
+		/**
+		 * Reorder by swapping two columns.
+		 * Useful as it will be the order by default when installing the plugin
+		 */
 		/** @phan-suppress-next-line PhanTypePossiblyInvalidDimOffset (Phpstan doesn't say so) */
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'rating', 'director' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'prodcompany', 'country' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'connection', 'actor' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'genre', 'plot' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'runtime', 'director' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'alsoknow', 'tagline' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'rating', 'actor' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'connection', 'genre' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'prodcompany', 'alsoknow' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'goof', 'rating' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'plot', 'writer' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'officialsites', 'keyword' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'source', 'country' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'color', 'source' );
 		/** @psalm-var ARRAY_IMDBWIDGETORDER $array_imdbwidgetorder */
 		return $array_imdbwidgetorder;
 	}

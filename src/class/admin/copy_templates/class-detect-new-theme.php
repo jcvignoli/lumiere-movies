@@ -58,9 +58,10 @@ class Detect_New_Theme {
 	/**
 	 * Static start
 	 * Check if an new taxo template is available or if taxo template is missing
+	 * @see \Lumiere\Admin\Admin_Menu\Data::lumiere_static_start() Calls this method
+	 *
 	 * @param string $page_data_taxo The name of the taxo page
 	 * @return void
-	 * @see \Lumiere\Admin\Admin_Menu\Data::lumiere_static_start() Calls this method
 	 */
 	public static function get_notif_templates( string $page_data_taxo ): void {
 		$that = new self();
@@ -81,14 +82,14 @@ class Detect_New_Theme {
 
 	/**
 	 * Function checking if item/person template has been updated
-	 * Uses self::find_updated_template() method to check into them folder
+	 * Use Detect_New_Theme::find_updated_template() method to check into them folder
 	 *
 	 * @since 4.1.1 added extra check for 'imdbtaxonomy'
+	 * @see \Lumiere\Admin\Submenu\Data::lumiere_display_new_taxo_template() Calls this method
+	 * @see Detect_New_Theme::get_notif_templates() Calls this method
 	 *
 	 * @param null|string $only_one_item If only one taxonomy item has to be checked, pass it, use a loop otherwise
 	 * @return array<int, null|string> Array of updated templates or null if none
-	 * @see \Lumiere\Admin\Submenu\Data::lumiere_display_new_taxo_template() Calls this method
-	 * @see self::get_notif_templates() Calls this method
 	 */
 	public function search_new_update( ?string $only_one_item = null ): array {
 
@@ -123,9 +124,9 @@ class Detect_New_Theme {
 	 * Function checking if item/person template is missing, should be installed
 	 *
 	 * @since 4.1.1 added extra check for 'imdbtaxonomy'
+	 * @see Detect_New_Theme::get_notif_templates() Calls this method
 	 *
 	 * @return array<int, string> Array of updated templates or null if none
-	 * @see self::get_notif_templates() Calls this method
 	 */
 	private function search_missing_template(): array {
 

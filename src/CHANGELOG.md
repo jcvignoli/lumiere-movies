@@ -45,7 +45,7 @@ v.4.3.1
 * [bug] Fixed debug and an a bug that prevented to retrieve movies in imdbGraphQLPHP ($this->logger->error() in class GraphQL method doRequest(), also casting object in  'variables', using a personal fork from now onwards). Also make sure that if no movie is retrieved, the page doesn't throw an Exception and breaks the layout (Imddphp class doing a try{} in search_movie_title() and search_person_name() methods)
 * [bug] Bots weren't banned anymore.
 * [technical] removed load_plugin_textdomain() (in Core class, [not needed anymore](https://make.wordpress.org/core/2016/07/06/i18n-improvements-in-4-6/ "Information on WordPress devolpment website")).
-* [technical] removed _construct() that were bulding parent __construct() only
+* [technical] removed _construct() in classes which built parent "__construct()" with no more action
 
 v.4.3
 * [feature] Items and people fields (the option names) are now translated in Lumière admin data order

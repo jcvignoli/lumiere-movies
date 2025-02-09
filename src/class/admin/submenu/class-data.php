@@ -116,8 +116,8 @@ class Data extends Admin_Menu {
 				'data/admin-data-display',
 				[
 					$this->imdb_data_values, // data options.
-					$this->get_display_options()[0], // list of items and people with two extra lists.
-					$this->get_display_options()[1], // explaination of items and people with the two extra lists.
+					$this->get_display_select_options()[0], // list of items and people with two extra lists.
+					$this->get_display_select_options()[1], // explaination of items and people with the two extra lists.
 					Get_Options::get_items_with_numbers(), // data details in a field to fill in.
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
@@ -148,7 +148,7 @@ class Data extends Admin_Menu {
 			// The template will retrieve the args. In parent class.
 			$this->include_with_vars(
 				'data/admin-data-taxonomy',
-				[ $this->lumiere_data_display_taxo_fields() ], /** Add an array with vars to send in the template */
+				[ $this, $this->get_taxo_fields() ], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
 
@@ -163,7 +163,7 @@ class Data extends Admin_Menu {
 				'data/admin-data-order',
 				[
 					$this,
-					$this->get_display_options()[0], // list of items and people with two extra lists.
+					Get_Options::get_all_items(), // list of items and people with two extra lists.
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
@@ -171,62 +171,26 @@ class Data extends Admin_Menu {
 	}
 
 	/**
-	 *  Display the fields for taxonomy selection
+	 * Get the fields for taxonomy selection
+	 *
+	 * @return array<string, string>
 	 */
-	private function lumiere_data_display_taxo_fields(): string {
+	private function get_taxo_fields(): array {
 
-		$output = '';
-		$array_all = [];
-		$array_all = array_merge( Get_Options::get_list_people_taxo(), Get_Options::get_list_items_taxo() );
-		asort( $array_all );
-
-		foreach ( $array_all as $item_key => $item_value ) {
-
-			$output .= "\n\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_five">';
-
-			$output .= "\n\t\t" . '<input type="hidden" id="imdb_imdbtaxonomy' . $item_key . '_no" name="imdb_imdbtaxonomy' . $item_key . '" value="0" />';
-
-			$output .= "\n\t\t" . '<input type="checkbox" id="imdb_imdbtaxonomy' . $item_key . '_yes" name="imdb_imdbtaxonomy' . $item_key . '" value="1"';
-
-			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_key ] === '1' ) {
-				$output .= ' checked="checked"';
-			}
-
-			$output .= ' />';
-			$output .= "\n\t\t" . '<label for="imdb_imdbtaxonomy' . $item_key . '_yes">';
-
-			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_key ] === '1' ) {
-				if ( $this->imdb_data_values[ 'imdbwidget' . $item_key ] === '1' ) {
-					$output .= "\n\t\t" . '<span class="lumiere-option-taxo-activated">';
-				} else {
-					$output .= "\n\t\t" . '<span class="lumiere-option-taxo-deactivated">';
-				}
-
-				$output .= ucfirst( $item_value );
-				$output .= '</span>';
-
-			} else {
-				$output .= ucfirst( $item_value );
-				$output .= '&nbsp;&nbsp;';
-			}
-			$output .= "\n\t\t" . '</label>';
-
-			// If template is activated, notify to copy or to update.
-			if ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_key ] === '1' ) {
-				$output .= $this->lumiere_display_new_taxo_template( $item_key );
-			}
-			$output .= "\n\t" . '</div>';
-
-		}
-
-		return $output;
+		$all_taxo_elements = [
+			...Get_Options::get_list_people_taxo(),
+			...Get_Options::get_list_items_taxo(),
+		];
+		asort( $all_taxo_elements );
+		return $all_taxo_elements;
 	}
 
 	/**
-	 * Build the options for display
+	 * Build the options for selection display
+	 *
 	 * @return array<int, array<string>>
 	 */
-	private function get_display_options(): array {
+	private function get_display_select_options(): array {
 
 		// Merge the list of items and people with two extra lists
 		$array_full = Get_Options::get_all_items();
@@ -245,7 +209,7 @@ class Data extends Admin_Menu {
 	 * @param string $type type to search (actor, genre, etc)
 	 * @return string Link to copy the template if true and a message explaining if missing/update the template
 	 */
-	private function lumiere_display_new_taxo_template( string $type ): string {
+	public function display_new_taxo( string $type ): string {
 
 		$output = '';
 
@@ -284,7 +248,7 @@ class Data extends Admin_Menu {
 					. esc_html__( 'Copy template', 'lumiere-movies' )
 					. '</a>';
 			/* translators: %s is replaced with a movie item name, ie 'director' */
-			$output .= "\n\t" . '<div><font color="red">' . wp_sprintf( __( 'No %s template found', 'lumiere-movies' ), $lumiere_taxo_title ) . '</font></div>';
+			$output .= "\n\t" . '<div><font color="red">' . wp_sprintf( esc_html__( 'No %s template found', 'lumiere-movies' ), $lumiere_taxo_title ) . '</font></div>';
 			$output .= "\n\t" . '</div>';
 
 			return $output;
@@ -292,7 +256,7 @@ class Data extends Admin_Menu {
 			// No taxonomy template file in Lumière! theme folder found, notify and exit.
 		} elseif ( is_file( $lumiere_taxonomy_theme_file ) === false ) {
 
-			return "\n\t" . '<br /><div><i>' . esc_html__( 'Missing Lumiere template file. A problem has been detected with your installation.', 'lumiere-movies' ) . '</i></div>';
+			return "\n\t" . '<br /><div><i>' . esc_html__( 'Missing Lumiere template file. A problem was detected with your installation.', 'lumiere-movies' ) . '</i></div>';
 
 			// No template updated, template file exists, so it is up-to-date, notify and exit.
 		} elseif ( count( $list_updated_fields ) === 0 ) {

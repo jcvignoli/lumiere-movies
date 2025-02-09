@@ -21,7 +21,7 @@ use Lumiere\Config\Settings_Build;
 // Needed vars for uninstall, fails otherwise.
 // Use of defined() condition for PHPStan
 if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
-	require_once plugin_dir_path( dirname( __FILE__ ) ) . 'vars.php';
+	require_once plugin_dir_path( dirname( __DIR__ ) ) . 'vars.php';
 }
 
 /**
@@ -117,15 +117,23 @@ class Settings extends Settings_Build {
 
 	/**
 	 * Default options when creating DATA_OPTIONS
+	 * Must be in the same order as Settings::define_list_items_with_numbers(), otherwise number are not saved
 	 * @see Settings::get_default_data_option()
 	 */
 	private const DATA_OPTION_TAXO_ACTIVE_DEFAULT   = [ 'director', 'genre' ];
 	private const DATA_OPTION_WITHNUMBER_DEFAULT    = [
 		'actor'       => '10',
-		'connection'  => '5',
+		'alsoknow'    => '5',
+		'connection'  => '3',
+		'goof'        => '3',
 		'plot'        => '3',
+		'producer'    => '10',
+		'quote'       => '3',
+		'soundtrack'  => '10',
+		'tagline'     => '1',
+		'trailer'     => '5',
 	];
-	private const DATA_OPTION_WIDGET_ACTIVE_DEFAULT = [ 'title', 'pic', 'director', 'actor', 'connection', 'genre', 'writer', 'plot' ];
+	private const DATA_OPTION_WIDGET_ACTIVE_DEFAULT = [ 'title', 'pic', 'actor', 'connection', 'director', 'genre', 'goof', 'plot', 'tagline', 'writer' ];
 
 	/**
 	 * Create database options if they don't exist

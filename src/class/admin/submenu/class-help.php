@@ -42,30 +42,6 @@ class Help extends Admin_Menu {
 	];
 
 	/**
-	 * Paths to files to be read
-	 * @var string
-	 */
-	private string $readmefile;
-	private string $changelogfile;
-	private string $acknowledgefile;
-	private string $compatfile;
-
-	/**
-	 * Constructor
-	 */
-	protected function __construct() {
-
-		// Construct parent class.
-		parent::__construct();
-
-		// Build file names with full path.
-		$this->readmefile = LUMIERE_WP_PATH . 'README.txt';
-		$this->changelogfile = LUMIERE_WP_PATH . 'CHANGELOG.md';
-		$this->acknowledgefile = LUMIERE_WP_PATH . 'ACKNOWLEDGMENTS.md';
-		$this->compatfile = LUMIERE_WP_PATH . 'COMPATIBILITY.md';
-	}
-
-	/**
 	 * Display the layout
 	 *
 	 * @param \Lumiere\Admin\Cache\Cache_Files_Management $cache_mngmt_class Not utilised in this class, but needed in some other Submenu classes
@@ -142,16 +118,17 @@ class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
+		$compatfile = LUMIERE_WP_PATH . 'COMPATIBILITY.md';
 
 		// If file doesn't exist, exit.
-		if ( ! is_file( $this->compatfile ) ) {
-			throw new Exception( 'File ' . esc_html( $this->compatfile ) . ' has wrong permissions or does not exist' );
+		if ( ! is_file( $compatfile ) ) {
+			throw new Exception( 'File ' . esc_html( $compatfile ) . ' has wrong permissions or does not exist' );
 		}
 		// Make sure we got right credentials to use $wp_filesystem.
-		$this->lumiere_wp_filesystem_cred( $this->compatfile );
+		$this->lumiere_wp_filesystem_cred( $compatfile );
 
 		// Open the file (as an array).
-		$compatfile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->compatfile ) : '';
+		$compatfile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $compatfile ) : '';
 
 		/**
 		 * 1-replace # by div.
@@ -194,17 +171,18 @@ class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
+		$readmefile = LUMIERE_WP_PATH . 'README.txt';
 
 		// If file doesn't exist, exit.
-		if ( ! is_file( $this->readmefile ) ) {
-			throw new Exception( 'File ' . esc_html( $this->readmefile ) . ' has wrong permissions or does not exist' );
+		if ( ! is_file( $readmefile ) ) {
+			throw new Exception( 'File ' . esc_html( $readmefile ) . ' has wrong permissions or does not exist' );
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		$this->lumiere_wp_filesystem_cred( $this->readmefile ); // in trait Admin_General.
+		$this->lumiere_wp_filesystem_cred( $readmefile ); // in trait Admin_General.
 
 		// Open the file.
-		$faqfile = $wp_filesystem !== null ? $wp_filesystem->get_contents( $this->readmefile ) : '';
+		$faqfile = $wp_filesystem !== null ? $wp_filesystem->get_contents( $readmefile ) : '';
 
 		// Select FAQ section in readme file.
 		$patterntitle = '/== Frequently Asked Questions ==(.*?)== Support ==/ms';
@@ -248,17 +226,18 @@ class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
+		$changelogfile = LUMIERE_WP_PATH . 'CHANGELOG.md';
 
 		// If file doesn't exist, exit.
-		if ( ! is_file( $this->changelogfile ) ) {
-			throw new Exception( 'File ' . esc_html( $this->changelogfile ) . ' has wrong permissions or does not exist' );
+		if ( ! is_file( $changelogfile ) ) {
+			throw new Exception( 'File ' . esc_html( $changelogfile ) . ' has wrong permissions or does not exist' );
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		$this->lumiere_wp_filesystem_cred( $this->changelogfile ); // in trait Admin_General.
+		$this->lumiere_wp_filesystem_cred( $changelogfile ); // in trait Admin_General.
 
 		// Open the file (as an array).
-		$changelogfile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->changelogfile ) : '';
+		$changelogfile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $changelogfile ) : '';
 
 		/**
 		 * 1-replace version number with <div>'s
@@ -296,17 +275,18 @@ class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
+		$acknowledgefile = LUMIERE_WP_PATH . 'ACKNOWLEDGMENTS.md';
 
 		// If file doesn't exist, exit.
-		if ( ! is_file( $this->acknowledgefile ) ) {
-			throw new Exception( 'File ' . esc_html( $this->acknowledgefile ) . ' has wrong permissions or does not exist' );
+		if ( ! is_file( $acknowledgefile ) ) {
+			throw new Exception( 'File ' . esc_html( $acknowledgefile ) . ' has wrong permissions or does not exist' );
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		$this->lumiere_wp_filesystem_cred( $this->acknowledgefile );
+		$this->lumiere_wp_filesystem_cred( $acknowledgefile );
 
 		// Open the file (as an array).
-		$acknowledgefile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $this->acknowledgefile ) : '';
+		$acknowledgefile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $acknowledgefile ) : '';
 
 		/**
 		 * 1-replace # by div.

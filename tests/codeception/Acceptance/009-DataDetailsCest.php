@@ -10,12 +10,12 @@ use Tests\Support\Helper\AcceptanceSettings;
 
 class DataDetailsCest {
 
-	public function _before(AcceptanceTester $I){
+	public function _before( AcceptanceTester $I ){
 		$I->comment(Helper\Color::set("#Code _before#", "italic+bold+cyan"));
 
 	}
 
-	public function _after(AcceptanceTester $I){
+	public function _after( AcceptanceTester $I ){
 		$I->comment(Helper\Color::set("#Code _after#", "italic+bold+cyan"));
 	}
 
@@ -32,7 +32,7 @@ class DataDetailsCest {
 	 *
 	 * @before login
 	 */
-	public function checkDataDeactivation(AcceptanceTester $I) {
+	public function checkDataDeactivation( AcceptanceTester $I ) {
 
 		$I->comment(Helper\Color::set("Check that deactivated data details are not seen", "italic+bold+cyan"));
 
