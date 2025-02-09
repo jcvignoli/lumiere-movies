@@ -20,7 +20,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 
 use FilesystemIterator;
 use Lumiere\Plugins\Logger;
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 
 /**
  * The updating rules are in this current parent class, the data to be updated are in child classes (in /updates folder)
@@ -44,7 +44,7 @@ use Lumiere\Config\Settings_Global;
 class Updates {
 
 	// Trait including the database settings.
-	use Settings_Global;
+	use Open_Options;
 
 	/**
 	 * Constructor
@@ -52,8 +52,8 @@ class Updates {
 	public function __construct(
 		protected Logger $logger = new Logger( 'updateClass' ),
 	) {
-		// Get Global Settings class properties.
-		$this->get_db_options();
+		// Get global settings class properties.
+		$this->get_db_options(); // In Open_Options trait.
 	}
 
 	/**

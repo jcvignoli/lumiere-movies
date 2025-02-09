@@ -27,7 +27,7 @@ use Lumiere\Config\Get_Options;
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
  */
-trait Settings_Global {
+trait Open_Options {
 
 	/**
 	 * Admin options vars

@@ -19,7 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
 
 /**
@@ -29,14 +29,14 @@ use Lumiere\Config\Get_Options;
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
-  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 trait Main {
 
 	/**
 	 * Traits
 	 */
-	use Settings_Global;
+	use Open_Options;
 
 	/**
 	 * Class for building links, i.e. Highslide
@@ -60,10 +60,8 @@ trait Main {
 	 */
 	public function start_main_trait( ?string $logger_name = null, bool $screen_output = true ): void {
 
-		/**
-		 * Create the properties needed
-		 */
-		$this->get_db_options(); // In Trait Settings_Global.
+		// Get global settings class properties.
+		$this->get_db_options(); // In Open_Options trait.
 
 		// Start Logger class, if no name was passed build it with method get_current_classname().
 		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ), $screen_output );

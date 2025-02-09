@@ -109,5 +109,34 @@ class Data {
 
 		return false;
 	}
+
+	/**
+	 * Swap values in multiassociative array
+	 * @since 4.4 method created
+	 *
+	 * @param array<string, string> $array The base array
+	 * @param string $key_one The first term that will be swapped in the values of the array
+	 * @param string $key_two The first term that will be swapped in the values of the array
+	 * @return array<string, string>
+	 */
+	public static function array_multiassoc_swap_values( array $array, string $key_one, string $key_two ): array {
+
+		if ( array_key_exists( $key_one, $array ) && array_key_exists( $key_two, $array ) ) {
+			$myarr = [];
+			foreach ( $array as $key => $value ) {
+				if ( $key === $key_one ) {
+					// The array 2 takes the key of array 1
+					$myarr[ $key_two ] = $array[ $key_one ];
+				} elseif ( $key === $key_two ) {
+					// The array 1 takes the key of array 2
+					$myarr[ $key_one ] = $array[ $key_two ];
+				} else {
+					$myarr[ $key ] = $value;
+				}
+			}
+			return $myarr;
+		}
+		return $array;
+	}
 }
 

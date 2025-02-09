@@ -17,7 +17,7 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Config\Settings' 
 }
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Tools\Validate_Get;
@@ -35,7 +35,7 @@ class Search {
 	/**
 	 * Traits
 	 */
-	use Settings_Global;
+	use Open_Options;
 
 	/**
 	 * Name of the movie queried
@@ -53,8 +53,8 @@ class Search {
 		// By default, returns a 404, change that.
 		status_header( 200 );
 
-		// Get Global Settings class properties.
-		$this->get_db_options();
+		// Get global settings class properties.
+		$this->get_db_options(); // In Open_Options trait.
 		$this->movie_searched = Validate_Get::sanitize_url( 'moviesearched' );
 
 		// Register admin scripts.

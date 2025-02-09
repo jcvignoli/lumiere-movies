@@ -14,7 +14,7 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 }
 
 use Lumiere\Plugins\Logger;
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
 use Lumiere\Admin\Admin_General;
 use Exception;
@@ -30,7 +30,7 @@ class Copy_Theme {
 	/**
 	 * Traits.
 	 */
-	use Settings_Global, Admin_General;
+	use Open_Options, Admin_General;
 
 	/**
 	 * Constructor
@@ -38,8 +38,8 @@ class Copy_Theme {
 	public function __construct(
 		protected Logger $logger = new Logger( 'copyTemplateTaxonomy' ),
 	) {
-		// Get Global Settings class properties.
-		$this->get_db_options();
+		// Get global settings class properties.
+		$this->get_db_options(); // In Open_Options trait.
 	}
 
 	/**

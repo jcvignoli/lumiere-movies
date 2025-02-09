@@ -19,11 +19,14 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 use FilesystemIterator;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings;
+use Lumiere\Tools\Data;
 
 /**
  * Settings Build class
  * Helper class for Settings class
  * @since 4.4 Created
+ *
+ * @phpstan-type ARRAY_IMDBWIDGETORDER array{ 'imdbwidgetorder': array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, creator?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodcompany?: string, plot?: string, goof?: string, comment?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, officialsites?: string, source?: string, year?: string} }
  */
 class Settings_Build {
 
@@ -124,25 +127,36 @@ class Settings_Build {
 	}
 
 	/**
-	 * Create rows for 'imdbwidgetorder' using internal methods
+	 * Create rows for 'imdbwidgetorder' array
 	 *
 	 * @see Settings::get_default_data_option() Meant to be used there
 	 *
-	 * @return array<string, string>
-	 * @phpstan-return array{ imdbwidgetorder: array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, creator?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodcompany?: string, plot?: string, goof?: string, comment?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, officialsites?: string, source?: string, year?: string} }
+	 * @return array{imdbwidgetorder:array<string,string>}
+	 * @phpstan-return ARRAY_IMDBWIDGETORDER
 	 */
 	protected function get_data_rows_imdbwidgetorder(): array {
 		$widget_keys = [
 			...array_keys( Settings::define_list_non_taxo_items() ),
-			...array_keys( Settings::define_list_taxo_items() ),
 			...array_keys( Settings::define_list_taxo_people() ),
+			...array_keys( Settings::define_list_taxo_items() ),
 		];
+
 		$array_imdbwidgetorder = [];
 		$i = 0;
+
 		foreach ( $widget_keys as $row_number => $imdbwidgetorder_key ) {
 			$array_imdbwidgetorder['imdbwidgetorder'][ $imdbwidgetorder_key ] = strval( $i );
 			$i++;
 		}
+
+		// Reorder by swapping two columns.
+		/** @phan-suppress-next-line PhanTypePossiblyInvalidDimOffset (Phpstan doesn't say so) */
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'rating', 'director' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'prodcompany', 'country' );
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'connection', 'actor' );
+		/**
+		 * @psalm-var ARRAY_IMDBWIDGETORDER $array_imdbwidgetorder
+		 */
 		return $array_imdbwidgetorder;
 	}
 

@@ -22,7 +22,7 @@ use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Admin\Search;
 use Lumiere\Tools\Data;
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 
 /**
  * All Admin-related functions
@@ -36,7 +36,7 @@ class Admin {
 	/**
 	 * Traits
 	 */
-	use Settings_Global;
+	use Open_Options;
 
 	/**
 	 * Constructor

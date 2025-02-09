@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 use WP_Widget;
 
 /**
@@ -40,7 +40,7 @@ class Widget_Selection extends WP_Widget {
 	/**
 	 * Global Frontend trait
 	 */
-	use Settings_Global;
+	use Open_Options;
 
 	/**
 	 *  Names of the Widgets
@@ -53,8 +53,8 @@ class Widget_Selection extends WP_Widget {
 	 */
 	public function __construct() {
 
-		// Get Global Settings class properties from trait Settings_Global.
-		$this->get_db_options();
+		// Get Global Settings class properties.
+		$this->get_db_options(); // In Open_Options trait.
 
 		parent::__construct(
 			self::WIDGET_NAME,  // Base ID.

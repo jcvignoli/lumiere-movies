@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
 
 /**
@@ -26,17 +26,17 @@ use Lumiere\Config\Get_Options;
  */
 abstract class Abstract_Link_Maker {
 
-	// Trait including the database settings.
-	use Settings_Global;
+	/**
+	 * Traits
+	 */
+	use Open_Options;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
-
-		// Get Global Settings class properties.
-		$this->get_db_options();
-
+		// Get global settings class properties.
+		$this->get_db_options(); // In Open_Options trait.
 	}
 
 	/**

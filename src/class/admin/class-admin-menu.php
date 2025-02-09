@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
@@ -37,7 +37,7 @@ class Admin_Menu {
 	/**
 	 * Traits
 	 */
-	use Settings_Global, Admin_General;
+	use Open_Options, Admin_General;
 
 	/**
 	 * Store directories, pages
@@ -76,8 +76,8 @@ class Admin_Menu {
 	public function __construct(
 		protected Logger $logger = new Logger( 'adminClass' ),
 	) {
-		// Get Global Settings class properties.
-		$this->get_db_options();
+		// Get global settings class properties.
+		$this->get_db_options(); // In Open_Options trait.
 
 		// Build vars.
 		$this->menu_id = $this->get_id() . '_options';

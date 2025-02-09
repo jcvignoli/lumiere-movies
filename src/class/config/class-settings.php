@@ -131,7 +131,7 @@ class Settings extends Settings_Build {
 	 *
 	 * @see \Lumiere\Core::lumiere_on_activation() On first plugin activation, create the options
 	 * @see \Lumiere\Save_Options On every reset, calling this method
-	 * @see \Lumiere\Config\Settings_Global::get_db_options() if options are not yet available, which may happend on first install (according to WP Plugin Check)
+	 * @see \Lumiere\Config\Open_Options::get_db_options() if options are not yet available, which may happend on first install (according to WP Plugin Check)
 	 *
 	 * @since 4.4 method created
 	 */
@@ -249,14 +249,14 @@ class Settings extends Settings_Build {
 			'title'         => __( 'title', 'lumiere-movies' ),
 			'pic'           => __( 'pic', 'lumiere-movies' ),
 			'runtime'       => __( 'runtime', 'lumiere-movies' ),
-			'connection'    => __( 'connected movies', 'lumiere-movies' ),          /* @since 4.4 added */
+			'alsoknow'      => __( 'also known as', 'lumiere-movies' ),
 			'rating'        => __( 'rating', 'lumiere-movies' ),
 			'prodcompany'   => __( 'production company', 'lumiere-movies' ),
-			'plot'          => __( 'plot', 'lumiere-movies' ),
+			'connection'    => __( 'connected movies', 'lumiere-movies' ),          /* @since 4.4 added */
 			'goof'          => __( 'goof', 'lumiere-movies' ),
 			'quote'         => __( 'quote', 'lumiere-movies' ),                     /* @since 4.4 back in use */
 			'tagline'       => __( 'tagline', 'lumiere-movies' ),
-			'alsoknow'      => __( 'also known as', 'lumiere-movies' ),
+			'plot'          => __( 'plot', 'lumiere-movies' ),
 			'trailer'       => __( 'trailer', 'lumiere-movies' ),
 			'soundtrack'    => __( 'soundtrack', 'lumiere-movies' ),
 			'officialsites' => __( 'official websites', 'lumiere-movies' ),

@@ -19,7 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 // use Lumiere library.
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Files;
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
 
 // use Monolog library in /vendor/.
@@ -36,7 +36,7 @@ use Monolog\Processor\IntrospectionProcessor;
 class Logger {
 
 	// Trait including the database settings.
-	use Settings_Global, Files;
+	use Open_Options, Files;
 
 	/**
 	 * Is the current page an editing page?
@@ -61,8 +61,8 @@ class Logger {
 	 */
 	public function __construct( string $logger_name = 'unknownOrigin', bool $screen_output = true ) {
 
-		// Get Global Settings class properties.
-		$this->get_db_options();
+		// Get global settings class properties.
+		$this->get_db_options(); // In Open_Options trait.
 
 		// Run WordPress block editor identificator giving value to $this->is_editor_page.
 		$this->is_editor_page = $this->lumiere_is_screen_editor();

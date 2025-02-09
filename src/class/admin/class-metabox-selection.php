@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
 
 /**
@@ -35,15 +35,14 @@ class Metabox_Selection {
 	/**
 	 * Traits
 	 */
-	use Settings_Global;
+	use Open_Options;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
-
-		// Get Global Settings class properties.
-		$this->get_db_options();
+		// Get global settings class properties.
+		$this->get_db_options(); // In Open_Options trait.
 	}
 
 	/**

@@ -18,8 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
-use Lumiere\Config\Settings_Global;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Open_Options;
 use Exception;
 
 /**
@@ -36,7 +36,7 @@ class Save_Options {
 	/**
 	 * Traits
 	 */
-	use Settings_Global, Admin_General;
+	use Open_Options, Admin_General;
 
 	/**
 	 * Allows to limit the calls to rewrite rules refresh
@@ -56,7 +56,7 @@ class Save_Options {
 		$this->page_data_taxo = $page_data_taxo;
 
 		// Get options from database.
-		$this->get_db_options(); // In Settings_Global trait.
+		$this->get_db_options(); // In Open_Options trait.
 
 		add_action( 'admin_init', [ $this, 'process_headers' ] );
 	}
