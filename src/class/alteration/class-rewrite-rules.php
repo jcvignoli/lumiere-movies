@@ -12,12 +12,12 @@
 namespace Lumiere\Alteration;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Plugins\Logger;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 
 /**
  * Rules for all types of *popups*
@@ -28,7 +28,7 @@ use Lumiere\Tools\Get_Options;
  * 3/ On closing the class, check if the rules are correctly added. If they aren't, a flush_rewrite_rules() is done
  * @since 3.11
  * @see \Lumiere\Frontend\Popups Folder that includes the popup classes
-  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 class Rewrite_Rules {
 

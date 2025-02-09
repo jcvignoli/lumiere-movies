@@ -12,13 +12,13 @@
 namespace Lumiere\Frontend\Popups;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Frontend\Main;
 use Lumiere\Tools\Validate_Get;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 use Lumiere\Plugins\Plugins_Start;
 
 /**

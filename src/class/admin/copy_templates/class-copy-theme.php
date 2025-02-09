@@ -14,8 +14,8 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 }
 
 use Lumiere\Plugins\Logger;
-use Lumiere\Tools\Settings_Global;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Get_Options;
 use Lumiere\Admin\Admin_General;
 use Exception;
 

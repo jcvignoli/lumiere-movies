@@ -11,16 +11,16 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 
 /** @psalm-suppress InvalidGlobal Cannot use global scope here (unless this file is included from a non-global scope) */
 global $wp_filesystem;
 
-$lum_imdb_cache_values = get_option( \Lumiere\Tools\Get_Options::get_cache_tablename() );
+$lum_imdb_cache_values = get_option( \Lumiere\Config\Get_Options::get_cache_tablename() );
 
 // Retrieve the vars from calling class.
 $lum_cache_file_count = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];

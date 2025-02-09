@@ -11,11 +11,11 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 
 // Retrieve vars from calling class.
 $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
@@ -211,10 +211,10 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<blockquote class="lumiere_bloquote_help lum_align_left">
 					&lt;?php<br>
-					if (class_exists("\Lumiere\Tools\Get_Options")) {<br>
+					if (class_exists("\Lumiere\Config\Get_Options")) {<br>
 						$config_imdb = new \Lumiere\Plugins\Manual\Imdbphp();<br>
 						// Get the type of search: movies, series, games<br>
-						$typeSearch = \Lumiere\Tools\Get_Options::get_type_search();<br>
+						$typeSearch = \Lumiere\Config\Get_Options::get_type_search();<br>
 					}<br>
 					<br>
 					# Initialization of IMDBphp libraries<br>

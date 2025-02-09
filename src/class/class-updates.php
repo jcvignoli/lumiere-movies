@@ -14,13 +14,13 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
+if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use FilesystemIterator;
 use Lumiere\Plugins\Logger;
-use Lumiere\Tools\Settings_Global;
+use Lumiere\Config\Settings_Global;
 
 /**
  * The updating rules are in this current parent class, the data to be updated are in child classes (in /updates folder)

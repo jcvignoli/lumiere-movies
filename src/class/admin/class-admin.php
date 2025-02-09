@@ -12,7 +12,7 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Settings' ) ) {
+if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -21,8 +21,8 @@ use Lumiere\Admin\Backoffice_Extra;
 use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Admin\Search;
 use Lumiere\Tools\Data;
-use Lumiere\Tools\Get_Options;
-use Lumiere\Tools\Settings_Global;
+use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Global;
 
 /**
  * All Admin-related functions

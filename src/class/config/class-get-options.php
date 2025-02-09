@@ -9,23 +9,27 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Tools;
+namespace Lumiere\Config;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Tools\Data;
+use Lumiere\Config\Settings;
 
 /**
  * Trait for getting database options
  * All methods shoud be static
  */
-class Get_Options extends \Lumiere\Settings {
+class Get_Options extends Settings {
 
 	/**
 	 * Get an array of the taxonomy in use in the form of taxonomy
+	 *
+	 * @see \Lumiere\Tools\Data::lumiere_array_key_exists_wildcard() Check if a string exists in array array using a wildcard
+	 *
 	 * @return array<int, string>
 	 * @phpstan-return array<array-key, string>
 	 */

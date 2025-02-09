@@ -12,7 +12,7 @@
 namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -21,7 +21,7 @@ use Lumiere\Frontend\Popups\Popup_Movie;
 use Lumiere\Frontend\Popups\Popup_Movie_Search;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Movie\Movie_Display;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 
 /**
  * Start everything for frontend pages
@@ -31,7 +31,7 @@ use Lumiere\Tools\Get_Options;
  * @since 4.1
  *
  * @see \Lumiere\Frontend\Main Settings and plugins
- * @see \Lumiere\Settings URL vars for query_var 'popup'
+ * @see \Lumiere\Config\Settings URL vars for query_var 'popup'
  * @see \Lumiere\Alteration\Rewrite_Rules for URL rewriting using query_var 'popup'
  * @see Popups {@link \Lumiere\Frontend\Popups\Popup_Person}, {@link \Lumiere\Frontend\Popups\Popup_Movie} and {@link \Lumiere\Frontend\Popups\Popup_Movie_Search} using parent class Popup_Head and interface Popup_Basic
  */
@@ -153,7 +153,7 @@ class Frontend {
 	/**
 	 * Popups redirection, return a new text replacing the normal expected text
 	 * Use template_redirect hook to call it
-	 * 1. A var in {@see \Lumiere\Settings::URL_BIT_POPUPS_*} is made available (for movie, people, search, etc.)
+	 * 1. A var in {@see \Lumiere\Config\Settings::URL_BIT_POPUPS_*} is made available (for movie, people, search, etc.)
 	 * 2. That var is compared against the query_var 'popup' in a switch() function here in {@link Frontend::popup_redirect_include()}
 	 * 3. If found, it returns the relevant Popup class, method get_layout() (which echoes instead of returning, needs therefore an ending return)
 	 *

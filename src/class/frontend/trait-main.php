@@ -12,15 +12,15 @@
 namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Link_Makers\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
-use Lumiere\Tools\Settings_Global;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Get_Options;
 
 /**
  * Frontend trait
@@ -29,7 +29,7 @@ use Lumiere\Tools\Get_Options;
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Makers\Link_Factory
-  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 trait Main {
 

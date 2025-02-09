@@ -12,7 +12,7 @@
 namespace Lumiere\Tools;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) { // Don't check for Lumiere\Settings class, the trait is called before loading it.
+if ( ! defined( 'WPINC' ) ) { // Don't check for Lumiere\Config\Settings class, the trait is called before loading it.
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 

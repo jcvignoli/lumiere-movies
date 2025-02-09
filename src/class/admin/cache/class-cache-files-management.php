@@ -12,14 +12,14 @@
 namespace Lumiere\Admin\Cache;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Admin_General;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
@@ -33,7 +33,7 @@ use Exception;
  * @see \Lumiere\Admin\Cron
  * @since 4.0 Methods extracted from Submenu\Cache class and refactored
  *
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  */
 class Cache_Files_Management {
 

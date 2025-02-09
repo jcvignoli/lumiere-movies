@@ -21,7 +21,7 @@
 
 namespace Lumiere\Updates;
 
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 
 /**
  * The logic is in the parent class, the data in the current child class

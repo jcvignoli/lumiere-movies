@@ -11,11 +11,11 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-$lumiere_imdb_admin_values = get_option( \Lumiere\Tools\Get_Options::get_admin_tablename() );
+$lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tablename() );
 
 // Retrieve vars from calling class.
 $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];

@@ -12,7 +12,7 @@
 namespace Lumiere\Frontend\Movie;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -22,7 +22,7 @@ use Lumiere\Plugins\Logger;
  * The class is meant to deal with taxonomy
  *
  * @since 4.4 Class created, using methods that were in Movie_Display
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 class Movie_Taxonomy {
 

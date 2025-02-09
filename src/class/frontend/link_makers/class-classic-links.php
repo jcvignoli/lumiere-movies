@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 
 /**
  * Is called by the Link Factory class, implements abstract Link Maker class

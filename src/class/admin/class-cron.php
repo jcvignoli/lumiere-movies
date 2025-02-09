@@ -12,11 +12,11 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Plugins\Logger;
 use Lumiere\Updates;
@@ -27,7 +27,7 @@ use Lumiere\Updates;
  * @see \Lumiere\Core This class is called in a hook
  * @since 4.0 add/remove cache cron moved from class cache to here
  *
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  */
 class Cron {
 

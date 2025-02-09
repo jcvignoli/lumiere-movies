@@ -18,8 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
-use Lumiere\Tools\Settings_Global;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Get_Options;
 use Exception;
 
 /**
@@ -27,9 +27,9 @@ use Exception;
  *
  * @since 4.0 Created by extracting all the methods from the main admin menu and its subclasses and factorized them here, added check nonces for refresh/delete individual movies, added transiants to trigger notices in {@see \Lumiere\Admin\Admin_Menu::lumiere_admin_display_messages() } and crons in {@see \Lumiere\Admin\Cron::lumiere_add_remove_crons_cache() }
  *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
  */
 class Save_Options {
 

@@ -373,7 +373,7 @@ v.3.9
 * [bug] IMDbPHP search was not working for people on some sporadic circumstances
 * [bug] Creating Cache folder (method settings->lumiere_create_cache() ) was not entirely functional. New logic implemented in the method, should take care of any new cache path provided, default path case when installing the plugin, and alternative cache paths (aka inside Lumière plugin folder)
 * [bug] If cache was not utilised, IMDB pictures were tried to be retrieved anyway (IMDbPHP needs a folder to store and display pictures). Edited frontend classes (movie, popup-movie and popup-person) and theme taxonomy-people-standard
-* [bug] Uninstall did not remove the cache path as saved in database, but Lumiere\Settings::LUMIERE_CACHE_OPTIONS instead
+* [bug] Uninstall did not remove the cache path as saved in database, but Lumiere\Config\Settings::LUMIERE_CACHE_OPTIONS instead
 * [bug] Utils::lumiere_notice() warning (case 4) was buggy. Fixed and implemented dismissible notices.
 * [technical] Properly using composer scripts in src, not copied to the production vendor folder with composer anymore
 * [technical] Using composer autoload, removed all home-made autoloads. Can't use PSR-4 autoloading, since WordPress file naming is not PSR-4 compliant.

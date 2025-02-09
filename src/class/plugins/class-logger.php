@@ -12,15 +12,15 @@
 namespace Lumiere\Plugins;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 // use Lumiere library.
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Files;
-use Lumiere\Tools\Settings_Global;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Settings_Global;
+use Lumiere\Config\Get_Options;
 
 // use Monolog library in /vendor/.
 use Monolog\Logger as LoggerMonolog;

@@ -17,7 +17,7 @@ use Lumiere\Admin\Admin_General;
 use Lumiere\Admin\Copy_Templates\Copy_Theme;
 use Lumiere\Admin\Copy_Templates\Detect_New_Theme;
 use Lumiere\Plugins\Logger;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 
 /**
  * Auto Update taxonomy templates in user's template folder (wp-content/themes/current-theme)

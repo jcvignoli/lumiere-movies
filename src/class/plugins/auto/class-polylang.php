@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Plugins\Logger;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 use Lumiere\Tools\Validate_Get;
 
 /**

@@ -19,7 +19,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 // Include composer bootstrap.
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 use Lumiere\Tools\Data;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Plugins\Logger;
@@ -29,9 +29,9 @@ use Lumiere\Plugins\Logger;
  * If imdbkeepsettings is set (advanced admin options), exit earlier to keep database settings
  *
  * @since 4.0 option properties can be null and construct is different.
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
  */
 class Uninstall {
 

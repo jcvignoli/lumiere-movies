@@ -12,15 +12,15 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Config\Settings' ) ) ) {
 	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
 }
 
-use Lumiere\Tools\Settings_Global;
+use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Global;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Tools\Validate_Get;
-use Lumiere\Tools\Get_Options;
 
 /**
  * Display search results related to a movie to get their IMDbID

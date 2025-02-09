@@ -11,13 +11,13 @@
 namespace Lumiere\Tools;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Settings' ) ) ) {
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Tools\Files;
 use Lumiere\Admin\Copy_Templates\Copy_Theme;
-use Lumiere\Tools\Get_Options;
+use Lumiere\Config\Get_Options;
 use WP_CLI;
 use \ReflectionClass;
 use \ReflectionMethod;
@@ -34,9 +34,9 @@ use \ReflectionMethod;
  * @see \WP_CLI the wp-cli methods
  * @see \ReflectionClass Allows to retrieve the methods
  * @see \ReflectionMethod Allows to specify we want private methods
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Settings
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Settings
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
  */
 class Cli_Commands {
 
