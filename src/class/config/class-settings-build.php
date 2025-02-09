@@ -154,9 +154,8 @@ class Settings_Build {
 		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'rating', 'director' );
 		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'prodcompany', 'country' );
 		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'connection', 'actor' );
-		/**
-		 * @psalm-var ARRAY_IMDBWIDGETORDER $array_imdbwidgetorder
-		 */
+		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'genre', 'plot' );
+		/** @psalm-var ARRAY_IMDBWIDGETORDER $array_imdbwidgetorder */
 		return $array_imdbwidgetorder;
 	}
 

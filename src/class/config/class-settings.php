@@ -121,10 +121,11 @@ class Settings extends Settings_Build {
 	 */
 	private const DATA_OPTION_TAXO_ACTIVE_DEFAULT   = [ 'director', 'genre' ];
 	private const DATA_OPTION_WITHNUMBER_DEFAULT    = [
-		'actor' => '10',
-		'plot'  => '3',
+		'actor'       => '10',
+		'connection'  => '5',
+		'plot'        => '3',
 	];
-	private const DATA_OPTION_WIDGET_ACTIVE_DEFAULT = [ 'title', 'pic', 'director', 'actor', 'genre', 'writer', 'plot' ];
+	private const DATA_OPTION_WIDGET_ACTIVE_DEFAULT = [ 'title', 'pic', 'director', 'actor', 'connection', 'genre', 'writer', 'plot' ];
 
 	/**
 	 * Create database options if they don't exist
