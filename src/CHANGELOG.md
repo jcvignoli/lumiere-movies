@@ -3,6 +3,7 @@
 v.4.4
 * [feature] New item: connected movies, movies related the movie can be displayed
 * [feature] Movie's quotes are back (just select it in admin data)
+* [feature] Movies can be displayed using filters 'lum_find_movie_id' (to find a movie's imdb id, if needed) and 'lum_display_movies_box' (to display the movies)
 * [bug] Text if "no taxonomy theme is found" wasn't translated
 * [bug] Movie popups shouldn't depend on items selections for the posts (Removed links between the admin data selection and popups in Popup_Movie)
 * [bug] Activating the plugin could throw error in Logger class (due to debug file creation)

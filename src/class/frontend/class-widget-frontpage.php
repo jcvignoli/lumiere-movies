@@ -17,7 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Movie\Movie_Display;
 use Lumiere\Frontend\Widget_Legacy;
 use Lumiere\Frontend\Main;
 use Lumiere\Admin\Widget_Selection;
@@ -106,18 +105,22 @@ class Widget_Frontpage {
 	];
 
 	/**
-	 * Constructor. Sets up the widget name, description, etc.
+	 * Constructor.
+	 */
+	public function __construct() {
+		// Construct Frontend trait.
+		$this->start_main_trait();
+	}
+
+	/**
+	 * Run the widget
+	 * Sets up the widget name, description, etc.
 	 * Use Legacy widget if no active Block widget and active Legacy widget are found
 	 * Otherwise use shortcode to display data
 	 *
 	 * @return void Either Legacy or Block-based widget displayed
 	 */
-	public function __construct(
-		private Movie_Display $display_movies = new Movie_Display(),
-	) {
-
-		// Construct Frontend trait.
-		$this->start_main_trait();
+	public function start(): void {
 
 		// If pre-5.8 widget is active and Block Widget unactive, use Widget_Legacy class.
 		if (
@@ -135,13 +138,6 @@ class Widget_Frontpage {
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 		 */
 		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'shortcode_parser' ] );
-	}
-
-	/**
-	 * Statically start the class
-	 */
-	public static function start(): void {
-		$that = new self();
 	}
 
 	/**
@@ -251,13 +247,15 @@ class Widget_Frontpage {
 
 		/**
 		 * Get movie's data from {@link \Lumiere\Frontend\Movie\Movie_Display}
+		 * @since 4.4 using filters declared in {@see \Lumiere\Frontend\Frontend::__construct()}
 		 *
-		 * @psalm-var array<array-key, array{bymid?: string, byname?: string}> $movies_array
+		 * @psalm-var array<array-key, array{bymid?: string, byname?: string}> $get_array_imdbid
 		 */
-		$movie = $this->display_movies->lumiere_show( $movies_array );
+		$get_array_imdbid = apply_filters( 'lum_find_movie_id', $movies_array );
+		$lum_movie_box = apply_filters( 'lum_display_movies_box', $get_array_imdbid );
 
 		// Output the result in a layout wrapper.
-		return $this->wrap_widget_content( $title_box, $movie );
+		return $this->wrap_widget_content( $title_box, $lum_movie_box );
 	}
 
 	/**

@@ -73,6 +73,15 @@ class Movie_Display extends Movie_Data {
 		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp' => find better notation)
 		 */
 		$this->plugins_classes_active = $this->plugins->plugins_classes_active;
+	}
+
+	/**
+	 * Run the movies
+	 *
+	 * @return void Build the class
+	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
+	 */
+	public function start(): void {
 
 		// Transform spans into movies.
 		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
@@ -87,16 +96,6 @@ class Movie_Display extends Movie_Data {
 		 */
 		add_shortcode( 'imdblt', [ $this, 'parse_lumiere_tag_transform' ] );
 		add_shortcode( 'imdbltid', [ $this, 'parse_lumiere_tag_transform_id' ] );
-	}
-
-	/**
-	 * Static call of the current class Movie
-	 *
-	 * @return void Build the class
-	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
-	 */
-	public static function start(): void {
-		$start = new self();
 	}
 
 	/**
@@ -120,8 +119,20 @@ class Movie_Display extends Movie_Data {
 			return '';
 		}
 
+		$array_movies_with_imdbid = apply_filters( 'lum_find_movie_id', $imdb_id_or_title );
+		return apply_filters( 'lum_display_movies_box', $array_movies_with_imdbid );
+	}
+
+	/**
+	 * Display the movies in the box
+	 * Is a hook declared in {@see \Lumiere\Frontend\Frontend::__construct()}
+	 *
+	 * @since 4.4 method created
+	 *
+	 * @param array<array-key, string> $movies_searched
+	 */
+	public function lum_display_movies_box( array $movies_searched ): string {
 		$output = '';
-		$movies_searched = $this->search_categorized_movies( $imdb_id_or_title );
 
 		foreach ( $movies_searched as $movie_found ) {
 
@@ -152,13 +163,17 @@ class Movie_Display extends Movie_Data {
 
 	/**
 	 * Search movies: if title is provied, search its imdbid; use imdbid otherwise
+	 * Is a hook declared in {@see \Lumiere\Frontend\Frontend::__construct()}
 	 *
-	 * @param non-empty-array<array-key, array<string, string>> $films_array
-	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $films_array
+	 * @since 4.3.2 method created
+	 * @since 4.4 An array of movies's name without ['bymid'] can be passed
+	 *
+	 * @param non-empty-array<array-key, array<string, string>|string> $films_array Th
+	 * @phpstan-param array<array-key|string, array{bymid?: string, byname?: string}|string> $films_array
 	 * @return list<string> Array of results of imdbids
-	 * @since 4.3.2
+	 * @throws Exception if wrong format passed
 	 */
-	private function search_categorized_movies( array $films_array ): array {
+	public function find_imdb_id( array $films_array ): array {
 
 		self::$nb_of_movies = count( $films_array );
 		$movies_found = [];
@@ -172,37 +187,44 @@ class Movie_Display extends Movie_Data {
 
 		for ( $i = 0; $i < self::$nb_of_movies; $i++ ) {
 
-			// A movie's title has been specified, get its imdbid.
-			if ( isset( $films_array[ $i ]['byname'] ) && strlen( $films_array[ $i ]['byname'] ) > 0 ) {
-
-				$film = strtolower( $films_array[ $i ]['byname'] ); // @since 4.0 lowercase, less cache used.
-
-				$this->logger->log->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $film ) );
-
-				// check a the movie title exists.
-				$this->logger->log->debug( '[Lumiere][Movie] searching for ' . $film );
-
-				/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
-				$results = $this->plugins_classes_active['imdbphp']->search_movie_title(
-					esc_html( $film ),
-					$this->logger->log,
-				);
-
-				// No results were found in imdbphp query.
-				if ( ! isset( $results[0] ) ) {
-					$this->logger->log->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $film . ', aborting.' );
-					continue;
-				}
-
-				// Get the first result from the search
-				$movies_found[] = esc_html( $results[0]['imdbid'] );
-				$this->logger->log->debug( '[Lumiere][Movie] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
-
-				// A movie's ID was passed.
-			} elseif ( isset( $films_array[ $i ]['bymid'] ) ) {
+			// A movie's ID was passed.
+			if ( isset( $films_array[ $i ]['bymid'] ) && ctype_digit( $films_array[ $i ]['bymid'] ) ) {
 				$movies_found[] = esc_html( strval( $films_array[ $i ]['bymid'] ) );
 				$this->logger->log->debug( '[Lumiere][Movie] IMDb ID provided: *' . $movies_found[0] . '*' );
+				continue;
 			}
+
+			/**
+			 * If ['byname'] is not provided, assume the movie's name was passed as an array
+			 */
+			if ( isset( $films_array[ $i ]['byname'] ) ) {
+				$movie_name = strtolower( $films_array[ $i ]['byname'] );
+			} elseif ( is_string( $films_array[ $i ] ) ) {
+				$movie_name = strtolower( $films_array[ $i ] );
+			} else {
+				throw new Exception( 'Wrong format of movie title' );
+			}
+
+			$this->logger->log->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
+
+			// check a the movie title exists.
+			$this->logger->log->debug( '[Lumiere][Movie] searching for ' . $movie_name );
+
+			/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
+			$results = $this->plugins_classes_active['imdbphp']->search_movie_title(
+				esc_html( $movie_name ),
+				$this->logger->log,
+			);
+
+			// No results were found in imdbphp query.
+			if ( ! isset( $results[0] ) ) {
+				$this->logger->log->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $movie_name . ', aborting.' );
+				continue;
+			}
+
+			// Get the first result from the search
+			$movies_found[] = esc_html( $results[0]['imdbid'] );
+			$this->logger->log->debug( '[Lumiere][Movie] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
 
 		}
 		return $movies_found;
@@ -390,13 +412,16 @@ class Movie_Display extends Movie_Data {
 
 		foreach ( $this->imdb_data_values['imdbwidgetorder'] as $data_detail => $order ) {
 
+			// Key for $this->imdb_data_values
+			$key_data_values = 'imdbwidget' . $data_detail;
+
 			if (
 				// Use order to select the position of the data detail.
 				isset( $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] )
 				&& $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order
 				// Is the data detail activated?
-				/** @psalm-suppress PossiblyUndefinedArrayOffset (even adding an extra check doesn't suppress the error) */
-				&& $this->imdb_data_values[ 'imdbwidget' . $data_detail ] === '1'
+				&& isset( $this->imdb_data_values[ $key_data_values ] )
+				&& $this->imdb_data_values[ $key_data_values ] === '1'
 			) {
 				// Build the method name according to the data detail name.
 				$method = 'get_item_' . $data_detail;

@@ -30,7 +30,7 @@ use Imdb\Title;
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
  * @since 4.3 is child class
  */
-class Popup_Movie extends Head_Popups implements Popup_Basic {
+class Popup_Film extends Head_Popups implements Popup_Basic {
 
 	/**
 	 * The movie Title class instanciated with title
@@ -485,13 +485,16 @@ class Popup_Movie extends Head_Popups implements Popup_Basic {
 		$admin_max_connected = isset( $this->imdb_data_values['imdbwidgetconnectionnumber'] ) ? intval( $this->imdb_data_values['imdbwidgetconnectionnumber'] ) : 0;
 		$nbtotalconnected = count( $connected_movies );
 
-		if ( $nbtotalconnected < 1 ) {
-			esc_html_e( 'No connected movies found.', 'lumiere-movies' );
-		}
+		$connected_movies_sub = array_filter( $connected_movies, fn( array $connected_movies ) => ( count( array_values( $connected_movies ) ) > 0 ) ); // counts the actual goofs, not their
+		$nbtotalconnected_sub = count( $connected_movies_sub );
 
 		echo "\n\t\t\t\t\t\t\t" . ' <!-- Connected movies -->';
 		echo "\n" . '<div id="lumiere_popup_plots_group">';
 		echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Connected movie', 'Connected movies', $nbtotalconnected, 'lumiere-movies' ) ) . '</div>';
+
+		if ( $nbtotalconnected === 0 || $nbtotalconnected_sub === 0 ) {
+			esc_html_e( 'No connected movies found.', 'lumiere-movies' );
+		}
 
 		foreach ( Get_Options::get_list_connect_cat() as $category => $data_explain ) {
 			// Total items for this category.

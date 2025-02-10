@@ -111,23 +111,22 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<h4><?php esc_html_e( 'How to display data inside my post - advanced users', 'lumiere-movies' ); ?></h4>
 
 				<?php
-				esc_html_e( "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use Lumière outside a post (in a customised page), it won't work. Lumière is written around classes, so it is easy to achieve what you want.", 'lumiere-movies' );
+				esc_html_e( "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use Lumière outside a post (in a customised page), it won't work. Lumière is written around filters and actions so it is easy to achieve what you want.", 'lumiere-movies' );
 				?>
 
 				<br>
 
-				<?php esc_html_e( "The function to be called is <strong>imdb_call_external ()</strong>. It has two parameters, and both are mandatory. The first is the movie's name, and the second take always 'external'. For exemple, one'd like to display 'The Descent' should call the function like this:", 'lumiere-movies' ); ?>
+				<?php esc_html_e( "The first filter to use is 'lum_find_movie_id' (as you probably do not know the movie's IMDb ID). It will return an array with the movie's imdb id, that you can use in a second filter 'lum_display_movies_box':", 'lumiere-movies' ); ?>
 
 				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
-					$movieClass = new \Lumiere\Frontend\Movie\Movie_Display();<br>
-					echo $movieClass->lumiere_external_call('Descent', null);
+					$film_imdbid = apply_filters( 'lum_find_movie_id', [ 'Descent' ] );<br>
+					echo apply_filters( 'lum_display_movies_box', $film_imdbid );
 				</blockquote>
 
-				<?php esc_html_e( 'Should you want to call the function using an IMDb ID instead:', 'lumiere-movies' ); ?>
+				<?php esc_html_e( 'Should you want own the IMDb ID, it is more straightforward:', 'lumiere-movies' ); ?>
 
 				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
-					$movieClass = new \Lumiere\Frontend\Movie\Movie_Display();<br>
-					echo $movieClass->lumiere_external_call(null, '0435625');
+					echo apply_filters( 'lum_display_movies_box', [ '0435625' ] );
 				</blockquote>
 
 

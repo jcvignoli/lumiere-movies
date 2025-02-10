@@ -16,11 +16,10 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Popups\Popup_Person;
-use Lumiere\Frontend\Popups\Popup_Movie;
-use Lumiere\Frontend\Popups\Popup_Movie_Search;
 use Lumiere\Frontend\Main;
+use Lumiere\Frontend\Widget_Frontpage;
 use Lumiere\Frontend\Movie\Movie_Display;
+use Lumiere\Frontend\Popups\Popup_Select;
 use Lumiere\Config\Get_Options;
 
 /**
@@ -45,7 +44,11 @@ class Frontend {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct(
+		Movie_Display $movie_display = new Movie_Display(),
+		Widget_Frontpage $widget_front = new Widget_Frontpage(),
+		Popup_Select $popup_select = new Popup_Select(),
+	) {
 
 		if ( is_admin() ) {
 			return;
@@ -61,17 +64,21 @@ class Frontend {
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_execute_assets' ] );
 
 		/**
-		 * Display movie(s) into the post.
+		 * Movie's related actions and filters
 		 */
-		add_action( 'init', fn() => Movie_Display::start(), 11 );
+		add_action( 'init', [ $movie_display, 'start' ], 11 );
+		add_filter( 'lum_display_movies_box', [ $movie_display, 'lum_display_movies_box' ], 10, 1 );
+		add_filter( 'lum_find_movie_id', [ $movie_display, 'find_imdb_id' ], 10, 1 );
 
 		/**
-		 * Display Widget
+		 * Widget's related action
 		 */
-		add_action( 'init', fn() => Widget_Frontpage::start(), 11 );
+		add_action( 'init', [ $widget_front, 'start' ], 11 );
 
-		// Display popups.
-		add_filter( 'template_include', [ $this, 'popup_redirect_include' ] );
+		/**
+		 * Add filter for Popups
+		 */
+		add_filter( 'template_include', [ $popup_select, 'maybe_find_template' ] );
 	}
 
 	/**
@@ -148,41 +155,5 @@ class Frontend {
 		if ( wp_script_is( 'lumiere_scripts', 'enqueued' ) === false ) {
 			wp_enqueue_script( 'lumiere_scripts' );
 		}
-	}
-
-	/**
-	 * Popups redirection, return a new text replacing the normal expected text
-	 * Use template_redirect hook to call it
-	 * 1. A var in {@see \Lumiere\Config\Settings::URL_BIT_POPUPS_*} is made available (for movie, people, search, etc.)
-	 * 2. That var is compared against the query_var 'popup' in a switch() function here in {@link Frontend::popup_redirect_include()}
-	 * 3. If found, it returns the relevant Popup class, method get_layout() (which echoes instead of returning, needs therefore an ending return)
-	 *
-	 * @param string $template_path The path to the page of the theme currently in use
-	 * @return string The template path if no popup was found, the popup otherwise
-	 */
-	public function popup_redirect_include( string $template_path ): string {
-
-		$query_popup = get_query_var( 'popup' );
-
-		// The query var doesn't exist, exit.
-		if ( ! isset( $query_popup ) ) {
-			return $template_path;
-		}
-
-		// 'popup' query_var must match against Get_Options::URL_BIT_POPUPS_* vars that are encoded in javascript URL.
-		switch ( $query_popup ) {
-			case 'film':
-				( new Popup_Movie() )->get_layout();
-				return '';
-			case 'person':
-				( new Popup_Person() )->get_layout();
-				return '';
-			case 'movie_search':
-				( new Popup_Movie_Search() )->get_layout();
-				return '';
-		}
-
-		// No valid popup was found, return normal template_path.
-		return $template_path;
 	}
 }

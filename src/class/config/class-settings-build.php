@@ -172,6 +172,7 @@ class Settings_Build {
 
 	/**
 	 * Create rows for 'imdbtaxonomy' using internal methods
+	 *
 	 * @see Settings::get_default_data_option() Meant to be used there
 	 *
 	 * @param array<string, string>|null $activated List of taxonomy to activate by default

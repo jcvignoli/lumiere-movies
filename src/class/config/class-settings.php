@@ -60,11 +60,12 @@ class Settings extends Settings_Build {
 
 	/**
 	 * URL Strings for popups
-	 * Used in child Get_Options
+	 * @see \Lumiere\Config\Get_Options::get_popup_url() Build a URL including those bits
+	 * @see \Lumiere\Frontend\Popups\Popup_Select::build_class_name() Use to call the relevant popup class
 	 */
-	protected const URL_BIT_POPUPS_MOVIES           = 'film/';
-	protected const URL_BIT_POPUPS_PEOPLE           = 'person/';
-	protected const URL_BIT_POPUPS_MOVIES_SEARCH    = 'movie_search/';
+	public const URL_BIT_POPUPS_FILM                = 'film';
+	public const URL_BIT_POPUPS_PERSON              = 'person';
+	public const URL_BIT_POPUPS_MOVIE_SEARCH        = 'movie_search';
 
 	/**
 	 * URLs for pictures and menu images
