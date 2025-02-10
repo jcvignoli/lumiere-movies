@@ -241,8 +241,10 @@ class Movie_Data {
 				if ( isset( $connected_movies[ $category ][ $i ]['titleId'] ) && $connected_movies[ $category ][ $i ]['titleName'] ) {
 
 					if ( $i === 0 ) {
-						$output .= "<br><strong>$data_explain</strong>: ";
+						$output .= '<br><span class="lum_results_section_subtitle_parent"><span class="lum_results_section_subtitle_subcat">' . $data_explain . '</span>: ';
 					}
+
+					$output .= '<span class="lum_results_section_subtitle_subcat_content">';
 
 					/**
 					 * Use links builder classes.
@@ -255,9 +257,10 @@ class Movie_Data {
 					);
 
 					$output .= isset( $connected_movies[ $category ][ $i ]['description'] ) ? ' (' . esc_html( $connected_movies[ $category ][ $i ]['description'] ) . ')' : '';
-					if ( $i < ( $admin_max_connected - 1 ) && $i < ( $nbtotalconnected ) && $i < ( $nb_items - 1 ) ) {
+					if ( $i < ( $admin_max_connected - 1 ) && $i < $nbtotalconnected && $i < ( $nb_items - 1 ) ) {
 						$output .= ', '; // add comma to every connected movie but the last.
 					}
+					$output .= '</span></span>';
 				}
 			}
 		}
@@ -414,12 +417,6 @@ class Movie_Data {
 		$nbtotalgoofs = count( $filter_nbtotalgoofs );
 		$overall_loop = 1;
 
-		// Build all types of goofs by making an array.
-		$goofs_type = [];
-		foreach ( $goofs as $type => $info ) {
-			$goofs_type[] = $type;
-		}
-
 		// if no result, exit.
 		if ( $nbtotalgoofs === 0 ) {
 			return '';
@@ -429,17 +426,24 @@ class Movie_Data {
 			esc_html( _n( 'Goof', 'Goofs', $nbtotalgoofs, 'lumiere-movies' ) )
 		);
 
-		// Process goof type after goof type
-		foreach ( $goofs_type as $type ) {
+		// Process goof category
+		foreach ( Get_Options::get_list_goofs_cat() as $category => $data_explain ) {
+
+			// Total items for this category.
+			$nb_items = count( $goofs[ $category ] );
+
 			// Loop conditions: less than the total number of goofs available AND less than the goof limit setting, using a loop counter.
-			for ( $i = 0; ( $i < $nbtotalgoofs ) && ( $overall_loop <= $admin_max_goofs ); $i++ ) {
-				if ( isset( $goofs[ $type ][ $i ]['content'] ) && strlen( $goofs[ $type ][ $i ]['content'] ) > 0 ) {
-					$text_final_edited = preg_replace( '/\B([A-Z])/', '&nbsp;$1', $type ); // type is agglutinated, add space before capital letters.
-					/** @psalm-suppress PossiblyInvalidOperand,PossiblyInvalidArgument (PossiblyInvalidOperand: Cannot concatenate with a array<array-key, string>|string -- it's always string according to PHPStan) */
-					$output .= isset( $text_final_edited ) ? "\n\t\t\t\t<strong>" . esc_html( strtolower( $text_final_edited ) ) . '</strong>&nbsp;' : '';
-					$output .= esc_html( $goofs[ $type ][ $i ]['content'] ) . '<br>';
+			for ( $i = 0; $i < $admin_max_goofs; $i++ ) {
+				if ( isset( $goofs[ $category ][ $i ]['content'] ) ) {
+					if ( $i === 0 ) {
+						$output .= '<br><span class="lum_results_section_subtitle_parent"><span class="lum_results_section_subtitle_subcat">' . $data_explain . '</span>: ';
+					}
+
+					if ( isset( $goofs[ $category ][ $i ]['content'] ) && strlen( $goofs[ $category ][ $i ]['content'] ) > 0 ) {
+						$output .= "\n\t\t\t\t" . '<span class="lum_results_section_subtitle_subcat_content">' . esc_html( $goofs[ $category ][ $i ]['content'] ) . '</span>&nbsp;';
+					}
+					$output .= '</span>';
 				}
-				$overall_loop++; // this loop counts the exact goof number processed
 			}
 		}
 		return $output;
@@ -589,12 +593,24 @@ class Movie_Data {
 				}
 			}
 			return $output;
-
 		}
 
 		// No taxonomy.
 		$count_colors = count( $colors );
 		for ( $i = 0; $i < $count_colors; $i++ ) {
+
+			/**
+			 * Attributes are more specific than type, so take it first if it exists
+			 * It may be an array with various row, but we keep the first only
+			 * If found, do not bother searching for type in this iteration
+			 */
+			if ( isset( $colors[ $i ]['attributes'][0] ) ) {
+				$output .= "\n\t\t\t" . sanitize_text_field( $colors[ $i ]['attributes'][0] );
+				if ( $i < $nbtotalcolors - 1 ) {
+					$output .= ', ';
+				}
+				continue;
+			}
 
 			$output .= "\n\t\t\t" . sanitize_text_field( $colors[ $i ]['type'] );
 			if ( $i < $nbtotalcolors - 1 ) {

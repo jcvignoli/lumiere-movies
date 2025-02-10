@@ -117,7 +117,7 @@ class Settings extends Settings_Build {
 
 	/**
 	 * Default options when creating DATA_OPTIONS
-	 * Must be in the same order as Settings::define_list_items_with_numbers(), otherwise number are not saved
+	 * DATA_OPTION_WITHNUMBER_DEFAULT must be in the same order as Settings::define_list_items_with_numbers(), otherwise number are not saved
 	 * @see Settings::get_default_data_option()
 	 */
 	private const DATA_OPTION_TAXO_ACTIVE_DEFAULT   = [ 'director', 'genre' ];
@@ -298,6 +298,7 @@ class Settings extends Settings_Build {
 
 	/**
 	 * Define the type items to show in connected/related movies
+	 * @see Get_Options::get_list_connect_cat() Call this class
 	 *
 	 * @since 4.4 method added
 	 * @return array<string, string>
@@ -308,6 +309,30 @@ class Settings extends Settings_Build {
 			'follows'    => __( 'Follows', 'lumiere-movies' ),
 			'followedBy' => __( 'Followed by', 'lumiere-movies' ),
 			'remakeOf'   => __( 'Remake of', 'lumiere-movies' ),
+		];
+	}
+
+	/**
+	 * Define the type items to show in goofs
+	 * @see Get_Options::get_list_goofs_cat() Call this class
+	 *
+	 * @since 4.4 method added
+	 * @return array<string, string>
+	 */
+	public static function define_list_goofs_cat(): array {
+		return [
+			'continuity'                  => __( 'continuity', 'lumiere-movies' ),
+			'factualError'                => __( 'factual error', 'lumiere-movies' ),
+			//'notAGoof'                    => __( 'not a goof', 'lumiere-movies' ),
+			'revealingMistake'            => __( 'revealing mistake', 'lumiere-movies' ),
+			//'miscellaneous'               => __( 'miscellaneous', 'lumiere-movies' ),
+			'anachronism'                 => __( 'anachronism', 'lumiere-movies' ),
+			//'audioVisualUnsynchronized'   => __( 'audio visual unsynchronized', 'lumiere-movies' ),
+			//'crewOrEquipmentVisible'      => __( 'stuff visible', 'lumiere-movies' ),
+			'errorInGeography'            => __( 'error in geography', 'lumiere-movies' ),
+			'plotHole'                    => __( 'plot hole', 'lumiere-movies' ),
+			//'boomMicVisible'              => __( 'boom mic visible', 'lumiere-movies' ),
+			//'characterError'              => __( 'character error', 'lumiere-movies' ),
 		];
 	}
 

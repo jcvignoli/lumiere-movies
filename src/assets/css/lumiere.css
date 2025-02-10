@@ -174,11 +174,23 @@ text-align:left;
 .lum_results_frame_grey, .lum_results_frame_white, .lum_results_frame_black { 
 }
 
-.lum_results_section_subtitle { 	/* Section title */
+.lum_results_section_subtitle { 	/* Section title, element title */
 	font-weight:bold;
 	font-size:115%;
 	padding-right:5px;
 }
+/**
+ * Number the elements lum_results_section_subtitle_subcat_content
+ * Add that number before such element, except for the first one (doesn't show (1) )
+ */
+				 	/* Section title, element title parent embeding the next */
+span.lum_results_section_subtitle_parent { counter-reset: lum-cat-counter; }
+span.lum_results_section_subtitle_parent > :nth-child(2)::before {  content: ""; }
+				 	/* Section title, title subcategory of title */
+span.lum_results_section_subtitle_subcat { font-weight:bold; font-size:105%; }
+					/* Section title, content inside title parent (not child of subcat) */
+span.lum_results_section_subtitle_subcat_content { counter-increment: lum-cat-counter; }
+span.lum_results_section_subtitle_subcat_content::before { content: " (" counter(lum-cat-counter, auto) ") "; }
 
 .lumiere-lines-common {			/* common div to all elements */
 	padding: 10px 10px 0 10px;

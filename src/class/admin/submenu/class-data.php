@@ -247,8 +247,10 @@ class Data extends Admin_Menu {
 					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' /> "
 					. esc_html__( 'Copy template', 'lumiere-movies' )
 					. '</a>';
-			/* translators: %s is replaced with a movie item name, ie 'director' */
-			$output .= "\n\t" . '<div><font color="red">' . wp_sprintf( esc_html__( 'No %s template found', 'lumiere-movies' ), $lumiere_taxo_title ) . '</font></div>';
+			$output .= "\n\t" . '<div><font color="red">'
+				/* translators: %s is replaced with a movie item name, ie 'director' */
+				. wp_sprintf( __( 'No %s template found', 'lumiere-movies' ), $lumiere_taxo_title )
+				. '</font></div>';
 			$output .= "\n\t" . '</div>';
 
 			return $output;

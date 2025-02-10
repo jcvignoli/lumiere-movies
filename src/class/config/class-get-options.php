@@ -127,12 +127,21 @@ class Get_Options extends Settings {
 	}
 
 	/**
-	 * Get all type items that are used for taxonomy
+	 * Get all categories of connected movies
 	 *
 	 * @return array<string, string>
 	 */
 	public static function get_list_connect_cat(): array {
 		return parent::define_list_connect_cat();
+	}
+
+	/**
+	 * Get all categories of goofs
+	 *
+	 * @return array<string, string>
+	 */
+	public static function get_list_goofs_cat(): array {
+		return parent::define_list_goofs_cat();
 	}
 
 	/**
