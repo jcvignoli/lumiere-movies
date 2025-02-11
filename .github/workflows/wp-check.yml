@@ -88,5 +88,5 @@ jobs:
         with:
           build-dir: ${{ runner.temp }}/lumiere-movies
           exclude-directories: 'vendor,.wordpress-org'
-          ignore-codes: 'PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage,WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary,WordPress.PHP.DevelopmentFunctions'
+          ignore-codes: 'PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage,WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary,WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace'
 
