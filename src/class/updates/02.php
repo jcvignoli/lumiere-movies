@@ -58,7 +58,7 @@ class Lumiere_Update_File_02 extends \Lumiere\Updates {
 		$logger = $this->logger->log;
 
 		// Update the number of updates already processed in Lumière options.
-		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -72,13 +72,13 @@ class Lumiere_Update_File_02 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbwidgetsource successfully updated.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetsource could not be updated.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 

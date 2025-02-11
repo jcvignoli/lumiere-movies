@@ -90,7 +90,7 @@ class Taxonomy {
 			$this->logger = null;
 		}
 
-		$this->logger?->log->debug( '[Lumiere][Taxonomy][Start] Replacing taxonomy *' . $old_taxonomy . '* by ' . $new_taxonomy . ' started' );
+		$this->logger?->log->debug( '[Taxonomy][Start] Replacing taxonomy *' . $old_taxonomy . '* by ' . $new_taxonomy . ' started' );
 
 		$get_taxo_array = Get_Options::get_taxonomy_activated(); // Retrieve an array of vars such as "lumiere-director"
 
@@ -133,13 +133,13 @@ class Taxonomy {
 				foreach ( $terms as $term ) {
 					$term_deleted = wp_delete_term( intval( $term->term_id ), sanitize_text_field( $full_old_taxonomy ), [ 'force_default' => true ] );
 					if ( $term_deleted === true ) {
-						$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Deleted] Term "' . $term->name . '" deleted from taxonomy "' . sanitize_text_field( $full_old_taxonomy . '"' ) );
+						$this->logger?->log->debug( '[Taxonomy][Update terms][Deleted] Term "' . $term->name . '" deleted from taxonomy "' . sanitize_text_field( $full_old_taxonomy . '"' ) );
 					}
 				}
 			}
-			$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Processed] Term "' . sanitize_text_field( $full_new_taxonomy ) );
+			$this->logger?->log->debug( '[Taxonomy][Update terms][Processed] Term "' . sanitize_text_field( $full_new_taxonomy ) );
 		}
-		$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][End] taxonomy terms have been processed.' );
+		$this->logger?->log->debug( '[Taxonomy][Update terms][End] taxonomy terms have been processed.' );
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Taxonomy {
 	 */
 	public function create_custom_taxonomy( string $taxonomy = '', string $object_type = '', array $args = [] ): void {
 
-		// $this->logger?->log->debug( '[Lumiere][Taxonomy] create_custom_taxonomy()' . $taxonomy);
+		// $this->logger?->log->debug( '[Taxonomy] create_custom_taxonomy()' . $taxonomy);
 		$get_taxo_array = Get_Options::get_taxonomy_activated(); // Retrieve an array of vars such as "lumiere-director"
 
 		foreach ( $get_taxo_array as $taxonomy_name ) {
@@ -250,13 +250,13 @@ class Taxonomy {
 	 */
 	private function update_taxonomy_terms( int $page_id, string $full_new_taxonomy, string $full_old_taxonomy, string $title ): bool {
 
-		$this->logger?->log->info( '[Lumiere][Taxonomy][Update terms] Regular taxonomy version started' );
+		$this->logger?->log->info( '[Taxonomy][Update terms] Regular taxonomy version started' );
 
 		$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
-		$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Post] Title "' . esc_html( $title ) . '" being processed' );
+		$this->logger?->log->debug( '[Taxonomy][Update terms][Post] Title "' . esc_html( $title ) . '" being processed' );
 
 		if ( $terms_post === false || $terms_post instanceof \WP_Error ) {
-			$this->logger?->log->error( '[Lumiere][Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
+			$this->logger?->log->error( '[Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
 			return false;
 		}
 
@@ -279,11 +279,11 @@ class Taxonomy {
 
 			// No term found
 			if ( ! $adding_terms instanceof \WP_Error && count( $adding_terms ) > 0 ) {
-				$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Added] Term *' . esc_html( $term_post->name ) . '* to post *' . esc_html( $title ) . '*' );
+				$this->logger?->log->debug( '[Taxonomy][Update terms][Added] Term *' . esc_html( $term_post->name ) . '* to post *' . esc_html( $title ) . '*' );
 			}
-			$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Process] Term *' . esc_html( $term_post->name ) );
+			$this->logger?->log->debug( '[Taxonomy][Update terms][Process] Term *' . esc_html( $term_post->name ) );
 		}
-		$this->logger?->log->debug( '[Lumiere][Taxonomy][Update terms][Post] Title *' . esc_html( $title ) . '* processed.' );
+		$this->logger?->log->debug( '[Taxonomy][Update terms][Post] Title *' . esc_html( $title ) . '* processed.' );
 		return true;
 	}
 }

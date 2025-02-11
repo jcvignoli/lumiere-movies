@@ -26,7 +26,7 @@ use Lumiere\Config\Get_Options;
  * Display star information in a popup
  * Bots are banned before getting popups
  *
- * @see \Lumiere\Frontend\Frontend Redirect to here according to the query var 'popup' in URL
+ * @see \Lumiere\Popups\Popup_Select Redirect to here according to the query var 'popup' in URL
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
  * @since 4.3 is child class
  */
@@ -113,11 +113,11 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if ( $person_class->name() === null ) {
 			status_header( 404 );
 			$text = __( 'Could not find any IMDb person with this query.', 'lumiere-movies' );
-			$this->logger->log->error( '[Lumiere][Popup_Person] ' . esc_html( $text ) );
+			$this->logger->log->error( '[Popup_Person] ' . esc_html( $text ) );
 			wp_die( esc_html( $text ) );
 		}
 
-		$this->logger->log->debug( '[Lumiere] Movie person IMDb ID provided in URL: ' . esc_html( $person_id ) );
+		$this->logger->log->debug( ' Movie person IMDb ID provided in URL: ' . esc_html( $person_id ) );
 		return $person_class;
 	}
 
@@ -138,7 +138,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		 */
 		echo '<div id="spinner-placeholder"></div>';
 
-		$this->logger->log->debug( '[Lumiere][Popup_Person] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log->debug( '[Popup_Person] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 		// Show menu.
 		$this->display_menu();
@@ -264,7 +264,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_menu(): void {
 		// If polylang plugin is active, rewrite the URL to append the lang string
-		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'people', site_url() ) );
+		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'person', site_url() ) );
 		?>
 												<!-- top page menu -->
 		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">
@@ -354,7 +354,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			for ( $i = 0; $i < $nbtotalspouses; ++$i ) {
 
 				if ( isset( $spouses[ $i ]['imdb'] ) && strlen( $spouses[ $i ]['imdb'] ) > 0 ) {
-					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . intval( $spouses[ $i ]['imdb'] ) ) ) . "'>";
+					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . intval( $spouses[ $i ]['imdb'] ) ) ) . "'>";
 				}
 
 				if ( isset( $spouses[ $i ]['name'] ) && strlen( $spouses[ $i ]['name'] ) > 0 ) {
@@ -386,7 +386,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			for ( $i = 0; $i < $nbtotalchildren; ++$i ) {
 
 				if ( isset( $children[ $i ]['imdb'] ) && strlen( $children[ $i ]['imdb'] ) > 0 ) {
-					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . intval( $children[ $i ]['imdb'] ) ) ) . "'>";
+					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . intval( $children[ $i ]['imdb'] ) ) ) . "'>";
 				}
 
 				if ( isset( $children[ $i ]['name'] ) && strlen( $children[ $i ]['name'] ) > 0 ) {
@@ -419,7 +419,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 			for ( $i = 0; $i < $nbtotalbiomovie; ++$i ) {
 
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
+				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . intval( $biomovie[ $i ]['id'] ) ) ) . "'>" . esc_html( $biomovie[ $i ]['title'] ) . '</a>';
 
 				if ( isset( $biomovie[ $i ]['year'] ) && $biomovie[ $i ]['year'] > 0 ) {
 					$output .= ' (' . intval( $biomovie[ $i ]['year'] ) . ') ';
@@ -442,7 +442,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 			for ( $i = 0; $i < $nbtotalportrayedmovie; ++$i ) {
 
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . esc_html( $portrayedmovie[ $i ]['id'] ) ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['title'] ) . '</a>';
+				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $portrayedmovie[ $i ]['id'] ) ) ) . "'>" . esc_html( $portrayedmovie[ $i ]['title'] ) . '</a>';
 
 				if ( isset( $portrayedmovie[ $i ]['year'] ) && strlen( strval( $portrayedmovie[ $i ]['year'] ) ) > 0 ) {
 					$output .= ' (' . esc_html( $portrayedmovie[ $i ]['year'] ) . ') ';
@@ -895,7 +895,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 			foreach ( $all_movies[ $role ] as $credit_role ) {
 
-				$output .= " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . esc_html( $credit_role['titleId'] ) ) ) . "'>" . esc_html( $credit_role['titleName'] ) . '</a>';
+				$output .= " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $credit_role['titleId'] ) ) ) . "'>" . esc_html( $credit_role['titleName'] ) . '</a>';
 
 				if ( isset( $credit_role['year'] ) ) {
 					$output .= ' (';

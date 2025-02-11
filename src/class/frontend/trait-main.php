@@ -56,15 +56,14 @@ trait Main {
 	 * Constructor-like
 	 *
 	 * @param null|string $logger_name Title for the logger output
-	 * @param bool $screen_output Whether to output Monolog on screen or not
 	 */
-	public function start_main_trait( ?string $logger_name = null, bool $screen_output = true ): void {
+	public function start_main_trait( ?string $logger_name = null ): void {
 
 		// Get global settings class properties.
 		$this->get_db_options(); // In Open_Options trait.
 
 		// Start Logger class, if no name was passed build it with method get_current_classname().
-		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ), $screen_output );
+		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ) );
 
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
 		$this->link_maker = Link_Factory::select_link_type();
@@ -125,9 +124,9 @@ trait Main {
 			isset( $get_request_uri )
 			&&
 			(
-				str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), Get_Options::get_popup_url( 'movies' ) )
-				|| str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), Get_Options::get_popup_url( 'movies_search' ) )
-				|| str_contains( esc_url_raw( wp_unslash( $get_request_uri ) ), Get_Options::get_popup_url( 'people' ) )
+				str_contains( $get_request_uri, Get_Options::URL_BIT_POPUPS['film'] )
+				|| str_contains( $get_request_uri, Get_Options::URL_BIT_POPUPS['movie_search'] )
+				|| str_contains( $get_request_uri, Get_Options::URL_BIT_POPUPS['person'] )
 			)
 		) {
 			return true;

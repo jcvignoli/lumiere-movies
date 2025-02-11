@@ -58,7 +58,7 @@ class Lumiere_Update_File_11 extends \Lumiere\Updates {
 		$logger = $this->logger->log;
 
 		// Update the number of updates already processed in Lumière options.
-		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -74,12 +74,12 @@ class Lumiere_Update_File_11 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_remove_options( Get_Options::get_cache_tablename(), 'imdbstorecache' ) ) {
 
 			$text = 'Lumière option imdbstorecache successfully removed.';
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbstorecache could not be removed.';
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		/** ------------------------- Editing part (end) --------------

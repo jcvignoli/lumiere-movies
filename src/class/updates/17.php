@@ -55,7 +55,7 @@ class Lumiere_Update_File_17 extends \Lumiere\Updates {
 		}
 
 		// Update the number of updates already processed in Lumière options.
-		$this->logger->log->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
@@ -70,12 +70,12 @@ class Lumiere_Update_File_17 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_add_options( Get_Options::get_cache_tablename(), 'imdbcachedetailshidden', 0 ) ) {
 
 			$text = 'Lumière option imdbcachedetailshidden successfully added.';
-			$this->logger->log->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbcachedetailshidden could not be added.';
-			$this->logger->log->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 

@@ -26,7 +26,7 @@ use Imdb\Title;
  * Display movie information in a popup
  * Bots are banned before getting popups
  *
- * @see \Lumiere\Frontend\Frontend Redirect to here according to the query var 'popup' in URL
+ * @see \Lumiere\Popups\Popup_Select Redirect to here according to the query var 'popup' in URL
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
  * @since 4.3 is child class
  */
@@ -110,14 +110,14 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		// A movie imdb id is provided in URL.
 		if ( isset( $movie_id ) && strlen( $movie_id ) > 0 ) {
 
-			$this->logger->log->debug( '[Lumiere][Popup_Movie] Movie id provided in URL: ' . esc_html( $movie_id ) );
+			$this->logger->log->debug( '[Popup_Movie] Movie id provided in URL: ' . esc_html( $movie_id ) );
 
 			$final_movie_id = $movie_id;
 
 			// No movie id is provided, but a title was.
 		} elseif ( isset( $movie_title ) && strlen( $movie_title ) > 0 ) {
 
-			$this->logger->log->debug( '[Lumiere][Popup_Movie] Movie title provided in URL: ' . esc_html( $movie_title ) );
+			$this->logger->log->debug( '[Popup_Movie] Movie title provided in URL: ' . esc_html( $movie_title ) );
 
 			// Search the movie's ID according to the title.
 			$search = $this->plugins_classes_active['imdbphp']->search_movie_title(
@@ -133,7 +133,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		if ( $final_movie_id === null ) {
 			status_header( 404 );
 			$text = __( 'Could not find any IMDb movie with this query.', 'lumiere-movies' );
-			$this->logger->log->error( '[Lumiere][Popup_Movie] ' . esc_html( $text ) );
+			$this->logger->log->error( '[Popup_Movie] ' . esc_html( $text ) );
 			wp_die( esc_html( $text ) );
 		}
 
@@ -166,7 +166,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		 */
 		echo '<div id="spinner-placeholder"></div>';
 
-		$this->logger->log->debug( '[Lumiere][Popup_Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log->debug( '[Popup_Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
 
 		$this->display_menu( $this->movie_class, $this->page_title );
 
@@ -210,8 +210,8 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_menu( Title $movie_class, string $film_title_sanitized ): void {
 		// If polylang plugin is active, rewrite the URL to append the lang string
-		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'movies', site_url() ) );
-		$url_if_polylang_search = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'movies_search', site_url() ) );
+		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'film', site_url() ) );
+		$url_if_polylang_search = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'movie_search', site_url() ) );
 		?>
 					<!-- top page menu -->
 
@@ -252,7 +252,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 				?>
 				&nbsp;(<?php echo $movie_class->year() > 0 ? esc_html( $movie_class->year() ) : esc_html__( 'year unknown', 'lumiere-movies' ); ?>)</div>
 				<div class="lumiere_align_center"><font size="-1"><?php
-					$taglines = $movie_class->tagline();
+				$taglines = $movie_class->tagline();
 				if ( array_key_exists( 0, $taglines ) ) {
 					echo esc_html( $taglines[0] );
 				}
@@ -324,7 +324,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 
 				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 					. esc_url(
-						wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . $director[ $i ]['imdb'] )
+						wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $director[ $i ]['imdb'] )
 					)
 					. '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . esc_html( $director[ $i ]['name'] );
@@ -351,7 +351,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 			echo '<span class="lum_results_section_subtitle">' . esc_html__( 'Main actors', 'lumiere-movies' ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalactors; $i++ ) {
-				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . $cast[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
+				echo '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $cast[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
 				echo "\n\t\t\t" . esc_html( $cast[ $i ]['name'] ) . '</a>';
 
 				if ( $i < $nbtotalactors - 1 ) {
@@ -511,7 +511,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 						. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 						. esc_url(
 							wp_nonce_url(
-								Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . $connected_movies[ $category ][ $i ]['titleId']
+								Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $connected_movies[ $category ][ $i ]['titleId']
 							)
 						)
 						. '" title="' . esc_html( $connected_movies[ $category ][ $i ]['titleName'] ) . '">';
@@ -521,6 +521,9 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 					echo isset( $connected_movies[ $category ][ $i ]['description'] ) ? ' (' . esc_html( $connected_movies[ $category ][ $i ]['year'] ) . ') (<i>' . esc_html( $connected_movies[ $category ][ $i ]['description'] ) . '</i>)' : '';
 					if ( $i < ( $admin_max_connected - 1 ) && $i < ( $nbtotalconnected ) && $i < ( $nb_items - 1 ) ) {
 						echo ', '; // add comma to every connected movie but the last.
+					}
+					if ( $i === ( $admin_max_connected - 1 ) ) {
+						echo '<br>';
 					}
 				}
 			}
@@ -722,7 +725,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 					. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 					. esc_url(
 						wp_nonce_url(
-							Get_Options::get_popup_url( 'people', site_url() ) . $cast[ $i ]['imdb'] . '/?mid=' . $cast[ $i ]['imdb']
+							Get_Options::get_popup_url( 'person', site_url() ) . $cast[ $i ]['imdb'] . '/?mid=' . $cast[ $i ]['imdb']
 						)
 					)
 					. '" title="'
@@ -761,7 +764,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
 					wp_nonce_url(
-						Get_Options::get_popup_url( 'people', site_url() ) . $director[ $i ]['imdb'] . '/?mid=' . $director[ $i ]['imdb']
+						Get_Options::get_popup_url( 'person', site_url() ) . $director[ $i ]['imdb'] . '/?mid=' . $director[ $i ]['imdb']
 					)
 				)
 					. '" title="'
@@ -798,7 +801,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
 					wp_nonce_url(
-						Get_Options::get_popup_url( 'people', site_url() ) . $writer[ $i ]['imdb'] . '/?mid=' . $writer[ $i ]['imdb']
+						Get_Options::get_popup_url( 'person', site_url() ) . $writer[ $i ]['imdb'] . '/?mid=' . $writer[ $i ]['imdb']
 					)
 				)
 					. '" title="'
@@ -832,7 +835,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 				. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
 				. esc_url(
 					wp_nonce_url(
-						Get_Options::get_popup_url( 'people', site_url() ) . $producer[ $i ]['imdb'] . '/?mid=' . $producer[ $i ]['imdb']
+						Get_Options::get_popup_url( 'person', site_url() ) . $producer[ $i ]['imdb'] . '/?mid=' . $producer[ $i ]['imdb']
 					)
 				)
 					. '" title="'

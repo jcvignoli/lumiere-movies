@@ -157,19 +157,19 @@ class Head_Popups {
 
 		// Add canonical.
 		// Canonical for search popup.
-		if ( 0 === stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options::get_popup_url( 'movies_search' ) ) && $sanitized_film !== null ) {
+		if ( 0 === stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options::get_popup_url( 'movie_search' ) ) && $sanitized_film !== null ) {
 
-			$my_canon = Get_Options::get_popup_url( 'movies_search', site_url() ) . '?film=' . $sanitized_film;
+			$my_canon = Get_Options::get_popup_url( 'movie_search', site_url() ) . '?film=' . $sanitized_film;
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 		}
 
 		// Canonical for movies popups.
-		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'movies' ) ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'film' ) ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === null ? '' : '&info=' . $sanitized_info;
 			$url_str_film = $sanitized_film === null ? '' : '&film=' . $sanitized_film;
 			$str_film = $sanitized_film === null ? '' : $sanitized_film . '/';
-			$my_canon = Get_Options::get_popup_url( 'movies', site_url() ) . $str_film . '?mid=' . $sanitized_mid . $url_str_film . $url_str_info;
+			$my_canon = Get_Options::get_popup_url( 'film', site_url() ) . $str_film . '?mid=' . $sanitized_mid . $url_str_film . $url_str_info;
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
@@ -179,10 +179,10 @@ class Head_Popups {
 		}
 
 		// Canonical for people popups.
-		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'people' ) ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'person' ) ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === null ? '' : '&info=' . $sanitized_info;
-			$my_canon = Get_Options::get_popup_url( 'people', site_url() ) . $sanitized_mid . '/?mid=' . $sanitized_mid . $url_str_info;
+			$my_canon = Get_Options::get_popup_url( 'person', site_url() ) . $sanitized_mid . '/?mid=' . $sanitized_mid . $url_str_info;
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
@@ -195,7 +195,7 @@ class Head_Popups {
 
 		echo "\n\t\t" . '<!-- /Lumière! Movies -->' . "\n";
 
-		$this->logger->log->debug( '[Lumiere][Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log->debug( '[Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 	}
 
 }

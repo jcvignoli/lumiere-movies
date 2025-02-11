@@ -172,7 +172,7 @@ class Logger {
 				&& $this->is_editor_page === false
 			) {
 				// Change the format. @since 4.0.1 added class lumiere_wrap that is only in admin.
-				$output = "<div class=\"lumiere_wrap\">[%level_name%] %message%</div>\n";
+				$output = "<div class=\"lumiere_wrap\">[%level_name%][Lumiere]%message%</div>\n";
 				$screenformater = new LineFormatter( $output );
 
 				// Change the handler, php://output is the only working (on my machine)

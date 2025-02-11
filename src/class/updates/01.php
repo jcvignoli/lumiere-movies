@@ -57,7 +57,7 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 		// Simplify the coding.
 		$logger = $this->logger->log;
 
-		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 
 		// Update the number of updates already processed in Lumière options
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
@@ -72,13 +72,13 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbwidgetcommentsnumber successfully removed.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetcommentsnumber not removed.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -88,13 +88,13 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbintotheposttheme successfully added.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbintotheposttheme not added.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 

@@ -167,18 +167,15 @@ class Get_Options extends Settings {
 	 * Build the URLs for popups
 	 *
 	 * @since 4.4 method added
-	 * @param 'movies'|'people'|'movies_search' $type_url Type of URL we want to get
+	 *
+	 * @param string $type_url
+	 * @phpstan-param string $type_url Type of URL we want to get
 	 * @param string $domain_url OPTIONAL: Full URL of the domain, usually passed with site_url()
 	 * @return string
 	 */
-	public static function get_popup_url( string $type_url, $domain_url = '' ): string {
+	public static function get_popup_url( string $type_url, string $domain_url = '' ): string {
 		$imdb_admin_option = get_option( self::get_admin_tablename() );
-		$url = [
-			'movies'        => $domain_url . $imdb_admin_option['imdburlpopups'] . parent::URL_BIT_POPUPS_FILM . '/',
-			'people'        => $domain_url . $imdb_admin_option['imdburlpopups'] . parent::URL_BIT_POPUPS_PERSON . '/',
-			'movies_search' => $domain_url . $imdb_admin_option['imdburlpopups'] . parent::URL_BIT_POPUPS_MOVIE_SEARCH . '/',
-		];
-		return $url[ $type_url ];
+		return $domain_url . $imdb_admin_option['imdburlpopups'] . parent::URL_BIT_POPUPS[ $type_url ] . '/';
 	}
 }
 

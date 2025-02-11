@@ -55,9 +55,9 @@ class Settings_Build {
 		$imdb_admin_option = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
 		return [
 			$imdb_admin_option !== false ? $imdb_admin_option['imdburlstringtaxo'] : Settings::URL_STRING_TAXO, // dunno if Settings is really needed
-			Get_Options::get_popup_url( 'movies' ),
-			Get_Options::get_popup_url( 'people' ),
-			Get_Options::get_popup_url( 'movies_search' ),
+			Get_Options::get_popup_url( 'film' ),
+			Get_Options::get_popup_url( 'person' ),
+			Get_Options::get_popup_url( 'movie_search' ),
 			Settings::FILE_COPY_THEME_TAXONOMY,
 			Settings::GUTENBERG_SEARCH_FILE, // For access to search in clicking a link (ie gutenberg)
 			Settings::SEARCH_URL_ADMIN, // For access to search in URL lumiere/search

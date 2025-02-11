@@ -58,7 +58,7 @@ class Lumiere_Update_File_13 extends \Lumiere\Updates {
 		$logger = $this->logger->log;
 
 		// Update the number of updates already processed in Lumière options.
-		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -77,11 +77,11 @@ class Lumiere_Update_File_13 extends \Lumiere\Updates {
 					wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
 					wp_schedule_event( time() + 60, 'daily', 'lumiere_cron_deletecacheoversized' );
 					$text = 'Weekly cron lumiere_cron_deletecacheoversized removed and reinstalled as daily.';
-					$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+					$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 				} else {
 					$text = 'No cron lumiere_cron_deletecacheoversized to change.';
-					$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+					$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 				}
 			}
 		}

@@ -58,7 +58,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 		$logger = $this->logger->log;
 
 		// Update the number of updates already processed in Lumière options.
-		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -72,26 +72,26 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbwidgetcomments successfully removed.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetcomments could not be removed.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetcomment', false ) ) {
 
 			$text = 'Lumière option imdbwidgetcomment successfully added.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetcomment could not be added.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -101,26 +101,26 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbwidgetcolors successfully removed.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetcolors could not be removed.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetcolor', false ) ) {
 
 			$text = 'Lumière option imdbwidgetcolor successfully added.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetcolor could not be added.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -130,26 +130,26 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbwidgettaglines successfully removed.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgettaglines could not be removed.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgettagline', false ) ) {
 
 			$text = 'Lumière option imdbwidgettagline successfully added.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgettagline could not be added.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -159,26 +159,26 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbwidgetquotes successfully removed.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetquotes could not be removed.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetquote', false ) ) {
 
 			$text = 'Lumière option imdbwidgetquote successfully added.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetquote could not be added.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -188,26 +188,26 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbwidgetgoofs successfully removed.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetgoofs could not be removed.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetgoof', false ) ) {
 
 			$text = 'Lumière option imdbwidgetgoof successfully added.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetgoof could not be added.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -217,26 +217,26 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbwidgetkeywords successfully removed.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetkeywords could not be removed.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetkeyword', false ) ) {
 
 			$text = 'Lumière option imdbwidgetkeyword successfully added.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbwidgetkeyword could not be added.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		// Replace 'imdbtaxonomykeywords' by 'imdbtaxonomykeyword'
@@ -245,26 +245,26 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 			$text = 'Lumière option imdbtaxonomykeywords successfully removed.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbtaxonomykeywords could not be removed.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbtaxonomykeyword', false ) ) {
 
 			$text = 'Lumière option imdbtaxonomykeyword successfully added.';
 
-			$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbtaxonomykeyword could not be added.';
 
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 

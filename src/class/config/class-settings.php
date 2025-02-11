@@ -60,12 +60,26 @@ class Settings extends Settings_Build {
 
 	/**
 	 * URL Strings for popups
+	 * This helps build automatically the links to popups and checks if in the URL string a correct string was passed
+	 *
 	 * @see \Lumiere\Config\Get_Options::get_popup_url() Build a URL including those bits
 	 * @see \Lumiere\Frontend\Popups\Popup_Select::build_class_name() Use to call the relevant popup class
+	 *
+	 * @var array<string, string> First column should never change, the second is the final URL string that will be used to build the links
 	 */
-	public const URL_BIT_POPUPS_FILM                = 'film';
-	public const URL_BIT_POPUPS_PERSON              = 'person';
-	public const URL_BIT_POPUPS_MOVIE_SEARCH        = 'movie_search';
+	public const URL_BIT_POPUPS                     = [
+		'film'                => 'film',
+		'person'              => 'person',
+		'movie_search'        => 'movie_search',
+	];
+
+	/**
+	 * Name of the var to look for in URL
+	 *
+	 * @see \Lumiere\Alteration\Rewrite_Rules
+	 * @see \Lumiere\Frontend\Popups\Popup_Select
+	 */
+	public const POPUP_STRING = 'popup';
 
 	/**
 	 * URLs for pictures and menu images
@@ -199,8 +213,8 @@ class Settings extends Settings_Build {
 		$scripts_vars = wp_json_encode(
 			[
 				'imdb_path'           => LUMIERE_WP_URL,
-				'urlpopup_film'       => Get_Options::get_popup_url( 'movies', site_url() ),
-				'urlpopup_person'     => Get_Options::get_popup_url( 'people', site_url() ),
+				'urlpopup_film'       => Get_Options::get_popup_url( 'film', site_url() ),
+				'urlpopup_person'     => Get_Options::get_popup_url( 'person', site_url() ),
 				'popup_border_colour' => $imdb_admin_option['imdbpopuptheme'],
 				'popupLarg'           => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong'           => $imdb_admin_option['imdbpopuplong'],

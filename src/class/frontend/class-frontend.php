@@ -16,7 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Widget_Frontpage;
 use Lumiere\Frontend\Movie\Movie_Display;
 use Lumiere\Frontend\Popups\Popup_Select;
@@ -37,11 +36,6 @@ use Lumiere\Config\Get_Options;
 class Frontend {
 
 	/**
-	 * Traits
-	 */
-	use Main;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct(
@@ -53,9 +47,6 @@ class Frontend {
 		if ( is_admin() ) {
 			return;
 		}
-
-		// Get Global Settings class properties.
-		$this->start_main_trait();
 
 		// Registers javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_register_assets' ] );

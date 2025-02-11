@@ -26,7 +26,7 @@ use Lumiere\Config\Get_Options;
  * Displays movie search results in a popup
  * Bots are banned before getting popups
  *
- * @see \Lumiere\Frontend\Frontend Redirect to here according to the query var 'popup' in URL
+ * @see \Lumiere\Popups\Popup_Select Redirect to here according to the query var 'popup' in URL
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
  * @since 4.3 is child class
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
@@ -98,7 +98,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 	 */
 	private function get_result( string $title_name ): array {
 
-		$this->logger->log->debug( '[Lumiere][Popup_Movie_Search] Movie title name provided in URL: ' . esc_html( $title_name ) );
+		$this->logger->log->debug( '[Popup_Movie_Search] Movie title name provided in URL: ' . esc_html( $title_name ) );
 
 		return $this->plugins_classes_active['imdbphp']->search_movie_title(
 			esc_html( $title_name ),
@@ -182,7 +182,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 				echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
 					. esc_url(
 						wp_nonce_url(
-							Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=' . esc_html( $res['titleSearchObject']->imdbid() )
+							Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $res['titleSearchObject']->imdbid() )
 							. '&film=' . Data::lumiere_name_htmlize( $res['titleSearchObject']->title() )
 						)
 					)
@@ -202,7 +202,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 					echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
 						. esc_url(
 							wp_nonce_url(
-								Get_Options::get_popup_url( 'people', site_url() )
+								Get_Options::get_popup_url( 'person', site_url() )
 								. '?mid=' . esc_html( $realisateur['0']['imdb'] ?? '' )
 							)
 						)

@@ -36,7 +36,7 @@ class Widget_Legacy extends Widget_Selection {
 	/**
 	 * Register legacy widget (pre-WP 5.8), needed after the construction
 	 */
-	public static function lumiere_widget_legacy_start(): void {
+	public static function widget_legacy_start(): void {
 
 		$that = new self();
 		add_action(
@@ -71,7 +71,7 @@ class Widget_Legacy extends Widget_Selection {
 		 */
 		$widget_class = new Widget_Frontpage();
 		$lum_widget_name = isset( $args['widget_name'] ) && is_string( $args['widget_name'] ) ? esc_html( $args['widget_name'] ) : '';
-		$widget_class->logger->log->debug( '[Lumiere][Widget_Legacy] Using ' . $lum_widget_name . '.' );
+		$widget_class->logger->log->debug( '[Widget_Legacy] Using ' . $lum_widget_name . '.' );
 
 		$kses_escape = [
 			'div' => [

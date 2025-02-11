@@ -63,6 +63,29 @@ class Debug {
 	}
 
 	/**
+	 * Display which function/class is calling a specif method
+	 * Just put it into a method
+	 *
+	 * @param int $offset Change the level of backtrace
+	 */
+	public static function get_caller( int $offset = 0 ): string {
+		$base_offset = 2;
+		$offset += $base_offset;
+		$backtrace = debug_backtrace();
+		$caller = [];
+		if ( isset( $backtrace[ $offset ] ) ) {
+			$backtrace = $backtrace[ $offset ];
+			if ( isset( $backtrace['class'] ) ) {
+				$caller['class'] = $backtrace['class'];
+			}
+			if ( strlen( $backtrace['function'] ) > 0 ) {
+				$caller['function'] = $backtrace['function'];
+			}
+		}
+		return self::colorise_output( $caller );
+	}
+
+	/**
 	 * Display Lumière variables
 	 *
 	 * @since 3.5

@@ -115,7 +115,7 @@ class Movie_Display extends Movie_Data {
 		 * @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse (Call to function array_key_exists() with 'amp' and array...will always evaluate to false)
 		 */
 		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
-			$this->logger->log->debug( '[Lumiere][Movie] This is an AMP validation test, exiting to save server resources' );
+			$this->logger->log->debug( '[Movie] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
 
@@ -136,7 +136,7 @@ class Movie_Display extends Movie_Data {
 
 		foreach ( $movies_searched as $movie_found ) {
 
-			$this->logger->log->debug( "[Lumiere][Movie] Displaying rows for *$movie_found*" );
+			$this->logger->log->debug( "[Movie] Displaying rows for *$movie_found*" );
 
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- Lumière! movies plugin -->';
 			$output .= "\n\t<div class='lum_results_frame";
@@ -180,8 +180,8 @@ class Movie_Display extends Movie_Data {
 
 		// Using singleton to display only once.
 		if ( $this->movie_run_once === false ) {
-			$this->logger->log->debug( '[Lumiere][Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
-			$this->logger->log->debug( '[Lumiere][Movie] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+			$this->logger->log->debug( '[Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+			$this->logger->log->debug( '[Movie] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 			$this->movie_run_once = true;
 		}
 
@@ -190,7 +190,7 @@ class Movie_Display extends Movie_Data {
 			// A movie's ID was passed.
 			if ( isset( $films_array[ $i ]['bymid'] ) && ctype_digit( $films_array[ $i ]['bymid'] ) ) {
 				$movies_found[] = esc_html( strval( $films_array[ $i ]['bymid'] ) );
-				$this->logger->log->debug( '[Lumiere][Movie] IMDb ID provided: *' . $movies_found[0] . '*' );
+				$this->logger->log->debug( '[Movie] IMDb ID provided: *' . $movies_found[0] . '*' );
 				continue;
 			}
 
@@ -205,10 +205,10 @@ class Movie_Display extends Movie_Data {
 				throw new Exception( 'Wrong format of movie title' );
 			}
 
-			$this->logger->log->debug( '[Lumiere][Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
+			$this->logger->log->debug( '[Movie] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
 
 			// check a the movie title exists.
-			$this->logger->log->debug( '[Lumiere][Movie] searching for ' . $movie_name );
+			$this->logger->log->debug( '[Movie] searching for ' . $movie_name );
 
 			/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
 			$results = $this->plugins_classes_active['imdbphp']->search_movie_title(
@@ -218,13 +218,13 @@ class Movie_Display extends Movie_Data {
 
 			// No results were found in imdbphp query.
 			if ( ! isset( $results[0] ) ) {
-				$this->logger->log->info( '[Lumiere][Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $movie_name . ', aborting.' );
+				$this->logger->log->info( '[Movie] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . $movie_name . ', aborting.' );
 				continue;
 			}
 
 			// Get the first result from the search
 			$movies_found[] = esc_html( $results[0]['imdbid'] );
-			$this->logger->log->debug( '[Lumiere][Movie] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
+			$this->logger->log->debug( '[Movie] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
 
 		}
 		return $movies_found;

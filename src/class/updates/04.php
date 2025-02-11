@@ -58,7 +58,7 @@ class Lumiere_Update_File_04 extends \Lumiere\Updates {
 		$logger = $this->logger->log;
 
 		// Update the number of updates already processed in Lumière options.
-		$logger->info( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -71,12 +71,12 @@ class Lumiere_Update_File_04 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdbseriemovies', 'movies+series' ) ) {
 
 			$text = 'Lumière option imdbSerieMovies successfully added.';
-			$logger->debug( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbSerieMovies could not be added.';
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -86,12 +86,12 @@ class Lumiere_Update_File_04 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', 1 ) ) {
 
 			$text = 'Lumière option imdbHowManyUpdates successfully added.';
-			$logger->debug( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbHowManyUpdates could not be added.';
-			$logger->error( '[Lumiere][updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		/** ------------------------- Editing part (end) --------------

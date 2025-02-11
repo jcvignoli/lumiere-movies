@@ -141,15 +141,15 @@ class Core {
 				// It is Lumière!, so run the functions.
 				if ( $plugin === 'lumiere-movies/lumiere-movies.php' ) {
 
-					$logger->log->debug( '[Lumiere][coreClass][manualupdate] Starting Lumière manual update' );
+					$logger->log->debug( '[coreClass][manualupdate] Starting Lumière manual update' );
 					$start_update_options = new Updates();
 					$start_update_options->run_update_options();
 
 					// Set up WP Cron exec once if it doesn't exist.
 					if ( $this->lum_setup_cron_exec_once( $logger, 'manualupdate' ) === false ) {
-						$logger->log->error( '[Lumiere][coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+						$logger->log->error( '[coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 					}
-					$logger->log->debug( '[Lumiere][coreClass][manualupdate] Lumière manual update processed.' );
+					$logger->log->debug( '[coreClass][manualupdate] Lumière manual update processed.' );
 				}
 			}
 		}
@@ -182,15 +182,15 @@ class Core {
 				&& $plugin->item->slug === 'lumiere-movies'
 			) {
 				// It is Lumière!, so run the functions.
-				$logger->log->debug( '[Lumiere][coreClass][autoupdate] Starting Lumière automatic update' );
+				$logger->log->debug( '[coreClass][autoupdate] Starting Lumière automatic update' );
 				$start_update_options = new Updates();
 				$start_update_options->run_update_options();
 
 				// Set up WP Cron exec once if it doesn't exist
 				if ( $this->lum_setup_cron_exec_once( $logger, 'autoupdate' ) === false ) {
-					$logger->log->error( '[Lumiere][coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+					$logger->log->error( '[coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 				}
-				$logger->log->debug( '[Lumiere][coreClass][autoupdate] Lumière autoupdate processed.' );
+				$logger->log->debug( '[coreClass][autoupdate] Lumière autoupdate processed.' );
 			}
 
 		}
@@ -223,9 +223,9 @@ class Core {
 			) {
 				$logger->maybe_create_log( $current_admin['imdbdebuglogpath'] );
 			}
-			$logger->log->info( '[Lumiere][coreClass][activation] Lumière options and log successfully created.' );
+			$logger->log->info( '[coreClass][activation] Lumière options and log successfully created.' );
 		} else {
-			$logger->log->info( '[Lumiere][coreClass][activation] Lumière options already exists.' );
+			$logger->log->info( '[coreClass][activation] Lumière options already exists.' );
 		}
 
 		/* Create the cache folders */
@@ -234,17 +234,17 @@ class Core {
 		$cache_mngmt_class = new Cache_Files_Management();
 
 		if ( $cache_mngmt_class->lumiere_create_cache() === true ) {
-			$logger->log->info( '[Lumiere][coreClass][activation] Lumière cache successfully created.' );
+			$logger->log->info( '[coreClass][activation] Lumière cache successfully created.' );
 		} else {
-			$logger->log->info( '[Lumiere][coreClass][activation] Lumière cache could not be created (check permissions?)' );
+			$logger->log->info( '[coreClass][activation] Lumière cache could not be created (check permissions?)' );
 		}
 
 		// Set up WP Cron exec once if it doesn't exist.
 		if ( $this->lum_setup_cron_exec_once( $logger, 'activation' ) === false ) {
-			$logger->log->error( '[Lumiere][coreClass][activation] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+			$logger->log->error( '[coreClass][activation] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 		}
 
-		$logger->log->debug( '[Lumiere][coreClass][activation] Lumière plugin activated.' );
+		$logger->log->debug( '[coreClass][activation] Lumière plugin activated.' );
 	}
 
 	/**
@@ -260,7 +260,7 @@ class Core {
 		$list_crons_available = [ 'lumiere_exec_once_update', 'lumiere_cron_deletecacheoversized', 'lumiere_cron_autofreshcache' ];
 		foreach ( $list_crons_available as $cron_installed ) {
 			wp_clear_scheduled_hook( $cron_installed );
-			$logger->log->info( '[Lumiere][coreClass][deactivation] Cron ' . $cron_installed . ' removed' );
+			$logger->log->info( '[coreClass][deactivation] Cron ' . $cron_installed . ' removed' );
 		}
 
 		// Reset options related to crons, since we removed them.
@@ -269,7 +269,7 @@ class Core {
 		$current_admin['imdbcachekeepsizeunder'] = '0';
 		update_option( Get_Options::get_cache_tablename(), $current_admin );
 
-		$logger->log->info( '[Lumiere][coreClass][deactivation] Lumière deactivated' );
+		$logger->log->info( '[coreClass][deactivation] Lumière deactivated' );
 	}
 
 	/**
@@ -291,7 +291,7 @@ class Core {
 			// Start Logger class.
 			$logger = new Logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-			$logger->log->debug( '[Lumiere][coreClass][is_plugin_updated] An update is needed, starting the update...' );
+			$logger->log->debug( '[coreClass][is_plugin_updated] An update is needed, starting the update...' );
 			$start_update_options = new Updates();
 			$start_update_options->run_update_options();
 
@@ -315,7 +315,7 @@ class Core {
 		if ( wp_next_scheduled( 'lumiere_exec_once_update' ) === false ) {
 			// Cron to run once, in 2 minutes.
 			wp_schedule_single_event( time() + 120, 'lumiere_exec_once_update' );
-			$logger->log->debug( '[Lumiere][coreClass][' . $log_string . '] Lumière cron lumiere_exec_once_update successfully set up.' );
+			$logger->log->debug( '[coreClass][' . $log_string . '] Lumière cron lumiere_exec_once_update successfully set up.' );
 			return true;
 		}
 		return false;

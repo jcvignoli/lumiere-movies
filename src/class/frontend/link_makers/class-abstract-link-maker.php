@@ -300,7 +300,7 @@ abstract class Abstract_Link_Maker {
 		$bio_text = isset( $bio_array[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio_array[ $idx ]['desc'] ) ) : '';
 
 		// Medaillon is displayed in a popup person page, build internal URL.
-		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'people' ) ) && strlen( $bio_text ) > 0 ) {
+		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'person' ) ) && strlen( $bio_text ) > 0 ) {
 			$bio_text = $this->lumiere_imdburl_to_internalurl( $bio_text );
 
 			// This is a taxonomy page, build popup URL.
@@ -366,8 +366,8 @@ abstract class Abstract_Link_Maker {
 		$internal_link_movie = '';
 
 		if ( intval( $window_type ) === 0 ) {
-			$internal_link_person = '<a class="lum_popup_internal_link lum_add_spinner" href="' . wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-			$internal_link_movie = '<a class="lum_popup_internal_link lum_add_spinner lum_popup_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+			$internal_link_person = '<a class="lum_popup_internal_link lum_add_spinner" href="' . wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
+			$internal_link_movie = '<a class="lum_popup_internal_link lum_add_spinner lum_popup_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
 		}
 
 		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
@@ -409,8 +409,8 @@ abstract class Abstract_Link_Maker {
 				$popup_link_movie = '<a class="lum_taxo_link lum_link_with_movie ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
 				break;
 			case 1: // Build internal links with no popups.
-				$popup_link_person = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'people', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
-				$popup_link_movie = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'movies', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
+				$popup_link_person = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'person', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
+				$popup_link_movie = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'film', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
 				break;
 			case 2: // No links class
 				$popup_link_person = '${6}';
@@ -551,7 +551,7 @@ abstract class Abstract_Link_Maker {
 		. ' title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '"';
 		// AMP, build a HREF.
 		if ( intval( $window_type ) === 3 ) {
-			$txt .= ' href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'people', site_url() ) . '?mid=' . $imdbid ) ) . '"';
+			$txt .= ' href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdbid ) ) . '"';
 		}
 		$txt .= '>' . sanitize_text_field( $imdbname ) . '</a>';
 
@@ -604,7 +604,7 @@ abstract class Abstract_Link_Maker {
 			// AMP & No Link modal
 		} elseif ( $window_type === 2 ) {
 
-			$txt = '<a class="lum_link_make_popup lum_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?film=' . $title_attr ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
+			$txt = '<a class="lum_link_make_popup lum_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . $title_attr ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
 
 		}
 
@@ -650,7 +650,7 @@ abstract class Abstract_Link_Maker {
 			// AMP & No Link modal
 		} elseif ( $window_type === 2 ) {
 
-			$txt = '<a class="lum_link_make_popup lum_link_with_movie_inbox" href="' . wp_nonce_url( Get_Options::get_popup_url( 'movies', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
+			$txt = '<a class="lum_link_make_popup lum_link_with_movie_inbox" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
 
 		}
 

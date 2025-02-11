@@ -220,8 +220,8 @@ class Taxonomy_People_Standard {
 
 		get_header();
 
-		$this->logger->log->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->log->debug( '[Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -259,8 +259,8 @@ class Taxonomy_People_Standard {
 		<?php block_header_area(); ?>
 		</header>
 		<?php
-		$this->logger->log->debug( '[Lumiere][Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log->debug( '[Lumiere][Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->log->debug( '[Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->log->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>

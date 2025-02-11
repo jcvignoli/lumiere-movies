@@ -24,7 +24,7 @@
     "build": "if [ -d \"./dist\" ];then rm -R ./dist; else mkdir ./dist; fi && gulp build --ssh false",
     "build:github": "mkdir ./dist && gulp -f tests/gulpfile-github.js build",
     "phpdoc": "phpDocumentor run",
-    "plugincheck": "wp @lumiere plugin check lumiere-movies --ignore-codes='PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage,WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary'",
+    "plugincheck": "wp @lumiere plugin check lumiere-movies --ignore-codes='PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage,WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary,WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace'",
     "codeceptionRemote": "php vendor/bin/codecept run -vvv AcceptanceRemote --env wpchrome",
     "codeceptionLocal": "php vendor/bin/codecept run -vvv Acceptance --env wpchrome",
     "phpcs": "vendor/bin/phpcs | tee tmp/logs/Results-phpcs-wp.txt",

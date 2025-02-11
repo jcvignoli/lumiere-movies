@@ -101,7 +101,7 @@ class Cache_Files_Management {
 
 		// Check if the file exist.
 		if ( $list_items === null ) {
-			$this->logger->log->error( '[Lumiere][Cache_Tools] The file ' . $id_sanitized . ' does not exist ' );
+			$this->logger->log->error( '[Cache_Tools] The file ' . $id_sanitized . ' does not exist ' );
 			return false;
 		}
 
@@ -211,16 +211,16 @@ class Cache_Files_Management {
 				if ( isset( $refresh_ids[ $movie_or_people ] ) ) {
 					$array_all_items = $refresh_ids[ $movie_or_people ];
 					set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items, $days_next_start * $day_in_seconds );
-					$this->logger->log->info( '[Lumiere][Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
+					$this->logger->log->info( '[Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
 				}
 				// Everything has already been processed, exit.
 			} elseif ( count( $array_all_items ) === 0 ) {
-				$this->logger->log->debug( '[Lumiere][Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start after the defined time ' . gmdate( 'd \d\a\y\s', $days_next_start * $day_in_seconds ) . ' since the first run' );
+				$this->logger->log->debug( '[Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start after the defined time ' . gmdate( 'd \d\a\y\s', $days_next_start * $day_in_seconds ) . ' since the first run' );
 				continue;
 			}
 
 			if ( $array_all_items === false ) {
-				$this->logger->log->info( '[Lumiere][Cache_Tools] Could not retrieve any file to refresh' );
+				$this->logger->log->info( '[Cache_Tools] Could not retrieve any file to refresh' );
 				continue;
 			}
 
@@ -228,7 +228,7 @@ class Cache_Files_Management {
 			$nb_remaining_rows = count( $array_all_items );
 
 			for ( $i = 0 + $last_row; $i < ( $batch_limit + $last_row ) && $i < ( $nb_remaining_rows + $last_row ); $i++ ) {
-				$this->logger->log->debug( '[Lumiere][Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . count( $array_all_items ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
+				$this->logger->log->debug( '[Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . count( $array_all_items ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
 				// Refresh (delete and get it again) the item.
 				$this->refresh_file( $movie_or_people, $array_all_items[ $i ] );
 				// Delete the row in the array we just processed so it won't be processed again.
@@ -471,10 +471,10 @@ class Cache_Files_Management {
 			}
 		}
 		if ( count( $files ) > 0 ) {
-			$this->logger->log->debug( '[Lumiere][Cache_Tools] Oversized Cache cron deleted the following files: ' . join( $files ) );
+			$this->logger->log->debug( '[Cache_Tools] Oversized Cache cron deleted the following files: ' . join( $files ) );
 			return;
 		}
-		$this->logger->log->debug( '[Lumiere][Cache_Tools] Oversized Cache cron did not find any file to delete' );
+		$this->logger->log->debug( '[Cache_Tools] Oversized Cache cron did not find any file to delete' );
 	}
 
 	/**
@@ -547,7 +547,7 @@ class Cache_Files_Management {
 
 		// If cache is not active, exit.
 		if ( $options_cache['imdbusecache'] !== '1' ) {
-			$this->logger->log->debug( '[Lumiere][config][cachefolder] Cache is inactive, folders are not checked.' );
+			$this->logger->log->debug( '[config][cachefolder] Cache is inactive, folders are not checked.' );
 			return false;
 		}
 
@@ -555,7 +555,7 @@ class Cache_Files_Management {
 
 		// Everything is fine, exit.
 		if ( $wp_filesystem->is_writable( $lumiere_folder_cache ) && $wp_filesystem->is_writable( $lumiere_folder_cache_images ) ) {
-			$this->logger->log->debug( '[Lumiere][config][cachefolder] Cache folders exist and permissions are ok.' );
+			$this->logger->log->debug( '[config][cachefolder] Cache folders exist and permissions are ok.' );
 			return true;
 		}
 
@@ -569,7 +569,7 @@ class Cache_Files_Management {
 			$wp_filesystem->chmod( $lumiere_folder_cache, 0777 );
 			$wp_filesystem->chmod( $lumiere_folder_cache_images, 0777 );
 
-			$this->logger->log->debug( '[Lumiere][config][cachefolder] Tried to change cache folder permissions.' );
+			$this->logger->log->debug( '[config][cachefolder] Tried to change cache folder permissions.' );
 		}
 		// Exit if cache is now created and writable.
 		if (
@@ -578,11 +578,11 @@ class Cache_Files_Management {
 			&& $wp_filesystem->is_writable( $lumiere_folder_cache ) === true
 			&& $wp_filesystem->is_writable( $lumiere_folder_cache_images ) === true
 		) {
-			$this->logger->log->debug( '[Lumiere][config][cachefolder] Cache folders have been created.' );
+			$this->logger->log->debug( '[config][cachefolder] Cache folders have been created.' );
 			return true;
 		}
 
-		$this->logger->log->debug( '[Lumiere][config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
+		$this->logger->log->debug( '[config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
 
 		$lumiere_alt_folder_cache = LUMIERE_WP_PATH . 'cache';
 		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
@@ -603,11 +603,11 @@ class Cache_Files_Management {
 			$options_cache['imdbcachedir_partial'] = $lumiere_alt_folder_cache_partial;
 			update_option( Get_Options::get_cache_tablename(), $options_cache );
 
-			$this->logger->log->debug( "[Lumiere][config][cachefolder] Alternative cache folder $lumiere_folder_cache created." );
+			$this->logger->log->debug( "[config][cachefolder] Alternative cache folder $lumiere_folder_cache created." );
 			return true;
 		}
 
-		$this->logger->log->error( '[Lumiere][config][cachefolder] Cannot create either a regular or alternative cache folder.' );
+		$this->logger->log->error( '[config][cachefolder] Cannot create either a regular or alternative cache folder.' );
 		return false;
 	}
 }
