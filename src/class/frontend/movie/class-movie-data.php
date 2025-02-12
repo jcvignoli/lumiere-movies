@@ -224,7 +224,11 @@ class Movie_Data {
 		$admin_max_connected = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$nbtotalconnected = count( $connected_movies );
 
-		if ( $nbtotalconnected === 0 ) {
+		// count the actual results in values associative arrays
+		$connected_movies_sub = array_filter( $connected_movies, fn( array $connected_movies ) => ( count( array_values( $connected_movies ) ) > 0 ) );
+		$nbtotalconnected_sub = count( $connected_movies_sub );
+
+		if ( $nbtotalconnected === 0 || $nbtotalconnected_sub === 0 ) {
 			return '';
 		}
 
@@ -634,7 +638,7 @@ class Movie_Data {
 		$nbtotalalsoknow = count( $alsoknow );
 
 		// if no result, exit.
-		if ( $nbtotalalsoknow === 0 ) {
+		if ( $nbtotalalsoknow < 2 ) { // Since the first result is the original title, must be greater than 1
 			return '';
 		}
 
@@ -644,7 +648,7 @@ class Movie_Data {
 
 		for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $admin_max_aka ); $i++ ) {
 
-			// Orignal title, already using it in the box.
+			// Original title, already using it in the box.
 			if ( $i === 0 ) {
 				continue;
 			}

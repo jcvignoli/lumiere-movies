@@ -196,6 +196,7 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 
 .lum_adm_make_popup {color: #0073aa;text-decoration: none;cursor:pointer;}
 .lum_adm_make_popup:hover {color: #005177;text-decoration: none;cursor:pointer;}
+#link_to_imdbautopostwidget{color: #0073aa;text-decoration: none;}
 
 /* Debug */
 .lum_color_red{color:red;}

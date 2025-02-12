@@ -40,31 +40,8 @@ class Settings_Build {
 	 * @return string The number of files found
 	 */
 	protected function get_nb_updates(): string {
-		$files = new FilesystemIterator( LUMIERE_WP_PATH . Settings::UPDATES_PATH, \FilesystemIterator::SKIP_DOTS );
+		$files = new FilesystemIterator( LUM_WP_PATH . Get_Options::UPDATES_PATH, \FilesystemIterator::SKIP_DOTS );
 		return strval( iterator_count( $files ) + 1 );
-	}
-
-	/**
-	 * Define all the pages of Lumiere
-	 *
-	 * @see \Lumiere\Admin\Admin:lumiere_execute_admin_assets()
-	 *
-	 * @return array<string>
-	 */
-	public static function get_all_lumiere_pages(): array {
-		$imdb_admin_option = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
-		return [
-			$imdb_admin_option !== false ? $imdb_admin_option['imdburlstringtaxo'] : Settings::URL_STRING_TAXO, // dunno if Settings is really needed
-			Get_Options::get_popup_url( 'film' ),
-			Get_Options::get_popup_url( 'person' ),
-			Get_Options::get_popup_url( 'movie_search' ),
-			Settings::FILE_COPY_THEME_TAXONOMY,
-			Settings::GUTENBERG_SEARCH_FILE, // For access to search in clicking a link (ie gutenberg)
-			Settings::SEARCH_URL_ADMIN, // For access to search in URL lumiere/search
-			Settings::POPUP_SEARCH_PATH,
-			Settings::POPUP_MOVIE_PATH,
-			Settings::POPUP_PERSON_PATH,
-		];
 	}
 
 	/**
@@ -91,7 +68,10 @@ class Settings_Build {
 	 * @phpstan-return ARRAY_TAXO_ITEMS
 	 */
 	protected function get_data_rows_taxo( ?array $activated ): array {
-		$taxonomy_keys = [ ...array_keys( Settings::define_list_taxo_people() ), ...array_keys( Settings::define_list_taxo_items() ) ];
+		$taxonomy_keys = [
+			...array_keys( Settings::define_list_taxo_people() ),
+			...array_keys( Settings::define_list_taxo_items() ),
+		];
 		$array_taxonomy = [];
 		foreach ( $taxonomy_keys as $row_number => $taxonomy_key ) {
 			if ( isset( $activated ) && in_array( $taxonomy_key, $activated, true ) ) {

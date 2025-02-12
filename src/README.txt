@@ -153,9 +153,9 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
-= 4.3.4 =
+= 4.4 =
 
-PHP >= 8.1 is now required. New item: connected movies.
+PHP >= 8.1 is now required. New item: connected movies, quotes are back. Most work has been done under the hood, to have a faster and more maintenable plugin.
 
 = 4.3.3 =
 

@@ -202,7 +202,7 @@ class Search {
 		} ?>
 
 <br>
-<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Get_Options::SEARCH_URL_BIT ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
+<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Get_Options::SEARCH_URL_ADMIN ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
 <br>
 <br><?php
 	}

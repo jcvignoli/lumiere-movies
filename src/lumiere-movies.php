@@ -32,13 +32,13 @@ if ( file_exists( plugin_dir_path( __FILE__ ) . 'vars.php' ) ) {
 }
 
 // Include composer bootstrap.
-if ( file_exists( LUMIERE_WP_PATH . 'vendor/autoload.php' ) ) {
-	require_once LUMIERE_WP_PATH . 'vendor/autoload.php';
+if ( file_exists( LUM_WP_PATH . 'vendor/autoload.php' ) ) {
+	require_once LUM_WP_PATH . 'vendor/autoload.php';
 }
 
 // Get global functions.
-if ( file_exists( LUMIERE_WP_PATH . 'functions.php' ) ) {
-	require_once LUMIERE_WP_PATH . 'functions.php';
+if ( file_exists( LUM_WP_PATH . 'functions.php' ) ) {
+	require_once LUM_WP_PATH . 'functions.php';
 }
 
 // Global function: Lumière is uninstalled if crappy plugins are found.

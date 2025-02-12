@@ -216,7 +216,7 @@ class Detect_New_Theme {
 		$original_in_plugin = in_array( $item, array_keys( Get_Options::get_list_people_taxo() ), true )
 			? Get_Options::TAXO_PEOPLE_THEME
 			: Get_Options::TAXO_ITEMS_THEME;
-		$template_paths['origin'] = LUMIERE_WP_PATH . $original_in_plugin;
+		$template_paths['origin'] = LUM_WP_PATH . $original_in_plugin;
 		$template_paths['destination'] = get_stylesheet_directory() . '/taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
 		return $template_paths;
 	}

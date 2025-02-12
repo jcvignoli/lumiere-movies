@@ -51,7 +51,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 			'lumiere_bootstrap_core',
 			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css',
 			[ 'lumiere_style_main' ],
-			strval( filemtime( LUMIERE_WP_PATH . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css' ) )
+			strval( filemtime( LUM_WP_PATH . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css' ) )
 		);
 		wp_register_style(
 			'lumiere_bootstrap_custom',
@@ -65,7 +65,7 @@ class Bootstrap_Links extends Abstract_Link_Maker {
 			'lumiere_bootstrap_core',
 			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
 			[],
-			strval( filemtime( LUMIERE_WP_PATH . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js' ) ),
+			strval( filemtime( LUM_WP_PATH . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(

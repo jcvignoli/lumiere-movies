@@ -584,7 +584,7 @@ class Cache_Files_Management {
 
 		$this->logger->log->debug( '[config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
 
-		$lumiere_alt_folder_cache = LUMIERE_WP_PATH . 'cache';
+		$lumiere_alt_folder_cache = LUM_WP_PATH . 'cache';
 		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
 
 		// Let's create an alternative cache folder inside the plugins, make sure permissions are ok
@@ -595,7 +595,7 @@ class Cache_Files_Management {
 
 			// the partial path
 			/** @psalm-suppress PossiblyInvalidOperand (Cannot concatenate with a array<array-key, string>|string, psalm can't dynamic const */
-			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', LUMIERE_WP_PATH ) . 'cache/';
+			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', LUM_WP_PATH ) . 'cache/';
 
 			// Update database with the new value for cache path.
 			$options_cache['imdbcachedir'] = $lumiere_alt_folder_cache;

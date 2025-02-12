@@ -65,7 +65,7 @@ trait Files {
 	 */
 	private function find_template_file( string $file_name ): string {
 
-		$templates_dir = LUMIERE_WP_PATH . 'class/templates/';
+		$templates_dir = LUM_WP_PATH . 'class/templates/';
 
 		$folder_iterator = new RecursiveIteratorIterator(
 			new RecursiveDirectoryIterator( $templates_dir, RecursiveDirectoryIterator::SKIP_DOTS )

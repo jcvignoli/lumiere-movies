@@ -20,7 +20,7 @@ use Lumiere\Config\Settings_Build;
 
 // Needed vars for uninstall, fails otherwise.
 // Use of defined() condition for PHPStan
-if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
+if ( ! defined( 'LUM_WP_PATH' ) ) {
 	require_once plugin_dir_path( dirname( __DIR__ ) ) . 'vars.php';
 }
 
@@ -45,9 +45,9 @@ class Settings extends Settings_Build {
 	 * Name of the databases as stored in WordPress db
 	 * Only used in child class, has to be called in Get_Options
 	 */
-	protected const LUMIERE_ADMIN_OPTIONS           = 'lumiere_admin_options';
-	protected const LUMIERE_DATA_OPTIONS            = 'lumiere_data_options';
-	protected const LUMIERE_CACHE_OPTIONS           = 'lumiere_cache_options';
+	protected const LUM_ADMIN_OPTIONS           = 'lumiere_admin_options';
+	protected const LUM_DATA_OPTIONS            = 'lumiere_data_options';
+	protected const LUM_CACHE_OPTIONS           = 'lumiere_cache_options';
 
 	/**
 	 * Website URLs constants
@@ -74,6 +74,22 @@ class Settings extends Settings_Build {
 	];
 
 	/**
+	 * Internal search categories for IMDb search
+	 *
+	 * @see \Lumiere\Config\Get_Options::get_type_search() Build a URL including those bits
+	 *
+	 * @var array<string, string> First column is Lumière category, second column IMDBPHP's
+	 */
+	protected const LUM_IMDB_SEARCH_CATEGORY        = [
+		'movies'        => 'MOVIE',
+		'movies+series' => 'MOVIE,TV',
+		'series'        => 'TV',
+		'videogames'    => 'VIDEO_GAME',
+		'podcasts'      => 'PODCAST_EPISODE',
+		'default'       => 'MOVIE,TV',
+	];
+
+	/**
 	 * Name of the var to look for in URL
 	 *
 	 * @see \Lumiere\Alteration\Rewrite_Rules
@@ -96,20 +112,20 @@ class Settings extends Settings_Build {
 	/**
 	 * URLs for pictures and menu images
 	 */
-	public const LUM_PICS_URL                       = LUMIERE_WP_URL . 'assets/pics/';
+	public const LUM_PICS_URL                       = LUM_WP_URL . 'assets/pics/';
 	public const LUM_PICS_SHOWTIMES_URL             = self::LUM_PICS_URL . '/showtimes/';
 
 	/**
 	 * URL and Path for javascripts
 	 */
-	public const LUM_JS_PATH                        = LUMIERE_WP_PATH . 'assets/js/';
-	public const LUM_JS_URL                         = LUMIERE_WP_URL . 'assets/js/';
+	public const LUM_JS_PATH                        = LUM_WP_PATH . 'assets/js/';
+	public const LUM_JS_URL                         = LUM_WP_URL . 'assets/js/';
 
 	/**
 	 * URL and Path for stylesheets
 	 */
-	public const LUM_CSS_PATH                       = LUMIERE_WP_PATH . 'assets/css/';
-	public const LUM_CSS_URL                        = LUMIERE_WP_URL . 'assets/css/';
+	public const LUM_CSS_PATH                       = LUM_WP_PATH . 'assets/css/';
+	public const LUM_CSS_URL                        = LUM_WP_URL . 'assets/css/';
 
 	/**
 	 * Internal URL pages constants
@@ -140,7 +156,7 @@ class Settings extends Settings_Build {
 	/**
 	 * Cache folder path.
 	 */
-	public const LUMIERE_FOLDER_CACHE               = '/cache/lumiere/';
+	public const LUM_FOLDER_CACHE               = '/cache/lumiere/';
 
 	/**
 	 * Default options when creating DATA_OPTIONS
@@ -175,19 +191,19 @@ class Settings extends Settings_Build {
 
 		$that = new self();
 
-		$lum_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		$lum_admin_option = get_option( self::LUM_ADMIN_OPTIONS );
 		if ( is_array( $lum_admin_option ) === false ) {
-			update_option( self::LUMIERE_ADMIN_OPTIONS, $that->get_default_admin_option() );
+			update_option( self::LUM_ADMIN_OPTIONS, $that->get_default_admin_option() );
 		}
 
-		$lum_data_option = get_option( self::LUMIERE_DATA_OPTIONS );
+		$lum_data_option = get_option( self::LUM_DATA_OPTIONS );
 		if ( is_array( $lum_data_option ) === false  ) {
-			update_option( self::LUMIERE_DATA_OPTIONS, $that->get_default_data_option() );
+			update_option( self::LUM_DATA_OPTIONS, $that->get_default_data_option() );
 		}
 
-		$lum_cache_option = get_option( self::LUMIERE_CACHE_OPTIONS );
+		$lum_cache_option = get_option( self::LUM_CACHE_OPTIONS );
 		if ( is_array( $lum_cache_option ) === false  ) {
-			update_option( self::LUMIERE_CACHE_OPTIONS, $that->get_default_cache_option() );
+			update_option( self::LUM_CACHE_OPTIONS, $that->get_default_cache_option() );
 		}
 	}
 
@@ -198,15 +214,15 @@ class Settings extends Settings_Build {
 	 * @return string The full javascript piece to be included
 	 */
 	public static function get_scripts_admin_vars(): string {
-		$imdb_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		$imdb_admin_option = get_option( self::LUM_ADMIN_OPTIONS );
 		$scripts_admin_vars = wp_json_encode(
 			[
-				'imdb_path'                   => LUMIERE_WP_URL,
+				'imdb_path'                   => LUM_WP_URL,
 				'wordpress_path'              => site_url(),
 				'wordpress_admin_path'        => admin_url(),
 				'gutenberg_search_url_string' => self::SEARCH_URL_BIT,
 				'gutenberg_search_url'        => self::SEARCH_URL_ADMIN,
-				'ico80'                       => LUMIERE_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
+				'ico80'                       => LUM_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
 				'popupLarg'                   => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong'                   => $imdb_admin_option['imdbpopuplong'],
 			]
@@ -221,10 +237,10 @@ class Settings extends Settings_Build {
 	 * @return string The full javascript piece to be included
 	 */
 	public static function get_scripts_frontend_vars(): string {
-		$imdb_admin_option = get_option( self::LUMIERE_ADMIN_OPTIONS );
+		$imdb_admin_option = get_option( self::LUM_ADMIN_OPTIONS );
 		$scripts_vars = wp_json_encode(
 			[
-				'imdb_path'           => LUMIERE_WP_URL,
+				'imdb_path'           => LUM_WP_URL,
 				'urlpopup_film'       => Get_Options::get_popup_url( 'film', site_url() ),
 				'urlpopup_person'     => Get_Options::get_popup_url( 'person', site_url() ),
 				'popup_border_colour' => $imdb_admin_option['imdbpopuptheme'],
@@ -389,7 +405,7 @@ class Settings extends Settings_Build {
 		$imdb_admin_options = [
 			//--------------------------------------------------=[ Basic ]=--
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
-			'imdbpluginpath'              => LUMIERE_WP_PATH,
+			'imdbpluginpath'              => LUM_WP_PATH,
 			'imdburlpopups'               => '/lumiere/',
 			'imdbkeepsettings'            => '1',
 			'imdburlstringtaxo'           => self::URL_STRING_TAXO,
@@ -428,9 +444,9 @@ class Settings extends Settings_Build {
 		// For debugging purpose.
 		// Update imdbHowManyUpdates option.
 		/*
-		$option_array_search = get_option( Settings::LUMIERE_ADMIN_OPTIONS );
+		$option_array_search = get_option( Settings::LUM_ADMIN_OPTIONS );
 		$option_array_search['imdbHowManyUpdates'] = 18; // Chosen number of updates.
-		update_option( Settings::LUMIERE_ADMIN_OPTIONS, $option_array_search );
+		update_option( Settings::LUM_ADMIN_OPTIONS, $option_array_search );
 		*/
 
 		return $imdb_admin_options;
@@ -444,10 +460,10 @@ class Settings extends Settings_Build {
 	 */
 	private function get_default_cache_option(): array {
 		return [
-			'imdbcachedir_partial'             => self::LUMIERE_FOLDER_CACHE,
-			'imdbcachedir'                     => WP_CONTENT_DIR . self::LUMIERE_FOLDER_CACHE,
-			'imdbphotoroot'                    => WP_CONTENT_DIR . self::LUMIERE_FOLDER_CACHE . 'images/',
-			'imdbphotodir'                     => content_url() . self::LUMIERE_FOLDER_CACHE . 'images/',
+			'imdbcachedir_partial'             => self::LUM_FOLDER_CACHE,
+			'imdbcachedir'                     => WP_CONTENT_DIR . self::LUM_FOLDER_CACHE,
+			'imdbphotoroot'                    => WP_CONTENT_DIR . self::LUM_FOLDER_CACHE . 'images/',
+			'imdbphotodir'                     => content_url() . self::LUM_FOLDER_CACHE . 'images/',
 			'imdbusecache'                     => '1',
 			'imdbcacheexpire'                  => '2592000',                     /* one month */
 			'imdbcacheautorefreshcron'         => '0',                           /* Cron refresh cache automatically */

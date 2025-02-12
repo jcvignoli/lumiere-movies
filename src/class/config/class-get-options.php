@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Trait for getting database options
+ * Getting Settings and database options
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
@@ -20,10 +20,30 @@ use Lumiere\Tools\Data;
 use Lumiere\Config\Settings;
 
 /**
- * Trait for getting database options
+ * Getting Settings and database options
  * All methods shoud be static
  */
 class Get_Options extends Settings {
+
+	/**
+	 * Define all the pages of Lumiere
+	 *
+	 * @see \Lumiere\Admin\Admin:lumiere_execute_admin_assets()
+	 *
+	 * @return array<string>
+	 */
+	public static function get_admin_lum_pages(): array {
+		$imdb_admin_option = get_option( parent::LUM_ADMIN_OPTIONS );
+		return [
+			$imdb_admin_option !== false ? $imdb_admin_option['imdburlstringtaxo'] : parent::URL_STRING_TAXO,
+			parent::FILE_COPY_THEME_TAXONOMY,
+			parent::GUTENBERG_SEARCH_FILE,          // For accessing the search in clicking a link (ie gutenberg)
+			parent::SEARCH_URL_ADMIN,               // For accessing the search in URL lumiere/search
+			parent::POPUP_SEARCH_PATH,
+			parent::POPUP_MOVIE_PATH,
+			parent::POPUP_PERSON_PATH,
+		];
+	}
 
 	/**
 	 * Get an array of the taxonomy in use in the form of taxonomy
@@ -65,20 +85,7 @@ class Get_Options extends Settings {
 	 */
 	public static function get_type_search(): string {
 		$imdb_admin_option = get_option( self::get_admin_tablename() );
-		switch ( $imdb_admin_option['imdbseriemovies'] ) {
-			case 'movies':
-				return 'MOVIE';
-			case 'movies+series':
-				return 'MOVIE,TV';
-			case 'series':
-				return 'TV';
-			case 'videogames':
-				return 'VIDEO_GAME';
-			case 'podcasts':
-				return 'PODCAST_EPISODE';
-			default:
-				return 'MOVIE,TV';
-		}
+		return parent::LUM_IMDB_SEARCH_CATEGORY[ $imdb_admin_option['imdbseriemovies'] ];
 	}
 
 	/**
@@ -87,7 +94,7 @@ class Get_Options extends Settings {
 	 * @return string
 	 */
 	public static function get_admin_tablename(): string {
-		return parent::LUMIERE_ADMIN_OPTIONS;
+		return parent::LUM_ADMIN_OPTIONS;
 	}
 
 	/**
@@ -96,7 +103,7 @@ class Get_Options extends Settings {
 	 * @return string
 	 */
 	public static function get_data_tablename(): string {
-		return parent::LUMIERE_DATA_OPTIONS;
+		return parent::LUM_DATA_OPTIONS;
 	}
 
 	/**
@@ -105,7 +112,7 @@ class Get_Options extends Settings {
 	 * @return string
 	 */
 	public static function get_cache_tablename(): string {
-		return parent::LUMIERE_CACHE_OPTIONS;
+		return parent::LUM_CACHE_OPTIONS;
 	}
 
 	/**
@@ -129,6 +136,7 @@ class Get_Options extends Settings {
 	/**
 	 * Get all categories of connected movies
 	 *
+	 * @since 4.4 method added
 	 * @return array<string, string>
 	 */
 	public static function get_list_connect_cat(): array {
@@ -138,6 +146,7 @@ class Get_Options extends Settings {
 	/**
 	 * Get all categories of goofs
 	 *
+	 * @since 4.4 method added
 	 * @return array<string, string>
 	 */
 	public static function get_list_goofs_cat(): array {

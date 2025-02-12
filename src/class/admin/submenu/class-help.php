@@ -118,7 +118,7 @@ class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
-		$compatfile = LUMIERE_WP_PATH . 'COMPATIBILITY.md';
+		$compatfile = LUM_WP_PATH . 'COMPATIBILITY.md';
 
 		// If file doesn't exist, exit.
 		if ( ! is_file( $compatfile ) ) {
@@ -171,7 +171,7 @@ class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
-		$readmefile = LUMIERE_WP_PATH . 'README.txt';
+		$readmefile = LUM_WP_PATH . 'README.txt';
 
 		// If file doesn't exist, exit.
 		if ( ! is_file( $readmefile ) ) {
@@ -226,7 +226,7 @@ class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
-		$changelogfile = LUMIERE_WP_PATH . 'CHANGELOG.md';
+		$changelogfile = LUM_WP_PATH . 'CHANGELOG.md';
 
 		// If file doesn't exist, exit.
 		if ( ! is_file( $changelogfile ) ) {
@@ -275,7 +275,7 @@ class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
-		$acknowledgefile = LUMIERE_WP_PATH . 'ACKNOWLEDGMENTS.md';
+		$acknowledgefile = LUM_WP_PATH . 'ACKNOWLEDGMENTS.md';
 
 		// If file doesn't exist, exit.
 		if ( ! is_file( $acknowledgefile ) ) {

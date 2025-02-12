@@ -118,7 +118,7 @@ class Imdbphp extends Imdbphp_Config {
 	 */
 	public function search_person_name( string $name, Logger|null $logger = null ): array {
 		$search = new NameSearch( $this, $logger );
-		return $search->search( $name );
+		return $search->search( esc_html( $name ) );
 	}
 
 	/**

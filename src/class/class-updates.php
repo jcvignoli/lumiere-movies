@@ -67,7 +67,7 @@ class Updates {
 		$this->logger->log->debug( '[updateClass] Running updates...' );
 
 		// Count the number of files in class/updates/
-		$files = new FilesystemIterator( LUMIERE_WP_PATH . 'class/updates/', FilesystemIterator::SKIP_DOTS );
+		$files = new FilesystemIterator( LUM_WP_PATH . 'class/updates/', FilesystemIterator::SKIP_DOTS );
 		$nb_of_files_in_updates_folder = iterator_count( $files );
 
 		$this->logger->log->debug( '[updateClass] Number of updates found: ' . $nb_of_files_in_updates_folder );

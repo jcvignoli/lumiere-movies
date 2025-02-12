@@ -485,7 +485,8 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		$admin_max_connected = isset( $this->imdb_data_values['imdbwidgetconnectionnumber'] ) ? intval( $this->imdb_data_values['imdbwidgetconnectionnumber'] ) : 0;
 		$nbtotalconnected = count( $connected_movies );
 
-		$connected_movies_sub = array_filter( $connected_movies, fn( array $connected_movies ) => ( count( array_values( $connected_movies ) ) > 0 ) ); // counts the actual goofs, not their
+		// count the actual results in values associative arrays
+		$connected_movies_sub = array_filter( $connected_movies, fn( array $connected_movies ) => ( count( array_values( $connected_movies ) ) > 0 ) );
 		$nbtotalconnected_sub = count( $connected_movies_sub );
 
 		echo "\n\t\t\t\t\t\t\t" . ' <!-- Connected movies -->';

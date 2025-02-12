@@ -140,7 +140,7 @@ class Metabox_Selection {
 				wp_sprintf(
 					/* translators: %1$s and %2$s are HTML tags */
 					__( 'Deactivate %1$sauto title widget%2$s for this post', 'lumiere-movies' ),
-					'<a id="lin_to_imdbautopostwidget" href="' . admin_url( 'admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget' ) . '">',
+					'<a id="link_to_imdbautopostwidget" href="' . admin_url( 'admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget' ) . '">',
 					'</a>'
 				),
 				[
