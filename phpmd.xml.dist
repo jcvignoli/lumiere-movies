@@ -9,9 +9,10 @@
 	<file>src</file>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>*/assets/js/highslide/*</exclude-pattern>
+	<exclude-pattern>*/class/updates/*</exclude-pattern>
 
 	<rule ref="rulesets/cleancode.xml">
-		<!-- Utils class is a class with a lot of static calls, remove forbid to call to static access -->
+		<!-- Config/Get_Options and other Tool classs have static calls, which is acceptable -->
 		<exclude name="StaticAccess" />
 	</rule>
 
@@ -29,6 +30,53 @@
 		</properties>
 	</rule>
 
+	<!-- Super usefull, but can't find a way to add exceptions
+	<rule ref="rulesets/unusedcode.xml">
+		<exclude name="UnusedPrivateMethod" />
+		<exclude name="UnusedLocalVariable" />
+	</rule>
+	<rule ref="rulesets/unusedcode.xml/UnusedPrivateMethod">
+		<properties>
+			<property name="exception">
+				<value>
+					\Lumiere\Admin\Cache\Cache_Files_Management,
+					maybe_copy_theme_template,
+					\Lumiere\Admin\Copy_Templates\Auto_Update_Theme,
+					\Lumiere\Admin\Copy_Templates\Auto_Update_Theme::maybe_copy_theme_template,
+					\Lumiere\Admin\Copy_Templates\Auto_Update_Theme::maybe_copy_theme_template()
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="rulesets/unusedcode.xml/UnusedLocalVariable">
+		<properties>
+			<property name="allow-unused-foreach-variables">
+				<value>
+					key,
+					$key,
+					\Lumiere\Alteration\Taxonomy,
+					\Lumiere\Alteration\Taxonomy::$key,
+					\Lumiere\Alteration\Taxonomy\$key,
+					\Lumiere\Alteration\Taxonomy\key,
+					$row_number,
+					$info,
+					$value,
+				</value>
+			</property>			
+			<property name="exceptions">
+				<value>
+					$backoffice_extra_class,
+					backoffice_extra_class,
+					\Lumiere\Admin\Backoffice_Extra,
+					\Lumiere\Admin\Backoffice_Extra::$backoffice_extra_class,
+					\Lumiere\Admin\Backoffice_Extra::backoffice_extra_class,
+					\Lumiere\Admin\Backoffice_Extra\backoffice_extra_class,
+				</value>
+			</property>
+		</properties>
+	</rule>
+	-->
+	
 	<rule ref="rulesets/naming.xml/LongVariable">
 		<properties>
 			<!-- I don't want to be bound to a max of 20, let's increase it -->

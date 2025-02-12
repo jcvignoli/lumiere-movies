@@ -45,20 +45,6 @@ class Settings_Build {
 	}
 
 	/**
-	 * Define all types of items
-	 * This lists merge taxonomy items with those that are not meant for taxo
-	 *
-	 * @return array<string, string>
-	 */
-	protected static function define_list_all_items(): array {
-		return [
-			...Settings::define_list_non_taxo_items(),
-			...Settings::define_list_taxo_people(), // Taxo_people is all people options, since there are no people options that are not taxonomy.
-			...Settings::define_list_taxo_items(),
-		];
-	}
-
-	/**
 	 * Create rows for 'imdbtaxonomy' using internal methods
 	 *
 	 * @see Settings::get_default_data_option() Meant to be used there

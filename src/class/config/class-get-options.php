@@ -21,7 +21,7 @@ use Lumiere\Config\Settings;
 
 /**
  * Getting Settings and database options
- * All methods shoud be static
+ * Helper class meant to be called anywhere, so all methods should be static
  */
 class Get_Options extends Settings {
 
@@ -116,7 +116,7 @@ class Get_Options extends Settings {
 	}
 
 	/**
-	 * Get the type of people items that are used for taxonomy
+	 * Get the type of people elements that are used for taxonomy
 	 *
 	 * @return array<string, string>
 	 */
@@ -125,12 +125,24 @@ class Get_Options extends Settings {
 	}
 
 	/**
-	 * Get the type items that are used for taxonomy
+	 * Get the type items elements that are used for taxonomy
 	 *
 	 * @return array<string, string>
 	 */
 	public static function get_list_items_taxo(): array {
 		return parent::define_list_taxo_items();
+	}
+
+	/**
+	 * Get All taxonomy types: all people and items elements that are used for taxonomy
+	 *
+	 * @return array<string, string>
+	 */
+	public static function get_list_all_elements_taxo(): array {
+		return [
+			...parent::define_list_taxo_people(),
+			...parent::define_list_taxo_items(),
+		];
 	}
 
 	/**
@@ -160,7 +172,11 @@ class Get_Options extends Settings {
 	 * @return array<string, string>
 	 */
 	public static function get_all_items(): array {
-		return parent::define_list_all_items();
+		return [
+			...parent::define_list_non_taxo_items(),
+			...parent::define_list_taxo_people(), // Taxo_people is all people options, since there are no people options that are not taxonomy.
+			...parent::define_list_taxo_items(),
+		];
 	}
 
 	/**

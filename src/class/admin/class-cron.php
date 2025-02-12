@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) 
 
 use Lumiere\Config\Get_Options;
 use Lumiere\Admin\Cache\Cache_Files_Management;
+use Lumiere\Admin\Copy_Templates\Auto_Update_Theme;
 use Lumiere\Plugins\Logger;
 use Lumiere\Updates;
 
@@ -109,7 +110,7 @@ class Cron {
 		$start_update_options->run_update_options();
 
 		// Auto update templates file in user template folder.
-		( new \Lumiere\Admin\Copy_Templates\Auto_Update_Theme() )->update_auto_dest_theme();
+		( new Auto_Update_Theme() )->update_auto_dest_theme();
 	}
 
 	/**
@@ -119,12 +120,10 @@ class Cron {
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::lumiere_cache_delete_files_over_limit()
 	 */
 	public function delete_cache_oversized(): void {
-
 		$cache_class = new Cache_Files_Management();
 		$cache_class->lumiere_cache_delete_files_over_limit(
 			intval( $this->imdb_cache_values['imdbcachekeepsizeunder_sizelimit'] )
 		);
-
 	}
 
 	/**

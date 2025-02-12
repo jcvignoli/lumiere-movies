@@ -105,7 +105,7 @@ if ( ! function_exists( 'lum_get_version' ) ) {
 		if ( $lumiere_version_recherche === false ) {
 			throw new Exception( 'Lumière readme file is either missing or corrupted' );
 		}
-		$lumiere_version = preg_match( '#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match );
+		preg_match( '#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match );
 		return $lumiere_version_match[1] ?? '0';
 	}
 }

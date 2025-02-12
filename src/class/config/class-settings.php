@@ -146,6 +146,14 @@ class Settings extends Settings_Build {
 	 * Must be public, used in parent class
 	 */
 	public const URL_STRING_TAXO                    = 'lumiere-';
+
+	/**
+	 * Word starting the file name of taxonomy theme
+	 * @see \Lumiere\Uninstall
+	 * @see \Lumiere\Admin\Copy_Templates\Copy_Theme
+	 * @see \Lumiere\Admin\Copy_Templates\Detect_New_Theme
+	 * @see \Lumiere\Admin\Submenu\Data
+	 */
 	public const LUM_THEME_TAXO_FILENAME_START      = 'taxonomy-';
 
 	/**

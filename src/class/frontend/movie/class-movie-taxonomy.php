@@ -80,7 +80,7 @@ class Movie_Taxonomy {
 			 */
 			if ( ! $term_for_set_object instanceof \WP_Error ) {
 				$term_taxonomy_id = wp_set_object_terms( $page_id, $term_for_set_object, $custom_taxonomy_fullname, true );
-				// $this->logger->log->debug( '[Movie] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
+				$this->logger->log->debug( '[Movie_Taxonomy] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
 			}
 		}
 

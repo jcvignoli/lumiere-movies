@@ -176,11 +176,7 @@ class Data extends Admin_Menu {
 	 * @return array<string, string>
 	 */
 	private function get_taxo_fields(): array {
-
-		$all_taxo_elements = [
-			...Get_Options::get_list_people_taxo(),
-			...Get_Options::get_list_items_taxo(),
-		];
+		$all_taxo_elements = Get_Options::get_list_all_elements_taxo();
 		asort( $all_taxo_elements );
 		return $all_taxo_elements;
 	}

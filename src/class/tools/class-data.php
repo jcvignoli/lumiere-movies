@@ -127,12 +127,13 @@ class Data {
 				if ( $key === $key_one ) {
 					// The array 2 takes the key of array 1
 					$myarr[ $key_two ] = $array[ $key_one ];
+					continue;
 				} elseif ( $key === $key_two ) {
 					// The array 1 takes the key of array 2
 					$myarr[ $key_one ] = $array[ $key_two ];
-				} else {
-					$myarr[ $key ] = $value;
+					continue;
 				}
+				$myarr[ $key ] = $value;
 			}
 			return $myarr;
 		}

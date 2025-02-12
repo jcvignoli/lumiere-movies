@@ -75,23 +75,23 @@ class Auto_Update_Theme extends Copy_Theme {
 		global $wp_filesystem;
 
 		if ( ! isset( $destination_file ) || ! isset( $origin_file ) ) {
-			$this->logger->log->error( 'Missing origin or destination file' );
+			$this->logger->log->error( '[Auto_update_Theme] Missing origin or destination file, aborting' );
 			return;
 		}
 
 		// Make sure we have the credentials to read the files.
 		$this->lumiere_wp_filesystem_cred( $origin_file ); // Function in trait Admin_General.
 
-		// If 'TemplateAutomaticUpdate' is found, auto update
+		// Lumiere's taxonomy file in user theme folder.
 		$content_destination = $wp_filesystem->get_contents( $destination_file );
+
+		// If 'TemplateAutomaticUpdate' is found, auto update
 		if ( is_string( $content_destination ) && preg_match( '~TemplateAutomaticUpdate~i', $content_destination ) > 0 ) {
-			$templates_paths = $this->detect_new_theme->get_template_paths( $item );
-			// Copy files.
 			parent::copy_theme_template( $origin_file, $destination_file, $item );
-			$this->logger->log->debug( 'Template file ' . $destination_file . ' has been updated to the latest version' );
+			$this->logger->log->debug( '[Auto_update_Theme] Template file ' . $destination_file . ' has been updated to the latest version' );
 			return;
 		}
-		$this->logger->log->info( 'Template file ' . $destination_file . ' was not updated, probably TemplateAutomaticUpdate was removed.' );
+		$this->logger->log->info( '[Auto_update_Theme] Template file ' . $destination_file . ' was not updated, probably TemplateAutomaticUpdate was removed.' );
 	}
 
 	/**

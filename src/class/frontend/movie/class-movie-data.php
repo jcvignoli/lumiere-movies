@@ -419,7 +419,6 @@ class Movie_Data {
 		$admin_max_goofs = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 		$filter_nbtotalgoofs = array_filter( $goofs, fn( array $goofs ) => ( count( array_values( $goofs ) ) > 0 ) ); // counts the actual goofs, not their categories
 		$nbtotalgoofs = count( $filter_nbtotalgoofs );
-		$overall_loop = 1;
 
 		// if no result, exit.
 		if ( $nbtotalgoofs === 0 ) {

@@ -229,14 +229,17 @@ class Polylang {
 			if ( strlen( Validate_Get::sanitize_url( 'tag_lang' ) ) > 0 ) { /** @phan-suppress-current-line PhanTypeMismatchArgumentNullableInternal (already checked if null above!) */
 				$success = true;
 				$message = __( 'Language successfully changed.', 'lumiere-movies' );
-				wp_send_json( [ 'success' => true ] );
+				wp_send_json(
+					[
+						'success' => $success,
+						'message' => $message,
+					]
+				);
 			}
 
-			$success = false;
-			$message = __( 'Could not change the language.', 'lumiere-movies' );
 			wp_send_json(
 				[
-					'msg' => __( 'No data passed', 'lumiere-movies' ),
+					'message' => __( 'No data passed', 'lumiere-movies' ),
 					'response' => Validate_Get::sanitize_url( 'tag_lang' ),
 					'back_link' => true,
 				]
@@ -244,6 +247,8 @@ class Polylang {
 
 			/** wp_send_json() sent a wp_die(), this is not executed
 			header( 'AMP-Redirect-To: ' . wp_sanitize_redirect( $_GET['_wp_http_referer'] ?? '' ) );
+			$success = false;
+			$message = __( 'Could not change the language.', 'lumiere-movies' );
 
 			wp_die(
 				esc_html( $message ),

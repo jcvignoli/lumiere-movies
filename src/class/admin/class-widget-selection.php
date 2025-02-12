@@ -23,7 +23,7 @@ use WP_Widget;
  * Add a Lumière Widget option in administration
  * It selects either legacy widget (pre-5.8 WordPress) or block-based widget (post-5.8 WordPress), so it is compatible with Classic widget plugin
  *
- * Once this widget is added, it may be used to display both autow title widget and metabox info in a sidebar
+ * Once this widget is added, it may be used to display both autotitle widget and metabox info in a sidebar
  *
  * Constant self::BLOCK_WIDGET_NAME is the post-WP 5.8 widget block name.
  * Constant self::WIDGET_NAME is the pre-WP 5.8 widget name.
@@ -149,9 +149,6 @@ class Widget_Selection extends WP_Widget {
 	public function form( $instance ): string {
 
 		$title = $instance['title'] ?? '';
-		$lumiere_query_widget = $instance['lumiere_queryid_widget'] ?? '';
-
-		$lumiere_queryid_widget_input = $instance['lumiere_queryid_widget_input'] ?? '';
 
 		$output = "\n\t" . '<!-- Lumière movies widget -->';
 		$output .= "\n\t" . '<p class="lumiere_padding_ten">';
