@@ -217,7 +217,7 @@ class Detect_New_Theme {
 			? Get_Options::TAXO_PEOPLE_THEME
 			: Get_Options::TAXO_ITEMS_THEME;
 		$template_paths['origin'] = LUM_WP_PATH . $original_in_plugin;
-		$template_paths['destination'] = get_stylesheet_directory() . '/taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
+		$template_paths['destination'] = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
 		return $template_paths;
 	}
 }

@@ -80,7 +80,7 @@ class Copy_Theme {
 			throw new Exception( 'This template ' . esc_html( $lumiere_taxo_title ) . ' does not exist, aborting' );
 		}
 
-		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
+		$lumiere_taxo_file_copied = Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
 		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'];

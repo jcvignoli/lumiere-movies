@@ -221,7 +221,7 @@ class Data extends Admin_Menu {
 
 		// Files paths
 		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, Get_Options::get_list_people_taxo(), true ) ? Get_Options::TAXO_PEOPLE_THEME : Get_Options::TAXO_ITEMS_THEME;
-		$lumiere_taxo_file_copied = 'taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
+		$lumiere_taxo_file_copied = Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
 		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'];

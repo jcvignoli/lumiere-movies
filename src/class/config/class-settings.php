@@ -146,17 +146,18 @@ class Settings extends Settings_Build {
 	 * Must be public, used in parent class
 	 */
 	public const URL_STRING_TAXO                    = 'lumiere-';
+	public const LUM_THEME_TAXO_FILENAME_START      = 'taxonomy-';
 
 	/**
 	 * Cache folder path.
 	 * Must be public, used in parent class
 	 */
-	public const UPDATES_PATH                       = 'class/updates/';
+	public const LUM_UPDATES_PATH                   = 'class/updates/';
 
 	/**
 	 * Cache folder path.
 	 */
-	public const LUM_FOLDER_CACHE               = '/cache/lumiere/';
+	public const LUM_FOLDER_CACHE                   = '/cache/lumiere/';
 
 	/**
 	 * Default options when creating DATA_OPTIONS

@@ -40,7 +40,7 @@ class Settings_Build {
 	 * @return string The number of files found
 	 */
 	protected function get_nb_updates(): string {
-		$files = new FilesystemIterator( LUM_WP_PATH . Get_Options::UPDATES_PATH, \FilesystemIterator::SKIP_DOTS );
+		$files = new FilesystemIterator( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH, \FilesystemIterator::SKIP_DOTS );
 		return strval( iterator_count( $files ) + 1 );
 	}
 

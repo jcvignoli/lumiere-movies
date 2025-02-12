@@ -105,7 +105,7 @@ class Imdbphp extends Imdbphp_Config {
 	public function search_movie_title( string $title, Logger|null $logger = null ): array {
 		$search = new TitleSearch( $this, $logger );
 		$return = $search->search( esc_html( $title ), Get_Options::get_type_search() );
-		/** @psalm-var TITLESEARCH_RETURNSEARCH $return Dunno why it must be precised here again... */
+		/** @psalm-var TITLESEARCH_RETURNSEARCH $return Dunno why it must be specified here again... */
 		return $return;
 	}
 

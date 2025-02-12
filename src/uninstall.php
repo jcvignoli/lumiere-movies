@@ -228,7 +228,7 @@ class Uninstall {
 			return;
 		}
 
-		$get_taxo_templates = glob( get_stylesheet_directory() . '/taxonomy-' . $this->imdb_admin_values['imdburlstringtaxo'] . '*' );
+		$get_taxo_templates = glob( get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->imdb_admin_values['imdburlstringtaxo'] . '*' );
 
 		// No taxo files found
 		if ( $get_taxo_templates === false || count( $get_taxo_templates ) === 0 ) {
