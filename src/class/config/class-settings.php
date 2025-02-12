@@ -82,6 +82,18 @@ class Settings extends Settings_Build {
 	public const POPUP_STRING = 'popup';
 
 	/**
+	 * Rules to be added in add_rewrite_rule()
+	 * @see \Lumiere\Alteration\Rewrite_Rules
+	 */
+	public const LUM_REWRITE_RULES = [
+		// Popups.
+		'lumiere/([^/]+)/?'                    => 'index.php?' . self::POPUP_STRING . '=$matches[1]',
+		//'index.php/lumiere/([^/]+)/?$'         => 'index.php?' . self::POPUP_STRING . '=$matches[1]',
+		// Popups with Polylang.
+		'([a-zA-Z]{2}\|?+)/?lumiere/([^/]+)/?' => 'index.php?lang=$matches[1]&' . self::POPUP_STRING . '=$matches[2]',
+	];
+
+	/**
 	 * URLs for pictures and menu images
 	 */
 	public const LUM_PICS_URL                       = LUMIERE_WP_URL . 'assets/pics/';

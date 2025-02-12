@@ -72,7 +72,7 @@ class Popup_Select {
 		$const_key_val = array_flip( Get_Options::URL_BIT_POPUPS ) [ $query_popup ];
 
 		/**
-		 * Wrong URL string passed. Don't know why static tools belive it's always set.
+		 * Wrong URL string passed. Don't know why static tools believe it's always set.
 		 * @psalm-suppress DocblockTypeContradiction
 		 * @phpstan-ignore isset.variable (Variable $const_key_val in isset() always exists and is not nullable)
 		 */

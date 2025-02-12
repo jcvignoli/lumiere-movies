@@ -254,7 +254,7 @@ class Widget_Frontpage {
 		 *
 		 * @psalm-var array<array-key, array{bymid?: string, byname?: string}> $get_array_imdbid
 		 */
-		$get_array_imdbid = apply_filters( 'lum_find_movie_id', $movies_array );
+		$get_array_imdbid = apply_filters( 'lum_find_movie_id', $movies_array_cleaned );
 		$lum_movie_box = apply_filters( 'lum_display_movies_box', $get_array_imdbid );
 
 		// Output the result in a layout wrapper.
