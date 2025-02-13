@@ -21,11 +21,14 @@ use Lumiere\Config\Get_Options;
 
 /**
  * Rewrite Rules for Popups: create rewrite rules but also add query_vars
+ * It uses the correct hook 'generate_rewrite_rules' that is triggered when visiting ie Permalinks
+ * It also triggers custom hook 'lum_add_rewrite_rules_if_admin' when visiting a Lumiere admin menu, which detects if rules are needed, add them an flushs
+ * Polylang compatibility made here, so no need to use Plugins_Detect
  *
  * @since 3.11
  * @since 4.4 much simplified
  *
- * @see \Lumiere\Config\Get_Options (=>Settings) Includes the constants POPUP_STRING and LUM_REWRITE_RULES
+ * @see \Lumiere\Config\Get_Options (=>Settings) Includes the constants LUM_POPUP_STRING and LUM_REWRITE_RULES
  */
 class Rewrite_Rules {
 
@@ -38,7 +41,7 @@ class Rewrite_Rules {
 		// Add an extra query var for use in URLs.
 		add_filter( 'query_vars', [ $this, 'lum_add_query_vars' ] );
 
-		// Add rewrite rules when generating rewrite rules (ie: .
+		// Add rewrite rules when generating rewrite rules
 		add_filter( 'generate_rewrite_rules', [ $this, 'lum_add_rewrite_rules' ] );
 
 		/**
@@ -60,16 +63,13 @@ class Rewrite_Rules {
 	}
 
 	/**
-	 * Add the extra query vars that will be available in URL query string use Get_Options::POPUP_STRING
+	 * Add the extra query vars that will be available in URL query string use Get_Options::LUM_POPUP_STRING
 	 *
 	 * @param array<int, string> $query_vars The array of existing query vars
 	 * @return array<int, string> The query vars with the extra ones
 	 */
 	public function lum_add_query_vars( array $query_vars ): array {
-		$loop = [ Get_Options::POPUP_STRING ];
-		foreach ( $loop as $lumiere_query_var ) {
-			$query_vars[] = $lumiere_query_var;
-		}
+		$query_vars[] = Get_Options::LUM_POPUP_STRING;
 		return $query_vars;
 	}
 

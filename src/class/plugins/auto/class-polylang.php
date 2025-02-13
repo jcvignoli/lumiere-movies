@@ -69,7 +69,7 @@ class Polylang {
 	 * Get for extra params not to be run in self::__construct. Automatically executed from Plugins_Start
 	 *
 	 * @param array<string, class-string> $active_plugins
-	 * @phpstan-param array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>} $active_plugins
+	 * @phpstan-param array{PLUGINS_ALL_KEYS: class-string<PLUGINS_ALL_CLASSES>} $active_plugins
 	 */
 	public function get_active_plugins( array $active_plugins ): void {
 		// Get the list of active plugins.

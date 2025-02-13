@@ -79,8 +79,7 @@ class Movie_Taxonomy {
 			 * wp_set_object_terms() is almost always executed in order to add new relationships even if a new term wasn't inserted
 			 */
 			if ( ! $term_for_set_object instanceof \WP_Error ) {
-				$term_taxonomy_id = wp_set_object_terms( $page_id, $term_for_set_object, $custom_taxonomy_fullname, true );
-				$this->logger->log->debug( '[Movie_Taxonomy] Check (and made if needed) association for term_taxonomy_id ' . json_encode( $term_taxonomy_id ) );
+				wp_set_object_terms( $page_id, $term_for_set_object, $custom_taxonomy_fullname, true );
 			}
 		}
 

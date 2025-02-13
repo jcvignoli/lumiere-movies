@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jcvignoli/imdbGraphQLPHP",
-                "reference": "c48081c00619a1d472da1ef116b131b08176d678"
+                "reference": "545389400f7f25054d51dd7e9d6164d4aa55de5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jcvignoli/imdbGraphQLPHP/zipball/c48081c00619a1d472da1ef116b131b08176d678",
-                "reference": "c48081c00619a1d472da1ef116b131b08176d678",
+                "url": "https://api.github.com/repos/jcvignoli/imdbGraphQLPHP/zipball/545389400f7f25054d51dd7e9d6164d4aa55de5e",
+                "reference": "545389400f7f25054d51dd7e9d6164d4aa55de5e",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 "Movie",
                 "PHP"
             ],
-            "time": "2025-01-29T14:32:59+00:00"
+            "time": "2025-02-11T15:38:38+00:00"
         },
         {
             "name": "monolog/monolog",

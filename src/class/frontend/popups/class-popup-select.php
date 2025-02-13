@@ -40,7 +40,7 @@ class Popup_Select {
 	 */
 	public function maybe_find_template( string $template_path ): string {
 
-		$query_popup = get_query_var( Get_Options::POPUP_STRING );
+		$query_popup = get_query_var( Get_Options::LUM_POPUP_STRING );
 
 		// The query var doesn't exist, return the template untouched.
 		if ( ! isset( $query_popup ) || strlen( $query_popup ) === 0 ) {
@@ -61,7 +61,7 @@ class Popup_Select {
 
 	/**
 	 * Create the name of the class
-	 * Check if the query is included in Settings::URL_BIT_POPUPS keys in {@see \Lumiere\Config\Settings}
+	 * Check if the query is included in Settings::LUM_URL_BIT_POPUPS keys in {@see \Lumiere\Config\Settings}
 	 *
 	 * @param string $query_popup
 	 * @return string
@@ -69,7 +69,7 @@ class Popup_Select {
 	 */
 	private function build_class_name( string $query_popup ): string {
 
-		$const_key_val = array_flip( Get_Options::URL_BIT_POPUPS ) [ $query_popup ];
+		$const_key_val = array_flip( Get_Options::LUM_URL_BIT_POPUPS ) [ $query_popup ];
 
 		/**
 		 * Wrong URL string passed. Don't know why static tools believe it's always set.

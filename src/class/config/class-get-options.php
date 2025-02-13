@@ -186,7 +186,7 @@ class Get_Options extends Settings {
 
 	/**
 	 * Get all elements (people and items) that can take numbers as options
-	 * Find all Settings::DATA_OPTION_WITHNUMBER_DEFAULT available in define_list_taxo_people(), define_list_taxo_items() or define_list_non_taxo_items()
+	 * Find all Settings::DATA_DEFAULT_WITHNUMBER available in define_list_taxo_people(), define_list_taxo_items() or define_list_non_taxo_items()
 	 *
 	 * @see Settings::get_default_data_option()
 
@@ -196,7 +196,7 @@ class Get_Options extends Settings {
 	public static function get_items_with_numbers( int $number = 1 ): array {
 		$list_all = self::get_all_items( $number );
 		$list_elements_with_numbers = [];
-		$list_keys_with_numbers = array_keys( Settings::DATA_OPTION_WITHNUMBER_DEFAULT );
+		$list_keys_with_numbers = array_keys( Settings::DATA_DEFAULT_WITHNUMBER );
 		foreach ( $list_all as $element => $translation ) {
 			if ( in_array( $element, $list_keys_with_numbers, true ) ) {
 				$list_elements_with_numbers[ $element ] = $translation;
@@ -217,7 +217,7 @@ class Get_Options extends Settings {
 	 */
 	public static function get_popup_url( string $type_url, string $domain_url = '' ): string {
 		$imdb_admin_option = get_option( self::get_admin_tablename() );
-		return $domain_url . $imdb_admin_option['imdburlpopups'] . parent::URL_BIT_POPUPS[ $type_url ] . '/';
+		return $domain_url . $imdb_admin_option['imdburlpopups'] . parent::LUM_URL_BIT_POPUPS[ $type_url ] . '/';
 	}
 }
 

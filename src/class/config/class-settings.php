@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 }
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings_Build;
+use Lumiere\Config\Settings_Helper;
 
 // Needed vars for uninstall, fails otherwise.
 // Use of defined() condition for PHPStan
@@ -28,6 +28,8 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * Settings class
  * Method create_database_options() to set the options in WP config database
  * Is extended by Get_Options, extends Settings_Build
+ * If a new IMDB field is created it will automatically create new fields, be it in database and in the admin panel options
+ * IMDB fields are automatically translated if plural
  *
  * @since 4.0 Moved cache folder creation to class cache tools
  * @since 4.1 Renamed *imdb_widget_* to *imdb_data_* all over the website
@@ -39,7 +41,7 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  *
  * @phpstan-type OPTIONS_DATA array{'imdbtaxonomyactor'?:string, 'imdbtaxonomycolor'?:string, 'imdbtaxonomycomposer'?:string, 'imdbtaxonomycountry'?:string, 'imdbtaxonomycreator'?:string, 'imdbtaxonomydirector'?:string, 'imdbtaxonomygenre'?:string, 'imdbtaxonomykeyword'?:string, 'imdbtaxonomylanguage'?:string, 'imdbtaxonomyproducer'?:string, 'imdbtaxonomywriter'?:string, 'imdbwidgetactor'?:string, 'imdbwidgetactornumber'?:string, 'imdbwidgetalsoknow'?:string, 'imdbwidgetalsoknownumber'?:string, 'imdbwidgetcolor'?:string, 'imdbwidgetcomment'?:string, 'imdbwidgetcomposer'?:string, 'imdbwidgetconnection'?:string, 'imdbwidgetconnectionnumber'?:string, 'imdbwidgetcountry'?:string, 'imdbwidgetcreator'?:string, 'imdbwidgetdirector'?:string, 'imdbwidgetgenre'?:string, 'imdbwidgetgoof'?:string, 'imdbwidgetgoofnumber'?:string, 'imdbwidgetkeyword'?:string, 'imdbwidgetlanguage'?:string, 'imdbwidgetofficialsites'?:string, 'imdbwidgetpic'?:string, 'imdbwidgetplot'?:string, 'imdbwidgetplotnumber'?:string, 'imdbwidgetprodcompany'?:string, 'imdbwidgetproducer'?:string, 'imdbwidgetproducernumber'?:string, 'imdbwidgetquote'?:string, 'imdbwidgetquotenumber'?:string, 'imdbwidgetrating'?:string, 'imdbwidgetruntime'?:string, 'imdbwidgetsoundtrack'?:string, 'imdbwidgetsoundtracknumber'?:string, 'imdbwidgetsource'?:string, 'imdbwidgettagline'?:string, 'imdbwidgettaglinenumber'?:string, 'imdbwidgettitle'?:string, 'imdbwidgettrailer'?:string, 'imdbwidgettrailernumber'?:string, 'imdbwidgetwriter'?:string, 'imdbwidgetwriternumber'?:string, 'imdbwidgetyear'?:string,'imdbwidgetorder': array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, creator?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodcompany?: string, plot?: string, goof?: string, comment?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, officialsites?: string, source?: string, year?: string} }
   */
-class Settings extends Settings_Build {
+class Settings extends Settings_Helper {
 
 	/**
 	 * Name of the databases as stored in WordPress db
@@ -64,10 +66,11 @@ class Settings extends Settings_Build {
 	 *
 	 * @see \Lumiere\Config\Get_Options::get_popup_url() Build a URL including those bits
 	 * @see \Lumiere\Frontend\Popups\Popup_Select::build_class_name() Use to call the relevant popup class
+	 * @see \Lumiere\Frontend\Main::is_popup_page detect if popup
 	 *
 	 * @var array<string, string> First column should never change, the second is the final URL string that will be used to build the links
 	 */
-	public const URL_BIT_POPUPS                     = [
+	public const LUM_URL_BIT_POPUPS                 = [
 		'film'                => 'film',
 		'person'              => 'person',
 		'movie_search'        => 'movie_search',
@@ -95,7 +98,7 @@ class Settings extends Settings_Build {
 	 * @see \Lumiere\Alteration\Rewrite_Rules
 	 * @see \Lumiere\Frontend\Popups\Popup_Select
 	 */
-	public const POPUP_STRING                       = 'popup';
+	public const LUM_POPUP_STRING                   = 'popup';
 
 	/**
 	 * Rules to be added in add_rewrite_rule()
@@ -103,10 +106,10 @@ class Settings extends Settings_Build {
 	 */
 	public const LUM_REWRITE_RULES                  = [
 		// Popups.
-		'lumiere/([^/]+)/?'                    => 'index.php?' . self::POPUP_STRING . '=$matches[1]',
-		//'index.php/lumiere/([^/]+)/?$'       => 'index.php?' . self::POPUP_STRING . '=$matches[1]',
+		'lumiere/([^/]+)/?'                    => 'index.php?' . self::LUM_POPUP_STRING . '=$matches[1]',
+		//'index.php/lumiere/([^/]+)/?$'       => 'index.php?' . self::LUM_POPUP_STRING . '=$matches[1]', // Nobody keeps index.php, right?
 		// Popups with Polylang.
-		'([a-zA-Z]{2}\|?+)/?lumiere/([^/]+)/?' => 'index.php?lang=$matches[1]&' . self::POPUP_STRING . '=$matches[2]',
+		'([a-zA-Z]{2}\|?+)/?lumiere/([^/]+)/?' => 'index.php?lang=$matches[1]&' . self::LUM_POPUP_STRING . '=$matches[2]',
 	];
 
 	/**
@@ -116,14 +119,10 @@ class Settings extends Settings_Build {
 	public const LUM_PICS_SHOWTIMES_URL             = self::LUM_PICS_URL . '/showtimes/';
 
 	/**
-	 * URL and Path for javascripts
+	 * URL and Path for javascripts and stylesheets
 	 */
 	public const LUM_JS_PATH                        = LUM_WP_PATH . 'assets/js/';
 	public const LUM_JS_URL                         = LUM_WP_URL . 'assets/js/';
-
-	/**
-	 * URL and Path for stylesheets
-	 */
 	public const LUM_CSS_PATH                       = LUM_WP_PATH . 'assets/css/';
 	public const LUM_CSS_URL                        = LUM_WP_URL . 'assets/css/';
 
@@ -168,12 +167,12 @@ class Settings extends Settings_Build {
 	public const LUM_FOLDER_CACHE                   = '/cache/lumiere/';
 
 	/**
-	 * Default options when creating DATA_OPTIONS
+	 * Default imdb fields when creating DATA_OPTIONS
 	 * @see Settings::get_default_data_option()
-	 * @see parent::define_list_items_with_numbers() to build list with DATA_OPTION_WITHNUMBER_DEFAULT
+	 * @see parent::define_list_items_with_numbers() to build list with DATA_DEFAULT_WITHNUMBER
 	 */
-	private const DATA_OPTION_TAXO_ACTIVE_DEFAULT   = [ 'director', 'genre' ];
-	public const DATA_OPTION_WITHNUMBER_DEFAULT     = [
+	private const DATA_DEFAULT_TAXO_ACTIVE          = [ 'director', 'genre' ];
+	public const DATA_DEFAULT_WITHNUMBER            = [ // Public visibility as class {@see Settings_Helper::get_data_rows_withnumbers()} needs it
 		'actor'       => '10',
 		'alsoknow'    => '5',
 		'connection'  => '3',
@@ -186,7 +185,7 @@ class Settings extends Settings_Build {
 		'trailer'     => '5',
 		'writer'      => '10',
 	];
-	private const DATA_OPTION_WIDGET_ACTIVE_DEFAULT = [ 'title', 'pic', 'actor', 'connection', 'director', 'genre', 'goof', 'plot', 'tagline', 'writer' ];
+	private const DATA_DEFAULT_WIDGET_ACTIVE        = [ 'title', 'pic', 'actor', 'connection', 'director', 'genre', 'goof', 'plot', 'tagline', 'writer' ];
 
 	/**
 	 * Create database options if they don't exist
@@ -481,10 +480,10 @@ class Settings extends Settings_Build {
 	 */
 	private function get_default_data_option(): array {
 		return array_merge(
-			parent::get_data_rows_widget( self::DATA_OPTION_WIDGET_ACTIVE_DEFAULT    /* Activated rows by default */ ),
+			parent::get_data_rows_widget( self::DATA_DEFAULT_WIDGET_ACTIVE    /* Activated rows by default */ ),
 			parent::get_data_rows_imdbwidgetorder(),
-			parent::get_data_rows_taxo( self::DATA_OPTION_TAXO_ACTIVE_DEFAULT        /* Activated rows by default */ ),
-			parent::get_data_rows_withnumbers( self::DATA_OPTION_WITHNUMBER_DEFAULT  /* Rows that must have a specific number */ ),
+			parent::get_data_rows_taxo( self::DATA_DEFAULT_TAXO_ACTIVE        /* Activated rows by default */ ),
+			parent::get_data_rows_withnumbers( self::DATA_DEFAULT_WITHNUMBER  /* Rows that must have a specific number */ ),
 		);
 	}
 }
