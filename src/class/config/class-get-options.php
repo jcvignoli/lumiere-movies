@@ -39,9 +39,9 @@ class Get_Options extends Settings {
 			parent::FILE_COPY_THEME_TAXONOMY,
 			parent::GUTENBERG_SEARCH_FILE,          // For accessing the search in clicking a link (ie gutenberg)
 			parent::SEARCH_URL_ADMIN,               // For accessing the search in URL lumiere/search
-			parent::POPUP_SEARCH_PATH,
-			parent::POPUP_MOVIE_PATH,
-			parent::POPUP_PERSON_PATH,
+			parent::POPUP_SEARCH_PATH, // to be removed?
+			parent::POPUP_MOVIE_PATH, // to be removed?
+			parent::POPUP_PERSON_PATH, // to be removed?
 		];
 	}
 

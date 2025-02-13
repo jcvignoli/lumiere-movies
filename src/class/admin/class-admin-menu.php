@@ -116,9 +116,17 @@ class Admin_Menu {
 		 * (2) template checking in Detect_New_Theme class
 		 * (3) any 'notice_lumiere_msg' transient is found in Admin_Notifications class
 		 */
-		if ( str_contains( $that->get_current_admin_url(), $that->page_main_base ) === true ) {
+		$is_lum_admin_menu = str_contains( $that->get_current_admin_url(), $that->page_main_base );
+		if ( $is_lum_admin_menu === true ) {
 			add_action( 'admin_notices', fn() => Detect_New_Theme::get_notif_templates( $that->page_data_taxo ), 10, 1 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
+		}
+
+		/**
+		 * Update the rewrite rules if needed (automatically done if checking permalinks option page, but that's an extra)
+		 */
+		if ( $is_lum_admin_menu === true ) {
+			apply_filters( 'lum_add_rewrite_rules_if_admin', '' );
 		}
 
 		/**
