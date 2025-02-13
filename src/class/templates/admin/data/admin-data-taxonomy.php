@@ -161,7 +161,8 @@ if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
 						
 				<br />
 				<div>
-					<i><?php echo esc_html( ucfirst( $lum_key ) ) . ' ' . esc_html__( 'template up-to-date', 'lumiere-movies' ); ?></i>
+					<i><?php echo /* translators: %s is replaced with a movie item name, ie 'director' */
+					wp_sprintf( esc_html__( 'Template %s up-to-date', 'lumiere-movies' ), esc_html( $lum_key ) ); ?></i>
 				</div><?php
 
 	}
