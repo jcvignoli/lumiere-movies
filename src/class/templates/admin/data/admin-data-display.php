@@ -72,7 +72,7 @@ $lum_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 
 				$lum_isset_items_trans_plural = Get_Options::get_items_with_numbers( 2, /* fake number meant to display the plural */ );
 				$lum_items_trans_plural = $lum_isset_items_trans_plural[ $lum_item ] ?? '';
-				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten_proportional">'
+				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten_proportional lum_align_right">'
 				/* translators: %s is a movie items like 'directors' or 'colors' => always plural */
 				. wp_sprintf( esc_html__( 'Enter the maximum number of %s you want to display', 'lumiere-movies' ), esc_html( $lum_items_trans_plural ) ) . '<br /></div>';
 

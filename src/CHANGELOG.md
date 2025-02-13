@@ -1,6 +1,8 @@
 **Changelog**
 
 v.4.4.1
+* [bug] The plural of items into the post were not correctly displayed
+* [bug] Quotes into the post had not a good layout. Changed that.
 
 v.4.4
 * [feature] New item: connected movies, movies related the movie can be displayed

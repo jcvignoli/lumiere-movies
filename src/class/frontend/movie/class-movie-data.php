@@ -231,6 +231,7 @@ class Movie_Data {
 		if ( $nbtotalconnected === 0 || $nbtotalconnected_sub === 0 ) {
 			return '';
 		}
+
 		$output = $this->movie_layout->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalconnected )[ $item_name ] ) )
 		);
@@ -374,8 +375,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $limit_keywords > $nbtotalkeywords ? $nbtotalkeywords : $limit_keywords;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalkeywords )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -424,8 +426,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $admin_max_goofs > $nbtotalgoofs ? $nbtotalgoofs : $admin_max_goofs;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalgoofs )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Process goof category
@@ -462,27 +465,32 @@ class Movie_Data {
 	 */
 	protected function get_item_quote( Title $movie, string $item_name ): string {
 
-		$quotes_merged = array_merge( ...$movie->$item_name() ); // Merge the multidimensional array to two dimensions.
+		$quotes = $movie->$item_name(); // Merge the multidimensional array to two dimensions.
+		$nbtotalquotes = count( $quotes );
 		$admin_max_quotes = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-
-		$nbtotalquotes = count( $quotes_merged );
+		//var_dump(\Lumiere\Tools\Debug::colorise_output($quotes));
 
 		// If no result, exit.
 		if ( $nbtotalquotes === 0 ) {
 			return '';
 		}
 
+		$total_displayed = $admin_max_quotes > $nbtotalquotes ? $nbtotalquotes : $admin_max_quotes;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalquotes )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_max_quotes && ( $i < $nbtotalquotes ); $i++ ) {
-
-			$output .= "\n\t\t\t&laquo; " . esc_html( $quotes_merged[ $i ] ) . ' &raquo; ';
-
-			if ( $i < ( $admin_max_quotes - 1 ) && $i < ( $nbtotalquotes - 1 ) ) {
-				$output .= "\n\t\t\t\t<hr>";
+			if ( is_array( $quotes[ $i ] ) ) {
+				foreach ( $quotes[ $i ] as $sub_quote ) {
+					$output .= str_starts_with( $sub_quote, '[' ) ? "\n\t\t\t" : "\n\t\t\t&laquo; ";
+					$output .= esc_html( $sub_quote );
+					$output .= str_ends_with( $sub_quote, ']' ) ? "\n\t\t\t" : "\n\t\t\t&raquo; ";
+				}
+				$output .= "\n\t\t\t\t<br>";
+				continue;
 			}
+			$output .= "\n\t\t\t&laquo; " . esc_html( $quotes[ $i ] ) . ' &raquo; ';
 		}
 		return $output;
 	}
@@ -504,8 +512,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $admin_max_taglines > $nbtotaltaglines ? $nbtotaltaglines : $admin_max_taglines;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotaltaglines )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_max_taglines && ( $i < $nbtotaltaglines ); $i++ ) {
@@ -537,8 +546,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $admin_max_trailers > $nbtotaltrailers ? $nbtotaltrailers : $admin_max_trailers;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotaltrailers )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; ( $i < $admin_max_trailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
@@ -738,8 +748,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $admin_max_sndtrk > $nbtotalsoundtracks ? $nbtotalsoundtracks : $admin_max_sndtrk;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalsoundtracks )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_max_sndtrk && ( $i < $nbtotalsoundtracks ); $i++ ) {
@@ -821,8 +832,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $hardcoded_max_sites > $nbtotalext_sites ? $nbtotalext_sites : $hardcoded_max_sites;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalext_sites )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Hardcoded 7 sites max.
@@ -974,8 +986,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $admin_max_producer > $nbtotalproducer ? $nbtotalproducer : $admin_max_producer;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalproducer )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -1057,8 +1070,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $admin_max_writer > $nbtotalwriters ? $nbtotalwriters : $admin_max_writer;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalwriters )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		// With taxonomy.
@@ -1165,8 +1179,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $admin_total_actor > $nbtotalactors ? $nbtotalactors : $admin_total_actor;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalactors )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Taxonomy
@@ -1232,8 +1247,9 @@ class Movie_Data {
 			return '';
 		}
 
+		$total_displayed = $admin_max_plots > $nbtotalplots ? $nbtotalplots : $admin_max_plots;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalplots )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $admin_max_plots ); $i++ ) {
