@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.4.1
+
 v.4.4
 * [feature] New item: connected movies, movies related the movie can be displayed
 * [feature] Movie's quotes are back (just select it in admin data)
