@@ -36,10 +36,10 @@ class Rewrite_Rules {
 		private Logger $logger_class = new Logger( 'RewriteRules' ),
 	) {
 		// Add an extra query var for use in URLs.
-		add_filter( 'query_vars', [ $this, 'add_query_vars' ] );
+		add_filter( 'query_vars', [ $this, 'lum_add_query_vars' ] );
 
 		// Add rewrite rules when generating rewrite rules.
-		add_filter( 'generate_rewrite_rules', [ $this, 'lum_add_rules' ] );
+		add_filter( 'generate_rewrite_rules', [ $this, 'lum_add_rewrite_rules' ] );
 	}
 
 	/**
@@ -58,7 +58,7 @@ class Rewrite_Rules {
 	 * @param array<int, string> $query_vars The array of existing query vars
 	 * @return array<int, string> The query vars with the extra ones
 	 */
-	public function add_query_vars( array $query_vars ): array {
+	public function lum_add_query_vars( array $query_vars ): array {
 		$loop = [ Get_Options::POPUP_STRING ];
 		foreach ( $loop as $lumiere_query_var ) {
 			$query_vars[] = $lumiere_query_var;
@@ -72,22 +72,19 @@ class Rewrite_Rules {
 	 * @param \WP_Rewrite $wp_rewrite Class passed from generate_rewrite_rules hook
 	 * @return string[] Array of rewrite rules keyed by their regex pattern.
 	 */
-	public function lum_add_rules ( \WP_Rewrite $wp_rewrite ): array {
-
+	public function lum_add_rewrite_rules( \WP_Rewrite $wp_rewrite ): array {
 		$wp_rewrite->rules = Get_Options::LUM_REWRITE_RULES + $wp_rewrite->rules;
-
 		$this->logger_class->log->debug( '[RewriteRules] Rules added to WP' );
-
-		// $this->add_polylang_rules( $wp_rewrite->rules );
+		$this->add_polylang_rules( $wp_rewrite->rules );
 		return $wp_rewrite->rules;
 	}
 
 	/**
 	 * Add rules to polylang, if installed
-	 * @since 4.4 Unactive, probably not needed
 	 *
 	 * @param array<string, string> $existing_rules
 	 * @return void
+	 */
 	private function add_polylang_rules( array $existing_rules ): void {
 		if ( has_filter( 'pll_init' ) === false ) {
 			return;
@@ -100,5 +97,5 @@ class Rewrite_Rules {
 			}
 		);
 	}
-	*/
+
 }

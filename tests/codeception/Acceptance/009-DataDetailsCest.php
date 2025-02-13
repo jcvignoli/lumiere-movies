@@ -44,42 +44,42 @@ class DataDetailsCest {
 		$I->scrollTo('#taxodetails');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetalsoknow_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#taxodetails');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetcreator_yes', '#lumiere_update_data_settings' );
 		# second row
+		$I->scrollTo('#imdb_imdbwidgetactor_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetcomposer_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetactor_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetcountry_yes', '#lumiere_update_data_settings' );
 		# third row
-		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetcreator_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
+		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetdirector_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
+		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetgenre_yes', '#lumiere_update_data_settings' );
-		# fourth row
-		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
+		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetgoof_yes', '#lumiere_update_data_settings' );
+		# fourth row
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetkeyword_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetlanguage_yes', '#lumiere_update_data_settings' );
-		# fifth row
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetofficialsites_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
+		# fifth row
+		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetplot_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetproducer_yes', '#lumiere_update_data_settings' );
-		# sixth row
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetprodcompany_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetplot_yes');
+		# sixth row
+		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetquote_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetrating_yes', '#lumiere_update_data_settings' );
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_settings' );
 		# seventh row
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetruntime_yes', '#lumiere_update_data_settings' );
@@ -168,47 +168,47 @@ class DataDetailsCest {
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetalsoknow_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetalsoknownumber', '10');
 		$I->scrollTo('#taxodetails');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetcreator_yes', '#lumiere_update_data_settings' );
 		# second row
+		$I->scrollTo('#imdb_imdbwidgetactor_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetcomposer_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_settings' );
-		$I->fillField('#imdb_imdbwidgetconnectionnumber', '10');
-		$I->scrollTo('#imdb_imdbwidgetactor_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetcountry_yes', '#lumiere_update_data_settings' );
 		# third row
-		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetcreator_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
+		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetdirector_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
+		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetgenre_yes', '#lumiere_update_data_settings' );
+		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetgoof_yes', '#lumiere_update_data_settings' );
 		# fourth row
 		$I->scrollTo('#imdb_imdbwidgetcreator_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetgoof_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetkeyword_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetgoofnumber', '2');
 		$I->scrollTo('#imdb_imdbwidgetcreator_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetkeyword_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetcreator_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetlanguage_yes', '#lumiere_update_data_settings' );
+		$I->scrollTo('#imdb_imdbwidgetcreator_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetofficialsites_yes', '#lumiere_update_data_settings' );
 		# fifth row
 		$I->scrollTo('#imdb_imdbwidgetgoof_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetofficialsites_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetgoof_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetplot_yes', '#lumiere_update_data_settings' );
-		$I->fillField('#imdb_imdbwidgetplotnumber', '5');
 		$I->scrollTo('#imdb_imdbwidgetgoof_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetproducer_yes', '#lumiere_update_data_settings' );
+		$I->fillField('#imdb_imdbwidgetplotnumber', '5');
+		$I->scrollTo('#imdb_imdbwidgetgoof_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetprodcompany_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetproducernumber', '3');
 		# sixth row
 		$I->scrollTo('#imdb_imdbwidgetofficialsites_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetprodcompany_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetofficialsites_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetquote_yes', '#lumiere_update_data_settings' );
-		$I->fillField('#imdb_imdbwidgetquotenumber', '2');
 		$I->scrollTo('#imdb_imdbwidgetofficialsites_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetrating_yes', '#lumiere_update_data_settings' );
+		$I->fillField('#imdb_imdbwidgetquotenumber', '2');
+		$I->scrollTo('#imdb_imdbwidgetofficialsites_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_settings' );
+		$I->fillField('#imdb_imdbwidgetconnectionnumber', '10');
 		# seventh row
 		$I->scrollTo('#imdb_imdbwidgetprodcompany_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetruntime_yes', '#lumiere_update_data_settings' );

@@ -26,52 +26,36 @@
 	<rule ref="rulesets/naming.xml/ShortVariable">
 		<properties>
 			<!-- common in WP -->
-			<property name="exceptions" value="id,wp" />
+			<property name="exceptions" value="i,id,wp" />
 		</properties>
 	</rule>
 
-	<!-- Super usefull, but can't find a way to add exceptions
 	<rule ref="rulesets/unusedcode.xml">
 		<exclude name="UnusedPrivateMethod" />
 		<exclude name="UnusedLocalVariable" />
+		<exclude name="UnusedFormalParameter" />
 	</rule>
+	<!-- there is no exception for this
 	<rule ref="rulesets/unusedcode.xml/UnusedPrivateMethod">
 		<properties>
 			<property name="exception">
-				<value>
-					\Lumiere\Admin\Cache\Cache_Files_Management,
-					maybe_copy_theme_template,
-					\Lumiere\Admin\Copy_Templates\Auto_Update_Theme,
-					\Lumiere\Admin\Copy_Templates\Auto_Update_Theme::maybe_copy_theme_template,
-					\Lumiere\Admin\Copy_Templates\Auto_Update_Theme::maybe_copy_theme_template()
-				</value>
+				<value>create_movie_file,create_people_file</value>
 			</property>
 		</properties>
 	</rule>
+	-->
 	<rule ref="rulesets/unusedcode.xml/UnusedLocalVariable">
 		<properties>
-			<property name="allow-unused-foreach-variables">
-				<value>
-					key,
-					$key,
-					\Lumiere\Alteration\Taxonomy,
-					\Lumiere\Alteration\Taxonomy::$key,
-					\Lumiere\Alteration\Taxonomy\$key,
-					\Lumiere\Alteration\Taxonomy\key,
-					$row_number,
-					$info,
-					$value,
-				</value>
-			</property>			
 			<property name="exceptions">
-				<value>
-					$backoffice_extra_class,
-					backoffice_extra_class,
-					\Lumiere\Admin\Backoffice_Extra,
-					\Lumiere\Admin\Backoffice_Extra::$backoffice_extra_class,
-					\Lumiere\Admin\Backoffice_Extra::backoffice_extra_class,
-					\Lumiere\Admin\Backoffice_Extra\backoffice_extra_class,
-				</value>
+				<value>static_start,int,that,row_number,rewrite_class,info,key,value,backoffice_extra_class,time,class_save,self_class,taxonomy_class</value>
+			</property>
+		</properties>
+	</rule>
+	<!-- there is no exception for this
+	<rule ref="rulesets/unusedcode.xml/UnusedFormalParameter">
+		<properties>
+			<property name="exceptions">
+				<value>hide,atts,attributes,window_type,specific_class,imdb_data,item_name,movie,get_referer,old_instance,cache_mngmt_class,upgrader_object</value>
 			</property>
 		</properties>
 	</rule>

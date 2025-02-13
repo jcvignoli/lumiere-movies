@@ -166,7 +166,6 @@ class Detect_New_Theme {
 
 		global $wp_filesystem;
 
-		$return = null;
 		$version_themes = [
 			'destination' => '0',
 			'origin' => '0',

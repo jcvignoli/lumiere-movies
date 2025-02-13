@@ -241,6 +241,7 @@ class TaxonomyCest {
 	 */
 	public function taxoClickMore(AcceptanceTester $I) {
 		$this->maybeEnableTaxonomy($I);
+		$I->amOnPage( AcceptanceSettings::ADMIN_PERMALINK_URL );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->scrollTo( [ 'id' => 'link_taxo_2001__a_space_odyssey_en_lumiere_director_stanley_kubrick' ], 0, -100 );
 		$I->waitForText('Stanley Kubrick');

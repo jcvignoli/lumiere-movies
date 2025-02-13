@@ -114,7 +114,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalcountry )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -159,7 +159,7 @@ class Movie_Data {
 		}
 
 		return $this->movie_layout->subtitle_item(
-			esc_html__( 'Runtime', 'lumiere-movies' )
+			esc_html( ucfirst( Get_Options::get_all_items( /* no number because no plural here */ )[ $item_name ] ) )
 		) . $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
 	}
 
@@ -180,7 +180,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotallanguages )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -231,9 +231,8 @@ class Movie_Data {
 		if ( $nbtotalconnected === 0 || $nbtotalconnected_sub === 0 ) {
 			return '';
 		}
-
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Related movie', 'Related movies', $nbtotalconnected, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalconnected )[ $item_name ] ) )
 		);
 
 		foreach ( Get_Options::define_list_connect_cat() as $category => $data_explain ) {
@@ -329,7 +328,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Genre', 'Genres', $nbtotalgenre, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalgenre )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -376,7 +375,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Keyword', 'Keywords', $nbtotalkeywords, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalkeywords )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -426,7 +425,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Goof', 'Goofs', $nbtotalgoofs, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalgoofs )[ $item_name ] ) )
 		);
 
 		// Process goof category
@@ -474,7 +473,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Quote', 'Quotes', $nbtotalquotes, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalquotes )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_max_quotes && ( $i < $nbtotalquotes ); $i++ ) {
@@ -506,7 +505,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Tagline', 'Taglines', $nbtotaltaglines, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotaltaglines )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_max_taglines && ( $i < $nbtotaltaglines ); $i++ ) {
@@ -539,7 +538,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Trailer', 'Trailers', $nbtotaltrailers, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotaltrailers )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; ( $i < $admin_max_trailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
@@ -580,7 +579,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Colorisation', 'Colorisations', $nbtotalcolors, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalcolors )[ $item_name ] ) )
 		);
 
 		// Taxonomy activated.
@@ -642,7 +641,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html__( 'Also known as', 'lumiere-movies' )
+			esc_html( ucfirst( Get_Options::get_all_items( /* no number because no plural here */ )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $admin_max_aka ); $i++ ) {
@@ -688,7 +687,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Composer', 'Composers', $nbtotalcomposer, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalcomposer )[ $item_name ] ) )
 		);
 
 		// Taxonomy
@@ -740,7 +739,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalsoundtracks )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_max_sndtrk && ( $i < $nbtotalsoundtracks ); $i++ ) {
@@ -783,7 +782,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Production company', 'Production companies', $nbtotalprodcompany, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalprodcompany )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $nbtotalprodcompany; $i++ ) {
@@ -815,6 +814,7 @@ class Movie_Data {
 		$get_external_sites = $movie->extSites();
 		$external_sites = $get_external_sites['official'] ?? $get_external_sites['misc'] ?? [];
 		$nbtotalext_sites = count( $external_sites );
+		$hardcoded_max_sites = 8;               /* max sites 8, so 7 displayed */
 
 		// if no result, exit.
 		if ( count( $external_sites ) === 0 ) {
@@ -822,11 +822,11 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Official website', 'Official websites', $nbtotalext_sites, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalext_sites )[ $item_name ] ) )
 		);
 
 		// Hardcoded 7 sites max.
-		for ( $i = 0; $i < $nbtotalext_sites && $i < 7; $i++  ) {
+		for ( $i = 0; $i < $nbtotalext_sites && $i < $hardcoded_max_sites; $i++  ) {
 
 			/**
 			 * Use links builder classes.
@@ -838,7 +838,7 @@ class Movie_Data {
 				$external_sites[ $i ]['label']
 			);
 
-			if ( $i < ( $nbtotalext_sites - 1 ) && $i < 6 ) {
+			if ( $i < ( $nbtotalext_sites - 1 ) && $i < ( $hardcoded_max_sites - 1 ) ) {
 				$output .= ', ';
 			}
 
@@ -864,7 +864,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Director', 'Directors', $nbtotaldirector, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotaldirector )[ $item_name ] ) )
 		);
 
 		// If Taxonomy is selected, build links to taxonomy pages
@@ -921,7 +921,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Cinematographer', 'Cinematographers', $nbtotalcinematographer, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalcinematographer )[ $item_name ] ) )
 		);
 
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
@@ -975,7 +975,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Producer', 'Producers', $nbtotalproducer, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalproducer )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -1051,19 +1051,20 @@ class Movie_Data {
 
 		$writer = $movie->$item_name();
 		$nbtotalwriters = count( $writer );
+		$admin_max_writer = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
 
 		if ( $nbtotalwriters === 0 ) {
 			return '';
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Writer', 'Writers', $nbtotalwriters, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalwriters )[ $item_name ] ) )
 		);
 
 		// With taxonomy.
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
 
-			for ( $i = 0; $i < $nbtotalwriters; $i++ ) {
+			for ( $i = 0; $i < $nbtotalwriters && $i < $admin_max_writer; $i++ ) {
 
 				$count_jobs = isset( $writer[ $i ]['jobs'] ) && count( $writer[ $i ]['jobs'] ) > 0 ? count( $writer[ $i ]['jobs'] ) : 0;
 				$jobs = '';
@@ -1103,7 +1104,7 @@ class Movie_Data {
 		}
 
 		// No taxonomy.
-		for ( $i = 0; $i < $nbtotalwriters; $i++ ) {
+		for ( $i = 0; $i < $nbtotalwriters && $i < $admin_max_writer; $i++ ) {
 
 			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
@@ -1165,7 +1166,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Actor', 'Actors', $nbtotalactors, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalactors )[ $item_name ] ) )
 		);
 
 		// Taxonomy
@@ -1232,7 +1233,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( _n( 'Plot', 'Plots', $nbtotalplots, 'lumiere-movies' ) )
+			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalplots )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $admin_max_plots ); $i++ ) {
@@ -1269,7 +1270,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html__( 'Source', 'lumiere-movies' )
+			esc_html( ucfirst( Get_Options::get_all_items( /* no number because no plural here */ )[ $item_name ] ) )
 		);
 
 		/**

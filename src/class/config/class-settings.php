@@ -26,18 +26,18 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
 
 /**
  * Settings class
- * Call create_database_options() to set the options in WP config database
- * Is extended by Get_Options
+ * Method create_database_options() to set the options in WP config database
+ * Is extended by Get_Options, extends Settings_Build
  *
  * @since 4.0 Moved cache folder creation to class cache tools
  * @since 4.1 Renamed *imdb_widget_* to *imdb_data_* all over the website
- * @since 4.4 Options are created only when installing/activating the plugin, widely rewritten and simplified. OPTIONS_DATA is dynamically created according to the arrays of items/people added. Use of {@see Get_Options} class as child class. {@see Settings_Build} is parent class.
+ * @since 4.4 Options are created only when installing/activating the plugin, widely rewritten and simplified. OPTIONS_DATA is dynamically created according to the arrays of items/people added. Using {@see Get_Options} class as child class for all external calls. {@see Settings_Build} is the class that includes helper methods.
  *
  * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: string, imdbdebug: '0'|'1'|string, imdbdebuglevel: 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY', imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: '0'|'1'|string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: string, imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
  *
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
  *
- * @phpstan-type OPTIONS_DATA array{'imdbtaxonomyactor'?:string, 'imdbtaxonomycolor'?:string, 'imdbtaxonomycomposer'?:string, 'imdbtaxonomycountry'?:string, 'imdbtaxonomycreator'?:string, 'imdbtaxonomydirector'?:string, 'imdbtaxonomygenre'?:string, 'imdbtaxonomykeyword'?:string, 'imdbtaxonomylanguage'?:string, 'imdbtaxonomyproducer'?:string, 'imdbtaxonomywriter'?:string, 'imdbwidgetactor'?:string, 'imdbwidgetactornumber'?:string, 'imdbwidgetalsoknow'?:string, 'imdbwidgetalsoknownumber'?:string, 'imdbwidgetcolor'?:string, 'imdbwidgetcomment'?:string, 'imdbwidgetcomposer'?:string, 'imdbwidgetconnection'?:string, 'imdbwidgetconnectionnumber'?:string, 'imdbwidgetcountry'?:string, 'imdbwidgetcreator'?:string, 'imdbwidgetdirector'?:string, 'imdbwidgetgenre'?:string, 'imdbwidgetgoof'?:string, 'imdbwidgetgoofnumber'?:string, 'imdbwidgetkeyword'?:string, 'imdbwidgetlanguage'?:string, 'imdbwidgetofficialsites'?:string, 'imdbwidgetpic'?:string, 'imdbwidgetplot'?:string, 'imdbwidgetplotnumber'?:string, 'imdbwidgetprodcompany'?:string, 'imdbwidgetproducer'?:string, 'imdbwidgetproducernumber'?:string, 'imdbwidgetquote'?:string, 'imdbwidgetquotenumber'?:string, 'imdbwidgetrating'?:string, 'imdbwidgetruntime'?:string, 'imdbwidgetsoundtrack'?:string, 'imdbwidgetsoundtracknumber'?:string, 'imdbwidgetsource'?:string, 'imdbwidgettagline'?:string, 'imdbwidgettaglinenumber'?:string, 'imdbwidgettitle'?:string, 'imdbwidgettrailer'?:string, 'imdbwidgettrailernumber'?:string, 'imdbwidgetwriter'?:string, 'imdbwidgetyear'?:string,'imdbwidgetorder': array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, creator?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodcompany?: string, plot?: string, goof?: string, comment?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, officialsites?: string, source?: string, year?: string} }
+ * @phpstan-type OPTIONS_DATA array{'imdbtaxonomyactor'?:string, 'imdbtaxonomycolor'?:string, 'imdbtaxonomycomposer'?:string, 'imdbtaxonomycountry'?:string, 'imdbtaxonomycreator'?:string, 'imdbtaxonomydirector'?:string, 'imdbtaxonomygenre'?:string, 'imdbtaxonomykeyword'?:string, 'imdbtaxonomylanguage'?:string, 'imdbtaxonomyproducer'?:string, 'imdbtaxonomywriter'?:string, 'imdbwidgetactor'?:string, 'imdbwidgetactornumber'?:string, 'imdbwidgetalsoknow'?:string, 'imdbwidgetalsoknownumber'?:string, 'imdbwidgetcolor'?:string, 'imdbwidgetcomment'?:string, 'imdbwidgetcomposer'?:string, 'imdbwidgetconnection'?:string, 'imdbwidgetconnectionnumber'?:string, 'imdbwidgetcountry'?:string, 'imdbwidgetcreator'?:string, 'imdbwidgetdirector'?:string, 'imdbwidgetgenre'?:string, 'imdbwidgetgoof'?:string, 'imdbwidgetgoofnumber'?:string, 'imdbwidgetkeyword'?:string, 'imdbwidgetlanguage'?:string, 'imdbwidgetofficialsites'?:string, 'imdbwidgetpic'?:string, 'imdbwidgetplot'?:string, 'imdbwidgetplotnumber'?:string, 'imdbwidgetprodcompany'?:string, 'imdbwidgetproducer'?:string, 'imdbwidgetproducernumber'?:string, 'imdbwidgetquote'?:string, 'imdbwidgetquotenumber'?:string, 'imdbwidgetrating'?:string, 'imdbwidgetruntime'?:string, 'imdbwidgetsoundtrack'?:string, 'imdbwidgetsoundtracknumber'?:string, 'imdbwidgetsource'?:string, 'imdbwidgettagline'?:string, 'imdbwidgettaglinenumber'?:string, 'imdbwidgettitle'?:string, 'imdbwidgettrailer'?:string, 'imdbwidgettrailernumber'?:string, 'imdbwidgetwriter'?:string, 'imdbwidgetwriternumber'?:string, 'imdbwidgetyear'?:string,'imdbwidgetorder': array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, creator?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodcompany?: string, plot?: string, goof?: string, comment?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, officialsites?: string, source?: string, year?: string} }
   */
 class Settings extends Settings_Build {
 
@@ -45,12 +45,12 @@ class Settings extends Settings_Build {
 	 * Name of the databases as stored in WordPress db
 	 * Only used in child class, has to be called in Get_Options
 	 */
-	protected const LUM_ADMIN_OPTIONS           = 'lumiere_admin_options';
-	protected const LUM_DATA_OPTIONS            = 'lumiere_data_options';
-	protected const LUM_CACHE_OPTIONS           = 'lumiere_cache_options';
+	protected const LUM_ADMIN_OPTIONS               = 'lumiere_admin_options';
+	protected const LUM_DATA_OPTIONS                = 'lumiere_data_options';
+	protected const LUM_CACHE_OPTIONS               = 'lumiere_cache_options';
 
 	/**
-	 * Website URLs constants
+	 * Lumière related website URLs
 	 */
 	public const LUM_BLOG_PLUGIN                    = 'https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin';
 	public const LUM_BLOG_PLUGIN_ABOUT              = 'https://www.jcvignoli.com/blog/en/presentation-of-jean-claude-vignoli';
@@ -95,16 +95,16 @@ class Settings extends Settings_Build {
 	 * @see \Lumiere\Alteration\Rewrite_Rules
 	 * @see \Lumiere\Frontend\Popups\Popup_Select
 	 */
-	public const POPUP_STRING = 'popup';
+	public const POPUP_STRING                       = 'popup';
 
 	/**
 	 * Rules to be added in add_rewrite_rule()
 	 * @see \Lumiere\Alteration\Rewrite_Rules
 	 */
-	public const LUM_REWRITE_RULES = [
+	public const LUM_REWRITE_RULES                  = [
 		// Popups.
 		'lumiere/([^/]+)/?'                    => 'index.php?' . self::POPUP_STRING . '=$matches[1]',
-		//'index.php/lumiere/([^/]+)/?$'         => 'index.php?' . self::POPUP_STRING . '=$matches[1]',
+		//'index.php/lumiere/([^/]+)/?$'       => 'index.php?' . self::POPUP_STRING . '=$matches[1]',
 		// Popups with Polylang.
 		'([a-zA-Z]{2}\|?+)/?lumiere/([^/]+)/?' => 'index.php?lang=$matches[1]&' . self::POPUP_STRING . '=$matches[2]',
 	];
@@ -169,11 +169,11 @@ class Settings extends Settings_Build {
 
 	/**
 	 * Default options when creating DATA_OPTIONS
-	 * DATA_OPTION_WITHNUMBER_DEFAULT must be in the same order as Settings::define_list_items_with_numbers(), otherwise number are not saved
 	 * @see Settings::get_default_data_option()
+	 * @see parent::define_list_items_with_numbers() to build list with DATA_OPTION_WITHNUMBER_DEFAULT
 	 */
 	private const DATA_OPTION_TAXO_ACTIVE_DEFAULT   = [ 'director', 'genre' ];
-	private const DATA_OPTION_WITHNUMBER_DEFAULT    = [
+	public const DATA_OPTION_WITHNUMBER_DEFAULT     = [
 		'actor'       => '10',
 		'alsoknow'    => '5',
 		'connection'  => '3',
@@ -184,6 +184,7 @@ class Settings extends Settings_Build {
 		'soundtrack'  => '10',
 		'tagline'     => '1',
 		'trailer'     => '5',
+		'writer'      => '10',
 	];
 	private const DATA_OPTION_WIDGET_ACTIVE_DEFAULT = [ 'title', 'pic', 'actor', 'connection', 'director', 'genre', 'goof', 'plot', 'tagline', 'writer' ];
 
@@ -194,7 +195,7 @@ class Settings extends Settings_Build {
 	 * @see \Lumiere\Save_Options On every reset, calling this method
 	 * @see \Lumiere\Config\Open_Options::get_db_options() if options are not yet available, which may happend on first install (according to WP Plugin Check)
 	 *
-	 * @since 4.4 method created
+	 * @since 4.4 method updated, simplifing the process
 	 */
 	public static function create_database_options(): void {
 
@@ -265,17 +266,18 @@ class Settings extends Settings_Build {
 	 * All items in type people are actually taxonomy
 	 * @see Settings::get_default_data_option() use this list to create the options
 	 *
+	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>
 	 * @phpstan-return array{ 'actor': string, 'composer': string, 'creator':string, 'director':string, 'producer':string, 'writer':string }
 	 */
-	protected static function define_list_taxo_people(): array {
+	protected static function define_list_taxo_people( int $number = 1 ): array {
 		return [
-			'director' => __( 'director', 'lumiere-movies' ),
-			'actor'    => __( 'actor', 'lumiere-movies' ),
-			'creator'  => __( 'creator', 'lumiere-movies' ),
-			'composer' => __( 'composer', 'lumiere-movies' ),
-			'writer'   => __( 'writer', 'lumiere-movies' ),
-			'producer' => __( 'producer', 'lumiere-movies' ),
+			'director' => _n( 'director', 'directors', $number, 'lumiere-movies' ),
+			'actor'    => _n( 'actor', 'actors', $number, 'lumiere-movies' ),
+			'creator'  => _n( 'cinematographer', 'cinematographers', $number, 'lumiere-movies' ),
+			'composer' => _n( 'composer', 'composers', $number, 'lumiere-movies' ),
+			'writer'   => _n( 'writer', 'writers', $number, 'lumiere-movies' ),
+			'producer' => _n( 'producer', 'producers', $number, 'lumiere-movies' ),
 		];
 	}
 
@@ -284,16 +286,17 @@ class Settings extends Settings_Build {
 	 * Complements define_list_non_taxo_items() which are for non-taxo items
 	 * @see Settings::get_default_data_option() use this list to create the options
 	 *
+	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>
 	 * @phpstan-return array{ 'color': string, 'country': string, 'genre':string, 'keyword':string, 'language':string }
 	 */
-	protected static function define_list_taxo_items(): array {
+	protected static function define_list_taxo_items( int $number = 1 ): array {
 		return [
-			'country'  => __( 'country', 'lumiere-movies' ),
-			'language' => __( 'language', 'lumiere-movies' ),
-			'genre'    => __( 'genre', 'lumiere-movies' ),
-			'keyword'  => __( 'keyword', 'lumiere-movies' ),
-			'color'    => __( 'color', 'lumiere-movies' ),
+			'country'  => _n( 'country', 'countries', $number, 'lumiere-movies' ),
+			'language' => _n( 'language', 'language', $number, 'lumiere-movies' ),
+			'genre'    => _n( 'genre', 'genres', $number, 'lumiere-movies' ),
+			'keyword'  => _n( 'keyword', 'keywords', $number, 'lumiere-movies' ),
+			'color'    => _n( 'color', 'colors', $number, 'lumiere-movies' ),
 		];
 	}
 
@@ -302,57 +305,37 @@ class Settings extends Settings_Build {
 	 * Complements define_list_taxo_items() which are for taxo items
 	 * The order will define the "Display order" in admin data options (except if translated, the order will be in local lang)
 	 *
+	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>
 	 * @phpstan-return array{ 'officialsites':string,'prodcompany':string, 'rating':string,'runtime':string, 'source':string, 'year':string, 'title': string, 'pic':string, 'alsoknow': string, 'connection':string, 'goof': string, 'plot':string, 'quote':string, 'soundtrack':string, 'tagline':string, 'trailer':string }
 	 */
-	protected static function define_list_non_taxo_items(): array {
+	protected static function define_list_non_taxo_items( int $number = 1 ): array {
 		return [
-			'title'         => __( 'title', 'lumiere-movies' ),
-			'pic'           => __( 'pic', 'lumiere-movies' ),
-			'runtime'       => __( 'runtime', 'lumiere-movies' ),
-			'alsoknow'      => __( 'also known as', 'lumiere-movies' ),
-			'rating'        => __( 'rating', 'lumiere-movies' ),
-			'prodcompany'   => __( 'production company', 'lumiere-movies' ),
-			'connection'    => __( 'connected movies', 'lumiere-movies' ),          /* @since 4.4 added */
-			'goof'          => __( 'goof', 'lumiere-movies' ),
-			'quote'         => __( 'quote', 'lumiere-movies' ),                     /* @since 4.4 back in use */
-			'tagline'       => __( 'tagline', 'lumiere-movies' ),
-			'plot'          => __( 'plot', 'lumiere-movies' ),
-			'trailer'       => __( 'trailer', 'lumiere-movies' ),
-			'soundtrack'    => __( 'soundtrack', 'lumiere-movies' ),
-			'officialsites' => __( 'official websites', 'lumiere-movies' ),
-			'source'        => __( 'source', 'lumiere-movies' ),
-			'year'          => __( 'year of release', 'lumiere-movies' ),
+			'title'         => _n( 'title', 'titles', $number, 'lumiere-movies' ),
+			'pic'           => _n( 'pic', 'pics', $number, 'lumiere-movies' ),
+			'runtime'       => __( 'runtime', 'lumiere-movies' ),                       /* always singular */
+			'alsoknow'      => __( 'also known as', 'lumiere-movies' ),                 /* always singular */
+			'rating'        => _n( 'rating', 'ratings', $number, 'lumiere-movies' ),
+			'prodcompany'   => _n( 'production company', 'production companies', $number, 'lumiere-movies' ),
+			'connection'    => _n( 'related movie', 'related movies', $number, 'lumiere-movies' ),          /* @since 4.4 added */
+			'goof'          => _n( 'goof', 'goofs', $number, 'lumiere-movies' ),
+			'quote'         => _n( 'quote', 'quotes', $number, 'lumiere-movies' ),                          /* @since 4.4 back in use */
+			'tagline'       => _n( 'tagline', 'taglines', $number, 'lumiere-movies' ),
+			'plot'          => _n( 'plot', 'plots', $number, 'lumiere-movies' ),
+			'trailer'       => _n( 'trailer', 'trailers', $number, 'lumiere-movies' ),
+			'soundtrack'    => _n( 'soundtrack', 'soundtracks', $number, 'lumiere-movies' ),
+			'officialsites' => _n( 'official website', 'official websites', $number, 'lumiere-movies' ),
+			'source'        => _n( 'source', 'sources', $number, 'lumiere-movies' ),
+			'year'          => __( 'year of release', 'lumiere-movies' ),                   /* always singular */
 		];
 	}
 
 	/**
-	 * Define the type items that can get an extra number in admin data options
-	 * Must also be defined in define_list_non_taxo_items() or define_list_taxo_items()
-	 *
-	 * @return array<string, string>
-	 * @phpstan-return array{ 'actor': string, 'alsoknow': string, 'connection':string, 'goof':string, 'plot':string, 'producer':string, 'quote':string, 'soundtrack':string, 'tagline':string, 'trailer':string }
-	 */
-	protected static function define_list_items_with_numbers(): array {
-		return [
-			'actor'      => __( 'actor', 'lumiere-movies' ),
-			'alsoknow'   => __( 'also known as', 'lumiere-movies' ),
-			'connection' => __( 'connected movies', 'lumiere-movies' ),             /* @since 4.4 added */
-			'goof'       => __( 'goof', 'lumiere-movies' ),
-			'plot'       => __( 'plot', 'lumiere-movies' ),
-			'producer'   => __( 'producer', 'lumiere-movies' ),
-			'quote'      => __( 'quote', 'lumiere-movies' ),
-			'soundtrack' => __( 'soundtrack', 'lumiere-movies' ),
-			'tagline'    => __( 'tagline', 'lumiere-movies' ),
-			'trailer'    => __( 'trailer', 'lumiere-movies' ),
-		];
-	}
-
-	/**
-	 * Define the type items to show in connected/related movies
+	 * Define the type of items to show in connected/related movies (used when display it in movies)
 	 * @see Get_Options::get_list_connect_cat() Call this class
 	 *
 	 * @since 4.4 method added
+	 *
 	 * @return array<string, string>
 	 */
 	public static function define_list_connect_cat(): array {
@@ -365,26 +348,27 @@ class Settings extends Settings_Build {
 	}
 
 	/**
-	 * Define the type items to show in goofs
+	 * Define the type of items to show in goofs (used when display it in movies)
 	 * @see Get_Options::get_list_goofs_cat() Call this class
 	 *
 	 * @since 4.4 method added
+	 *
 	 * @return array<string, string>
 	 */
 	public static function define_list_goofs_cat(): array {
 		return [
 			'continuity'                  => __( 'continuity', 'lumiere-movies' ),
 			'factualError'                => __( 'factual error', 'lumiere-movies' ),
-			//'notAGoof'                    => __( 'not a goof', 'lumiere-movies' ),
+			//'notAGoof'                  => __( 'not a goof', 'lumiere-movies' ),
 			'revealingMistake'            => __( 'revealing mistake', 'lumiere-movies' ),
-			//'miscellaneous'               => __( 'miscellaneous', 'lumiere-movies' ),
+			//'miscellaneous'             => __( 'miscellaneous', 'lumiere-movies' ),
 			'anachronism'                 => __( 'anachronism', 'lumiere-movies' ),
-			//'audioVisualUnsynchronized'   => __( 'audio visual unsynchronized', 'lumiere-movies' ),
-			//'crewOrEquipmentVisible'      => __( 'stuff visible', 'lumiere-movies' ),
+			//'audioVisualUnsynchronized' => __( 'audio visual unsynchronized', 'lumiere-movies' ),
+			//'crewOrEquipmentVisible'    => __( 'stuff visible', 'lumiere-movies' ),
 			'errorInGeography'            => __( 'error in geography', 'lumiere-movies' ),
 			'plotHole'                    => __( 'plot hole', 'lumiere-movies' ),
-			//'boomMicVisible'              => __( 'boom mic visible', 'lumiere-movies' ),
-			//'characterError'              => __( 'character error', 'lumiere-movies' ),
+			//'boomMicVisible'            => __( 'boom mic visible', 'lumiere-movies' ),
+			//'characterError'            => __( 'character error', 'lumiere-movies' ),
 		];
 	}
 
@@ -486,6 +470,7 @@ class Settings extends Settings_Build {
 	/**
 	 * Return default DATA options
 	 *
+	 * @since 4.4 Totally rewritten and automatized
 	 * @see Settings_Build::get_data_rows_taxo() Import automatically taxonomy built vars
 	 * @see Settings_Build::get_data_rows_withnumbers() Import automatically with numbers built vars
 	 * @see Settings_Build::get_data_rows_widget() Import automatically 'imdbwidget...' built vars

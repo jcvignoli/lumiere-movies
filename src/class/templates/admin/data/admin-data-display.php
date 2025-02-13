@@ -15,11 +15,13 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use \Lumiere\Config\Get_Options;
+
 // Retrieve the vars passed in calling class.
-$lumiere_imdb_data_values = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
-$lumiere_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
-$lumiere_comments_fields = get_transient( Admin_Menu::TRANSIENT_ADMIN )[2];
-$lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
+$lum_imdb_data_values = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+$lum_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
+$lum_comments_fields = get_transient( Admin_Menu::TRANSIENT_ADMIN )[2];
+$lum_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -33,48 +35,52 @@ $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 		<div class="lumiere_flex_container lumiere_align_center">
 		
 		<?php
-		foreach ( $lumiere_items_people as $lumiere_item => $lumiere_item_translated ) {
+		foreach ( $lum_items_people as $lum_item => $lum_item_translated ) {
 
 			// Do not display in the selection neither title nor pic
-			if ( $lumiere_item === 'title' || $lumiere_item === 'pic' ) {
+			if ( $lum_item === 'title' || $lum_item === 'pic' ) {
 				continue;
 			}
 
 			echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_ten lumiere_align_center">';
 
 			// Add extra color through span if the item is selected
-			if ( $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === '1' ) {
-				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . esc_html( ucfirst( $lumiere_item_translated ) ) . '</span>';
+			if ( $lum_imdb_data_values[ 'imdbwidget' . $lum_item ] === '1' ) {
+				echo "\n\t\t\t\t\t" . '<span class="admin-option-selected">' . esc_html( ucfirst( $lum_item_translated ) ) . '</span>';
 			} else {
-				echo esc_html( ucfirst( $lumiere_item_translated ) );
+				echo esc_html( ucfirst( $lum_item_translated ) );
 				echo '&nbsp;&nbsp;';
 			}
 
 			echo "\n\t\t\t\t\t"
-				. '<input type="hidden" id="imdb_imdbwidget' . esc_attr( $lumiere_item ) . '_no"'
-				. ' name="imdb_imdbwidget' . esc_attr( $lumiere_item ) . '" value="0">';
+				. '<input type="hidden" id="imdb_imdbwidget' . esc_attr( $lum_item ) . '_no"'
+				. ' name="imdb_imdbwidget' . esc_attr( $lum_item ) . '" value="0">';
 
-			echo "\n\t\t\t\t\t" . '<input type="checkbox" id="imdb_imdbwidget' . esc_attr( $lumiere_item ) . '_yes"' .
-				' name="imdb_imdbwidget' . esc_attr( $lumiere_item ) . '" value="1"';
+			echo "\n\t\t\t\t\t" . '<input type="checkbox" id="imdb_imdbwidget' . esc_attr( $lum_item ) . '_yes"' .
+				' name="imdb_imdbwidget' . esc_attr( $lum_item ) . '" value="1"';
 
 			// Add checked if the item is selected
-			if ( $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === '1' ) {
+			if ( $lum_imdb_data_values[ 'imdbwidget' . $lum_item ] === '1' ) {
 				echo ' checked="checked"';
 			}
 
 			// If item is in list of $details_with_numbers, add special section
-			if ( array_key_exists( $lumiere_item, $lumiere_details_with_numbers ) ) {
-				echo ' data-checkbox_activate="imdb_imdbwidget' . esc_attr( $lumiere_item ) . 'number_div" />';
+			if ( array_key_exists( $lum_item, $lum_details_with_numbers ) ) {
+				echo ' data-checkbox_activate="imdb_imdbwidget' . esc_attr( $lum_item ) . 'number_div" />';
 
-				echo "\n\t\t\t\t\t" . '<div id="imdb_imdbwidget' . esc_attr( $lumiere_item ) . 'number_div" class="lumiere_flex_container lumiere_padding_five">';
+				echo "\n\t\t\t\t\t" . '<div id="imdb_imdbwidget' . esc_attr( $lum_item ) . 'number_div" class="lumiere_flex_container lumiere_padding_five">';
 
-				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten_proportional">' . esc_html__( 'Enter the maximum of items you want to display', 'lumiere-movies' ) . '<br /></div>';
+				$lum_isset_items_trans_plural = Get_Options::get_items_with_numbers( 2, /* fake number meant to display the plural */ );
+				$lum_items_trans_plural = $lum_isset_items_trans_plural[ $lum_item ] ?? '';
+				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten_proportional">'
+				/* translators: %s is a movie items like 'directors' or 'colors' => always plural */
+				. wp_sprintf( esc_html__( 'Enter the maximum number of %s you want to display', 'lumiere-movies' ), esc_html( $lum_items_trans_plural ) ) . '<br /></div>';
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
-				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_html( $lumiere_item ) . 'number" id="imdb_imdbwidget' . esc_html( $lumiere_item ) . 'number" size="3"';
-				$lumiere_imdb_data_item = $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item . 'number' ];
+				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_html( $lum_item ) . 'number" id="imdb_imdbwidget' . esc_html( $lum_item ) . 'number" size="3"';
+				$lumiere_imdb_data_item = $lum_imdb_data_values[ 'imdbwidget' . $lum_item . 'number' ];
 				echo is_string( $lumiere_imdb_data_item ) ? ' value="' . esc_attr( $lumiere_imdb_data_item ) . '" ' : ' value="" ';
-				if ( $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === 0 ) {
+				if ( $lum_imdb_data_values[ 'imdbwidget' . $lum_item ] === 0 ) {
 					echo 'disabled="disabled"';
 				};
 
@@ -90,14 +96,14 @@ $lumiere_details_with_numbers = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
 
 			}
 
-			echo "\n\t\t\t\t\t" . '<div class="explain">' . esc_html( $lumiere_comments_fields[ $lumiere_item ] ) . '</div>';
+			echo "\n\t\t\t\t\t" . '<div class="explain">' . esc_html( $lum_comments_fields[ $lum_item ] ) . '</div>';
 
 			echo "\n\t\t\t\t" . '</div>';
 		}
 
 		// Reach a multiple of three for layout
 		// Include extra lines if not multiple of three
-		$lumiere_operand = ( count( $lumiere_items_people ) / ( count( $lumiere_items_people ) / 3 ) );
+		$lumiere_operand = ( count( $lum_items_people ) / ( count( $lum_items_people ) / 3 ) );
 		for ( $lumiere_i = 1; $lumiere_i < $lumiere_operand; $lumiere_i++ ) {
 			if ( $lumiere_i % 3 !== 0 ) {
 				echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_ten lumiere_align_center"></div>';

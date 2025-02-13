@@ -64,10 +64,22 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		 */
 
 		/**
-		 * Add 'imdbwidgetconnection' to LUMIERE_DATA_OPTIONS
+		 * Add 'imdbwidgetwriternumber' to LUM_DATA_OPTIONS
+		 * New var to allow have new option to limit the number of writers
+		 */
+		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetwriternumber', '10' ) ) {
+			$text = 'Lumière option imdbwidgetwriternumber successfully added.';
+			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} else {
+			$text = 'Lumière option imdbwidgetwriternumber could not be added.';
+			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
+
+		/**
+		 * Add 'imdbwidgetconnection' to LUM_DATA_OPTIONS
 		 * New var to allow have new option connected movies
 		 */
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetconnection', '0' ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetconnection', '1' ) ) {
 			$text = 'Lumière option imdbwidgetconnection successfully added.';
 			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -76,10 +88,10 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		}
 
 		/**
-		 * Add 'imdbwidgetconnectionnumber' to LUMIERE_DATA_OPTIONS
+		 * Add 'imdbwidgetconnectionnumber' to LUM_DATA_OPTIONS
 		 * New var to allow have new option connected movies number
 		 */
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetconnectionnumber', '0' ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetconnectionnumber', '3' ) ) {
 			$text = 'Lumière option imdbwidgetconnectionnumber successfully added.';
 			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {

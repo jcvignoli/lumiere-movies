@@ -27,7 +27,7 @@ use Lumiere\Tools\Data;
  * @since 4.4 Created
  *
  * @phpstan-type ARRAY_IMDBWIDGETORDER array{ 'imdbwidgetorder': array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, creator?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodcompany?: string, plot?: string, goof?: string, comment?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, officialsites?: string, source?: string, year?: string} }
- * @phpstan-type ARRAY_WITHNUMBERS array{imdbwidgetactornumber?: string, imdbwidgetalsoknownumber?: string, imdbwidgetconnectionnumber?: string, imdbwidgetgoofnumber?: string, imdbwidgetplotnumber?: string, imdbwidgetproducernumber?: string, imdbwidgetquotenumber?: string, imdbwidgetsoundtracknumber?: string, imdbwidgettaglinenumber?: string, imdbwidgettrailernumber?: string}
+ * @phpstan-type ARRAY_WITHNUMBERS array{imdbwidgetactornumber?: string, imdbwidgetalsoknownumber?: string, imdbwidgetconnectionnumber?: string, imdbwidgetgoofnumber?: string, imdbwidgetplotnumber?: string, imdbwidgetproducernumber?: string, imdbwidgetquotenumber?: string, imdbwidgetsoundtracknumber?: string, imdbwidgettaglinenumber?: string, imdbwidgettrailernumber?: string, imdbwidgetwriternumber?: string}
  * @phpstan-type ARRAY_TAXO_ITEMS array{imdbtaxonomyactor?: '0'|'1', imdbtaxonomycolor?: '0'|'1', imdbtaxonomycomposer?: '0'|'1', imdbtaxonomycountry?: '0'|'1', imdbtaxonomycreator?: '0'|'1', imdbtaxonomydirector?: '0'|'1', imdbtaxonomygenre?: '0'|'1', imdbtaxonomykeyword?: '0'|'1', imdbtaxonomylanguage?: '0'|'1', imdbtaxonomyproducer?: '0'|'1', imdbtaxonomywriter?: '0'|'1'}
  * @phpstan-type ARRAY_WIDGET array{imdbwidgettitle?: '0'|'1', imdbwidgetpic?: '0'|'1', imdbwidgetruntime?: '0'|'1', imdbwidgetdirector?: '0'|'1', imdbwidgetconnection?: '0'|'1', imdbwidgetcountry?: '0'|'1', imdbwidgetactor?: '0'|'1', imdbwidgetcreator?: '0'|'1', imdbwidgetrating?: '0'|'1', imdbwidgetlanguage?: '0'|'1', imdbwidgetgenre?: '0'|'1', imdbwidgetwriter?: '0'|'1', imdbwidgetproducer?: '0'|'1', imdbwidgetkeyword?: '0'|'1', imdbwidgetprodcompany?: '0'|'1', imdbwidgetplot?: '0'|'1', imdbwidgetgoof?: '0'|'1', imdbwidgetcomment?: '0'|'1', imdbwidgetquote?: '0'|'1', imdbwidgettagline?: '0'|'1', imdbwidgettrailer?: '0'|'1', imdbwidgetcolor?: '0'|'1', imdbwidgetalsoknow?: '0'|'1', imdbwidgetcomposer?: '0'|'1', imdbwidgetsoundtrack?: '0'|'1', imdbwidgetofficialsites?: '0'|'1', imdbwidgetsource?: '0'|'1', imdbwidgetyear?: '0'|'1'}
  */
@@ -137,7 +137,7 @@ class Settings_Build {
 	}
 
 	/**
-	 * Create rows for 'imdbtaxonomy' using internal methods
+	 * Create rows for 'imdbtaxonomy'
 	 *
 	 * @see Settings::get_default_data_option() Meant to be used there
 	 *
@@ -148,12 +148,12 @@ class Settings_Build {
 	protected function get_data_rows_withnumbers( ?array $activated ): array {
 		$array_with_numbers = [];
 		$count = isset( $activated ) ? count( $activated ) - 1 : 0; // Remove 1 to total count since arrays start at 0.
-		$loop = array_keys( Settings::define_list_items_with_numbers() );
 		$reversed = isset( $activated ) ? array_reverse( $activated, true ) : [];
 		$reversed_array = [];
 		foreach ( $reversed as $k => $v ) {
 			$reversed_array[] = [ $k => $v ];
 		}
+		$loop = array_keys( Settings::DATA_OPTION_WITHNUMBER_DEFAULT );
 		foreach ( $loop as $key => $withnumber_key ) {
 			if ( in_array( $withnumber_key, array_keys( $reversed ), true ) && $count > -1 ) {
 				$array_with_numbers[ 'imdbwidget' . $withnumber_key . 'number' ] = $reversed_array[ $count ][ $withnumber_key ];
