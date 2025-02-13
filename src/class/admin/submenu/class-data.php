@@ -111,7 +111,10 @@ class Data extends Admin_Menu {
 			&& ! isset( $_GET['subsection'] )
 		) {
 
-			// The template will retrieve the args. In parent class.
+			/**
+			 * Display data template
+			 * The template will retrieve the args. In parent class.
+			 */
 			$this->include_with_vars(
 				'data/admin-data-display',
 				[
@@ -124,46 +127,41 @@ class Data extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_data_taxo, sanitize_key( $_GET['page'] ) ) === true
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_taxo, sanitize_key( $_GET['subsection'] ) )
-			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-		) {
-
-			// taxonomy is disabled
-			if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
-				echo '<br><br><div align="center" class="accesstaxo">'
-					. wp_kses(
-						wp_sprintf(
-							/* translators: %1$s and %2$s are replaced with html ahref tags */
-							__( 'Please %1$sactivate taxonomy%2$s before accessing to taxonomy options.', 'lumiere-movies' ),
-							'<a href="' . esc_url( $this->page_main_advanced ) . '#imdb_imdbtaxonomy_yes">',
-							'</a>'
-						),
-						[ 'a' => [ 'href' => [] ] ]
-					)
-					. '</div>';
-				return;
-			}
-
-			// The template will retrieve the args. In parent class.
-			$this->include_with_vars(
-				'data/admin-data-taxonomy',
-				[ $this, $this->get_taxo_fields() ], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
-			);
-
-		} elseif (
 			isset( $_GET['page'] ) && str_contains( $this->page_data_order, sanitize_key( $_GET['page'] ) ) === true
 			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_order, sanitize_key( $_GET['subsection'] ) )
 			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
 
-			// The template will retrieve the args. In parent class.
+			/**
+			 * Display data order
+			 * The template will retrieve the args. In parent class.
+			 */
 			$this->include_with_vars(
 				'data/admin-data-order',
 				[
 					$this,
 					Get_Options::get_all_items(), // list of items and people with two extra lists.
+				], /** Add an array with vars to send in the template */
+				self::TRANSIENT_ADMIN,
+			);
+
+		} elseif (
+			isset( $_GET['page'] ) && str_contains( $this->page_data_taxo, sanitize_key( $_GET['page'] ) ) === true
+			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_taxo, sanitize_key( $_GET['subsection'] ) )
+			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
+		) {
+
+			/**
+			 * Taxonomy data template
+			 * The template will retrieve the args. In parent class.
+			 */
+			$this->include_with_vars(
+				'data/admin-data-taxonomy',
+				[
+					$this,
+					$this->get_taxo_fields(),
+					( new Detect_New_Theme() )->search_new_update(),
+					$this->page_data_taxo . '&taxotype=',
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
@@ -196,89 +194,6 @@ class Data extends Admin_Menu {
 
 		// Add the comments to the arrays of items and people
 		return [ $array_full, $this->details_comments ];
-	}
-
-	/**
-	 * Function checking if item/person template is missing or if a new one is available
-	 * This function is triggered only if a the template option is activated
-	 *
-	 * @param string $type type to search (actor, genre, etc)
-	 * @return string Link to copy the template if true and a message explaining if missing/update the template
-	 */
-	public function display_new_taxo( string $type ): string {
-
-		$output = '';
-
-		// Get the type to build the links.
-		$lumiere_taxo_title = esc_html( $type );
-
-		// Get updated items/people from Detect_New_Theme.
-		$list_updated_fields = ( new Detect_New_Theme() )->search_new_update( $lumiere_taxo_title );
-
-		// Files paths
-		$lumiere_taxo_file_tocopy = in_array( $lumiere_taxo_title, Get_Options::get_list_people_taxo(), true ) ? Get_Options::TAXO_PEOPLE_THEME : Get_Options::TAXO_ITEMS_THEME;
-		$lumiere_taxo_file_copied = Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
-		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
-		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
-		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'];
-		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
-
-		// Make sure we have the credentials
-		$this->lumiere_wp_filesystem_cred( $lumiere_current_theme_path_file ); // in trait Admin_General.
-
-		// Make the HTML link with a nonce, checked in move_template_taxonomy.php.
-		$link_taxo_copy = add_query_arg( '_wpnonce_linkcopytaxo', wp_create_nonce( 'linkcopytaxo' ), $this->page_data_taxo . '&taxotype=' . $lumiere_taxo_title );
-
-		// No file in the theme folder found and no template to be updated found, offer to copy it and exit.
-		if ( file_exists( $lumiere_current_theme_path_file ) === false && count( $list_updated_fields ) === 0 ) {
-
-			$output .= "\n\t" . '<br />';
-			$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
-			$output .= "\n\t\t<a href='"
-					. $link_taxo_copy
-					. "' title='"
-					. esc_html__( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' )
-					. "' ><img src='"
-					. esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' )
-					. "' alt='copy the taxonomy template' align='absmiddle' align='absmiddle' /> "
-					. esc_html__( 'Copy template', 'lumiere-movies' )
-					. '</a>';
-			$output .= "\n\t" . '<div><font color="red">'
-				/* translators: %s is replaced with a movie item name, ie 'director' */
-				. wp_sprintf( __( 'No %s template found', 'lumiere-movies' ), $lumiere_taxo_title )
-				. '</font></div>';
-			$output .= "\n\t" . '</div>';
-
-			return $output;
-
-			// No taxonomy template file in Lumière! theme folder found, notify and exit.
-		} elseif ( is_file( $lumiere_taxonomy_theme_file ) === false ) {
-
-			return "\n\t" . '<br /><div><i>' . esc_html__( 'Missing Lumiere template file. A problem was detected with your installation.', 'lumiere-movies' ) . '</i></div>';
-
-			// No template updated, template file exists, so it is up-to-date, notify and exit.
-		} elseif ( count( $list_updated_fields ) === 0 ) {
-			return "\n\t" . '<br /><div><i>' . $output . ucfirst( $lumiere_taxo_title ) . ' ' . esc_html__( 'template up-to-date', 'lumiere-movies' ) . '</i></div>';
-		}
-
-		// Template file exists and need to be updated, notify there is a new version of the template and exit.
-		$output .= "\n\t" . '<br />';
-		$output .= "\n\t" . '<div id="lumiere_copy_' . $lumiere_taxo_title . '">';
-		$output .= "\n\t\t<a href='"
-				. $link_taxo_copy
-				. "' title='"
-				. esc_html__( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' )
-				. "' ><img src='" . esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ) . "' alt='copy the taxonomy template' align='absmiddle' /> "
-				. esc_html__( 'Update template', 'lumiere-movies' ) . '</a>';
-
-		$output .= "\n\t" . '<div><font color="red">'
-			/* translators: %s is replaced with a movie item name, ie 'director' */
-			. wp_sprintf( __( 'New %s template version available', 'lumiere-movies' ), $lumiere_taxo_title )
-			. '</font></div>';
-		$output .= "\n\t" . '</div>';
-
-		return $output;
-
 	}
 }
 
