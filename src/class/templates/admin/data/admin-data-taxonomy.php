@@ -126,6 +126,7 @@ if ( $lum_that->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
 	$lum_link_taxo_copy = add_query_arg( '_wpnonce_linkcopytaxo', wp_create_nonce( 'linkcopytaxo' ), $lum_current_admin_page . $lum_key );
 	$lum_file_in_stylesheet_path = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $lum_that->imdb_admin_values['imdburlstringtaxo'] . $lum_key . '.php';
+	$lum_translated_item = Get_options::get_all_items()[ $lum_key ];
 
 	// No field to update found and no template to be updated found, offer to copy .
 	if ( count( $lum_fields_updated ) === 0 && is_file( $lum_file_in_stylesheet_path ) === false ) {
@@ -134,8 +135,9 @@ if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
 						<div id="lumiere_copy_<?php echo esc_html( $lum_key ); ?>">
 						<a href="<?php echo esc_html( $lum_link_taxo_copy ); ?>" title="<?php esc_html_e( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' ); ?>"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ); ?>" alt="copy the taxonomy template" align="absmiddle" /><?php esc_html_e( 'Copy template', 'lumiere-movies' ); ?></a>
 						<div><font color="red"><?php
+
 						/* translators: %s is replaced with a movie item name, ie 'director' */
-						echo wp_sprintf( esc_html__( 'No %s template found', 'lumiere-movies' ), esc_html( $lum_key ) );
+						echo wp_sprintf( esc_html__( 'No %s template found', 'lumiere-movies' ), esc_html( $lum_translated_item ) );
 						?>
 						</font></div>
 						</div>
@@ -149,7 +151,7 @@ if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
 				<div>
 					<font color="red"><?php
 					/* translators: %s is replaced with a movie item name, ie 'director' */
-					echo wp_sprintf( esc_html__( 'New %s template version available', 'lumiere-movies' ), esc_html( $lum_key ) ); ?>
+					echo wp_sprintf( esc_html__( 'New %s template version available', 'lumiere-movies' ), esc_html( $lum_translated_item ) ); ?>
 				
 					</font>
 				</div>
@@ -162,7 +164,7 @@ if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
 				<br />
 				<div>
 					<i><?php echo /* translators: %s is replaced with a movie item name, ie 'director' */
-					wp_sprintf( esc_html__( 'Template %s up-to-date', 'lumiere-movies' ), esc_html( $lum_key ) ); ?></i>
+					wp_sprintf( esc_html__( 'Template %s up-to-date', 'lumiere-movies' ), esc_html( $lum_translated_item ) ); ?></i>
 				</div><?php
 
 	}
