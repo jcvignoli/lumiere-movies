@@ -28,7 +28,7 @@ class Debug {
 	public static function get_hooks(): string {
 		self::trigger_wp_error( __METHOD__, 'This is a debugging function, should not permanently added' );
 		global $wp_filter;
-		return '<pre>' . self::colorise_output( array_keys( $wp_filter ) ) . '</pre>';
+		return '<pre>' . self::color_output( array_keys( $wp_filter ) ) . '</pre>';
 	}
 
 	/**
@@ -36,13 +36,13 @@ class Debug {
 	 * Allows to avoid print_r() or var_dump()
 	 * @param array<int<0, max>|string, array<string, string>|int|string> $array
 	 */
-	public static function colorise_output( array $array ): string {
+	public static function color_output( array $array ): string {
 		$output = '<ul>';
 
 		foreach ( $array as $key => $val ) {
 			if ( is_array( $val ) ) {
 				$output .= '<li><span class="lum_color_red">' . $key . '</span><b> => </b><span class="lum_color_blue">'
-					. self::colorise_output( $val )
+					. self::color_output( $val )
 					. '</span></li>';
 				continue;
 			}
@@ -82,7 +82,7 @@ class Debug {
 				$caller['function'] = $backtrace['function'];
 			}
 		}
-		return self::colorise_output( $caller );
+		return self::color_output( $caller );
 	}
 
 	/**

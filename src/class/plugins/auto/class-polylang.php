@@ -286,19 +286,36 @@ class Polylang {
 	 * @return array<string, array<int|string, array<string, array<int|string, string>|string>|string>|int|string|true>|array<string, array<int|string, array<string, string>|string>|bool|int|string>
 	 *
 	 * @since 4.3
+	 * @since 4.4.1 Fixed the nonce check, using the term_id to find all terms related to current langage.
 	 * @see \Lumiere\Taxonomy_People_Standard Uses the query to display a dropdown field
 	 */
 	public function get_polylang_query_form( array $query, array $args ): array {
 
-		if ( ! isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) || ! ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0 ) ) {
+		// 1. $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
+		$tag_lang = Validate_Get::sanitize_url( 'tag_lang' ) ?? null;
+
+		if (
+			( isset( $tag_lang ) && ! isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) )
+			|| ( isset( $tag_lang ) && ! ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0 ) )
+		) {
 			return $query;
 		}
 
-		// 1. $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
-		$tag_lang = Validate_Get::sanitize_url( 'tag_lang' ) ?? null;
 		// 2. Lang: if there is a lang and it is neither '' nor 'all', keep it, otherwise make a string of all languages available on the site.
 		$lang = isset( $tag_lang ) && strlen( $tag_lang ) > 0 && $tag_lang !== 'all' ? $tag_lang : join( ',', pll_languages_list() );
 
+		// 3. Find all term ids related to this term and create an array
+		$search_term_id = get_term_by( 'name', $args['person_name'], $args['taxonomy'] ); // find the term object related to current person.
+		$term_id = $search_term_id instanceof \WP_Term ? $search_term_id->term_id : 0; // Make sure it exists.
+		$all_terms_id = pll_get_term_translations( $term_id ); // Find all translated term_id
+		$terms_lang = [];
+		foreach ( pll_languages_list() as $pll_lang ) {
+			if ( isset( $all_terms_id[ $pll_lang ] ) ) {
+				$terms_lang[] = esc_html( strval( $all_terms_id[ $pll_lang ] ) ); // Create an array of term_id such as [ '1', '2', 'etc' ]
+			}
+		}
+
+		// 4. Final query using term_ids, lang and taxonomy.
 		return [
 			'post_type' => [ 'post', 'page' ],
 			'numberposts' => -1,
@@ -308,8 +325,8 @@ class Polylang {
 			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				[
 					'taxonomy' => esc_html( $args['taxonomy'] ),
-					'field' => 'name',
-					'terms' => esc_html( $args['person_name'] ),
+					'field' => 'term_id',
+					'terms' => $terms_lang,
 				],
 			],
 		];

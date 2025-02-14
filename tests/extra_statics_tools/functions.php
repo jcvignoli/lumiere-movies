@@ -156,6 +156,20 @@ namespace {
 	 */
 	function pll_get_post_language( $post_id, $field = 'slug' ) {}
 	
+	
+	/**
+	 * Returns an array of translations of a term.
+	 *
+	 * @api
+	 * @since 1.8
+	 *
+	 * @param int $term_id Term ID.
+	 * @return int[] An associative array of translations with language code as key and translation term ID as value.
+	 *
+	 * @phpstan-return array<non-empty-string, positive-int>
+	 */
+	function pll_get_term_translations( $term_id ) {}
+	
 	/**
 	 * Determine whether the current request is for an AMP page.
 	 *

@@ -47,7 +47,7 @@
 	<rule ref="rulesets/unusedcode.xml/UnusedLocalVariable">
 		<properties>
 			<property name="exceptions">
-				<value>static_start,int,that,row_number,rewrite_class,info,key,value,backoffice_extra_class,time,class_save,self_class,taxonomy_class</value>
+				<value>static_start,int,that,row_number,rewrite_class,info,key,value,backoffice_extra_class,time,class_save,self_class,taxonomy_class,nb_items_connected_movies</value>
 			</property>
 		</properties>
 	</rule>

@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.8.6
+ * Version: 3.9
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package lumiere-movies
@@ -333,7 +333,8 @@ class Taxonomy_People_Standard {
 			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				[
 				'taxonomy' => sanitize_text_field( $taxonomy_name ),
-				'operator' => 'EXISTS',
+				'field' => 'name',
+				'terms' => sanitize_text_field( $person_name ),
 				],
 			],
 		];

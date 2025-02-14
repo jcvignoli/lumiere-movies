@@ -239,7 +239,7 @@ class Movie_Data {
 		foreach ( Get_Options::define_list_connect_cat() as $category => $data_explain ) {
 
 			// Total items for this category.
-			$nb_items = count( $connected_movies[ $category ] );
+			$nb_items_connected_movies = count( $connected_movies[ $category ] );
 
 			for ( $i = 0; $i < $admin_max_connected; $i++ ) {
 				if ( isset( $connected_movies[ $category ][ $i ]['titleId'] ) && $connected_movies[ $category ][ $i ]['titleName'] ) {
@@ -261,7 +261,7 @@ class Movie_Data {
 					);
 
 					$output .= isset( $connected_movies[ $category ][ $i ]['description'] ) ? ' (' . esc_html( $connected_movies[ $category ][ $i ]['description'] ) . ')' : '';
-					if ( $i < ( $admin_max_connected - 1 ) && $i < $nbtotalconnected && $i < ( $nb_items - 1 ) ) {
+					if ( $i < ( $admin_max_connected - 1 ) && $i < $nbtotalconnected && $i < ( $nb_items_connected_movies - 1 ) ) {
 						$output .= ', '; // add comma to every connected movie but the last.
 					}
 					$output .= '</span></span>';
@@ -433,9 +433,6 @@ class Movie_Data {
 
 		// Process goof category
 		foreach ( Get_Options::get_list_goofs_cat() as $category => $data_explain ) {
-
-			// Total items for this category.
-			$nb_items = count( $goofs[ $category ] );
 
 			// Loop conditions: less than the total number of goofs available AND less than the goof limit setting, using a loop counter.
 			for ( $i = 0; $i < $admin_max_goofs; $i++ ) {

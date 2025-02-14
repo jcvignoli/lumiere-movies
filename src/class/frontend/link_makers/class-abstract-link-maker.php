@@ -290,14 +290,8 @@ abstract class Abstract_Link_Maker {
 			. '</span>';
 		$bio_text = '';
 
-		// Calculate the number of bio results.
-		$nbtotalbio = count( $bio_array );
-
-		// Select the index array according to the number of bio results. -- 2024 10 04 set to 0 always
-		// $idx = $nbtotalbio < 2 ? $idx = 0 : $idx = 1;
-		$idx = 0;
-
-		$bio_text = isset( $bio_array[ $idx ]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio_array[ $idx ]['desc'] ) ) : '';
+		// Get the first bio result.
+		$bio_text = isset( $bio_array[0]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio_array[0]['desc'] ) ) : '';
 
 		// Medaillon is displayed in a popup person page, build internal URL.
 		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'person' ) ) && strlen( $bio_text ) > 0 ) {
