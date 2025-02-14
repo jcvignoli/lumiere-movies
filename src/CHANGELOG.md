@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.4.2
+
 v.4.4.1
 * [feature] Taxonomy templates using Polylang finally work if no langage is passed. (Despite no response on [Polylang git](https://github.com/polylang/polylang/issues/1615 "polylang git issue")
 * [bug] The plural of translated items into the post were not correctly displayed
