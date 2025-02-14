@@ -277,16 +277,16 @@ class Polylang {
 	}
 
 	/**
-	 * Return a WP Query that includes Polylang language and 'terms' fields
-	 * The term ('name') and the taxonomy are passed in $args - the orginal query too
+	 * Return a WP Query that includes Polylang language and 'terms' fields for the current lang
 	 * The lang is built according to the $_GET in the form
+	 * If no lang is used, use all langs active on the website
 	 *
 	 * @param array<string, array<int|string, array<string, string>|string>|bool|int|string> $query Original Query
 	 * @param array{person_name: string, taxonomy: string} $args Taxonomy ie 'lumiere-director'
 	 * @return array<string, array<int|string, array<string, array<int|string, string>|string>|string>|int|string|true>|array<string, array<int|string, array<string, string>|string>|bool|int|string>
 	 *
 	 * @since 4.3
-	 * @since 4.4.1 Fixed the nonce check, using the term_id to find all terms related to current langage.
+	 * @since 4.4.1 Fixed the nonce check, using the term_id to find all terms related to current langage, use $this->get_terms_translated()
 	 * @see \Lumiere\Taxonomy_People_Standard Uses the query to display a dropdown field
 	 */
 	public function get_polylang_query_form( array $query, array $args ): array {
@@ -304,18 +304,7 @@ class Polylang {
 		// 2. Lang: if there is a lang and it is neither '' nor 'all', keep it, otherwise make a string of all languages available on the site.
 		$lang = isset( $tag_lang ) && strlen( $tag_lang ) > 0 && $tag_lang !== 'all' ? $tag_lang : join( ',', pll_languages_list() );
 
-		// 3. Find all term ids related to this term and create an array
-		$search_term_id = get_term_by( 'name', $args['person_name'], $args['taxonomy'] ); // find the term object related to current person.
-		$term_id = $search_term_id instanceof \WP_Term ? $search_term_id->term_id : 0; // Make sure it exists.
-		$all_terms_id = pll_get_term_translations( $term_id ); // Find all translated term_id
-		$terms_lang = [];
-		foreach ( pll_languages_list() as $pll_lang ) {
-			if ( isset( $all_terms_id[ $pll_lang ] ) ) {
-				$terms_lang[] = esc_html( strval( $all_terms_id[ $pll_lang ] ) ); // Create an array of term_id such as [ '1', '2', 'etc' ]
-			}
-		}
-
-		// 4. Final query using term_ids, lang and taxonomy.
+		// 3. Final query using term_ids, lang and taxonomy.
 		return [
 			'post_type' => [ 'post', 'page' ],
 			'numberposts' => -1,
@@ -326,10 +315,31 @@ class Polylang {
 				[
 					'taxonomy' => esc_html( $args['taxonomy'] ),
 					'field' => 'term_id',
-					'terms' => $terms_lang,
+					'terms' => $this->get_terms_translated( $args ), // 4. Find all term ids related to this term and create an array
 				],
 			],
 		];
+	}
+
+	/**
+	 * Get Polylang translation for a given term and taxonomy
+	 *
+	 * @since 4.4.1
+	 *
+	 * @param array{person_name: string, taxonomy: string} $args Taxonomy ie 'lumiere-director'
+	 * @return string[]
+	 */
+	private function get_terms_translated( array $args ): array {
+		$search_term_id = get_term_by( 'name', $args['person_name'], $args['taxonomy'] ); // find the term object related to current person.
+		$term_id = $search_term_id instanceof \WP_Term ? $search_term_id->term_id : 0; // Make sure it exists.
+		$all_terms_id = pll_get_term_translations( $term_id ); // Find all translated term_id
+		$terms_lang = [];
+		foreach ( pll_languages_list() as $pll_lang ) {
+			if ( isset( $all_terms_id[ $pll_lang ] ) ) {
+				$terms_lang[] = esc_html( strval( $all_terms_id[ $pll_lang ] ) ); // Create an array of term_id such as [ '1', '2', 'etc' ]
+			}
+		}
+		return $terms_lang;
 	}
 
 	/**
