@@ -113,7 +113,7 @@ class Plugins_Detect {
 	 * @return bool true if AMP plugin is active
 	 */
 	private function amp_is_active(): bool {
-		return $this->is_amp_page(); // Trait Main.
+		return $this->is_amp_page(); // is_amp_page() in Trait Main.
 	}
 
 	/**

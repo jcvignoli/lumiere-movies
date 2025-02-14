@@ -74,6 +74,7 @@ trait Main {
 	 * Always return `false` and show PHP Notice if called before the `wp` hook.
 	 *
 	 * @since 3.7.1
+	 * @since 4.4.1 Added check of AMP__VERSION constant
 	 * @return bool true if amp url, false otherwise
 	 */
 	public function is_amp_page(): bool {
@@ -100,10 +101,11 @@ trait Main {
 			return true;
 		}
 
-		// If url contains ?amp, it must be an AMP page
-		if ( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), '?amp' )
-		|| isset( $_GET ['wpamp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
-		|| isset( $_GET ['amp'] ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
+		// If url contains ?amp and AMP__VERSION constant found, it is a frontpage AMP page
+		if (
+		( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), '?amp' ) && defined( 'AMP__VERSION' ) )
+		|| ( isset( $_GET ['wpamp'] ) && defined( 'AMP__VERSION' ) ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
+		|| ( isset( $_GET ['amp'] ) && defined( 'AMP__VERSION' ) ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
 		) {
 			return true;
 		}

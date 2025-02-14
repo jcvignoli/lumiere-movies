@@ -36,7 +36,7 @@ class Rewrite_Rules {
 	 * Constructor
 	 */
 	public function __construct(
-		private Logger $logger_class = new Logger( 'RewriteRules' ),
+		private Logger $logger_class = new Logger( 'RewriteRules', false /* deactivate the screen logging as it is executed early */ ),
 	) {
 		// Add an extra query var for use in URLs.
 		add_filter( 'query_vars', [ $this, 'lum_add_query_vars' ] );
