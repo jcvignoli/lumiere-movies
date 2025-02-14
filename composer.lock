@@ -878,16 +878,16 @@
         },
         {
             "name": "codeception/module-webdriver",
-            "version": "4.0.2",
+            "version": "4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-webdriver.git",
-                "reference": "ef0ea8044eb01dc1e830df27fe431e71440a462f"
+                "reference": "551d214ddd57a9539acf1123d7c56ec82b1004df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-webdriver/zipball/ef0ea8044eb01dc1e830df27fe431e71440a462f",
-                "reference": "ef0ea8044eb01dc1e830df27fe431e71440a462f",
+                "url": "https://api.github.com/repos/Codeception/module-webdriver/zipball/551d214ddd57a9539acf1123d7c56ec82b1004df",
+                "reference": "551d214ddd57a9539acf1123d7c56ec82b1004df",
                 "shasum": ""
             },
             "require": {
@@ -898,7 +898,7 @@
                 "ext-mbstring": "*",
                 "php": "^8.1",
                 "php-webdriver/webdriver": "^1.14.0",
-                "phpunit/phpunit": "^10.0 || ^11.0"
+                "phpunit/phpunit": "^10.0 || ^11.0 || ^12.0"
             },
             "suggest": {
                 "codeception/phpbuiltinserver": "Start and stop PHP built-in web server for your tests"
@@ -933,27 +933,27 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-webdriver/issues",
-                "source": "https://github.com/Codeception/module-webdriver/tree/4.0.2"
+                "source": "https://github.com/Codeception/module-webdriver/tree/4.0.3"
             },
-            "time": "2024-08-10T00:18:42+00:00"
+            "time": "2025-02-14T07:10:05+00:00"
         },
         {
             "name": "codeception/stub",
-            "version": "4.1.3",
+            "version": "4.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Stub.git",
-                "reference": "4fcad2c165f365377486dc3fd8703b07f1f2fcae"
+                "reference": "6ce453073a0c220b254dd7f4383645615e4071c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Stub/zipball/4fcad2c165f365377486dc3fd8703b07f1f2fcae",
-                "reference": "4fcad2c165f365377486dc3fd8703b07f1f2fcae",
+                "url": "https://api.github.com/repos/Codeception/Stub/zipball/6ce453073a0c220b254dd7f4383645615e4071c3",
+                "reference": "6ce453073a0c220b254dd7f4383645615e4071c3",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4 | ^8.0",
-                "phpunit/phpunit": "^8.4 | ^9.0 | ^10.0 | ^11"
+                "phpunit/phpunit": "^8.4 | ^9.0 | ^10.0 | ^11 | ^12"
             },
             "conflict": {
                 "codeception/codeception": "<5.0.6"
@@ -974,9 +974,9 @@
             "description": "Flexible Stub wrapper for PHPUnit's Mock Builder",
             "support": {
                 "issues": "https://github.com/Codeception/Stub/issues",
-                "source": "https://github.com/Codeception/Stub/tree/4.1.3"
+                "source": "https://github.com/Codeception/Stub/tree/4.1.4"
             },
-            "time": "2024-02-02T19:21:00+00:00"
+            "time": "2025-02-14T06:56:33+00:00"
         },
         {
             "name": "codeception/util-universalframework",
@@ -11270,30 +11270,29 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "automattic/phpcs-neutron-ruleset": 0,
+        "lucatume/wp-browser": 0,
         "codeception/module-asserts": 0,
-        "codeception/module-cli": 0,
+        "codeception/module-phpbrowser": 0,
         "codeception/module-db": 0,
         "codeception/module-filesystem": 0,
-        "codeception/module-phpbrowser": 0,
-        "codeception/module-webdriver": 0,
+        "codeception/module-cli": 0,
         "codeception/util-universalframework": 0,
-        "dealerdirect/phpcodesniffer-composer-installer": 0,
-        "lucatume/wp-browser": 0,
-        "phan/phan": 0,
-        "php-stubs/wp-cli-stubs": 0,
-        "phpmd/phpmd": 0,
+        "vlucas/phpdotenv": 0,
+        "wp-cli/wp-cli-bundle": 0,
         "phpseclib/phpseclib": 0,
-        "phpstan/phpstan": 0,
-        "phpstan/phpstan-strict-rules": 0,
-        "skaut/wordpress-stubs": 0,
         "squizlabs/php_codesniffer": 0,
+        "wp-coding-standards/wpcs": 0,
+        "phpmd/phpmd": 0,
+        "phpstan/phpstan": 0,
+        "automattic/phpcs-neutron-ruleset": 0,
+        "dealerdirect/phpcodesniffer-composer-installer": 0,
+        "phan/phan": 0,
+        "skaut/wordpress-stubs": 0,
+        "phpstan/phpstan-strict-rules": 0,
         "szepeviktor/phpstan-wordpress": 0,
         "vimeo/psalm": 0,
-        "vlucas/phpdotenv": 0,
         "wapmorgan/php-deprecation-detector": 0,
-        "wp-cli/wp-cli-bundle": 0,
-        "wp-coding-standards/wpcs": 0
+        "php-stubs/wp-cli-stubs": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -11302,9 +11301,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
