@@ -32,7 +32,7 @@ use Lumiere\Config\Get_Options;
  * Highslide Popup links are created, included in taxonomy
  * @since 3.7
  */
-class Highslide_Links extends Abstract_Link_Maker {
+class Highslide_Links extends Implement_Link_Maker implements Interface_Link_Maker {
 
 	/**
 	 * Constructor

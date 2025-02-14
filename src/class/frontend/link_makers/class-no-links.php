@@ -24,7 +24,7 @@ if ( ! defined( 'WPINC' ) ) {
  *
  * @since 3.8
  */
-class No_Links extends Abstract_Link_Maker {
+class No_Links extends Implement_Link_Maker implements Interface_Link_Maker {
 
 	/**
 	 * @inheritdoc

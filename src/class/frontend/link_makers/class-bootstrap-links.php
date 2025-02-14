@@ -25,7 +25,7 @@ use Lumiere\Config\Get_Options;
  *
  * Bootstrap Popup links are created, including in taxonomy pages
  */
-class Bootstrap_Links extends Abstract_Link_Maker {
+class Bootstrap_Links extends Implement_Link_Maker implements Interface_Link_Maker {
 
 	/**
 	 * Constructor

@@ -23,15 +23,10 @@ if ( ! defined( 'WPINC' ) ) {
  * 1/ External HTML links are kept
  * 2/ But no popup link is created, only links to the content of popups
  */
-class AMP_Links extends Abstract_Link_Maker {
+class AMP_Links extends Implement_Link_Maker implements Interface_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param array<int, array<string, string>> $imdb_data_people Array with IMDB people data
-	 * @param int $number The number of the loop $i
-	 *
-	 * @return string
 	 */
 	public function lumiere_link_popup_people( array $imdb_data_people, int $number ): string {
 
@@ -42,11 +37,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string|bool $photo_localurl_false The picture of big size
-	 * @param string|bool $photo_localurl_true The picture of small size
-	 * @param string $movie_title Title of the movie
-	 * @return string
 	 */
 	public function lumiere_link_picture ( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {
 
@@ -57,11 +47,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
-	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
-	 *
-	 * @return ?string
 	 */
 	public function lumiere_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string {
 
@@ -71,8 +56,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inherit
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into an internal link
 	 */
 	public function lumiere_imdburl_to_internalurl( string $text ): string {
 
@@ -82,9 +65,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inherit
-	 * Remove an IMDb url from the text, no popup is allowed so no popup link is built
-	 *
-	 * @param string $text Text that includes IMDb URL to be removed
 	 */
 	public function lumiere_imdburl_of_taxonomy( string $text ): string {
 
@@ -94,8 +74,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inherit
-	 *
-	 * @param string $text Text that includes IMDb URL to convert
 	 */
 	public function lumiere_imdburl_of_soundtrack( string $text ): string {
 
@@ -105,11 +83,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inherit
-	 * No Link function for movies links, builds an internal when movie's are entered, because if not, the whole purpose of the plugins is killed
-	 *
-	 * @param array<int, string> $link_parsed html tags and text to be modified
-	 * @param null|string $popuplarg Not in use
-	 * @param null|string $popuplong Not in use
 	 */
 	public function popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
 
@@ -126,10 +99,7 @@ class AMP_Links extends Abstract_Link_Maker {
 	}
 
 	/**
-	 * Trailer data details
-	 *
-	 * @param string $url Url to the trailer
-	 * @param string $website_title website name
+	 * @inheritdoc
 	 */
 	public function lumiere_movies_trailer_details( string $url, string $website_title ): string {
 
@@ -149,10 +119,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $url Url to the offical website
-	 * @param string $name offical website name
-	 * @return string
 	 */
 	public function lumiere_movies_officialsites_details( string $url, string $name ): string {
 
@@ -162,9 +128,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $plot Text of the plot
-	 * @return string
 	 */
 	public function lumiere_movies_plot_details( string $plot ): string {
 
@@ -174,9 +137,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param string $mid IMDb ID of the movie
-	 * @return string
 	 */
 	public function lumiere_movies_source_details( string $mid ): string {
 
@@ -186,14 +146,6 @@ class AMP_Links extends Abstract_Link_Maker {
 
 	/**
 	 * @inheritdoc
-	 *
-	 * @param int $rating mandatory Rating number
-	 * @param int $votes mandatory Number of votes
-	 * @param string $votes_average_txt mandatory Text mentionning "vote average"
-	 * @param string $out_of_ten_txt mandatory Text mentionning "out of ten"
-	 * @param string $votes_txt mandatory Text mentionning "votes"
-	 *
-	 * @return string
 	 */
 	public function lumiere_movies_rating_picture( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string {
 
