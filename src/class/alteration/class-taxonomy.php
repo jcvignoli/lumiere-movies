@@ -102,7 +102,6 @@ class Taxonomy {
 			$full_old_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $old_taxonomy . $taxonomy_item ) );
 			$full_new_taxonomy = str_replace( 'imdbtaxonomy', '', esc_html( $new_taxonomy . $taxonomy_item ) );
 
-			//register_taxonomy( $full_old_taxonomy, [ 'page', 'post' ], [ 'public' => true, ] );
 			// Register new taxonomy to make sure they are available to below functions.
 			register_taxonomy( $full_new_taxonomy, [ 'page', 'post' ], [ 'public' => true ] );
 
@@ -168,24 +167,26 @@ class Taxonomy {
 				[ 'page', 'post' ],
 				[
 					/* remove metaboxes from edit interface, keep the menu of post */
-					'show_ui' => true,              /* whether to manage taxo in UI */
-					'show_in_quick_edit' => false,  /* whether to show taxo in edit interface */
-					'show_tagcloud' => false,       /* whether to show Tag Cloud Widget controls */
-					'meta_box_cb' => false,         /* whether to show taxo in metabox */
+					'show_ui'                   => true,            /* whether to show taxo in UI */
+					'show_in_quick_edit'        => false,           /* whether to show taxo in edit interface */
+					'show_tagcloud'             => false,           /* whether to show Tag Cloud Widget controls */
+					'meta_box_cb'               => false,           /* whether to show taxo in metabox */
 					/* other settings */
-					'labels' => [
-						'name' => 'Lumière ' . $taxonomy_item . 's ' . __( 'Tags', 'lumiere-movies' ),
-						'parent_item' => __( 'Parent taxonomy', 'lumiere-movies' ) . ' ' . $taxonomy_item,
-						'singular_name' => ucfirst( $taxonomy_item ) . ' name',
-						'menu_name' => __( 'Tags', 'lumiere-movies' ) . ' Lumière ' . $taxonomy_item,
-						'search_items' => __( 'Search', 'lumiere-movies' ) . ' ' . $taxonomy_item . 's',
-						'add_new_item' => __( 'Add new', 'lumiere-movies' ) . ' ' . ucfirst( $taxonomy_item ),
+					'labels'                    => [
+						'name'              => 'Lumière ' . $taxonomy_item . 's ' . __( 'Tags', 'lumiere-movies' ),
+						'singular_name'     => ucfirst( $taxonomy_item ) . ' name',
+						'menu_name'         => __( 'Tags', 'lumiere-movies' ) . ' Lumière ' . $taxonomy_item,
+						'search_items'      => __( 'Search', 'lumiere-movies' ) . ' ' . $taxonomy_item . 's',
+						/* 'add_new_item'      => __( 'Add new', 'lumiere-movies' ) . ' ' . ucfirst( $taxonomy_item ),*/ // edit_terms false
 					],
-					'hierarchical' => false,        /* Whether there is a relationship between added terms, it's true! */
-					'public' => true,
+					'capabilities'              => [
+						'edit_terms'        => 'none',          /* Whether to allow editing terms in UI (Fake option value) */
+					],
+					'hierarchical'              => false,           /* Whether there is a relationship between added terms, it's true! */
+					'public'                    => true,
 					// These will allow to reach in URL ie /lumiere-director/stanley-kubrick/
-					'query_var' => $taxonomy_name,  /* Optional, use by default $taxonomy_name for ?query_var */
-					'rewrite' => true,              /* Optional, use by default $taxonomy_name as URL rewrite for slug */
+					'query_var'                 => $taxonomy_name,  /* Optional, use by default $taxonomy_name for ?query_var */
+					'rewrite'                   => true,            /* Optional, use by default $taxonomy_name as URL rewrite for slug */
 				]
 			);
 		}

@@ -264,17 +264,17 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<?php esc_html_e( 'Since WordPress 2.3, WordPress users can use taxonomy.', 'lumiere-movies' ); ?>
 
-				<?php esc_html_e( "Taxonomy is a feature adding an extra layer of category in addition to the already existing Categories and Tags; in other words, it is like having species (a block named 'genre') and subspecies (few words describing the genre, like 'Adventure', 'Terror'). It is not fundamentaly different from Categories and Tags, but it is extremly useful for Lumière Movies.", 'lumiere-movies' ); ?>
+				<?php esc_html_e( 'Lumière Taxonomy is a feature adding it\'s own specific tags to WordPress. It adds new custom categories to WordPress, like the directors and the movie\'s genres that link all your similar posts together. For exemple, all your posts that includes movies with genre like "Adventure", "Terror" are detected and can be shown on a same taxonomy page.', 'lumiere-movies' ); ?>
 
 				<h4><?php esc_html_e( 'How to use taxonomy in WordPress?', 'lumiere-movies' ); ?></h4>
 
 				<a href="<?php echo esc_url( $lumiere_pics_url . 'admin-taxonomy-details.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="40%" src="<?php echo esc_url( $lumiere_pics_url . 'admin-taxonomy-details.png' ); ?>" alt="taxonomy details"></a>
 
-				<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and already activated. You can however disable it by unchecking the box in 'Main options -> Advanced -> 'Use taxonomy'. Note that since taxonomy is related to movie details (such as directors, actors, etc), the movie detail you want to be used as taxonomy has to be also activated in 'Data -> Display'.", 'lumiere-movies' ); ?>
+				<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and activated by default. You can however disable it by unchecking the box in 'Main options -> Advanced -> 'Use taxonomy'. A page including the movie fields to use as taxonomy (such as directors, genres, etc), are also to be found in 'Data -> Display'.", 'lumiere-movies' ); ?>
 				<br>
-				<?php esc_html_e( 'After that, pay a visit to your post or page; on the first refresh, links to taxonomy pages will be created. ', 'lumiere-movies' );
+				<?php esc_html_e( 'After activating taxonomy and selecting which movie fields to use, your posts will have brand new links to page including all those details. By default, you can click on the on any director and genre on your page, it will open a new page dynamically created by Lumière.', 'lumiere-movies' );
 				/* translators: %s is an admin URL */
-				echo wp_kses( wp_sprintf( esc_html__( 'Important: you need to go to %1$s Permalink Settings %2$s to refresh the rewriting rules, otherwise you will get a page not found error (404).', 'lumiere-movies' ), '<a href="options-permalink.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
+				echo wp_kses( wp_sprintf( esc_html__( 'Important: should you get a page not found error (404) when visiting the dynamically created pages, just go to %1$s Permalink Settings %2$s to refresh the rewriting rules.', 'lumiere-movies' ), '<a href="options-permalink.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
 				esc_html_e( 'You can now visit pages that include all your posts grouped by movie details. For instance, if you write a lot about the same movie director, the taxonomy page will include all your posts written about them.', 'lumiere-movies' ); ?>
 
 				<h4><?php esc_html_e( "New option in 'Posts' menu", 'lumiere-movies' ); ?></h4>
@@ -286,7 +286,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<h4><?php esc_html_e( 'Advanced: Customize your theme for your taxonomy pages', 'lumiere-movies' ); ?></h4>
 
-				<?php esc_html_e( "To fully enjoy this taxonomy, make sure you copy the template files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. This can be automatized by using the options available in Lumière! taxonomy :", 'lumiere-movies' ); ?>
+				<?php esc_html_e( "To fully enjoy this taxonomy, make sure you copied the template files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. This can be automatized by using the options available in Lumière! taxonomy :", 'lumiere-movies' ); ?>
 
 				<br clear="both">
 				<br clear="both">
@@ -368,11 +368,11 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<br clear="both">
 				<br clear="both">
 
-				<?php esc_html_e( 'Three options are available: search language, search categories and the limit of the number of results.', 'lumiere-movies' );?>
+				<?php esc_html_e( 'Four options are available: "search language", "search categories", "limit the number of results" and "delay queries time".', 'lumiere-movies' );?>
 
 				<br clear="both">
 				<br clear="both">
-				<?php esc_html_e( "1. Search language allows to modify the language of the query. This is not the language of the output: the details will always be returned in English by the IMDb. What this options modifies is the lanuage query only; if the query is run in French, movie's original title will be first returned instead of the English title.", 'lumiere-movies' ); ?>
+				<?php esc_html_e( '1. Search language allows to modify the language of the query. This is generally not the language of the output: most of the details will be returned in English by the IMDb, except the title, for exemple. This options mainly changes the language of the query; it may therefore ease to find your movies on a blog that is run in a different language than English.', 'lumiere-movies' ); ?>
 
 				<br clear="both">
 				<br clear="both">
@@ -394,6 +394,9 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					]
 				);
 				?>
+				<br clear="both">
+				<br clear="both">
+				<?php esc_html_e( '4. Delay queries time is the time in seconds between two queries made to IMDb. Should you have a blog that makes a lot of requests to IMDb, this can be usefull to avoid HTTP 504 errors (too many requests) thrown by IMDb.', 'lumiere-movies' ); ?>
 
 				</div>
 			</div>

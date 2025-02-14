@@ -1,10 +1,11 @@
 **Changelog**
 
 v.4.4.1
-* [feature] Taxonomy templates using Polylang finally work if no langage is passed. (despite no response on [Polylang git](https://github.com/polylang/polylang/issues/1615 "polylang git issue")
-* [bug] The plural of items into the post were not correctly displayed
+* [feature] Taxonomy templates using Polylang finally work if no langage is passed. (Despite no response on [Polylang git](https://github.com/polylang/polylang/issues/1615 "polylang git issue")
+* [bug] The plural of translated items into the post were not correctly displayed
 * [bug] Quotes into the post had not a good layout. Changed that.
-* [bug] Queries in taxonomy templates were broken, didn't return correct results. (Changed WP query in taxonomy-standard-people theme).
+* [bug] Post displayed in people taxonomy templates didn't return correct results. (Changed WP query in taxonomy-standard-people theme for standard WP install).
+* [technical] Taxonomy terms can't be edited anymore in WordPress Post's administration menu. (There was no point. Edited taxonomy creation in Taxonomy class).
 
 v.4.4
 * [feature] New item: connected movies, movies related the movie can be displayed

@@ -4,7 +4,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
 **Tested up to:** 6.7.1 \
-**Stable tag:** 4.4 \
+**Stable tag:** 4.4.1 \
 **Requires PHP:** 8.1 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -129,7 +129,7 @@ A list of plugins that are [compatible and incompatible with Lumière](https://g
 
 ### How to integrate Lumière with Polylang plugin?
 
-If [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as https://yourblog.com/lumiere-director/stanley-kubrick/). Once you select which to data to turn into taxonomy, you must activate the very same taxonomy in Polylang Settings -> Custom post types and Taxonomies -> Custom taxonomies as your activated Lumière taxonomies.
+If [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as https://yourblog.com/lumiere-director/stanley-kubrick/). Just selected which to data to turn into taxonomy, it will work out of the box.
 
 ### Is Lumière! CSP compliant? (for developpers)
 
@@ -172,7 +172,7 @@ This value is supposed [to be included by default](https://httpd.apache.org/docs
 
 ### Known issues
 
-* Polylang form, if selecting all languages, returns current language only. [Reported on Polylang Github](https://github.com/polylang/polylang/issues/1615).
+* None
 
 ## Support
 
@@ -184,9 +184,9 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
-### 4.3.4
+### 4.4
 
-PHP >= 8.1 is now required.
+PHP >= 8.1 is now required. New item: connected movies, quotes are back. Most work has been done under the hood, to have a faster and more maintenable plugin.
 
 ### 4.3.3
 
@@ -211,6 +211,10 @@ Popup spinners to make you visitors wait, nicer popup layouts, faster taxonomy p
 More flexibility for the auto title widget users: You can now prevent a post from displaying the auto title widget by ticking in the post edition's the Lumiere option "Deactivate autowidget for this post".
 
 ## Upgrade Notice
+
+### 4.4
+
+Check after a few minutes if the display order of data is the same you want. You may have to fix it.
 
 ### 4.3.3
 

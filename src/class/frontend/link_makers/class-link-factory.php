@@ -55,12 +55,12 @@ class Link_Factory {
 
 	/**
 	 * Select which class to use to build the HTML links.
-	 * @phpstan-return AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links Class to build the links with.
+	 * @phpstan-return LINKMAKERCLASSES Class to build the links with.
 	 *
 	 * @see \Lumiere\Frontend\Main::is_amp_page() Detects if AMP is active and current
-	 * @throws Exception if no link was found
+	 * @throws Exception if no link class was found
 	 */
-	public function select_link_maker(): AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links {
+	public function select_link_maker(): Interface_Link_Maker {
 
 		// Checks if the current page is AMP
 		if ( $this->is_amp_page() === true ) { // Method in Main trait.
@@ -83,15 +83,15 @@ class Link_Factory {
 			return new Classic_Links();
 		}
 
-		throw new Exception( esc_html( 'No Link Lumière class found, aborting!' ) );
+		throw new Exception( 'No Link Lumière class found, aborting!' );
 	}
 
 	/**
 	 * Static call of the current class
 	 *
-	 * @phpstan-return LINKMAKERCLASSES Build the class
+	 * @phpstan-return LINKMAKERCLASSES Instance the relevant class
 	 */
-	public static function select_link_type(): AMP_Links|Bootstrap_Links|Classic_Links|Highslide_Links|No_Links {
+	public static function select_link_type(): Interface_Link_Maker {
 		return ( new self() )->select_link_maker();
 	}
 }
