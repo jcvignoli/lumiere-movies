@@ -78,25 +78,25 @@ class InstallCest {
 		$I->wait(2);
 		$I->scrollTo('#activate-lumiere-movies');
 		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
-		$I->wait(10);
-		$I->see('Plugin activated');
+		$I->wait(2);
+		$I->seePluginActivated('lumiere-movies');
 
 		// Enable keep settings option, so no popup
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
 		$I->amOnPluginsPage();
-		$I->wait(10);
+		$I->wait(2);
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
 		$I->wait(5);
-		$I->see('Plugin deactivated');
+		$I->seePluginDeactivated('lumiere-movies');
 		$I->wait(2);
 		$I->amOnPluginsPage();
 		$I->wait(2);
 		$I->scrollTo('#activate-lumiere-movies');
 		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
 		$I->wait(5);
-		$I->see('Plugin activated');
+		$I->seePluginActivated('lumiere-movies');
 	}
 }
 
