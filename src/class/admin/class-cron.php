@@ -35,7 +35,7 @@ class Cron {
 	/**
 	 * Number of day before the autorefresh of cache starts a new round of cache refreshing
 	 */
-	public const CACHE_DAYS_AUTO_REFRESH_ROUND = 14;
+	public const CACHE_DAYS_AUTO_REFRESH_ROUND = 1209600; // 14 * 24 * 60 * 60
 
 	/**
 	 * @var array<string, string>
@@ -219,12 +219,6 @@ class Cron {
 			// Add WP cron if not already registred.
 			&& wp_get_scheduled_event( 'lumiere_cron_autofreshcache' ) === false
 		) {
-			// Set a transient to know when is the next round of refreshing.
-			if ( get_transient( 'lum_cache_cron_refresh_time_started' ) === false ) {
-				$next_round_delay = self::CACHE_DAYS_AUTO_REFRESH_ROUND * 24 * 60 * 60;
-				$next_round_date = $next_round_delay + time();
-				set_transient( 'lum_cache_cron_refresh_time_started', $next_round_date, $next_round_delay );
-			}
 			// Cron running every day
 			$starting_time = strtotime( '+1 hours', time() );
 			/** @psalm-suppress InvalidArgument -- With time(), it's always int! */

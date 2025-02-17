@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.4.2
+* [bug] Autorefresh of cache wasn't starting over (classes Cron, Cache_Options, Cache_Files_Management changed).
 
 v.4.4.1
 * [feature] Taxonomy templates using Polylang finally work if no langage is passed. (Despite no response on [Polylang git](https://github.com/polylang/polylang/issues/1615 "polylang git issue")

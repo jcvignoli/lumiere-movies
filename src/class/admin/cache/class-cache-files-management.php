@@ -189,33 +189,44 @@ class Cache_Files_Management {
 	 * @since 4.0 Method created
 	 * @since 4.3.3 Deeply reviewed, removed sleep, using batches, using transients => needs to be executed more often
 	 *
-	 * @param int $batch_limit OPTIONAL: number of files processed in every call to this method (every cron call) for each $types (double the number)
-	 * @param int $days_next_start OPTIONAL: Number of days before starting a brand new serie of refresh.
+	 * @param int $batch_limit Number of files processed in every call to this method (every cron call) for each $types (double the number)
+	 * @param int $days_next_start Number of days (in seconds) before starting a brand new serie of refresh.
 	 * @return void All cache files has been refreshed
 	 */
-	public function cron_all_cache_refresh( int $batch_limit = 5, int $days_next_start = 5 ): void {
+	public function cron_all_cache_refresh( int $batch_limit, int $days_next_start ): void {
 
 		$refresh_ids = [];
 		$types = [ 'movie', 'people' ];
-		$day_in_seconds = 24 * 60 * 60;
 
 		foreach ( $types as $movie_or_people ) {
 
 			$array_all_items = get_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people );
+			$lumiere_next_cron_run = get_transient( 'lum_cache_cron_refresh_time_started' );
 
 			// Transient didn't exist, so create an array of all movies/people in the cache and put it in a transient.
-			if ( $array_all_items === false ) {
+			if ( $array_all_items === false && $lumiere_next_cron_run !== false ) {
 				foreach ( $this->get_imdb_object_per_cat( $movie_or_people ) as $movie_title_object ) { // Build array of movies to refresh.
 					$refresh_ids[ $movie_or_people ][] = $movie_title_object->imdbid();
 				}
 				if ( isset( $refresh_ids[ $movie_or_people ] ) ) {
 					$array_all_items = $refresh_ids[ $movie_or_people ];
-					set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items, $days_next_start * $day_in_seconds );
+					set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items, $days_next_start );
 					$this->logger->log->info( '[Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
 				}
+
+				// No 'lum_cache_cron_refresh_time_started' transiant exists but array items does, so remove movie and people transiants.
+			} elseif ( ! isset( $lumiere_next_cron_run ) || $lumiere_next_cron_run === false ) {
+				$this->logger->log->info( '[Cache_Tools] A new batch of refresh is needed, recreating the list of ' . $movie_or_people );
+				set_transient( 'lum_cache_cron_refresh_time_started', $days_next_start + time(), $days_next_start );
+				delete_transient( 'lum_cache_cron_refresh_store_movie' );
+				delete_transient( 'lum_cache_cron_refresh_store_people' );
+				$this->cron_all_cache_refresh( $batch_limit, $days_next_start );
+				return;
+
 				// Everything has already been processed, exit.
-			} elseif ( count( $array_all_items ) === 0 ) {
-				$this->logger->log->debug( '[Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start after the defined time ' . gmdate( 'd \d\a\y\s', $days_next_start * $day_in_seconds ) . ' since the first run' );
+			} elseif ( $array_all_items !== false && count( $array_all_items ) === 0 ) {
+
+				$this->logger->log->debug( '[Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start on the ' . gmdate( 'd/m/Y @H:i:s', intval( $lumiere_next_cron_run ) ) );
 				continue;
 			}
 
