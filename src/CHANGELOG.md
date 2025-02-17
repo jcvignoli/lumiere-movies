@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.4.3
+
 v.4.4.2
 * [bug] Autorefresh of cache wasn't starting over (classes Cron, Cache_Options, Cache_Files_Management changed).
 
