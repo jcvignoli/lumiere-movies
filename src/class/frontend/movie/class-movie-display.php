@@ -200,20 +200,23 @@ class Movie_Display extends Movie_Data {
 			} elseif ( is_string( $films_array[ $i ] ) ) {
 				$movie_name = strtolower( $films_array[ $i ] );
 				$this->logger->log->debug( '[Movie_Display] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
+			} else {
+				$this->logger->log->debug( '[Movie_Display] Invalid IMDb ID or title provided, aborting' );
+				continue;
 			}
 
 			// check a the movie title exists.
-			$this->logger->log->debug( '[Movie_Display] searching ' . esc_html( $movie_name ?? '(no movie name)' ) );
+			$this->logger->log->debug( '[Movie_Display] Searching ' . esc_html( $movie_name ) );
 
 			/** @phpstan-var TITLESEARCH_RETURNSEARCH|null $results */
-			$results = isset( $movie_name ) ? $this->plugins_classes_active['imdbphp']->search_movie_title(
+			$results = strlen( $movie_name ) > 0 ? $this->plugins_classes_active['imdbphp']->search_movie_title(
 				$movie_name,
 				$this->logger->log,
 			) : null;
 
 			// No results were found in imdbphp query.
 			if ( ! isset( $results[0] ) ) {
-				$this->logger->log->info( '[Movie_Display] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . esc_html( $movie_name ?? '(no movie name)' ) . ', aborting.' );
+				$this->logger->log->info( '[Movie_Display] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . esc_html( $movie_name ) . ', aborting.' );
 				continue;
 			}
 

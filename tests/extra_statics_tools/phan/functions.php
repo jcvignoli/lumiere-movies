@@ -18,5 +18,4 @@ namespace {
 		 */
 		function get_terms( $args = array(), $deprecated = '' ) {}
 	}
-
 }

@@ -73,11 +73,10 @@ return [
 	// Perfect for getting bootstrap files
 	'file_list' => [
 		// 'tests/bootstrap-testing.php', // Doesn't work as a real bootstrap, not finding below declarations
+		'tests/extra_statics_tools/phan/functions.php',
 		'tests/extra_statics_tools/constants.php',
 		'tests/extra_statics_tools/functions.php',
 		'tests/extra_statics_tools/classes.php',
-		// 'tests/extra_statics_tools/phan/bootstrap-phan.php',
-		'tests/extra_statics_tools/phan/functions.php',
 		'vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php',
 		'vendor/php-stubs/wordpress-stubs/wordpress-stubs.php',
 		'vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php',
