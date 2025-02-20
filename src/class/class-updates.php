@@ -81,7 +81,10 @@ class Updates {
 			// Build the class name.
 			$class_name = "Lumiere\Updates\Lumiere_Update_File_{$iterative_number_with_leading_zero}";
 
-			// Execute if class and method exist.
+			/**
+			 * Execute if class and method exist.
+			 * Do not include it into a hook, since it's executed in multiple hooks
+			 */
 			if ( class_exists( $class_name ) === true && method_exists( $class_name, 'lumiere_run_local_update' ) === true ) {
 				$child_update_class = new $class_name();
 				$child_update_class->lumiere_run_local_update();

@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 
 // Retrieve the vars from calling class.
 $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
-$lumiere_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
+$lum_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -46,16 +46,16 @@ $lumiere_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
 			<div class="lumiere_padding_ten lum_align_last_center lumiere_flex_auto">
 				<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $lum_that->imdb_data_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
 
-				foreach ( $lum_that->imdb_data_values['imdbwidgetorder'] as $lumiere_key => $lumiere_value ) {
-					echo "\n\t\t\t\t<option value='" . esc_attr( $lumiere_key ) . "'";
+				foreach ( $lum_that->imdb_data_values['imdbwidgetorder'] as $lum_key => $lumiere_value ) {
+					echo "\n\t\t\t\t<option value='" . esc_attr( $lum_key ) . "'";
 
 					// search if "imdbwidget'title'" (ie) is activated
-					if ( $lumiere_key === 'year' ) {
-						echo ' label="' . esc_attr( $lumiere_key ) . ' (' . esc_html__( 'next to title', 'lumiere-movies' ) . ')">' . esc_html( $lumiere_key );
-					} elseif ( $lum_that->imdb_data_values[ "imdbwidget$lumiere_key" ] !== '1' ) {
-						echo ' label="' . esc_attr( $lumiere_key ) . ' (' . esc_html__( 'unactivated', 'lumiere-movies' ) . ')">' . esc_html( $lumiere_key );
+					if ( $lum_key === 'year' ) {
+						echo ' label="' . esc_attr( $lum_key ) . ' (' . esc_html__( 'always next to title', 'lumiere-movies' ) . ')">' . esc_html( $lum_key );
+					} elseif ( $lum_that->imdb_data_values[ "imdbwidget$lum_key" ] !== '1' ) {
+						echo ' label="' . esc_attr( $lum_key ) . ' (' . esc_html__( 'unactivated', 'lumiere-movies' ) . ')">' . esc_html( $lum_key );
 					} else {
-						echo ' label="' . esc_attr( $lumiere_items_people [ $lumiere_key ] ) . '">' . esc_html( $lumiere_key );
+						echo ' label="' . esc_attr( $lum_items_people [ $lum_key ] ) . '">' . esc_html( $lum_key );
 					}
 					echo '</option>';
 				}

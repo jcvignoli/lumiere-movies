@@ -84,8 +84,10 @@ class Logger {
 		$post_type = ( isset( $screen ) && ! is_null( $screen->post_type ) ) ? $screen->post_type : null;
 		*/
 
-		// If the page called is post or post-new, set $is_editor_page on true.
-		// This is useful when display a post.
+		/**
+		 * If the page called is post or post-new, set $is_editor_page on true.
+		 * This is useful when displaying a post.
+		 */
 		if ( isset( $GLOBALS['hook_suffix'] )
 			&& (
 				$GLOBALS['hook_suffix'] === 'post.php'
@@ -95,8 +97,10 @@ class Logger {
 			return true;
 		}
 
-		// If the referer of current page is a specific one, set $is_editor_page on true.
-		// This is useful when saving a post in editor interface.
+		/**
+		 * If the referer of current page is a specific one, set $is_editor_page on true.
+		 * This is useful when saving a post in editor interface.
+		 */
 		$referer = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 		if ( Data::lumiere_array_contains_term( self::PAGES_PROHIBITED, $referer ) ) {
 			return true;

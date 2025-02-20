@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.4.3
+* [technical] Renamed fields prodcompany => prodCompany, officialsites => extSites, creator => cinematographer (in order to match IMDb library method names)
 
 v.4.4.2
 * [bug] Autorefresh of cache wasn't starting over (classes Cron, Cache_Options, Cache_Files_Management changed).

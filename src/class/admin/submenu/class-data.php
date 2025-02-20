@@ -43,36 +43,37 @@ class Data extends Admin_Menu {
 
 		// Construct parent class
 		parent::__construct();
+		$tmp = get_option( Get_Options::get_data_tablename() );
 
 		// Build the list of data comments
 		$this->details_comments = [
-			'actor'         => esc_html__( 'Display (a number of) actors.', 'lumiere-movies' ),
-			'alsoknow'      => esc_html__( 'Display (a number of) alternative movie names and in other languages', 'lumiere-movies' ),
-			'color'         => esc_html__( 'Display colors', 'lumiere-movies' ),
-			'composer'      => esc_html__( 'Display composer', 'lumiere-movies' ),
-			'connection'    => esc_html__( 'Display (a number of) related movies', 'lumiere-movies' ),
-			'country'       => esc_html__( 'Display country.', 'lumiere-movies' ),
-			'creator'       => esc_html__( 'Display Creator', 'lumiere-movies' ),
-			'director'      => esc_html__( 'Display directors.', 'lumiere-movies' ),
-			'genre'         => esc_html__( 'Display genre.', 'lumiere-movies' ),
-			'goof'          => esc_html__( 'Display (a number of) goofs', 'lumiere-movies' ),
-			'keyword'       => esc_html__( 'Display keywords', 'lumiere-movies' ),
-			'language'      => esc_html__( 'Display languages.', 'lumiere-movies' ),
-			'officialsites' => esc_html__( 'Display official websites', 'lumiere-movies' ),
-			'pic'           => esc_html__( 'Display the main poster', 'lumiere-movies' ),
-			'plot'          => esc_html__( 'Display plots. This field may require much size in your page.', 'lumiere-movies' ),
-			'producer'      => esc_html__( 'Display (a number of) producers', 'lumiere-movies' ),
-			'prodcompany'   => esc_html__( 'Display the production companies', 'lumiere-movies' ),
-			'quote'         => esc_html__( 'Display (a number of) quotes.', 'lumiere-movies' ),
-			'rating'        => esc_html__( 'Display rating.', 'lumiere-movies' ),
-			'runtime'       => esc_html__( 'Display the runtime.', 'lumiere-movies' ),
-			'soundtrack'    => esc_html__( 'Display (a number of) soundtracks', 'lumiere-movies' ),
-			'source'        => esc_html__( 'Display IMDb website source of the movie', 'lumiere-movies' ),
-			'tagline'       => esc_html__( 'Display (a number of) taglines', 'lumiere-movies' ),
-			'title'         => esc_html__( 'Display the title', 'lumiere-movies' ),
-			'trailer'       => esc_html__( 'Display (a number of) trailers', 'lumiere-movies' ),
-			'writer'        => esc_html__( 'Display writers', 'lumiere-movies' ),
-			'year'          => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
+			'actor'           => esc_html__( 'Display (a number of) actors', 'lumiere-movies' ),
+			'alsoknow'        => esc_html__( 'Display (a number of) alternative movie names and in other languages', 'lumiere-movies' ),
+			'color'           => esc_html__( 'Display colors', 'lumiere-movies' ),
+			'composer'        => esc_html__( 'Display composer', 'lumiere-movies' ),
+			'connection'      => esc_html__( 'Display (a number of) related movies', 'lumiere-movies' ),
+			'country'         => esc_html__( 'Display country', 'lumiere-movies' ),
+			'cinematographer' => esc_html__( 'Display cinematographers', 'lumiere-movies' ),
+			'director'        => esc_html__( 'Display directors', 'lumiere-movies' ),
+			'genre'           => esc_html__( 'Display genre', 'lumiere-movies' ),
+			'goof'            => esc_html__( 'Display (a number of) goofs', 'lumiere-movies' ),
+			'keyword'         => esc_html__( 'Display keywords', 'lumiere-movies' ),
+			'language'        => esc_html__( 'Display languages', 'lumiere-movies' ),
+			'extSites'        => esc_html__( 'Display official websites', 'lumiere-movies' ),
+			'pic'             => esc_html__( 'Display the main poster', 'lumiere-movies' ),
+			'plot'            => esc_html__( 'Display plots. This field may require much size in your page.', 'lumiere-movies' ),
+			'producer'        => esc_html__( 'Display (a number of) producers', 'lumiere-movies' ),
+			'prodCompany'     => esc_html__( 'Display the production companies', 'lumiere-movies' ),
+			'quote'           => esc_html__( 'Display (a number of) quotes', 'lumiere-movies' ),
+			'rating'          => esc_html__( 'Display rating', 'lumiere-movies' ),
+			'runtime'         => esc_html__( 'Display the runtime', 'lumiere-movies' ),
+			'soundtrack'      => esc_html__( 'Display (a number of) soundtracks', 'lumiere-movies' ),
+			'source'          => esc_html__( 'Display IMDb website source of the movie', 'lumiere-movies' ),
+			'tagline'         => esc_html__( 'Display (a number of) taglines', 'lumiere-movies' ),
+			'title'           => esc_html__( 'Display the title', 'lumiere-movies' ),
+			'trailer'         => esc_html__( 'Display (a number of) trailers', 'lumiere-movies' ),
+			'writer'          => esc_html__( 'Display writers', 'lumiere-movies' ),
+			'year'            => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
 		];
 
 	}
@@ -140,7 +141,7 @@ class Data extends Admin_Menu {
 				'data/admin-data-order',
 				[
 					$this,
-					Get_Options::get_all_items(), // list of items and people with two extra lists.
+					Get_Options::get_all_fields(), // list of items and people with two extra lists.
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
@@ -174,7 +175,7 @@ class Data extends Admin_Menu {
 	 * @return array<string, string>
 	 */
 	private function get_taxo_fields(): array {
-		$all_taxo_elements = Get_Options::get_list_all_elements_taxo();
+		$all_taxo_elements = Get_Options::get_list_fields_taxo();
 		asort( $all_taxo_elements );
 		return $all_taxo_elements;
 	}
@@ -187,7 +188,7 @@ class Data extends Admin_Menu {
 	private function get_display_select_options(): array {
 
 		// Merge the list of items and people with two extra lists
-		$array_full = Get_Options::get_all_items();
+		$array_full = Get_Options::get_all_fields();
 
 		// Sort the array to display in alphabetical order
 		asort( $array_full );

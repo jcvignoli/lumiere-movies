@@ -259,34 +259,17 @@ class Cache_Files_Management {
 		$movie = $this->imdbphp_class->get_title_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
 
 		// create cache for everything.
-		$movie->alsoknow();
-		$movie->cast();
-		$movie->color();
-		$movie->composer();
-		$movie->country();
-		$movie->connection();
-		$movie->cinematographer();
-		$movie->director();
-		$movie->genre();
-		$movie->goof();
-		$movie->keyword();
-		$movie->language();
-		$movie->extSites();
+		$all_fields = Get_Options::get_list_all_items();
+		foreach ( $all_fields as $field => $translated_field ) {
+			if ( $field === 'pic' || $field === 'source' ) { // source && pic don't exist as IMDb library methods.
+				continue;
+			}
+			$movie->$field();
+		}
+
+		// Pics are not included in fields. Need to generate both posters and thumbnails.
 		$movie->photoLocalurl( true );
 		$movie->photoLocalurl( false );
-		$movie->plot();
-		$movie->prodCompany();
-		$movie->producer();
-		$movie->quote();
-		$movie->rating();
-		$movie->runtime();
-		$movie->soundtrack();
-		$movie->tagline();
-		$movie->title();
-		$movie->video();
-		$movie->votes();
-		$movie->writer();
-		$movie->year();
 	}
 
 	/**
@@ -299,17 +282,15 @@ class Cache_Files_Management {
 		$person = $this->imdbphp_class->get_name_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
 
 		// Create cache for everything.
-		$person->bio();
-		$person->birthname();
-		$person->born();
-		$person->died();
-		$person->name();
+		$all_methods = Get_Options::get_list_person_methods();
+
+		foreach ( $all_methods as $field => $translated_field ) {
+			$person->$field();
+		}
+
+		// Need to generate both posters and thumbnails.
 		$person->photoLocalurl( true );
 		$person->photoLocalurl( false );
-		$person->pubmovies();
-		$person->quotes();
-		$person->trivia();
-		$person->trademark();
 	}
 
 	/**

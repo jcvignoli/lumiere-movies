@@ -114,7 +114,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalcountry )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalcountry )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -159,7 +159,7 @@ class Movie_Data {
 		}
 
 		return $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( /* no number because no plural here */ )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		) . $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
 	}
 
@@ -180,7 +180,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotallanguages )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotallanguages )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -233,7 +233,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalconnected )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalconnected )[ $item_name ] ) )
 		);
 
 		foreach ( Get_Options::define_list_connect_cat() as $category => $data_explain ) {
@@ -329,7 +329,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalgenre )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalgenre )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -377,7 +377,7 @@ class Movie_Data {
 
 		$total_displayed = $limit_keywords > $nbtotalkeywords ? $nbtotalkeywords : $limit_keywords;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -428,7 +428,7 @@ class Movie_Data {
 
 		$total_displayed = $admin_max_goofs > $nbtotalgoofs ? $nbtotalgoofs : $admin_max_goofs;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Process goof category
@@ -474,7 +474,7 @@ class Movie_Data {
 
 		$total_displayed = $admin_max_quotes > $nbtotalquotes ? $nbtotalquotes : $admin_max_quotes;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_max_quotes && ( $i < $nbtotalquotes ); $i++ ) {
@@ -511,7 +511,7 @@ class Movie_Data {
 
 		$total_displayed = $admin_max_taglines > $nbtotaltaglines ? $nbtotaltaglines : $admin_max_taglines;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_max_taglines && ( $i < $nbtotaltaglines ); $i++ ) {
@@ -545,7 +545,7 @@ class Movie_Data {
 
 		$total_displayed = $admin_max_trailers > $nbtotaltrailers ? $nbtotaltrailers : $admin_max_trailers;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; ( $i < $admin_max_trailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
@@ -586,7 +586,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalcolors )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalcolors )[ $item_name ] ) )
 		);
 
 		// Taxonomy activated.
@@ -648,7 +648,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( /* no number because no plural here */ )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; ( $i < $nbtotalalsoknow ) && ( $i < $admin_max_aka ); $i++ ) {
@@ -694,7 +694,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalcomposer )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalcomposer )[ $item_name ] ) )
 		);
 
 		// Taxonomy
@@ -747,7 +747,7 @@ class Movie_Data {
 
 		$total_displayed = $admin_max_sndtrk > $nbtotalsoundtracks ? $nbtotalsoundtracks : $admin_max_sndtrk;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_max_sndtrk && ( $i < $nbtotalsoundtracks ); $i++ ) {
@@ -790,7 +790,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalprodcompany )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalprodcompany )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $nbtotalprodcompany; $i++ ) {
@@ -817,9 +817,9 @@ class Movie_Data {
 	 * @param Title $movie IMDbPHP title class
 	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
-	protected function get_item_officialsites( Title $movie, string $item_name ): string {
+	protected function get_item_extSites( Title $movie, string $item_name ): string { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 
-		$get_external_sites = $movie->extSites();
+		$get_external_sites = $movie->$item_name();
 		$external_sites = $get_external_sites['official'] ?? $get_external_sites['misc'] ?? [];
 		$nbtotalext_sites = count( $external_sites );
 		$hardcoded_max_sites = 8;               /* max sites 8, so 7 displayed */
@@ -831,7 +831,7 @@ class Movie_Data {
 
 		$total_displayed = $hardcoded_max_sites > $nbtotalext_sites ? $nbtotalext_sites : $hardcoded_max_sites;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Hardcoded 7 sites max.
@@ -873,7 +873,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotaldirector )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotaldirector )[ $item_name ] ) )
 		);
 
 		// If Taxonomy is selected, build links to taxonomy pages
@@ -913,15 +913,14 @@ class Movie_Data {
 
 	/**
 	 * Display the cinematographer (directeur photo)
-	 * For historical reasons, imdb config has "creator", so the method's name is based on the word
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 * @param string $item_name The name of the item, ie 'director', 'writer'
 	 */
-	protected function get_item_creator( Title $movie, string $item_name ): string {
+	protected function get_item_cinematographer( Title $movie, string $item_name ): string {
 
-		$cinematographer = $movie->cinematographer();
+		$cinematographer = $movie->$item_name();
 		$nbtotalcinematographer = count( $cinematographer );
 
 		// if no results, exit.
@@ -930,7 +929,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $nbtotalcinematographer )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalcinematographer )[ $item_name ] ) )
 		);
 
 		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
@@ -985,7 +984,7 @@ class Movie_Data {
 
 		$total_displayed = $admin_max_producer > $nbtotalproducer ? $nbtotalproducer : $admin_max_producer;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Taxonomy is active.
@@ -1069,7 +1068,7 @@ class Movie_Data {
 
 		$total_displayed = $admin_max_writer > $nbtotalwriters ? $nbtotalwriters : $admin_max_writer;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		// With taxonomy.
@@ -1178,7 +1177,7 @@ class Movie_Data {
 
 		$total_displayed = $admin_total_actor > $nbtotalactors ? $nbtotalactors : $admin_total_actor;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		// Taxonomy
@@ -1246,7 +1245,7 @@ class Movie_Data {
 
 		$total_displayed = $admin_max_plots > $nbtotalplots ? $nbtotalplots : $admin_max_plots;
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( $total_displayed )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $admin_max_plots ); $i++ ) {
@@ -1283,7 +1282,7 @@ class Movie_Data {
 		}
 
 		$output = $this->movie_layout->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_items( /* no number because no plural here */ )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		);
 
 		/**

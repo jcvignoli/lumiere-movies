@@ -45,7 +45,7 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 	 * Run the local update if lumiere_check_if_run_update() was successful
 	 * Everytime an update is processed, imdbHowManyUpdates is increased by 1
 	 */
-	protected function lumiere_run_local_update (): void {
+	protected function lumiere_run_local_update(): void {
 
 		// Execute the check in Updates parent class, passing the constants.
 		// The validating function makes sure that this update has to be run.

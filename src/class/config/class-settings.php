@@ -39,7 +39,7 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  *
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
  *
- * @phpstan-type OPTIONS_DATA array{'imdbtaxonomyactor'?:string, 'imdbtaxonomycolor'?:string, 'imdbtaxonomycomposer'?:string, 'imdbtaxonomycountry'?:string, 'imdbtaxonomycreator'?:string, 'imdbtaxonomydirector'?:string, 'imdbtaxonomygenre'?:string, 'imdbtaxonomykeyword'?:string, 'imdbtaxonomylanguage'?:string, 'imdbtaxonomyproducer'?:string, 'imdbtaxonomywriter'?:string, 'imdbwidgetactor'?:string, 'imdbwidgetactornumber'?:string, 'imdbwidgetalsoknow'?:string, 'imdbwidgetalsoknownumber'?:string, 'imdbwidgetcolor'?:string, 'imdbwidgetcomment'?:string, 'imdbwidgetcomposer'?:string, 'imdbwidgetconnection'?:string, 'imdbwidgetconnectionnumber'?:string, 'imdbwidgetcountry'?:string, 'imdbwidgetcreator'?:string, 'imdbwidgetdirector'?:string, 'imdbwidgetgenre'?:string, 'imdbwidgetgoof'?:string, 'imdbwidgetgoofnumber'?:string, 'imdbwidgetkeyword'?:string, 'imdbwidgetlanguage'?:string, 'imdbwidgetofficialsites'?:string, 'imdbwidgetpic'?:string, 'imdbwidgetplot'?:string, 'imdbwidgetplotnumber'?:string, 'imdbwidgetprodcompany'?:string, 'imdbwidgetproducer'?:string, 'imdbwidgetproducernumber'?:string, 'imdbwidgetquote'?:string, 'imdbwidgetquotenumber'?:string, 'imdbwidgetrating'?:string, 'imdbwidgetruntime'?:string, 'imdbwidgetsoundtrack'?:string, 'imdbwidgetsoundtracknumber'?:string, 'imdbwidgetsource'?:string, 'imdbwidgettagline'?:string, 'imdbwidgettaglinenumber'?:string, 'imdbwidgettitle'?:string, 'imdbwidgettrailer'?:string, 'imdbwidgettrailernumber'?:string, 'imdbwidgetwriter'?:string, 'imdbwidgetwriternumber'?:string, 'imdbwidgetyear'?:string,'imdbwidgetorder': array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, creator?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodcompany?: string, plot?: string, goof?: string, comment?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, officialsites?: string, source?: string, year?: string} }
+ * @phpstan-type OPTIONS_DATA array{'imdbtaxonomyactor'?:string, 'imdbtaxonomycolor'?:string, 'imdbtaxonomycomposer'?:string, 'imdbtaxonomycountry'?:string, 'imdbtaxonomycinematographer'?:string, 'imdbtaxonomydirector'?:string, 'imdbtaxonomygenre'?:string, 'imdbtaxonomykeyword'?:string, 'imdbtaxonomylanguage'?:string, 'imdbtaxonomyproducer'?:string, 'imdbtaxonomywriter'?:string, 'imdbwidgetactor'?:string, 'imdbwidgetactornumber'?:string, 'imdbwidgetalsoknow'?:string, 'imdbwidgetalsoknownumber'?:string, 'imdbwidgetcolor'?:string, 'imdbwidgetcomment'?:string, 'imdbwidgetcomposer'?:string, 'imdbwidgetconnection'?:string, 'imdbwidgetconnectionnumber'?:string, 'imdbwidgetcountry'?:string, 'imdbwidgetcinematographer'?:string, 'imdbwidgetdirector'?:string, 'imdbwidgetgenre'?:string, 'imdbwidgetgoof'?:string, 'imdbwidgetgoofnumber'?:string, 'imdbwidgetkeyword'?:string, 'imdbwidgetlanguage'?:string, 'imdbwidgetextSites'?:string, 'imdbwidgetpic'?:string, 'imdbwidgetplot'?:string, 'imdbwidgetplotnumber'?:string, 'imdbwidgetprodCompany'?:string, 'imdbwidgetproducer'?:string, 'imdbwidgetproducernumber'?:string, 'imdbwidgetquote'?:string, 'imdbwidgetquotenumber'?:string, 'imdbwidgetrating'?:string, 'imdbwidgetruntime'?:string, 'imdbwidgetsoundtrack'?:string, 'imdbwidgetsoundtracknumber'?:string, 'imdbwidgetsource'?:string, 'imdbwidgettagline'?:string, 'imdbwidgettaglinenumber'?:string, 'imdbwidgettitle'?:string, 'imdbwidgettrailer'?:string, 'imdbwidgettrailernumber'?:string, 'imdbwidgetwriter'?:string, 'imdbwidgetwriternumber'?:string, 'imdbwidgetyear'?:string,'imdbwidgetorder': array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, cinematographer?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodCompany?: string, plot?: string, goof?: string, comment?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, extSites?: string, source?: string, year?: string} }
   */
 class Settings extends Settings_Helper {
 
@@ -267,16 +267,16 @@ class Settings extends Settings_Helper {
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>
-	 * @phpstan-return array{ 'actor': string, 'composer': string, 'creator':string, 'director':string, 'producer':string, 'writer':string }
+	 * @phpstan-return array{ 'actor': string, 'composer': string, 'cinematographer':string, 'director':string, 'producer':string, 'writer':string }
 	 */
 	protected static function define_list_taxo_people( int $number = 1 ): array {
 		return [
-			'director' => _n( 'director', 'directors', $number, 'lumiere-movies' ),
-			'actor'    => _n( 'actor', 'actors', $number, 'lumiere-movies' ),
-			'creator'  => _n( 'cinematographer', 'cinematographers', $number, 'lumiere-movies' ),
-			'composer' => _n( 'composer', 'composers', $number, 'lumiere-movies' ),
-			'writer'   => _n( 'writer', 'writers', $number, 'lumiere-movies' ),
-			'producer' => _n( 'producer', 'producers', $number, 'lumiere-movies' ),
+			'director'         => _n( 'director', 'directors', $number, 'lumiere-movies' ),
+			'actor'            => _n( 'actor', 'actors', $number, 'lumiere-movies' ),
+			'cinematographer'  => _n( 'cinematographer', 'cinematographers', $number, 'lumiere-movies' ),
+			'composer'         => _n( 'composer', 'composers', $number, 'lumiere-movies' ),
+			'writer'           => _n( 'writer', 'writers', $number, 'lumiere-movies' ),
+			'producer'         => _n( 'producer', 'producers', $number, 'lumiere-movies' ),
 		];
 	}
 
@@ -300,22 +300,48 @@ class Settings extends Settings_Helper {
 	}
 
 	/**
+	 * Define the type methods available for persons
+	 *
+	 * @param int $number Optional: a number to turn into plural if needed
+	 * @return array<string, string>
+	 * @phpstan-return array{ 'award': string, 'bio': string, 'birthname':string, 'born':string, 'died':string, 'name': string, 'news': string, 'pubinterview':string, 'pubmovies':string, 'pubprints':string, 'quotes': string, 'spouse': string, 'trivia':string, 'trademark':string }
+	 */
+	protected static function define_list_person_methods( int $number = 1 ): array {
+		return [
+			'award'        => _n( 'award', 'awards', $number, 'lumiere-movies' ),
+			'bio'          => _n( 'biography', 'biographies', $number, 'lumiere-movies' ),
+			'birthname'    => __( 'birthname', 'lumiere-movies' ),
+			'born'         => __( 'born', 'lumiere-movies' ),
+			'died'         => __( 'died', 'lumiere-movies' ),
+			'name'         => __( 'name', 'lumiere-movies' ),
+			'news'         => __( 'news', 'lumiere-movies' ),
+			'pubinterview' => _n( 'public interview', 'public interviews', $number, 'lumiere-movies' ),
+			'pubmovies'    => _n( 'public movie', 'public movies', $number, 'lumiere-movies' ),
+			'pubprints'    => _n( 'public print', 'public prints', $number, 'lumiere-movies' ),
+			'quotes'       => _n( 'quote', 'quotes', $number, 'lumiere-movies' ),
+			'spouse'       => _n( 'spouse', 'spouses', $number, 'lumiere-movies' ),
+			'trivia'       => _n( 'trivia', 'trivias', $number, 'lumiere-movies' ),
+			'trademark'    => _n( 'trademark', 'trademarks', $number, 'lumiere-movies' ),
+		];
+	}
+
+	/**
 	 * Define the type items that are NOT used for taxonomy
 	 * Complements define_list_taxo_items() which are for taxo items
 	 * The order will define the "Display order" in admin data options (except if translated, the order will be in local lang)
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>
-	 * @phpstan-return array{ 'officialsites':string,'prodcompany':string, 'rating':string,'runtime':string, 'source':string, 'year':string, 'title': string, 'pic':string, 'alsoknow': string, 'connection':string, 'goof': string, 'plot':string, 'quote':string, 'soundtrack':string, 'tagline':string, 'trailer':string }
+	 * @phpstan-return array{ 'extSites':string,'prodCompany':string, 'rating':string,'runtime':string, 'source':string, 'year':string, 'title': string, 'pic':string, 'alsoknow': string, 'connection':string, 'goof': string, 'plot':string, 'quote':string, 'soundtrack':string, 'tagline':string, 'trailer':string }
 	 */
 	protected static function define_list_non_taxo_items( int $number = 1 ): array {
 		return [
 			'title'         => _n( 'title', 'titles', $number, 'lumiere-movies' ),
 			'pic'           => _n( 'pic', 'pics', $number, 'lumiere-movies' ),
-			'runtime'       => __( 'runtime', 'lumiere-movies' ),                       /* always singular */
-			'alsoknow'      => __( 'also known as', 'lumiere-movies' ),                 /* always singular */
+			'runtime'       => __( 'runtime', 'lumiere-movies' ),                                           /* always singular */
+			'alsoknow'      => __( 'also known as', 'lumiere-movies' ),                                     /* always singular */
 			'rating'        => _n( 'rating', 'ratings', $number, 'lumiere-movies' ),
-			'prodcompany'   => _n( 'production company', 'production companies', $number, 'lumiere-movies' ),
+			'prodCompany'   => _n( 'production company', 'production companies', $number, 'lumiere-movies' ),
 			'connection'    => _n( 'related movie', 'related movies', $number, 'lumiere-movies' ),          /* @since 4.4 added */
 			'goof'          => _n( 'goof', 'goofs', $number, 'lumiere-movies' ),
 			'quote'         => _n( 'quote', 'quotes', $number, 'lumiere-movies' ),                          /* @since 4.4 back in use */
@@ -323,9 +349,9 @@ class Settings extends Settings_Helper {
 			'plot'          => _n( 'plot', 'plots', $number, 'lumiere-movies' ),
 			'trailer'       => _n( 'trailer', 'trailers', $number, 'lumiere-movies' ),
 			'soundtrack'    => _n( 'soundtrack', 'soundtracks', $number, 'lumiere-movies' ),
-			'officialsites' => _n( 'official website', 'official websites', $number, 'lumiere-movies' ),
+			'extSites'      => _n( 'official website', 'official websites', $number, 'lumiere-movies' ),
 			'source'        => _n( 'source', 'sources', $number, 'lumiere-movies' ),
-			'year'          => __( 'year of release', 'lumiere-movies' ),                   /* always singular */
+			'year'          => __( 'year of release', 'lumiere-movies' ),                                   /* always singular */
 		];
 	}
 
@@ -348,6 +374,7 @@ class Settings extends Settings_Helper {
 
 	/**
 	 * Define the type of items to show in goofs (used when display it in movies)
+	 * Some are deactivated, not returned in movies
 	 * @see Get_Options::get_list_goofs_cat() Call this class
 	 *
 	 * @since 4.4 method added

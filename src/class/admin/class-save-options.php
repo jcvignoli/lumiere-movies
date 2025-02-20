@@ -574,7 +574,7 @@ class Save_Options {
 			if ( in_array( $key, $forbidden_terms, true ) ) {
 				continue;
 			} elseif ( $key === 'imdbwidgetorderContainer' && is_array( $postvalue ) ) { // build 'imdbwidgetorder' row.
-				$post_value_san = map_deep( $postvalue, 'sanitize_text_field' );
+				$post_value_san = map_deep( $postvalue, 'esc_html' );
 				$key_final = 'imdbwidgetorder';
 				$val_final = [];
 				foreach ( $post_value_san as $val_array_key => $val_array_value ) {
@@ -583,10 +583,10 @@ class Save_Options {
 				}
 			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
 				// Sanitize
-				$key_san = sanitize_key( $key );
+				$key_san = esc_html( $key );
 				// remove "imdb_" from $key
 				$key_final = str_replace( 'imdb_', '', $key_san );
-				$val_final = sanitize_key( $postvalue );
+				$val_final = esc_html( $postvalue );
 			}
 
 			if ( isset( $key_final ) && isset( $val_final ) ) {
