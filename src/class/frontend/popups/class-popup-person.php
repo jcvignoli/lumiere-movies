@@ -21,6 +21,7 @@ use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Popups;
 
 /**
  * Display star information in a popup
@@ -119,37 +120,6 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 		$this->logger->log->debug( ' Movie person IMDb ID provided in URL: ' . esc_html( $person_id ) );
 		return $person_class;
-	}
-
-	/**
-	 * List of all roles
-	 *
-	 * @see \IMDb\Name::credit()
-	 *
-	 * @param int $number Number of elements, most haven't
-	 * @return array<array-key, string>
-	 */
-	private function get_all_roles( int $number = 1 ): array {
-		return [ // list of types of movies to query translated
-			'archiveFootage'     => _n( 'archive footage', 'archive footages', $number, 'lumiere-movies' ),
-			'artDepartment'      => __( 'art department', 'lumiere-movies' ),
-			'cinematographer'    => __( 'cinematographer', 'lumiere-movies' ),
-			'costume_supervisor' => __( 'costume supervisor', 'lumiere-movies' ),
-			'costume_department' => __( 'costume department', 'lumiere-movies' ),
-			'director'           => __( 'director', 'lumiere-movies' ),
-			'actor'              => __( 'actor', 'lumiere-movies' ),
-			'actress'            => __( 'actress', 'lumiere-movies' ),
-			'assistantDirector'  => __( 'assistant director', 'lumiere-movies' ),
-			'editor'             => __( 'editor', 'lumiere-movies' ),
-			'miscellaneous'      => __( 'divers', 'lumiere-movies' ),
-			'producer'           => __( 'producer', 'lumiere-movies' ),
-			'self'               => __( 'self', 'lumiere-movies' ),
-			'showrunner'         => __( 'showrunner', 'lumiere-movies' ),
-			'soundtrack'         => _n( 'soundtrack', 'soundtracks', $number, 'lumiere-movies' ),
-			'stunts'             => __( 'stunts', 'lumiere-movies' ),
-			'thanks'             => _n( 'thanks movie', 'thanks movies', $number, 'lumiere-movies' ),
-			'writer'             => __( 'writer', 'lumiere-movies' ),
-		];
 	}
 
 	/**
@@ -329,14 +299,9 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_summary(): string {
 
-		$list_roles = [ // list of types of movies to query translated
-			'director',
-			'actor',
-			'actress',
-		];
-		$max_films = 9; // max number of movies before breaking with "see all"
+		$see_all_max_movies = 9; // max number of movies before breaking with "see all"
 
-		return $this->get_movies( $list_roles, $max_films );
+		return $this->get_movies( Settings_Popups::PERSON_SUMMARY_ROLES, $see_all_max_movies ); // Display all selected roles.
 	}
 
 	/**
@@ -344,29 +309,9 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_full_filmo(): string {
 
-		$list_roles = [ // list of types of movies to query translated
-			'director',
-			'actor',
-			'actress',
-			'assistantDirector',
-			'showrunner',
-			'writer',
-			'cinematographer',
-			'producer',
-			'editor',
-			'self',
-			'soundtrack',
-			'artDepartment',
-			'stunts',
-			'costume_department',
-			'costume_supervisor',
-			'archiveFootage',
-			'thanks',
-			'miscellaneous',
-		];
-		$max_films = 15; // max number of movies before breaking with "see all"
+		$see_all_max_movies = 15; // max number of movies before breaking with "see all"
 
-		return $this->get_movies( $list_roles, $max_films );
+		return $this->get_movies( Settings_Popups::PERSON_ALL_ROLES, $see_all_max_movies ); // Display all selected roles.
 	}
 
 	/**
@@ -530,10 +475,12 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 				// Display a "show more" after XX results
 				if ( $i === $nblimitpubprints ) {
-					$output .= "\n\t" . '<span class="activatehidesection"><font size="-1"><strong>&nbsp;('
+					$isset_next = isset( $pubprints[ $i + 1 ] ) ? true : false;
+					$output .= $isset_next === true ? "\n\t" . '<span class="activatehidesection"><font size="-1"><strong>&nbsp;('
 						. esc_html__( 'see all', 'lumiere-movies' )
 						. ')</strong></font></span> '
-						. "\n\t" . '<span class="hidesection">';
+						. "\n\t" . '<span class="hidesection">'
+						: '';
 				}
 
 				if ( isset( $pubprints[ $i ]['author'][0] ) && strlen( $pubprints[ $i ]['author'][0] ) > 0 ) {
@@ -595,10 +542,12 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 				// Display a "show more" after 3 results
 				if ( $i === $nblimittrivia ) {
-					$output .= "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
+					$isset_next = isset( $trivia[ $i + 1 ] ) ? true : false;
+					$output .= $isset_next === true ? "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
 						. esc_html__( 'see all', 'lumiere-movies' )
 						. ')</strong></font></div>'
-						. "\n\t\t" . '<div class="hidesection">';
+						. "\n\t\t" . '<div class="hidesection">'
+						: '';
 				}
 
 				$output .= "\n\t\t\t" . '<div>';
@@ -662,10 +611,12 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 				// Display a "show more" after XX results
 				if ( $i === $nblimitquotes ) {
-					$output .= "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
+					$isset_next = isset( $quotes[ $i + 1 ] ) ? true : false;
+					$output .= $isset_next === true ? "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
 						. esc_html__( 'see all', 'lumiere-movies' )
 						. ')</strong></font></div>'
-						. "\n\t\t" . '<div class="hidesection">';
+						. "\n\t\t" . '<div class="hidesection">'
+						: '';
 				}
 
 				$output .= "\n\t\t\t" . '<div>';
@@ -712,10 +663,12 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 				// Display a "show more" after XX results
 				if ( $i === $nblimittradmark ) {
-					$output .= "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
+					$isset_next = isset( $trademark[ $i + 1 ] ) ? true : false;
+					$output .= $isset_next === true ? "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><font size="-1"><strong>('
 						. esc_html__( 'see all', 'lumiere-movies' )
 						. ')</strong></font></div>'
-						. "\n\t\t" . '<div class="hidesection">';
+						. "\n\t\t" . '<div class="hidesection">'
+						: '';
 				}
 
 				$output .= "\n\t\t\t" . '<div>';
@@ -874,13 +827,13 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 	/**
 	 * Helper method to get all movies
-	 * Retrieves all movies that are available in Popup_Person::get_all_roles()
+	 * Retrieves all movies that are available in \Lumiere\Config\Settings_Popups::credits_role_all()
 	 *
-	 * @param list<string> $list_roles List of the roles, translated and pluralised in Popup_Person::get_all_roles()
-	 * @param int $max_films Limit of the number of movies to display
+	 * @param list<string> $list_roles List of the roles, translated and pluralised in \Lumiere\Config\Settings_Popups::credits_role_all()
+	 * @param int $see_all_max_movies Limit of the movies to display before breaking with "see all"
 	 * @return string
 	 */
-	private function get_movies( array $list_roles, int $max_films ): string {
+	private function get_movies( array $list_roles, int $see_all_max_movies ): string {
 
 		$output = '';
 		$all_movies = $this->person_class->credit(); // retrieve all movies for current person.
@@ -894,11 +847,11 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 				continue;
 			}
 
-			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( ucfirst( $this->get_all_roles( $nb_films )[ $current_role ] ) ) . ' filmography -->';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( ucfirst( Settings_Popups::credits_role_all( $nb_films )[ $current_role ] ) ) . ' filmography -->';
 			$output .= "\n\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			$output .= "\n\t\t" . '<div>';
-			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( $this->get_all_roles( $nb_films )[ $current_role ] ) ) . ' </span>';
+			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Settings_Popups::credits_role_all( $nb_films )[ $current_role ] ) ) . ' </span>';
 
 			foreach ( $all_movies[ $current_role ] as $credit_role ) {
 
@@ -915,9 +868,10 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 				}
 
-				// Display a "show more" after XX results
-				if ( $i === $max_films ) {
-					$output .= '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ')</strong></font></span><span class="hidesection">';
+				// Display a "show more" after XX results, only if a next result exists
+				if ( $i === $see_all_max_movies ) {
+					$isset_next = isset( $all_movies[ $current_role ][ $i + 1 ] ) ? true : false;
+					$output .= $isset_next === true ? '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ')</strong></font></span><span class="hidesection">' : '';
 				}
 
 				if ( $i === $nb_films ) {

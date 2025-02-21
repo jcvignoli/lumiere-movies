@@ -115,15 +115,15 @@ class EndCest {
 		$I->scrollTo('#miscpart');
 		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
 		
-		// Activate keep size under cache cron
+		// Disable cron keep size under cache
 		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
 		$I->scrollTo('#imdb_imdbcachekeepsizeunder_id');
-		$I->CustomActivateCheckbox('#imdb_imdbcachekeepsizeunder_yes', '#lumiere_update_cache_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbcachekeepsizeunder_yes', '#lumiere_update_cache_settings' );
 		
-		// Activate auto refresh cache cron
+		// Disable cron auto refresh cache
 		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
 		$I->scrollTo('#imdb_imdbcachekeepsizeunder_id');
-		$I->CustomActivateCheckbox('#imdb_imdbcacheautorefreshcron_yes', '#lumiere_update_cache_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbcacheautorefreshcron_yes', '#lumiere_update_cache_settings' );
 	}
 	
 	/**

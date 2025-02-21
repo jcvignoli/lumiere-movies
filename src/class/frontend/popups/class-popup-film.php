@@ -573,10 +573,9 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 					);
 				echo "\n\t\t\t\t</div>";
 
-				if ( $nb_total_trivia_processed === 2 ) {
-					echo "\n\t\t\t"
-					. '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more trivias', 'lumiere-movies' ) . ')</strong></div>';
-					echo "\n\t\t\t<div class=\"hidesection\">";
+				if ( $nb_total_trivia_processed === 5 ) {
+					$isset_next = isset( $trivia_content[ $i + 1 ] ) ? true : false;
+					echo $isset_next === true ? "\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more trivias', 'lumiere-movies' ) . ')</strong></div>' . "\n\t\t\t<div class=\"hidesection\">" : '';
 
 				}
 
@@ -628,8 +627,8 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 			}
 
 			if ( $i === 4 ) {
-				echo "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more soundtracks', 'lumiere-movies' ) . ')</strong></div>';
-				echo "\n\t\t<div class=\"hidesection\">";
+				$isset_next = isset( $soundtrack[ $i + 1 ] ) ? true : false;
+				echo $isset_next === true ? "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more soundtracks', 'lumiere-movies' ) . ')</strong></div>' . "\n\t\t<div class=\"hidesection\">" : '';
 
 			}
 
@@ -687,8 +686,8 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 				}
 
 				if ( $overall_loop === 4 ) {
-					echo "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more goofs', 'lumiere-movies' ) . ')</strong></div>'
-					. "\n\t\t" . '<div class="hidesection">';
+					$isset_next = isset( $goof[ $type ][ $i + 1 ] ) ? true : false;
+					echo $isset_next === true ? "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more goofs', 'lumiere-movies' ) . ')</strong></div>' . "\n\t\t" . '<div class="hidesection">' : '';
 				}
 
 				if ( $overall_loop > 4 && $overall_loop === $nbtotalgoof ) {
