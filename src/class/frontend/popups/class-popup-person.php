@@ -122,6 +122,37 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	}
 
 	/**
+	 * List of all roles
+	 *
+	 * @see \IMDb\Name::credit()
+	 *
+	 * @param int $number Number of elements, most haven't
+	 * @return array<array-key, string>
+	 */
+	private function get_all_roles( int $number = 1 ): array {
+		return [ // list of types of movies to query translated
+			'archiveFootage'     => _n( 'archive footage', 'archive footages', $number, 'lumiere-movies' ),
+			'artDepartment'      => __( 'art department', 'lumiere-movies' ),
+			'cinematographer'    => __( 'cinematographer', 'lumiere-movies' ),
+			'costume_supervisor' => __( 'costume supervisor', 'lumiere-movies' ),
+			'costume_department' => __( 'costume department', 'lumiere-movies' ),
+			'director'           => __( 'director', 'lumiere-movies' ),
+			'actor'              => __( 'actor', 'lumiere-movies' ),
+			'actress'            => __( 'actress', 'lumiere-movies' ),
+			'assistantDirector'  => __( 'assistant director', 'lumiere-movies' ),
+			'editor'             => __( 'editor', 'lumiere-movies' ),
+			'miscellaneous'      => __( 'divers', 'lumiere-movies' ),
+			'producer'           => __( 'producer', 'lumiere-movies' ),
+			'self'               => __( 'self', 'lumiere-movies' ),
+			'showrunner'         => __( 'showrunner', 'lumiere-movies' ),
+			'soundtrack'         => _n( 'soundtrack', 'soundtracks', $number, 'lumiere-movies' ),
+			'stunts'             => __( 'stunts', 'lumiere-movies' ),
+			'thanks'             => _n( 'thanks movie', 'thanks movies', $number, 'lumiere-movies' ),
+			'writer'             => __( 'writer', 'lumiere-movies' ),
+		];
+	}
+
+	/**
 	 * Display layout
 	 *
 	 * @return void
@@ -325,10 +356,13 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			'editor',
 			'self',
 			'soundtrack',
+			'artDepartment',
+			'stunts',
+			'costume_department',
+			'costume_supervisor',
 			'archiveFootage',
 			'thanks',
-			'stunts',
-			'artDepartment',
+			'miscellaneous',
 		];
 		$max_films = 15; // max number of movies before breaking with "see all"
 
@@ -839,45 +873,22 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	}
 
 	/**
-	 * List of all roles
-	 * @param int $number Number of elements
-	 * @return array<array-key, string>
-	 */
-	private function get_all_roles( int $number = 1 ): array {
-		return [ // list of types of movies to query translated
-			'director'          => _n( 'director', 'directors', $number, 'lumiere-movies' ),
-			'actor'             => _n( 'actor', 'actors', $number, 'lumiere-movies' ),
-			'actress'           => _n( 'actress', 'actresses', $number, 'lumiere-movies' ),
-			'assistantDirector' => _n( 'assistant director', 'assistant directors', $number, 'lumiere-movies' ),
-			'showrunner'        => _n( 'showrunner', 'showrunners', $number, 'lumiere-movies' ),
-			'writer'            => _n( 'writer', 'writers', $number, 'lumiere-movies' ),
-			'cinematographer'   => _n( 'cinematographer', 'cinematographers', $number, 'lumiere-movies' ),
-			'producer'          => _n( 'producer', 'producers', $number, 'lumiere-movies' ),
-			'editor'            => _n( 'editor', 'editors', $number, 'lumiere-movies' ),
-			'self'              => _n( 'self movie', 'self movies', $number, 'lumiere-movies' ),
-			'soundtrack'        => _n( 'soundtrack', 'soundtracks', $number, 'lumiere-movies' ),
-			'archiveFootage'    => _n( 'archive footage', 'archive footages', $number, 'lumiere-movies' ),
-			'thanks'            => _n( 'thanks movie', 'thanks movies', $number, 'lumiere-movies' ),
-			'stunts'            => __( 'stunts', 'lumiere-movies' ),
-			'artDepartment'     => __( 'art department', 'lumiere-movies' ),
-		];
-	}
-
-	/**
 	 * Helper method to get all movies
-	 * @param list<string> $list_roles List of the roles with translation
-	 * @param int $max_films
+	 * Retrieves all movies that are available in Popup_Person::get_all_roles()
+	 *
+	 * @param list<string> $list_roles List of the roles, translated and pluralised in Popup_Person::get_all_roles()
+	 * @param int $max_films Limit of the number of movies to display
 	 * @return string
 	 */
-	private function get_movies( array $list_roles, int $max_films = 10 ): string {
+	private function get_movies( array $list_roles, int $max_films ): string {
 
 		$output = '';
 		$all_movies = $this->person_class->credit(); // retrieve all movies for current person.
 
 		foreach ( $list_roles as $current_role ) {
 
-			$nb_films = count( $all_movies[ $current_role ] ); // Count the total number of movies.
 			$i = 0;
+			$nb_films = isset( $all_movies[ $current_role ] ) ? count( $all_movies[ $current_role ] ) : 0; // Count the total number of movies.
 
 			if ( $nb_films < 1 ) { // If not movies for current category found, jump to the next.
 				continue;
@@ -906,10 +917,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 				// Display a "show more" after XX results
 				if ( $i === $max_films ) {
-					$output .= '&nbsp;<span class="activatehidesection"><font size="-1"><strong>('
-						. esc_html__( 'see all', 'lumiere-movies' )
-						. ')</strong></font></span> '
-						. '<span class="hidesection">';
+					$output .= '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ')</strong></font></span><span class="hidesection">';
 				}
 
 				if ( $i === $nb_films ) {
