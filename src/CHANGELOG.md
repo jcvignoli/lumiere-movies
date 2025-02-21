@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.4.3
+* [feature] Full translation of people popup's items
 * [technical] Renamed fields prodcompany => prodCompany, officialsites => extSites, creator => cinematographer (in order to match IMDb library method names)
 
 v.4.4.2
