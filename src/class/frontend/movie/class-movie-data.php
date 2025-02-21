@@ -811,7 +811,6 @@ class Movie_Data {
 
 	/**
 	 * Display the official site
-	 * @since 4.3 using extSites from new IMDBphpGraphQL, but kept ol official sites names
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class

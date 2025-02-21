@@ -304,20 +304,24 @@ class Settings extends Settings_Helper {
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>
-	 * @phpstan-return array{ 'award': string, 'bio': string, 'birthname':string, 'born':string, 'died':string, 'name': string, 'news': string, 'pubinterview':string, 'pubmovies':string, 'pubprints':string, 'quotes': string, 'spouse': string, 'trivia':string, 'trademark':string }
+	 * @phpstan-return array{award: string, bio: string, birthname: string, born: string, children: string, credit: string, died: string, name: string, news: string, nickname: string, pubinterview: string, pubmovies: string, pubportrayal: string, pubprints: string, quotes: string, spouse: string, trademark: string, trivia: string }
 	 */
 	protected static function define_list_person_methods( int $number = 1 ): array {
 		return [
 			'award'        => _n( 'award', 'awards', $number, 'lumiere-movies' ),
-			'bio'          => _n( 'biography', 'biographies', $number, 'lumiere-movies' ),
+			'bio'          => _n( 'biographical movie', 'biographical movies', $number, 'lumiere-movies' ),
 			'birthname'    => __( 'birthname', 'lumiere-movies' ),
 			'born'         => __( 'born', 'lumiere-movies' ),
+			'children'     => _n( 'child', 'children', $number, 'lumiere-movies' ),
+			'credit'       => _n( 'credit', 'credits', $number, 'lumiere-movies' ),
 			'died'         => __( 'died', 'lumiere-movies' ),
 			'name'         => __( 'name', 'lumiere-movies' ),
 			'news'         => __( 'news', 'lumiere-movies' ),
-			'pubinterview' => _n( 'public interview', 'public interviews', $number, 'lumiere-movies' ),
+			'nickname'     => _n( 'nickname', 'nicknames', $number, 'lumiere-movies' ),
+			'pubinterview' => _n( 'interview', 'interviews', $number, 'lumiere-movies' ),
 			'pubmovies'    => _n( 'public movie', 'public movies', $number, 'lumiere-movies' ),
-			'pubprints'    => _n( 'public print', 'public prints', $number, 'lumiere-movies' ),
+			'pubprints'    => _n( 'printed ad', 'printed ads', $number, 'lumiere-movies' ),
+			'pubportrayal' => __( 'Portrayed in', 'lumiere-movies' ),
 			'quotes'       => _n( 'quote', 'quotes', $number, 'lumiere-movies' ),
 			'spouse'       => _n( 'spouse', 'spouses', $number, 'lumiere-movies' ),
 			'trivia'       => _n( 'trivia', 'trivias', $number, 'lumiere-movies' ),

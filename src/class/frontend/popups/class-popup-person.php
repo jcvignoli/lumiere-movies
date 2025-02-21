@@ -299,9 +299,9 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	private function display_summary(): string {
 
 		$list_roles = [ // list of types of movies to query translated
-			'director' => esc_html__( 'director', 'lumiere-movies' ),
-			'actor' => esc_html__( 'actor', 'lumiere-movies' ),
-			'actress' => esc_html__( 'actress', 'lumiere-movies' ),
+			'director',
+			'actor',
+			'actress',
 		];
 		$max_films = 9; // max number of movies before breaking with "see all"
 
@@ -314,21 +314,21 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	private function display_full_filmo(): string {
 
 		$list_roles = [ // list of types of movies to query translated
-			'director' => esc_html__( 'director', 'lumiere-movies' ),
-			'actor' => esc_html__( 'actor', 'lumiere-movies' ),
-			'actress' => esc_html__( 'actress', 'lumiere-movies' ),
-			'assistantDirector' => esc_html__( 'assistant director', 'lumiere-movies' ),
-			'showrunner' => esc_html__( 'showrunner', 'lumiere-movies' ),
-			'writer' => esc_html__( 'writer', 'lumiere-movies' ),
-			'cinematographer' => esc_html__( 'cinematographer', 'lumiere-movies' ),
-			'producer' => esc_html__( 'producer', 'lumiere-movies' ),
-			'editor' => esc_html__( 'editor', 'lumiere-movies' ),
-			'self' => esc_html__( 'self', 'lumiere-movies' ),
-			'soundtrack' => esc_html__( 'soundtrack', 'lumiere-movies' ),
-			'archiveFootage' => esc_html__( 'archive footage', 'lumiere-movies' ),
-			'thanks' => esc_html__( 'thanks', 'lumiere-movies' ),
-			'stunts' => esc_html__( 'stunts', 'lumiere-movies' ),
-			'artDepartment' => esc_html__( 'art department', 'lumiere-movies' ),
+			'director',
+			'actor',
+			'actress',
+			'assistantDirector',
+			'showrunner',
+			'writer',
+			'cinematographer',
+			'producer',
+			'editor',
+			'self',
+			'soundtrack',
+			'archiveFootage',
+			'thanks',
+			'stunts',
+			'artDepartment',
 		];
 		$max_films = 15; // max number of movies before breaking with "see all"
 
@@ -382,11 +382,11 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if ( $nbtotalchildren_bugged > 0 && strlen( $nbtotalchildren_bugged ) > 0 ) { // Extra check with _bugged to make sure it's really empty
 			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Children -->';
 			$output .= "\n" . '<div id="lumiere_popup_children">';
-			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Child', 'Children', $nbtotalchildren, 'lumiere-movies' ) ) . '</span>';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Get_Options::get_list_person_methods( $nbtotalchildren )['children'] ) ) . '</span>';
 			for ( $i = 0; $i < $nbtotalchildren; ++$i ) {
 
 				if ( isset( $children[ $i ]['imdb'] ) && strlen( $children[ $i ]['imdb'] ) > 0 ) {
-					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . intval( $children[ $i ]['imdb'] ) ) ) . "'>";
+					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . strval( $children[ $i ]['imdb'] ) ) ) . "'>";
 				}
 
 				if ( isset( $children[ $i ]['name'] ) && strlen( $children[ $i ]['name'] ) > 0 ) {
@@ -400,9 +400,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 				if ( isset( $children[ $i ]['name'] ) && strlen( $children[ $i ]['name'] ) > 0 ) {
 					$output .= ' (<span class="lumiere_italic">' . esc_html( $children[ $i ]['relType'] ) . '</span>) ';
 				}
-
 			}
-
 			$output .= "\n" . '</div>';
 		}
 
@@ -411,11 +409,11 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		$biomovie = $this->person_class->pubmovies();
 		$nbtotalbiomovie = count( $biomovie );
 
-		if ( $nbtotalbiomovie !== 0 ) {
+		if ( $nbtotalbiomovie > 0 ) {
 
 			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Biographical movies -->';
 			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
-			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Biographical movie', 'Biographical movies', $nbtotalbiomovie, 'lumiere-movies' ) ) . '</span>';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Get_Options::get_list_person_methods( $nbtotalbiomovie )['bio'] ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalbiomovie; ++$i ) {
 
@@ -425,7 +423,6 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 					$output .= ' (' . intval( $biomovie[ $i ]['year'] ) . ') ';
 				}
 			}
-
 			$output .= "\n" . '</div>';
 		}
 
@@ -434,11 +431,11 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		$portrayedmovie = $this->person_class->pubportrayal();
 		$nbtotalportrayedmovie = count( $portrayedmovie );
 
-		if ( $nbtotalportrayedmovie !== 0 ) {
+		if ( $nbtotalportrayedmovie > 0 ) {
 
 			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Portrayed in -->';
 			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
-			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Portrayed in', 'lumiere-movies' ) . '</span>';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Get_Options::get_list_person_methods( $nbtotalportrayedmovie )['pubportrayal'] ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalportrayedmovie; ++$i ) {
 
@@ -448,32 +445,30 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 					$output .= ' (' . esc_html( $portrayedmovie[ $i ]['year'] ) . ') ';
 				}
 			}
-
 			$output .= "\n" . '</div>';
-
 		}
 
 		############## Interviews
 
 		$interviews = $this->person_class->pubinterview();
-		$nbtotalinterviews = isset( $interviews ) ? count( $interviews ) : 0;
+		$nbtotalinterviews = count( $interviews );
 
 		if ( $nbtotalinterviews > 0 ) {
 
 			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Interviews -->';
 			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
-			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Interview', 'Interviews', $nbtotalinterviews, 'lumiere-movies' ) ) . '</span>';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Get_Options::get_list_person_methods( $nbtotalinterviews )['pubinterview'] ) ) . '</span>';
 
 			for ( $i = 0; $i < $nbtotalinterviews; $i++ ) {
 
 				$output .= isset( $interviews[ $i ] ) && isset( $interviews[ $i ]['title'] ) ? '<i>' . esc_html( $interviews[ $i ]['title'] ) . '</i> ' : '';
 
 				if ( isset( $interviews[ $i ]['date']['year'] ) && strlen( strval( $interviews[ $i ]['date']['year'] ) ) !== 0 ) {
-					$output .= ' (' . esc_html( strval( $interviews[ $i ]['date']['year'] ) ) . ') ';
+					$output .= ' (' . esc_html( strval( $interviews[ $i ]['date']['year'] ) ) . ')';
 				}
 
 				if ( isset( $interviews[ $i ]['reference'] ) && strlen( $interviews[ $i ]['reference'] ) !== 0 ) {
-					$output .= esc_html( $interviews[ $i ]['reference'] );
+					$output .= ' ' . esc_html( $interviews[ $i ]['reference'] );
 				}
 
 				if ( $i < $nbtotalinterviews - 1 ) {
@@ -481,9 +476,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 				}
 
 			}
-
 			$output .= '</div>';
-
 		}
 
 		############## Publicity printed
@@ -492,12 +485,12 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		$nbtotalpubprints = count( $pubprints );
 		$nblimitpubprints = 9;
 
-		if ( $nbtotalpubprints !== 0 ) {
+		if ( $nbtotalpubprints > 0 ) {
 
 			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Publicity printed -->';
 			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
 			$output .= "\n\t" . '<span class="lum_results_section_subtitle">'
-				. esc_html( _n( 'Print ads', 'Printed ads', $nbtotalpubprints, 'lumiere-movies' ) )
+				. esc_html( ucfirst( Get_Options::get_list_person_methods( $nbtotalpubprints )['pubprints'] ) )
 				. '</span>';
 			for ( $i = 0; $i < $nbtotalpubprints; $i++ ) {
 
@@ -509,15 +502,15 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 						. "\n\t" . '<span class="hidesection">';
 				}
 
-				if ( isset( $pubprints[ $i ]['author'][0] ) && strlen( $pubprints[ $i ]['author'][0] ) !== 0 ) {
+				if ( isset( $pubprints[ $i ]['author'][0] ) && strlen( $pubprints[ $i ]['author'][0] ) > 0 ) {
 					$output .= "\n\t\t" . esc_html( $pubprints[ $i ]['author'][0] );
 				}
 
-				if ( isset( $pubprints[ $i ]['title'] ) && strlen( $pubprints[ $i ]['title'] ) !== 0 ) {
+				if ( isset( $pubprints[ $i ]['title'] ) && strlen( $pubprints[ $i ]['title'] ) > 0 ) {
 					$output .= ' <i>' . esc_html( $pubprints[ $i ]['title'] ) . '</i> ';
 				}
 
-				if ( isset( $pubprints[ $i ]['year'] ) && strlen( $pubprints[ $i ]['year'] ) !== 0 ) {
+				if ( isset( $pubprints[ $i ]['year'] ) && strlen( $pubprints[ $i ]['year'] ) > 0 ) {
 					$output .= '(' . intval( $pubprints[ $i ]['year'] ) . ')';
 				}
 
@@ -533,9 +526,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 					$output .= "\n\t" . '</span>';
 				}
 			}
-
 			$output .= "\n" . '</div>';
-
 		}
 		return $output;
 	}
@@ -553,11 +544,11 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		$nblimittrivia = 3; # max number of trivias before breaking with "see all"
 		$output = '';
 
-		if ( $nbtotaltrivia !== 0 ) {
+		if ( $nbtotaltrivia > 0 ) {
 
 			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
 			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
-			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br>';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Get_Options::get_list_person_methods( $nbtotaltrivia )['trivia'] ) ) . ' </span>(' . intval( $nbtotaltrivia ) . ') <br>';
 
 			for ( $i = 0; $i <= $nbtotaltrivia; $i++ ) {
 
@@ -593,9 +584,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 				if ( $i === $nbtotaltrivia ) {
 					$output .= "\n\t\t" . '</div>';
 				}
-
 			}
-
 			$output .= "\n" . '</div>';
 		}
 
@@ -604,27 +593,16 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		$nickname = $this->person_class->nickname();
 		$nbtotalnickname = count( $nickname );
 
-		if ( $nbtotalnickname !== 0 ) {
+		if ( $nbtotalnickname > 0 ) {
 
 			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Nicknames -->';
 			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
-			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Nicknames', 'lumiere-movies' ) . ' </span>';
+			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Get_Options::get_list_person_methods( $nbtotalnickname )['nickname'] ) ) . ' </span>';
 
 			for ( $i = 0; $i < $nbtotalnickname; $i++ ) {
-
-				foreach ( $nickname as $nick ) {
-
-					if ( is_string( $nick ) === false || strlen( $nick ) === 0 ) {
-						continue;
-					}
-
-					$txt = str_replace( '<br>', ', ', $nick );
-					$output .= esc_html( $txt );
-				}
+				$output .= esc_html( $nickname[ $i ] );
 			}
-
 			$output .= "\n" . '</div>';
-
 		}
 
 		############## Personal quotes
@@ -674,9 +652,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 				}
 
 			}
-
 			$output .= "\n" . '</div>';
-
 		}
 
 		############## Trademarks
@@ -685,7 +661,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		$nbtotaltrademark = count( $trademark );
 		$nblimittradmark = 5;
 
-		if ( $nbtotaltrademark !== 0 ) {
+		if ( $nbtotaltrademark > 0 ) {
 
 			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Trademarks -->';
 			$output .= "\n" . '<div id="lumiere_popup_biomovies">';
@@ -727,11 +703,8 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 				}
 
 			}
-
 			$output .= "\n" . '</div>';
-
 		}
-
 		return $output;
 	}
 
@@ -866,8 +839,33 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	}
 
 	/**
+	 * List of all roles
+	 * @param int $number Number of elements
+	 * @return array<array-key, string>
+	 */
+	private function get_all_roles( int $number = 1 ): array {
+		return [ // list of types of movies to query translated
+			'director'          => _n( 'director', 'directors', $number, 'lumiere-movies' ),
+			'actor'             => _n( 'actor', 'actors', $number, 'lumiere-movies' ),
+			'actress'           => _n( 'actress', 'actresses', $number, 'lumiere-movies' ),
+			'assistantDirector' => _n( 'assistant director', 'assistant directors', $number, 'lumiere-movies' ),
+			'showrunner'        => _n( 'showrunner', 'showrunners', $number, 'lumiere-movies' ),
+			'writer'            => _n( 'writer', 'writers', $number, 'lumiere-movies' ),
+			'cinematographer'   => _n( 'cinematographer', 'cinematographers', $number, 'lumiere-movies' ),
+			'producer'          => _n( 'producer', 'producers', $number, 'lumiere-movies' ),
+			'editor'            => _n( 'editor', 'editors', $number, 'lumiere-movies' ),
+			'self'              => _n( 'self movie', 'self movies', $number, 'lumiere-movies' ),
+			'soundtrack'        => _n( 'soundtrack', 'soundtracks', $number, 'lumiere-movies' ),
+			'archiveFootage'    => _n( 'archive footage', 'archive footages', $number, 'lumiere-movies' ),
+			'thanks'            => _n( 'thanks movie', 'thanks movies', $number, 'lumiere-movies' ),
+			'stunts'            => __( 'stunts', 'lumiere-movies' ),
+			'artDepartment'     => __( 'art department', 'lumiere-movies' ),
+		];
+	}
+
+	/**
 	 * Helper method to get all movies
-	 * @param array<string, string> $list_roles List of the roles with translation
+	 * @param list<string> $list_roles List of the roles with translation
 	 * @param int $max_films
 	 * @return string
 	 */
@@ -875,25 +873,23 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 		$output = '';
 		$all_movies = $this->person_class->credit(); // retrieve all movies for current person.
-		$list_roles_english = array_keys( $list_roles );
 
-		foreach ( $list_roles_english as $role ) {
+		foreach ( $list_roles as $current_role ) {
 
-			$nb_films = count( $all_movies[ $role ] ); // Count the total number of movies.
+			$nb_films = count( $all_movies[ $current_role ] ); // Count the total number of movies.
 			$i = 0;
 
 			if ( $nb_films < 1 ) { // If not movies for current category found, jump to the next.
 				continue;
 			}
 
-			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( $role ) . ' filmography -->';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( ucfirst( $this->get_all_roles( $nb_films )[ $current_role ] ) ) . ' filmography -->';
 			$output .= "\n\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+			$output .= "\n\t\t" . '<div>';
+			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( $this->get_all_roles( $nb_films )[ $current_role ] ) ) . ' </span>';
 
-			$output .= "\n\t" . '<div>';
-			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . ucfirst( esc_html( $list_roles[ $role ] ) ) . ' </span>';
-
-			foreach ( $all_movies[ $role ] as $credit_role ) {
+			foreach ( $all_movies[ $current_role ] as $credit_role ) {
 
 				$output .= " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $credit_role['titleId'] ) ) ) . "'>" . esc_html( $credit_role['titleName'] ) . '</a>';
 
@@ -919,16 +915,12 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 				if ( $i === $nb_films ) {
 					$output .= '</span>';
 				}
-
 				$i++;
 			}
-
 			// Close the div for current movie category.
 			$output .= "\n\t" . '</div>';
 		}
-
 		return $output;
 	}
-
 }
 
