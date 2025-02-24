@@ -3,9 +3,9 @@
  * Settings for Popups
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2022, Lost Highway
+ * @copyright (c) 2025, Lost Highway
  *
- * @version       3.0
+ * @version       1.0
  * @package lumiere-movies
  */
 namespace Lumiere\Config;

@@ -430,7 +430,7 @@ class Movie_Display extends Movie_Data {
 				}
 
 				// Build the final class+method with the movie_object and child class.
-				$outputfinal .= $this->movie_layout->final_div_wrapper(
+				$outputfinal .= $this->output_class->final_div_wrapper(
 					parent::$method( $title_mid_object, $data_detail ),
 					$data_detail,
 					$this->imdb_admin_values

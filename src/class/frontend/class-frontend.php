@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Widget_Frontpage;
+use Lumiere\Frontend\Widget\Widget_Frontpage;
 use Lumiere\Frontend\Movie\Movie_Display;
 use Lumiere\Frontend\Popups\Popup_Select;
 use Lumiere\Config\Get_Options;

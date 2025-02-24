@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Frontend\Movie;
+namespace Lumiere\Frontend\Layout;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
@@ -22,7 +22,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
  * @since 4.4 Class created, using methods that were in Movie_Display
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
-class Movie_Layout {
+class Output {
 
 	/**
 	 * Subtitles to the items

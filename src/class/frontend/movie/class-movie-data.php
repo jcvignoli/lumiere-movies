@@ -19,14 +19,14 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Imdb\Title;
 use Lumiere\Config\Get_Options;
 use Lumiere\Frontend\Main;
-use Lumiere\Frontend\Movie\Movie_Layout;
+use Lumiere\Frontend\Layout\Output;
 
 /**
  * Those methods are utilised by class Movie to display the sections
  * The class uses \Lumiere\Link_Makers\Link_Factory to automatically select the appropriate Link maker class to display data ( i.e. Classic links, Highslide/Bootstrap, No Links, AMP)
  * It uses ImdbPHP Classes to display movies/people data
- * It uses Layout defined in Movie_Layout
- * It uses taxonomy functions in Movie_Layout
+ * It uses Layout defined in Output
+ * It uses taxonomy functions in Movie_Taxonomy
  * It is extended by Movie_Display, child class
  *
  * @since 4.0 new class, methods were extracted from Movie_Display class
@@ -39,7 +39,7 @@ class Movie_Data {
 	use Main;
 
 	public function __construct(
-		protected Movie_Layout $movie_layout = new Movie_Layout(),
+		protected Output $output_class = new Output(),
 		protected Movie_Taxonomy $movie_taxo = new Movie_Taxonomy()
 	) {
 		// Construct Frontend Main trait with options and links.
@@ -63,7 +63,7 @@ class Movie_Data {
 			$year_text = ' (' . strval( $year ) . ')';
 		}
 
-		return $this->movie_layout->subtitle_item_title(
+		return $this->output_class->subtitle_item_title(
 			$title_sanitized,
 			$year_text
 		);
@@ -113,7 +113,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalcountry )[ $item_name ] ) )
 		);
 
@@ -123,7 +123,7 @@ class Movie_Data {
 			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $country[ $i ] ), $this->imdb_admin_values );
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalcountry - 1 ) {
 					$output .= ', ';
@@ -158,7 +158,7 @@ class Movie_Data {
 			return '';
 		}
 
-		return $this->movie_layout->subtitle_item(
+		return $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		) . $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
 	}
@@ -179,7 +179,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotallanguages )[ $item_name ] ) )
 		);
 
@@ -189,7 +189,7 @@ class Movie_Data {
 			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $languages[ $i ] ), $this->imdb_admin_values );
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotallanguages - 1 ) {
 					$output .= ', ';
@@ -232,7 +232,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalconnected )[ $item_name ] ) )
 		);
 
@@ -328,7 +328,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalgenre )[ $item_name ] ) )
 		);
 
@@ -337,7 +337,7 @@ class Movie_Data {
 			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $genre[ $i ]['mainGenre'] ), $this->imdb_admin_values );
-				$output .= isset( $genre[ $i ]['mainGenre'] ) ? $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options ) : '';
+				$output .= isset( $genre[ $i ]['mainGenre'] ) ? $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options ) : '';
 
 				if ( $i < $nbtotalgenre - 1 ) {
 					$output .= ', ';
@@ -376,7 +376,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $limit_keywords > $nbtotalkeywords ? $nbtotalkeywords : $limit_keywords;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -386,7 +386,7 @@ class Movie_Data {
 			for ( $i = 0; $i < $nbtotalkeywords && $i < $limit_keywords; $i++ ) {
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, sanitize_text_field( $keywords[ $i ] ), $this->imdb_admin_values );
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalkeywords - 1 ) {
 					$output .= ', ';
@@ -427,7 +427,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $admin_max_goofs > $nbtotalgoofs ? $nbtotalgoofs : $admin_max_goofs;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -473,7 +473,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $admin_max_quotes > $nbtotalquotes ? $nbtotalquotes : $admin_max_quotes;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -510,7 +510,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $admin_max_taglines > $nbtotaltaglines ? $nbtotaltaglines : $admin_max_taglines;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -544,7 +544,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $admin_max_trailers > $nbtotaltrailers ? $nbtotaltrailers : $admin_max_trailers;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -585,7 +585,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalcolors )[ $item_name ] ) )
 		);
 
@@ -595,7 +595,7 @@ class Movie_Data {
 			for ( $i = 0; $i < $nbtotalcolors; $i++ ) {
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, sanitize_text_field( $colors[ $i ]['type'] ), $this->imdb_admin_values );
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalcolors - 1 ) {
 					$output .= ', ';
@@ -647,7 +647,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		);
 
@@ -693,7 +693,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalcomposer )[ $item_name ] ) )
 		);
 
@@ -703,7 +703,7 @@ class Movie_Data {
 			for ( $i = 0; $i < $nbtotalcomposer; $i++ ) {
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $composer[ $i ]['name'] ), $this->imdb_admin_values );
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalcomposer - 1 ) {
 					$output .= ', ';
@@ -746,7 +746,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $admin_max_sndtrk > $nbtotalsoundtracks ? $nbtotalsoundtracks : $admin_max_sndtrk;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -789,7 +789,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalprodcompany )[ $item_name ] ) )
 		);
 
@@ -829,7 +829,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $hardcoded_max_sites > $nbtotalext_sites ? $nbtotalext_sites : $hardcoded_max_sites;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -871,7 +871,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotaldirector )[ $item_name ] ) )
 		);
 
@@ -881,7 +881,7 @@ class Movie_Data {
 			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $director[ $i ]['name'] ), $this->imdb_admin_values );
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotaldirector - 1 ) {
 					$output .= ', ';
@@ -927,7 +927,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalcinematographer )[ $item_name ] ) )
 		);
 
@@ -936,7 +936,7 @@ class Movie_Data {
 			for ( $i = 0; $i < $nbtotalcinematographer; $i++ ) {
 
 				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( 'cinematographer', esc_html( $cinematographer[ $i ]['name'] ), $this->imdb_admin_values );
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
 				if ( $i < $nbtotalcinematographer - 1 ) {
 					$output .= ', ';
@@ -982,7 +982,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $admin_max_producer > $nbtotalproducer ? $nbtotalproducer : $admin_max_producer;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -1007,7 +1007,7 @@ class Movie_Data {
 					isset( $producer[ $i ]['name'] ) ? esc_html( $producer[ $i ]['name'] ) : '',
 					$this->imdb_admin_values
 				);
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
 			}
 			return $output;
 		}
@@ -1066,7 +1066,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $admin_max_writer > $nbtotalwriters ? $nbtotalwriters : $admin_max_writer;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -1106,7 +1106,7 @@ class Movie_Data {
 					isset( $writer[ $i ]['name'] ) ? esc_html( $writer[ $i ]['name'] ) : '',
 					$this->imdb_admin_values
 				);
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
 
 			}
 			return $output;
@@ -1175,7 +1175,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $admin_total_actor > $nbtotalactors ? $nbtotalactors : $admin_total_actor;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -1194,7 +1194,7 @@ class Movie_Data {
 					esc_html( $actor[ $i ]['name'] ),
 					$this->imdb_admin_values
 				);
-				$output .= $this->movie_layout->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, esc_attr( $actor[ $i ]['character'][0] ) );
+				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, esc_attr( $actor[ $i ]['character'][0] ) );
 
 			}
 
@@ -1243,7 +1243,7 @@ class Movie_Data {
 		}
 
 		$total_displayed = $admin_max_plots > $nbtotalplots ? $nbtotalplots : $admin_max_plots;
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -1280,7 +1280,7 @@ class Movie_Data {
 			return '';
 		}
 
-		$output = $this->movie_layout->subtitle_item(
+		$output = $this->output_class->subtitle_item(
 			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		);
 

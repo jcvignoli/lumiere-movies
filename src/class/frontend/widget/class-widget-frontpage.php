@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Frontend;
+namespace Lumiere\Frontend\Widget;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Config\Open_Options;
-use Lumiere\Frontend\Widget_Legacy;
+use Lumiere\Frontend\Widget\Widget_Legacy;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Widget_Selection;
 
