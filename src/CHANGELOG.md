@@ -3,6 +3,7 @@
 v.4.4.3
 * [feature] Full translation of people popup's items
 * [technical] Renamed fields prodcompany => prodCompany, officialsites => extSites, creator => cinematographer (in order to match IMDb library method names)
+* [technical] Sharing same classes between frontend and popup
 
 v.4.4.2
 * [bug] Autorefresh of cache wasn't starting over (classes Cron, Cache_Options, Cache_Files_Management changed).

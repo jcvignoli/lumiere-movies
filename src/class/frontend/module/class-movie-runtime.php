@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class for displaying movies module Title.
+ * Class for displaying movies module Runtime.
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2025, Lost Highway
@@ -19,13 +19,14 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Imdb\Title;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Layout\Output;
+use Lumiere\Config\Get_Options;
 
 /**
- * Method to display title for movies
+ * Method to display Runtime for movies
  *
  * @since 4.4.3 new class
  */
-class Movie_Title {
+class Movie_Runtime {
 
 	/**
 	 * Traits
@@ -43,24 +44,22 @@ class Movie_Title {
 	}
 
 	/**
-	 * Display the title and possibly the year
+	 * Display the Runtime
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'title' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'runtime' $item_name The name of the item
 	 */
 	public function get_module( Title $movie, string $item_name ): string {
 
-		$year = $movie->year();
-		$title_sanitized = esc_html( $movie->$item_name() );
+		$runtime_sanitized = isset( $movie->$item_name()[0]['time'] ) ? esc_html( strval( $movie->$item_name()[0]['time'] ) ) : '';
 
-		$year_text = '';
-		if ( strlen( strval( $year ) ) > 0 && isset( $this->imdb_data_values['imdbwidgetyear'] ) && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
-			$year_text = ' (' . strval( $year ) . ')';
+		if ( strlen( $runtime_sanitized ) === 0 ) {
+			return '';
 		}
 
-		return $this->output_class->subtitle_item_title(
-			$title_sanitized,
-			$year_text
-		);
+		return $this->output_class->subtitle_item(
+			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
+		)
+			. $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
 	}
 }

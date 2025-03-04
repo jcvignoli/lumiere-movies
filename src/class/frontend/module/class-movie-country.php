@@ -46,11 +46,10 @@ class Movie_Country {
 	}
 
 	/**
-	 * Display the title and possibly the year
-	 * @see Movie_Display::factory_items_methods() that builds this method
+	 * Display the Country
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'country' $item_name The name of the item
 	 */
 	public function get_module( Title $movie, string $item_name ): string {
 
@@ -78,11 +77,10 @@ class Movie_Country {
 	}
 
 	/**
-	 * Display the title and possibly the year
-	 * @see Movie_Display::factory_items_methods() that builds this method
+	 * Display the Country for taxonomy
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'country' $item_name The name of the item
 	 */
 	public function get_module_taxo( Title $movie, string $item_name ): string {
 

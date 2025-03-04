@@ -19,13 +19,13 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Imdb\Title;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Layout\Output;
-
 /**
- * Method to display title for movies
+ * Method to display Rating for movies
+ * Uses Link_Maker class
  *
  * @since 4.4.3 new class
  */
-class Movie_Title {
+class Movie_Rating {
 
 	/**
 	 * Traits
@@ -43,24 +43,31 @@ class Movie_Title {
 	}
 
 	/**
-	 * Display the title and possibly the year
+	 * Display the Rating
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'title' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'rating' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	public function get_module( Title $movie, string $item_name ): string {
 
-		$year = $movie->year();
-		$title_sanitized = esc_html( $movie->$item_name() );
+		$votes_sanitized = intval( $movie->votes() );
+		$rating_sanitized = intval( $movie->$item_name() );
 
-		$year_text = '';
-		if ( strlen( strval( $year ) ) > 0 && isset( $this->imdb_data_values['imdbwidgetyear'] ) && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
-			$year_text = ' (' . strval( $year ) . ')';
+		if ( $votes_sanitized === 0 ) {
+			return '';
 		}
 
-		return $this->output_class->subtitle_item_title(
-			$title_sanitized,
-			$year_text
+		/**
+		 * Use links builder classes.
+		 * Each one has its own class passed in $link_maker,
+		 * according to which option the lumiere_select_link_maker() found in Frontend.
+		 */
+		return $this->link_maker->lumiere_movies_rating_picture( // From trait Main.
+			$rating_sanitized,
+			$votes_sanitized,
+			esc_html__( 'vote average', 'lumiere-movies' ),
+			esc_html__( 'out of 10', 'lumiere-movies' ),
+			esc_html__( 'votes', 'lumiere-movies' )
 		);
 	}
 }

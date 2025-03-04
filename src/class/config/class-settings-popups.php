@@ -60,6 +60,61 @@ class Settings_Popups {
 	];
 
 	/**
+	 * The selection to display on Intro filmo page in Popup_Film
+	 * The order of the list will be the order displayed in the Popup
+	 * @var list<string>
+	 */
+	public const FILM_DISPLAY_ITEMS_INTRO = [
+		'director',
+		'actor',
+		'runtime',
+		'rating',
+		'language',
+		'country',
+		'genre',
+	];
+
+	/**
+	 * The selection to display on Casting filmo page in Popup_Film
+	 * The order of the list will be the order displayed in the Popup
+	 * @var list<string>
+	 */
+	public const FILM_DISPLAY_ITEMS_CASTING = [
+		'actor',
+	];
+
+	/**
+	 * The selection to display on Misc filmo page in Popup_Film
+	 * The order of the list will be the order displayed in the Popup
+	 * @var list<string>
+	 */
+	public const FILM_DISPLAY_ITEMS_CREW = [
+		'director',
+		'writer',
+		'producer',
+	];
+
+	/**
+	 * The selection to display on Plot filmo page in Popup_Film
+	 * The order of the list will be the order displayed in the Popup
+	 * @var list<string>
+	 */
+	public const FILM_DISPLAY_ITEMS_PLOT = [
+		'plot',
+	];
+
+	/**
+	 * The selection to display on Misc filmo page in Popup_Film
+	 * The order of the list will be the order displayed in the Popup
+	 * @var list<string>
+	 */
+	public const FILM_DISPLAY_ITEMS_MISC = [
+		'director',
+		'writer',
+		'producer',
+	];
+
+	/**
 	 * List of all roles, translating PERSON_SUMMARY_ROLES and PERSON_ALL_ROLES constants
 	 *
 	 * @see \IMDb\Name::credit() must match the list

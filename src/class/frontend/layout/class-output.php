@@ -44,6 +44,32 @@ class Output {
 	}
 
 	/**
+	 * Two Columns design: first column
+	 *
+	 * @param string $text The text to be embeded with the layout
+	 */
+	public function two_columns_first( string $text ): string {
+		$output = "\n\t\t\t" . '<div align="center" class="lumiere_container">';
+		$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
+		$output .= $text;
+		$output .= '</div>';
+		return $output;
+	}
+
+	/**
+	 * Two Columns design: second column
+	 *
+	 * @param string $text The text to be embeded with the layout
+	 */
+	public function two_columns_second( string $text ): string {
+		$output = "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
+		$output .= $text;
+		$output .= '</div>';
+		$output .= "\n\t\t\t" . '</div>';
+		return $output;
+	}
+
+	/**
 	 * Function wrapping with <div> the final text with the theme selected in admin options
 	 * @see Movie_Display::factory_items_methods()
 	 *
@@ -101,19 +127,18 @@ class Output {
 
 		// layout one: display the layout for two items per row, ie actors, writers, producers
 		if ( is_string( $item_line_name ) === true ) {
-			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-			$output .= "\n\t\t\t\t\t<a id=\"" . $link_id_final . '" class="lum_link_taxo_page" href="'
-					. esc_url( $this->create_taxonomy_weblink( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
-					. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
-					. '">';
-			$output .= "\n\t\t\t\t\t" . $taxo_options['taxonomy_term'];
-			$output .= "\n\t\t\t\t\t" . '</a>';
-			$output .= "\n\t\t\t\t" . '</div>';
-			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-			$output .= preg_replace( '/\n/', '', $item_line_name ); // remove breaking space.
-			$output .= "\n\t\t\t\t" . '</div>';
-			$output .= "\n\t\t\t" . '</div>';
+			$output .= $this->two_columns_first(
+				"\n\t\t\t\t\t<a id=\"" . $link_id_final . '" class="lum_link_taxo_page" href="'
+				. esc_url( $this->create_taxonomy_weblink( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
+				. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
+				. '">'
+				. "\n\t\t\t\t\t" . $taxo_options['taxonomy_term']
+				. "\n\t\t\t\t\t" . '</a>'
+			);
+
+			$output .= $this->two_columns_second(
+				preg_replace( '/\n/', '', $item_line_name ) ?? '' // remove breaking space.
+			);
 			return $output;
 		}
 

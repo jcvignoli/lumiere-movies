@@ -122,19 +122,19 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'runtime' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_runtime( Title $movie, string $item_name ): string {
 
-		$runtime_sanitized = isset( $movie->$item_name()[0]['time'] ) ? esc_html( strval( $movie->$item_name()[0]['time'] ) ) : '';
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		if ( strlen( $runtime_sanitized ) === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		return $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
-		) . $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
+		$module = new $class_name();
+
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -241,29 +241,19 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'rating' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_rating( Title $movie, string $item_name ): string {
 
-		$votes_sanitized = intval( $movie->votes() );
-		$rating_sanitized = intval( $movie->$item_name() );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		if ( $votes_sanitized === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		/**
-		 * Use links builder classes.
-		 * Each one has its own class passed in $link_maker,
-		 * according to which option the lumiere_select_link_maker() found in Frontend.
-		 */
-		return $this->link_maker->lumiere_movies_rating_picture(
-			$rating_sanitized,
-			$votes_sanitized,
-			esc_html__( 'vote average', 'lumiere-movies' ),
-			esc_html__( 'out of 10', 'lumiere-movies' ),
-			esc_html__( 'votes', 'lumiere-movies' )
-		);
+		$module = new $class_name();
+
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -271,44 +261,24 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'genre' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_genre( Title $movie, string $item_name ): string {
 
-		$genre = $movie->$item_name();
-		$nbtotalgenre = count( $genre ) > 0 ? count( $genre ) : 0;
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		if ( $nbtotalgenre === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalgenre )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
-			for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
-
-				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $genre[ $i ]['mainGenre'] ), $this->imdb_admin_values );
-				$output .= isset( $genre[ $i ]['mainGenre'] ) ? $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options ) : '';
-
-				if ( $i < $nbtotalgenre - 1 ) {
-					$output .= ', ';
-				}
-			}
-			return $output;
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+			return $module->get_module_taxo( $movie, $item_name );
 		}
 
-		// No taxonomy
-		for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
-			$output .= isset( $genre[ $i ]['mainGenre'] ) ? esc_html( $genre[ $i ]['mainGenre'] ) : '';
-			if ( $i < $nbtotalgenre - 1 ) {
-				$output .= ', ';
-			}
-		}
-
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -812,55 +782,24 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'director' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_director( Title $movie, string $item_name ): string {
 
-		$director = $movie->$item_name();
-		$nbtotaldirector = count( $director );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		// if no result, exit.
-		if ( $nbtotaldirector === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotaldirector )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		// If Taxonomy is selected, build links to taxonomy pages
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' )  ) {
-
-			for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
-
-				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $director[ $i ]['name'] ), $this->imdb_admin_values );
-				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
-
-				if ( $i < $nbtotaldirector - 1 ) {
-					$output .= ', ';
-				}
-			}
-
-			return $output;
-
+		// Taxonomy is active.
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+			return $module->get_module_taxo( $movie, $item_name );
 		}
 
-		for ( $i = 0; $i < $nbtotaldirector; $i++ ) {
-
-			/**
-			 * Use links builder classes.
-			 * Each one has its own class passed in $link_maker,
-			 * according to which option the lumiere_select_link_maker() found in Frontend.
-			 */
-			$output .= $this->link_maker->lumiere_link_popup_people( $director, $i );
-
-			if ( $i < $nbtotaldirector - 1 ) {
-				$output .= ', ';
-			}
-		}
-
-		return $output;
-
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -922,83 +861,24 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'producer' $item_name The name of the item
 	 */
 	protected function get_item_producer( Title $movie, string $item_name ): string {
 
-		$producer = $movie->$item_name();
-		$admin_max_producer = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		$nbtotalproducer = count( $producer );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		if ( $nbtotalproducer === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $admin_max_producer > $nbtotalproducer ? $nbtotalproducer : $admin_max_producer;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
-
-			for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $admin_max_producer ); $i++ ) {
-
-				$count_jobs = isset( $producer[ $i ]['jobs'] ) && count( $producer[ $i ]['jobs'] ) > 0 ? count( $producer[ $i ]['jobs'] ) : 0;
-
-				$jobs = '';
-				for ( $j = 0; $j < $count_jobs; $j++ ) {
-					$jobs .= isset( $producer[ $i ]['jobs'][ $j ] ) ? esc_html( $producer[ $i ]['jobs'][ $j ] ) : '';
-					if ( $j < ( $count_jobs - 1 ) ) {
-						$jobs .= ', ';
-					}
-				}
-
-				$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
-					$item_name,
-					// @phan-suppress-next-line PhanTypeInvalidDimOffset, PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-					isset( $producer[ $i ]['name'] ) ? esc_html( $producer[ $i ]['name'] ) : '',
-					$this->imdb_admin_values
-				);
-				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
-			}
-			return $output;
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+			return $module->get_module_taxo( $movie, $item_name );
 		}
 
-		// No taxonomy.
-		for ( $i = 0; ( $i < $nbtotalproducer ) && ( $i < $admin_max_producer ); $i++ ) {
-
-			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-
-			/**
-			 * Use links builder classes.
-			 * Each one has its own class passed in $link_maker,
-			 * according to which option the lumiere_select_link_maker() found in Frontend.
-			 */
-			$output .= $this->link_maker->lumiere_link_popup_people( $producer, $i );
-
-			$output .= "\n\t\t\t\t" . '</div>';
-			$output .= "\n\t\t\t\t" . '<div align="right">';
-
-			$count_jobs = isset( $producer[ $i ]['jobs'] ) && count( $producer[ $i ]['jobs'] ) > 0 ? count( $producer[ $i ]['jobs'] ) : 0;
-
-			if ( $count_jobs > 0 ) {
-				for ( $j = 0; $j < $count_jobs; $j++ ) {
-					$output .= esc_html( $producer[ $i ]['jobs'][ $j ] );
-					if ( $j < ( $count_jobs - 1 ) ) {
-						$output .= ', ';
-					}
-				}
-			} else {
-				$output .= '&nbsp;';
-			}
-
-			$output .= '</div>';
-			$output .= "\n\t\t\t" . '</div>';
-
-		}
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -1006,108 +886,24 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'writer' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_writer( Title $movie, string $item_name ): string {
 
-		$writer = $movie->$item_name();
-		$nbtotalwriters = count( $writer );
-		$admin_max_writer = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		if ( $nbtotalwriters === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $admin_max_writer > $nbtotalwriters ? $nbtotalwriters : $admin_max_writer;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		// With taxonomy.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
-
-			for ( $i = 0; $i < $nbtotalwriters && $i < $admin_max_writer; $i++ ) {
-
-				$count_jobs = isset( $writer[ $i ]['jobs'] ) && count( $writer[ $i ]['jobs'] ) > 0 ? count( $writer[ $i ]['jobs'] ) : 0;
-				$jobs = '';
-
-				for ( $j = 0; $j < $count_jobs; $j++ ) {
-
-					// Add number of episode and year they worked in.
-					$dates_episodes = '';
-					// @phan-suppress-next-line PhanTypeInvalidDimOffset */
-					if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 && isset( $writer[ $i ]['episode']['total'] ) && $writer[ $i ]['episode']['total'] !== 0 ) {
-						$total = $writer[ $i ]['episode']['total'] > 0 ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
-						/* translators: "From" like in "from 2025" */
-						$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
-						/* translators: "To" like in "to 2025" */
-						$year_to_or_in = isset( $writer[ $i ]['episode']['year'] ) ? __( 'to', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
-						$year = isset( $writer[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['year'] ) : '';
-						$end_year = isset( $writer[ $i ]['episode']['endYear'] ) ? ' ' . esc_html( $year_to_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['endYear'] ) : '';
-						$dates_episodes = strlen( $total . $year . $end_year ) > 0 ? ' (<i>' . $total . $year . $end_year . '</i>)' : '';
-					}
-					$jobs .= isset( $writer[ $i ]['jobs'][ $j ] ) && strlen( $writer[ $i ]['jobs'][ $j ] ) > 0 ? $writer[ $i ]['jobs'][ $j ] . $dates_episodes : '';
-					if ( $j < ( $count_jobs - 1 ) ) {
-						$jobs .= ', ';
-					}
-
-				}
-
-				$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
-					$item_name,
-					// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-					isset( $writer[ $i ]['name'] ) ? esc_html( $writer[ $i ]['name'] ) : '',
-					$this->imdb_admin_values
-				);
-				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
-
-			}
-			return $output;
+		// Taxonomy is active.
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+			return $module->get_module_taxo( $movie, $item_name );
 		}
 
-		// No taxonomy.
-		for ( $i = 0; $i < $nbtotalwriters && $i < $admin_max_writer; $i++ ) {
-
-			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-
-			/**
-			 * Use links builder classes.
-			 * Each one has its own class passed in $link_maker,
-			 * according to which option the lumiere_select_link_maker() found in Frontend.
-			 */
-			$output .= $this->link_maker->lumiere_link_popup_people( $writer, $i );
-
-			$output .= "\n\t\t\t\t" . '</div>';
-			$output .= "\n\t\t\t\t" . '<div align="right">';
-
-			$count_jobs = isset( $writer[ $i ]['jobs'] ) && count( $writer[ $i ]['jobs'] ) > 0 ? count( $writer[ $i ]['jobs'] ) : 0;
-
-			for ( $j = 0; $j < $count_jobs; $j++ ) {
-				$output .= sanitize_text_field( $writer[ $i ]['jobs'][ $j ] );
-				if ( $j < ( $count_jobs - 1 ) ) {
-					$output .= ', ';
-				}
-			}
-
-			// Add number of episode and year they worked in.
-			// @phan-suppress-next-line PhanTypeInvalidDimOffset */
-			if ( $writer[ $i ]['episode'] !== null && count( $writer[ $i ]['episode'] ) > 0 && isset( $writer[ $i ]['episode']['total'] ) && $writer[ $i ]['episode']['total'] !== 0 ) {
-				$total = isset( $writer[ $i ]['episode']['total'] ) ? esc_html( $writer[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $writer[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
-				/* translators: "In" like in "in 2025" */
-				$year_from_or_in = isset( $writer[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
-				$year = isset( $writer[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $writer[ $i ]['episode']['year'] ) : '';
-				/* translators: "To" like in "to 2025" */
-				$end_year = isset( $writer[ $i ]['episode']['endYear'] ) ? ' ' . esc_html__( 'to', 'lumiere-movies' ) . ' ' . esc_html( $writer[ $i ]['episode']['endYear'] ) : '';
-				$output .= ' (<i>' . $total . $year . $end_year . '</i>)';
-			}
-
-			$output .= "\n\t\t\t\t" . '</div>';
-			$output .= "\n\t\t\t" . '</div>';
-
-		}
-
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -1115,66 +911,24 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'actor' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_actor( Title $movie, string $item_name ): string {
 
-		$actor = $movie->cast();
-		$admin_total_actor = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		$nbtotalactors = count( $actor );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		if ( $nbtotalactors === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $admin_total_actor > $nbtotalactors ? $nbtotalactors : $admin_total_actor;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		// Taxonomy
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
-
-			for ( $i = 0; ( $i < $nbtotalactors ) && ( $i < $admin_total_actor ); $i++ ) {
-
-				// If either name or character are not available, jump.
-				if ( ! isset( $actor[ $i ]['character'][0] ) || ! isset( $actor[ $i ]['name'] ) ) {
-					continue;
-				}
-
-				$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
-					'actor',
-					esc_html( $actor[ $i ]['name'] ),
-					$this->imdb_admin_values
-				);
-				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, esc_attr( $actor[ $i ]['character'][0] ) );
-
-			}
-
-			return $output;
+		// Taxonomy is active.
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+			return $module->get_module_taxo( $movie, $item_name );
 		}
 
-		for ( $i = 0; $i < $admin_total_actor && ( $i < $nbtotalactors ); $i++ ) {
-
-			$output .= "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-
-			/**
-			 * Use links builder classes.
-			 * Each one has its own class passed in $link_maker,
-			 * according to which option the lumiere_select_link_maker() found in Frontend.
-			 */
-			$output .= $this->link_maker->lumiere_link_popup_people( $actor, $i );
-
-			$output .= '</div>';
-			$output .= "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-			$output .= isset( $actor[ $i ]['character'][0] ) && strlen( $actor[ $i ]['character'][0] ) > 0 ? esc_html( $actor[ $i ]['character'][0] ) : '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>';
-			$output .= '</div>';
-			$output .= "\n\t\t\t" . '</div>';
-
-		}
-
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -1182,40 +936,19 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'plot' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_plot( Title $movie, string $item_name ): string {
 
-		$plot = $movie->$item_name();
-		$admin_max_plots = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		$nbtotalplots = count( $plot );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		// tested if the array contains data; if not, doesn't go further
-		if ( $nbtotalplots === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $admin_max_plots > $nbtotalplots ? $nbtotalplots : $admin_max_plots;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		for ( $i = 0; ( $i < $nbtotalplots ) && ( $i < $admin_max_plots ); $i++ ) {
-
-			/**
-			 * Use links builder classes.
-			 * Each one has its own class passed in $link_maker,
-			 * according to which option the lumiere_select_link_maker() found in Frontend.
-			 */
-			$output .= $plot[ $i ]['plot'] !== null ? $this->link_maker->lumiere_movies_plot_details( $plot[ $i ]['plot'] ) : esc_html__( 'No plot found', 'lumiere-movies' );
-
-			// add hr to every plot but the last.
-			if ( $i < ( $nbtotalplots - 1 ) && $i < ( $admin_max_plots - 1 ) ) {
-				$output .= "\n\t\t\t\t<hr>";
-			}
-		}
-
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -1223,7 +956,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'source' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_source( Title $movie, string $item_name ): string {
 
