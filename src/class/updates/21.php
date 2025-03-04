@@ -174,6 +174,37 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
+		/**
+		 * Add 'imdbwidgettrivia' to LUM_DATA_OPTIONS
+		 */
+		// Trivia widget
+		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgettrivia', '0' ) ) {
+			$text = 'Lumière option imdbwidgettrivia successfully added.';
+			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} else {
+			$text = 'Lumière option imdbwidgettrivia could not be added.';
+			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
+
+		// Trivia number
+		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgettrivianumber', '3' ) ) {
+			$text = 'Lumière option imdbwidgettrivianumber successfully added.';
+			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} else {
+			$text = 'Lumière option imdbwidgettrivianumber could not be added.';
+			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
+		// Create imdbwidgetorder with trivia if doesn't exist (it shouldn't)
+		$order_value = $imdb_data_options['trivia'] ?? false;
+		$order_value['trivia'] = $order_value !== false && isset( $order_value['trivia'] ) ? $order_value['trivia'] : $order_value['trivia'] = '27';
+		if ( $order_value !== false && true === $this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
+			$text = 'Lumière option imdbwidgetorder (trivia) successfully updated.';
+			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} else {
+			$text = 'Lumière option imdbwidgetorder (trivia) could not be updated.';
+			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
+
 		/** ------------------------- Editing part (end) --------------
 		 */
 	}

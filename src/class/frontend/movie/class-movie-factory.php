@@ -51,7 +51,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'title' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'title' $item_name The name of the item
 	 */
 	protected function get_item_title( Title $movie, string $item_name ): string {
 
@@ -97,7 +97,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'country' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'country' $item_name The name of the item
 	 */
 	protected function get_item_country( Title $movie, string $item_name ): string {
 
@@ -122,7 +122,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'runtime' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'runtime' $item_name The name of the item
 	 */
 	protected function get_item_runtime( Title $movie, string $item_name ): string {
 
@@ -142,7 +142,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'language' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'language' $item_name The name of the item
 	 */
 	protected function get_item_language( Title $movie, string $item_name ): string {
 
@@ -170,59 +170,19 @@ class Movie_Factory {
 	 * @since 4.4 New method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'connection' $item_name The name of the item
 	 */
 	protected function get_item_connection( Title $movie, string $item_name ): string {
 
-		$connected_movies = $movie->$item_name();
-		$admin_max_connected = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		$nbtotalconnected = count( $connected_movies );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		// count the actual results in values associative arrays
-		$connected_movies_sub = array_filter( $connected_movies, fn( array $connected_movies ) => ( count( array_values( $connected_movies ) ) > 0 ) );
-		$nbtotalconnected_sub = count( $connected_movies_sub );
-
-		if ( $nbtotalconnected === 0 || $nbtotalconnected_sub === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalconnected )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		foreach ( Get_Options::define_list_connect_cat() as $category => $data_explain ) {
-
-			// Total items for this category.
-			$nb_items_connected_movies = count( $connected_movies[ $category ] );
-
-			for ( $i = 0; $i < $admin_max_connected; $i++ ) {
-				if ( isset( $connected_movies[ $category ][ $i ]['titleId'] ) && $connected_movies[ $category ][ $i ]['titleName'] ) {
-
-					if ( $i === 0 ) {
-						$output .= '<br><span class="lum_results_section_subtitle_parent"><span class="lum_results_section_subtitle_subcat">' . $data_explain . '</span>: ';
-					}
-
-					$output .= '<span class="lum_results_section_subtitle_subcat_content">';
-
-					/**
-					 * Use links builder classes.
-					 * Each one has its own class passed in $link_maker,
-					 * according to which option the lumiere_select_link_maker() found in Frontend.
-					 */
-					$output .= $this->link_maker->popup_film_link_inbox(
-						$connected_movies[ $category ][ $i ]['titleName'],
-						$connected_movies[ $category ][ $i ]['titleId']
-					);
-
-					$output .= isset( $connected_movies[ $category ][ $i ]['description'] ) ? ' (' . esc_html( $connected_movies[ $category ][ $i ]['description'] ) . ')' : '';
-					if ( $i < ( $admin_max_connected - 1 ) && $i < $nbtotalconnected && $i < ( $nb_items_connected_movies - 1 ) ) {
-						$output .= ', '; // add comma to every connected movie but the last.
-					}
-					$output .= '</span></span>';
-				}
-			}
-		}
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -241,9 +201,30 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'rating' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'rating' $item_name The name of the item
 	 */
 	protected function get_item_rating( Title $movie, string $item_name ): string {
+
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
+
+		if ( class_exists( $class_name ) === false ) {
+			return '';
+		}
+
+		$module = new $class_name();
+
+		return $module->get_module( $movie, $item_name );
+	}
+
+	/**
+	 * Display trivia
+	 * @see Movie_Display::factory_items_methods() that builds this method
+	 *
+	 * @param Title $movie IMDbPHP title class
+	 * @param 'trivia' $item_name The name of the item
+	 * @since 4.4.3
+	 */
+	protected function get_item_trivia( Title $movie, string $item_name ): string {
 
 		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
@@ -261,7 +242,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'genre' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'genre' $item_name The name of the item
 	 */
 	protected function get_item_genre( Title $movie, string $item_name ): string {
 
@@ -336,43 +317,19 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'goof' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_goof( Title $movie, string $item_name ): string {
 
-		$goofs = $movie->$item_name();
-		$admin_max_goofs = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		$filter_nbtotalgoofs = array_filter( $goofs, fn( array $goofs ) => ( count( array_values( $goofs ) ) > 0 ) ); // counts the actual goofs, not their categories
-		$nbtotalgoofs = count( $filter_nbtotalgoofs );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		// if no result, exit.
-		if ( $nbtotalgoofs === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $admin_max_goofs > $nbtotalgoofs ? $nbtotalgoofs : $admin_max_goofs;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		// Process goof category
-		foreach ( Get_Options::get_list_goofs_cat() as $category => $data_explain ) {
-
-			// Loop conditions: less than the total number of goofs available AND less than the goof limit setting, using a loop counter.
-			for ( $i = 0; $i < $admin_max_goofs; $i++ ) {
-				if ( isset( $goofs[ $category ][ $i ]['content'] ) ) {
-					if ( $i === 0 ) {
-						$output .= '<br><span class="lum_results_section_subtitle_parent"><span class="lum_results_section_subtitle_subcat">' . $data_explain . '</span>: ';
-					}
-
-					if ( isset( $goofs[ $category ][ $i ]['content'] ) && strlen( $goofs[ $category ][ $i ]['content'] ) > 0 ) {
-						$output .= "\n\t\t\t\t" . '<span class="lum_results_section_subtitle_subcat_content">' . esc_html( $goofs[ $category ][ $i ]['content'] ) . '</span>&nbsp;';
-					}
-					$output .= '</span>';
-				}
-			}
-		}
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -382,7 +339,7 @@ class Movie_Factory {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 * @param string $item_name The name of the item, ie 'director', 'writer'
-	 * @return string Nothing
+	 * @return string
 	 */
 	protected function get_item_quote( Title $movie, string $item_name ): string {
 
@@ -655,44 +612,20 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'soundtrack' $item_name The name of the item
 	 */
 	protected function get_item_soundtrack( Title $movie, string $item_name ): string {
 
-		$soundtrack = $movie->$item_name();
-		$admin_max_sndtrk = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		$nbtotalsoundtracks = count( $soundtrack );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		// if no results, exit.
-		if ( $nbtotalsoundtracks === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $admin_max_sndtrk > $nbtotalsoundtracks ? $nbtotalsoundtracks : $admin_max_sndtrk;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		for ( $i = 0; $i < $admin_max_sndtrk && ( $i < $nbtotalsoundtracks ); $i++ ) {
-			$soundtrack_name = "\n\t\t\t" . ucfirst( strtolower( $soundtrack[ $i ]['soundtrack'] ) );
+		return $module->get_module( $movie, $item_name );
 
-			$output .= "\n\t\t\t" .
-				/**
-				 * Use links builder classes.
-				 * Each one has its own class passed in $link_maker,
-				 * according to which option the lumiere_select_link_maker() found in Frontend.
-				 */
-				$this->link_maker->lumiere_imdburl_of_soundtrack( sanitize_text_field( $soundtrack_name ) )
-			. ' ';
-
-			$output .= isset( $soundtrack[ $i ]['credits'][0] ) ? ' <i>' . $soundtrack[ $i ]['credits'][0] . '</i>' : '';
-			$output .= isset( $soundtrack[ $i ]['credits'][1] ) ? ' <i>' . $soundtrack[ $i ]['credits'][1] . '</i>' : '';
-
-			if ( $i < ( $admin_max_sndtrk - 1 ) && $i < ( $nbtotalsoundtracks - 1 ) ) {
-				$output .= ', ';
-			}
-		}
-		return $output;
 	}
 
 	/**
@@ -782,7 +715,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'director' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'director' $item_name The name of the item
 	 */
 	protected function get_item_director( Title $movie, string $item_name ): string {
 
@@ -886,7 +819,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'writer' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'writer' $item_name The name of the item
 	 */
 	protected function get_item_writer( Title $movie, string $item_name ): string {
 
@@ -911,7 +844,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'actor' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'actor' $item_name The name of the item
 	 */
 	protected function get_item_actor( Title $movie, string $item_name ): string {
 
@@ -936,7 +869,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'plot' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'plot' $item_name The name of the item
 	 */
 	protected function get_item_plot( Title $movie, string $item_name ): string {
 
@@ -956,7 +889,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'source' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'source' $item_name The name of the item
 	 */
 	protected function get_item_source( Title $movie, string $item_name ): string {
 

@@ -72,6 +72,7 @@ class Data extends Admin_Menu {
 			'tagline'         => esc_html__( 'Display (a number of) taglines', 'lumiere-movies' ),
 			'title'           => esc_html__( 'Display the title', 'lumiere-movies' ),
 			'trailer'         => esc_html__( 'Display (a number of) trailers', 'lumiere-movies' ),
+			'trivia'          => esc_html__( 'Display (a number of) trivias', 'lumiere-movies' ),
 			'writer'          => esc_html__( 'Display writers', 'lumiere-movies' ),
 			'year'            => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
 		];

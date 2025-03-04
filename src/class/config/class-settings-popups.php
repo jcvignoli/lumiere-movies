@@ -109,9 +109,10 @@ class Settings_Popups {
 	 * @var list<string>
 	 */
 	public const FILM_DISPLAY_ITEMS_MISC = [
-		'director',
-		'writer',
-		'producer',
+		'connection',
+		'trivia',
+		'soundtrack',
+		'goof',
 	];
 
 	/**

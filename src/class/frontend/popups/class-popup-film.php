@@ -346,232 +346,53 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 
 	/**
 	 * Show misc part
+	 * Using normal layout
 	 */
 	private function display_misc( Title $movie_class ): void {
 
-		// Connected movies
-		$connected_movies = $movie_class->connection();
-		$admin_max_connected = isset( $this->imdb_data_values['imdbwidgetconnectionnumber'] ) ? intval( $this->imdb_data_values['imdbwidgetconnectionnumber'] ) : 0;
-		$nbtotalconnected = count( $connected_movies );
-
-		// count the actual results in values associative arrays
-		$connected_movies_sub = array_filter( $connected_movies, fn( array $connected_movies ) => ( count( array_values( $connected_movies ) ) > 0 ) );
-		$nbtotalconnected_sub = count( $connected_movies_sub );
-
-		echo "\n\t\t\t\t\t\t\t" . ' <!-- Connected movies -->';
-		echo "\n" . '<div id="lumiere_popup_plots_group">';
-		echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Connected movie', 'Connected movies', $nbtotalconnected, 'lumiere-movies' ) ) . '</div>';
-
-		if ( $nbtotalconnected === 0 || $nbtotalconnected_sub === 0 ) {
-			esc_html_e( 'No connected movies found.', 'lumiere-movies' );
-		}
-
-		foreach ( Get_Options::get_list_connect_cat() as $category => $data_explain ) {
-			// Total items for this category.
-			$nb_items = count( $connected_movies[ $category ] );
-
-			for ( $i = 0; $i < $admin_max_connected && $i < $nbtotalconnected; $i++ ) {
-				if ( isset( $connected_movies[ $category ][ $i ]['titleId'] ) && $connected_movies[ $category ][ $i ]['titleName'] ) {
-
-					if ( $i === 0 ) {
-						echo '<strong>' . esc_html( $data_explain ) . '</strong>: ';
-					}
-
-					echo "\n\t\t\t\t"
-						. '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="'
-						. esc_url(
-							wp_nonce_url(
-								Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $connected_movies[ $category ][ $i ]['titleId']
-							)
-						)
-						. '" title="' . esc_html( $connected_movies[ $category ][ $i ]['titleName'] ) . '">';
-					echo "\n\t\t\t\t" . esc_html( $connected_movies[ $category ][ $i ]['titleName'] );
-					echo '</a>';
-
-					echo isset( $connected_movies[ $category ][ $i ]['description'] ) ? ' (' . esc_html( $connected_movies[ $category ][ $i ]['year'] ) . ') (<i>' . esc_html( $connected_movies[ $category ][ $i ]['description'] ) . '</i>)' : '';
-					if ( $i < ( $admin_max_connected - 1 ) && $i < ( $nbtotalconnected ) && $i < ( $nb_items - 1 ) ) {
-						echo ', '; // add comma to every connected movie but the last.
-					}
-					if ( $i === ( $admin_max_connected - 1 ) ) {
-						echo '<br>';
-					}
-				}
+		foreach ( Settings_Popups::FILM_DISPLAY_ITEMS_MISC as $module ) {
+			$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $module );
+			if ( class_exists( $class_name ) === true ) {
+				$class_module = new $class_name();
+				$text = $this->output_popup->movie_element_embeded(
+					$class_module->get_module( $movie_class, $module ),
+					$module
+				);
+				echo wp_kses(
+					$text,
+					[
+						'div'      => [
+							'class'  => [],
+						],
+						'span'     => [
+							'class'  => [],
+						],
+						'img'      => [
+							'src'    => [],
+							'title'  => [],
+							'width'  => [],
+							'height' => [],
+							'class'  => [],
+						],
+						'a'        => [
+							'href'   => [],
+							'rel'    => [],
+							'class'  => [],
+							'title'  => [],
+						],
+						'i'        => [],
+						'br'       => [],
+						'strong'   => [],
+					]
+				);
 			}
 		}
-		echo "\n\t</div>";
-		echo "\n</div>";
 
-		// Trivia.
-
-		$trivia = $movie_class->trivia();
-		$nbtotaltrivia = 0;
-		$nb_total_trivia_processed = 1;
-
-		// Get the real total number of trivias.
-		foreach ( $trivia as $trivia_type => $trivia_content ) {
-			$nbtotaltrivia += count( $trivia_content );
-		}
-
-		echo "\n\t\t\t\t\t\t\t" . ' <!-- Trivia -->';
-		echo "\n" . '<div id="lumiere_popup_plots_group">';
-		echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Trivia', 'Trivias', $nbtotaltrivia, 'lumiere-movies' ) ) . '</div>';
-
-		if ( $nbtotaltrivia < 1 ) {
-			esc_html_e( 'No trivias found.', 'lumiere-movies' );
-		}
-
-		for ( $i = 0; $i < $nbtotaltrivia; $i++ ) {
-			foreach ( $trivia as $trivia_type => $trivia_content ) {
-				$text = isset( $trivia_content[ $i ]['content'] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $trivia_content[ $i ]['content'] ) : '';
-
-				// It may be empty, continue to the next result.
-				if ( strlen( $text ) === 0 ) {
-					continue;
-				}
-
-				echo "\n\t\t\t\t<div>\n\t\t\t\t\t" . '[#' . esc_html( strval( $nb_total_trivia_processed ) ) . '] <i>' . esc_html( $trivia_type )
-					. '</i> ' . wp_kses(
-						$text,
-						[
-							'a' => [
-								'href' => [],
-								'title' => [],
-								'class' => [],
-							],
-						]
-					);
-				echo "\n\t\t\t\t</div>";
-
-				if ( $nb_total_trivia_processed === 5 ) {
-					$isset_next = isset( $trivia_content[ $i + 1 ] ) ? true : false;
-					echo $isset_next === true ? "\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more trivias', 'lumiere-movies' ) . ')</strong></div>' . "\n\t\t\t<div class=\"hidesection\">" : '';
-
-				}
-
-				if ( $nb_total_trivia_processed > 2 && $nb_total_trivia_processed === $nbtotaltrivia ) {
-					echo "\n\t\t</div>";
-				}
-				$nb_total_trivia_processed++;
-			}
-		}
-		echo "\n\t</div>";
-		echo "\n</div>";
-
-		// Soundtrack.
-		$soundtrack = $movie_class->soundtrack();
-		$nbtotalsoundtracks = count( $soundtrack );
-
-		echo "\n\t\t\t\t\t\t\t" . ' <!-- Soundtrack -->';
-		echo "\n" . '<div id="lumiere_popup_sdntrck_group">';
-		echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Soundtrack', 'Soundtracks', $nbtotalsoundtracks, 'lumiere-movies' ) ) . '</div>';
-
-		if ( $nbtotalsoundtracks === 0 ) {
-			esc_html_e( 'No soundtracks found.', 'lumiere-movies' );
-		}
-
-		for ( $i = 0; $i < $nbtotalsoundtracks; $i++ ) {
-
-			$soundtrack_name = "\n\t\t\t" . esc_html( ucfirst( strtolower( $soundtrack[ $i ]['soundtrack'] ) ) );
-			echo "\n\t\t\t" . wp_kses(
-				/**
-				* Use Highslide, Classical or No Links class links builder.
-				* Each one has its own class passed in $link_maker,
-				* according to which option the lumiere_select_link_maker() found in Frontend.
-				*/
-				$this->link_maker->lumiere_imdburl_to_internalurl( $soundtrack_name ),
-				[
-					'a' => [
-						'href' => [],
-						'title' => [],
-						'class' => [],
-					],
-				]
-			) . ' ';
-
-			echo isset( $soundtrack[ $i ]['credits'][0] ) ? ' <i>' . esc_html( $soundtrack[ $i ]['credits'][0] ) . '</i>' : '';
-			echo isset( $soundtrack[ $i ]['credits'][1] ) ? ' <i>' . esc_html( $soundtrack[ $i ]['credits'][1] ) . '</i>' : '';
-
-			if ( $i < $nbtotalsoundtracks - 1 ) {
-				echo ', ';
-			}
-
-			if ( $i === 4 ) {
-				$isset_next = isset( $soundtrack[ $i + 1 ] ) ? true : false;
-				echo $isset_next === true ? "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more soundtracks', 'lumiere-movies' ) . ')</strong></div>' . "\n\t\t<div class=\"hidesection\">" : '';
-
-			}
-
-			if ( $i > 2 && $i === $nbtotalsoundtracks ) {
-				echo "\n\t\t</div>";
-			}
-
-		}
-
-		echo "\n</div>";
-
-		// Goof.
-		$goof = $movie_class->goof();
-		$filter_nbtotalgoof = array_filter( $goof, fn( $goof ) => ( count( array_values( $goof ) ) > 0 ) ); // counts the actual goofs, not their categories
-		$nbtotalgoof = count( $filter_nbtotalgoof );
-		$overall_loop = 1;
-
-		// Build all types of goofs by making an array.
-		$goof_type = [];
-		foreach ( $goof as $type => $info ) {
-			$goof_type[] = $type;
-		}
-
-		echo "\n\t\t\t\t\t\t\t" . ' <!-- Goofs -->';
-		echo "\n" . '<div id="lumiere_popup_goofs_group">';
-		echo "\n\t" . '<div class="lum_results_section_subtitle">' . esc_html( _n( 'Goof', 'Goofs', $nbtotalgoof, 'lumiere-movies' ) ) . '</div>';
-
-		if ( $nbtotalgoof === 0 ) {
-			esc_html_e( 'No goofs found.', 'lumiere-movies' );
-		}
-
-		// Process goof type after goof type
-		foreach ( $goof_type as $type ) {
-			// Loop conditions: less than the total number of goofs available AND less than the goof limit setting, using a loop counter.
-			for ( $i = 0; ( $i < $nbtotalgoof ) && ( $overall_loop <= $nbtotalgoof ); $i++ ) {
-				if ( isset( $goof[ $type ][ $i ]['content'] ) && strlen( $goof[ $type ][ $i ]['content'] ) > 0 ) {
-					$text_final_edited = preg_replace( '/\B([A-Z])/', '&nbsp;$1', $type ); // type is agglutinated, add space before capital letters.
-					if ( ! isset( $text_final_edited ) ) {
-						continue;
-					}
-					/** @psalm-suppress PossiblyInvalidArgument (Argument 1 of strtolower expects string, but possibly different type array<array-key, string>|string provided -- according to PHPStan, always string) */
-					echo "\n\t\t\t<div>\n\t\t\t\t[#" . esc_html( strval( $overall_loop ) ) . '] <i>' . esc_html( strtolower( $text_final_edited ) ) . '</i>&nbsp;';
-					echo wp_kses(
-						$this->link_maker->lumiere_imdburl_to_internalurl( $goof[ $type ][ $i ]['content'] ),
-						[
-							'a' => [
-								'href' => [],
-								'title' => [],
-								'class' => [],
-							],
-						]
-					);
-
-					echo "\n\t\t\t" . '</div>';
-				}
-
-				if ( $overall_loop === 4 ) {
-					$isset_next = isset( $goof[ $type ][ $i + 1 ] ) ? true : false;
-					echo $isset_next === true ? "\n\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more goofs', 'lumiere-movies' ) . ')</strong></div>' . "\n\t\t" . '<div class="hidesection">' : '';
-				}
-
-				if ( $overall_loop > 4 && $overall_loop === $nbtotalgoof ) {
-					echo "\n\t\t</div>";
-				}
-
-				$overall_loop++; // this loop counts the exact goof number processed
-			}
-		}
-		echo "\n\t</div>";
-		echo "\n</div>";
 	}
 
 	/**
-	 * Show casting.
+	 * Show casting
+	 * Using two columns layout
 	 */
 	private function display_casting( Title $movie_class ): void {
 
@@ -607,7 +428,8 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	}
 
 	/**
-	 * Show crew.
+	 * Show crew
+	 * Using two columns layout
 	 */
 	private function display_crew( Title $movie_class ): void {
 
@@ -643,7 +465,8 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	}
 
 	/**
-	 * Show plots.
+	 * Show plots
+	 * Using normal layout
 	 */
 	private function display_plot( Title $movie_class ): void {
 

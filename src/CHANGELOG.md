@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.4.3
+* [feature] Added trivia in Frontpage (new item available)
 * [feature] Full translation of people popup's items
 * [technical] Renamed fields prodcompany => prodCompany, officialsites => extSites, creator => cinematographer (in order to match IMDb library method names)
 * [technical] Sharing same classes between frontend and popup

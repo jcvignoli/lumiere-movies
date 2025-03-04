@@ -214,7 +214,7 @@ class Get_Options extends Settings {
 	 * @see Settings::get_default_data_option()
 
 	 * @return array<string, string>
-	 * @phpstan-return array{actor?: string, alsoknow?: string, connection?: string, goof?: string, plot?: string, producer?: string, quote?: string, soundtrack?: string, tagline?: string, trailer?: string, writer?: string}
+	 * @phpstan-return array{actor?: string, alsoknow?: string, connection?: string, goof?: string, plot?: string, producer?: string, quote?: string, soundtrack?: string, tagline?: string, trailer?: string, trivia?: string, writer?: string}
 	 */
 	public static function get_items_with_numbers( int $number = 1 ): array {
 		$list_all = self::get_all_fields( $number );

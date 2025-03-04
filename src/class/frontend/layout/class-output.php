@@ -70,6 +70,22 @@ class Output {
 	}
 
 	/**
+	 * Display click more, first part
+	 */
+	public function click_more_start(): string {
+		return "\n\t\t\t"
+			. '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more trivias', 'lumiere-movies' ) . ')</strong></div>'
+			. "\n\t\t\t<div class=\"hidesection\">";
+	}
+
+	/**
+	 * Display click more, second part
+	 */
+	public function click_more_end(): string {
+		return "\n\t\t</div>";
+	}
+
+	/**
 	 * Function wrapping with <div> the final text with the theme selected in admin options
 	 * @see Movie_Display::factory_items_methods()
 	 *
