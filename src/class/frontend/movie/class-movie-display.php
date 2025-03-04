@@ -16,7 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Movie\Movie_Data;
+use Lumiere\Frontend\Movie\Movie_Factory;
 use Lumiere\Plugins\Plugins_Start;
 use Exception;
 
@@ -26,7 +26,7 @@ use Exception;
  * It uses ImdbPHP Classes to display movies/people items
  * Plugins are loaded with imdbphp
  *
- * @since 4.4 Child class of Movie_Data
+ * @since 4.4 Child class of Movie_Factory
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
@@ -36,7 +36,7 @@ use Exception;
  * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
-class Movie_Display extends Movie_Data {
+class Movie_Display extends Movie_Factory {
 
 	/**
 	 * Singleton: Make sure events are runned once in this class
@@ -392,7 +392,7 @@ class Movie_Display extends Movie_Data {
 	}
 
 	/**
-	 * Build the methods to be called in class Movie_Data
+	 * Build the methods to be called in class Movie_Factory
 	 * Use imdbphp class to get the Title class
 	 *
 	 * @param string $mid_premier_resultat IMDb ID, not as int since it loses its heading 0s

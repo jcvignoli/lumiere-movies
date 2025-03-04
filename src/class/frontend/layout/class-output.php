@@ -27,7 +27,7 @@ class Output {
 	/**
 	 * Subtitles to the items
 	 * Title specifically
-	 * @see Movie_Data::get_item_title()
+	 * @see Movie_Factory::get_item_title()
 	 */
 	public function subtitle_item_title( string $title_sanitized, string $year ): string {
 		return "\n\t\t\t<span id=\"title_$title_sanitized\">" . $title_sanitized . $year . '</span>';
@@ -35,7 +35,7 @@ class Output {
 
 	/**
 	 * Subtitles to the items
-	 * @see Movie_Data
+	 * @see Movie_Factory
 	 *
 	 * @param string $text The text to be embeded with the layout
 	 */
@@ -80,7 +80,7 @@ class Output {
 	 * If data was passed, use the first layout, if null was passed, use the second layout
 	 * First layout display two items per row
 	 * Second layout display items comma-separated
-	 * @see Movie_Data
+	 * @see Movie_Factory
 	 *
 	 * @param string $movie_title
 	 * @param array<string, string> $taxo_options

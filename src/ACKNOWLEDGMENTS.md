@@ -1,12 +1,14 @@
 ## ACKNOWLEDGMENTS
 
 # Core
-**Forked library** [IMDbPHP for WordPress](https://github.com/jcvignoli/imdbGraphQLPHP/ "IMDbGraphQLPHP GIT") based on [Duck700](https://github.com/duck7000/imdbGraphQLPHP "IMDbGraphQLPHP GIT").
-**Highslide modal window** Designed for Lumière by Jeremie Boniface
+**IMDbGraphQLPHP library** by [Duck700](https://github.com/duck7000/imdbGraphQLPHP "IMDbGraphQLPHP GIT").
+**HighslideJS modal window** by [Highslide](https://highslide.com/ "Highslide website")
+**Bootstrap modal window** by [Mark Otto](https://getbootstrap.com/ "Bootstrap website")
 
-# IMDbPHP libraries use
+# Tool
 **Simple Cache interface** by [PHP Fig](https://github.com/php-fig/simple-cache "Psr Simple Cache GIT")
 **Logger interface** by [PHP Fig](https://github.com/php-fig/log "Psr Logger GIT")
+**Monolog logger** by [Seldaek](https://github.com/Seldaek/monolog/ "Monolog GIT")
 
 # Translation
 **Brazilian translation** thanks to Murillo Ferrari 
@@ -18,11 +20,7 @@
 
 # Graphics
 **Some admin panels icons** made by [Yusuke Kamiyamane](https://p.yusukekamiyamane.com/ "Yusuke Kamiyamane homepage")
-
-# Tools
-**HighslideJS modal window** by [Highslide](https://highslide.com/ "Highslide website")
-**Bootstrap modal window** by [Mark Otto](https://getbootstrap.com/ "Bootstrap website")
-**Monolog logger** by [Seldaek](https://github.com/Seldaek/monolog/ "Monolog GIT")
+**Highslide modal window** Designed for Lumière by Jeremie Boniface
 
 # Development
 **Codeception** by [Codeception team](https://codeception.com/ "Codeception website")

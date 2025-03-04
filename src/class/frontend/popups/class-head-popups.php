@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) 
 }
 
 use Lumiere\Frontend\Main;
+use Lumiere\Frontend\Layout\Output_Popup;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Plugins\Plugins_Start;
@@ -51,7 +52,9 @@ class Head_Popups {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct(
+		protected Output_Popup $output_popup = new Output_Popup(),
+	) {
 
 		/**
 		 * Get the properties.

@@ -401,55 +401,36 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		}
 
 		// Language, limited by admin options.
-		$languages = $movie_class->language();
-		$nbtotallanguages = count( $languages );
-
-		// language shown only if selected so in options.
-		if ( $nbtotallanguages > 0 ) {
-
-			echo "\n\t\t\t\t\t\t\t<!-- Language -->";
-			echo "\n\t<div>";
-
-			echo '<span class="lum_results_section_subtitle">'
-			. esc_attr( _n( 'Language', 'Languages', $nbtotallanguages, 'lumiere-movies' ) )
-			. '</span>';
-			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
-				echo esc_html( $languages[ $i ] );
-				if ( $i < $nbtotallanguages - 1 ) {
-					echo ', ';
-				}
-			}
-
-			echo "\n\t</div>";
-
+		$class_lang = '\Lumiere\Frontend\Module\Movie_Language';
+		if ( class_exists( $class_lang ) === true ) {
+			$module_lang = new $class_lang();
+			echo wp_kses(
+				$this->output_popup->movie_element_embeded( $module_lang->get_module( $movie_class, 'language' ), 'language' ),
+				[
+					'div' => [],
+					'span' => [
+						'class' => [],
+					],
+				]
+			);
 		}
 
-		// Country, limited by admin options.
-		$country = $movie_class->country();
-		$nbtotalcountry = count( $country );
-
-		// country shown only if selected so in options.
-		if ( $nbtotalcountry > 0 ) {
-
-			echo "\n\t\t\t\t\t\t\t\t\t\t<!-- Country -->";
-			echo "\n\t<div>";
-
-			echo '<span class="lum_results_section_subtitle">'
-			. esc_attr( _n( 'Country', 'Countries', $nbtotalcountry, 'lumiere-movies' ) )
-			. '</span>';
-			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
-
-				echo esc_html( $country[ $i ] );
-
-				if ( $i < $nbtotalcountry - 1 ) {
-					echo ', ';
-				}
-			}
-
-			echo "\n\t</div>";
-
+		// Country.
+		$class_country = '\Lumiere\Frontend\Module\Movie_Country';
+		if ( class_exists( $class_country ) === true ) {
+			$module_country = new $class_country();
+			echo wp_kses(
+				$this->output_popup->movie_element_embeded( $module_country->get_module( $movie_class, 'country' ), 'country' ),
+				[
+					'div' => [],
+					'span' => [
+						'class' => [],
+					],
+				]
+			);
 		}
 
+		// Genre.
 		$genre = $movie_class->genre();
 		$nbtotalgenre = count( $genre );
 

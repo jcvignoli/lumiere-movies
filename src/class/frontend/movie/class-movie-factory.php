@@ -31,7 +31,7 @@ use Lumiere\Frontend\Layout\Output;
  *
  * @since 4.0 new class, methods were extracted from Movie_Display class
  */
-class Movie_Data {
+class Movie_Factory {
 
 	/**
 	 * Traits
@@ -51,22 +51,18 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'title' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_title( Title $movie, string $item_name ): string {
 
-		$year = $movie->year();
-		$title_sanitized = esc_html( $movie->$item_name() );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		$year_text = '';
-		if ( strlen( strval( $year ) ) > 0 && isset( $this->imdb_data_values['imdbwidgetyear'] ) && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
-			$year_text = ' (' . strval( $year ) . ')';
+		if ( class_exists( $class_name ) === false ) {
+			return '';
 		}
 
-		return $this->output_class->subtitle_item_title(
-			$title_sanitized,
-			$year_text
-		);
+		$module = new $class_name();
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -101,46 +97,24 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'country' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_country( Title $movie, string $item_name ): string {
 
-		$country = $movie->$item_name();
-		$nbtotalcountry = count( $country );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		// if no result, exit.
-		if ( $nbtotalcountry === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalcountry )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
 		// Taxonomy is active.
-		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
-
-			for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
-
-				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $country[ $i ] ), $this->imdb_admin_values );
-				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
-
-				if ( $i < $nbtotalcountry - 1 ) {
-					$output .= ', ';
-				}
-
-			}
-			return $output;
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+			return $module->get_module_taxo( $movie, $item_name );
 		}
 
-		// Taxonomy is unactive.
-		for ( $i = 0; $i < $nbtotalcountry; $i++ ) {
-			$output .= sanitize_text_field( $country[ $i ] );
-			if ( $i < $nbtotalcountry - 1 ) {
-				$output .= ', ';
-			}
-		}
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -168,45 +142,25 @@ class Movie_Data {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'language' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_language( Title $movie, string $item_name ): string {
 
-		$languages = $movie->$item_name();
-		$nbtotallanguages = count( $languages );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		if ( $nbtotallanguages === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotallanguages )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
-
-			for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
-
-				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $languages[ $i ] ), $this->imdb_admin_values );
-				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
-
-				if ( $i < $nbtotallanguages - 1 ) {
-					$output .= ', ';
-				}
-			}
-			return $output;
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+			return $module->get_module_taxo( $movie, $item_name );
 		}
 
-		for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
+		return $module->get_module( $movie, $item_name );
 
-			$output .= sanitize_text_field( $languages[ $i ] );
-
-			if ( $i < $nbtotallanguages - 1 ) {
-				$output .= ', ';
-			}
-		}
-		return $output;
 	}
 
 	/**
@@ -465,7 +419,6 @@ class Movie_Data {
 		$quotes = $movie->$item_name(); // Merge the multidimensional array to two dimensions.
 		$nbtotalquotes = count( $quotes );
 		$admin_max_quotes = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		//var_dump(\Lumiere\Tools\Debug::colorise_output($quotes));
 
 		// If no result, exit.
 		if ( $nbtotalquotes === 0 ) {
