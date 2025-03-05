@@ -24,7 +24,7 @@ use Lumiere\Plugins\Plugins_Start;
 
 /**
  * Edit <head> for popups
- * Add stylesheets, css, check if popup, nonce, get plugins, get link_makers, use ban_bots, add metas html
+ * Add stylesheets, css, check if popup, nonce, get plugins, get link_maker, use ban_bots, add metas html
  * Extended by children classes
  *
  * @since 3.11 created

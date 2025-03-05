@@ -56,7 +56,7 @@ class Data extends Admin_Menu {
 			'cinematographer' => esc_html__( 'Display cinematographers', 'lumiere-movies' ),
 			'director'        => esc_html__( 'Display directors', 'lumiere-movies' ),
 			'genre'           => esc_html__( 'Display genre', 'lumiere-movies' ),
-			'goof'            => esc_html__( 'Display (a number of) goofs', 'lumiere-movies' ),
+			'goof'            => esc_html__( 'Display (a number of) goofs (per category limit)', 'lumiere-movies' ),
 			'keyword'         => esc_html__( 'Display keywords', 'lumiere-movies' ),
 			'language'        => esc_html__( 'Display languages', 'lumiere-movies' ),
 			'extSites'        => esc_html__( 'Display official websites', 'lumiere-movies' ),
@@ -72,7 +72,7 @@ class Data extends Admin_Menu {
 			'tagline'         => esc_html__( 'Display (a number of) taglines', 'lumiere-movies' ),
 			'title'           => esc_html__( 'Display the title', 'lumiere-movies' ),
 			'trailer'         => esc_html__( 'Display (a number of) trailers', 'lumiere-movies' ),
-			'trivia'          => esc_html__( 'Display (a number of) trivias', 'lumiere-movies' ),
+			'trivia'          => esc_html__( 'Display (a number of) trivias (per category limit)', 'lumiere-movies' ),
 			'writer'          => esc_html__( 'Display writers', 'lumiere-movies' ),
 			'year'            => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
 		];

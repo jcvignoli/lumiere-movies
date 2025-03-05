@@ -57,7 +57,8 @@ class Movie_Runtime {
 			return '';
 		}
 
-		return $this->output_class->subtitle_item(
+		return $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		)
 			. $runtime_sanitized . ' ' . esc_html__( 'minutes', 'lumiere-movies' );

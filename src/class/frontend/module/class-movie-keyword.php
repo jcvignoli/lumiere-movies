@@ -62,7 +62,8 @@ class Movie_Keyword {
 		}
 
 		$total_displayed = $hard_limit_items > $nb_total_items ? $nb_total_items : $hard_limit_items;
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -96,7 +97,8 @@ class Movie_Keyword {
 		}
 
 		$total_displayed = $hard_limit_items > $nb_total_items ? $nb_total_items : $hard_limit_items;
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 

@@ -17,8 +17,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Frontend\Movie\Movie_Factory;
-use Lumiere\Plugins\Plugins_Start;
-use Exception;
 
 /**
  * Main class display items (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::movies_autorized_areas()}
@@ -29,12 +27,6 @@ use Exception;
  * @since 4.4 Child class of Movie_Factory
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
- * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Movie_Display extends Movie_Factory {
 
@@ -50,30 +42,6 @@ class Movie_Display extends Movie_Factory {
 	 * Static public property meant to be called from another class
 	 */
 	public static int $nb_of_movies = 0;
-
-	/**
-	 * Lumière plugins started
-	 *
-	 * @var array<string, object>
-	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS?: PLUGINS_AUTO_CLASSES}
-	 */
-	private array $plugins_classes_active;
-
-	/**
-	 * Class constructor
-	 */
-	public function __construct(
-		private Plugins_Start $plugins = new Plugins_Start( [ 'imdbphp' ] ),
-	) {
-
-		parent::__construct();
-
-		/**
-		 * @psalm-suppress InvalidPropertyAssignmentValue
-		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp' => find better notation)
-		 */
-		$this->plugins_classes_active = $this->plugins->plugins_classes_active;
-	}
 
 	/**
 	 * Run the movies
@@ -144,7 +112,7 @@ class Movie_Display extends Movie_Factory {
 			// add dedicated class for themes
 			$output .= ' lum_results_frame_' . $this->imdb_admin_values['imdbintotheposttheme'] . "'>";
 
-			$output .= $this->factory_items_methods( $movie_found );
+			$output .= parent::factory_items_methods( $movie_found );
 			$output .= "\n\t</div>";
 			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- /Lumière! movies plugin -->';
 		}
@@ -171,7 +139,6 @@ class Movie_Display extends Movie_Factory {
 	 * @param non-empty-array<array-key, array<string, string>|string> $films_array Th
 	 * @phpstan-param array<array-key|string, array{bymid?: string, byname?: string}|string> $films_array
 	 * @return list<string> Array of results of imdbids
-	 * @throws Exception if wrong format passed
 	 */
 	public function find_imdb_id( array $films_array ): array {
 
@@ -180,7 +147,7 @@ class Movie_Display extends Movie_Factory {
 
 		// Using singleton to display only once.
 		if ( $this->movie_run_once === false ) {
-			$this->logger->log->debug( '[Movie_Display] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+			$this->logger->log->debug( '[Movie_Display] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
 			$this->logger->log->debug( '[Movie_Display] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 			$this->movie_run_once = true;
 		}
@@ -389,54 +356,5 @@ class Movie_Display extends Movie_Factory {
 		}
 		/** @psalm-var array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title */
 		return $this->lumiere_show( $imdb_id_or_title );
-	}
-
-	/**
-	 * Build the methods to be called in class Movie_Factory
-	 * Use imdbphp class to get the Title class
-	 *
-	 * @param string $mid_premier_resultat IMDb ID, not as int since it loses its heading 0s
-	 * @throws Exception
-	 */
-	private function factory_items_methods( string $mid_premier_resultat ): string {
-
-		$outputfinal = '';
-
-		// Find the Title based on $mid_premier_resultat.
-		$title_mid_object = $this->plugins_classes_active['imdbphp']->get_title_class(
-			esc_html( $mid_premier_resultat ),
-			$this->logger->log,
-		);
-
-		foreach ( $this->imdb_data_values['imdbwidgetorder'] as $data_detail => $order ) {
-
-			// Key for $this->imdb_data_values
-			$key_data_values = 'imdbwidget' . $data_detail;
-
-			if (
-				// Use order to select the position of the data detail.
-				isset( $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] )
-				&& $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order
-				// Is the data detail activated?
-				&& isset( $this->imdb_data_values[ $key_data_values ] )
-				&& $this->imdb_data_values[ $key_data_values ] === '1'
-			) {
-				// Build the method name according to the data detail name.
-				$method = 'get_item_' . $data_detail;
-
-				// Something bad happened.
-				if ( ! method_exists( __CLASS__, $method ) ) {
-					throw new Exception( 'The method ' . esc_html( $method ) . ' does not exist in class ' . __CLASS__ );
-				}
-
-				// Build the final class+method with the movie_object and child class.
-				$outputfinal .= $this->output_class->final_div_wrapper(
-					parent::$method( $title_mid_object, $data_detail ),
-					$data_detail,
-					$this->imdb_admin_values
-				);
-			}
-		}
-		return $outputfinal;
 	}
 }

@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class for displaying movies module Language.
+ * Class for displaying movies module Source.
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2025, Lost Highway
@@ -23,11 +23,11 @@ use Lumiere\Frontend\Movie\Movie_Taxonomy;
 use Lumiere\Config\Get_Options;
 
 /**
- * Method to display language for movies
+ * Method to display Source for movies
  *
  * @since 4.4.3 new class
  */
-class Movie_Language {
+class Movie_Source {
 
 	/**
 	 * Traits
@@ -46,65 +46,58 @@ class Movie_Language {
 	}
 
 	/**
-	 * Display the Language
+	 * Display the main module version
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'language' $item_name The name of the item
+	 * @param 'source' $item_name The name of the item
 	 */
 	public function get_module( Title $movie, string $item_name ): string {
 
-		$languages = $movie->$item_name();
-		$nbtotallanguages = count( $languages );
+		$get_mid = strlen( $movie->imdbid() ) > 0 ? strval( $movie->imdbid() ) : null;
 
-		if ( $nbtotallanguages === 0 ) {
+		if ( $get_mid === null ) {
 			return '';
+		}
+
+		if ( $this->is_popup_page() === true ) { // Method in trait Main.
+			return $this->get_module_popup( $movie, $item_name, $get_mid );
 		}
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotallanguages )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		);
 
-		for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
+		$output .= $this->link_maker->lumiere_movies_source_details( $get_mid );
 
-			$output .= esc_html( $languages[ $i ] );
-
-			if ( $i < $nbtotallanguages - 1 ) {
-				$output .= ', ';
-			}
-		}
 		return $output;
 	}
 
 	/**
-	 * Display the Language for taxonomy
+	 * Display the Popup version of the module
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'language' $item_name The name of the item
+	 * @param 'source' $item_name The name of the item
+	 * @param string $get_mid
 	 */
-	public function get_module_taxo( Title $movie, string $item_name ): string {
+	public function get_module_popup( Title $movie, string $item_name, string $get_mid ): string {
 
-		$languages = $movie->$item_name();
-		$nbtotallanguages = count( $languages );
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
+			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
+		);
 
-		if ( $nbtotallanguages === 0 ) {
-			return '';
+		if ( strlen( $get_mid ) === 0 ) {
+			esc_html_e( 'No source found.', 'lumiere-movies' );
 		}
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotallanguages )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		);
 
-		for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
+		$output .= $this->link_maker->lumiere_movies_source_details( $get_mid );
 
-			$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $languages[ $i ] ), $this->imdb_admin_values );
-			$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
-
-			if ( $i < $nbtotallanguages - 1 ) {
-				$output .= ', ';
-			}
-		}
 		return $output;
 	}
 }

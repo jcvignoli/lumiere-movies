@@ -66,17 +66,20 @@ class Movie_Actor {
 		}
 
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $admin_total_items && ( $i < $nb_total_items ); $i++ ) {
 
-			$output .= $this->output_class->two_columns_first(
+			$output .= $this->output_class->misc_layout(
+				'two_columns_first',
 				$this->link_maker->lumiere_link_popup_people( $item_results, $i ) // From trait Main.
 			);
 
-			$output .= $this->output_class->two_columns_second(
+			$output .= $this->output_class->misc_layout(
+				'two_columns_second',
 				isset( $item_results[ $i ]['character'][0] ) && strlen( $item_results[ $i ]['character'][0] ) > 0 ? esc_html( $item_results[ $i ]['character'][0] ) : '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>'
 			);
 
@@ -91,12 +94,13 @@ class Movie_Actor {
 	 *
 	 * @param Title $movie IMDbPHP title class
 	 * @param 'actor' $item_name The name of the item
-	 * @param array<int<0, max>, array<string, string>> $item_results
+	 * @param array<array-key, array<string, string>> $item_results
 	 * @param int<0, max> $nb_total_items
 	 */
 	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
@@ -131,17 +135,20 @@ class Movie_Actor {
 			return '';
 		}
 
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$output .= $this->output_class->two_columns_first(
+			$output .= $this->output_class->misc_layout(
+				'two_columns_first',
 				isset( $item_results[ $i ]['character'][0] ) ? esc_html( $item_results[ $i ]['character'][0] ) : '<i>' . esc_html__( 'role unknown', 'lumiere-movies' ) . '</i>'
 			);
 
-			$output .= $this->output_class->two_columns_second(
+			$output .= $this->output_class->misc_layout(
+				'two_columns_second',
 				'<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . ' ' . esc_html( $item_results[ $i ]['name'] ) . '">' . "\n\t\t\t\t" . esc_html( $item_results[ $i ]['name'] ) . '</a>'
 			);
 
@@ -166,7 +173,8 @@ class Movie_Actor {
 		}
 
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 

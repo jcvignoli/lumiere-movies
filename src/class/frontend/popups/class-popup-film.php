@@ -167,7 +167,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		 */
 		echo '<div id="spinner-placeholder"></div>';
 
-		$this->logger->log->debug( '[Popup_Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Makers\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log->debug( '[Popup_Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
 
 		$this->display_menu( $this->movie_class, $this->page_title );
 

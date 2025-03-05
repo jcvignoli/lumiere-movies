@@ -14,7 +14,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Link_Makers;
+namespace Lumiere\Link_Maker;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {

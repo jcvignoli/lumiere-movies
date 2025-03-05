@@ -67,7 +67,8 @@ class Movie_Connection {
 			esc_html_e( 'No connected movies found.', 'lumiere-movies' );
 		}
 
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
@@ -80,7 +81,7 @@ class Movie_Connection {
 				if ( isset( $item_results[ $category ][ $i ]['titleId'] ) && $item_results[ $category ][ $i ]['titleName'] ) {
 
 					if ( $i === 0 ) {
-						$output .= '<br><span class="lum_results_section_subtitle_parent"><span class="lum_results_section_subtitle_subcat">' . $data_explain . '</span>: ';
+						$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat', $data_explain );
 					}
 
 					$output .= '<span class="lum_results_section_subtitle_subcat_content">';
@@ -117,7 +118,8 @@ class Movie_Connection {
 	 */
 	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
@@ -138,7 +140,7 @@ class Movie_Connection {
 				if ( isset( $item_results[ $category ][ $i ]['titleId'] ) && isset( $item_results[ $category ][ $i ]['titleName'] ) ) {
 
 					if ( $i === 0 ) {
-						$output .= '<strong>' . esc_html( $data_explain ) . '</strong>: ';
+						$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat', $data_explain );
 					}
 
 					$output .= "\n\t\t\t\t" . '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $category ][ $i ]['titleId'] ) ) . '" title="' . esc_html( $item_results[ $category ][ $i ]['titleName'] ) . '">' . "\n\t\t\t\t" . esc_html( $item_results[ $category ][ $i ]['titleName'] ) . '</a>';

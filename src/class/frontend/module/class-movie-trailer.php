@@ -66,7 +66,8 @@ class Movie_Trailer {
 		}
 
 		$total_displayed = $admin_max_items > $nb_total_items ? $nb_total_items : $admin_max_items;
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -95,7 +96,8 @@ class Movie_Trailer {
 	 */
 	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 

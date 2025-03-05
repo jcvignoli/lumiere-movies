@@ -187,8 +187,18 @@ class Get_Options extends Settings {
 	 * @since 4.4 method added
 	 * @return array<string, string>
 	 */
-	public static function get_list_goofs_cat(): array {
-		return parent::define_list_goofs_cat();
+	public static function get_list_goof_cat(): array {
+		return parent::define_list_goof_cat();
+	}
+
+	/**
+	 * Get all categories of trivias
+	 *
+	 * @since 4.4.3 method added
+	 * @return array<string, string>
+	 */
+	public static function get_list_trivia_cat(): array {
+		return parent::define_list_trivia_cat();
 	}
 
 	/**

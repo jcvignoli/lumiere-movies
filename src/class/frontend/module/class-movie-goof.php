@@ -65,18 +65,16 @@ class Movie_Goof {
 		}
 
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
-		foreach ( Get_Options::get_list_goofs_cat() as $category => $data_explain ) {
+		foreach ( Get_Options::get_list_goof_cat() as $category => $data_explain ) {
 			// Loop conditions: less than the total number of goofs available AND less than the goof limit setting, using a loop counter.
-			for ( $i = 0; $i < $admin_total_items; $i++ ) {
+			for ( $i = 0; $i < $total_displayed; $i++ ) {
 				if ( isset( $item_results[ $category ][ $i ]['content'] ) ) {
-					if ( $i === 0 ) {
-						$output .= '<br><span class="lum_results_section_subtitle_parent"><span class="lum_results_section_subtitle_subcat">' . $data_explain . '</span>: ';
-					}
-
+					$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat', $data_explain );
 					if ( isset( $item_results[ $category ][ $i ]['content'] ) && strlen( $item_results[ $category ][ $i ]['content'] ) > 0 ) {
 						$output .= "\n\t\t\t\t" . '<span class="lum_results_section_subtitle_subcat_content">' . esc_html( $item_results[ $category ][ $i ]['content'] ) . '</span>&nbsp;';
 					}
@@ -99,33 +97,39 @@ class Movie_Goof {
 	 */
 	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+		$translated_item = Get_Options::get_all_fields( $nb_total_items )[ $item_name ];
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
+			esc_html( ucfirst( $translated_item ) )
 		);
 
 		if ( $nb_total_items === 0 ) {
 			esc_html_e( 'No goofs found.', 'lumiere-movies' );
 		}
+		$overall_loop = 1;
 
-		foreach ( Get_Options::get_list_goofs_cat() as $category => $data_explain ) {
+		foreach ( Get_Options::get_list_goof_cat() as $category => $data_explain ) {
+
 			// Loop conditions: less than the total number of goofs available AND less than the goof limit setting, using a loop counter.
 			for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
 				if ( isset( $item_results[ $category ][ $i ]['content'] ) && strlen( $item_results[ $category ][ $i ]['content'] ) > 0 ) {
-					$output .= "\n\t\t\t<div>\n\t\t\t\t[#" . esc_html( strval( $i ) ) . '] <i>' . esc_html( $data_explain ) . '</i>&nbsp;';
+					$output .= "\n\t\t\t<div>\n\t\t\t\t[#" . esc_html( strval( $overall_loop ) ) . '] <i>' . esc_html( $data_explain ) . '</i>&nbsp;';
 					$output .= $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $category ][ $i ]['content'] );
 					$output .= "\n\t\t\t" . '</div>';
 				}
 
-				if ( $i === 5 ) {
+				if ( $overall_loop === 5 ) {
 					$isset_next = isset( $item_results[ $category ][ $i + 1 ] ) ? true : false;
-					$output .= $isset_next === true ? $this->output_class->click_more_start() : '';
+					$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $translated_item ) : '';
 				}
-
-				if ( $i > 5 && $i === $nb_total_items ) {
-					$output .= $this->output_class->click_more_end();
-				}
+				$overall_loop ++;
 			}
+
+			if ( $category === array_key_last( Get_Options::get_list_goof_cat() ) ) {
+				$output .= $this->output_class->misc_layout( 'click_more_end' );
+			}
+
 		}
 		return $output;
 	}

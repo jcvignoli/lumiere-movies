@@ -64,7 +64,8 @@ class Movie_Soundtrack {
 		}
 
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
@@ -96,7 +97,8 @@ class Movie_Soundtrack {
 	 */
 	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
@@ -118,12 +120,12 @@ class Movie_Soundtrack {
 
 			if ( $i === 5 ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_class->click_more_start() : '';
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) : '';
 
 			}
 
 			if ( $i > 2 && $i === $nb_total_items ) {
-				$output .= $this->output_class->click_more_end();
+				$output .= $this->output_class->misc_layout( 'click_more_end' );
 			}
 
 		}

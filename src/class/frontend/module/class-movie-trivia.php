@@ -58,7 +58,6 @@ class Movie_Trivia {
 		foreach ( $item_results as $trivia_type => $trivia_content ) {
 			$nb_total_items += count( $trivia_content );
 		}
-		$nb_total_trivia_processed = 1;
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
 			return $this->get_module_popup( $movie, $item_name, $item_results, $nb_total_items );
@@ -69,19 +68,16 @@ class Movie_Trivia {
 		}
 
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
-		$output = $this->output_class->subtitle_item(
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
 		);
 
-		for ( $i = 0; $i < $nb_total_items && $i < $admin_total_items; $i++ ) {
-			foreach ( $item_results as $trivia_type => $trivia_content ) {
-				$output .= isset( $trivia_content[ $i ]['content'] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $trivia_content[ $i ]['content'] ) : '';
-				$nb_total_trivia_processed++;
-			}
-
-				// add hr to every trivia but the last.
-			if ( $i < ( $nb_total_items - 1 ) && $i < ( $admin_total_items - 1 ) ) {
-				$output .= "\n\t\t\t\t<hr>";
+		foreach ( Get_Options::get_list_trivia_cat() as $trivia_cat ) {
+			for ( $i = 0; $i < $total_displayed; $i++ ) {
+				$output .= isset( $item_results[ $trivia_cat ][ $i ]['content'] )
+					? $this->output_class->misc_layout( 'frontend_items_sub_cat', Get_Options::get_list_trivia_cat() [ $trivia_cat ] ) . ' ' . $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $trivia_cat ][ $i ]['content'] )
+					: '';
 			}
 		}
 		return $output;
@@ -98,8 +94,10 @@ class Movie_Trivia {
 	 */
 	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+		$translated_item = Get_Options::get_all_fields( $nb_total_items )[ $item_name ];
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
+			esc_html( ucfirst( $translated_item ) )
 		);
 
 		if ( $nb_total_items === 0 ) {
@@ -108,25 +106,31 @@ class Movie_Trivia {
 
 		$nb_total_trivia_processed = 1;
 
-		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			foreach ( $item_results as $trivia_type => $trivia_content ) {
-				$text = isset( $trivia_content[ $i ]['content'] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $trivia_content[ $i ]['content'] ) : '';
+		foreach ( $item_results as $trivia_type => $trivia_content ) {
+
+			// Process only categories in settings.
+			if ( in_array( $trivia_type, Get_Options::get_list_trivia_cat(), true ) === false ) {
+				continue;
+			}
+
+			for ( $i = 0; $i < $nb_total_items; $i++ ) {
+
+				$text = isset( $item_results[ $trivia_type ][ $i ]['content'] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $trivia_type ][ $i ]['content'] ) : '';
 
 				// It may be empty, continue to the next result.
 				if ( strlen( $text ) === 0 ) {
 					continue;
 				}
 
-				$output .= "\n\t\t\t\t<div>\n\t\t\t\t\t" . '[#' . esc_html( strval( $nb_total_trivia_processed ) ) . '] <i>' . esc_html( $trivia_type ) . '</i> ' . $text . "\n\t\t\t\t</div>";
+				$output .= "\n\t\t\t\t<div>\n\t\t\t\t\t" . '[#' . esc_html( strval( $nb_total_trivia_processed ) ) . '] <i>' . esc_html( Get_Options::get_list_trivia_cat() [ $trivia_type ] ) . '</i> ' . $text . "\n\t\t\t\t</div>";
 
 				if ( $nb_total_trivia_processed === 5 ) {
-					$isset_next = isset( $trivia_content[ $i + 1 ] ) ? true : false;
-					$output .= $isset_next === true ? $this->output_class->click_more_start() : '';
-
+					$isset_next = isset( $item_results[ $trivia_type ][ $nb_total_trivia_processed + 1 ] ) ? true : false;
+					$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $translated_item ) : '';
 				}
 
-				if ( $nb_total_trivia_processed > 2 && $nb_total_trivia_processed === $nb_total_items ) {
-					$output .= $this->output_class->click_more_end();
+				if ( $nb_total_trivia_processed > 5 && $nb_total_trivia_processed === $nb_total_items ) {
+					$output .= $this->output_class->misc_layout( 'click_more_end' );
 				}
 				$nb_total_trivia_processed++;
 			}

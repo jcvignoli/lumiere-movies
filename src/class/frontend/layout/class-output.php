@@ -25,64 +25,24 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 class Output {
 
 	/**
-	 * Subtitles to the items
-	 * Title specifically
-	 * @see Movie_Factory::get_item_title()
-	 */
-	public function subtitle_item_title( string $title_sanitized, string $year ): string {
-		return "\n\t\t\t<span id=\"title_$title_sanitized\">" . $title_sanitized . $year . '</span>';
-	}
-
-	/**
-	 * Subtitles to the items
-	 * @see Movie_Factory
+	 * Display misceallenous texts
 	 *
-	 * @param string $text The text to be embeded with the layout
+	 * @param string $selector Select which column to return
+	 * @param string $text Optional, an extra text to use
+	 * @return string
 	 */
-	public function subtitle_item( string $text ): string {
-		return "\n\t\t\t" . '<span class="lum_results_section_subtitle">' . $text . ':</span>';
-	}
-
-	/**
-	 * Two Columns design: first column
-	 *
-	 * @param string $text The text to be embeded with the layout
-	 */
-	public function two_columns_first( string $text ): string {
-		$output = "\n\t\t\t" . '<div align="center" class="lumiere_container">';
-		$output .= "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-		$output .= $text;
-		$output .= '</div>';
-		return $output;
-	}
-
-	/**
-	 * Two Columns design: second column
-	 *
-	 * @param string $text The text to be embeded with the layout
-	 */
-	public function two_columns_second( string $text ): string {
-		$output = "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
-		$output .= $text;
-		$output .= '</div>';
-		$output .= "\n\t\t\t" . '</div>';
-		return $output;
-	}
-
-	/**
-	 * Display click more, first part
-	 */
-	public function click_more_start(): string {
-		return "\n\t\t\t"
-			. '<div class="activatehidesection lumiere_align_center"><strong>(' . esc_html__( 'click to show more trivias', 'lumiere-movies' ) . ')</strong></div>'
-			. "\n\t\t\t<div class=\"hidesection\">";
-	}
-
-	/**
-	 * Display click more, second part
-	 */
-	public function click_more_end(): string {
-		return "\n\t\t</div>";
+	public function misc_layout( string $selector, string $text = '' ): string {
+		$container = [
+			/* translators: %1s is a movie field string, such as director, actor */
+			'click_more_start'       => "\n\t\t<!-- start hidesection -->" . '<div class="activatehidesection lumiere_align_center"><strong>(' . wp_sprintf( __( 'click to show more %1s', 'lumiere-movies' ), $text ) . ')</strong></div>' . "\n\t\t<div class=\"hidesection\">",
+			'click_more_end'         => "\n\t\t</div><!-- end hidesection -->",
+			'frontend_items_sub_cat' => '<br><span class="lum_results_section_subtitle_parent"><span class="lum_results_section_subtitle_subcat">' . $text . '</span>: ',
+			'two_columns_first'      => "\n\t\t\t<div class=\"lumiere_align_center lumiere_container\">\n\t\t\t\t<div class=\"lumiere_align_left lumiere_flex_auto\">" . $text . '</div>',
+			'two_columns_second'     => "\n\t\t\t\t<div class=\"lumiere_align_right lumiere_flex_auto\">" . $text . "</div>\n\t\t\t</div>",
+			'frontend_subtitle_item' => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text . ':</span>',
+			'frontend_title'         => "\n\t\t\t<span id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text ) . '">' . $text . '</span>',
+		];
+		return $container[ $selector ];
 	}
 
 	/**
@@ -143,7 +103,8 @@ class Output {
 
 		// layout one: display the layout for two items per row, ie actors, writers, producers
 		if ( is_string( $item_line_name ) === true ) {
-			$output .= $this->two_columns_first(
+			$output .= $this->misc_layout(
+				'two_columns_second',
 				"\n\t\t\t\t\t<a id=\"" . $link_id_final . '" class="lum_link_taxo_page" href="'
 				. esc_url( $this->create_taxonomy_weblink( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
 				. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
@@ -152,7 +113,8 @@ class Output {
 				. "\n\t\t\t\t\t" . '</a>'
 			);
 
-			$output .= $this->two_columns_second(
+			$output .= $this->misc_layout(
+				'two_columns_second',
 				preg_replace( '/\n/', '', $item_line_name ) ?? '' // remove breaking space.
 			);
 			return $output;

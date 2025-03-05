@@ -58,9 +58,9 @@ class Movie_Title {
 			$year_text = ' (' . strval( $year ) . ')';
 		}
 
-		return $this->output_class->subtitle_item_title(
-			$title_sanitized,
-			$year_text
+		return $this->output_class->misc_layout(
+			'frontend_title',
+			$title_sanitized . $year_text
 		);
 	}
 }
