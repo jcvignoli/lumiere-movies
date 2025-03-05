@@ -73,23 +73,18 @@ class Movie_Factory {
 	 * @since 3.7 improved compatibility with AMP WP plugin in relevant class
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'pic' $item_name The name of the item
 	 */
 	protected function get_item_pic( Title $movie, string $item_name ): string {
 
-		/**
-		 * Use links builder classes.
-		 * Each one has its own class passed in $link_maker,
-		 * according to which option the lumiere_select_link_maker() found in Frontend.
-		 */
-		// If cache is active, use the pictures from IMDBphp class.
-		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) {
-			return $this->link_maker->lumiere_link_picture( $movie->photoLocalurl( false ), $movie->photoLocalurl( true ), $movie->title() );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
+
+		if ( class_exists( $class_name ) === false ) {
+			return '';
 		}
 
-		// If cache is deactivated, display no_pics.gif
-		$no_pic_url = Get_Options::LUM_PICS_URL . 'no_pics.gif';
-		return $this->link_maker->lumiere_link_picture( $no_pic_url, $no_pic_url, $movie->title() );
+		$module = new $class_name();
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -190,7 +185,7 @@ class Movie_Factory {
 	 * For compatibility with Data settings that have a 'year' option
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'year' $item_name The name of the item
 	 */
 	protected function get_item_year( Title $movie, string $item_name ): string {
 		return '';
@@ -268,48 +263,24 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'keyword' $item_name The name of the item
 	 */
 	protected function get_item_keyword( Title $movie, string $item_name ): string {
 
-		$keywords = $movie->$item_name();
-		$nbtotalkeywords = count( $keywords );
-		$limit_keywords = 10;
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		if ( $nbtotalkeywords === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $limit_keywords > $nbtotalkeywords ? $nbtotalkeywords : $limit_keywords;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
 		// Taxonomy is active.
-		if ( ( $this->imdb_admin_values['imdbtaxonomy'] === '1' ) && ( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) ) {
-
-			for ( $i = 0; $i < $nbtotalkeywords && $i < $limit_keywords; $i++ ) {
-
-				$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, sanitize_text_field( $keywords[ $i ] ), $this->imdb_admin_values );
-				$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
-
-				if ( $i < $nbtotalkeywords - 1 ) {
-					$output .= ', ';
-				}
-			}
-			return $output;
+		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+			return $module->get_module_taxo( $movie, $item_name );
 		}
 
-		// Taxonomy is unactive.
-		for ( $i = 0; $i < $nbtotalkeywords && $i < $limit_keywords; $i++ ) {
-
-			$output .= esc_attr( $keywords[ $i ] );
-
-			if ( $i < $nbtotalkeywords - 1 && $i < $limit_keywords - 1 ) {
-				$output .= ', ';
-			}
-		}
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -317,7 +288,7 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'goof' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'goof' $item_name The name of the item
 	 */
 	protected function get_item_goof( Title $movie, string $item_name ): string {
 
@@ -334,42 +305,22 @@ class Movie_Factory {
 
 	/**
 	 * Display the quotes
-	 * Quotes are what People said, Quotes do not exists in Movie's pages, which do not display people's data
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
-	 * @return string
+	 * @param 'quote' $item_name The name of the item
 	 */
 	protected function get_item_quote( Title $movie, string $item_name ): string {
 
-		$quotes = $movie->$item_name(); // Merge the multidimensional array to two dimensions.
-		$nbtotalquotes = count( $quotes );
-		$admin_max_quotes = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		// If no result, exit.
-		if ( $nbtotalquotes === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $admin_max_quotes > $nbtotalquotes ? $nbtotalquotes : $admin_max_quotes;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		for ( $i = 0; $i < $admin_max_quotes && ( $i < $nbtotalquotes ); $i++ ) {
-			if ( is_array( $quotes[ $i ] ) ) {
-				foreach ( $quotes[ $i ] as $sub_quote ) {
-					$output .= str_starts_with( $sub_quote, '[' ) ? "\n\t\t\t" : "\n\t\t\t&laquo; ";
-					$output .= esc_html( $sub_quote );
-					$output .= str_ends_with( $sub_quote, ']' ) ? "\n\t\t\t" : "\n\t\t\t&raquo; ";
-				}
-				$output .= "\n\t\t\t\t<br>";
-				continue;
-			}
-			$output .= "\n\t\t\t&laquo; " . esc_html( $quotes[ $i ] ) . ' &raquo; ';
-		}
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -377,31 +328,19 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
+	 * @param 'tagline' $item_name The name of the item
 	 */
 	protected function get_item_tagline( Title $movie, string $item_name ): string {
 
-		$taglines = $movie->$item_name();
-		$admin_max_taglines = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		$nbtotaltaglines = count( $taglines );
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		// If no result, exit.
-		if ( $nbtotaltaglines === 0 ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $admin_max_taglines > $nbtotaltaglines ? $nbtotaltaglines : $admin_max_taglines;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		for ( $i = 0; $i < $admin_max_taglines && ( $i < $nbtotaltaglines ); $i++ ) {
-
-			$output .= "\n\t\t\t&laquo; " . esc_html( $taglines[ $i ] ) . ' &raquo; ';
-			if ( $i < ( $admin_max_taglines - 1 ) && $i < ( $nbtotaltaglines - 1 ) ) {
-				$output .= ', '; // add comma to every tagline but the last.
-			}
-		}
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**
@@ -409,43 +348,19 @@ class Movie_Factory {
 	 * @see Movie_Display::factory_items_methods() that builds this method
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param string $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'trailer' $item_name The name of the item, ie 'director', 'writer'
 	 */
 	protected function get_item_trailer( Title $movie, string $item_name ): string {
 
-		$trailers = $movie->video(); // Title::video() works faster than Title::trailer()
-		$trailers = $trailers['Trailer'] ?? null; // Two rows available: Clip and Trailer
-		$admin_max_trailers = intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] );
-		$nbtotaltrailers = isset( $trailers ) ? count( $trailers ) : null;
+		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $item_name );
 
-		// if no results, exit.
-		if ( $nbtotaltrailers === 0 || $nbtotaltrailers === null ) {
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
-		$total_displayed = $admin_max_trailers > $nbtotaltrailers ? $nbtotaltrailers : $admin_max_trailers;
-		$output = $this->output_class->subtitle_item(
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
-		);
+		$module = new $class_name();
 
-		for ( $i = 0; ( $i < $admin_max_trailers && ( $i < $nbtotaltrailers ) ); $i++ ) {
-
-			if ( ! isset( $trailers[ $i ]['playbackUrl'] ) ) {
-				continue;
-			}
-
-			/**
-			 * Use links builder classes.
-			 * Each one has its own class passed in $link_maker,
-			 * according to which option the lumiere_select_link_maker() found in Frontend.
-			 */
-			$output .= $this->link_maker->lumiere_movies_trailer_details( $trailers[ $i ]['playbackUrl'], $trailers[ $i ]['name'] );
-
-			if ( $i < ( $admin_max_trailers - 1 ) && $i < ( $nbtotaltrailers - 1 ) ) {
-				$output .= ', '; // add comma to every trailer but the last.
-			}
-		}
-		return $output;
+		return $module->get_module( $movie, $item_name );
 	}
 
 	/**

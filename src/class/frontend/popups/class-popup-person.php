@@ -301,7 +301,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 		$see_all_max_movies = 9; // max number of movies before breaking with "see all"
 
-		return $this->get_movies( Settings_Popups::PERSON_SUMMARY_ROLES, $see_all_max_movies ); // Display all selected roles.
+		return $this->get_movies( Settings_Popups::PERSON_SUMMARY_ROLES, $see_all_max_movies ); // Display selected roles.
 	}
 
 	/**
@@ -311,7 +311,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 		$see_all_max_movies = 15; // max number of movies before breaking with "see all"
 
-		return $this->get_movies( Settings_Popups::PERSON_ALL_ROLES, $see_all_max_movies ); // Display all selected roles.
+		return $this->get_movies( Settings_Popups::PERSON_ALL_ROLES, $see_all_max_movies ); // Display selected roles.
 	}
 
 	/**
