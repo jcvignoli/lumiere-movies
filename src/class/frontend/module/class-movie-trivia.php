@@ -64,7 +64,7 @@ class Movie_Trivia {
 		}
 
 		if ( $nb_total_items === 0 ) {
-			esc_html_e( 'No trivias found.', 'lumiere-movies' );
+			return '';
 		}
 
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
@@ -96,7 +96,7 @@ class Movie_Trivia {
 
 		$translated_item = Get_Options::get_all_fields( $nb_total_items )[ $item_name ];
 		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
+			'popup_subtitle_item',
 			esc_html( ucfirst( $translated_item ) )
 		);
 

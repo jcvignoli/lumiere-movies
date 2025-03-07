@@ -90,7 +90,7 @@ class Movie_Composer {
 	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
+			'popup_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 

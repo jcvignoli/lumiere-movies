@@ -53,23 +53,53 @@ class Movie_Language {
 	 */
 	public function get_module( Title $movie, string $item_name ): string {
 
-		$languages = $movie->$item_name();
-		$nbtotallanguages = count( $languages );
+		$item_results = $movie->$item_name();
+		$nb_total_items = count( $item_results );
 
-		if ( $nbtotallanguages === 0 ) {
+		if ( $nb_total_items === 0 ) {
 			return '';
+		}
+
+		if ( $this->is_popup_page() === true ) { // Method in trait Main.
+			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotallanguages )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
-		for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$output .= esc_html( $languages[ $i ] );
+			$output .= esc_html( $item_results[ $i ] );
 
-			if ( $i < $nbtotallanguages - 1 ) {
+			if ( $i < $nb_total_items - 1 ) {
+				$output .= ', ';
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Display the Popup version of the module
+	 * Array of results is sorted by column
+	 *
+	 * @param 'language' $item_name The name of the item
+	 * @param array<array-key, string> $item_results
+	 * @param int<0, max> $nb_total_items
+	 */
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
+
+		$output = $this->output_class->misc_layout(
+			'popup_subtitle_item',
+			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+		);
+
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+
+			$output .= esc_html( $item_results[ $i ] );
+
+			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
 		}
@@ -84,24 +114,24 @@ class Movie_Language {
 	 */
 	public function get_module_taxo( Title $movie, string $item_name ): string {
 
-		$languages = $movie->$item_name();
-		$nbtotallanguages = count( $languages );
+		$item_results = $movie->$item_name();
+		$nb_total_items = count( $item_results );
 
-		if ( $nbtotallanguages === 0 ) {
+		if ( $nb_total_items === 0 ) {
 			return '';
 		}
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotallanguages )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
-		for ( $i = 0; $i < $nbtotallanguages; $i++ ) {
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $languages[ $i ] ), $this->imdb_admin_values );
+			$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $item_results[ $i ] ), $this->imdb_admin_values );
 			$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
 
-			if ( $i < $nbtotallanguages - 1 ) {
+			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
 		}

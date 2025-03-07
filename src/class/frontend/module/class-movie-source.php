@@ -83,7 +83,7 @@ class Movie_Source {
 	public function get_module_popup( Title $movie, string $item_name, string $get_mid ): string {
 
 		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
+			'popup_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
 		);
 

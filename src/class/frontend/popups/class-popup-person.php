@@ -21,7 +21,7 @@ use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings_Popups;
+use Lumiere\Config\Settings_Popup;
 
 /**
  * Display star information in a popup
@@ -301,7 +301,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 		$see_all_max_movies = 9; // max number of movies before breaking with "see all"
 
-		return $this->get_movies( Settings_Popups::PERSON_SUMMARY_ROLES, $see_all_max_movies ); // Display selected roles.
+		return $this->get_movies( Settings_Popup::PERSON_SUMMARY_ROLES, $see_all_max_movies ); // Display selected roles.
 	}
 
 	/**
@@ -311,7 +311,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 		$see_all_max_movies = 15; // max number of movies before breaking with "see all"
 
-		return $this->get_movies( Settings_Popups::PERSON_ALL_ROLES, $see_all_max_movies ); // Display selected roles.
+		return $this->get_movies( Settings_Popup::PERSON_ALL_ROLES, $see_all_max_movies ); // Display selected roles.
 	}
 
 	/**
@@ -321,66 +321,15 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 		$output = '';
 
-		############## Spouses
-
-		$spouses = $this->person_class->spouse();
-		$nbtotalspouses = count( $spouses );
-
-		if ( $nbtotalspouses > 0 ) {
-			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Spouses -->';
-			$output .= "\n" . '<div id="lumiere_popup_spouses">';
-			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( _n( 'Spouse', 'Spouses', $nbtotalspouses, 'lumiere-movies' ) ) . '</span>';
-			for ( $i = 0; $i < $nbtotalspouses; ++$i ) {
-
-				if ( isset( $spouses[ $i ]['imdb'] ) && strlen( $spouses[ $i ]['imdb'] ) > 0 ) {
-					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . intval( $spouses[ $i ]['imdb'] ) ) ) . "'>";
-				}
-
-				if ( isset( $spouses[ $i ]['name'] ) && strlen( $spouses[ $i ]['name'] ) > 0 ) {
-					$output .= esc_html( $spouses[ $i ]['name'] );
-				}
-
-				if ( isset( $spouses[ $i ]['imdb'] ) && strlen( $spouses[ $i ]['imdb'] ) > 0 ) {
-					$output .= '</a>';
-				}
-
-				if ( isset( $spouses[ $i ]['dateText'] ) && strlen( $spouses[ $i ]['dateText'] ) > 0 ) {
-					$output .= ' (' . esc_html( $spouses[ $i ]['dateText'] ) . ') ';
-				}
+		foreach ( Settings_Popup::PERSON_DISPLAY_ITEMS_BIO as $module ) {
+			$class_name = '\Lumiere\Frontend\Module\Person_' . ucfirst( $module );
+			if ( class_exists( $class_name ) === true ) {
+				$class_module = new $class_name();
+				$output .= $this->output_popup->person_element_embeded(
+					$class_module->get_module( $this->person_class, $module ),
+					$module
+				);
 			}
-
-			$output .= "\n" . '</div>';
-		}
-
-		############## Children
-
-		$children = $this->person_class->children();
-		$nbtotalchildren = count( $children );
-		$nbtotalchildren_bugged = $children[0]['name'] ?? ''; // Sometimes return an array even if name is empty, but name is always empty if no children are found
-
-		if ( $nbtotalchildren_bugged > 0 && strlen( $nbtotalchildren_bugged ) > 0 ) { // Extra check with _bugged to make sure it's really empty
-			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- Children -->';
-			$output .= "\n" . '<div id="lumiere_popup_children">';
-			$output .= "\n\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Get_Options::get_list_person_methods( $nbtotalchildren )['children'] ) ) . '</span>';
-			for ( $i = 0; $i < $nbtotalchildren; ++$i ) {
-
-				if ( isset( $children[ $i ]['imdb'] ) && strlen( $children[ $i ]['imdb'] ) > 0 ) {
-					$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . strval( $children[ $i ]['imdb'] ) ) ) . "'>";
-				}
-
-				if ( isset( $children[ $i ]['name'] ) && strlen( $children[ $i ]['name'] ) > 0 ) {
-					$output .= esc_html( $children[ $i ]['name'] );
-				}
-
-				if ( isset( $children[ $i ]['imdb'] ) && strlen( $children[ $i ]['imdb'] ) > 0 ) {
-					$output .= '</a>';
-				}
-
-				if ( isset( $children[ $i ]['name'] ) && strlen( $children[ $i ]['name'] ) > 0 ) {
-					$output .= ' (<span class="lumiere_italic">' . esc_html( $children[ $i ]['relType'] ) . '</span>) ';
-				}
-			}
-			$output .= "\n" . '</div>';
 		}
 
 		##############  Bio movies
@@ -827,9 +776,9 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 	/**
 	 * Helper method to get all movies
-	 * Retrieves all movies that are available in \Lumiere\Config\Settings_Popups::credits_role_all()
+	 * Retrieves all movies that are available in \Lumiere\Config\Settings_Popup::credits_role_all()
 	 *
-	 * @param list<string> $list_roles List of the roles, translated and pluralised in \Lumiere\Config\Settings_Popups::credits_role_all()
+	 * @param list<string> $list_roles List of the roles, translated and pluralised in \Lumiere\Config\Settings_Popup::credits_role_all()
 	 * @param int $see_all_max_movies Limit of the movies to display before breaking with "see all"
 	 * @return string
 	 */
@@ -847,11 +796,11 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 				continue;
 			}
 
-			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( ucfirst( Settings_Popups::credits_role_all( $nb_films )[ $current_role ] ) ) . ' filmography -->';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( ucfirst( Settings_Popup::credits_role_all( $nb_films )[ $current_role ] ) ) . ' filmography -->';
 			$output .= "\n\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			$output .= "\n\t\t" . '<div>';
-			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Settings_Popups::credits_role_all( $nb_films )[ $current_role ] ) ) . ' </span>';
+			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Settings_Popup::credits_role_all( $nb_films )[ $current_role ] ) ) . ' </span>';
 
 			foreach ( $all_movies[ $current_role ] as $credit_role ) {
 

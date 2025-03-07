@@ -135,8 +135,9 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 
 		<?php
 		// if no movie was found at all.
-		if ( count( $movie_results ) === 0 ) {
-			echo "<h2 align='center'><i>" . esc_html__( 'No result found.', 'lumiere-movies' ) . '</i></h2>';
+		$nb_results = count( $movie_results );
+		if ( $nb_results === 0 ) {
+			echo "<h2 align='center'><i>" . esc_html__( 'No results found.', 'lumiere-movies' ) . '</i></h2>';
 			wp_footer();
 			?></body>
 			</html><?php
@@ -146,10 +147,10 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 
 		<div class="lumiere_display_flex lumiere_align_center">
 			<h2 class="lumiere_flex_auto lumiere_width_fifty_perc">
-				<?php esc_html_e( 'Matching titles', 'lumiere-movies' ); ?>
+				<?php echo esc_html( _n( 'Matching title', 'Matching titles', $nb_results, 'lumiere-movies' ) ); ?>
 			</h2>
 			<h2 class="lumiere_flex_auto lumiere_width_fifty_perc">
-				<?php echo esc_attr( _n( 'Director', 'Directors', 1, 'lumiere-movies' ) ) // always singular; ?>
+				<?php echo esc_html( ucfirst( Get_Options::get_all_fields( $nb_results )['director'] ) ) // always singular; ?>
 			</h2>
 		</div>
 
@@ -213,7 +214,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 
 				} else {
 
-					echo "\n\t\t<i>" . esc_html__( 'No director found.', 'lumiere-movies' ) . '</i>';
+					echo "\n\t\t<i>" . esc_html__( 'No directors found.', 'lumiere-movies' ) . '</i>';
 
 				}
 

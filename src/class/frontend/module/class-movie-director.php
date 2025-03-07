@@ -99,7 +99,7 @@ class Movie_Director {
 	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nbtotalitems ): string {
 
 		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
+			'popup_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalitems )[ $item_name ] ) )
 		);
 
@@ -130,7 +130,7 @@ class Movie_Director {
 		}
 
 		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
+			'popup_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalitems )[ $item_name ] ) )
 		);
 

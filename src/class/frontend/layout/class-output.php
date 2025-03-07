@@ -41,6 +41,7 @@ class Output {
 			'two_columns_second'     => "\n\t\t\t\t<div class=\"lumiere_align_right lumiere_flex_auto\">" . $text . "</div>\n\t\t\t</div>",
 			'frontend_subtitle_item' => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text . ':</span>',
 			'frontend_title'         => "\n\t\t\t<span id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text ) . '">' . $text . '</span>',
+			'popup_subtitle_item' => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text . '</span>',
 		];
 		return $container[ $selector ];
 	}

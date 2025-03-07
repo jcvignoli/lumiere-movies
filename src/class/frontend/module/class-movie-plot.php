@@ -135,7 +135,7 @@ class Movie_Plot {
 		}
 
 		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
+			'popup_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 

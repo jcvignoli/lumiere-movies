@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 /**
  * Settings class for Popups
   */
-class Settings_Popups {
+class Settings_Popup {
 
 	/**
 	 * The selection to display on FULL filmo page in Popup_Person
@@ -116,6 +116,20 @@ class Settings_Popups {
 	];
 
 	/**
+	 * The selection to display on Misc filmo page in Popup_Person
+	 * The order of the list will be the order displayed in the Popup
+	 * @var list<string>
+	 */
+	public const PERSON_DISPLAY_ITEMS_BIO = [
+		'spouse',
+		'children',
+	/*      'pubportrayal',
+		'pubinterview',
+		'pubprints',
+	*/
+	];
+
+	/**
 	 * List of all roles, translating PERSON_SUMMARY_ROLES and PERSON_ALL_ROLES constants
 	 *
 	 * @see \IMDb\Name::credit() must match the list
@@ -143,6 +157,22 @@ class Settings_Popups {
 			'stunts'             => __( 'stunts', 'lumiere-movies' ),
 			'thanks'             => _n( 'thanks movie', 'thanks movies', $number, 'lumiere-movies' ),
 			'writer'             => __( 'writer', 'lumiere-movies' ),
+		];
+	}
+
+	/**
+	 * Define the type items for Persons
+	 *
+	 * @param int $number Optional: a number to turn into plural if needed
+	 * @return array<string, string>
+	 */
+	protected static function define_list_items_person( int $number = 1 ): array {
+		return [
+			'spouse'       => _n( 'spouse', 'spouses', $number, 'lumiere-movies' ),
+			'children'     => _n( 'child', 'children', $number, 'lumiere-movies' ),
+			'pubportrayal' => __( 'portrayed in', 'lumiere-movies' ),
+			'pubinterview' => _n( 'public interview', 'public interviews', $number, 'lumiere-movies' ),
+			'pubprints'    => __( 'printed publicity', 'lumiere-movies' ),
 		];
 	}
 }

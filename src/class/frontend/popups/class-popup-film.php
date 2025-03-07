@@ -20,7 +20,7 @@ use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings_Popups;
+use Lumiere\Config\Settings_Popup;
 use Imdb\Title;
 
 /**
@@ -308,7 +308,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_intro( Title $movie_class ): void {
 
-		foreach ( Settings_Popups::FILM_DISPLAY_ITEMS_INTRO as $module ) {
+		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_INTRO as $module ) {
 			$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
@@ -350,7 +350,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_misc( Title $movie_class ): void {
 
-		foreach ( Settings_Popups::FILM_DISPLAY_ITEMS_MISC as $module ) {
+		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_MISC as $module ) {
 			$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
@@ -396,7 +396,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_casting( Title $movie_class ): void {
 
-		foreach ( Settings_Popups::FILM_DISPLAY_ITEMS_CASTING as $module ) {
+		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_CASTING as $module ) {
 			$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
@@ -433,7 +433,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_crew( Title $movie_class ): void {
 
-		foreach ( Settings_Popups::FILM_DISPLAY_ITEMS_CREW as $module ) {
+		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_CREW as $module ) {
 			$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
@@ -470,7 +470,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	 */
 	private function display_plot( Title $movie_class ): void {
 
-		foreach ( Settings_Popups::FILM_DISPLAY_ITEMS_PLOT as $module ) {
+		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_PLOT as $module ) {
 			$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();

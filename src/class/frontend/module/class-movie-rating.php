@@ -57,11 +57,28 @@ class Movie_Rating {
 			return '';
 		}
 
-		/**
-		 * Use links builder classes.
-		 * Each one has its own class passed in $link_maker,
-		 * according to which option the lumiere_select_link_maker() found in Frontend.
-		 */
+		if ( $this->is_popup_page() === true ) { // Method in trait Main.
+			return $this->get_module_popup( $votes_sanitized, $rating_sanitized );
+		}
+
+		return $this->link_maker->lumiere_movies_rating_picture( // From trait Main.
+			$rating_sanitized,
+			$votes_sanitized,
+			esc_html__( 'vote average', 'lumiere-movies' ),
+			esc_html__( 'out of 10', 'lumiere-movies' ),
+			esc_html__( 'votes', 'lumiere-movies' )
+		);
+	}
+
+	/**
+	 * Display the Popup version of the module
+	 * Array of results is sorted by column
+	 *
+	 * @param int $votes_sanitized Then number of votes
+	 * @param int $rating_sanitized
+	 */
+	public function get_module_popup( int $votes_sanitized, int $rating_sanitized ): string {
+
 		return $this->link_maker->lumiere_movies_rating_picture( // From trait Main.
 			$rating_sanitized,
 			$votes_sanitized,

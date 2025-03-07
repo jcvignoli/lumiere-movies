@@ -16,22 +16,37 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Layout\Output;
+
 /**
  * Layouts for popups
  *
  * @since 4.4.3
  */
-class Output_Popup {
+class Output_Popup extends Output {
 
 	/**
 	 * Embed the elements
-	 * @see \Lumiere\Frontend\Popup\Popup_Film
+	 * @see \Lumiere\Frontend\Popup\Popup_Film in Modules Movie
 	 *
-	 * @param string $text The text to be embeded with the layout
+	 * @param string $text The text to be embeded in the layout
 	 * @param string $item The name of the item, ie 'director'
 	 */
 	public function movie_element_embeded( string $text, string $item ): string {
 		return "\n\t\t\t\t\t\t\t\t\t\t<!-- " . ucfirst( $item ) . ' -->'
 			. "\n\t<div>" . $text . "\n\t</div>";
+	}
+
+	/**
+	 * Embed the titles
+	 * @see \Lumiere\Frontend\Popup\Popup_Person in Modules Person
+	 *
+	 * @param string $text The text to be embeded in the layout
+	 * @param string $item The name of the item, ie 'spouse'
+	 * @return string
+	 */
+	public function person_element_embeded( string $text, string $item ): string {
+		return "\n\t\t\t\t\t\t\t <!-- " . ucfirst( $item ) . ' -->'
+			. "\n<div id=\"lumiere_popup_" . strtolower( $item ) . '">' . $text . "\n</div>";
 	}
 }
