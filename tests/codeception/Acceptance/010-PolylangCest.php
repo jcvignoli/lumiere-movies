@@ -70,7 +70,7 @@ class PolylangCest {
 
 		// Check if polylang options are available
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo( 'span[id=title_Werewolf]' );
+		$I->scrollTo( 'span[id=title_Werewolf1995]' );
 		$I->wait(1);
 		$I->click( "Tony Zarindast");
 
@@ -85,7 +85,7 @@ class PolylangCest {
 
 		// Check if polylang options are available
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo( 'span[id=title_Werewolf]' );
+		$I->scrollTo( 'span[id=title_Werewolf1995]' );
 		$I->wait(1);
 		$I->click( "Tony Zarindast");
 

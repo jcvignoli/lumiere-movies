@@ -182,7 +182,7 @@ class Widget_Frontpage {
 	 * @since 3.10.2 added array_filter to clean $imdb_id_or_title
 	 * @since 4.0 added exit if no metadata and no auto title widget activated
 	 * @since 4.1 do not use auto title widget if auto title widget exclusion is selected in the current post
-	 * @see \Lumiere\Frontend\Widget_Legacy::widget() calls it for pre-5.8 WordPress widgets
+	 * @see \Lumiere\Frontend\Widget\Widget_Legacy::widget() calls it for pre-5.8 WordPress widgets
 	 *
 	 * @param string $title_box Title of the widget to be displayed
 	 * @return string The title and movie data of the Widget

@@ -61,6 +61,10 @@ class TaxonomyCest {
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_main_settings' );
 
+		// Make sure kill all links is deactivated.
+		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
+
+		$I->amOnPage( AcceptanceSettings::ADMIN_PERMALINK_URL );
 	}
 
 	/**
@@ -78,6 +82,10 @@ class TaxonomyCest {
 			If $element is activated, uncheck it and then click $submit (form) */
 		$I->CustomDisableCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_main_settings' );
 
+		// Make sure kill all links is deactivated.
+		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
+
+		$I->amOnPage( AcceptanceSettings::ADMIN_PERMALINK_URL );
 	}
 
 	/**
@@ -133,7 +141,7 @@ class TaxonomyCest {
 
 		// Check that the template has been successfully implemented
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo( [ 'id' => 'title_Werewolf'] );
+		$I->scrollTo( [ 'id' => 'title_Werewolf1995'] );
 		$I->wait(1);
 		$I->click( "Tony Zarindast");
 		$I->wait(2);
@@ -152,7 +160,7 @@ class TaxonomyCest {
 
 		// Check that the template has been successfully removed
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->dontSee('Director');
+		$I->dontSee('Director:');
 
 		// Re-activate $item in 'what to display'
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
@@ -191,7 +199,7 @@ class TaxonomyCest {
 		$I->wait(2);
 		// Check that the template has been successfully implemented
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo( [ 'id' => 'title_Werewolf'] );
+		$I->scrollTo( [ 'id' => 'title_Werewolf1995'] );
 		$I->wait(1);
 		$I->click( "Horror");
 		$I->wait(2);
@@ -213,8 +221,10 @@ class TaxonomyCest {
 
 		$I->wantTo('Check if taxonomy option works');
 
+		$this->maybeEnableTaxonomy($I);
+
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo( [ 'id' => 'title_Werewolf'] );
+		$I->scrollTo( [ 'id' => 'title_Werewolf1995'] );
 		$I->wait(1);
 		$I->click( "Tony Zarindast");
 		$I->see( $text_zarindast );
@@ -223,7 +233,7 @@ class TaxonomyCest {
 		$this->maybeDisableTaxonomy($I);
 
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->scrollTo( [ 'id' => 'title_Werewolf'] );
+		$I->scrollTo( [ 'id' => 'title_Werewolf1995'] );
 		$I->wait(1);
 		$I->click( "Tony Zarindast");
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");

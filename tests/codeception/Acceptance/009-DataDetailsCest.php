@@ -44,7 +44,7 @@ class DataDetailsCest {
 		$I->scrollTo('#taxodetails');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetalsoknow_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#taxodetails');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetcreator_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetcinematographer_yes', '#lumiere_update_data_settings' );
 		# second row
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_settings' );
@@ -65,37 +65,39 @@ class DataDetailsCest {
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetlanguage_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetofficialsites_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetextSites_yes', '#lumiere_update_data_settings' );
 		# fifth row
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetplot_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetproducer_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetprodcompany_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetprodCompany_yes', '#lumiere_update_data_settings' );
 		# sixth row
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetquote_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetplot_yes');
+		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetrating_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetplot_yes');
+		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_settings' );
 		# seventh row
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetruntime_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetsoundtrack_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetsource_yes', '#lumiere_update_data_settings' );
 		# eighth row
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgettagline_yes', '#lumiere_update_data_settings' );
 		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgettrailer_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
+		$I->scrollTo('#imdb_imdbwidgettagline_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgettrivia_yes', '#lumiere_update_data_settings' );
 		# ninth row
-		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
+		$I->scrollTo('#imdb_imdbwidgettagline_yes');
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
+		$I->scrollTo('#imdb_imdbwidgettagline_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_settings' );
 
 		// See if data is not available
@@ -126,6 +128,8 @@ class DataDetailsCest {
 		$I->dontSee('Game of Thrones (Argentina)');
 		$I->dontSee('Composer');
 		$I->dontSee('Stanley Kubrick Tribute (A clip is shown.)'); // connected movies
+		$I->dontSee( 'uncategorized: Director Tony Zarindast used' ); // trivias
+		$I->dontSee( 'factual error: The full moon is shown occurring for' ); // goofs
 		$I->dontSee('Ramin Djawadi');
 		$I->dontSee('Soundtracks');
 		$I->dontSeeInSource('Lux aeterna  <i>(1966)</i> <i>Music by György Ligeti</i>');
@@ -147,6 +151,11 @@ class DataDetailsCest {
 		$I->dontSee('Goofs');
 		$I->dontSee('throughout the film');
 		$I->dontSee('Barry joins the British Army to fight in the');
+		
+		// Titles are displayed even if everything is deactivated.
+		$I->see( 'Werewolf' );
+		$I->see( 'Game of Thrones' );
+		$I->see( '2001: A Space Odyssey' );
 	}
 
 	/**
@@ -168,7 +177,7 @@ class DataDetailsCest {
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetalsoknow_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetalsoknownumber', '10');
 		$I->scrollTo('#taxodetails');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetcreator_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetcinematographer_yes', '#lumiere_update_data_settings' );
 		# second row
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_settings' );
@@ -184,53 +193,54 @@ class DataDetailsCest {
 		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetgoof_yes', '#lumiere_update_data_settings' );
 		# fourth row
-		$I->scrollTo('#imdb_imdbwidgetcreator_yes');
+		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetkeyword_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetgoofnumber', '2');
-		$I->scrollTo('#imdb_imdbwidgetcreator_yes');
+		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetlanguage_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetcreator_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetofficialsites_yes', '#lumiere_update_data_settings' );
+		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetextSites_yes', '#lumiere_update_data_settings' );
 		# fifth row
-		$I->scrollTo('#imdb_imdbwidgetgoof_yes');
+		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetplot_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetgoof_yes');
+		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetproducer_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetplotnumber', '5');
-		$I->scrollTo('#imdb_imdbwidgetgoof_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetprodcompany_yes', '#lumiere_update_data_settings' );
+		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetprodCompany_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetproducernumber', '3');
 		# sixth row
-		$I->scrollTo('#imdb_imdbwidgetofficialsites_yes');
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetquote_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetofficialsites_yes');
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetrating_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetquotenumber', '2');
-		$I->scrollTo('#imdb_imdbwidgetofficialsites_yes');
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetconnectionnumber', '10');
 		# seventh row
-		$I->scrollTo('#imdb_imdbwidgetprodcompany_yes');
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetruntime_yes', '#lumiere_update_data_settings' );
-		$I->scrollTo('#imdb_imdbwidgetprodcompany_yes');
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetsoundtrack_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgetsoundtracknumber', '3');
-		$I->scrollTo('#imdb_imdbwidgetprodcompany_yes');
+		$I->scrollTo('#imdb_imdbwidgetplot_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetsource_yes', '#lumiere_update_data_settings' );
 		# eighth row
-		$I->scrollTo('#imdb_imdbwidgetruntime_yes');
+		$I->scrollTo('#imdb_imdbwidgetquote_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgettagline_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgettaglinenumber', '5');
-		$I->scrollTo('#imdb_imdbwidgetruntime_yes');
+		$I->scrollTo('#imdb_imdbwidgetquote_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgettrailer_yes', '#lumiere_update_data_settings' );
 		$I->fillField('#imdb_imdbwidgettrailernumber', '2');
-		$I->scrollTo('#imdb_imdbwidgetruntime_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
+		$I->scrollTo('#imdb_imdbwidgetquote_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgettrivia_yes', '#lumiere_update_data_settings' );
 		$I->click('#lumiere_update_data_settings');
 		# ninth row
 		$I->scrollTo('#imdb_imdbwidgettagline_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
+		$I->scrollTo('#imdb_imdbwidgettagline_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_settings' );
-		$I->click('#lumiere_update_data_settings');
 		
 		// See if data is available
 		$I->comment(Helper\Color::set("Check if data is available", "italic+bold+cyan"));
@@ -259,6 +269,8 @@ class DataDetailsCest {
 		$I->see('Game Of Thrones (Argentina)');
 		$I->see('Composer');
 		$I->see('Stanley Kubrick Tribute (A clip is shown.)'); // connected movies
+		$I->see( 'uncategorized: Director Tony Zarindast used' ); // trivias
+		$I->see( 'factual error: The full moon is shown occurring for' ); // goofs
 		$I->see('Runtime');
 		$I->see('minutes');
 		$I->see('Barry Lyndon (Egypt)');

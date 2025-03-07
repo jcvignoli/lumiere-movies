@@ -77,7 +77,7 @@ class Cron {
 	 * @return void The class is instanciated
 	 */
 	public static function lumiere_cron_start(): void {
-		$rewrite_class = new self();
+		$cron_class = new self();
 	}
 
 	/**

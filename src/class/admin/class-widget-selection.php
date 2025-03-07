@@ -33,7 +33,7 @@ use WP_Widget;
  * Easier to call it in hook 'widgets_init'!
  *
  * @see \Lumiere\Core that calls it
- * @see \Lumiere\Frontend\Widget_Legacy Call it in frontend which will extend the current class. The current class registers Widget_Legacy widget
+ * @see \Lumiere\Frontend\Widget\Widget_Legacy Call it in frontend which will extend the current class. The current class registers Widget_Legacy widget
  */
 class Widget_Selection extends WP_Widget {
 
@@ -103,7 +103,7 @@ class Widget_Selection extends WP_Widget {
 			add_action(
 				'widgets_init',
 				function() {
-					register_widget( 'Lumiere\Frontend\Widget_Legacy' );
+					register_widget( 'Lumiere\Frontend\Widget\Widget_Legacy' );
 				},
 				12
 			);

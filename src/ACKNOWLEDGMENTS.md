@@ -32,4 +32,4 @@
 
 # History of core IMDbPHP libraries
 Originally, this WordPress plugin originated from an IMDBPHP library created by [Andreas Itzchak Rehberg](https://izzy.rehbergs.info/ "Personal Websie"). A few years later, when Andreas got tired, T. Boothman took over [IMDbPHP](https://github.com/tboothman/imdbphp/ "IMDbPHP GIT"). When Boothman got tired, [Duck700](https://github.com/duck7000/imdbGraphQLPHP "IMDbGraphQLPHP GIT") took over.
-Lumiere WordPress plugin has been actively developped and maintained for almost 20 years.
+Lumiere WordPress plugin has been actively developped and maintained for 20 years.
