@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Name;
 use Lumiere\Frontend\Main;
-use Lumiere\Frontend\Layout\Output_Popup;
+use Lumiere\Frontend\Layout\Output;
 use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Get_Options;
 
@@ -38,7 +38,7 @@ class Person_Children {
 	 * Constructor
 	 */
 	public function __construct(
-		protected Output_Popup $output_popup_class = new Output_Popup(),
+		protected Output $output_class = new Output(),
 	) {
 		// Construct Frontend Main trait with options and links.
 		$this->start_main_trait();
@@ -64,7 +64,7 @@ class Person_Children {
 			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
-		$output = $this->output_popup_class->misc_layout(
+		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
@@ -72,19 +72,10 @@ class Person_Children {
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 
 			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . strval( $item_results[ $i ]['imdb'] ) ) ) . "'>";
-			}
-
-			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
-				$output .= $item_results[ $i ]['name'];
-			}
-
-			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= '</a>';
-			}
-
-			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
-				$output .= ' (<span class="lumiere_italic">' . $item_results[ $i ]['relType'] . '</span>) ';
+				$output .= $this->link_maker->lumiere_link_popup_people( $item_results, $i ); // From trait Main.
+				if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
+					$output .= ' (<span class="lumiere_italic">' . $item_results[ $i ]['relType'] . '</span>) ';
+				}
 			}
 		}
 		return $output;
@@ -99,7 +90,7 @@ class Person_Children {
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$output = $this->output_popup_class->misc_layout(
+		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
@@ -107,19 +98,15 @@ class Person_Children {
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 
 			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . strval( $item_results[ $i ]['imdb'] ) ) ) . "'>";
-			}
+				$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
+					'internal_with_spinner',
+					wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . strval( $item_results[ $i ]['imdb'] ) ),
+					$item_results[ $i ]['name'],
+				);
 
-			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
-				$output .= $item_results[ $i ]['name'];
-			}
-
-			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= '</a>';
-			}
-
-			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
-				$output .= ' (<span class="lumiere_italic">' . $item_results[ $i ]['relType'] . '</span>) ';
+				if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
+					$output .= ' (<span class="lumiere_italic">' . $item_results[ $i ]['relType'] . '</span>) ';
+				}
 			}
 		}
 		return $output;

@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Name;
 use Lumiere\Frontend\Main;
-use Lumiere\Frontend\Layout\Output_Popup;
+use Lumiere\Frontend\Layout\Output;
 use Lumiere\Config\Get_Options_Person;
 
 /**
@@ -37,7 +37,7 @@ class Person_Pubprints {
 	 * Constructor
 	 */
 	public function __construct(
-		protected Output_Popup $output_popup_class = new Output_Popup(),
+		protected Output $output_class = new Output(),
 	) {
 		// Construct Frontend Main trait with options and links.
 		$this->start_main_trait();
@@ -62,7 +62,7 @@ class Person_Pubprints {
 			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
-		$output = $this->output_popup_class->misc_layout(
+		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
@@ -107,7 +107,7 @@ class Person_Pubprints {
 
 		$nb_rows_display_clickmore = 5;
 
-		$output = $this->output_popup_class->misc_layout(
+		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
@@ -117,7 +117,7 @@ class Person_Pubprints {
 			// Display a "click to show more" after XX results
 			if ( $i === $nb_rows_display_clickmore ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_popup_class->misc_layout( 'see_all_start', $item_name ) : '';
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'see_all_start', $item_name ) : '';
 			}
 
 			if ( isset( $item_results[ $i ]['author'][0] ) && strlen( $item_results[ $i ]['author'][0] ) > 0 ) {
@@ -142,7 +142,7 @@ class Person_Pubprints {
 
 			// End of "click to show more"
 			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
-				$output .= $this->output_popup_class->misc_layout( 'see_all_end' );
+				$output .= $this->output_class->misc_layout( 'see_all_end' );
 			}
 		}
 		return $output;

@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Name;
 use Lumiere\Frontend\Main;
-use Lumiere\Frontend\Layout\Output_Popup;
+use Lumiere\Frontend\Layout\Output;
 use Lumiere\Config\Get_Options_Person;
 
 /**
@@ -37,7 +37,7 @@ class Person_Quotes {
 	 * Constructor
 	 */
 	public function __construct(
-		protected Output_Popup $output_popup_class = new Output_Popup(),
+		protected Output $output_class = new Output(),
 	) {
 		// Construct Frontend Main trait with options and links.
 		$this->start_main_trait();
@@ -62,7 +62,7 @@ class Person_Quotes {
 			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
-		$output = $this->output_popup_class->misc_layout(
+		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
@@ -93,7 +93,7 @@ class Person_Quotes {
 
 		$nb_rows_click_more = 3;
 
-		$output = $this->output_popup_class->misc_layout(
+		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
@@ -110,7 +110,7 @@ class Person_Quotes {
 			// Display a "show more" after XX results
 			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_popup_class->misc_layout( 'click_more_start', $item_name ) : '';
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
 			}
 
 			$output .= "\n\t\t\t" . '<div>';
@@ -118,7 +118,7 @@ class Person_Quotes {
 			$output .= '</div>';
 
 			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
-				$output .= $this->output_popup_class->misc_layout( 'click_more_end' );
+				$output .= $this->output_class->misc_layout( 'click_more_end' );
 			}
 		}
 		return $output;

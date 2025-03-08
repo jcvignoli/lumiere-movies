@@ -65,38 +65,32 @@ class Person_Credit {
 			return $this->get_module_popup( $sub_cat, $item_results, $nb_total_items, $max_results );
 		}
 
-		$i = 0;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $sub_cat ] )
 		);
 
-		foreach ( $item_results[ $sub_cat ] as $credit_role ) {
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+			$output .= "\n\t\t\t\t " . $this->link_maker->lumiere_link_popup_people( $item_results[ $sub_cat ], $i );
 
-			$output .= $this->output_class->get_link(
-				'internal_with_spinner',
-				wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $credit_role['titleId'] ),
-				$credit_role['titleName'],
-			);
-
-			if ( isset( $credit_role['year'] ) ) {
-				$output .= ' (' . strval( $credit_role['year'] ) . ')';
+			if ( isset( $item_results[ $sub_cat ][ $i ]['year'] ) ) {
+				$output .= ' (' . strval( $item_results[ $sub_cat ][ $i ]['year'] ) . ')';
 			}
 
-			if ( isset( $credit_role['characters'] ) && count( $credit_role['characters'] ) > 0 ) {
-				$output .= ' as <i>' . esc_html( $credit_role['characters'][0] ) . '</i>';
+			if ( isset( $item_results[ $sub_cat ][ $i ]['characters'] ) && count( $item_results[ $sub_cat ][ $i ]['characters'] ) > 0 ) {
+				/** @phan-suppress-next-line PhanTypeArraySuspiciousNullable (I don't get the error) */
+				$output .= ' as <i>' . $item_results[ $sub_cat ][ $i ]['characters'][0] . '</i>';
 			}
 
-			// Display a "show more" after XX results, only if a next result exists
+			// Display a "show more" after XX results, only if a next result exists.
 			if ( $i === $max_results ) {
 				$isset_next = isset( $item_results[ $sub_cat ][ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_class->misc_layout( 'see_all_start' ) : '';
+				$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
 			}
 
-			if ( $i > $max_results && $i === $nb_total_items ) {
+			if ( $i > $max_results && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_class->misc_layout( 'see_all_end' );
 			}
-			$i++;
 		}
 		return $output;
 	}
@@ -113,33 +107,29 @@ class Person_Credit {
 	 */
 	public function get_module_popup( string $sub_cat, array $item_results, int $nb_total_items, int $max_results ): string {
 
-		$nb_rows_click_more = $max_results;
-		$i = 0;
-
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $sub_cat ] )
 		);
-		$output .= '(' . strval( $nb_total_items ) . ')';
 
-		foreach ( $item_results[ $sub_cat ] as $credit_role ) {
+		$output .= '(' . strval( $nb_total_items ) . ')'; // Show the total number found right after the title.
 
+		for ( $i = 0; $i < $nb_total_items; $i ++ ) {
 			$output .= "\n\t\t\t\t " . $this->output_class->get_link(
 				'internal_with_spinner',
-				wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $credit_role['titleId'] ),
-				$credit_role['titleName'],
+				wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $sub_cat ][ $i ]['titleId'] ),
+				$item_results[ $sub_cat ][ $i ]['titleName'],
 			);
 
-			if ( isset( $credit_role['year'] ) ) {
-				$output .= ' (' . strval( $credit_role['year'] ) . ')';
+			if ( isset( $item_results[ $sub_cat ][ $i ]['year'] ) ) {
+				$output .= ' (' . strval( $item_results[ $sub_cat ][ $i ]['year'] ) . ')';
 			}
 
-			if ( isset( $credit_role['characters'] ) && count( $credit_role['characters'] ) > 0 ) {
-				$output .= ' as <i>' . $credit_role['characters'][0] . '</i>';
-
+			if ( isset( $item_results[ $sub_cat ][ $i ]['characters'] ) && count( $item_results[ $sub_cat ][ $i ]['characters'] ) > 0 ) {
+				$output .= ' as <i>' . $item_results[ $sub_cat ][ $i ]['characters'][0] . '</i>';
 			}
 
-			// Display a "show more" after XX results, only if a next result exists
+			// Display a "show more" after XX results, only if a next result exists.
 			if ( $i === $max_results ) {
 				$isset_next = isset( $item_results[ $sub_cat ][ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
@@ -148,9 +138,7 @@ class Person_Credit {
 			if ( $i > $max_results && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_class->misc_layout( 'see_all_end' );
 			}
-			$i++;
 		}
-
 		return $output;
 	}
 }

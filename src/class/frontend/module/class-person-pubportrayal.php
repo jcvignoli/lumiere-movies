@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Name;
 use Lumiere\Frontend\Main;
-use Lumiere\Frontend\Layout\Output_Popup;
+use Lumiere\Frontend\Layout\Output;
 use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Get_Options;
 
@@ -38,7 +38,7 @@ class Person_Pubportrayal {
 	 * Constructor
 	 */
 	public function __construct(
-		protected Output_Popup $output_popup_class = new Output_Popup(),
+		protected Output $output_class = new Output(),
 	) {
 		// Construct Frontend Main trait with options and links.
 		$this->start_main_trait();
@@ -63,7 +63,7 @@ class Person_Pubportrayal {
 			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
-		$output = $this->output_popup_class->misc_layout(
+		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
@@ -87,7 +87,7 @@ class Person_Pubportrayal {
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$output = $this->output_popup_class->misc_layout(
+		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
