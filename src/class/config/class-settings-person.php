@@ -21,6 +21,13 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 class Settings_Person {
 
 	/**
+	 * Partial namespace of modules
+	 * Used to build the full person namespace
+	 * @see \Lumiere\Frontend\Popup\Popup_Person
+	 */
+	public const LUM_PERSON_MODULE_CLASS = '\Lumiere\Frontend\Module\Person_';
+
+	/**
 	 * Define the type items for Persons
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed

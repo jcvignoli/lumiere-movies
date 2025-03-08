@@ -23,6 +23,7 @@ use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Settings_Popup;
+use Lumiere\Config\Settings_Person;
 
 /**
  * Display star information in a popup
@@ -321,7 +322,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	private function display_bio(): string {
 		$output = '';
 		foreach ( Settings_Popup::PERSON_DISPLAY_ITEMS_BIO as $module ) {
-			$class_name = '\Lumiere\Frontend\Module\Person_' . ucfirst( $module );
+			$class_name = Settings_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
 				$output .= $this->output_popup->person_element_embeded(
@@ -341,7 +342,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 		$output = '';
 		foreach ( Settings_Popup::PERSON_DISPLAY_ITEMS_MISC as $module ) {
-			$class_name = '\Lumiere\Frontend\Module\Person_' . ucfirst( $module );
+			$class_name = Settings_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
 				$output .= $this->output_popup->person_element_embeded(

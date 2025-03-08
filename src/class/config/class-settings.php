@@ -168,6 +168,13 @@ class Settings extends Settings_Helper {
 	public const LUM_FOLDER_CACHE                   = '/cache/lumiere/';
 
 	/**
+	 * Partial namespace of modules
+	 * Used to build the full film namespace
+	 * @see \Lumiere\Frontend\Popup\Popup_Film
+	 */
+	public const LUM_FILM_MODULE_CLASS = '\Lumiere\Frontend\Module\Movie_';
+
+	/**
 	 * Default imdb fields when creating DATA_OPTIONS
 	 * @see Settings::get_default_data_option()
 	 * @see parent::define_list_items_with_numbers() to build list with DATA_DEFAULT_WITHNUMBER
