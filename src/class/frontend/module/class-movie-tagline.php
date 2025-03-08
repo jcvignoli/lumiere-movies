@@ -66,11 +66,11 @@ class Movie_Tagline {
 		$total_displayed = $admin_max_items > $nb_total_items ? $nb_total_items : $admin_max_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $admin_max_items && ( $i < $nb_total_items ); $i++ ) {
-			$output .= "\n\t\t\t&laquo; " . esc_html( $item_results[ $i ] ) . ' &raquo; ';
+			$output .= "\n\t\t\t&laquo; " . $item_results[ $i ] . ' &raquo; ';
 			if ( $i < ( $admin_max_items - 1 ) && $i < ( $nb_total_items - 1 ) ) {
 				$output .= ', '; // add comma to every tagline but the last.
 			}
@@ -83,17 +83,17 @@ class Movie_Tagline {
 	 *
 	 * @param 'tagline' $item_name The name of the item
 	 * @param array<array-key, string> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= "\n\t\t\t&laquo; " . esc_html( $item_results[ $i ] ) . ' &raquo; ';
+			$output .= "\n\t\t\t&laquo; " . $item_results[ $i ] . ' &raquo; ';
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', '; // add comma to every tagline but the last.
 			}

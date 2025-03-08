@@ -178,27 +178,148 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		// Display something when nothing has been selected in the menu.
 		$get_info = Validate_Get::sanitize_url( 'info' );
 		if ( $get_info === null || strlen( $get_info ) === 0 ) {
-			$this->display_intro( $this->movie_class );
+			echo wp_kses(
+				$this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_INTRO ),
+				[
+					'div'  => [
+						'class'  => [],
+						'align'  => [],
+						'id'     => [],
+					],
+					'span' => [
+						'class'  => [],
+					],
+					'img'  => [
+						'src'    => [],
+						'title'  => [],
+						'width'  => [],
+						'height' => [],
+						'class'  => [],
+					],
+					'a'    => [
+						'href'   => [],
+						'rel'    => [],
+						'class'  => [],
+						'title'  => [],
+					],
+					'i'        => [],
+					'br'       => [],
+					'strong'   => [],
+				]
+			);
 		}
 
 		// Casting part.
 		if ( $get_info === 'actors' ) {
-			$this->display_casting( $this->movie_class );
+			echo wp_kses(
+				$this->get_items_two_columns( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_CASTING ),
+				[
+					'div'  => [
+						'class'  => [],
+						'align'  => [],
+					],
+					'i'    => [],
+					'span' => [
+						'class'  => [],
+					],
+					'a'    => [
+						'href'   => [],
+						'rel'    => [],
+						'class'  => [],
+						'title'  => [],
+					],
+				]
+			);
+
 		}
 
 		// Crew part.
 		if ( $get_info === 'crew' ) {
-			$this->display_crew( $this->movie_class );
+			echo wp_kses(
+				$this->get_items_two_columns( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_CREW ),
+				[
+					'div'  => [
+						'class'  => [],
+						'align'  => [],
+					],
+					'i'    => [],
+					'span' => [
+						'class'  => [],
+					],
+					'a'    => [
+						'href'   => [],
+						'rel'    => [],
+						'class'  => [],
+						'title'  => [],
+					],
+				]
+			);
 		}
 
 		// Resume part.
 		if ( $get_info === 'resume' ) {
-			$this->display_plot( $this->movie_class );
+			echo wp_kses(
+				$this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_PLOT ),
+				[
+					'div'  => [
+						'class'  => [],
+						'align'  => [],
+						'id'     => [],
+					],
+					'span' => [
+						'class'  => [],
+					],
+					'img'  => [
+						'src'    => [],
+						'title'  => [],
+						'width'  => [],
+						'height' => [],
+						'class'  => [],
+					],
+					'a'    => [
+						'href'   => [],
+						'rel'    => [],
+						'class'  => [],
+						'title'  => [],
+					],
+					'i'        => [],
+					'br'       => [],
+					'strong'   => [],
+				]
+			);
 		}
 
 		// Misc part.
 		if ( $get_info === 'divers' ) {
-			$this->display_misc( $this->movie_class );
+			echo wp_kses(
+				$this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_MISC ),
+				[
+					'div'  => [
+						'class'  => [],
+						'align'  => [],
+						'id'     => [],
+					],
+					'span' => [
+						'class'  => [],
+					],
+					'img'  => [
+						'src'    => [],
+						'title'  => [],
+						'width'  => [],
+						'height' => [],
+						'class'  => [],
+					],
+					'a'    => [
+						'href'   => [],
+						'rel'    => [],
+						'class'  => [],
+						'title'  => [],
+					],
+					'i'        => [],
+					'br'       => [],
+					'strong'   => [],
+				]
+			);
 		}
 
 		// The end.
@@ -210,7 +331,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	/**
 	 * Show the menu
 	 */
-	private function display_menu( Title $movie_class, string $film_title_sanitized ): void {
+	private function display_menu( Title $movie_class, string $film_title ): void {
 		// If polylang plugin is active, rewrite the URL to append the lang string
 		$url_if_polylang = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'film', site_url() ) );
 		$url_if_polylang_search = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'movie_search', site_url() ) );
@@ -219,22 +340,22 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 
 		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" id="searchaka" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang_search . '?film=' . $film_title_sanitized ) ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" id="searchaka" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang_search . '?film=' . $film_title ) ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=actors' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=actors' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=crew' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=crew' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=resume' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=resume' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title_sanitized . '&info=divers' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $url_if_polylang . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=divers' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 		<?php
@@ -305,195 +426,45 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	}
 
 	/**
-	 * Show intro part
+	 * Echo a the list of Title items
+	 * @param Title $movie_class
+	 * @param list<string> $items
+	 * @phpstan-param Settings_Popup::FILM_DISPLAY_ITEMS_MISC|Settings_Popup::FILM_DISPLAY_ITEMS_PLOT|Settings_Popup::FILM_DISPLAY_ITEMS_INTRO $items list of items to convert to modules
 	 */
-	private function display_intro( Title $movie_class ): void {
-
-		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_INTRO as $module ) {
+	private function get_items( Title $movie_class, array $items ): string {
+		$output = '';
+		foreach ( $items as $module ) {
 			$class_name = Settings::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$text = $this->output_popup->movie_element_embeded(
+				$output .= $this->output_popup->movie_element_embeded(
 					$class_module->get_module( $movie_class, $module ),
 					$module
 				);
-				echo wp_kses(
-					$text,
-					[
-						'div'  => [
-							'class'  => [],
-						],
-						'span' => [
-							'class'  => [],
-						],
-						'img'  => [
-							'src'    => [],
-							'title'  => [],
-							'width'  => [],
-							'height' => [],
-							'class'  => [],
-						],
-						'a'    => [
-							'href'   => [],
-							'rel'    => [],
-							'class'  => [],
-							'title'  => [],
-						],
-					]
-				);
 			}
 		}
+		return $output;
 	}
 
 	/**
-	 * Show misc part
-	 * Using normal layout
-	 */
-	private function display_misc( Title $movie_class ): void {
-
-		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_MISC as $module ) {
-			$class_name = Settings::LUM_FILM_MODULE_CLASS . ucfirst( $module );
-			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name();
-				$text = $this->output_popup->movie_element_embeded(
-					$class_module->get_module( $movie_class, $module ),
-					$module
-				);
-				echo wp_kses(
-					$text,
-					[
-						'div'      => [
-							'class'  => [],
-						],
-						'span'     => [
-							'class'  => [],
-						],
-						'img'      => [
-							'src'    => [],
-							'title'  => [],
-							'width'  => [],
-							'height' => [],
-							'class'  => [],
-						],
-						'a'        => [
-							'href'   => [],
-							'rel'    => [],
-							'class'  => [],
-							'title'  => [],
-						],
-						'i'        => [],
-						'br'       => [],
-						'strong'   => [],
-					]
-				);
-			}
-		}
-
-	}
-
-	/**
-	 * Show casting
+	 * Echo a the list of Title items
 	 * Using two columns layout
+	 * @param Title $movie_class
+	 * @param list<string> $items
+	 * @phpstan-param Settings_Popup::FILM_DISPLAY_ITEMS_CREW|Settings_Popup::FILM_DISPLAY_ITEMS_CASTING $items list of items to convert to modules
 	 */
-	private function display_casting( Title $movie_class ): void {
-
-		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_CASTING as $module ) {
+	private function get_items_two_columns( Title $movie_class, array $items ): string {
+		$output = '';
+		foreach ( $items as $module ) {
 			$class_name = Settings::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$text = $this->output_popup->movie_element_embeded(
+				$output .= $this->output_popup->movie_element_embeded(
 					$class_module->get_module_popup_two_columns( $movie_class, $module ),
 					$module
 				);
-				echo wp_kses(
-					$text,
-					[
-						'div'  => [
-							'class'  => [],
-							'align'  => [],
-						],
-						'i'    => [],
-						'span' => [
-							'class'  => [],
-						],
-						'a'    => [
-							'href'   => [],
-							'rel'    => [],
-							'class'  => [],
-							'title'  => [],
-						],
-					]
-				);
 			}
 		}
-	}
-
-	/**
-	 * Show crew
-	 * Using two columns layout
-	 */
-	private function display_crew( Title $movie_class ): void {
-
-		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_CREW as $module ) {
-			$class_name = Settings::LUM_FILM_MODULE_CLASS . ucfirst( $module );
-			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name();
-				$text = $this->output_popup->movie_element_embeded(
-					$class_module->get_module_popup_two_columns( $movie_class, $module ),
-					$module
-				);
-				echo wp_kses(
-					$text,
-					[
-						'div'  => [
-							'class'  => [],
-							'align'  => [],
-						],
-						'i'    => [],
-						'span' => [
-							'class'  => [],
-						],
-						'a'    => [
-							'href'   => [],
-							'rel'    => [],
-							'class'  => [],
-							'title'  => [],
-						],
-					]
-				);
-			}
-		}
-	}
-
-	/**
-	 * Show plots
-	 * Using normal layout
-	 */
-	private function display_plot( Title $movie_class ): void {
-
-		foreach ( Settings_Popup::FILM_DISPLAY_ITEMS_PLOT as $module ) {
-			$class_name = Settings::LUM_FILM_MODULE_CLASS . ucfirst( $module );
-			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name();
-				$text = $this->output_popup->movie_element_embeded(
-					$class_module->get_module( $movie_class, $module ),
-					$module
-				);
-				echo wp_kses(
-					$text,
-					[
-						'div'  => [
-							'class'  => [],
-							'align'  => [],
-							'id'     => [],
-						],
-						'span' => [
-							'class'  => [],
-						],
-
-					]
-				);
-			}
-		}
+		return $output;
 	}
 }

@@ -66,11 +66,11 @@ class Movie_Genre {
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= isset( $item_results[ $i ]['mainGenre'] ) ? esc_html( $item_results[ $i ]['mainGenre'] ) : '';
+			$output .= $item_results[ $i ]['mainGenre'] ?? '';
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
@@ -83,17 +83,17 @@ class Movie_Genre {
 	 *
 	 * @param 'genre' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= isset( $item_results[ $i ]['mainGenre'] ) ? esc_html( $item_results[ $i ]['mainGenre'] ) : '';
+			$output .= $item_results[ $i ]['mainGenre'] ?? '';
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
@@ -118,13 +118,13 @@ class Movie_Genre {
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalgenre )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nbtotalgenre )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
 
-			$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $genre[ $i ]['mainGenre'] ), $this->imdb_admin_values );
-			$output .= isset( $genre[ $i ]['mainGenre'] ) ? $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options ) : '';
+			$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, $genre[ $i ]['mainGenre'], $this->imdb_admin_values );
+			$output .= isset( $genre[ $i ]['mainGenre'] ) ? $this->output_class->get_layout_items( $movie->title(), $get_taxo_options ) : '';
 
 			if ( $i < $nbtotalgenre - 1 ) {
 				$output .= ', ';

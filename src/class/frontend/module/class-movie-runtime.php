@@ -51,7 +51,7 @@ class Movie_Runtime {
 	 */
 	public function get_module( Title $movie, string $item_name ): string {
 
-		$item_results = isset( $movie->$item_name()[0]['time'] ) ? esc_html( strval( $movie->$item_name()[0]['time'] ) ) : '';
+		$item_results = isset( $movie->$item_name()[0]['time'] ) ? strval( $movie->$item_name()[0]['time'] ) : '';
 
 		if ( strlen( $item_results ) === 0 ) {
 			return '';
@@ -63,9 +63,9 @@ class Movie_Runtime {
 
 		return $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		)
-			. $item_results . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
+			. $item_results . ' ' . __( 'minutes', 'lumiere-movies' );
 	}
 
 	/**
@@ -79,8 +79,8 @@ class Movie_Runtime {
 
 		return $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		)
-			. $item_results . ' ' . esc_html__( 'minutes', 'lumiere-movies' );
+			. $item_results . ' ' . __( 'minutes', 'lumiere-movies' );
 	}
 }

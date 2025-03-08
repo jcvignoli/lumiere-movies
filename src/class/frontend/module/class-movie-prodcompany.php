@@ -65,7 +65,7 @@ class Movie_Prodcompany {
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
@@ -84,13 +84,13 @@ class Movie_Prodcompany {
 	 *
 	 * @param 'prodCompany' $item_name The name of the item
 	 * @param array{name:string,id:string,country:string,attribute:string,year:int}[] $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {

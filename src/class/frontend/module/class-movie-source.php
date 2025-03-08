@@ -55,7 +55,7 @@ class Movie_Source {
 
 		$get_mid = strlen( $movie->imdbid() ) > 0 ? strval( $movie->imdbid() ) : null;
 
-		if ( $get_mid === null ) {
+		if ( $get_mid === null || $get_mid === '0' ) {
 			return '';
 		}
 
@@ -65,7 +65,7 @@ class Movie_Source {
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		);
 
 		$output .= $this->link_maker->lumiere_movies_source_details( $get_mid );
@@ -83,16 +83,12 @@ class Movie_Source {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		);
-
-		if ( strlen( $get_mid ) === 0 ) {
-			esc_html_e( 'No source found.', 'lumiere-movies' );
-		}
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		);
 
 		$output .= $this->link_maker->lumiere_movies_source_details( $get_mid );

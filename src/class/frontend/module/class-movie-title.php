@@ -46,12 +46,12 @@ class Movie_Title {
 	 * Display the title and possibly the year
 	 *
 	 * @param Title $movie IMDbPHP title class
-	 * @param 'title' $item_name The name of the item, ie 'director', 'writer'
+	 * @param 'title' $item_name The name of the item
 	 */
 	public function get_module( Title $movie, string $item_name ): string {
 
 		$year = $movie->year();
-		$title_sanitized = esc_html( $movie->$item_name() );
+		$title = $movie->$item_name();
 
 		$year_text = '';
 		if ( strlen( strval( $year ) ) > 0 && isset( $this->imdb_data_values['imdbwidgetyear'] ) && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
@@ -59,26 +59,26 @@ class Movie_Title {
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $title_sanitized, $year_text );
+			return $this->get_module_popup( $title, $year_text );
 		}
 
 		return $this->output_class->misc_layout(
 			'frontend_title',
-			$title_sanitized . $year_text
+			$title . $year_text
 		);
 	}
 
 	/**
 	 * Display the Popup version of the module
 	 *
-	 * @param string $title_sanitized The title
+	 * @param string $title The title
 	 * @param string $year_text The year
 	 */
-	public function get_module_popup( string $title_sanitized, string $year_text ): string {
+	public function get_module_popup( string $title, string $year_text ): string {
 
 		return $this->output_class->misc_layout(
 			'frontend_title',
-			$title_sanitized . $year_text
+			$title . $year_text
 		);
 	}
 }

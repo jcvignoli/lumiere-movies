@@ -65,13 +65,13 @@ class Person_Pubportrayal {
 
 		$output = $this->output_popup_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
-			$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $item_results[ $i ]['id'] ) ) ) . "'>" . esc_html( $item_results[ $i ]['title'] ) . '</a>';
+			$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $i ]['id'] ) ) . "'>" . $item_results[ $i ]['title'] . '</a>';
 			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 0 ) {
-				$output .= ' (' . esc_html( $item_results[ $i ]['year'] ) . ') ';
+				$output .= ' (' . $item_results[ $i ]['year'] . ') ';
 			}
 		}
 		return $output;
@@ -83,19 +83,19 @@ class Person_Pubportrayal {
 	 *
 	 * @param 'pubportrayal' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_popup_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
-			$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $item_results[ $i ]['id'] ) ) ) . "'>" . esc_html( $item_results[ $i ]['title'] ) . '</a>';
+			$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $i ]['id'] ) ) . "'>" . $item_results[ $i ]['title'] . '</a>';
 			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 0 ) {
-				$output .= ' (' . esc_html( $item_results[ $i ]['year'] ) . ') ';
+				$output .= ' (' . $item_results[ $i ]['year'] . ') ';
 			}
 		}
 		return $output;

@@ -67,7 +67,7 @@ class Movie_Cinematographer {
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
@@ -85,18 +85,14 @@ class Movie_Cinematographer {
 	 *
 	 * @param 'cinematographer' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
-
-		if ( $nb_total_items === 0 ) {
-			esc_html_e( 'No cinematographers found.', 'lumiere-movies' );
-		}
 
 		for ( $i = 0; $i < $nb_total_items; $i++  ) {
 
@@ -131,17 +127,16 @@ class Movie_Cinematographer {
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$get_taxo_options = $this->movie_taxo->create_taxonomy_options( 'cinematographer', esc_html( $item_results[ $i ]['name'] ), $this->imdb_admin_values );
-			$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
+			$get_taxo_options = $this->movie_taxo->create_taxonomy_options( 'cinematographer', $item_results[ $i ]['name'], $this->imdb_admin_values );
+			$output .= $this->output_class->get_layout_items( $movie->title(), $get_taxo_options );
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
 		}
-
 		return $output;
 	}
 }

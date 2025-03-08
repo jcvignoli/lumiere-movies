@@ -68,7 +68,7 @@ class Movie_Actor {
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $admin_total_items && ( $i < $nb_total_items ); $i++ ) {
@@ -80,7 +80,7 @@ class Movie_Actor {
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_second',
-				isset( $item_results[ $i ]['character'][0] ) && strlen( $item_results[ $i ]['character'][0] ) > 0 ? esc_html( $item_results[ $i ]['character'][0] ) : '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>'
+				isset( $item_results[ $i ]['character'][0] ) && strlen( $item_results[ $i ]['character'][0] ) > 0 ? $item_results[ $i ]['character'][0] : '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>'
 			);
 
 		}
@@ -100,7 +100,7 @@ class Movie_Actor {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		// Sort by column name the array of results.
@@ -108,8 +108,8 @@ class Movie_Actor {
 		array_multisort( $column_item_results, SORT_ASC, $item_results );
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
-			$output .= "\n\t\t\t" . esc_html( $item_results[ $i ]['name'] ) . '</a>';
+			$output .= '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . '">';
+			$output .= "\n\t\t\t" . $item_results[ $i ]['name'] . '</a>';
 
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
@@ -136,19 +136,19 @@ class Movie_Actor {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_first',
-				isset( $item_results[ $i ]['character'][0] ) ? esc_html( $item_results[ $i ]['character'][0] ) : '<i>' . esc_html__( 'role unknown', 'lumiere-movies' ) . '</i>'
+				$item_results[ $i ]['character'][0] ?? '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>'
 			);
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_second',
-				'<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . ' ' . esc_html( $item_results[ $i ]['name'] ) . '">' . "\n\t\t\t\t" . esc_html( $item_results[ $i ]['name'] ) . '</a>'
+				'<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['name'] . '">' . "\n\t\t\t\t" . $item_results[ $i ]['name'] . '</a>'
 			);
 
 		}
@@ -174,7 +174,7 @@ class Movie_Actor {
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; ( $i < $nb_total_items ) && ( $i < $admin_total_items ); $i++ ) {
@@ -186,13 +186,12 @@ class Movie_Actor {
 
 			$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
 				$item_name,
-				esc_html( $item_results[ $i ]['name'] ),
+				$item_results[ $i ]['name'],
 				$this->imdb_admin_values
 			);
-			$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, esc_attr( $item_results[ $i ]['character'][0] ) );
+			$output .= $this->output_class->get_layout_items( $movie->title(), $get_taxo_options, esc_attr( $item_results[ $i ]['character'][0] ) );
 
 		}
-
 		return $output;
 	}
 }

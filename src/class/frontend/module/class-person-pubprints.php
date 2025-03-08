@@ -64,24 +64,24 @@ class Person_Pubprints {
 
 		$output = $this->output_popup_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			if ( isset( $item_results[ $i ]['author'][0] ) && strlen( $item_results[ $i ]['author'][0] ) > 0 ) {
-				$output .= "\n\t\t" . esc_html( $item_results[ $i ]['author'][0] );
+				$output .= "\n\t\t" . $item_results[ $i ]['author'][0];
 			}
 
 			if ( isset( $item_results[ $i ]['title'] ) && strlen( $item_results[ $i ]['title'] ) > 0 ) {
-				$output .= ' <i>' . esc_html( $item_results[ $i ]['title'] ) . '</i> ';
+				$output .= ' <i>' . $item_results[ $i ]['title'] . '</i> ';
 			}
 
 			if ( isset( $item_results[ $i ]['year'] ) && strlen( $item_results[ $i ]['year'] ) > 0 ) {
-				$output .= '(' . intval( $item_results[ $i ]['year'] ) . ')';
+				$output .= '(' . $item_results[ $i ]['year'] . ')';
 			}
 
 			if ( isset( $item_results[ $i ]['details'] ) && strlen( $item_results[ $i ]['details'] ) !== 0 ) {
-				$output .= esc_html( $item_results[ $i ]['details'] ) . ' ';
+				$output .= $item_results[ $i ]['details'] . ' ';
 			}
 
 			if ( $i < ( $nb_total_items - 1 ) ) {
@@ -101,37 +101,39 @@ class Person_Pubprints {
 	 * @param 'pubprints' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
 	 * @phpstan-param array<array-key, array{author?: array<string>, title?: string, year?: string, details?: string }> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
+		$nb_rows_display_clickmore = 5;
+
 		$output = $this->output_popup_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
 			// Display a "click to show more" after XX results
-			if ( $i === 5 ) {
+			if ( $i === $nb_rows_display_clickmore ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? $this->output_popup_class->misc_layout( 'click_more_start', $item_name ) : '';
 			}
 
 			if ( isset( $item_results[ $i ]['author'][0] ) && strlen( $item_results[ $i ]['author'][0] ) > 0 ) {
-				$output .= "\n\t\t" . esc_html( $item_results[ $i ]['author'][0] );
+				$output .= "\n\t\t" . $item_results[ $i ]['author'][0];
 			}
 
 			if ( isset( $item_results[ $i ]['title'] ) && strlen( $item_results[ $i ]['title'] ) > 0 ) {
-				$output .= ' <i>' . esc_html( $item_results[ $i ]['title'] ) . '</i> ';
+				$output .= ' <i>' . $item_results[ $i ]['title'] . '</i> ';
 			}
 
 			if ( isset( $item_results[ $i ]['year'] ) && strlen( $item_results[ $i ]['year'] ) > 0 ) {
-				$output .= '(' . intval( $item_results[ $i ]['year'] ) . ')';
+				$output .= '(' . $item_results[ $i ]['year'] . ')';
 			}
 
 			if ( isset( $item_results[ $i ]['details'] ) && strlen( $item_results[ $i ]['details'] ) !== 0 ) {
-				$output .= esc_html( $item_results[ $i ]['details'] ) . ' ';
+				$output .= $item_results[ $i ]['details'] . ' ';
 			}
 
 			if ( $i < ( $nb_total_items - 1 ) ) {
@@ -139,7 +141,7 @@ class Person_Pubprints {
 			}
 
 			// End of "click to show more"
-			if ( $i === ( $nb_total_items - 1 ) ) {
+			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_popup_class->misc_layout( 'click_more_end' );
 			}
 		}

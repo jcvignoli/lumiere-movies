@@ -69,7 +69,7 @@ class Movie_Connection {
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		foreach ( Get_Options::define_list_connect_cat() as $category => $data_explain ) {
@@ -96,7 +96,7 @@ class Movie_Connection {
 						$item_results[ $category ][ $i ]['titleId']
 					);
 
-					$output .= isset( $item_results[ $category ][ $i ]['description'] ) ? ' (' . esc_html( $item_results[ $category ][ $i ]['description'] ) . ')' : '';
+					$output .= isset( $item_results[ $category ][ $i ]['description'] ) ? ' (' . $item_results[ $category ][ $i ]['description'] . ')' : '';
 					if ( $i < ( $admin_total_items - 1 ) && $i < $nb_total_items && $i < ( $nb_items_cat - 1 ) ) {
 						$output .= ', '; // add comma to every connected movie but the last.
 					}
@@ -113,13 +113,13 @@ class Movie_Connection {
 	 *
 	 * @param 'connection' $item_name The name of the item
 	 * @param array<string, array<array-key, array<string, string>>> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		foreach ( Get_Options::get_list_connect_cat() as $category => $data_explain ) {
@@ -134,9 +134,9 @@ class Movie_Connection {
 						$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat', $data_explain );
 					}
 
-					$output .= "\n\t\t\t\t" . '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $category ][ $i ]['titleId'] ) ) . '" title="' . esc_html( $item_results[ $category ][ $i ]['titleName'] ) . '">' . "\n\t\t\t\t" . esc_html( $item_results[ $category ][ $i ]['titleName'] ) . '</a>';
+					$output .= "\n\t\t\t\t" . '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $category ][ $i ]['titleId'] ) ) . '" title="' . $item_results[ $category ][ $i ]['titleName'] . '">' . "\n\t\t\t\t" . $item_results[ $category ][ $i ]['titleName'] . '</a>';
 
-					$output .= isset( $item_results[ $category ][ $i ]['description'] ) ? ' (' . esc_html( $item_results[ $category ][ $i ]['year'] ) . ') (<i>' . esc_html( $item_results[ $category ][ $i ]['description'] ) . '</i>)' : '';
+					$output .= isset( $item_results[ $category ][ $i ]['description'] ) ? ' (' . $item_results[ $category ][ $i ]['year'] . ') (<i>' . $item_results[ $category ][ $i ]['description'] . '</i>)' : '';
 
 					if ( $i < ( $nb_total_items - 1 ) && $i < ( $nb_items_cat - 1 ) ) {
 						$output .= ', '; // add comma to every connected movie but the last.

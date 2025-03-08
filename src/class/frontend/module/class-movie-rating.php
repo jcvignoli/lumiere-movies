@@ -64,9 +64,9 @@ class Movie_Rating {
 		return $this->link_maker->lumiere_movies_rating_picture( // From trait Main.
 			$rating_sanitized,
 			$votes_sanitized,
-			esc_html__( 'vote average', 'lumiere-movies' ),
-			esc_html__( 'out of 10', 'lumiere-movies' ),
-			esc_html__( 'votes', 'lumiere-movies' )
+			__( 'vote average', 'lumiere-movies' ),
+			__( 'out of 10', 'lumiere-movies' ),
+			__( 'votes', 'lumiere-movies' )
 		);
 	}
 
@@ -82,9 +82,9 @@ class Movie_Rating {
 		return $this->link_maker->lumiere_movies_rating_picture( // From trait Main.
 			$rating_sanitized,
 			$votes_sanitized,
-			esc_html__( 'vote average', 'lumiere-movies' ),
-			esc_html__( 'out of 10', 'lumiere-movies' ),
-			esc_html__( 'votes', 'lumiere-movies' )
+			__( 'vote average', 'lumiere-movies' ),
+			__( 'out of 10', 'lumiere-movies' ),
+			__( 'votes', 'lumiere-movies' )
 		);
 	}
 }

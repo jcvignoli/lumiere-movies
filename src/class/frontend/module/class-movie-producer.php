@@ -68,7 +68,7 @@ class Movie_Producer {
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $admin_total_items && ( $i < $nb_total_items ); $i++ ) {
@@ -82,12 +82,12 @@ class Movie_Producer {
 			$second_column = '';
 			if ( $count_jobs > 0 ) {
 				for ( $j = 0; $j < $count_jobs; $j++ ) {
-					$second_column .= esc_html( $item_results[ $i ]['jobs'][ $j ] );
+					$second_column .= $item_results[ $i ]['jobs'][ $j ];
 					if ( $j < ( $count_jobs - 1 ) ) {
 						$second_column .= ', ';
 					}
 				}
-			} else {
+			} elseif ( $count_jobs === 0 ) {
 				$second_column .= '&nbsp;';
 			}
 
@@ -107,13 +107,13 @@ class Movie_Producer {
 	 *
 	 * @param 'producer' $item_name The name of the item
 	 * @param array<int<0, max>, array<string, string>> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		// Sort by column name the array of results.
@@ -121,8 +121,8 @@ class Movie_Producer {
 		array_multisort( $column_item_results, SORT_ASC, $item_results );
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
-			$output .= "\n\t\t\t" . esc_html( $item_results[ $i ]['name'] ) . '</a>';
+			$output .= '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . '">';
+			$output .= "\n\t\t\t" . $item_results[ $i ]['name'] . '</a>';
 
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
@@ -149,19 +149,19 @@ class Movie_Producer {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_first',
-				'<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . ' ' . esc_html( $item_results[ $i ]['name'] ) . '">' . "\n\t\t\t\t" . esc_html( $item_results[ $i ]['name'] ) . '</a>'
+				'<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['name'] . '">' . "\n\t\t\t\t" . $item_results[ $i ]['name'] . '</a>'
 			);
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_second',
-				isset( $item_results[ $i ]['jobs'][0] ) ? esc_html( $item_results[ $i ]['jobs'][0] ) : ''
+				$item_results[ $i ]['jobs'][0] ?? ''
 			);
 
 		}
@@ -187,7 +187,7 @@ class Movie_Producer {
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; ( $i < $nb_total_items ) && ( $i < $admin_total_items ); $i++ ) {
@@ -196,7 +196,7 @@ class Movie_Producer {
 
 			$jobs = '';
 			for ( $j = 0; $j < $count_jobs; $j++ ) {
-				$jobs .= isset( $item_results[ $i ]['jobs'][ $j ] ) ? esc_html( $item_results[ $i ]['jobs'][ $j ] ) : '';
+				$jobs .= $item_results[ $i ]['jobs'][ $j ] ?? '';
 				if ( $j < ( $count_jobs - 1 ) ) {
 					$jobs .= ', ';
 				}
@@ -204,11 +204,10 @@ class Movie_Producer {
 
 			$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
 				$item_name,
-				// @phan-suppress-next-line PhanTypeInvalidDimOffset, PhanTypeMismatchArgument (Invalid offset "name" of $item_results[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $item_results array, which would be a nightmare */
-				isset( $item_results[ $i ]['name'] ) ? esc_html( $item_results[ $i ]['name'] ) : '',
+				$item_results[ $i ]['name'] ?? '',
 				$this->imdb_admin_values
 			);
-			$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
+			$output .= $this->output_class->get_layout_items( $movie->title(), $get_taxo_options, $jobs );
 		}
 		return $output;
 	}

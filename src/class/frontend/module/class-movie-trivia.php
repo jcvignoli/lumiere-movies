@@ -70,7 +70,7 @@ class Movie_Trivia {
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		foreach ( Get_Options::get_list_trivia_cat() as $trivia_cat ) {
@@ -96,7 +96,7 @@ class Movie_Trivia {
 		$translated_item = Get_Options::get_all_fields( $nb_total_items )[ $item_name ];
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( $translated_item ) )
+			ucfirst( $translated_item )
 		);
 
 		$nb_total_trivia_processed = 1;
@@ -117,7 +117,7 @@ class Movie_Trivia {
 					continue;
 				}
 
-				$output .= "\n\t\t\t\t<div>\n\t\t\t\t\t" . '[#' . esc_html( strval( $nb_total_trivia_processed ) ) . '] <i>' . esc_html( Get_Options::get_list_trivia_cat() [ $trivia_type ] ) . '</i> ' . $text . "\n\t\t\t\t</div>";
+				$output .= "\n\t\t\t\t<div>\n\t\t\t\t\t" . '[#' . strval( $nb_total_trivia_processed ) . '] <i>' . Get_Options::get_list_trivia_cat() [ $trivia_type ] . '</i> ' . $text . "\n\t\t\t\t</div>";
 
 				if ( $nb_total_trivia_processed === 5 ) {
 					$isset_next = isset( $item_results[ $trivia_type ][ $nb_total_trivia_processed + 1 ] ) ? true : false;

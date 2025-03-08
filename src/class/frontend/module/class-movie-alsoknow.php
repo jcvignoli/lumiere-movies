@@ -65,7 +65,7 @@ class Movie_Alsoknow {
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items && $i < $admin_max_items; $i++ ) {
@@ -74,14 +74,14 @@ class Movie_Alsoknow {
 			if ( $i === 0 ) {
 				continue;
 			}
-			$output .= "\n\t\t\t<i>" . esc_html( $item_results[ $i ]['title'] ) . '</i>';
+			$output .= "\n\t\t\t<i>" . $item_results[ $i ]['title'] . '</i>';
 
 			if ( isset( $item_results[ $i ]['countryId'] ) ) {
 				$output .= ' (';
-				$output .= esc_html( $item_results[ $i ]['country'] );
+				$output .= $item_results[ $i ]['country'];
 				if ( isset( $item_results[ $i ]['comment'][0] ) ) {
 					$output .= ' - ';
-					$output .= esc_html( $item_results[ $i ]['comment'][0] );
+					$output .= $item_results[ $i ]['comment'][0];
 				}
 				$output .= ')';
 			}
@@ -104,7 +104,7 @@ class Movie_Alsoknow {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
@@ -113,14 +113,14 @@ class Movie_Alsoknow {
 			if ( $i === 0 ) {
 				continue;
 			}
-			$output .= "\n\t\t\t<i>" . esc_html( $item_results[ $i ]['title'] ) . '</i>';
+			$output .= "\n\t\t\t<i>" . $item_results[ $i ]['title'] . '</i>';
 
 			if ( isset( $item_results[ $i ]['countryId'] ) ) {
 				$output .= ' (';
-				$output .= esc_html( $item_results[ $i ]['country'] );
+				$output .= $item_results[ $i ]['country'];
 				if ( isset( $item_results[ $i ]['comment'][0] ) ) {
 					$output .= ' - ';
-					$output .= esc_html( $item_results[ $i ]['comment'][0] );
+					$output .= $item_results[ $i ]['comment'][0];
 				}
 				$output .= ')';
 			}

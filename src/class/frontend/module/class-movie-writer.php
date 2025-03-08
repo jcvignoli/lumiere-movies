@@ -69,7 +69,7 @@ class Movie_Writer {
 		$total_displayed = $admin_max_items > $nb_total_items ? $nb_total_items : $admin_max_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items && $i < $admin_max_items; $i++ ) {
@@ -92,41 +92,39 @@ class Movie_Writer {
 			// Add number of episode and year they worked in.
 			// @phan-suppress-next-line PhanTypeInvalidDimOffset */
 			if ( $item_results[ $i ]['episode'] !== null && count( $item_results[ $i ]['episode'] ) > 0 && isset( $item_results[ $i ]['episode']['total'] ) && $item_results[ $i ]['episode']['total'] !== 0 ) {
-				$total = isset( $item_results[ $i ]['episode']['total'] ) ? esc_html( $item_results[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
+				$total = isset( $item_results[ $i ]['episode']['total'] ) ? $item_results[ $i ]['episode']['total'] . ' ' . _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) : '';
 				/* translators: "In" like in "in 2025" */
 				$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
-				$year = isset( $item_results[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $item_results[ $i ]['episode']['year'] ) : '';
+				$year = isset( $item_results[ $i ]['episode']['year'] ) ? ' ' . $year_from_or_in . ' ' . $item_results[ $i ]['episode']['year'] : '';
 				/* translators: "To" like in "to 2025" */
-				$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . esc_html__( 'to', 'lumiere-movies' ) . ' ' . esc_html( $item_results[ $i ]['episode']['endYear'] ) : '';
+				$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . __( 'to', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['episode']['endYear'] : '';
 				$second_column .= ' (<i>' . $total . $year . $end_year . '</i>)';
 			}
 
 			$output .= $this->output_class->misc_layout( 'two_columns_second', $second_column );
 
 		}
-
 		return $output;
 	}
 
 	/**
 	 * Display the Popup version of the module
-	 * @see Movie_Writer::get_module() Calling this
 	 *
 	 * @param 'writer' $item_name The name of the item
 	 * @param array<int<0, max>, array<string, string>> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$output .= '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . '">';
-			$output .= "\n\t\t\t" . esc_html( $item_results[ $i ]['name'] ) . '</a>';
+			$output .= '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . '">';
+			$output .= "\n\t\t\t" . $item_results[ $i ]['name'] . '</a>';
 
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
@@ -154,19 +152,19 @@ class Movie_Writer {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_first',
-				'<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . esc_html__( 'internal link', 'lumiere-movies' ) . ' ' . esc_html( $item_results[ $i ]['name'] ) . '">' . "\n\t\t\t\t" . esc_html( $item_results[ $i ]['name'] ) . '</a>'
+				'<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['name'] . '">' . "\n\t\t\t\t" . $item_results[ $i ]['name'] . '</a>'
 			);
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_second',
-				isset( $item_results[ $i ]['jobs'][0] ) ? esc_html( $item_results[ $i ]['jobs'][0] ) : ''
+				$item_results[ $i ]['jobs'][0] ?? ''
 			);
 
 		}
@@ -193,7 +191,7 @@ class Movie_Writer {
 		$total_displayed = $admin_max_items > $nb_total_items ? $nb_total_items : $admin_max_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) )
+			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items && $i < $admin_max_items; $i++ ) {
@@ -207,13 +205,13 @@ class Movie_Writer {
 				$dates_episodes = '';
 				// @phan-suppress-next-line PhanTypeInvalidDimOffset */
 				if ( $item_results[ $i ]['episode'] !== null && count( $item_results[ $i ]['episode'] ) > 0 && isset( $item_results[ $i ]['episode']['total'] ) && $item_results[ $i ]['episode']['total'] !== 0 ) {
-					$total = $item_results[ $i ]['episode']['total'] > 0 ? esc_html( $item_results[ $i ]['episode']['total'] ) . ' ' . esc_html( _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) ) : '';
+					$total = $item_results[ $i ]['episode']['total'] > 0 ? $item_results[ $i ]['episode']['total'] . ' ' . _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) : '';
 					/* translators: "From" like in "from 2025" */
 					$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
 					/* translators: "To" like in "to 2025" */
 					$year_to_or_in = isset( $item_results[ $i ]['episode']['year'] ) ? __( 'to', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
-					$year = isset( $item_results[ $i ]['episode']['year'] ) ? ' ' . esc_html( $year_from_or_in ) . ' ' . esc_html( $item_results[ $i ]['episode']['year'] ) : '';
-					$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . esc_html( $year_to_or_in ) . ' ' . esc_html( $item_results[ $i ]['episode']['endYear'] ) : '';
+					$year = isset( $item_results[ $i ]['episode']['year'] ) ? ' ' . $year_from_or_in . ' ' . $item_results[ $i ]['episode']['year'] : '';
+					$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . $year_to_or_in . ' ' . $item_results[ $i ]['episode']['endYear'] : '';
 					$dates_episodes = strlen( $total . $year . $end_year ) > 0 ? ' (<i>' . $total . $year . $end_year . '</i>)' : '';
 				}
 				$jobs .= isset( $item_results[ $i ]['jobs'][ $j ] ) && strlen( $item_results[ $i ]['jobs'][ $j ] ) > 0 ? $item_results[ $i ]['jobs'][ $j ] . $dates_episodes : '';
@@ -225,14 +223,12 @@ class Movie_Writer {
 
 			$get_taxo_options = $this->movie_taxo->create_taxonomy_options(
 				$item_name,
-				// @phan-suppress-next-line PhanTypeInvalidDimOffset,PhanTypeMismatchArgument (Invalid offset "name" of $producer[$i] of array type array{jobs:\Countable|non-empty-array<mixed,mixed>} -> would require to define $producer array, which would be a nightmare */
-				isset( $item_results[ $i ]['name'] ) ? esc_html( $item_results[ $i ]['name'] ) : '',
+				$item_results[ $i ]['name'] ?? '',
 				$this->imdb_admin_values
 			);
-			$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options, $jobs );
+			$output .= $this->output_class->get_layout_items( $movie->title(), $get_taxo_options, $jobs );
 
 		}
-
 		return $output;
 	}
 }
