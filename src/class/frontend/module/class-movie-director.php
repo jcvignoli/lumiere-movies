@@ -62,7 +62,7 @@ class Movie_Director {
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $movie, $item_name, $item_results, $nbtotalitems );
+			return $this->get_module_popup( $item_name, $item_results, $nbtotalitems );
 		}
 
 		$output = $this->output_class->misc_layout(
@@ -91,12 +91,11 @@ class Movie_Director {
 	 * Display the Popup version of the module
 	 * @see Movie_Director::get_module() Calling this
 	 *
-	 * @param Title $movie IMDbPHP title class
 	 * @param 'director' $item_name The name of the item
 	 * @param array<int<0, max>, array<string, string>> $item_results
 	 * @param int<0, max> $nbtotalitems
 	 */
-	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nbtotalitems ): string {
+	public function get_module_popup( string $item_name, array $item_results, int $nbtotalitems ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',

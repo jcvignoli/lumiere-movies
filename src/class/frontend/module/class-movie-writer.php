@@ -63,7 +63,7 @@ class Movie_Writer {
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $movie, $item_name, $item_results, $nb_total_items );
+			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
 		$total_displayed = $admin_max_items > $nb_total_items ? $nb_total_items : $admin_max_items;
@@ -112,12 +112,11 @@ class Movie_Writer {
 	 * Display the Popup version of the module
 	 * @see Movie_Writer::get_module() Calling this
 	 *
-	 * @param Title $movie IMDbPHP title class
 	 * @param 'writer' $item_name The name of the item
 	 * @param array<int<0, max>, array<string, string>> $item_results
 	 * @param int<0, max> $nb_total_items
 	 */
-	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',

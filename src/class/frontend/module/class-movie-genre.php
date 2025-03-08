@@ -53,21 +53,48 @@ class Movie_Genre {
 	 */
 	public function get_module( Title $movie, string $item_name ): string {
 
-		$genre = $movie->$item_name();
-		$nbtotalgenre = count( $genre ) > 0 ? count( $genre ) : 0;
+		$item_results = $movie->$item_name();
+		$nb_total_items = count( $item_results );
 
-		if ( $nbtotalgenre === 0 ) {
+		if ( $nb_total_items === 0 ) {
 			return '';
+		}
+
+		if ( $this->is_popup_page() === true ) { // Method in trait Main.
+			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options::get_all_fields( $nbtotalgenre )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
-		for ( $i = 0; $i < $nbtotalgenre; $i++ ) {
-			$output .= isset( $genre[ $i ]['mainGenre'] ) ? esc_html( $genre[ $i ]['mainGenre'] ) : '';
-			if ( $i < $nbtotalgenre - 1 ) {
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+			$output .= isset( $item_results[ $i ]['mainGenre'] ) ? esc_html( $item_results[ $i ]['mainGenre'] ) : '';
+			if ( $i < $nb_total_items - 1 ) {
+				$output .= ', ';
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Display the Popup version of the module
+	 *
+	 * @param 'genre' $item_name The name of the item
+	 * @param array<array-key, array<string, string>> $item_results
+	 * @param int<0, max> $nb_total_items
+	 */
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
+
+		$output = $this->output_class->misc_layout(
+			'popup_subtitle_item',
+			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
+		);
+
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+			$output .= isset( $item_results[ $i ]['mainGenre'] ) ? esc_html( $item_results[ $i ]['mainGenre'] ) : '';
+			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
 		}

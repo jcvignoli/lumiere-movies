@@ -60,7 +60,7 @@ class Movie_Source {
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $movie, $item_name, $get_mid );
+			return $this->get_module_popup( $item_name, $get_mid );
 		}
 
 		$output = $this->output_class->misc_layout(
@@ -76,11 +76,10 @@ class Movie_Source {
 	/**
 	 * Display the Popup version of the module
 	 *
-	 * @param Title $movie IMDbPHP title class
 	 * @param 'source' $item_name The name of the item
 	 * @param string $get_mid
 	 */
-	public function get_module_popup( Title $movie, string $item_name, string $get_mid ): string {
+	public function get_module_popup( string $item_name, string $get_mid ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',

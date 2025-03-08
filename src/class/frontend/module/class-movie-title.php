@@ -58,6 +58,24 @@ class Movie_Title {
 			$year_text = ' (' . strval( $year ) . ')';
 		}
 
+		if ( $this->is_popup_page() === true ) { // Method in trait Main.
+			return $this->get_module_popup( $title_sanitized, $year_text );
+		}
+
+		return $this->output_class->misc_layout(
+			'frontend_title',
+			$title_sanitized . $year_text
+		);
+	}
+
+	/**
+	 * Display the Popup version of the module
+	 *
+	 * @param string $title_sanitized The title
+	 * @param string $year_text The year
+	 */
+	public function get_module_popup( string $title_sanitized, string $year_text ): string {
+
 		return $this->output_class->misc_layout(
 			'frontend_title',
 			$title_sanitized . $year_text

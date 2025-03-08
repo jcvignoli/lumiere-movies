@@ -55,16 +55,16 @@ class Movie_Connection {
 		$admin_total_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
 		$nb_total_items = count( $item_results );
 
-		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $movie, $item_name, $item_results, $nb_total_items );
-		}
-
 		// count the actual results in values associative arrays
 		$item_results_sub = array_filter( $item_results, fn( array $item_results ) => ( count( array_values( $item_results ) ) > 0 ) );
 		$nbtotal_item_results_sub = count( $item_results_sub );
 
 		if ( $nb_total_items === 0 || $nbtotal_item_results_sub === 0 ) {
-			esc_html_e( 'No connected movies found.', 'lumiere-movies' );
+			return '';
+		}
+
+		if ( $this->is_popup_page() === true ) { // Method in trait Main.
+			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
 		$output = $this->output_class->misc_layout(
@@ -111,25 +111,16 @@ class Movie_Connection {
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated
 	 * Array of results is sorted by column
 	 *
-	 * @param Title $movie IMDbPHP title class
 	 * @param 'connection' $item_name The name of the item
 	 * @param array<string, array<array-key, array<string, string>>> $item_results
 	 * @param int<0, max> $nb_total_items
 	 */
-	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
-
-		// count the actual results in values associative arrays
-		$item_results_sub = array_filter( $item_results, fn( array $item_results ) => ( count( array_values( $item_results ) ) > 0 ) );
-		$nbtotal_item_results_sub = count( $item_results_sub );
-
-		if ( $nb_total_items === 0 || $nbtotal_item_results_sub === 0 ) {
-			esc_html_e( 'No connected movies found.', 'lumiere-movies' );
-		}
 
 		foreach ( Get_Options::get_list_connect_cat() as $category => $data_explain ) {
 

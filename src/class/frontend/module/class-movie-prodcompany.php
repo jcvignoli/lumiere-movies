@@ -60,7 +60,7 @@ class Movie_Prodcompany {
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $movie, $item_name, $item_results, $nb_total_items );
+			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
 		$output = $this->output_class->misc_layout(
@@ -82,21 +82,16 @@ class Movie_Prodcompany {
 	/**
 	 * Display the Popup version of the module
 	 *
-	 * @param Title $movie IMDbPHP title class
 	 * @param 'prodCompany' $item_name The name of the item
 	 * @param array{name:string,id:string,country:string,attribute:string,year:int}[] $item_results
 	 * @param int<0, max> $nb_total_items
 	 */
-	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			esc_html( ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) )
 		);
-
-		if ( $nb_total_items === 0 ) {
-			esc_html_e( 'No production companies found.', 'lumiere-movies' );
-		}
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$comment = isset( $item_results[ $i ]['attribute'][0] ) ? '"' . $item_results[ $i ]['attribute'][0] . '"' : '';

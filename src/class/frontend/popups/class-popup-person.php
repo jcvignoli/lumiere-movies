@@ -22,6 +22,7 @@ use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Popup;
+use Lumiere\Config\Settings_Person;
 
 /**
  * Display star information in a popup
@@ -776,9 +777,9 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 
 	/**
 	 * Helper method to get all movies
-	 * Retrieves all movies that are available in \Lumiere\Config\Settings_Popup::credits_role_all()
+	 * Retrieves all movies that are available in \Lumiere\Config\Settings_Person::credits_role_all()
 	 *
-	 * @param list<string> $list_roles List of the roles, translated and pluralised in \Lumiere\Config\Settings_Popup::credits_role_all()
+	 * @param list<string> $list_roles List of the roles, translated and pluralised in \Lumiere\Config\Settings_Person::credits_role_all()
 	 * @param int $see_all_max_movies Limit of the movies to display before breaking with "see all"
 	 * @return string
 	 */
@@ -796,11 +797,11 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 				continue;
 			}
 
-			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( ucfirst( Settings_Popup::credits_role_all( $nb_films )[ $current_role ] ) ) . ' filmography -->';
+			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( ucfirst( Settings_Person::credits_role_all( $nb_films )[ $current_role ] ) ) . ' filmography -->';
 			$output .= "\n\t" . '<div align="center" class="lumiere_container">';
 			$output .= "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
 			$output .= "\n\t\t" . '<div>';
-			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Settings_Popup::credits_role_all( $nb_films )[ $current_role ] ) ) . ' </span>';
+			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Settings_Person::credits_role_all( $nb_films )[ $current_role ] ) ) . ' </span>';
 
 			foreach ( $all_movies[ $current_role ] as $credit_role ) {
 

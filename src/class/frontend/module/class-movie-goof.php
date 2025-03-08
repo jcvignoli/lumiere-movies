@@ -56,12 +56,12 @@ class Movie_Goof {
 		$nb_total_items = count( $filter_nbtotal_items );
 		$admin_total_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
 
-		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $movie, $item_name, $item_results, $nb_total_items );
-		}
-
 		if ( $nb_total_items === 0 ) {
 			return '';
+		}
+
+		if ( $this->is_popup_page() === true ) { // Method in trait Main.
+			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
@@ -87,15 +87,13 @@ class Movie_Goof {
 	}
 
 	/**
-	 * Display the Popup version of the module, all results are displayed in one line comma-separated
-	 * Array of results is sorted by column
+	 * Display the Popup version of the module
 	 *
-	 * @param Title $movie IMDbPHP title class
 	 * @param 'goof' $item_name The name of the item
 	 * @param array<string, array<array-key, array<string, string>>> $item_results
 	 * @param int<0, max> $nb_total_items
 	 */
-	public function get_module_popup( Title $movie, string $item_name, array $item_results, int $nb_total_items ): string {
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$translated_item = Get_Options::get_all_fields( $nb_total_items )[ $item_name ];
 		$output = $this->output_class->misc_layout(
@@ -103,9 +101,6 @@ class Movie_Goof {
 			esc_html( ucfirst( $translated_item ) )
 		);
 
-		if ( $nb_total_items === 0 ) {
-			esc_html_e( 'No goofs found.', 'lumiere-movies' );
-		}
 		$overall_loop = 1;
 
 		foreach ( Get_Options::get_list_goof_cat() as $category => $data_explain ) {

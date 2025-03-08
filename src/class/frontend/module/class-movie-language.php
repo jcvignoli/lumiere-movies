@@ -70,9 +70,7 @@ class Movie_Language {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-
 			$output .= esc_html( $item_results[ $i ] );
-
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
@@ -96,9 +94,7 @@ class Movie_Language {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-
 			$output .= esc_html( $item_results[ $i ] );
-
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
@@ -127,10 +123,8 @@ class Movie_Language {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-
 			$get_taxo_options = $this->movie_taxo->create_taxonomy_options( $item_name, esc_html( $item_results[ $i ] ), $this->imdb_admin_values );
 			$output .= $this->output_class->get_layout_items( esc_html( $movie->title() ), $get_taxo_options );
-
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}

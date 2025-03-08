@@ -19,7 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Imdb\Name;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Layout\Output_Popup;
-use Lumiere\Config\Get_Options_Popup;
+use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Get_Options;
 
 /**
@@ -60,12 +60,12 @@ class Person_Spouse {
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $person_class, $item_name, $item_results, $nb_total_items );
+			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
 		$output = $this->output_popup_class->misc_layout(
 			'frontend_subtitle_item',
-			esc_html( ucfirst( Get_Options_Popup::get_all_person_fields( $nb_total_items )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
@@ -96,16 +96,15 @@ class Person_Spouse {
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated
 	 * Array of results is sorted by column
 	 *
-	 * @param Name $person_class IMDbPHP title class
 	 * @param 'spouse' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
 	 * @param int<0, max> $nb_total_items
 	 */
-	public function get_module_popup( Name $person_class, string $item_name, array $item_results, int $nb_total_items ): string {
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_popup_class->misc_layout(
 			'popup_subtitle_item',
-			esc_html( ucfirst( Get_Options_Popup::get_all_person_fields( $nb_total_items )[ $item_name ] ) )
+			esc_html( ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] ) )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {

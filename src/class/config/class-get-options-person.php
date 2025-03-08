@@ -16,13 +16,13 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) 
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Settings_Popup;
+use Lumiere\Config\Settings_Person;
 
 /**
- * Get settings related to popups
+ * Get settings related to Persons
  * Helper class meant to be called anywhere, so all methods should be static
  */
-class Get_Options_Popup extends Settings_Popup {
+class Get_Options_Person extends Settings_Person {
 
 	/**
 	 * Get People fields
