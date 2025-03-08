@@ -5,7 +5,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version       2.1
+ * @version       3.0
  * @package lumiere-movies
  */
 
@@ -21,7 +21,6 @@ use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Popup;
-use Lumiere\Config\Settings;
 use Imdb\Title;
 
 /**
@@ -426,15 +425,16 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	}
 
 	/**
-	 * Echo a the list of Title items
+	 * Return a the list of Title items using modules
+	 *
 	 * @param Title $movie_class
-	 * @param list<string> $items
-	 * @phpstan-param Settings_Popup::FILM_DISPLAY_ITEMS_MISC|Settings_Popup::FILM_DISPLAY_ITEMS_PLOT|Settings_Popup::FILM_DISPLAY_ITEMS_INTRO $items list of items to convert to modules
+	 * @param list<string> $items list of items to convert to modules
+	 * @phpstan-param Settings_Popup::FILM_DISPLAY_ITEMS_MISC|Settings_Popup::FILM_DISPLAY_ITEMS_PLOT|Settings_Popup::FILM_DISPLAY_ITEMS_INTRO $items
 	 */
 	private function get_items( Title $movie_class, array $items ): string {
 		$output = '';
 		foreach ( $items as $module ) {
-			$class_name = Settings::LUM_FILM_MODULE_CLASS . ucfirst( $module );
+			$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
 				$output .= $this->output_popup->movie_element_embeded(
@@ -447,16 +447,17 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	}
 
 	/**
-	 * Echo a the list of Title items
+	 * Return a the list of Title items using modules
 	 * Using two columns layout
+	 *
 	 * @param Title $movie_class
-	 * @param list<string> $items
-	 * @phpstan-param Settings_Popup::FILM_DISPLAY_ITEMS_CREW|Settings_Popup::FILM_DISPLAY_ITEMS_CASTING $items list of items to convert to modules
+	 * @param list<string> $items list of items to convert to modules
+	 * @phpstan-param Settings_Popup::FILM_DISPLAY_ITEMS_CREW|Settings_Popup::FILM_DISPLAY_ITEMS_CASTING $items
 	 */
 	private function get_items_two_columns( Title $movie_class, array $items ): string {
 		$output = '';
 		foreach ( $items as $module ) {
-			$class_name = Settings::LUM_FILM_MODULE_CLASS . ucfirst( $module );
+			$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
 				$output .= $this->output_popup->movie_element_embeded(

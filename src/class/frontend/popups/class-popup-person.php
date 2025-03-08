@@ -5,7 +5,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version       2.1
+ * @version       3.0
  * @package lumiere-movies
  */
 
@@ -23,7 +23,6 @@ use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Settings_Popup;
-use Lumiere\Config\Settings_Person;
 
 /**
  * Display star information in a popup
@@ -155,7 +154,8 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === null || strlen( $get_info_person ) === 0
 		) {
-			$display_summary = $this->display_summary();
+			$max_results = 9; /** max number of movies before breaking with "see all" */
+			$display_summary = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_SUMMARY_ROLES, $max_results );
 			echo strlen( $display_summary ) > 0 ? wp_kses(
 				$display_summary,
 				[
@@ -172,6 +172,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 						'href' => [],
 						'rel' => [],
 						'class' => [],
+						'title' => [],
 					],
 				]
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No summary found ', 'lumiere-movies' ) . '</div>';
@@ -181,7 +182,8 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === 'filmo'
 		) {
-			$display_full_filmo = $this->display_full_filmo();
+			$max_results = 15; /** max number of movies before breaking with "see all" */
+			$display_full_filmo = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_ALL_ROLES, $max_results );
 			echo strlen( $display_full_filmo ) > 0 ? wp_kses(
 				$display_full_filmo,
 				[
@@ -198,6 +200,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 						'href' => [],
 						'rel' => [],
 						'class' => [],
+						'title' => [],
 					],
 				]
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No filmography found ', 'lumiere-movies' ) . '</div>';
@@ -208,7 +211,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === 'bio'
 		) {
-			$display_bio = $this->display_bio();
+			$display_bio = $this->get_items( $this->person_class, Settings_Popup::PERSON_DISPLAY_ITEMS_BIO );
 			echo strlen( $display_bio ) > 0 ? wp_kses(
 				$display_bio,
 				[
@@ -222,6 +225,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 						'href' => [],
 						'rel' => [],
 						'class' => [],
+						'title' => [],
 					],
 					'font' => [ 'size' => [] ],
 					'strong' => [],
@@ -234,7 +238,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === 'misc'
 		) {
-			$display_misc = $this->display_misc();
+			$display_misc = $this->get_items( $this->person_class, Settings_Popup::PERSON_DISPLAY_ITEMS_MISC );
 			echo strlen( $display_misc ) > 0 ? wp_kses(
 				$display_misc,
 				[
@@ -248,6 +252,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 						'href' => [],
 						'rel' => [],
 						'class' => [],
+						'title' => [],
 					],
 					'font' => [ 'size' => [] ],
 					'strong' => [],
@@ -293,65 +298,6 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		</div>
 
 		<?php
-	}
-
-	/**
-	 * Display summary page
-	 * Director actor and producer filmography
-	 */
-	private function display_summary(): string {
-
-		$see_all_max_movies = 9; // max number of movies before breaking with "see all"
-
-		return $this->get_movies( Settings_Popup::PERSON_SUMMARY_ROLES, $see_all_max_movies ); // Display selected roles.
-	}
-
-	/**
-	 * Display full filmography page
-	 */
-	private function display_full_filmo(): string {
-
-		$see_all_max_movies = 15; // max number of movies before breaking with "see all"
-
-		return $this->get_movies( Settings_Popup::PERSON_ALL_ROLES, $see_all_max_movies ); // Display selected roles.
-	}
-
-	/**
-	 * Display biography
-	 */
-	private function display_bio(): string {
-		$output = '';
-		foreach ( Settings_Popup::PERSON_DISPLAY_ITEMS_BIO as $module ) {
-			$class_name = Settings_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
-			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name();
-				$output .= $this->output_popup->person_element_embeded(
-					$class_module->get_module( $this->person_class, $module ),
-					$module
-				);
-			}
-		}
-		return $output;
-	}
-
-	/**
-	 * Display miscellaenous infos
-	 * @return string The text to display
-	 */
-	private function display_misc(): string {
-
-		$output = '';
-		foreach ( Settings_Popup::PERSON_DISPLAY_ITEMS_MISC as $module ) {
-			$class_name = Settings_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
-			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name();
-				$output .= $this->output_popup->person_element_embeded(
-					$class_module->get_module( $this->person_class, $module ),
-					$module
-				);
-			}
-		}
-		return $output;
 	}
 
 	/**
@@ -485,61 +431,45 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	}
 
 	/**
-	 * Helper method to get all movies
-	 * Retrieves all movies that are available in \Lumiere\Config\Settings_Person::credits_role_all()
-	 *
-	 * @param list<string> $list_roles List of the roles, translated and pluralised in \Lumiere\Config\Settings_Person::credits_role_all()
-	 * @param int $see_all_max_movies Limit of the movies to display before breaking with "see all"
-	 * @return string
+	 * Return a the list of Name items using modules
+	 * @param Name $person_class
+	 * @param list<string> $items list of items to convert to modules
+	 * @phpstan-param Settings_Popup::PERSON_DISPLAY_ITEMS_BIO|Settings_Popup::PERSON_DISPLAY_ITEMS_MISC $items
 	 */
-	private function get_movies( array $list_roles, int $see_all_max_movies ): string {
-
+	private function get_items( Name $person_class, array $items ): string {
 		$output = '';
-		$all_movies = $this->person_class->credit(); // retrieve all movies for current person.
-
-		foreach ( $list_roles as $current_role ) {
-
-			$i = 0;
-			$nb_films = isset( $all_movies[ $current_role ] ) ? count( $all_movies[ $current_role ] ) : 0; // Count the total number of movies.
-
-			if ( $nb_films < 1 ) { // If not movies for current category found, jump to the next.
-				continue;
+		foreach ( $items as $module ) {
+			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
+			if ( class_exists( $class_name ) === true ) {
+				$class_module = new $class_name();
+				$output .= $this->output_popup->person_element_embeded(
+					$class_module->get_module( $person_class, $module ),
+					$module
+				);
 			}
+		}
+		return $output;
+	}
 
-			$output .= "\n\t\t\t\t\t\t\t" . ' <!-- ' . esc_html( ucfirst( Get_Options_Person::credits_role_all( $nb_films )[ $current_role ] ) ) . ' filmography -->';
-			$output .= "\n\t" . '<div align="center" class="lumiere_container">';
-			$output .= "\n\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">';
-			$output .= "\n\t\t" . '<div>';
-			$output .= "\n\t\t" . '<span class="lum_results_section_subtitle">' . esc_html( ucfirst( Get_Options_Person::credits_role_all( $nb_films )[ $current_role ] ) ) . ' </span>';
-
-			foreach ( $all_movies[ $current_role ] as $credit_role ) {
-
-				$output .= " <a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $credit_role['titleId'] ) ) ) . "'>" . esc_html( $credit_role['titleName'] ) . '</a>';
-
-				if ( isset( $credit_role['year'] ) ) {
-					$output .= ' (';
-					$output .= intval( $credit_role['year'] );
-					$output .= ')';
-				}
-
-				if ( isset( $credit_role['characters'] ) && count( $credit_role['characters'] ) > 0 ) {
-					$output .= ' as <i>' . esc_html( $credit_role['characters'][0] ) . '</i>';
-
-				}
-
-				// Display a "show more" after XX results, only if a next result exists
-				if ( $i === $see_all_max_movies ) {
-					$isset_next = isset( $all_movies[ $current_role ][ $i + 1 ] ) ? true : false;
-					$output .= $isset_next === true ? '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ')</strong></font></span><span class="hidesection">' : '';
-				}
-
-				if ( $i === $nb_films ) {
-					$output .= '</span>';
-				}
-				$i++;
+	/**
+	 * Get movie's credits
+	 *
+	 * @param Name $person_class
+	 * @param list<string> $list_roles List of the roles, translated and pluralised in \Lumiere\Config\Settings_Person::credits_role_all()
+	 * @phpstan-param Settings_Popup::PERSON_ALL_ROLES|Settings_Popup::PERSON_SUMMARY_ROLES $list_roles
+	 * @param int<0, max> $max_movies Limit of the movies to display before breaking with "see all"
+	 */
+	private function get_movies_credit( Name $person_class, array $list_roles, int $max_movies ): string {
+		$output = '';
+		foreach ( $list_roles as $module ) {
+			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . 'Credit';
+			if ( class_exists( $class_name ) === true ) {
+				$class_module = new $class_name();
+				$output .= $this->output_popup->person_element_embeded(
+					$class_module->get_module( $person_class, $module, $max_movies ),
+					$module
+				);
 			}
-			// Close the div for current movie category.
-			$output .= "\n\t" . '</div>';
 		}
 		return $output;
 	}

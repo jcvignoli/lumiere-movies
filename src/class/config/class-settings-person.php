@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Settings for Popups
+ * Settings for Persons
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2025, Lost Highway
@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 }
 
 /**
- * Settings class for Popups
+ * Settings class for Person
   */
 class Settings_Person {
 
@@ -63,7 +63,7 @@ class Settings_Person {
 	 * @param int $number Number of elements, most haven't
 	 * @return array<array-key, string>
 	 */
-	public static function credits_role_all( int $number = 1 ): array {
+	protected static function credits_role_all( int $number = 1 ): array {
 		return [
 			'archiveFootage'     => _n( 'archive footage', 'archive footages', $number, 'lumiere-movies' ),
 			'artDepartment'      => __( 'art department', 'lumiere-movies' ),

@@ -91,6 +91,8 @@ class Person_Quotes {
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
+		$nb_rows_click_more = 3;
+
 		$output = $this->output_popup_class->misc_layout(
 			'popup_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
@@ -106,7 +108,7 @@ class Person_Quotes {
 			}
 
 			// Display a "show more" after XX results
-			if ( $i === 3 ) {
+			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? $this->output_popup_class->misc_layout( 'click_more_start', $item_name ) : '';
 			}
@@ -115,7 +117,7 @@ class Person_Quotes {
 			$output .= ' [#' . strval( $i + 1 ) . '] ' . $text;
 			$output .= '</div>';
 
-			if ( $i === ( $nb_total_items - 1 ) ) {
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_popup_class->misc_layout( 'click_more_end' );
 			}
 		}

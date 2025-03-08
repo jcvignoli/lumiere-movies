@@ -117,7 +117,7 @@ class Person_Pubprints {
 			// Display a "click to show more" after XX results
 			if ( $i === $nb_rows_display_clickmore ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_popup_class->misc_layout( 'click_more_start', $item_name ) : '';
+				$output .= $isset_next === true ? $this->output_popup_class->misc_layout( 'see_all_start', $item_name ) : '';
 			}
 
 			if ( isset( $item_results[ $i ]['author'][0] ) && strlen( $item_results[ $i ]['author'][0] ) > 0 ) {
@@ -142,7 +142,7 @@ class Person_Pubprints {
 
 			// End of "click to show more"
 			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
-				$output .= $this->output_popup_class->misc_layout( 'click_more_end' );
+				$output .= $this->output_popup_class->misc_layout( 'see_all_end' );
 			}
 		}
 		return $output;

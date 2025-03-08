@@ -47,6 +47,6 @@ class Output_Popup extends Output {
 	 */
 	public function person_element_embeded( string $text, string $item ): string {
 		return "\n\t\t\t\t\t\t\t <!-- " . ucfirst( $item ) . ' -->'
-			. "\n<div id=\"lumiere_popup_" . strtolower( $item ) . '">' . $text . "\n</div>";
+			. "\n\t\t<div id=\"lumiere_popup_" . strtolower( $item ) . '">' . $text . "\n\t\t</div>";
 	}
 }

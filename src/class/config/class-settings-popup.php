@@ -15,13 +15,12 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Settings;
-
 /**
  * Settings class for Popups, (films/persons/search)
  * Meant to select which data display in which popup menus
+ * Doesn't include any Get_Options_class since there is no methods to get, only constants
  */
-class Settings_Popup extends Settings {
+class Settings_Popup {
 
 	/**
 	 * The selection to display on FULL filmo page in Popup_Person

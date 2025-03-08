@@ -102,7 +102,11 @@ class Movie_Director {
 		);
 
 		for ( $i = 0; $i < $nbtotalitems; $i++ ) {
-			$output .= "\n\t\t\t" . '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . '">' . $item_results[ $i ]['name'] . '</a>';
+			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
+				'internal_with_spinner',
+				wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ),
+				$item_results[ $i ]['name'],
+			);
 
 			if ( $i < $nbtotalitems - 1 ) {
 				$output .= ', ';
@@ -136,7 +140,11 @@ class Movie_Director {
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_first',
-				"\n\t\t\t" . '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . '">' . $item_results[ $i ]['name'] . '</a>'
+				$this->output_class->get_link(
+					'internal_with_spinner',
+					wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ),
+					$item_results[ $i ]['name'],
+				),
 			);
 
 			$output .= $this->output_class->misc_layout(

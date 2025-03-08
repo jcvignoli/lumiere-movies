@@ -159,7 +159,11 @@ class Movie_Writer {
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_first',
-				'<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['name'] . '">' . "\n\t\t\t\t" . $item_results[ $i ]['name'] . '</a>'
+				"\n\t\t\t\t\t" . $this->output_class->get_link(
+					'internal_with_spinner',
+					wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ),
+					$item_results[ $i ]['name'],
+				)
 			);
 
 			$output .= $this->output_class->misc_layout(

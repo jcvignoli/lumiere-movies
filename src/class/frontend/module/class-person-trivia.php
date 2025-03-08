@@ -118,10 +118,10 @@ class Person_Trivia {
 				$output .= $isset_next === true ? $this->output_popup_class->misc_layout( 'click_more_start', $item_name ) : '';
 			}
 
-			$output .= "\n\t\t\t" . '<div>';
+			$output .= "\n\t\t\t\t" . '<div>';
 			$text_cleaned = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text );
-			$output .= "\n\t\t\t\t" . ' [#' . strval( $i + 1 ) . '] ' . $text_cleaned;
-			$output .= "\n\t\t\t" . '</div>';
+			$output .= "\n\t\t\t\t\t" . ' [#' . strval( $i + 1 ) . '] ' . $text_cleaned;
+			$output .= "\n\t\t\t\t" . '</div>';
 
 			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_popup_class->misc_layout( 'click_more_end' );

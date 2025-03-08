@@ -34,14 +34,34 @@ class Output {
 	public function misc_layout( string $selector, string $text = '' ): string {
 		$container = [
 			/* translators: %1s is a movie field string, such as director, actor */
-			'click_more_start'       => "\n\t\t<!-- start hidesection -->" . '<div class="activatehidesection lumiere_align_center"><strong>(' . wp_sprintf( __( 'click to show more %1s', 'lumiere-movies' ), $text ) . ')</strong></div>' . "\n\t\t<div class=\"hidesection\">",
-			'click_more_end'         => "\n\t\t</div><!-- end hidesection -->",
+			'click_more_start'       => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . wp_sprintf( __( 'click to show more %1s', 'lumiere-movies' ), $text ) . ')</strong></div>' . "\n\t\t\t<div class=\"hidesection\">",
+			'click_more_end'         => "\n\t\t\t</div>\n\t\t\t<!-- end hidesection -->",
+			'see_all_start'          => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ')</strong></font></span><span class="hidesection">',
+			'see_all_end'         => "\n\t\t\t</span>\n\t\t\t<!-- end hidesection -->",
 			'frontend_items_sub_cat' => '<br><span class="lum_results_section_subtitle_parent"><span class="lum_results_section_subtitle_subcat">' . $text . '</span>: ',
-			'two_columns_first'      => "\n\t\t\t<div class=\"lumiere_align_center lumiere_container\">\n\t\t\t\t<div class=\"lumiere_align_left lumiere_flex_auto\">" . $text . '</div>',
-			'two_columns_second'     => "\n\t\t\t\t<div class=\"lumiere_align_right lumiere_flex_auto\">" . $text . "</div>\n\t\t\t</div>",
+			'two_columns_first'      => "\n\t\t\t<div class=\"lumiere_align_center lumiere_container\">\n\t\t\t\t<div class=\"lumiere_align_left lumiere_flex_auto\">" . $text . "\n\t\t\t\t</div>",
+			'two_columns_second'     => "\n\t\t\t\t<div class=\"lumiere_align_right lumiere_flex_auto\">" . $text . "\n\t\t\t\t</div>\n\t\t\t</div>",
 			'frontend_subtitle_item' => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text . ':</span>',
 			'frontend_title'         => "\n\t\t\t<span id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text ) . '">' . $text . '</span>',
 			'popup_subtitle_item' => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text . '</span>',
+		];
+		return $container[ $selector ];
+	}
+
+	/**
+	 * Display misceallenous links
+	 *
+	 * @param string $selector Select which column to return
+	 * @param string $text_one Optional, an extra text to use
+	 * @param string $text_two Optional, an extra text to use
+	 * @param string $text_three Optional, an extra text to use
+	 * @param string $text_four Optional, an extra text to use
+	 * @return string
+	 */
+	public function get_link( string $selector, string $text_one = '', string $text_two = '', string $text_three = '', string $text_four = '' ): string {
+		$container = [
+			'taxonomy' => '<a id="' . esc_attr( $text_one ) . '" class="lum_link_taxo_page" href="' . esc_url( $text_two ) . '" title="' . esc_attr( $text_three ) . '">' . esc_html( $text_four ) . '</a>',
+			'internal_with_spinner' => '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="' . __( 'internal link', 'lumiere-movies' ) . ' ' . $text_two . '" href="' . esc_url( $text_one ) . '">' . esc_html( $text_two ) . '</a>',
 		];
 		return $container[ $selector ];
 	}
@@ -105,13 +125,14 @@ class Output {
 		// layout one: display the layout for two items per row, ie actors, writers, producers
 		if ( is_string( $item_line_name ) === true ) {
 			$output .= $this->misc_layout(
-				'two_columns_second',
-				"\n\t\t\t\t\t<a id=\"" . $link_id_final . '" class="lum_link_taxo_page" href="'
-				. esc_url( $this->create_taxonomy_weblink( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
-				. '" title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' )
-				. '">'
-				. "\n\t\t\t\t\t" . $taxo_options['taxonomy_term']
-				. "\n\t\t\t\t\t" . '</a>'
+				'two_columns_first',
+				$this->get_link(
+					'taxonomy',
+					$link_id_final,
+					$this->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ),
+					__( 'Find similar taxonomy results', 'lumiere-movies' ),
+					$taxo_options['taxonomy_term'],
+				),
 			);
 
 			$output .= $this->misc_layout(
@@ -122,23 +143,24 @@ class Output {
 		}
 
 		// layout two: display the layout for all details separated by commas, ie keywords
-		$output .= '<a id="' . $link_id_final . '" class="lum_link_taxo_page" '
-				. 'href="' . esc_url( $this->create_taxonomy_weblink( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) )
-				. '" '
-				. 'title="' . esc_html__( 'Find similar taxonomy results', 'lumiere-movies' ) . '">';
-		$output .= $taxo_options['taxonomy_term'];
-		$output .= '</a>';
+		$output .= $this->get_link(
+			'taxonomy',
+			$link_id_final,
+			$this->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ),
+			__( 'Find similar taxonomy results', 'lumiere-movies' ),
+			$taxo_options['taxonomy_term'],
+		);
 		return $output;
 	}
 
 	/**
-	 * Create an html link for taxonomy using the name passed
+	 * Create an html href link for taxonomy using the name passed
 	 *
 	 * @param string $name_searched The name searched, such as 'Stanley Kubrick'
 	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'
-	 * @return string The WordPress full HTML link for the name with that category
+	 * @return string The WordPress HTML href link for the name with that category
 	 */
-	private function create_taxonomy_weblink( string $name_searched, string $taxo_category ): string {
+	private function get_taxonomy_url_href( string $name_searched, string $taxo_category ): string {
 		$find_term = get_term_by( 'name', $name_searched, $taxo_category );
 		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->term_id, $taxo_category ) : '';
 		return $taxo_link instanceof \WP_Error ? '' : $taxo_link;

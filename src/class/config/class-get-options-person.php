@@ -33,5 +33,15 @@ class Get_Options_Person extends Settings_Person {
 	public static function get_all_person_fields( int $number = 1 ): array {
 		return parent::define_list_items_person( $number );
 	}
+
+	/**
+	 * Get activated credit roles
+	 *
+	 * @param int $number Optional: a number to turn into plural if needed
+	 * @return array<string, string>
+	 */
+	public static function get_all_credit_role( int $number = 1 ): array {
+		return parent::credits_role_all( $number );
+	}
 }
 
