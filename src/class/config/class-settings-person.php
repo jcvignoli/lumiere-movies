@@ -28,11 +28,23 @@ class Settings_Person {
 	 */
 	protected static function define_list_items_person( int $number = 1 ): array {
 		return [
-			'spouse'       => _n( 'spouse', 'spouses', $number, 'lumiere-movies' ),
+			'award'        => _n( 'award', 'awards', $number, 'lumiere-movies' ),
+			'birthname'    => __( 'birthname', 'lumiere-movies' ),
+			'born'         => __( 'born', 'lumiere-movies' ),
 			'children'     => _n( 'child', 'children', $number, 'lumiere-movies' ),
-			'pubportrayal' => __( 'portrayed in', 'lumiere-movies' ),
+			'credit'       => _n( 'credit', 'credits', $number, 'lumiere-movies' ),
+			'died'         => __( 'died', 'lumiere-movies' ),
+			'name'         => __( 'name', 'lumiere-movies' ),
+			'news'         => __( 'news', 'lumiere-movies' ),
+			'nickname'     => _n( 'nickname', 'nicknames', $number, 'lumiere-movies' ),
 			'pubinterview' => _n( 'public interview', 'public interviews', $number, 'lumiere-movies' ),
+			'pubmovies'    => _n( 'biographical movie', 'biographical movies', $number, 'lumiere-movies' ),
+			'pubportrayal' => __( 'portrayed in', 'lumiere-movies' ),
 			'pubprints'    => __( 'printed publicity', 'lumiere-movies' ),
+			'quotes'       => _n( 'quote', 'quotes', $number, 'lumiere-movies' ),
+			'spouse'       => _n( 'spouse', 'spouses', $number, 'lumiere-movies' ),
+			'trivia'       => _n( 'trivia', 'trivias', $number, 'lumiere-movies' ),
+			'trademark'    => _n( 'trademark', 'trademarks', $number, 'lumiere-movies' ),
 		];
 	}
 

@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class for displaying movies module Trivia.
+ * Class for displaying person module Spouse.
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2025, Lost Highway
@@ -23,7 +23,7 @@ use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Get_Options;
 
 /**
- * Method to display trivia for movies
+ * Method to display Spouse for person
  *
  * @since 4.4.3 new class
  */
@@ -86,9 +86,6 @@ class Person_Spouse {
 				$output .= ' (' . esc_html( $item_results[ $i ]['dateText'] ) . ') ';
 			}
 		}
-
-		$output .= "\n" . '</div>';
-
 		return $output;
 	}
 
@@ -125,7 +122,6 @@ class Person_Spouse {
 				$output .= ' (' . esc_html( $item_results[ $i ]['dateText'] ) . ') ';
 			}
 		}
-
 		return $output;
 	}
 }

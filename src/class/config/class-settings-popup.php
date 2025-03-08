@@ -16,8 +16,9 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 }
 
 /**
- * Settings class for Popups
-  */
+ * Settings class for Popups, (films/persons/search)
+ * Meant to select which data display in which popup menus
+ */
 class Settings_Popup {
 
 	/**
@@ -26,7 +27,7 @@ class Settings_Popup {
 	 * @see \IMDb\Name::credit() must match the list
 	 * @var list<string>
 	 */
-	public const PERSON_ALL_ROLES  = [
+	public const PERSON_ALL_ROLES           = [
 		'director',
 		'actor',
 		'actress',
@@ -53,24 +54,36 @@ class Settings_Popup {
 	 * @see \IMDb\Name::credit() must match the list
 	 * @var list<string>
 	 */
-	public const PERSON_SUMMARY_ROLES = [
+	public const PERSON_SUMMARY_ROLES       = [
 		'director',
 		'actor',
 		'actress',
 	];
 
 	/**
-	 * The selection to display on Misc filmo page in Popup_Person
+	 * The selection to display on Biography page in Popup_Person
 	 * The order of the list will be the order displayed in the Popup
 	 * @var list<string>
 	 */
-	public const PERSON_DISPLAY_ITEMS_BIO = [
+	public const PERSON_DISPLAY_ITEMS_BIO   = [
 		'spouse',
 		'children',
-	/*      'pubportrayal',
+		'pubmovies',
+		'pubportrayal',
 		'pubinterview',
 		'pubprints',
-	*/
+	];
+
+	/**
+	 * The selection to display on Misc page in Popup_Person
+	 * The order of the list will be the order displayed in the Popup
+	 * @var list<string>
+	 */
+	public const PERSON_DISPLAY_ITEMS_MISC  = [
+		'trivia',
+		'nickname',
+		'quotes',
+		'trademark',
 	];
 
 	/**
@@ -78,7 +91,7 @@ class Settings_Popup {
 	 * The order of the list will be the order displayed in the Popup
 	 * @var list<string>
 	 */
-	public const FILM_DISPLAY_ITEMS_INTRO = [
+	public const FILM_DISPLAY_ITEMS_INTRO   = [
 		'director',
 		'actor',
 		'runtime',
@@ -102,7 +115,7 @@ class Settings_Popup {
 	 * The order of the list will be the order displayed in the Popup
 	 * @var list<string>
 	 */
-	public const FILM_DISPLAY_ITEMS_CREW = [
+	public const FILM_DISPLAY_ITEMS_CREW    = [
 		'director',
 		'writer',
 		'producer',
@@ -113,7 +126,7 @@ class Settings_Popup {
 	 * The order of the list will be the order displayed in the Popup
 	 * @var list<string>
 	 */
-	public const FILM_DISPLAY_ITEMS_PLOT = [
+	public const FILM_DISPLAY_ITEMS_PLOT    = [
 		'plot',
 	];
 
@@ -122,7 +135,7 @@ class Settings_Popup {
 	 * The order of the list will be the order displayed in the Popup
 	 * @var list<string>
 	 */
-	public const FILM_DISPLAY_ITEMS_MISC = [
+	public const FILM_DISPLAY_ITEMS_MISC    = [
 		'connection',
 		'trivia',
 		'soundtrack',

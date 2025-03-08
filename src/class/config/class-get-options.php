@@ -116,16 +116,6 @@ class Get_Options extends Settings {
 	}
 
 	/**
-	 * Get the type methods available for persons
-	 *
-	 * @param int $number Optional: a number to turn into plural if needed
-	 * @return array<string, string>
-	 */
-	public static function get_list_person_methods( int $number = 1 ): array {
-		return parent::define_list_person_methods( $number );
-	}
-
-	/**
 	 * Get the type of people elements that are used for taxonomy
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed

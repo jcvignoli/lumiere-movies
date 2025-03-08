@@ -20,6 +20,7 @@ use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Person;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
@@ -282,7 +283,7 @@ class Cache_Files_Management {
 		$person = $this->imdbphp_class->get_name_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
 
 		// Create cache for everything.
-		$all_methods = Get_Options::get_list_person_methods();
+		$all_methods = Get_Options_Person::get_all_person_fields();
 
 		foreach ( $all_methods as $field => $translated_field ) {
 			$person->$field();

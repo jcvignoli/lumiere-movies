@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class for displaying person module Children.
+ * Class for displaying persons module Pubportrayal.
  *
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2025, Lost Highway
@@ -23,11 +23,11 @@ use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Get_Options;
 
 /**
- * Method to display children for person
+ * Method to display Pubportrayal for person
  *
  * @since 4.4.3 new class
  */
-class Person_Children {
+class Person_Pubportrayal {
 
 	/**
 	 * Traits
@@ -48,15 +48,14 @@ class Person_Children {
 	 * Display the main module version
 	 *
 	 * @param Name $person_class IMDbPHP title class
-	 * @param 'children' $item_name The name of the item
+	 * @param 'pubportrayal' $item_name The name of the item
 	 */
 	public function get_module( Name $person_class, string $item_name ): string {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );
-		$nb_total_items_bugged = $item_results[0]['name'] ?? ''; // Sometimes return an array even if name is empty, but name is always empty if no children are found
 
-		if ( $nb_total_items === 0 || strlen( $nb_total_items_bugged ) === 0 ) {
+		if ( $nb_total_items === 0 ) {
 			return '';
 		}
 
@@ -70,21 +69,9 @@ class Person_Children {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
-
-			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . strval( $item_results[ $i ]['imdb'] ) ) ) . "'>";
-			}
-
-			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
-				$output .= esc_html( $item_results[ $i ]['name'] );
-			}
-
-			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= '</a>';
-			}
-
-			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
-				$output .= ' (<span class="lumiere_italic">' . esc_html( $item_results[ $i ]['relType'] ) . '</span>) ';
+			$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $item_results[ $i ]['id'] ) ) ) . "'>" . esc_html( $item_results[ $i ]['title'] ) . '</a>';
+			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 0 ) {
+				$output .= ' (' . esc_html( $item_results[ $i ]['year'] ) . ') ';
 			}
 		}
 		return $output;
@@ -94,7 +81,7 @@ class Person_Children {
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated
 	 * Array of results is sorted by column
 	 *
-	 * @param 'children' $item_name The name of the item
+	 * @param 'pubportrayal' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
 	 * @param int<0, max> $nb_total_items
 	 */
@@ -106,21 +93,9 @@ class Person_Children {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
-
-			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . strval( $item_results[ $i ]['imdb'] ) ) ) . "'>";
-			}
-
-			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
-				$output .= esc_html( $item_results[ $i ]['name'] );
-			}
-
-			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= '</a>';
-			}
-
-			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
-				$output .= ' (<span class="lumiere_italic">' . esc_html( $item_results[ $i ]['relType'] ) . '</span>) ';
+			$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $item_results[ $i ]['id'] ) ) ) . "'>" . esc_html( $item_results[ $i ]['title'] ) . '</a>';
+			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 0 ) {
+				$output .= ' (' . esc_html( $item_results[ $i ]['year'] ) . ') ';
 			}
 		}
 		return $output;
