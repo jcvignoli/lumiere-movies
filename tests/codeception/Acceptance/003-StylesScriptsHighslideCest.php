@@ -98,11 +98,11 @@ class StylesScriptsHighslideCest {
 		$I->dontSeeInPageSource("assets/blocks/addlink/index.min.js"); 	# Gutenberg addlink block js
 		$I->dontSeeInPageSource("assets/blocks/widget/index.min.css");	# Gutenberg widget block css
 		$I->dontSeeInPageSource("assets/blocks/widget/index.min.js");	# Gutenberg widget block js
-		$I->seeInPageSource("lumiere_scripts_admin-js"); 	# Lumière main js
-		$I->seeInPageSource("lumiere_scripts_admin-js-before"); # Lumière js vars for scripts
-		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 	# Quicktag Lumière plugin
-		$I->seeInPageSource("lumiere_hide_show-js"); 		# hide/show script
-		$I->seeInPageSource("lum_form_type_query"); 		# Lumière Metabox is available
+		$I->seeInPageSource("lumiere_scripts_admin-js"); 		# Lumière main js
+		$I->seeInPageSource("lumiere_scripts_admin-js-before");		# Lumière js vars for scripts
+		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 		# Quicktag Lumière plugin
+		$I->seeInPageSource("lumiere_hide_show-js"); 			# hide/show script
+		$I->seeInPageSource("lum_form_type_query"); 			# Lumière Metabox is available
 
 			/** 
 			 * Frontend pages
@@ -113,7 +113,7 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(Helper\Color::set('Checking normal page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->seeInPageSource("lumiere_highslide_core_style-css");		# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core_style-css");	# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");		# Highslide Lumière Options
@@ -125,7 +125,7 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(Helper\Color::set('Checking taxonomy page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );
-		$I->seeInPageSource("lumiere_highslide_core_style-css"); 		# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core_style-css"); 	# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");		# Highslide Lumière Options
@@ -140,7 +140,7 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); # Lumière favicon Apple
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	# Lumière webmanifest
-		$I->seeInPageSource("lumiere_highslide_core_style-css"); 				# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core_style-css"); 			# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");				# Highslide Lumière Options
@@ -164,7 +164,7 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); # Lumière favicon Apple
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/site.webmanifest");	# Lumière webmanifest
-		$I->seeInPageSource("lumiere_highslide_core_style-css"); 				# Highslide CSS
+		$I->seeInPageSource("lumiere_highslide_core_style-css"); 			# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 					# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");				# Highslide JS
 		$I->seeInPageSource("lumiere_highslide_options-js");				# Highslide Lumière Options
@@ -198,8 +198,9 @@ class StylesScriptsHighslideCest {
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "black");
 		$I->click('#lumiere_update_main_settings');
 		$I->comment(Helper\Color::set('[Action] Selection has been switched to "black"', 'italic+bold+cyan'));
+
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->seeInPageSource("lum_results_frame_black"); 	# CSS for black layout 
+		$I->seeInPageSource("lum_results_frame_black");		// CSS for black layout.
 
 		// Try with selection grey (default)
 		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
@@ -207,8 +208,9 @@ class StylesScriptsHighslideCest {
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "grey");
 		$I->click('#lumiere_update_main_settings');
 		$I->comment(Helper\Color::set('[Action] Selection has been switched to "grey"', 'italic+bold+cyan'));
+	
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->seeInPageSource("lum_results_frame_grey"); 	# CSS for grey layout (default)
+		$I->seeInPageSource("lum_results_frame_grey");		// CSS for grey layout (default).
 
 	}
 	

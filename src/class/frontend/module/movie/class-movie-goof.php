@@ -99,12 +99,7 @@ class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 					continue;
 				}
 
-				$output .= $this->output_class->misc_layout(
-					'numbered_list',
-					strval( $overall_loop ),
-					$data_explain,
-					$item_results[ $category ][ $i ]['content'],
-				);
+				$output .= $this->output_class->misc_layout( 'numbered_list', strval( $overall_loop ), $data_explain, $item_results[ $category ][ $i ]['content'] );
 
 				if ( $overall_loop === 5 ) {
 					$isset_next = isset( $item_results[ $category ][ $i + 1 ] ) ? true : false;

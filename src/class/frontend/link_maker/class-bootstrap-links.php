@@ -133,8 +133,8 @@ class Bootstrap_Links extends Implement_Link_Maker implements Interface_Link_Mak
 	 * @inherit
 	 */
 	public function lumiere_imdburl_of_soundtrack( string $text_url, string $text_name ): string {
-		// Function in abstract class, second param for bootstrap.
-		return parent::lumiere_imdburl_of_soundtrack_abstract( $text_url, $text_name, 3 );
+		// Function in abstract class, third param for bootstrap.
+		return parent::lumiere_imdburl_of_soundtrack_abstract( $text_url, $text_name, 1 );
 	}
 
 	/**

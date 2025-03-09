@@ -329,7 +329,7 @@ class Implement_Link_Maker {
 	 * @return string
 	 */
 	protected function lumiere_imdburl_of_soundtrack_abstract( string $text_url, string $text_name, int $window_type = 0, string $specific_class = '' ): string {
-		return $this->lumiere_link_popup_people_abstract( $text_url, $text_name, $window_type, $specific_class );
+		return $this->lumiere_link_popup_people_abstract( $text_url, $text_name, $window_type, 'lum_link_make_popup lum_link_with_people' );
 	}
 
 	/**
