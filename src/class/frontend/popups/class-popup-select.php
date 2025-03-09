@@ -50,7 +50,7 @@ class Popup_Select {
 		/** @phpstan-var POPUPS_CLASSES $class_name */
 		$class_name = $this->build_class_name( $query_popup );
 		if ( class_exists( $class_name ) ) {
-			( new $class_name() )->get_layout();
+			( new $class_name() )->display_layout();
 			// Fake return string since it is inside an add_filter()
 			return '';
 		}

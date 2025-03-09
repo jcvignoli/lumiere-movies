@@ -53,7 +53,7 @@ class Head_Popups {
 	 * Constructor
 	 */
 	public function __construct(
-		protected Output_Popup $output_popup = new Output_Popup(),
+		protected Output_Popup $output_popup_class = new Output_Popup(),
 	) {
 
 		/**

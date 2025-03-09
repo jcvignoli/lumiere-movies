@@ -128,7 +128,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	 *
 	 * @return void
 	 */
-	public function get_layout(): void {
+	public function display_layout(): void {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
@@ -442,7 +442,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$output .= $this->output_popup->person_element_embeded(
+				$output .= $this->output_popup_class->person_element_embeded(
 					$class_module->get_module( $person_class, $module ),
 					$module
 				);
@@ -465,7 +465,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . 'Credit';
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$output .= $this->output_popup->person_element_embeded(
+				$output .= $this->output_popup_class->person_element_embeded(
 					$class_module->get_module( $person_class, $module, $max_movies ),
 					$module
 				);

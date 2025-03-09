@@ -172,7 +172,7 @@ class Settings extends Settings_Helper {
 	 * Used to build the full film namespace
 	 * @see \Lumiere\Frontend\Popup\Popup_Film
 	 */
-	public const LUM_FILM_MODULE_CLASS = '\Lumiere\Frontend\Module\Movie_';
+	public const LUM_FILM_MODULE_CLASS = '\Lumiere\Frontend\Module\Movie\Movie_';
 
 	/**
 	 * Default imdb fields when creating DATA_OPTIONS

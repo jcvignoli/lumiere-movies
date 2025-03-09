@@ -155,7 +155,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	 *
 	 * @return void
 	 */
-	public function get_layout(): void {
+	public function display_layout(): void {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
@@ -437,7 +437,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 			$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$output .= $this->output_popup->movie_element_embeded(
+				$output .= $this->output_popup_class->movie_element_embeded(
 					$class_module->get_module( $movie_class, $module ),
 					$module
 				);
@@ -460,7 +460,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 			$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$output .= $this->output_popup->movie_element_embeded(
+				$output .= $this->output_popup_class->movie_element_embeded(
 					$class_module->get_module_popup_two_columns( $movie_class, $module ),
 					$module
 				);

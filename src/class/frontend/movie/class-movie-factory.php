@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Imdb\Title;
+use Lumiere\Config\Get_Options;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Layout\Output;
 use Lumiere\Plugins\Plugins_Start;
@@ -121,7 +122,7 @@ class Movie_Factory {
 	protected function get_module( Title $movie_object, string $item_name ): string {
 
 		/** @psalm-suppress RedundantFunctionCallGivenDocblockType */
-		$class_name = '\Lumiere\Frontend\Module\Movie_' . ucfirst( strtolower( $item_name ) ); // strtolower to avoid camelCase names.
+		$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( strtolower( $item_name ) ); // strtolower to avoid camelCase names.
 
 		// Return if class doesn't exist
 		if ( class_exists( $class_name ) === false ) { // Class Movie_Year is therefore skipped.

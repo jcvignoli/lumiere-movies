@@ -111,7 +111,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 	 *
 	 * @return void
 	 */
-	public function get_layout(): void {
+	public function display_layout(): void {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
 		wp_head();
@@ -180,17 +180,22 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
 
 				$year = $res['titleSearchObject']->year() > 0 ? $res['titleSearchObject']->year() : __( 'year unknown', 'lumiere-movies' );
-				echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
-					. esc_url(
-						wp_nonce_url(
-							Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . esc_html( $res['titleSearchObject']->imdbid() )
-							. '&film=' . Data::lumiere_name_htmlize( $res['titleSearchObject']->title() )
-						)
-					)
-					. '" title="' . esc_html__( 'more on', 'lumiere-movies' ) . ' '
-					. esc_html( $res['titleSearchObject']->title() ) . '" >'
-					. esc_html( $res['titleSearchObject']->title() )
-					. ' (' . esc_html( $year ) . ')' . "</a> \n";
+
+				echo "\n\t\t" . wp_kses(
+					$this->output_popup_class->get_link(
+						'internal_with_spinner',
+						wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $res['titleSearchObject']->imdbid() ),
+						$res['titleSearchObject']->title()
+					),
+					[
+						'a' => [
+							'title' => [],
+							'href'  => [],
+							'rel'   => [],
+							'class' => [],
+						],
+					]
+				) . ' (' . esc_html( $year ) . ')';
 
 				echo "\n\t</div>";
 
@@ -199,19 +204,21 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Basic {
 
 				$realisateur = $res['titleSearchObject']->director();
 				if ( isset( $realisateur['0']['name'] ) && strlen( $realisateur['0']['name'] ) > 0 ) {
-
-					echo "\n\t\t<a rel=\"nofollow\" class=\"lum_popup_internal_link lum_add_spinner\" href=\""
-						. esc_url(
-							wp_nonce_url(
-								Get_Options::get_popup_url( 'person', site_url() )
-								. '?mid=' . esc_html( $realisateur['0']['imdb'] ?? '' )
-							)
-						)
-						. '" title="' . esc_html__( 'more on', 'lumiere-movies' )
-						. ' ' . esc_html( $realisateur['0']['name'] )
-						. '" >' . esc_html( $realisateur['0']['name'] )
-						. '</a>';
-
+					echo "\t\t" . wp_kses(
+						$this->output_popup_class->get_link(
+							'internal_with_spinner',
+							wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $realisateur['0']['imdb'] ),
+							$realisateur['0']['name']
+						),
+						[
+							'a' => [
+								'title' => [],
+								'href'  => [],
+								'rel'   => [],
+								'class' => [],
+							],
+						]
+					);
 				} else {
 
 					echo "\n\t\t<i>" . esc_html__( 'No directors found.', 'lumiere-movies' ) . '</i>';

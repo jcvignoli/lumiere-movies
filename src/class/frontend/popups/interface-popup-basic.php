@@ -40,11 +40,11 @@ interface Popup_Basic {
 	public function edit_title( array $title ): array;
 
 	/**
-	 * Display Page layout
+	 * Echo Page layout
 	 * Used in Frontpage class add_filter( 'template_include' ) hook
 	 *
 	 * @return void
 	 */
-	public function get_layout(): void;
+	public function display_layout(): void;
 }
 
