@@ -10,18 +10,13 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Link_Maker;
+namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Link_Maker\AMP_Links;
-use Lumiere\Link_Maker\No_Links;
-use Lumiere\Link_Maker\Bootstrap_Links;
-use Lumiere\Link_Maker\Highslide_Links;
-use Lumiere\Link_Maker\Classic_Links;
 use Lumiere\Frontend\Main;
 use Exception;
 
@@ -29,7 +24,7 @@ use Exception;
  * The class select the "link makers" according to the current settings and plugins used
  * Some "link makers" build links that can open popups (Highslide, Classic) or remove HTML links (No_Links, AMP)
  *
- * @phpstan-type LINKMAKERCLASSES \Lumiere\Link_Maker\AMP_Links|\Lumiere\Link_Maker\Bootstrap_Links|\Lumiere\Link_Maker\Classic_Links|\Lumiere\Link_Maker\Highslide_Links|\Lumiere\Link_Maker\No_Links
+ * @phpstan-type LINKMAKERCLASSES \Lumiere\Frontend\Link_Maker\AMP_Links|\Lumiere\Frontend\Link_Maker\Bootstrap_Links|\Lumiere\Frontend\Link_Maker\Classic_Links|\Lumiere\Frontend\Link_Maker\Highslide_Links|\Lumiere\Frontend\Link_Maker\No_Links
  */
 class Link_Factory {
 

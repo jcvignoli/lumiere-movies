@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Title;
 use Lumiere\Config\Get_Options;
+use Lumiere\Frontend\Movie\Movie_Taxonomy;
 
 /**
  * Method to display Color for movies
@@ -25,6 +26,15 @@ use Lumiere\Config\Get_Options;
  * @since 4.4.3 new class
  */
 class Movie_Color extends \Lumiere\Frontend\Module\Parent_Module {
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(
+		protected Movie_Taxonomy $movie_taxo = new Movie_Taxonomy()
+	) {
+		parent::__construct();
+	}
 
 	/**
 	 * Display the main module version

@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Link_Maker;
+namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -321,22 +321,15 @@ class Implement_Link_Maker {
 	/**
 	 * Convert an IMDb source url of posts -- basically, no URL
 	 *
-	 * @param string $text Text that includes IMDb URL to convert
+	 * @param string $text_url The internal URL
+	 * @param string $text_name The author name
 	 * @param int $window_type Define the window_type: 0 for classic links (default), 1 regular popups, 2 for no links, 3 for bootstrap
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
 	 */
-	protected function lumiere_imdburl_of_soundtrack_abstract( string $text, int $window_type = 0, string $specific_class = '' ): string {
-
-		$rule_name = '~(<a href=")(\/name\/)(nm)(\d{7})(\?.+?|\/?)">(.*?)<\/a>~';
-		$rule_title = '~(<a href=")(\/title\/)(tt)(\d{7})(\?.+?|\/?)">(.*?)<\/a>~';
-
-		// Replace IMDb links with popup links.
-		$output_one = preg_replace( $rule_name, '${6}', $text ) ?? $text;
-		$output_two = preg_replace( $rule_title, '${6}', $output_one ) ?? $text;
-
-		return $output_two;
+	protected function lumiere_imdburl_of_soundtrack_abstract( string $text_url, string $text_name, int $window_type = 0, string $specific_class = '' ): string {
+		return $this->lumiere_link_popup_people_abstract( $text_url, $text_name, $window_type, $specific_class );
 	}
 
 	/**
@@ -443,7 +436,6 @@ class Implement_Link_Maker {
 		}
 
 		return $txt;
-
 	}
 
 	/**

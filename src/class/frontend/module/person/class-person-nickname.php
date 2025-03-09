@@ -52,6 +52,9 @@ class Person_Nickname extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$output .= $item_results[ $i ];
+			if ( $i < $nb_total_items - 1 ) {
+				$output .= ', ';
+			}
 		}
 		return $output;
 	}
@@ -73,6 +76,9 @@ class Person_Nickname extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$output .= $item_results[ $i ];
+			if ( $i < $nb_total_items - 1 ) {
+				$output .= ', ';
+			}
 		}
 		return $output;
 	}

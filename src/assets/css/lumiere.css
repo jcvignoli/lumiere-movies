@@ -272,24 +272,31 @@ span.lum_results_section_subtitle_subcat_content::before { content: " (" counter
 }
 
 
-.imdbelementTITLE { 			/*TITLE*/
-	text-align: center;
-	font-weight:bold;
-	font-size:140%;
-	padding:10px;
-	}
-.imdbelementTITLE_grey{			/* additional theme selected in the menu option */
+
+.imdbelementTITLE_grey{			/* TITLE */
+	text-align: center !important;
+	font-weight:bold !important;
+	font-size:140% !important;
+	padding:10px !important;
 	background-color:black;
 	border:1px solid black;
 	border-radius:10px 10px 0 0;
 	color:white;
 }
 .imdbelementTITLE_white{		/* additional theme selected in the menu option */
+	text-align: center !important;
+	font-weight:bold !important;
+	font-size:140% !important;
+	padding:10px !important;
 	background-color:grey;
 	border-radius:10px 10px 0 0;
 	color:white;
 }
 .imdbelementTITLE_black{		/* additional theme selected in the menu option */
+	text-align: center !important;
+	font-weight:bold !important;
+	font-size:140% !important;
+	padding:10px !important;
 	background-color:white;
 	border:1px solid black;
 	border-radius:10px 10px 0 0;

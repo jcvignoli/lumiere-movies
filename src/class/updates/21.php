@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Specific Class for updating : ************************ Lumière version 4.4.3, update 21
+ * Specific Class for updating : ************************ Lumière version 4.5, update 21
  * Child of Updates class
  *
  * This class updates data for a new Lumière version
@@ -32,7 +32,7 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 	/**
 	 * Version of Lumière! that can trigger the update
 	 */
-	const LUMIERE_VERSION_UPDATE = '4.4.3';
+	const LUMIERE_VERSION_UPDATE = '4.5';
 
 	/**
 	 * Number of updates that can trigger the update
@@ -47,17 +47,21 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 	 */
 	protected function lumiere_run_local_update(): void {
 
-		// Execute the check in Updates parent class, passing the constants.
-		// The validating function makes sure that this update has to be run.
-		// If not, exit.
+		/**
+		 * Execute the check in Updates parent class, passing the constants.
+		 * The validating function makes sure that this update has to be run.
+		 * If not, exit.
+		 */
 		if ( $this->lumiere_check_if_run_update( self::LUMIERE_VERSION_UPDATE, self::LUMIERE_NUMBER_UPDATE ) === false ) {
 			return;
 		}
 
-		// Update the number of updates already processed in Lumière options.
+		/**
+		 * Update the number of updates already processed in Lumière options.
+		 * This is executed at the beggining, so if there is an issue, it's not repeated
+		 */
 		$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
-
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------

@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Link_Maker;
+namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -72,9 +72,10 @@ interface Interface_Link_Maker {
 	/**
 	 * Convert an IMDb url for soundtrack into the post
 	 *
-	 * @param string $text Text that includes IMDb URL to convert into a popup link
+	 * @param string $text_url The internal URL
+	 * @param string $text_name The author name
 	 */
-	public function lumiere_imdburl_of_soundtrack( string $text ): string;
+	public function lumiere_imdburl_of_soundtrack( string $text_url, string $text_name ): string;
 
 	/**
 	 * Build an HTML link to open a popup for searching a movie inside a post

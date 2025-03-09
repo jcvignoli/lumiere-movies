@@ -11,7 +11,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Link_Maker;
+namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -81,7 +81,6 @@ class Bootstrap_Links extends Implement_Link_Maker implements Interface_Link_Mak
 	 * Enqueue stylesheet & javascript.
 	 */
 	public function execute_extra_assets (): void {
-
 		wp_enqueue_style( 'lumiere_bootstrap_core' );
 		wp_enqueue_style( 'lumiere_bootstrap_custom' );
 
@@ -133,9 +132,9 @@ class Bootstrap_Links extends Implement_Link_Maker implements Interface_Link_Mak
 	/**
 	 * @inherit
 	 */
-	public function lumiere_imdburl_of_soundtrack( string $text ): string {
+	public function lumiere_imdburl_of_soundtrack( string $text_url, string $text_name ): string {
 		// Function in abstract class, second param for bootstrap.
-		return parent::lumiere_imdburl_of_soundtrack_abstract( $text, 3 );
+		return parent::lumiere_imdburl_of_soundtrack_abstract( $text_url, $text_name, 3 );
 	}
 
 	/**

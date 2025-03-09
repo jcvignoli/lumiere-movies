@@ -54,13 +54,16 @@ class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $admin_total_items && ( $i < $nb_total_items ); $i++ ) {
 
-			$soundtrack_name = "\n\t\t\t" . ucfirst( strtolower( $item_results[ $i ]['soundtrack'] ) );
-
-			$output .= "\n\t\t\t" . $this->link_maker->lumiere_imdburl_of_soundtrack( sanitize_text_field( $soundtrack_name ) ) . ' ';
-
+			$output .= ucfirst( strtolower( $item_results[ $i ]['soundtrack'] ) );
 			$output .= isset( $item_results[ $i ]['credits'][0] ) ? ' <i>' . $item_results[ $i ]['credits'][0] . '</i>' : '';
-			$output .= isset( $item_results[ $i ]['credits'][1] ) ? ' <i>' . $item_results[ $i ]['credits'][1] . '</i>' : '';
-
+			if ( isset( $item_results[ $i ]['creditSplit']['creditors'][0]['name'] ) && isset( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] ) ) {
+				$output .= ' <i>' . $item_results[ $i ]['creditSplit']['creditors'][0]['creditType'] . ' ';
+				$output .= $this->link_maker->lumiere_imdburl_of_soundtrack(
+					$item_results[ $i ]['creditSplit']['creditors'][0]['nameId'],
+					$item_results[ $i ]['creditSplit']['creditors'][0]['name'],
+				);
+				$output .= '</i>';
+			}
 			if ( $i < ( $admin_total_items - 1 ) && $i < ( $nb_total_items - 1 ) ) {
 				$output .= ', ';
 			}
@@ -74,7 +77,7 @@ class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Array of results is sorted by column
 	 *
 	 * @param 'soundtrack' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $item_results
+	 * @param array<mixed> $item_results Complex array of results with several possibilies
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
@@ -88,24 +91,24 @@ class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$soundtrack_name = "\n\t\t\t" . ucfirst( strtolower( $item_results[ $i ]['soundtrack'] ) );
-			$output .= "\n\t\t\t" . $this->link_maker->lumiere_imdburl_to_internalurl( $soundtrack_name );
-
+			$output .= "\n\t\t\t\t\t" . ucfirst( strtolower( $item_results[ $i ]['soundtrack'] ) );
 			$output .= isset( $item_results[ $i ]['credits'][0] ) ? ' <i>' . $item_results[ $i ]['credits'][0] . '</i>' : '';
-			$output .= isset( $item_results[ $i ]['credits'][1] ) ? ' <i>' . $item_results[ $i ]['credits'][1] . '</i>' : '';
-
-			if ( $i < $nb_total_items - 1 ) {
-				$output .= ', ';
+			if ( isset( $item_results[ $i ]['creditSplit']['creditors'][0]['name'] ) && isset( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] ) ) {
+				$output .= ' <i>' . $item_results[ $i ]['creditSplit']['creditors'][0]['creditType'] . ' ' . $this->output_class->get_link(
+					'internal_with_spinner',
+					wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] ),
+					$item_results[ $i ]['creditSplit']['creditors'][0]['name'],
+				) . '</i>';
 			}
+			$output .= ( $i < $nb_total_items - 1 ) ? ', ' : '';
 
 			if ( $i === $nb_rows_display_clickmore ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) : '';
-
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'see_all_start', Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) : '';
 			}
 
-			if ( $i > $nb_rows_display_clickmore && $i === $nb_total_items ) {
-				$output .= $this->output_class->misc_layout( 'click_more_end' );
+			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'see_all_end' );
 			}
 
 		}

@@ -9,7 +9,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Link_Maker;
+namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -70,9 +70,9 @@ class No_Links extends Implement_Link_Maker implements Interface_Link_Maker {
 	/**
 	 * @inheritdoc
 	 */
-	public function lumiere_imdburl_of_soundtrack( string $text ): string {
+	public function lumiere_imdburl_of_soundtrack( string $text_url, string $text_name ): string {
 		// Function in abstract class, last param for removing all links.
-		return parent::lumiere_imdburl_of_soundtrack_abstract( $text, 2 );
+		return parent::lumiere_imdburl_of_soundtrack_abstract( $text_url, $text_name, 2 );
 	}
 
 	/**

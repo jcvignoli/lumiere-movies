@@ -36,6 +36,7 @@ class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $movie->$item_name();
 		$filter_nbtotal_items = array_filter( $item_results, fn( array $item_results ) => ( count( array_values( $item_results ) ) > 0 ) ); // counts the actual goofs, not their categories
+
 		$nb_total_items = count( $filter_nbtotal_items );
 		$admin_total_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
 
@@ -44,7 +45,7 @@ class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
+			return $this->get_module_popup( $item_name, $filter_nbtotal_items, $nb_total_items );
 		}
 
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
@@ -54,15 +55,16 @@ class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		foreach ( Get_Options::get_list_goof_cat() as $category => $data_explain ) {
+			if ( ! isset( $item_results[ $category ] ) ) {
+				continue;
+			}
 			// Loop conditions: less than the total number of goofs available AND less than the goof limit setting, using a loop counter.
 			for ( $i = 0; $i < $total_displayed; $i++ ) {
-				if ( isset( $item_results[ $category ][ $i ]['content'] ) ) {
-					$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat', $data_explain );
-					if ( isset( $item_results[ $category ][ $i ]['content'] ) && strlen( $item_results[ $category ][ $i ]['content'] ) > 0 ) {
-						$output .= "\n\t\t\t\t" . '<span class="lum_results_section_subtitle_subcat_content">' . $item_results[ $category ][ $i ]['content'] . '</span>&nbsp;';
-					}
-					$output .= '</span>';
+				if ( ! isset( $item_results[ $category ][ $i ]['content'] ) || strlen( $item_results[ $category ][ $i ]['content'] ) === 0 ) {
+					continue;
 				}
+				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_parent', $data_explain );
+				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_content', $item_results[ $category ][ $i ]['content'] );
 			}
 		}
 
@@ -87,15 +89,22 @@ class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 		$overall_loop = 1;
 
 		foreach ( Get_Options::get_list_goof_cat() as $category => $data_explain ) {
-
+			if ( ! isset( $item_results[ $category ] ) ) {
+				continue;
+			}
 			// Loop conditions: less than the total number of goofs available AND less than the goof limit setting, using a loop counter.
 			for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-				if ( isset( $item_results[ $category ][ $i ]['content'] ) && strlen( $item_results[ $category ][ $i ]['content'] ) > 0 ) {
-					$output .= "\n\t\t\t<div>\n\t\t\t\t[#" . strval( $overall_loop ) . '] <i>' . $data_explain . '</i>&nbsp;';
-					$output .= $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $category ][ $i ]['content'] );
-					$output .= "\n\t\t\t" . '</div>';
+				if ( ! isset( $item_results[ $category ][ $i ]['content'] ) || strlen( $item_results[ $category ][ $i ]['content'] ) === 0 ) {
+					continue;
 				}
+
+				$output .= $this->output_class->misc_layout(
+					'numbered_list',
+					strval( $overall_loop ),
+					$data_explain,
+					$item_results[ $category ][ $i ]['content'],
+				);
 
 				if ( $overall_loop === 5 ) {
 					$isset_next = isset( $item_results[ $category ][ $i + 1 ] ) ? true : false;

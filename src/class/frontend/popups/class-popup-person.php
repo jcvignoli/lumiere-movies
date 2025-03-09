@@ -442,10 +442,13 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$output .= $this->output_popup_class->person_element_embeded(
-					$class_module->get_module( $person_class, $module ),
-					$module
-				);
+				$final_text = $class_module->get_module( $person_class, $module );
+				if ( strlen( $final_text ) > 0 ) {
+					$output .= $this->output_popup_class->person_element_embeded(
+						$final_text,
+						$module
+					);
+				}
 			}
 		}
 		return $output;
@@ -465,10 +468,13 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . 'Credit';
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$output .= $this->output_popup_class->person_element_embeded(
-					$class_module->get_module( $person_class, $module, $max_movies ),
-					$module
-				);
+				$final_text = $class_module->get_module( $person_class, $module, $max_movies );
+				if ( strlen( $final_text ) > 0 ) {
+					$output .= $this->output_popup_class->person_element_embeded(
+						$final_text,
+						$module
+					);
+				}
 			}
 		}
 		return $output;

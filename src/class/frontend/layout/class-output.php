@@ -28,22 +28,27 @@ class Output {
 	 * Display misceallenous texts
 	 *
 	 * @param string $selector Select which column to return
-	 * @param string $text Optional, an extra text to use
+	 * @param string $text_one Optional, an extra text to use
+	 * @param string $text_two Optional, an extra text to use
+	 * @param string $text_three Optional, an extra text to use
 	 * @return string
 	 */
-	public function misc_layout( string $selector, string $text = '' ): string {
+	public function misc_layout( string $selector, string $text_one = '', string $text_two = '', string $text_three = '' ): string {
 		$container = [
 			/* translators: %1s is a movie field string, such as director, actor */
-			'click_more_start'       => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . wp_sprintf( __( 'click to show more %1s', 'lumiere-movies' ), $text ) . ')</strong></div>' . "\n\t\t\t<div class=\"hidesection\">",
-			'click_more_end'         => "\n\t\t\t</div>\n\t\t\t<!-- end hidesection -->",
-			'see_all_start'          => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ')</strong></font></span><span class="hidesection">',
-			'see_all_end'         => "\n\t\t\t</span>\n\t\t\t<!-- end hidesection -->",
-			'frontend_items_sub_cat' => '<br><span class="lum_results_section_subtitle_parent"><span class="lum_results_section_subtitle_subcat">' . $text . '</span>: ',
-			'two_columns_first'      => "\n\t\t\t<div class=\"lumiere_align_center lumiere_container\">\n\t\t\t\t<div class=\"lumiere_align_left lumiere_flex_auto\">" . $text . "\n\t\t\t\t</div>",
-			'two_columns_second'     => "\n\t\t\t\t<div class=\"lumiere_align_right lumiere_flex_auto\">" . $text . "\n\t\t\t\t</div>\n\t\t\t</div>",
-			'frontend_subtitle_item' => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text . ':</span>',
-			'frontend_title'         => "\n\t\t\t<span id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text ) . '">' . $text . '</span>',
-			'popup_subtitle_item' => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text . '</span>',
+			'click_more_start'               => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . wp_sprintf( __( 'click to show more %1s', 'lumiere-movies' ), $text_one ) . ')</strong></div>' . "\n\t\t\t<div class=\"hidesection\">",
+			'click_more_end'                 => "\n\t\t\t</div>\n\t\t\t<!-- end hidesection -->",
+			'see_all_start'                  => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ")</strong></font></span>\n\t\t\t<span class=\"hidesection\">",
+			'see_all_end'                    => "\n\t\t\t</span>\n\t\t\t<!-- end hidesection -->",
+			'frontend_items_sub_cat_parent'  => "\n\t\t\t\t<br>\n\t\t\t\t<span class=\"lum_results_section_subtitle_parent\">\n\t\t\t\t\t<span class=\"lum_results_section_subtitle_subcat\">" . $text_one . '</span>: ',
+			'frontend_items_sub_cat_content' => "\n\t\t\t\t\t<span class=\"lum_results_section_subtitle_subcat_content\">" . $text_one . "</span>\n\t\t\t\t</span>",
+			'items_sub_cat_parent_close'     => "\n\t\t\t\t\t</span>\n\t\t\t\t</span>",
+			'two_columns_first'              => "\n\t\t\t<div class=\"lumiere_align_center lumiere_container\">\n\t\t\t\t<div class=\"lumiere_align_left lumiere_flex_auto\">" . $text_one . "\n\t\t\t\t</div>",
+			'two_columns_second'             => "\n\t\t\t\t<div class=\"lumiere_align_right lumiere_flex_auto\">" . $text_one . "\n\t\t\t\t</div>\n\t\t\t</div>",
+			'frontend_subtitle_item'         => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . ':</span>',
+			'frontend_title'                 => "\n\t\t\t<span id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text_one ) . '">' . $text_one . '</span>',
+			'popup_subtitle_item'            => "\n\t\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . '</span>',
+			'numbered_list'                  => "\n\t\t\t<div>\n\t\t\t\t[#" . strval( $text_one ) . '] <i>' . $text_two . '</i>&nbsp;' . $text_three . "\n\t\t\t" . '</div>',
 		];
 		return $container[ $selector ];
 	}
@@ -60,15 +65,16 @@ class Output {
 	 */
 	public function get_link( string $selector, string $text_one = '', string $text_two = '', string $text_three = '', string $text_four = '' ): string {
 		$container = [
-			'taxonomy' => '<a id="' . esc_attr( $text_one ) . '" class="lum_link_taxo_page" href="' . esc_url( $text_two ) . '" title="' . esc_attr( $text_three ) . '">' . esc_html( $text_four ) . '</a>',
+			'taxonomy'              => '<a id="' . esc_attr( $text_one ) . '" class="lum_link_taxo_page" href="' . esc_url( $text_two ) . '" title="' . esc_attr( $text_three ) . '">' . esc_html( $text_four ) . '</a>',
 			'internal_with_spinner' => '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="' . __( 'internal link', 'lumiere-movies' ) . ' ' . $text_two . '" href="' . esc_url( $text_one ) . '">' . esc_html( $text_two ) . '</a>',
 		];
 		return $container[ $selector ];
 	}
 
 	/**
-	 * Function wrapping with <div> the final text with the theme selected in admin options
-	 * @see Movie_Display::factory_items_methods()
+	 * Function wrapping items with the theme selected in admin options
+	 * Make sure the theme selected in admin options is used
+	 * @see \Lumiere\Frontend\Movie\Movie_Factory::factory_items_methods()
 	 *
 	 * @param string $text The text to be embeded with the layout
 	 * @param string $item The item to transform, such as director, title, etc
@@ -76,26 +82,39 @@ class Output {
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 * @return string
 	 */
-	public function final_div_wrapper( string $text, string $item, array $imdb_admin_values ): string {
+	public function front_item_wrapper( string $text, string $item, array $imdb_admin_values ): string {
 
 		$item = sanitize_text_field( $item );
 		$item_caps = strtoupper( $item );
 
 		$output = "\n\t\t\t\t\t\t\t" . '<!-- ' . $item . ' -->';
+		$output .= "\n\t\t" . '<div class="';
 
-		// title doesn't take item 'lumiere-lines-common' as a class
+		// title doesn't take item 'lumiere-lines-common' but a dedicated class instead.
 		if ( $item !== 'title' ) {
-			$output .= "\n\t\t" . '<div class="lumiere-lines-common';
-		} else {
-			$output .= "\n\t\t" . '<div class="imdbelement' . $item_caps;
+			$output .= 'lumiere-lines-common ';
 		}
 
-		$output .= ' lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'] . ' imdbelement' . $item_caps . '_' . $imdb_admin_values['imdbintotheposttheme'];
+		$output .= 'lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'] . ' imdbelement' . $item_caps . '_' . $imdb_admin_values['imdbintotheposttheme'];
 		$output .= '">';
 		$output .= $text;
 		$output .= "\n\t\t" . '</div>';
 
 		return $output;
+	}
+
+	/**
+	 * Function wrapping with "<!-- Lumière! movies plugin -->" the final text
+	 * Make sure the theme selected in admin options is used
+	 * @see \Lumiere\Frontend\Movie\Movie_Display::lum_display_movies_box()
+	 *
+	 * @param non-empty-array<string, string> $imdb_admin_values
+	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
+	 * @param string $text The text to be embeded with the layout
+	 * @return string
+	 */
+	public function front_main_wrapper( array $imdb_admin_values, string $text ): string {
+		return "\n\t\t\t\t\t\t\t\t\t<!-- Lumière! movies plugin -->\n\t<div class=\"lum_results_frame lum_results_frame_" . $imdb_admin_values['imdbintotheposttheme'] . '">' . $text . "\n\t</div>\n\t\t\t\t\t\t\t\t\t<!-- /Lumière! movies plugin -->";
 	}
 
 	/**

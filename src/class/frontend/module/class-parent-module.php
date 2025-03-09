@@ -16,12 +16,12 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Layout\Output;
-use Lumiere\Frontend\Movie\Movie_Taxonomy;
+use Lumiere\Frontend\Main;
 
 /**
- * Simplify coding
+ * Simplify coding, using most usefull classes
+ * @see \Lumiere\Frontend\Movie\Movie_Taxonomy extra class is only used in modules that need it
  *
  * @since 4.4.3 new class
  */
@@ -37,9 +37,10 @@ class Parent_Module {
 	 */
 	public function __construct(
 		protected Output $output_class = new Output(),
-		protected Movie_Taxonomy $movie_taxo = new Movie_Taxonomy()
 	) {
-		// Construct Frontend Main trait with options and links.
-		$this->start_main_trait();
+		/**
+		 * Get the properties and the linkmakers.
+		 */
+		$this->start_main_trait(); // In Trait Main.
 	}
 }

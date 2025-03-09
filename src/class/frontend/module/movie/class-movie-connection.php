@@ -61,29 +61,24 @@ class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 			$nb_items_cat = count( $item_results[ $category ] );
 
 			for ( $i = 0; $i < $admin_total_items; $i++ ) {
-				if ( isset( $item_results[ $category ][ $i ]['titleId'] ) && $item_results[ $category ][ $i ]['titleName'] ) {
+				if ( ! isset( $item_results[ $category ][ $i ]['titleId'] ) || ! isset( $item_results[ $category ][ $i ]['titleName'] ) ) {
+					continue;
+				}
 
-					if ( $i === 0 ) {
-						$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat', $data_explain );
-					}
+				if ( $i === 0 ) {
+					$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_parent', $data_explain );
+				}
 
-					$output .= '<span class="lum_results_section_subtitle_subcat_content">';
+				$content = $this->link_maker->popup_film_link_inbox( // In trait Main.
+					$item_results[ $category ][ $i ]['titleName'],
+					$item_results[ $category ][ $i ]['titleId']
+				);
 
-					/**
-					 * Use links builder classes.
-					 * Each one has its own class passed in $link_maker,
-					 * according to which option the lumiere_select_link_maker() found in Frontend.
-					 */
-					$output .= $this->link_maker->popup_film_link_inbox( // In trait Main.
-						$item_results[ $category ][ $i ]['titleName'],
-						$item_results[ $category ][ $i ]['titleId']
-					);
+				$content .= isset( $item_results[ $category ][ $i ]['description'] ) ? ' (' . $item_results[ $category ][ $i ]['description'] . ')' : '';
+				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_content', $content );
 
-					$output .= isset( $item_results[ $category ][ $i ]['description'] ) ? ' (' . $item_results[ $category ][ $i ]['description'] . ')' : '';
-					if ( $i < ( $admin_total_items - 1 ) && $i < $nb_total_items && $i < ( $nb_items_cat - 1 ) ) {
-						$output .= ', '; // add comma to every connected movie but the last.
-					}
-					$output .= '</span></span>';
+				if ( $i < ( $admin_total_items - 1 ) && $i < $nb_total_items && $i < ( $nb_items_cat - 1 ) ) {
+					$output .= ', '; // add comma to every connected movie but the last.
 				}
 			}
 		}
@@ -111,23 +106,27 @@ class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 			$nb_items_cat = count( $item_results[ $category ] );
 
 			for ( $i = 0; $i < $nb_total_items; $i++ ) {
-				if ( isset( $item_results[ $category ][ $i ]['titleId'] ) && isset( $item_results[ $category ][ $i ]['titleName'] ) ) {
-
-					if ( $i === 0 ) {
-						$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat', $data_explain );
-					}
-
-					$output .= "\n\t\t\t\t" . '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $category ][ $i ]['titleId'] ) ) . '" title="' . $item_results[ $category ][ $i ]['titleName'] . '">' . "\n\t\t\t\t" . $item_results[ $category ][ $i ]['titleName'] . '</a>';
-
-					$output .= isset( $item_results[ $category ][ $i ]['description'] ) ? ' (' . $item_results[ $category ][ $i ]['year'] . ') (<i>' . $item_results[ $category ][ $i ]['description'] . '</i>)' : '';
-
-					if ( $i < ( $nb_total_items - 1 ) && $i < ( $nb_items_cat - 1 ) ) {
-						$output .= ', '; // add comma to every connected movie but the last.
-					}
-					if ( $i === ( $nb_total_items - 1 ) ) {
-						$output .= '<br>';
-					}
+				if ( ! isset( $item_results[ $category ][ $i ]['titleId'] ) || ! isset( $item_results[ $category ][ $i ]['titleName'] ) ) {
+					continue;
 				}
+
+				// Add layout.
+				$output .= $i === 0 ? $this->output_class->misc_layout( 'frontend_items_sub_cat_parent', $data_explain ) : '';
+
+				// Add internal link.
+				$output .= "\n\t\t\t\t\t\t" . $this->output_class->get_link(
+					'internal_with_spinner',
+					wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $category ][ $i ]['titleId'] ),
+					$item_results[ $category ][ $i ]['titleName'],
+				);
+				// Add year.
+				$output .= isset( $item_results[ $category ][ $i ]['year'] ) ? ' (' . $item_results[ $category ][ $i ]['year'] . ')' : '';
+				// Add description.
+				$output .= isset( $item_results[ $category ][ $i ]['description'] ) ? ' (<i>' . $item_results[ $category ][ $i ]['description'] . '</i>)' : '';
+				// Add comma to every item but the last.
+				$output .= ( $i < ( $nb_total_items - 1 ) && $i < ( $nb_items_cat - 1 ) ) ? ', ' : '';
+				// Close the frontend_items_sub_cat_parent layout
+				$output .= ( $i === ( $nb_items_cat - 1 ) || $i === ( $nb_total_items - 1 ) ) ? $this->output_class->misc_layout( 'items_sub_cat_parent_close' ) : '';
 			}
 		}
 		return $output;

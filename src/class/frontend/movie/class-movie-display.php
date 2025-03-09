@@ -101,20 +101,9 @@ class Movie_Display extends Movie_Factory {
 	 */
 	public function lum_display_movies_box( array $movies_searched ): string {
 		$output = '';
-
 		foreach ( $movies_searched as $movie_found ) {
-
 			$this->logger->log->debug( "[Movie_Display] Displaying rows for *$movie_found*" );
-
-			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- Lumière! movies plugin -->';
-			$output .= "\n\t<div class='lum_results_frame";
-
-			// add dedicated class for themes
-			$output .= ' lum_results_frame_' . $this->imdb_admin_values['imdbintotheposttheme'] . "'>";
-
-			$output .= parent::factory_items_methods( $movie_found );
-			$output .= "\n\t</div>";
-			$output .= "\n\t\t\t\t\t\t\t\t\t" . '<!-- /Lumière! movies plugin -->';
+			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, parent::factory_items_methods( $movie_found ) );
 		}
 		return $output;
 	}

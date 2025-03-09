@@ -102,7 +102,7 @@ class Movie_Factory {
 			) {
 
 				// Get files in module, wrapping it
-				$outputfinal .= $this->output_class->final_div_wrapper(
+				$outputfinal .= $this->output_class->front_item_wrapper(
 					$this->get_module( $movie_object, $data_detail ),
 					$data_detail,
 					$this->imdb_admin_values

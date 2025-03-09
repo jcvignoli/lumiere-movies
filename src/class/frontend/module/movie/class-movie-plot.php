@@ -53,21 +53,19 @@ class Movie_Plot extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; ( $i < $nb_total_items ) && ( $i < $admin_total_items ); $i++ ) {
-
-			$output .= $item_results[ $i ]['plot'] !== null ? $this->link_maker->lumiere_movies_plot_details( $item_results[ $i ]['plot'] ) : __( 'No plot found', 'lumiere-movies' );
-
-			// add hr to every plot but the last.
-			if ( $i < ( $nb_total_items - 1 ) && $i < ( $admin_total_items - 1 ) ) {
-				$output .= "\n\t\t\t\t<hr>";
+			if ( ! isset( $item_results[ $i ]['plot'] ) ) {
+				continue;
 			}
+			$output .= $this->link_maker->lumiere_movies_plot_details( $item_results[ $i ]['plot'] );
+			// add hr to every plot but the last.
+			$output .= $i < ( $nb_total_items - 1 ) && $i < ( $admin_total_items - 1 ) ? "\n\t\t\t\t<hr>" : '';
 		}
 
 		return $output;
 	}
 
 	/**
-	 * Display the Popup version of the module, all results are displayed in one line comma-separated
-	 * Array of results is sorted by column
+	 * Display the Popup version of the module
 	 *
 	 * @param 'plot' $item_name The name of the item
 	 * @param array<int<0, max>, array<string, string>> $item_results
@@ -75,62 +73,25 @@ class Movie_Plot extends \Lumiere\Frontend\Module\Parent_Module {
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
+		$nb_max_clickmore = 20;
+
 		$output = "\n" . '<div id="lumiere_popup_pluts_group">';
 
 		$output .= $this->output_class->misc_layout(
-			'frontend_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
-		);
-
-		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= "\n\t" . '<div>';
-			$output .= ' [#' . strval( $i + 1 ) . '] ' . $item_results[ $i ]['plot'];
-			if ( $i < $nb_total_items - 1 ) {
-				$output .= "\n<br>";
-			}
-			$output .= "\n\t</div>";
-		}
-
-		$output .= "\n</div>";
-
-		return $output;
-	}
-
-	/**
-	 * Display the Popup version of the module, displaying all results on two columns
-	 *
-	 * @param Title $movie IMDbPHP title class
-	 * @param 'plot' $item_name The name of the item
-	 */
-	public function get_module_popup_two_columns( Title $movie, string $item_name ): string {
-
-		$item_results = $movie->$item_name();
-		$nb_total_items = count( $item_results );
-
-		// if no result, exit.
-		if ( $nb_total_items === 0 ) {
-			return '';
-		}
-
-		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-
-			$output .= $this->output_class->misc_layout(
-				'two_columns_first',
-				'<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . $item_results[ $i ]['imdb'] . '/?mid=' . $item_results[ $i ]['imdb'] ) ) . '" title="' . __( 'internal link', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['name'] . '">' . "\n\t\t\t\t" . $item_results[ $i ]['name'] . '</a>'
-			);
-
-			$output .= $this->output_class->misc_layout(
-				'two_columns_second',
-				$item_results[ $i ]['jobs'][0] ?? ''
-			);
-
+			$output .= $this->output_class->misc_layout( 'numbered_list', strval( $i + 1 ), '', $item_results[ $i ]['plot'] );
+			if ( $i === $nb_max_clickmore ) {
+				$isset_next = isset( $item_results[ $i + 1 ]['plot'] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+			}
+			if ( $i > $nb_max_clickmore && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'click_more_end' );
+			}
 		}
 		return $output;
 	}
-
 }

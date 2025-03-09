@@ -201,17 +201,18 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 						'class'  => [],
 						'title'  => [],
 					],
-					'i'        => [],
-					'br'       => [],
-					'strong'   => [],
+					'i'              => [],
+					'br'             => [],
+					'strong'         => [],
 				]
 			);
 		}
 
 		// Casting part.
 		if ( $get_info === 'actors' ) {
-			echo wp_kses(
-				$this->get_items_two_columns( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_CASTING ),
+			$actor_info = $this->get_items_two_columns( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_CASTING );
+			echo strlen( $actor_info ) > 0 ? wp_kses(
+				$actor_info,
 				[
 					'div'  => [
 						'class'  => [],
@@ -228,14 +229,15 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 						'title'  => [],
 					],
 				]
-			);
+			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No actors info found ', 'lumiere-movies' ) . '</div>';
 
 		}
 
 		// Crew part.
 		if ( $get_info === 'crew' ) {
-			echo wp_kses(
-				$this->get_items_two_columns( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_CREW ),
+			$crew_info = $this->get_items_two_columns( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_CREW );
+			echo strlen( $crew_info ) > 0 ? wp_kses(
+				$crew_info,
 				[
 					'div'  => [
 						'class'  => [],
@@ -252,13 +254,14 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 						'title'  => [],
 					],
 				]
-			);
+			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No crew info found ', 'lumiere-movies' ) . '</div>';
 		}
 
 		// Resume part.
 		if ( $get_info === 'resume' ) {
-			echo wp_kses(
-				$this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_PLOT ),
+			$resume_info = $this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_PLOT );
+			echo strlen( $resume_info ) > 0 ? wp_kses(
+				$resume_info,
 				[
 					'div'  => [
 						'class'  => [],
@@ -281,17 +284,18 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 						'class'  => [],
 						'title'  => [],
 					],
-					'i'        => [],
-					'br'       => [],
-					'strong'   => [],
+					'i'              => [],
+					'br'             => [],
+					'strong'         => [],
 				]
-			);
+			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No summary info found ', 'lumiere-movies' ) . '</div>';
 		}
 
 		// Misc part.
 		if ( $get_info === 'divers' ) {
-			echo wp_kses(
-				$this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_MISC ),
+			$misc_info = $this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_MISC );
+			echo strlen( $misc_info ) > 0 ? wp_kses(
+				$misc_info,
 				[
 					'div'  => [
 						'class'  => [],
@@ -314,11 +318,11 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 						'class'  => [],
 						'title'  => [],
 					],
-					'i'        => [],
-					'br'       => [],
-					'strong'   => [],
+					'i'              => [],
+					'br'             => [],
+					'strong'         => [],
 				]
-			);
+			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No misc info found ', 'lumiere-movies' ) . '</div>';
 		}
 
 		// The end.
@@ -437,10 +441,13 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 			$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$output .= $this->output_popup_class->movie_element_embeded(
-					$class_module->get_module( $movie_class, $module ),
-					$module
-				);
+				$final_text = $class_module->get_module( $movie_class, $module );
+				if ( strlen( $final_text ) > 0 ) {
+					$output .= $this->output_popup_class->movie_element_embeded(
+						$final_text,
+						$module
+					);
+				}
 			}
 		}
 		return $output;
@@ -460,10 +467,13 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 			$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$output .= $this->output_popup_class->movie_element_embeded(
-					$class_module->get_module_popup_two_columns( $movie_class, $module ),
-					$module
-				);
+				$final_text = $class_module->get_module_popup_two_columns( $movie_class, $module );
+				if ( strlen( $final_text ) > 0 ) {
+					$output .= $this->output_popup_class->movie_element_embeded(
+						$final_text,
+						$module
+					);
+				}
 			}
 		}
 		return $output;

@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
-use Lumiere\Link_Maker\Link_Factory;
+use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
 
@@ -28,7 +28,7 @@ use Lumiere\Tools\Data;
  * Allow to use the logger, function utilities, and settings
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
- * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Link_Maker\Link_Factory
+ * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Frontend\Link_Maker\Link_Factory
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 trait Main {
@@ -42,7 +42,7 @@ trait Main {
 	 * Class for building links, i.e. Highslide
 	 * Built in class Link Factory
 	 *
-	 * @var \Lumiere\Link_Maker\AMP_Links|\Lumiere\Link_Maker\Bootstrap_Links|\Lumiere\Link_Maker\Classic_Links|\Lumiere\Link_Maker\Highslide_Links|\Lumiere\Link_Maker\No_Links $link_maker The factory class will determine which class to use
+	 * @var \Lumiere\Frontend\Link_Maker\AMP_Links|\Lumiere\Frontend\Link_Maker\Bootstrap_Links|\Lumiere\Frontend\Link_Maker\Classic_Links|\Lumiere\Frontend\Link_Maker\Highslide_Links|\Lumiere\Frontend\Link_Maker\No_Links $link_maker The factory class will determine which class to use
 	 * @INFO: if import-type instead of putting in full the info Var, phpstan requires to add this property to all classes that use it!
 	 */
 	public object $link_maker;
@@ -53,7 +53,7 @@ trait Main {
 	public Logger $logger;
 
 	/**
-	 * Constructor-like
+	 * Main Options
 	 *
 	 * @param null|string $logger_name Title for the logger output
 	 */

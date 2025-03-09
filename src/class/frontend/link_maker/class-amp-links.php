@@ -10,7 +10,7 @@
  * @package lumiere-movies
  */
 
-namespace Lumiere\Link_Maker;
+namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -75,10 +75,10 @@ class AMP_Links extends Implement_Link_Maker implements Interface_Link_Maker {
 	/**
 	 * @inherit
 	 */
-	public function lumiere_imdburl_of_soundtrack( string $text ): string {
+	public function lumiere_imdburl_of_soundtrack( string $text_url, string $text_name ): string {
 
-		// Function in abstract class, second param for bootstrap.
-		return parent::lumiere_imdburl_of_soundtrack_abstract( $text, 1 );
+		// Function in abstract class, second param for AMP.
+		return parent::lumiere_imdburl_of_soundtrack_abstract( $text_url, $text_name, 1 );
 	}
 
 	/**

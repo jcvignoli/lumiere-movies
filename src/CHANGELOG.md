@@ -1,10 +1,12 @@
 **Changelog**
 
-v.4.4.3
-* [feature] Added trivia in Frontpage (new item available)
+v.4.5
+* [feature] Added trivia item in Frontpage and popups
 * [feature] Full translation of people popup's items
+* [feature] Soundtrack's names in frontend now link to popup
 * [technical] Renamed fields prodcompany => prodCompany, officialsites => extSites, creator => cinematographer (in order to match IMDb library method names)
-* [technical] Sharing same classes between frontend and popup
+* [technical] Built movie and persons modules meant to be used by both frontend and popup, refactorized popups and frontend. Hourra!
+* [technical] Settings for popups and person to automatically include wanted information
 
 v.4.4.2
 * [bug] Autorefresh of cache wasn't starting over (classes Cron, Cache_Options, Cache_Files_Management changed).
@@ -17,7 +19,7 @@ v.4.4.1
 * [technical] Taxonomy terms can't be edited anymore in WordPress Post's administration menu. (There was no point. Edited taxonomy creation in Taxonomy class).
 
 v.4.4
-* [feature] New item: connected movies, movies related the movie can be displayed
+* [feature] Added connected movies item, movies related the movie can be displayed in frontend and popups
 * [feature] Movie's quotes are back (just select it in admin data)
 * [feature] Movies can be displayed using filters 'lum_find_movie_id' (to find a movie's imdb id, if needed) and 'lum_display_movies_box' (to display the movies)
 * [feature] The number of writers displayed can be limited (select max number in data options)

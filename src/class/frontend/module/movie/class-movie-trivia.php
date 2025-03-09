@@ -58,9 +58,12 @@ class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 
 		foreach ( Get_Options::get_list_trivia_cat() as $trivia_cat ) {
 			for ( $i = 0; $i < $total_displayed; $i++ ) {
-				$output .= isset( $item_results[ $trivia_cat ][ $i ]['content'] )
-					? $this->output_class->misc_layout( 'frontend_items_sub_cat', Get_Options::get_list_trivia_cat() [ $trivia_cat ] ) . ' ' . $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $trivia_cat ][ $i ]['content'] )
-					: '';
+				if ( ! isset( $item_results[ $trivia_cat ][ $i ]['content'] ) ) {
+					continue;
+				}
+				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_parent', Get_Options::get_list_trivia_cat() [ $trivia_cat ] );
+				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_content', $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $trivia_cat ][ $i ]['content'] ) );
+
 			}
 		}
 		return $output;
@@ -82,7 +85,7 @@ class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 			ucfirst( $translated_item )
 		);
 
-		$nb_total_trivia_processed = 1;
+		$overall_loop = 1;
 
 		foreach ( $item_results as $trivia_type => $trivia_content ) {
 
@@ -100,17 +103,17 @@ class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 					continue;
 				}
 
-				$output .= "\n\t\t\t\t<div>\n\t\t\t\t\t" . '[#' . strval( $nb_total_trivia_processed ) . '] <i>' . Get_Options::get_list_trivia_cat() [ $trivia_type ] . '</i> ' . $text . "\n\t\t\t\t</div>";
+				$output .= $this->output_class->misc_layout( 'numbered_list', strval( $overall_loop ), Get_Options::get_list_trivia_cat() [ $trivia_type ], $text );
 
-				if ( $nb_total_trivia_processed === 5 ) {
-					$isset_next = isset( $item_results[ $trivia_type ][ $nb_total_trivia_processed + 1 ] ) ? true : false;
+				if ( $overall_loop === 5 ) {
+					$isset_next = isset( $item_results[ $trivia_type ][ $overall_loop + 1 ] ) ? true : false;
 					$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $translated_item ) : '';
 				}
 
-				if ( $nb_total_trivia_processed > 5 && $nb_total_trivia_processed === $nb_total_items ) {
+				if ( $overall_loop > 5 && $overall_loop === $nb_total_items ) {
 					$output .= $this->output_class->misc_layout( 'click_more_end' );
 				}
-				$nb_total_trivia_processed++;
+				$overall_loop++;
 			}
 		}
 		return $output;
