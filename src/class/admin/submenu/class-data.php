@@ -43,7 +43,6 @@ class Data extends Admin_Menu {
 
 		// Construct parent class
 		parent::__construct();
-		$tmp = get_option( Get_Options::get_data_tablename() );
 
 		// Build the list of data comments
 		$this->details_comments = [

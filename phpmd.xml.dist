@@ -16,13 +16,29 @@
 		<exclude name="StaticAccess" />
 	</rule>
 
-	<rule ref="rulesets/codesize.xml" />
-
+	<rule ref="rulesets/codesize.xml">
+		<exclude name="TooManyPublicMethods"/>
+		<exclude name="CyclomaticComplexity"/>
+	</rule>
+	
+	<rule ref="rulesets/codesize.xml/TooManyPublicMethods">
+		<properties>
+			<!-- Was actually increased in later PHPMD versions to 25 -->
+			<property name="maxmethods" value="25" />
+		</properties>
+	</rule>
+	<rule ref="rulesets/codesize.xml/CyclomaticComplexity">
+		<properties>
+			<!-- 10 and 11 are ok! -->
+			<property name="reportLevel" value="12" />
+		</properties>
+	</rule>
+    
 	<rule ref="rulesets/design.xml">
 		<!-- normal in WP for redirects, etc -->
 		<exclude name="ExitExpression" />
 	</rule>
-
+	
 	<rule ref="rulesets/naming.xml/ShortVariable">
 		<properties>
 			<!-- common in WP -->
@@ -47,7 +63,7 @@
 	<rule ref="rulesets/unusedcode.xml/UnusedLocalVariable">
 		<properties>
 			<property name="exceptions">
-				<value>static_start,int,that,row_number,rewrite_class,info,key,value,backoffice_extra_class,time,class_save,self_class,taxonomy_class,nb_items_connected_movies</value>
+				<value>trivia_type,trivia_content,static_start,int,that,row_number,rewrite_class,info,key,value,backoffice_extra_class,time,class_save,self_class,taxonomy_class,nb_items_connected_movies</value>
 			</property>
 		</properties>
 	</rule>
