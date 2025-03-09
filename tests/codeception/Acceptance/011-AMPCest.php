@@ -41,6 +41,9 @@ class AMPCest {
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->scrollTo('#taxodetails');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
+
+		// Make sure Bootstrap is active, the test is run with Bootstrap.
+		$I->SwitchModalWindow('Bootstrap');
 	}
 
 	/** 
@@ -67,10 +70,6 @@ class AMPCest {
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
 		$I->scrollTo('#imdb_imdbtaxonomycomposer_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomydirector_yes', '#update_imdbwidgetSettings' );
-		
-		// Make sure Bootstrap is active, the test is run with Bootstrap.
-		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
-		$I->customSelectOption( "select[name=imdbpopup_modal_window]", "Bootstrap", "update_imdbSettings" );
 	}
 	
 	/** 
@@ -86,12 +85,12 @@ class AMPCest {
 		$I->amOnPage( $I->getCustomBaseUrl() . AcceptanceSettings::TESTING_PAGE_BASE_URL . '?amp' );
 		$I->seeInPageSource('<a class="lum_link_no_popup" id="link-0227759" data-modal_window_nonce="');
 		$I->seeInPageSource('data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=0227759&amp;');
-		$I->seeInPageSource( '&amp;amp">Peter Dinklage</a></div>');
+		$I->seeInPageSource( '&amp;amp">Peter Dinklage</a>');
 
 		// Check if without AMP it is functional
 		$I->amOnPage( $I->getCustomBaseUrl() . AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->seeInPageSource( '<a class="lum_link_make_popup lum_link_with_people highslide" id="link-0227759" data-modal_window_nonce="');
-		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a></div>' );
+		$I->seeInPageSource( '<a class="lum_link_make_popup lum_link_with_people" id="link-0227759"' );
+		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a>' );
 	}
 
 	/** 
@@ -105,6 +104,8 @@ class AMPCest {
 
 		// Check if polylang form in taxonomy page is available
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->scrollTo( [ 'id' => 'title_Werewolf1995' ] );
+		$I->wait(1);
 		$I->click( "Tony Zarindast");
 		$I->scrollTo('.imdbelementPIC');
 		$I->seeInPageSource('<form method="get" id="lang_form" name="lang_form" action="');

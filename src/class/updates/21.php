@@ -146,9 +146,9 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 			$text = 'Lumière option imdbwidgetcinematographer could not be added.';
 			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
-		// Update imdbwidgetorder officialsites to extSites
+		// Update imdbwidgetorder creator to cinematographer
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
-		$order_value['cinematographer'] = $order_value !== false && isset( $order_value['creator'] ) ? $order_value['creator'] : false;
+		$order_value['cinematographer'] = $order_value !== false && isset( $order_value['creator'] ) ? $order_value['creator'] : '18';
 		unset( $order_value['creator'] );
 		if ( $order_value !== false && true === $this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
 			$text = 'Lumière option imdbwidgetorder successfully updated.';
@@ -195,8 +195,8 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		// Create imdbwidgetorder with trivia if doesn't exist (it shouldn't)
-		$order_value = $imdb_data_options['trivia'] ?? false;
-		$order_value['trivia'] = $order_value !== false && isset( $order_value['trivia'] ) ? $order_value['trivia'] : $order_value['trivia'] = '27';
+		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
+		$order_value['cinematographer'] = $order_value !== false && isset( $order_value['trivia'] ) ? $order_value['trivia'] : '27';
 		if ( $order_value !== false && true === $this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
 			$text = 'Lumière option imdbwidgetorder (trivia) successfully updated.';
 			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
