@@ -94,7 +94,9 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 			ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $sub_cat ] )
 		);
 
-		$output .= '(' . strval( $nb_total_items ) . ')'; // Show the total number found right after the title.
+		if ( $nb_total_items > $max_results ) {
+			$output .= '(' . strval( $nb_total_items ) . ')'; // Show the total number found right after the title.
+		}
 
 		for ( $i = 0; $i < $nb_total_items; $i ++ ) {
 			$output .= parent::get_person_url( $item_results[ $sub_cat ][ $i ]['titleId'], $item_results[ $sub_cat ][ $i ]['titleName'] );

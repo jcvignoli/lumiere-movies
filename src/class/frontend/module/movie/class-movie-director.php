@@ -56,18 +56,10 @@ class Movie_Director extends \Lumiere\Frontend\Module\Parent_Module {
 			return $this->get_module_popup( $item_name, $item_results, $nbtotalitems );
 		}
 
-		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $nbtotalitems )[ $item_name ] )
-		);
+		$output = $this->output_class->misc_layout( 'frontend_subtitle_item', ucfirst( Get_Options::get_all_fields( $nbtotalitems )[ $item_name ] ) );
 
 		for ( $i = 0; $i < $nbtotalitems; $i++ ) {
 
-			/**
-			 * Use links builder classes.
-			 * Each one has its own class passed in $link_maker,
-			 * according to which option the lumiere_select_link_maker() found in Frontend.
-			 */
 			$output .= $this->link_maker->lumiere_link_popup_people( $item_results, $i );
 
 			if ( $i < $nbtotalitems - 1 ) {
@@ -95,7 +87,7 @@ class Movie_Director extends \Lumiere\Frontend\Module\Parent_Module {
 		for ( $i = 0; $i < $nbtotalitems; $i++ ) {
 			$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
 
-			if ( $i < $nbtotalitems - 1 ) {
+			if ( $i < ( $nbtotalitems - 1 ) ) {
 				$output .= ', ';
 			}
 		}
@@ -149,10 +141,7 @@ class Movie_Director extends \Lumiere\Frontend\Module\Parent_Module {
 			return '';
 		}
 
-		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $nbtotalitems )[ $item_name ] )
-		);
+		$output = $this->output_class->misc_layout( 'frontend_subtitle_item', ucfirst( Get_Options::get_all_fields( $nbtotalitems )[ $item_name ] ) );
 
 		for ( $i = 0; $i < $nbtotalitems; $i++ ) {
 

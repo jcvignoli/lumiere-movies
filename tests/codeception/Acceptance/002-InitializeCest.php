@@ -50,16 +50,19 @@ class InitializeCest {
 		$I->comment('Reset main settings');
 		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
 		$I->click("lumiere_reset_main_settings");
+		$I->wait(1);
 		$I->see('Options reset.');
 		
 		$I->comment('Reset cache settings');
 		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
 		$I->click("lumiere_reset_cache_settings");
+		$I->wait(1);
 		$I->see('Options reset.');
 		
 		$I->comment('Reset data settings');
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
 		$I->click("lumiere_reset_data_settings");
+		$I->wait(1);
 		$I->see('Options reset.');
 	}
 	

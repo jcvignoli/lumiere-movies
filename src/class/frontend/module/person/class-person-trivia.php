@@ -52,7 +52,7 @@ class Person_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i <= $nb_total_items; $i++ ) {
 
-			$text = isset( $item_results[ $i ] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $i ] ) : '';
+			$text = $item_results[ $i ] ?? '';
 
 			// It may be empty, continue to the next result.
 			if ( strlen( $text ) === 0 ) {
@@ -85,7 +85,7 @@ class Person_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$text = isset( $item_results[ $i ] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $i ] ) : '';
+			$text = $item_results[ $i ] ?? '';
 
 			// It may be empty, continue to the next result.
 			if ( strlen( $text ) === 0 ) {

@@ -48,20 +48,26 @@ class Parent_Module {
 	/**
 	 * Build local link for person
 	 * Add a nounce
+	 * Caution: these links are not changed according to Linkmaker
+	 * @TODO: all link_maker->popup_internal_link methods should come here, then Link_Maker should be rewritten to take imdb_id and name
 	 * @param string $imdb_id The imdb id that get afer the mid
+	 * @param string $name The person's name
 	 */
-	protected function get_person_url( string $imdb_id, string $title = '' ): string {
+	protected function get_person_url( string $imdb_id, string $name = '' ): string {
 		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(
 			'internal_with_spinner',
 			wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdb_id ),
-			$title,
+			$name,
 		);
 	}
 
 	/**
 	 * Build local link for person
 	 * Add a nounce
+	 * Caution: these links are not changed according to Linkmaker
+	 * @TODO: all link_maker->popup_internal_link methods should come here, then Link_Maker should be rewritten to take imdb_id and title
 	 * @param string $imdb_id The imdb id that get afer the mid
+	 * @param string $title The movie's title
 	 */
 	protected function get_film_url( string $imdb_id, string $title = '' ): string {
 		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(

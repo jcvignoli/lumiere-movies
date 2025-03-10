@@ -51,7 +51,7 @@ class Person_Quotes extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$text = isset( $item_results[ $i ] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $i ] ) : '';
+			$text = $item_results[ $i ] ?? '';
 			$output .= strlen( $text ) > 0 ? $this->output_class->misc_layout( 'numbered_list', strval( $i + 1 ), '', $text ) : '';
 		}
 		return $output;
@@ -76,7 +76,7 @@ class Person_Quotes extends \Lumiere\Frontend\Module\Parent_Module {
 		$output .= '(' . strval( $nb_total_items ) . ')';
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$text = isset( $item_results[ $i ] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $i ] ) : '';
+			$text = $item_results[ $i ] ?? '';
 
 			// It may be empty, continue to the next result.
 			if ( strlen( $text ) === 0 ) {

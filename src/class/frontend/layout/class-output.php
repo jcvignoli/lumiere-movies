@@ -65,7 +65,7 @@ class Output {
 	 */
 	public function get_link( string $selector, string $text_one = '', string $text_two = '', string $text_three = '', string $text_four = '' ): string {
 		$container = [
-			'taxonomy'              => '<a id="' . esc_attr( $text_one ) . '" class="lum_link_taxo_page" href="' . esc_url( $text_two ) . '" title="' . esc_attr( $text_three ) . '">' . esc_html( $text_four ) . '</a>',
+			'taxonomy'              => "\n\t\t\t" . '<a id="' . esc_attr( $text_one ) . '" class="lum_link_taxo_page" href="' . esc_url( $text_two ) . '" title="' . esc_attr( $text_three ) . '">' . esc_html( $text_four ) . '</a>',
 			'internal_with_spinner' => '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="' . __( 'internal link', 'lumiere-movies' ) . ' ' . $text_two . '" href="' . esc_url( $text_one ) . '">' . esc_html( $text_two ) . '</a>',
 		];
 		return $container[ $selector ];

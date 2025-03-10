@@ -62,7 +62,7 @@ class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 					continue;
 				}
 				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_parent', Get_Options::get_list_trivia_cat() [ $trivia_cat ] );
-				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_content', $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $trivia_cat ][ $i ]['content'] ) );
+				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_content', $item_results[ $trivia_cat ][ $i ]['content'] );
 
 			}
 		}
@@ -96,7 +96,7 @@ class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 
 			for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-				$text = isset( $item_results[ $trivia_type ][ $i ]['content'] ) ? $this->link_maker->lumiere_imdburl_to_internalurl( $item_results[ $trivia_type ][ $i ]['content'] ) : '';
+				$text = $item_results[ $trivia_type ][ $i ]['content'] ?? '';
 
 				// It may be empty, continue to the next result.
 				if ( strlen( $text ) === 0 ) {

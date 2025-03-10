@@ -60,10 +60,10 @@ class Implement_Link_Maker {
 		int $with_imdb_element_rating
 	): string {
 
-		$output = "\n\t\t\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Rating', 'lumiere-movies' ) . ':</span>';
+		$output = "\n\t\t\t\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Rating', 'lumiere-movies' ) . ':</span>&nbsp;';
 
 		$find_showtimes_pic = round( $rating * 2, 0 ) / 0.2;
-		$output .= ' <img class="imdbelementRATING-picture" src="' . Get_Options::LUM_PICS_SHOWTIMES_URL . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
+		$output .= "\n\t\t\t\t" . '<img class="imdbelementRATING-picture" src="' . Get_Options::LUM_PICS_SHOWTIMES_URL . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
 
 		return $output;
 	}
@@ -241,6 +241,8 @@ class Implement_Link_Maker {
 	 * @param 0|1 $window_type Define the window_type: 0 for links (default), 1 for no links
 	 *
 	 * @return string
+	 *
+	 * @obsolete No more in use, was utilised to parse things like trivia, trademarks, etc, that don't included imdb links anymore
 	 */
 	protected function lumiere_imdburl_to_internalurl_abstract( string $text, int $window_type = 0 ): string {
 
@@ -345,20 +347,23 @@ class Implement_Link_Maker {
 	 */
 	private function bootstrap_modal( string $imdb_id, string $imdb_data ): string {
 
-		return "\n\t\t\t" . '<span class="modal fade" id="theModal' . $imdb_id . '">'
-			. "\n\t\t\t\t" . '<span id="bootstrap' . $imdb_id . '" class="modal-dialog modal-dialog-centered' . esc_attr( $this->bootstrap_convert_modal_size() ) . '" role="dialog">'
-			. "\n\t\t\t\t\t" . '<span class="modal-content">'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-header bootstrap_black"><span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border"><span class="sr-only"></span></span>'
+		return "\n\t\t\t\t\t" . '<span class="modal fade" id="theModal' . $imdb_id . '">'
+			. "\n\t\t\t\t\t\t" . '<span id="bootstrap' . $imdb_id . '" class="modal-dialog modal-dialog-centered' . esc_attr( $this->bootstrap_convert_modal_size() ) . '" role="dialog">'
+			. "\n\t\t\t\t\t\t\t" . '<span class="modal-content">'
+			. "\n\t\t\t\t\t\t\t\t" . '<span class="modal-header bootstrap_black">'
+			. "\n\t\t\t\t\t\t\t\t\t" . '<span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border">'
+			. "\n\t\t\t\t\t\t\t\t\t\t" . '<span class="sr-only"></span>'
+			. "\n\t\t\t\t\t\t\t\t\t" . '</span>'
 			/**
 			 * Deactivated: Title's popup doesn't change when navigating
 			 * . esc_html__( 'Information about', 'lumiere-movies' ) . ' ' . esc_html( ucfirst( $imdb_data ) )
 			 */
-			. '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . $imdb_id . '"></button>'
+			. "\n\t\t\t\t\t\t\t\t\t" . '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . $imdb_id . '"></button>'
+			. "\n\t\t\t\t\t\t\t\t" . '</span>'
+			. "\n\t\t\t\t\t\t\t\t" . '<span class="modal-body embed-responsive embed-responsive-16by9"></span>'
+			. "\n\t\t\t\t\t\t\t" . '</span>'
 			. "\n\t\t\t\t\t\t" . '</span>'
-			. "\n\t\t\t\t\t\t" . '<span class="modal-body embed-responsive embed-responsive-16by9"></span>'
-			. "\n\t\t\t\t\t" . '</span>'
-			. "\n\t\t\t\t" . '</span>'
-			. "\n\t\t\t" . '</span>';
+			. "\n\t\t\t\t\t" . '</span>';
 
 	}
 
@@ -418,7 +423,7 @@ class Implement_Link_Maker {
 		}
 
 		// Building link.
-		$txt = "\n\t\t\t" . '<a class="' . esc_attr( $specific_a_class ) . '"' . " id=\"link-$imdbid\""
+		$txt = "\n\t\t\t\t\t" . '<a class="' . esc_attr( $specific_a_class ) . '"' . " id=\"link-$imdbid\""
 		. ' data-modal_window_nonce="' . wp_create_nonce() . '"'
 		. ' data-modal_window_people="' . esc_attr( $imdbid ) . '"'
 		// Data target is utilised by bootstrap only, but should be safe to keep it.

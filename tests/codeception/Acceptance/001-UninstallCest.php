@@ -206,6 +206,7 @@ class UninstallCest {
 
 		// Deactivate plugin
 		$I->amOnPluginsPage();
+		$I->wait(1);
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
 		$I->wait(2);
@@ -218,7 +219,6 @@ class UninstallCest {
 	 */
 	private function uninstall_plugin( AcceptanceTester $I ) {
 		$I->amOnPluginsPage();
-		$I->wait(2);
 		$I->scrollTo('#delete-lumiere-movies');
 		$I->executeJS("return jQuery('#delete-lumiere-movies').get(0).click()");
 		$I->wait(2);
