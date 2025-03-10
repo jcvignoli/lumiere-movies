@@ -158,7 +158,7 @@ class Implement_Link_Maker {
 	 * 3- Build links either to popups (if taxonomy) or internal links (if popup people)
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
-	 * @param int $window_type Define the window_type: 0 for full (default), 1 for no links (AMP, No Link classes)
+	 * @param 0|1 $window_type Define the window_type: 0 for full (default), 1 for no links (AMP, No Link classes)
 	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
 	 * @return string
 	 *
@@ -238,7 +238,7 @@ class Implement_Link_Maker {
 	 * Meant to be used inside popups (not in posts or widgets)
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into an internal link
-	 * @param int $window_type Define the window_type: 0 for links (default), 1 for no links
+	 * @param 0|1 $window_type Define the window_type: 0 for links (default), 1 for no links
 	 *
 	 * @return string
 	 */
@@ -275,7 +275,7 @@ class Implement_Link_Maker {
 	 * Convert an IMDb url into a popup link for People and Movies in Taxonomy pages
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into an internal link
-	 * @param int $window_type Define the window_type: 0 for classic links (default), 1 regular popups, 2 for no links, 3 for bootstrap
+	 * @param 0|1|2|3 $window_type Define the window_type: 0 for classic links (default), 1 regular popups, 2 for no links, 3 for bootstrap
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
@@ -323,7 +323,7 @@ class Implement_Link_Maker {
 	 *
 	 * @param string $text_url The internal URL
 	 * @param string $text_name The author name
-	 * @param int $window_type Define the window_type: 0 for classic links (default), 1 regular popups, 2 for no links, 3 for bootstrap
+	 * @param 0|1|2|3 $window_type Define the window_type: 0 for classic links (default), 1 regular popups, 2 for no links, 3 for bootstrap
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
@@ -414,21 +414,22 @@ class Implement_Link_Maker {
 
 		// No link creation, exit
 		if ( intval( $window_type ) === 2 ) {
-			return esc_attr( $imdbname );
+			return esc_html( $imdbname );
 		}
 
 		// Building link.
-		$txt = "\n\t\t\t" . '<a class="' . $specific_a_class . '"' . " id=\"link-$imdbid\""
+		$txt = "\n\t\t\t" . '<a class="' . esc_attr( $specific_a_class ) . '"' . " id=\"link-$imdbid\""
 		. ' data-modal_window_nonce="' . wp_create_nonce() . '"'
-		. ' data-modal_window_people="' . sanitize_text_field( $imdbid ) . '"'
+		. ' data-modal_window_people="' . esc_attr( $imdbid ) . '"'
 		// Data target is utilised by bootstrap only, but should be safe to keep it.
-		. ' data-target="#theModal' . sanitize_text_field( $imdbid ) . '"'
-		. ' title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '"';
+		. ' data-target="#theModal' . esc_attr( $imdbid ) . '"'
+		/* Translators: &1s is a name, ie Stanley Kubrick */
+		. ' title="' . esc_attr( wp_sprintf( __( 'open a new window with IMDb informations for %1s', 'lumiere-movies' ), $imdbname ) ) . '"';
 		// AMP, build a HREF.
 		if ( intval( $window_type ) === 3 ) {
 			$txt .= ' href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdbid ) ) . '"';
 		}
-		$txt .= '>' . sanitize_text_field( $imdbname ) . '</a>';
+		$txt .= '>' . esc_html( $imdbname ) . '</a>';
 
 		// Modal bootstrap HTML part.
 		if ( intval( $window_type ) === 1 ) {
@@ -445,7 +446,7 @@ class Implement_Link_Maker {
 	 * @param array<int, string> $link_parsed html tags and text to be modified
 	 * @param null|string $popuplarg Modal window width, if nothing passed takes database value
 	 * @param null|string $popuplong Modal window height, if nothing passed takes database value
-	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
+	 * @param 0|1|2 $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
@@ -493,7 +494,7 @@ class Implement_Link_Maker {
 	 * @param string $imdbid The movie's imdb ID
 	 * @param null|string $popuplarg Modal window width, if nothing passed takes database value
 	 * @param null|string $popuplong Modal window height, if nothing passed takes database value
-	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
+	 * @param 0|1|2 $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
@@ -537,7 +538,7 @@ class Implement_Link_Maker {
 	 *
 	 * @param string $url Url to the trailer
 	 * @param string $website_title website name
-	 * @param int $window_type Define the window_type: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
+	 * @param 0|1 $window_type Define the window_type: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
 	 * @return string
 	 */
 	protected function lumiere_movies_trailer_details_abstract ( string $url, string $website_title, int $window_type = 0 ): string {
@@ -556,7 +557,7 @@ class Implement_Link_Maker {
 	 *
 	 * @param string $name prod company name
 	 * @param string $comp_id ID of the prod company
-	 * @param int $window_type Define the window_type: 0 for highslide, bootstrap classic links (default), 1 for no links & AMP
+	 * @param 0|1 $window_type Define the window_type: 0 for highslide, bootstrap classic links (default), 1 for no links & AMP
 	 * @return string
 	 */
 	protected function lumiere_movies_prodcompany_details_abstract ( string $name, string $comp_id = '', string $notes = '', int $window_type = 0 ): string {
@@ -591,7 +592,7 @@ class Implement_Link_Maker {
 	 *
 	 * @param string $url Url to the offical website
 	 * @param string $name Offical website name
-	 * @param int $window_type Define the window_type: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
+	 * @param 0|1 $window_type Define the window_type: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
 	 * @return string
 	 */
 	protected function lumiere_movies_officialsites_details_abstract ( string $url, string $name, int $window_type = 0 ): string {
@@ -606,7 +607,7 @@ class Implement_Link_Maker {
 	 * Source data details
 	 *
 	 * @param string $mid IMDb ID of the movie
-	 * @param int $window_type Define the window_type: 0 for AMP, highslide, bootstrap & classic links (default), 1 for No links
+	 * @param 0|1 $window_type Define the window_type: 0 for AMP, highslide, bootstrap & classic links (default), 1 for No links
 	 * @param null|string $class extra class to add, only AMP does not use it
 	 * @return string
 	 */
