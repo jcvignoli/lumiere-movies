@@ -70,8 +70,7 @@ class Movie_Composer extends \Lumiere\Frontend\Module\Parent_Module {
 	}
 
 	/**
-	 * Display the Popup version of the module, all results are displayed in one line comma-separated
-	 * Array of results is sorted by column
+	 * Display the Popup version of the module
 	 *
 	 * @param 'composer' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
@@ -85,10 +84,57 @@ class Movie_Composer extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= $this->link_maker->lumiere_link_popup_people( $item_results, $i );
+
+			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
+				'internal_with_spinner',
+				parent::get_person_url( $item_results[ $i ]['imdb'] ),
+				$item_results[ $i ]['name'],
+			);
+
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Display the Popup version of the module, displaying all results on two columns
+	 *
+	 * @param Title $movie IMDbPHP title class
+	 * @param 'composer' $item_name The name of the item
+	 */
+	public function get_module_popup_two_columns( Title $movie, string $item_name ): string {
+
+		$item_results = $movie->$item_name();
+		$nb_total_items = count( $item_results );
+
+		// if no result, exit.
+		if ( $nb_total_items === 0 ) {
+			return '';
+		}
+
+		$output = $this->output_class->misc_layout(
+			'popup_subtitle_item',
+			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
+		);
+
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+
+			$output .= $this->output_class->misc_layout(
+				'two_columns_first',
+				$item_results[ $i ]['jobs'] ?? '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>'
+			);
+
+			$output .= $this->output_class->misc_layout(
+				'two_columns_second',
+				"\n\t\t\t\t\t" . $this->output_class->get_link(
+					'internal_with_spinner',
+					parent::get_person_url( $item_results[ $i ]['imdb'] ),
+					$item_results[ $i ]['name'],
+				),
+			);
+
 		}
 		return $output;
 	}

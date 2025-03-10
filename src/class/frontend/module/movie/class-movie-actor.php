@@ -101,7 +101,7 @@ class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
 				'internal_with_spinner',
-				wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ),
+				parent::get_person_url( $item_results[ $i ]['imdb'] ),
 				$item_results[ $i ]['name'],
 			);
 			if ( $i < $nb_total_items - 1 ) {
@@ -143,7 +143,7 @@ class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 				'two_columns_second',
 				"\n\t\t\t\t\t" . $this->output_class->get_link(
 					'internal_with_spinner',
-					wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['imdb'] ),
+					parent::get_person_url( $item_results[ $i ]['imdb'] ),
 					$item_results[ $i ]['name'],
 				),
 			);

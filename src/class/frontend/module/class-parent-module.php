@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Config\Get_Options;
 use Lumiere\Frontend\Layout\Output;
 use Lumiere\Frontend\Main;
 
@@ -42,5 +43,23 @@ class Parent_Module {
 		 * Get the properties and the linkmakers.
 		 */
 		$this->start_main_trait(); // In Trait Main.
+	}
+
+	/**
+	 * Build local link for person
+	 * Add a nounce
+	 * @param string $imdb_id The imdb id that get afer the mid
+	 */
+	protected function get_person_url( string $imdb_id ): string {
+		return wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdb_id );
+	}
+
+	/**
+	 * Build local link for person
+	 * Add a nounce
+	 * @param string $imdb_id The imdb id that get afer the mid
+	 */
+	protected function get_film_url( string $imdb_id ): string {
+		return wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $imdb_id );
 	}
 }

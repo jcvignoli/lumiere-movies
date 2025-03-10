@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Name;
 use Lumiere\Config\Get_Options_Person;
-use Lumiere\Config\Get_Options;
 
 /**
  * Method to display children for person
@@ -88,7 +87,7 @@ class Person_Children extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
 				$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
 					'internal_with_spinner',
-					wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . strval( $item_results[ $i ]['imdb'] ) ),
+					parent::get_person_url( strval( $item_results[ $i ]['imdb'] ) ),
 					$item_results[ $i ]['name'],
 				);
 			} elseif ( isset( $item_results[ $i ]['name'] ) ) {

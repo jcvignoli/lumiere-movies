@@ -96,7 +96,7 @@ class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( isset( $item_results[ $i ]['creditSplit']['creditors'][0]['name'] ) && isset( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] ) ) {
 				$output .= ' <i>' . $item_results[ $i ]['creditSplit']['creditors'][0]['creditType'] . ' ' . $this->output_class->get_link(
 					'internal_with_spinner',
-					wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] ),
+					parent::get_person_url( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] ),
 					$item_results[ $i ]['creditSplit']['creditors'][0]['name'],
 				) . '</i>';
 			}

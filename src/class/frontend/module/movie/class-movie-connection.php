@@ -116,7 +116,7 @@ class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 				// Add internal link.
 				$output .= "\n\t\t\t\t\t\t" . $this->output_class->get_link(
 					'internal_with_spinner',
-					wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $category ][ $i ]['titleId'] ),
+					parent::get_film_url( $item_results[ $category ][ $i ]['titleId'] ),
 					$item_results[ $category ][ $i ]['titleName'],
 				);
 				// Add year.

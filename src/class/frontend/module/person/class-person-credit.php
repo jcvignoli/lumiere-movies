@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Name;
 use Lumiere\Config\Get_Options_Person;
-use Lumiere\Config\Get_Options;
 
 /**
  * Method to display Credit for person
@@ -100,7 +99,7 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 		for ( $i = 0; $i < $nb_total_items; $i ++ ) {
 			$output .= "\n\t\t\t\t " . $this->output_class->get_link(
 				'internal_with_spinner',
-				wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $sub_cat ][ $i ]['titleId'] ),
+				parent::get_person_url( $item_results[ $sub_cat ][ $i ]['titleId'] ),
 				$item_results[ $sub_cat ][ $i ]['titleName'],
 			);
 

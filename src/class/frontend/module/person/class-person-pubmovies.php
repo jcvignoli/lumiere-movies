@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Name;
 use Lumiere\Config\Get_Options_Person;
-use Lumiere\Config\Get_Options;
 
 /**
  * Method to display Pubmovies for person
@@ -81,7 +80,7 @@ class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
 				'internal_with_spinner',
-				wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . intval( $item_results[ $i ]['id'] ) ),
+				parent::get_film_url( strval( $item_results[ $i ]['id'] ) ),
 				$item_results[ $i ]['title'],
 			);
 			if ( isset( $item_results[ $i ]['year'] ) && $item_results[ $i ]['year'] > 0 ) {
