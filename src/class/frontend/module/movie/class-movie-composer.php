@@ -85,11 +85,7 @@ class Movie_Composer extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
-				'internal_with_spinner',
-				parent::get_person_url( $item_results[ $i ]['imdb'] ),
-				$item_results[ $i ]['name'],
-			);
+			$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
 
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
@@ -126,14 +122,7 @@ class Movie_Composer extends \Lumiere\Frontend\Module\Parent_Module {
 				$item_results[ $i ]['jobs'] ?? '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>'
 			);
 
-			$output .= $this->output_class->misc_layout(
-				'two_columns_second',
-				"\n\t\t\t\t\t" . $this->output_class->get_link(
-					'internal_with_spinner',
-					parent::get_person_url( $item_results[ $i ]['imdb'] ),
-					$item_results[ $i ]['name'],
-				),
-			);
+			$output .= $this->output_class->misc_layout( 'two_columns_second', parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] ) );
 
 		}
 		return $output;

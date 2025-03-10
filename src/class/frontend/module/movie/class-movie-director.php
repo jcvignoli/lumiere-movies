@@ -93,11 +93,7 @@ class Movie_Director extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nbtotalitems; $i++ ) {
-			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
-				'internal_with_spinner',
-				parent::get_person_url( $item_results[ $i ]['imdb'] ),
-				$item_results[ $i ]['name'],
-			);
+			$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
 
 			if ( $i < $nbtotalitems - 1 ) {
 				$output .= ', ';
@@ -129,19 +125,9 @@ class Movie_Director extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nbtotalitems; $i++ ) {
 
-			$output .= $this->output_class->misc_layout(
-				'two_columns_first',
-				$this->output_class->get_link(
-					'internal_with_spinner',
-					parent::get_person_url( $item_results[ $i ]['imdb'] ),
-					$item_results[ $i ]['name'],
-				),
-			);
+			$output .= $this->output_class->misc_layout( 'two_columns_first', parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] ) );
 
-			$output .= $this->output_class->misc_layout(
-				'two_columns_second',
-				''
-			);
+			$output .= $this->output_class->misc_layout( 'two_columns_second', '' );
 
 		}
 		return $output;

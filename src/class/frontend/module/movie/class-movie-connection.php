@@ -114,11 +114,7 @@ class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= $i === 0 ? $this->output_class->misc_layout( 'frontend_items_sub_cat_parent', $data_explain ) : '';
 
 				// Add internal link.
-				$output .= "\n\t\t\t\t\t\t" . $this->output_class->get_link(
-					'internal_with_spinner',
-					parent::get_film_url( $item_results[ $category ][ $i ]['titleId'] ),
-					$item_results[ $category ][ $i ]['titleName'],
-				);
+				$output .= isset( $item_results[ $category ][ $i ]['titleId'] ) ? parent::get_film_url( $item_results[ $category ][ $i ]['titleId'], $item_results[ $category ][ $i ]['titleName'] ) : $item_results[ $category ][ $i ]['titleName'];
 				// Add year.
 				$output .= isset( $item_results[ $category ][ $i ]['year'] ) ? ' (' . $item_results[ $category ][ $i ]['year'] . ')' : '';
 				// Add description.

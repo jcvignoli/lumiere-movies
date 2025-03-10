@@ -50,8 +50,12 @@ class Parent_Module {
 	 * Add a nounce
 	 * @param string $imdb_id The imdb id that get afer the mid
 	 */
-	protected function get_person_url( string $imdb_id ): string {
-		return wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdb_id );
+	protected function get_person_url( string $imdb_id, string $title = '' ): string {
+		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(
+			'internal_with_spinner',
+			wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdb_id ),
+			$title,
+		);
 	}
 
 	/**
@@ -59,7 +63,11 @@ class Parent_Module {
 	 * Add a nounce
 	 * @param string $imdb_id The imdb id that get afer the mid
 	 */
-	protected function get_film_url( string $imdb_id ): string {
-		return wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $imdb_id );
+	protected function get_film_url( string $imdb_id, string $title = '' ): string {
+		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(
+			'internal_with_spinner',
+			wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $imdb_id ),
+			$title,
+		);
 	}
 }

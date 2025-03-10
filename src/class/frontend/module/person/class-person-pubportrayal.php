@@ -18,7 +18,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Name;
 use Lumiere\Config\Get_Options_Person;
-use Lumiere\Config\Get_Options;
 
 /**
  * Method to display Pubportrayal for person
@@ -52,7 +51,7 @@ class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
-			$output .= "<a rel=\"nofollow\" class='lum_popup_internal_link lum_add_spinner' href='" . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $item_results[ $i ]['id'] ) ) . "'>" . $item_results[ $i ]['title'] . '</a>';
+			$output .= $this->link_maker->lumiere_link_popup_people( $item_results, $i );
 			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 0 ) {
 				$output .= ' (' . $item_results[ $i ]['year'] . ') ';
 			}
@@ -76,11 +75,7 @@ class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
-			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
-				'internal_with_spinner',
-				parent::get_film_url( strval( $item_results[ $i ]['id'] ) ),
-				$item_results[ $i ]['title'],
-			);
+			$output .= parent::get_film_url( strval( $item_results[ $i ]['id'] ), $item_results[ $i ]['title'] );
 			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 0 ) {
 				$output .= ' (' . $item_results[ $i ]['year'] . ') ';
 			}

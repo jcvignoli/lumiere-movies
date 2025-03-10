@@ -89,21 +89,14 @@ class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$output = $this->output_class->misc_layout(
-			'popup_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
-		);
+		$output = $this->output_class->misc_layout( 'popup_subtitle_item', ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) );
 
 		// Sort by column name the array of results.
 		$column_item_results = array_column( $item_results, 'name' );
 		array_multisort( $column_item_results, SORT_ASC, $item_results );
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
-				'internal_with_spinner',
-				parent::get_person_url( $item_results[ $i ]['imdb'] ),
-				$item_results[ $i ]['name'],
-			);
+			$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
@@ -127,26 +120,13 @@ class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 			return '';
 		}
 
-		$output = $this->output_class->misc_layout(
-			'popup_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
-		);
+		$output = $this->output_class->misc_layout( 'popup_subtitle_item', ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) );
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$output .= $this->output_class->misc_layout(
-				'two_columns_first',
-				$item_results[ $i ]['character'][0] ?? '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>'
-			);
+			$output .= $this->output_class->misc_layout( 'two_columns_first', $item_results[ $i ]['character'][0] ?? '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>' );
 
-			$output .= $this->output_class->misc_layout(
-				'two_columns_second',
-				"\n\t\t\t\t\t" . $this->output_class->get_link(
-					'internal_with_spinner',
-					parent::get_person_url( $item_results[ $i ]['imdb'] ),
-					$item_results[ $i ]['name'],
-				),
-			);
+			$output .= $this->output_class->misc_layout( 'two_columns_second', parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] ) );
 
 		}
 		return $output;
@@ -169,10 +149,7 @@ class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
-		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
-		);
+		$output = $this->output_class->misc_layout( 'frontend_subtitle_item', ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] ) );
 
 		for ( $i = 0; ( $i < $nb_total_items ) && ( $i < $admin_total_items ); $i++ ) {
 

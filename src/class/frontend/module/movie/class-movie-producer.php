@@ -112,11 +112,7 @@ class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 		array_multisort( $column_item_results, SORT_ASC, $item_results );
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
-				'internal_with_spinner',
-				parent::get_person_url( $item_results[ $i ]['imdb'] ),
-				$item_results[ $i ]['name'],
-			);
+			$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
 
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
@@ -141,26 +137,13 @@ class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 			return '';
 		}
 
-		$output = $this->output_class->misc_layout(
-			'popup_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
-		);
+		$output = $this->output_class->misc_layout( 'popup_subtitle_item', ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) );
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$output .= $this->output_class->misc_layout(
-				'two_columns_first',
-				"\n\t\t\t\t\t" . $this->output_class->get_link(
-					'internal_with_spinner',
-					parent::get_person_url( $item_results[ $i ]['imdb'] ),
-					$item_results[ $i ]['name'],
-				)
-			);
+			$output .= $this->output_class->misc_layout( 'two_columns_first', parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] ) );
 
-			$output .= $this->output_class->misc_layout(
-				'two_columns_second',
-				$item_results[ $i ]['jobs'][0] ?? ''
-			);
+			$output .= $this->output_class->misc_layout( 'two_columns_second', $item_results[ $i ]['jobs'][0] ?? '' );
 
 		}
 		return $output;

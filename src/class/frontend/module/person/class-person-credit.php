@@ -97,11 +97,7 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 		$output .= '(' . strval( $nb_total_items ) . ')'; // Show the total number found right after the title.
 
 		for ( $i = 0; $i < $nb_total_items; $i ++ ) {
-			$output .= "\n\t\t\t\t " . $this->output_class->get_link(
-				'internal_with_spinner',
-				parent::get_person_url( $item_results[ $sub_cat ][ $i ]['titleId'] ),
-				$item_results[ $sub_cat ][ $i ]['titleName'],
-			);
+			$output .= parent::get_person_url( $item_results[ $sub_cat ][ $i ]['titleId'], $item_results[ $sub_cat ][ $i ]['titleName'] );
 
 			if ( isset( $item_results[ $sub_cat ][ $i ]['year'] ) ) {
 				$output .= ' (' . strval( $item_results[ $sub_cat ][ $i ]['year'] ) . ')';

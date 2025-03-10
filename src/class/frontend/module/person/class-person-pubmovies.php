@@ -78,11 +78,7 @@ class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
-			$output .= "\n\t\t\t\t\t" . $this->output_class->get_link(
-				'internal_with_spinner',
-				parent::get_film_url( strval( $item_results[ $i ]['id'] ) ),
-				$item_results[ $i ]['title'],
-			);
+			$output .= parent::get_film_url( strval( $item_results[ $i ]['id'] ), $item_results[ $i ]['title'] );
 			if ( isset( $item_results[ $i ]['year'] ) && $item_results[ $i ]['year'] > 0 ) {
 				$output .= ' (' . intval( $item_results[ $i ]['year'] ) . ') ';
 			}

@@ -446,7 +446,7 @@ class Implement_Link_Maker {
 	 * @param array<int, string> $link_parsed html tags and text to be modified
 	 * @param null|string $popuplarg Modal window width, if nothing passed takes database value
 	 * @param null|string $popuplong Modal window height, if nothing passed takes database value
-	 * @param 0|1|2 $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
+	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
@@ -494,7 +494,7 @@ class Implement_Link_Maker {
 	 * @param string $imdbid The movie's imdb ID
 	 * @param null|string $popuplarg Modal window width, if nothing passed takes database value
 	 * @param null|string $popuplong Modal window height, if nothing passed takes database value
-	 * @param 0|1|2 $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
+	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
