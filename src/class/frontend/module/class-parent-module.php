@@ -43,10 +43,11 @@ class Parent_Module {
 		 * Get the properties and the linkmakers.
 		 */
 		$this->start_main_trait(); // In Trait Main.
+		$this->start_linkmaker();
 	}
 
 	/**
-	 * Build local link for person
+	 * Build internal link for person (no popup)
 	 * Add a nounce
 	 * Should be used in POPUPS
 	 * Caution: these links ARE NOT changed according to Linkmaker classes
@@ -62,7 +63,7 @@ class Parent_Module {
 	}
 
 	/**
-	 * Build local link for person
+	 * Build internal link for movies (no popup)
 	 * Add a nounce
 	 * Should be used in POPUPS
 	 * Caution: these links ARE NOT changed according to Linkmaker classes
@@ -78,7 +79,7 @@ class Parent_Module {
 	}
 
 	/**
-	 * Build local link for person, building a popup
+	 * Build Popup link for person
 	 * Should be used in FRONTEND, to get a popup link (if relevant according to the current Link_Maker used)
 	 * Add a nounce
 	 * These links ARE changed according to Linkmaker
@@ -90,14 +91,25 @@ class Parent_Module {
 	}
 
 	/**
-	 * Build local link for films, building a popup
+	 * Build Popup link for films using the imdb_id
 	 * Should be used in FRONTEND, to get a popup link (if relevant according to the current Link_Maker used)
 	 * Add a nounce
 	 * These links ARE changed according to Linkmaker
 	 * @param string $imdb_id The imdb id of the movie
-	 * @param string $title The person's name
+	 * @param string $title The movie's title
 	 */
-	protected function get_popup_film( string $imdb_id, string $title ): string {
-		return $this->link_maker->get_popup_film( $imdb_id, $title );
+	protected function get_popup_film_byid( string $imdb_id, string $title ): string {
+		return $this->link_maker->get_popup_film_id( $imdb_id, $title, '' /* specific extra class */ );
+	}
+
+	/**
+	 * Build Popup link for films using the movie's title
+	 * Should be used in FRONTEND, to get a popup link (if relevant according to the current Link_Maker used)
+	 * Add a nounce
+	 * These links ARE changed according to Linkmaker
+	 * @param string $title The movie's title
+	 */
+	protected function get_popup_film_bytitle( string $title ): string {
+		return $this->link_maker->get_popup_film_title( $title, '' /* specific extra class */ );
 	}
 }

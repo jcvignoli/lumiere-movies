@@ -54,25 +54,21 @@ interface Interface_Link_Maker {
 	public function get_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string;
 
 	/**
-	 * Inside a post Popup movie builder
-	 * Build an HTML link inside the posts to open a popup
+	 * Build a Popup movie link based on the title/name
 	 *
-	 * @param string $title_or_name Either the movie's title or person name found in inside the post
-	 * @param null|string $popuplarg -> window width, if nothing passed takes database value
-	 * @param null|string $popuplong -> window height, if nothing passed takes database value
+	 * @param string $title The movie's title
+	 * @param string $a_class A class to be added in popup building link, none by default
 	 */
-	public function replace_span_to_popup( string $title_or_name, ?string $popuplarg = null, ?string $popuplong = null ): string;
+	public function get_popup_film_title( string $title, string $a_class = '' ): string;
 
 	/**
-	 * Inside a post Popup film builder
-	 * Build an HTML link to open a popup for a movie inside the posts
+	 * Build a Popup movie link based on the title/name *ID*
 	 *
 	 * @param string $title The movie's title
 	 * @param string $imdbid The movie's imdbid
-	 * @param null|string $popuplarg -> window width, if nothing passed takes database value
-	 * @param null|string $popuplong -> window height, if nothing passed takes database value
+	 * @param string $a_class A class to be added in popup building link, none by default
 	 */
-	public function get_popup_film( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string;
+	public function get_popup_film_id( string $title, string $imdbid, string $a_class = '' ): string;
 
 	/**
 	 * Trailer data details

@@ -72,6 +72,7 @@ class Movie_Display {
 	) {
 		// Construct Frontend Main trait with options and links.
 		$this->start_main_trait();
+		$this->start_linkmaker();
 
 		/**
 		 * @psalm-suppress InvalidPropertyAssignmentValue
@@ -140,8 +141,7 @@ class Movie_Display {
 		$output = '';
 		foreach ( $movies_searched as $movie_found ) {
 			$this->logger->log->debug( "[Movie_Display] Displaying rows for *$movie_found*" );
-			$movie_factory_class = new Movie_Factory();
-			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, $movie_factory_class->factory_movie_items_methods( $movie_found ) );
+			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, ( new Movie_Factory() )->factory_movie_items_methods( $movie_found ) );
 		}
 		return $output;
 	}
@@ -355,7 +355,7 @@ class Movie_Display {
 	 */
 	private function lumiere_build_popup_link( array $correspondances ): string {
 		$result = isset( $correspondances[0] )
-			? str_replace( $correspondances[0], $this->link_maker->replace_span_to_popup( $correspondances[1] ), $correspondances[0] )
+			? str_replace( $correspondances[0], $this->link_maker->get_popup_film_title( $correspondances[1], 'lum_link_with_movie' /* the class that adds the movie ico */ ), $correspondances[0] )
 			: '';
 		return $result;
 	}

@@ -54,7 +54,7 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= "\n\t\t\t\t " . parent::get_popup_person( $item_results[ $sub_cat ][ $i ]['imdb'], $item_results[ $sub_cat ][ $i ]['name'] );
+			$output .= "\n\t\t\t\t " . parent::get_popup_film_byid( $item_results[ $sub_cat ][ $i ]['imdb'], $item_results[ $sub_cat ][ $i ]['name'] );
 
 			if ( isset( $item_results[ $sub_cat ][ $i ]['year'] ) ) {
 				$output .= ' (' . strval( $item_results[ $sub_cat ][ $i ]['year'] ) . ')';
@@ -100,7 +100,7 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 		for ( $i = 0; $i < $nb_total_items; $i ++ ) {
-			$output .= parent::get_person_url( $item_results[ $sub_cat ][ $i ]['titleId'], $item_results[ $sub_cat ][ $i ]['titleName'] );
+			$output .= parent::get_film_url( $item_results[ $sub_cat ][ $i ]['titleId'], $item_results[ $sub_cat ][ $i ]['titleName'] );
 
 			if ( isset( $item_results[ $sub_cat ][ $i ]['year'] ) ) {
 				$output .= ' (' . strval( $item_results[ $sub_cat ][ $i ]['year'] ) . ')';

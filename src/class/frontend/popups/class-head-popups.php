@@ -60,6 +60,7 @@ class Head_Popups {
 		 * Get the properties.
 		 */
 		$this->start_main_trait(); // In Trait Main.
+		$this->start_linkmaker();
 
 		// Is a popup or exit.
 		if ( $this->is_popup_page() === false ) { // In Trait Main.

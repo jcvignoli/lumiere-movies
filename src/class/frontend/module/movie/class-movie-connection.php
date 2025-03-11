@@ -69,7 +69,7 @@ class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 					$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_parent', $data_explain );
 				}
 
-				$content = parent::get_popup_film( $item_results[ $category ][ $i ]['titleName'], $item_results[ $category ][ $i ]['titleId'] );
+				$content = parent::get_popup_film_byid( $item_results[ $category ][ $i ]['titleName'], $item_results[ $category ][ $i ]['titleId'] );
 
 				$content .= isset( $item_results[ $category ][ $i ]['description'] ) ? ' (' . $item_results[ $category ][ $i ]['description'] . ')' : '';
 				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_content', $content );

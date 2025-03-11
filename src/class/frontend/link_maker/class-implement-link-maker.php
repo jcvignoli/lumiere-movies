@@ -22,6 +22,8 @@ use Lumiere\Config\Get_Options;
 
 /**
  * Defines methods utilised in Link Maker child classes
+ *
+ * @since 4.5 renamed methods to make them shorter and more meaningful
  */
 class Implement_Link_Maker {
 
@@ -58,13 +60,8 @@ class Implement_Link_Maker {
 		string $votes_txt,
 		int $with_imdb_element_rating
 	): string {
-
-		$output = "\n\t\t\t\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Rating', 'lumiere-movies' ) . ':</span>&nbsp;';
-
 		$find_showtimes_pic = round( $rating * 2, 0 ) / 0.2;
-		$output .= "\n\t\t\t\t" . '<img class="imdbelementRATING-picture" src="' . Get_Options::LUM_PICS_SHOWTIMES_URL . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
-
-		return $output;
+		return "\n\t\t\t\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Rating', 'lumiere-movies' ) . ':</span>&nbsp;' . "\n\t\t\t\t" . '<img class="imdbelementRATING-picture" src="' . Get_Options::LUM_PICS_SHOWTIMES_URL . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
 	}
 
 	/**
@@ -395,8 +392,7 @@ class Implement_Link_Maker {
 	}
 
 	/**
-	 * Inside a post Popup people builder
-	 * Build an HTML link to open a popup for a person inside the posts
+	 * Build a Popup person link based on the imdbid
 	 *
 	 * @param string $imdbid IMDB id
 	 * @param string $imdbname Name of the person
@@ -413,17 +409,19 @@ class Implement_Link_Maker {
 		}
 
 		// Building link.
-		$output = "\n\t\t\t\t\t" . '<a class="' . esc_attr( $specific_a_class ) . '"' . " id=\"link-$imdbid\""
+		$output = "\n\t\t\t\t\t" . '<a class="add_cursor ' . esc_attr( $specific_a_class ) . '"' . " id=\"link-$imdbid\""
 		. ' data-modal_window_nonce="' . wp_create_nonce() . '"'
 		. ' data-modal_window_people="' . esc_attr( $imdbid ) . '"'
 		// Data target is utilised by bootstrap only, but should be safe to keep it.
 		. ' data-target="#theModal' . esc_attr( $imdbid ) . '"'
-		/* Translators: &1s is a name, ie Stanley Kubrick */
-		. ' title="' . esc_attr( wp_sprintf( __( 'open a new window with IMDb informations for %1s', 'lumiere-movies' ), $imdbname ) ) . '"';
+		/* Translators: %1s is a name, ie Stanley Kubrick */
+		. ' title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), $imdbname ) ) . '"';
+
 		// AMP, build a HREF.
 		if ( intval( $window_type ) === 3 ) {
 			$output .= ' href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdbid ) ) . '"';
 		}
+
 		$output .= '>' . esc_html( $imdbname ) . '</a>';
 
 		// Modal bootstrap HTML part.
@@ -435,98 +433,73 @@ class Implement_Link_Maker {
 	}
 
 	/**
-	 * Inside a post Popup movie builder
-	 * Build an HTML link inside the posts to open a popup
-	 * Meant to be used when parsing into the post for movies
+	 * Build a Popup movie link based on the title
 	 *
-	 * @param string $title_or_name Either the movie's title or person name found in inside the post
-	 * @param null|string $popuplarg Modal window width, if nothing passed takes database value
-	 * @param null|string $popuplong Modal window height, if nothing passed takes database value
-	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
-	 * @param string $specific_class Extra class to be added in popup building link, none by default
+	 * @param string $title Either the movie's title or person name found in inside the post
+	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for AMP, 3 for no links
+	 * @param string $a_class Class to be added in popup building link, none by default
 	 *
 	 * @return string
-	 * @see \Lumiere\Frontend\Movie\Movie_Display::lumiere_build_popup_link() call this method
+	 * @see \Lumiere\Frontend\Movie\Movie_Display::lumiere_build_popup_link() uses this method
 	 */
-	protected function replace_span_to_popup_details( string $title_or_name, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
+	protected function get_popup_film_title_details( string $title, int $window_type, string $a_class = '' ): string {
 
-		$txt = '';
-		$title_san = esc_html( $title_or_name );
-
-		if ( $popuplarg !== null ) {
-			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
-		}
-
-		if ( $popuplong !== null ) {
-			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
-		}
-
-		// Highslide & Classic modal
+		// Highslide & Classic modal.
 		if ( $window_type === 0 ) {
+			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
-			$txt = '<a class="lum_link_with_movie" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . $title_san . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_san . '</a>';
-
-			// Bootstrap modal
+			// Bootstrap modal.
 		} elseif ( $window_type === 1 ) {
+			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>'
+			. $this->bootstrap_modal( sanitize_title( $title ), '' );
 
-			$txt = '<a class="lum_link_with_movie" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . $title_san . '" data-target="#theModal' . $title_san . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_san . '</a>'
-			. $this->bootstrap_modal( $title_san, '' );
-
-			// AMP & No Link modal
+			// AMP modal.
 		} elseif ( $window_type === 2 ) {
+			return '<a class="add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . sanitize_title( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
 
-			$txt = '<a class="lum_link_make_popup lum_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . $title_san ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_san . '</a>';
+			// No Link modal.
+		} elseif ( $window_type === 3 ) {
+			return esc_html( $title );
 
 		}
-
-		return $txt;
+		return '';
 	}
 
 	/**
-	 * Inside a post Popup film builder
-	 * Build an HTML link to open a popup for a movie inside the posts
+	 * Build a Popup movie link based on the title/name *ID*
 	 *
 	 * @param string $title The movie's title
 	 * @param string $imdbid The movie's imdb ID
-	 * @param null|string $popuplarg Modal window width, if nothing passed takes database value
-	 * @param null|string $popuplong Modal window height, if nothing passed takes database value
-	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
-	 * @param string $specific_class Extra class to be added in popup building link, none by default
-	 *
+	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for AMP, 3 for no links
+	 * @param string $a_class A class to be added in popup building link, none by default
 	 * @return string
+	 *
+	 * @see \Lumiere\Frontend\Module\Parent_Module::get_popup_film() uses this method
 	 */
-	protected function get_popup_film_details( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
-
-		$txt = '';
-
-		if ( $popuplarg !== null ) {
-			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
-		}
-
-		if ( $popuplong !== null ) {
-			$popuplong = $this->imdb_admin_values['imdbpopuplong'];
-		}
+	protected function get_popup_film_id_details( string $title, string $imdbid, int $window_type, string $a_class = '' ): string {
 
 		// Highslide & Classic modal
 		if ( $window_type === 0 ) {
+			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
-			$txt = '<a class="lum_link_with_movie_inbox" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
-
-			// Bootstrap modal
+			// Bootstrap modal.
 		} elseif ( $window_type === 1 ) {
+			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>' . $this->bootstrap_modal( esc_html( $imdbid ), '' );
 
-			$txt = '<a class="lum_link_with_movie_inbox" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . esc_attr( $title ) . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>'
-			. $this->bootstrap_modal( esc_html( $imdbid ), esc_html( $title ) );
-
-			// AMP & No Link modal
+			// AMP modal.
 		} elseif ( $window_type === 2 ) {
+			return '<a class="add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
 
-			$txt = '<a class="lum_link_make_popup lum_link_with_movie_inbox" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
+			// No Link modal.
+		} elseif ( $window_type === 3 ) {
+			return esc_html( $title );
 
 		}
-
-		return $txt;
-
+		return '';
 	}
 
 	/**
@@ -563,7 +536,7 @@ class Implement_Link_Maker {
 			return esc_attr( $name ) . '<br />';
 		}
 
-		$return = "\n\t\t\t" . '<div align="center" class="lumiere_container">'
+		$output = "\n\t\t\t" . '<div align="center" class="lumiere_container">'
 			. "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">'
 			. "\n\t\t\t\t\t<a href='" . esc_url( 'https://www.imdb.com/search/title/?companies=co' . $comp_id ) . "' title='" . esc_html( $name ) . "'>"
 			. esc_html( $name )
@@ -572,15 +545,15 @@ class Implement_Link_Maker {
 			. "\n\t\t\t\t" . '<div class="lumiere_align_right lumiere_flex_auto">';
 
 		if ( strlen( $notes ) !== 0 ) {
-			$return .= esc_html( $notes );
+			$output .= esc_html( $notes );
 		} else {
-			$return .= '&nbsp;';
+			$output .= '&nbsp;';
 		}
 
-		$return .= '</div>'
+		$output .= '</div>'
 			. "\n\t\t\t</div>";
 
-		return $return;
+		return $output;
 	}
 
 	/**
@@ -620,14 +593,14 @@ class Implement_Link_Maker {
 				. ' https://www.imdb.com/title/tt' . $mid;
 		}
 
-		$return = "\n\t\t\t" . '<img';
+		$output = "\n\t\t\t" . '<img';
 
 		// Add a class if requested, should be imdbelementSOURCE-picture, which breaks AMP
 		if ( $class !== null ) {
-			$return .= ' class="' . $class . '"';
+			$output .= ' class="' . $class . '"';
 		}
 
-		$return .= ' alt="link to imdb" width="33" height="15" src="'
+		$output .= ' alt="link to imdb" width="33" height="15" src="'
 			. esc_url( Get_Options::LUM_PICS_URL . '/imdb-link.png' ) . '" />'
 			. '<a class="lum_link_sourceimdb" title="'
 			. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
@@ -635,7 +608,6 @@ class Implement_Link_Maker {
 			. '&nbsp;&nbsp;'
 			. esc_html__( "IMDb's page for this movie", 'lumiere-movies' ) . '</a>';
 
-		return $return;
-
+		return $output;
 	}
 }

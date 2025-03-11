@@ -231,9 +231,9 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 				?>
 				/>
 
-				<div class="explain"><?php esc_html_e( 'Remove all links (popup and external ones) which are automatically added. Usefull for users who are not interested in popup function. Please note that it will remove every single HTML link as well, such as the the links to the official IMDb website.', 'lumiere-movies' );
-				echo ' ';
-				esc_html_e( 'Please also note that specific links such as those to taxonomy pages and inside the post will be kept.', 'lumiere-movies' ); ?><br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
+				<div class="explain"><?php esc_html_e( 'Remove all links added by Lumière except those for taxonomy. This option will remove every single HTML displayed in widget and into the post. Usefull for users who are not interested in popup function, but want to keep information displayed in a widget or inside the.', 'lumiere-movies' );
+				?>
+				<br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 
 			</div>
 

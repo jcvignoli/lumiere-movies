@@ -83,24 +83,24 @@ class Classic_Links extends Implement_Link_Maker implements Interface_Link_Maker
 	 * @inheritdoc
 	 */
 	public function get_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string {
-		// Function in abstract class.
+		// Function in implementation class.
 		return parent::get_medaillon_bio_details( $bio_array, 0, $limit_text_bio );
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function replace_span_to_popup( string $title_or_name, ?string $popuplarg = null, ?string $popuplong = null ): string {
-		// Function in abstract class, fourth param for bootstrap.
-		return parent::replace_span_to_popup_details( $title_or_name, $popuplarg, $popuplong );
+	public function get_popup_film_title( string $title, string $a_class = '' ): string {
+		// Function in abstract class, second param for classic links.
+		return parent::get_popup_film_title_details( $title, 0, $a_class );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function get_popup_film( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string {
-		// Function in abstract class, fifth param for bootstrap.
-		return parent::get_popup_film_details( $title, $imdbid, $popuplarg, $popuplong );
+	public function get_popup_film_id( string $title, string $imdbid, string $a_class = '' ): string {
+		// Function in abstract class, third param for classic links.
+		return parent::get_popup_film_id_details( $title, $imdbid, 0, $a_class );
 	}
 
 	/**

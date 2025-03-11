@@ -58,15 +58,19 @@ trait Main {
 	 * @param null|string $logger_name Title for the logger output
 	 */
 	public function start_main_trait( ?string $logger_name = null ): void {
-
 		// Get global settings class properties.
 		$this->get_db_options(); // In Open_Options trait.
 
 		// Start Logger class, if no name was passed build it with method get_current_classname().
 		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ) );
+	}
 
+	/**
+	 * Start the Link_Maker through Link_Factory, send everything to a property
+	 */
+	public function start_linkmaker(): void {
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
-		$this->link_maker = Link_Factory::select_link_type();
+		$this->link_maker = Link_Factory::select_link_type( $this->imdb_admin_values );
 	}
 
 	/**

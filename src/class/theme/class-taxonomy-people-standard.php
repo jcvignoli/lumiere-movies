@@ -81,6 +81,7 @@ class Taxonomy_People_Standard {
 
 		// Get options, settings, links from Frontend trait.
 		$this->start_main_trait();
+		$this->start_linkmaker();
 
 		// Full taxonomy title.
 		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';

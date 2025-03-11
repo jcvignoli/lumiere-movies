@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.2.4
+ * Version: 3.2.5
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package lumiere-movies
@@ -123,7 +123,6 @@ class Taxonomy_Items_Standard {
 
 		get_header();
 
-		$this->logger->log->debug( '[Taxonomy_Items_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
 		$this->logger->log->debug( '[Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
@@ -231,7 +230,6 @@ class Taxonomy_Items_Standard {
 		<?php block_header_area(); ?>
 		</header>
 		<?php
-		$this->logger->log->debug( '[Taxonomy_Items_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
 		$this->logger->log->debug( '[Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
