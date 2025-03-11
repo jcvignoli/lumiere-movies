@@ -54,14 +54,6 @@ interface Interface_Link_Maker {
 	public function get_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string;
 
 	/**
-	 * Convert an IMDb url into an internal link for People and Movies
-	 * Meant to be used inside popups (not in posts or widgets)
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into an internal link
-	 */
-	public function lumiere_imdburl_to_internalurl( string $text ): string;
-
-	/**
 	 * Inside a post Popup movie builder
 	 * Build an HTML link inside the posts to open a popup
 	 *

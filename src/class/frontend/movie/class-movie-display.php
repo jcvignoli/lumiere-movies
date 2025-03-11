@@ -17,6 +17,9 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Frontend\Movie\Movie_Factory;
+use Lumiere\Frontend\Layout\Output;
+use Lumiere\Plugins\Plugins_Start;
+use Lumiere\Frontend\Main;
 
 /**
  * Main class display items (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::movies_autorized_areas()}
@@ -24,11 +27,15 @@ use Lumiere\Frontend\Movie\Movie_Factory;
  * It uses ImdbPHP Classes to display movies/people items
  * Plugins are loaded with imdbphp
  *
- * @since 4.4 Child class of Movie_Factory
- *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
+ * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
-class Movie_Display extends Movie_Factory {
+class Movie_Display {
 
 	/**
 	 * Singleton: Make sure events are runned once in this class
@@ -42,6 +49,36 @@ class Movie_Display extends Movie_Factory {
 	 * Static public property meant to be called from another class
 	 */
 	public static int $nb_of_movies = 0;
+
+	/**
+	 * Traits
+	 */
+	use Main;
+
+	/**
+	 * Lumière plugins started
+	 *
+	 * @var array<string, object>
+	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS?: PLUGINS_AUTO_CLASSES}
+	 */
+	protected array $plugins_classes_active;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(
+		protected Plugins_Start $plugins = new Plugins_Start( [ 'imdbphp' ] ),
+		protected Output $output_class = new Output(),
+	) {
+		// Construct Frontend Main trait with options and links.
+		$this->start_main_trait();
+
+		/**
+		 * @psalm-suppress InvalidPropertyAssignmentValue
+		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp' => find better notation)
+		 */
+		$this->plugins_classes_active = $this->plugins->plugins_classes_active;
+	}
 
 	/**
 	 * Run the movies
@@ -103,7 +140,8 @@ class Movie_Display extends Movie_Factory {
 		$output = '';
 		foreach ( $movies_searched as $movie_found ) {
 			$this->logger->log->debug( "[Movie_Display] Displaying rows for *$movie_found*" );
-			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, parent::factory_items_methods( $movie_found ) );
+			$movie_factory_class = new Movie_Factory();
+			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, $movie_factory_class->factory_movie_items_methods( $movie_found ) );
 		}
 		return $output;
 	}

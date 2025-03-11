@@ -98,7 +98,7 @@ var paths = {
 		dist: './dist'
 	},
 	files: {
-		src: [	'./src/**/*.{php,html,htm,ico,webmanifest,md,txt,json}', 
+		src: [	'./src/**/*.{php,html,htm,xml,ico,webmanifest,md,txt,json}', 
 			'./src/vendor/twbs/bootstrap/dist/**/*.{min.js,min.css}', 
 
 			/* Remove irrelevant files in src/vendor */ 

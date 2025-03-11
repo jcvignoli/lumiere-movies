@@ -18,10 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Title;
 use Lumiere\Config\Get_Options;
-use Lumiere\Frontend\Main;
-use Lumiere\Frontend\Layout\Output;
-use Lumiere\Plugins\Plugins_Start;
-use Exception;
+use Lumiere\Frontend\Movie\Movie_Display;
 
 /**
  * Those methods are utilised by class Movie to display the sections
@@ -32,44 +29,9 @@ use Exception;
  * It is extended by Movie_Display, child class
  *
  * @since 4.0 new class, methods were extracted from Movie_Display class
- * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @since 4.5 using now modules through a factory design
  */
-class Movie_Factory {
-
-	/**
-	 * Traits
-	 */
-	use Main;
-
-	/**
-	 * Lumière plugins started
-	 *
-	 * @var array<string, object>
-	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS?: PLUGINS_AUTO_CLASSES}
-	 */
-	protected array $plugins_classes_active;
-
-	/**
-	 * Constructor
-	 */
-	public function __construct(
-		protected Plugins_Start $plugins = new Plugins_Start( [ 'imdbphp' ] ),
-		protected Output $output_class = new Output(),
-	) {
-		// Construct Frontend Main trait with options and links.
-		$this->start_main_trait();
-
-		/**
-		 * @psalm-suppress InvalidPropertyAssignmentValue
-		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp' => find better notation)
-		 */
-		$this->plugins_classes_active = $this->plugins->plugins_classes_active;
-	}
+class Movie_Factory extends Movie_Display {
 
 	/**
 	 * Build the methods to be called in class Movie_Factory
@@ -77,7 +39,7 @@ class Movie_Factory {
 	 *
 	 * @param string $mid_premier_resultat IMDb ID, not as int since it loses its heading 0s
 	 */
-	protected function factory_items_methods( string $mid_premier_resultat ): string {
+	public function factory_movie_items_methods( string $mid_premier_resultat ): string {
 
 		$outputfinal = '';
 
@@ -103,7 +65,7 @@ class Movie_Factory {
 
 				// Get files in module, wrapping it
 				$outputfinal .= $this->output_class->front_item_wrapper(
-					$this->get_module( $movie_object, $data_detail ),
+					$this->get_module_movie( $movie_object, $data_detail ),
 					$data_detail,
 					$this->imdb_admin_values
 				);
@@ -113,13 +75,12 @@ class Movie_Factory {
 	}
 
 	/**
-	 * Get modules in module folder
+	 * Get movies modules in module folder
 	 *
 	 * @param Title $movie_object IMDbPHP title class
 	 * @param string $item_name The name of the item
-	 * @throws Exception
 	 */
-	protected function get_module( Title $movie_object, string $item_name ): string {
+	private function get_module_movie( Title $movie_object, string $item_name ): string {
 
 		/** @psalm-suppress RedundantFunctionCallGivenDocblockType */
 		$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( strtolower( $item_name ) ); // strtolower to avoid camelCase names.

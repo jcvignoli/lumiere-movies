@@ -181,18 +181,20 @@ class Implement_Link_Maker {
 		$bio_text = isset( $bio_array[0]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio_array[0]['desc'] ) ) : '';
 
 		// Medaillon is displayed in a popup person page, build internal URL.
+		/**
+		 * @deprecated, biography doesn't include links anymore
 		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'person' ) ) && strlen( $bio_text ) > 0 ) {
-			$bio_text = $this->lumiere_imdburl_to_internalurl_details( $bio_text );
+			$bio_text = $this->convert_imdburl_to_internalurl( $bio_text );
 
 			// This is a taxonomy page, build popup URL.
 		} elseif ( is_tax() && strlen( $bio_text ) > 0 ) {
-			$bio_text = $this->lumiere_imdburl_of_taxonomy_details( $bio_text );
+			$bio_text = $this->convert_imdburl_to_taxonomy( $bio_text );
 		}
 
 		// No Links class, exit before building clickable biography, show everything at once
 		if ( $window_type === 1 ) {
 			return $bio_head . "\n\t\t\t" . $bio_text;
-		}
+		}*/
 
 		/**
 		 * HTML tags break for 'read more' cutting.
@@ -241,9 +243,10 @@ class Implement_Link_Maker {
 	 *
 	 * @return string
 	 *
-	 * @obsolete No more in use, was utilised to parse things like trivia, trademarks, etc, that don't included imdb links anymore
+	 * @see Implement_Link_Maker::get_medaillon_bio_details() used only there!
+	 * @deprecated No more in use, was utilised to parse things like trivia, trademarks, etc, that don't included imdb links anymore
 	 */
-	protected function lumiere_imdburl_to_internalurl_details( string $text, int $window_type = 0 ): string {
+	/*private function convert_imdburl_to_internalurl( string $text, int $window_type = 0 ): string {
 
 		$internal_link_person = '';
 		$internal_link_movie = '';
@@ -270,7 +273,7 @@ class Implement_Link_Maker {
 
 		return $output_two;
 
-	}
+	}*/
 
 	/**
 	 * Convert an IMDb url into a popup link for People and Movies in Taxonomy pages
@@ -281,9 +284,9 @@ class Implement_Link_Maker {
 	 *
 	 * @return string
 	 * @see Implement_Link_Maker::get_medaillon_bio_details() used only there!
-	 * @obsolete, medaillon text doesn't include links anymore, remove it
+	 * @deprecated, medaillon text doesn't include links anymore, remove it
 	 */
-	private function lumiere_imdburl_of_taxonomy_details( string $text, int $window_type = 0, string $specific_class = '' ): string {
+	/*private function convert_imdburl_to_taxonomy( string $text, int $window_type = 0, string $specific_class = '' ): string {
 
 		$popup_link_person = '';
 		$popup_link_movie = '';
@@ -319,7 +322,7 @@ class Implement_Link_Maker {
 		$output_two = preg_replace( $rule_title, $popup_link_movie, $output_one ) ?? $text;
 
 		return $output_two;
-	}
+	}*/
 
 	/**
 	 * Build bootstrap HTML part
