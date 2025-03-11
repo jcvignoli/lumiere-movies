@@ -52,15 +52,19 @@ class PopupsBootstrapCest {
 
 		$I->comment('-> Check if popup movie can be open');
 		$I->amOnPage('/en/2021/test-codeception/');
+		$I->waitPageLoad();
+		
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
-		$I->wait(4);
-
+		$I->wait(2);
+		
 		$I->seeElement('object', ["name" => "interstellar"]);
 		$I->switchToFrame( $xpath );
 		$I->see( 'Mankind was born on Earth');
 		
 		// Test click to go to another popup
 		$I->click( AcceptanceSettings::TESTING_PAGE_BASE_A_DIRECTOR );
+		
+		$I->scrollTo('.lumiere_width_20_perc');
 		$I->waitForText( 'Best known for his cerebral, often nonlinea', 15 ); // wait up to 15 seconds
 	}
 

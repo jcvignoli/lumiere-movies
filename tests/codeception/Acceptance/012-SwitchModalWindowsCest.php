@@ -41,7 +41,8 @@ class ModalWindowsCest {
 		// Switch To Highslide
 		$I->comment(Helper\Color::set('Check if Highslide modal window works', "italic+bold+cyan"));
 		$I->SwitchModalWindow('Highslide');
-
+		$I->waitPageLoad();
+		
 		// Make sure a term for English taxo exists
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 
@@ -50,8 +51,8 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_style_main-css"); 	
 		$I->seeInPageSource("lumiere_highslide_core-js");
 		$I->seeInPageSource("lumiere_highslide_options-js");
-		$I->seeInPageSource('<a class="lum_link_make_popup lum_link_with_people highslide" id="link-0227759" data-modal_window_nonce="' );
-		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a>' );
+		$I->seeInPageSource('<a class="add_cursor lum_link_make_popup lum_link_with_people highslide" id="link-0227759" data-modal_window_nonce="' );
+		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="Open a new window with IMDb informations for Peter Dinklage">Peter Dinklage</a>' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource("lumiere_highslide_core_style-css");
 		$I->seeInPageSource("lumiere_style_main-css"); 	
@@ -65,16 +66,17 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_highslide_options-js");
 
 		$I->seeInPageSource( 'Ellen Burstyn</a>, 
-					<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468' );
+						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468' );
 
 		// Switch To Bootstrap
 		$I->comment(Helper\Color::set('Check if Bootstrap modal window works', "italic+bold+cyan"));
 		$I->SwitchModalWindow('Bootstrap');
-
+		$I->waitPageLoad();
+		
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );# Check regular page
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");		
-		$I->seeInPageSource( '<a class="lum_link_make_popup lum_link_with_people" id="link-0227759" data-modal_window_nonce="' );
-		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a>
+		$I->seeInPageSource( '<a class="add_cursor lum_link_make_popup lum_link_with_people" id="link-0227759" data-modal_window_nonce="' );
+		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="Open a new window with IMDb informations for Peter Dinklage">Peter Dinklage</a>
 			<span class="modal fade" id="theModal0227759">');
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");			
@@ -89,11 +91,11 @@ class ModalWindowsCest {
 		// Switch To Classic modal
 		$I->comment(Helper\Color::set('Check if Classic modal window works', "italic+bold+cyan"));
 		$I->SwitchModalWindow('Classic');
-
+		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );# Check regular page
 		$I->seeInPageSource("lumiere_classic_links-js");		
-		$I->seeInPageSource( '<a class="lum_link_make_popup lum_link_with_people" id="link-0227759" data-modal_window_nonce="' );
-		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations">Peter Dinklage</a>');
+		$I->seeInPageSource( '<a class="add_cursor lum_link_make_popup lum_link_with_people" id="link-0227759" data-modal_window_nonce="' );
+		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="Open a new window with IMDb informations for Peter Dinklage">Peter Dinklage</a>');
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource("lumiere_classic_links-js");
 		$I->seeInPageSource("lumiere_style_main-css"); 			
@@ -102,7 +104,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_classic_links-js");			
 		$I->seeInPageSource("lumiere_style_main-css"); 			
 		$I->seeInPageSource('Ellen Burstyn</a>, 
-					<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468');
+						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468');
 
 		// Check AMP
 		$I->comment(Helper\Color::set('Check if AMP class works', "italic+bold+cyan"));
@@ -110,8 +112,8 @@ class ModalWindowsCest {
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL . '?amp' );# Check regular page
 		$I->waitForText( 'test codeception', 15 ); // wait up to 15 seconds
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
-		$I->seeInPageSource('<a class="lum_link_no_popup" id="link-0227759" data-modal_window_nonce="');
-		$I->seeInPageSource('data-modal_window_people="0227759" data-target="#theModal0227759" title="open a new window with IMDb informations" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=0227759&amp;');
+		$I->seeInPageSource('<a class="add_cursor lum_link_no_popup" id="link-0227759" data-modal_window_nonce="');
+		$I->seeInPageSource('data-modal_window_people="0227759" data-target="#theModal0227759" title="Open a new window with IMDb informations for Peter Dinklage" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=0227759&amp;');
 		$I->seeInPageSource( '&amp;amp">Peter Dinklage</a>');
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL . '?amp' );# Check taxonomy page
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
@@ -119,14 +121,15 @@ class ModalWindowsCest {
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL . '&amp' );# Check popup movie
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");	
 		$I->seeInPageSource('Ellen Burstyn</a>, 
-					<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468');
+						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468');
 
 		// Check NoLinks class
 		$I->comment(Helper\Color::set('Check if No Links works', "italic+bold+cyan"));
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#behaviourpart');
 		$I->CustomActivateCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
-
+		$I->waitPageLoad();
+		
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL ); // Check regular page
 		$I->dontSeeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");
 		$I->dontSeeInPageSource("lumiere_classic_links-js");		
@@ -151,7 +154,7 @@ class ModalWindowsCest {
 		$I->dontSeeInPageSource("lumiere_highslide_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_options-js");
 		$I->seeInPageSource('Ellen Burstyn</a>, 
-					<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468'); // There are links in no class popups
+						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468'); // There are links in no class popups
 
 		// End, Switch back To Highslide, remove kill imdb links
 		$I->SwitchModalWindow('Highslide');

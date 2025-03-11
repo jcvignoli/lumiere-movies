@@ -62,9 +62,9 @@ class StylesScriptsHighslideCest {
 		// Disable classic-editor so we can test Blocks editor
 		$I->comment(Helper\Color::set('Disable classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
 		$I->amOnPluginsPage();
-		$I->wait(1);
+		$I->waitPageLoad();
 		$I->maybeDeactivatePlugin('classic-editor');
-		$I->wait(1);
+		$I->waitPageLoad();
 
 		// Check Lumière (Gutenberg) Block Editor page
 		$I->comment(Helper\Color::set('Check Lumière (Gutenberg) Block Editor page', 'italic+bold+cyan'));
@@ -85,9 +85,9 @@ class StylesScriptsHighslideCest {
 		// Activate classic-editor so we can test Classic editor
 		$I->comment(Helper\Color::set('Activate classic-editor plugin so we can test Blocks editor', 'italic+bold+cyan'));
 		$I->amOnPluginsPage();
-		$I->wait(1);
+		$I->waitPageLoad();
 		$I->maybeActivatePlugin('classic-editor');
-		$I->wait(1);
+		$I->waitPageLoad();
 
 		// Check Lumière Classic Editor page (with Classic Editor plugin)
 		$I->comment(Helper\Color::set('Check Lumière Classic Editor page (with Classic Editor plugin)', 'italic+bold+cyan'));
@@ -113,6 +113,7 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(Helper\Color::set('Checking normal page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_highslide_core_style-css");	# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
@@ -125,6 +126,7 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(Helper\Color::set('Checking taxonomy page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );
+		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere_highslide_core_style-css"); 	# Highslide CSS
 		$I->seeInPageSource("lumiere_style_main-css"); 			# Lumière main css
 		$I->seeInPageSource("lumiere_highslide_core-js");		# Highslide JS
@@ -136,6 +138,7 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(Helper\Color::set('Checking Popup person page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_PERSON_URL );
+		$I->waitPageLoad();
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	# Lumière favicon 16
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-32x32.png"); 	# Lumière favicon 32
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/apple-touch-icon.png"); # Lumière favicon Apple
@@ -158,6 +161,7 @@ class StylesScriptsHighslideCest {
 
 		$I->comment(Helper\Color::set('Checking Popup movie page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );
+		$I->waitPageLoad();
 		$I->seeInPageSource("canonical");						# Meta tag
 		$I->seeInPageSource("article:tag");					 	# Meta tag
 		$I->seeInPageSource("lumiere-movies/assets/pics/favicon/favicon-16x16.png");	# Lumière favicon 16
@@ -192,7 +196,8 @@ class StylesScriptsHighslideCest {
 		$I->comment(Helper\Color::set('Change layout', 'italic+bold+cyan'));
 
 		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
-
+		$I->waitPageLoad();
+		
 		// Try with selection black
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "black");
@@ -200,16 +205,19 @@ class StylesScriptsHighslideCest {
 		$I->comment(Helper\Color::set('[Action] Selection has been switched to "black"', 'italic+bold+cyan'));
 
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->waitPageLoad();
 		$I->seeInPageSource("lum_results_frame_black");		// CSS for black layout.
 
 		// Try with selection grey (default)
 		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
+		$I->waitPageLoad();
 		$I->scrollTo('#plainpages');
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "grey");
 		$I->click('#lumiere_update_main_settings');
 		$I->comment(Helper\Color::set('[Action] Selection has been switched to "grey"', 'italic+bold+cyan'));
 	
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->waitPageLoad();
 		$I->seeInPageSource("lum_results_frame_grey");		// CSS for grey layout (default).
 
 	}

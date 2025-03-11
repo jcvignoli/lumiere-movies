@@ -50,6 +50,7 @@ class SearchCest {
 		$I->amOnPage( "/wp-admin/lumiere/search/" );
 		$I->fillField( '#moviesearched', '2001' );
 		$I->click( 'Search' );
+		$I->waitPageLoad();
 
 		// Check if search function is working
 		$I->seeInCurrentUrl( "/wp-admin/lumiere/search/?moviesearched=2001" );
@@ -81,7 +82,7 @@ class SearchCest {
 		$I->scrollTo( '#lum_form_type_query' );
 		
 		$I->click( 'a[data-lumiere_admin_search_popup="noInfoNeeded"]' );
-		$I->wait(5);
+		$I->waitPageLoad();
 
 		// Search in the window
 		$I->executeInSelenium(function (\Facebook\WebDriver\Remote\RemoteWebDriver $webdriver) {
@@ -94,6 +95,7 @@ class SearchCest {
 		$I->scrollTo('#moviesearched');
 		$I->fillField( '#moviesearched', '2001' );
 		$I->click( 'Search' );
+		$I->waitPageLoad();
 		$I->see( '2001: A Space Odyssey (1968)' );
 		$I->see( '0062622' );
 

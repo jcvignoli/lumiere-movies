@@ -52,6 +52,7 @@ class WidgetCest {
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
+		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE ); // I see the title that needs auto widget
 		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_NOAUTOTITLE ); // I see the title that doesn't need auto widget
@@ -63,6 +64,7 @@ class WidgetCest {
 			Avoid throwing error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
+		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->dontSeeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE ); // I don't see the title that needs auto widget
 		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_NOAUTOTITLE ); // I still see the title that doesn't need auto widget
@@ -85,16 +87,19 @@ class WidgetCest {
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdblinkingkill');
 		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
-			
+		$I->waitPageLoad();
+		
 		// Set auto title widget exclusion in a post and verify if the post doesn't contain it.
 		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
 		$I->CustomActivateCheckbox('#lumiere_autotitlewidget_perpost', 'input[id=publish]' );
+		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->dontSeeInSource( 'Alfonso Cuarón' );
 
 		// Remove auto title widget exclusion in a post and verify if the post doesn't contain it.
 		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
 		$I->CustomDisableCheckbox('#lumiere_autotitlewidget_perpost', 'input[id=publish]' );
+		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->scrollTo( ".lum_results_section_subtitle" );
 		$I->SeeInSource( 'Alfonso Cuarón' );
