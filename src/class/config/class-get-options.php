@@ -184,7 +184,7 @@ class Get_Options extends Settings {
 	/**
 	 * Get all categories of trivias
 	 *
-	 * @since 4.4.3 method added
+	 * @since 4.5 method added
 	 * @return array<string, string>
 	 */
 	public static function get_list_trivia_cat(): array {

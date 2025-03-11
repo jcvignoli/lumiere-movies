@@ -24,7 +24,7 @@ use Lumiere\Frontend\Main;
  * Simplify coding, using most usefull classes
  * @see \Lumiere\Frontend\Movie\Movie_Taxonomy extra class is only used in modules that need it
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Parent_Module {
 
@@ -48,9 +48,9 @@ class Parent_Module {
 	/**
 	 * Build local link for person
 	 * Add a nounce
-	 * Caution: these links are not changed according to Linkmaker
-	 * @TODO: all link_maker->popup_internal_link methods should come here, then Link_Maker should be rewritten to take imdb_id and name
-	 * @param string $imdb_id The imdb id that get afer the mid
+	 * Should be used in POPUPS
+	 * Caution: these links ARE NOT changed according to Linkmaker classes
+	 * @param string $imdb_id The imdb id of the person
 	 * @param string $name The person's name
 	 */
 	protected function get_person_url( string $imdb_id, string $name = '' ): string {
@@ -64,9 +64,9 @@ class Parent_Module {
 	/**
 	 * Build local link for person
 	 * Add a nounce
-	 * Caution: these links are not changed according to Linkmaker
-	 * @TODO: all link_maker->popup_internal_link methods should come here, then Link_Maker should be rewritten to take imdb_id and title
-	 * @param string $imdb_id The imdb id that get afer the mid
+	 * Should be used in POPUPS
+	 * Caution: these links ARE NOT changed according to Linkmaker classes
+	 * @param string $imdb_id The imdb id of the movie
 	 * @param string $title The movie's title
 	 */
 	protected function get_film_url( string $imdb_id, string $title = '' ): string {
@@ -75,5 +75,29 @@ class Parent_Module {
 			wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $imdb_id ),
 			$title,
 		);
+	}
+
+	/**
+	 * Build local link for person, building a popup
+	 * Should be used in FRONTEND, to get a popup link (if relevant according to the current Link_Maker used)
+	 * Add a nounce
+	 * These links ARE changed according to Linkmaker
+	 * @param string $imdb_id The imdb id of the person
+	 * @param string $name The person's name
+	 */
+	protected function get_popup_person( string $imdb_id, string $name ): string {
+		return $this->link_maker->get_popup_people( $imdb_id, $name );
+	}
+
+	/**
+	 * Build local link for films, building a popup
+	 * Should be used in FRONTEND, to get a popup link (if relevant according to the current Link_Maker used)
+	 * Add a nounce
+	 * These links ARE changed according to Linkmaker
+	 * @param string $imdb_id The imdb id of the movie
+	 * @param string $title The person's name
+	 */
+	protected function get_popup_film( string $imdb_id, string $title ): string {
+		return $this->link_maker->get_popup_film( $imdb_id, $title );
 	}
 }

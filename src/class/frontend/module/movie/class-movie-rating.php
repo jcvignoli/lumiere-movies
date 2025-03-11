@@ -22,7 +22,7 @@ use Imdb\Title;
  * Method to display Rating for movies
  * Uses Link_Maker class
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Rating extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -45,7 +45,7 @@ class Movie_Rating extends \Lumiere\Frontend\Module\Parent_Module {
 			return $this->get_module_popup( $votes_sanitized, $rating_sanitized );
 		}
 
-		return $this->link_maker->lumiere_movies_rating_picture( // From trait Main.
+		return $this->link_maker->get_rating_picture( // From trait Main.
 			$rating_sanitized,
 			$votes_sanitized,
 			__( 'vote average', 'lumiere-movies' ),
@@ -63,7 +63,7 @@ class Movie_Rating extends \Lumiere\Frontend\Module\Parent_Module {
 	 */
 	public function get_module_popup( int $votes_sanitized, int $rating_sanitized ): string {
 
-		return $this->link_maker->lumiere_movies_rating_picture( // From trait Main.
+		return $this->link_maker->get_rating_picture( // From trait Main.
 			$rating_sanitized,
 			$votes_sanitized,
 			__( 'vote average', 'lumiere-movies' ),

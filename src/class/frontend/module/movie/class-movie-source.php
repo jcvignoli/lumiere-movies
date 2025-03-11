@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Method to display Source for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Source extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -49,7 +49,7 @@ class Movie_Source extends \Lumiere\Frontend\Module\Parent_Module {
 			ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		);
 
-		$output .= $this->link_maker->lumiere_movies_source_details( $get_mid );
+		$output .= $this->link_maker->get_source( $get_mid );
 
 		return $output;
 	}
@@ -72,7 +72,7 @@ class Movie_Source extends \Lumiere\Frontend\Module\Parent_Module {
 			ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		);
 
-		$output .= $this->link_maker->lumiere_movies_source_details( $get_mid );
+		$output .= $this->link_maker->get_source( $get_mid );
 
 		return $output;
 	}

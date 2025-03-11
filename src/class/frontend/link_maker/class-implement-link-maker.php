@@ -21,8 +21,7 @@ use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
 
 /**
- * Defines abstract functions utilised in Link Maker classes
- * Includes protected functions utilised in Link Maker classes for code reuse
+ * Defines methods utilised in Link Maker child classes
  */
 class Implement_Link_Maker {
 
@@ -51,7 +50,7 @@ class Implement_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function lumiere_movies_rating_picture_abstract(
+	protected function get_rating_picture_details(
 		int $rating,
 		int $votes,
 		string $votes_average_txt,
@@ -80,7 +79,7 @@ class Implement_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function lumiere_link_picture_abstract (
+	protected function get_picture_details(
 		string|bool $photo_big_cover,
 		string|bool $photo_thumb,
 		string $title_text,
@@ -164,7 +163,7 @@ class Implement_Link_Maker {
 	 *
 	 * @since 4.1 added $limit_text_bio param
 	 */
-	protected function lumiere_medaillon_bio_abstract( array $bio_array, int $window_type = 0, int $limit_text_bio = 0 ): string {
+	protected function get_medaillon_bio_details( array $bio_array, int $window_type = 0, int $limit_text_bio = 0 ): string {
 
 		if ( count( $bio_array ) === 0 ) {
 			return "\n\t\t\t" . '<span class="lum_results_section_subtitle lumiere_font_small">' . esc_html__( 'No biography available', 'lumiere-movies' ) . '</span>';
@@ -183,11 +182,11 @@ class Implement_Link_Maker {
 
 		// Medaillon is displayed in a popup person page, build internal URL.
 		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'person' ) ) && strlen( $bio_text ) > 0 ) {
-			$bio_text = $this->lumiere_imdburl_to_internalurl_abstract( $bio_text );
+			$bio_text = $this->lumiere_imdburl_to_internalurl_details( $bio_text );
 
 			// This is a taxonomy page, build popup URL.
 		} elseif ( is_tax() && strlen( $bio_text ) > 0 ) {
-			$bio_text = $this->lumiere_imdburl_of_taxonomy_abstract( $bio_text );
+			$bio_text = $this->lumiere_imdburl_of_taxonomy_details( $bio_text );
 		}
 
 		// No Links class, exit before building clickable biography, show everything at once
@@ -244,7 +243,7 @@ class Implement_Link_Maker {
 	 *
 	 * @obsolete No more in use, was utilised to parse things like trivia, trademarks, etc, that don't included imdb links anymore
 	 */
-	protected function lumiere_imdburl_to_internalurl_abstract( string $text, int $window_type = 0 ): string {
+	protected function lumiere_imdburl_to_internalurl_details( string $text, int $window_type = 0 ): string {
 
 		$internal_link_person = '';
 		$internal_link_movie = '';
@@ -281,8 +280,9 @@ class Implement_Link_Maker {
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
+	 * @obsolete not in use anymore as of 4 something, to be deleted at some point in the future
 	 */
-	protected function lumiere_imdburl_of_taxonomy_abstract( string $text, int $window_type = 0, string $specific_class = '' ): string {
+	protected function lumiere_imdburl_of_taxonomy_details( string $text, int $window_type = 0, string $specific_class = '' ): string {
 
 		$popup_link_person = '';
 		$popup_link_movie = '';
@@ -321,20 +321,6 @@ class Implement_Link_Maker {
 	}
 
 	/**
-	 * Convert an IMDb source url of posts -- basically, no URL
-	 *
-	 * @param string $text_url The internal URL
-	 * @param string $text_name The author name
-	 * @param 0|1|2|3 $window_type Define the window_type: 0 for classic links (default), 1 regular popups, 2 for no links, 3 for bootstrap
-	 * @param string $specific_class Extra class to be added in popup building link, none by default
-	 *
-	 * @return string
-	 */
-	protected function lumiere_imdburl_of_soundtrack_abstract( string $text_url, string $text_name, int $window_type = 0, string $specific_class = '' ): string {
-		return $this->lumiere_link_popup_people_abstract( $text_url, $text_name, $window_type, 'lum_link_make_popup lum_link_with_people' );
-	}
-
-	/**
 	 * Build bootstrap HTML part
 	 * This HTML code enable to display bootstrap modal window
 	 * Using spans instead of divs to not break the regex replace in content (WP adds extra <p> when divs are used)
@@ -347,8 +333,8 @@ class Implement_Link_Maker {
 	 */
 	private function bootstrap_modal( string $imdb_id, string $imdb_data ): string {
 
-		return "\n\t\t\t\t\t" . '<span class="modal fade" id="theModal' . $imdb_id . '">'
-			. "\n\t\t\t\t\t\t" . '<span id="bootstrap' . $imdb_id . '" class="modal-dialog modal-dialog-centered' . esc_attr( $this->bootstrap_convert_modal_size() ) . '" role="dialog">'
+		return "\n\t\t\t\t\t" . '<span class="modal fade" id="theModal' . esc_attr( $imdb_id ) . '">'
+			. "\n\t\t\t\t\t\t" . '<span id="bootstrap' . esc_attr( $imdb_id ) . '" class="modal-dialog modal-dialog-centered' . esc_attr( $this->bootstrap_convert_modal_size() ) . '" role="dialog">'
 			. "\n\t\t\t\t\t\t\t" . '<span class="modal-content">'
 			. "\n\t\t\t\t\t\t\t\t" . '<span class="modal-header bootstrap_black">'
 			. "\n\t\t\t\t\t\t\t\t\t" . '<span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border">'
@@ -358,7 +344,7 @@ class Implement_Link_Maker {
 			 * Deactivated: Title's popup doesn't change when navigating
 			 * . esc_html__( 'Information about', 'lumiere-movies' ) . ' ' . esc_html( ucfirst( $imdb_data ) )
 			 */
-			. "\n\t\t\t\t\t\t\t\t\t" . '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . $imdb_id . '"></button>'
+			. "\n\t\t\t\t\t\t\t\t\t" . '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . esc_html( $imdb_id ) . '"></button>'
 			. "\n\t\t\t\t\t\t\t\t" . '</span>'
 			. "\n\t\t\t\t\t\t\t\t" . '<span class="modal-body embed-responsive embed-responsive-16by9"></span>'
 			. "\n\t\t\t\t\t\t\t" . '</span>'
@@ -399,14 +385,14 @@ class Implement_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function lumiere_movies_plot_details_abstract ( string $plot ): string {
+	protected function get_plot_details( string $plot ): string {
 
 		return "\n\t\t\t\t" . wp_strip_all_tags( $plot );
 	}
 
 	/**
 	 * Inside a post Popup people builder
-	 * Build an HTML link to open a popup for searching a person inside the posts
+	 * Build an HTML link to open a popup for a person inside the posts
 	 *
 	 * @param string $imdbid IMDB id
 	 * @param string $imdbname Name of the person
@@ -415,7 +401,7 @@ class Implement_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function lumiere_link_popup_people_abstract( string $imdbid, string $imdbname, int $window_type = 0, string $specific_a_class = '' ): string {
+	protected function get_popup_people_details( string $imdbid, string $imdbname, int $window_type = 0, string $specific_a_class = '' ): string {
 
 		// No link creation, exit
 		if ( intval( $window_type ) === 2 ) {
@@ -423,7 +409,7 @@ class Implement_Link_Maker {
 		}
 
 		// Building link.
-		$txt = "\n\t\t\t\t\t" . '<a class="' . esc_attr( $specific_a_class ) . '"' . " id=\"link-$imdbid\""
+		$output = "\n\t\t\t\t\t" . '<a class="' . esc_attr( $specific_a_class ) . '"' . " id=\"link-$imdbid\""
 		. ' data-modal_window_nonce="' . wp_create_nonce() . '"'
 		. ' data-modal_window_people="' . esc_attr( $imdbid ) . '"'
 		// Data target is utilised by bootstrap only, but should be safe to keep it.
@@ -432,35 +418,36 @@ class Implement_Link_Maker {
 		. ' title="' . esc_attr( wp_sprintf( __( 'open a new window with IMDb informations for %1s', 'lumiere-movies' ), $imdbname ) ) . '"';
 		// AMP, build a HREF.
 		if ( intval( $window_type ) === 3 ) {
-			$txt .= ' href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdbid ) ) . '"';
+			$output .= ' href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdbid ) ) . '"';
 		}
-		$txt .= '>' . esc_html( $imdbname ) . '</a>';
+		$output .= '>' . esc_html( $imdbname ) . '</a>';
 
 		// Modal bootstrap HTML part.
 		if ( intval( $window_type ) === 1 ) {
-			$txt .= $this->bootstrap_modal( $imdbid, $imdbname );
+			$output .= $this->bootstrap_modal( $imdbid, $imdbname );
 		}
 
-		return $txt;
+		return $output;
 	}
 
 	/**
 	 * Inside a post Popup movie builder
-	 * Build an HTML link to open a popup for searching a movie inside the posts
+	 * Build an HTML link inside the posts to open a popup
+	 * Meant to be used when parsing into the post for movies
 	 *
-	 * @param array<int, string> $link_parsed html tags and text to be modified
+	 * @param string $title_or_name Either the movie's title or person name found in inside the post
 	 * @param null|string $popuplarg Modal window width, if nothing passed takes database value
 	 * @param null|string $popuplong Modal window height, if nothing passed takes database value
 	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links & AMP
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
+	 * @see \Lumiere\Frontend\Movie\Movie_Display::lumiere_build_popup_link() call this method
 	 */
-	protected function popup_film_link_abstract( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
+	protected function replace_span_to_popup_details( string $title_or_name, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
 
 		$txt = '';
-		$title_attr = sanitize_title( $link_parsed[1] );
-		$title_esc = esc_html( $link_parsed[1] );
+		$title_san = esc_html( $title_or_name );
 
 		if ( $popuplarg !== null ) {
 			$popuplarg = $this->imdb_admin_values['imdbpopuplarg'];
@@ -473,18 +460,18 @@ class Implement_Link_Maker {
 		// Highslide & Classic modal
 		if ( $window_type === 0 ) {
 
-			$txt = '<a class="lum_link_with_movie" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
+			$txt = '<a class="lum_link_with_movie" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . $title_san . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_san . '</a>';
 
 			// Bootstrap modal
 		} elseif ( $window_type === 1 ) {
 
-			$txt = '<a class="lum_link_with_movie" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . $title_attr . '" data-target="#theModal' . $title_attr . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_esc . '</a>'
-			. $this->bootstrap_modal( $title_attr, $title_esc );
+			$txt = '<a class="lum_link_with_movie" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . $title_san . '" data-target="#theModal' . $title_san . '" title="' . esc_html__( 'Open a new window with IMDb informations', 'lumiere-movies' ) . '">' . $title_san . '</a>'
+			. $this->bootstrap_modal( $title_san, '' );
 
 			// AMP & No Link modal
 		} elseif ( $window_type === 2 ) {
 
-			$txt = '<a class="lum_link_make_popup lum_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . $title_attr ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_esc . '</a>';
+			$txt = '<a class="lum_link_make_popup lum_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . $title_san ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . $title_san . '</a>';
 
 		}
 
@@ -492,8 +479,8 @@ class Implement_Link_Maker {
 	}
 
 	/**
-	 * Inside a box Popup movie builder
-	 * Build an HTML link to open a popup in movie box (not inside a post)
+	 * Inside a post Popup film builder
+	 * Build an HTML link to open a popup for a movie inside the posts
 	 *
 	 * @param string $title The movie's title
 	 * @param string $imdbid The movie's imdb ID
@@ -504,7 +491,7 @@ class Implement_Link_Maker {
 	 *
 	 * @return string
 	 */
-	protected function popup_film_link_inbox_abstract( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
+	protected function get_popup_film_details( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null, int $window_type = 0, string $specific_class = '' ): string {
 
 		$txt = '';
 
@@ -546,7 +533,7 @@ class Implement_Link_Maker {
 	 * @param 0|1 $window_type Define the window_type: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
 	 * @return string
 	 */
-	protected function lumiere_movies_trailer_details_abstract ( string $url, string $website_title, int $window_type = 0 ): string {
+	protected function get_trailer_details( string $url, string $website_title, int $window_type = 0 ): string {
 
 		// No Links class, do not display any link.
 		if ( $window_type === 1 ) {
@@ -565,7 +552,7 @@ class Implement_Link_Maker {
 	 * @param 0|1 $window_type Define the window_type: 0 for highslide, bootstrap classic links (default), 1 for no links & AMP
 	 * @return string
 	 */
-	protected function lumiere_movies_prodcompany_details_abstract ( string $name, string $comp_id = '', string $notes = '', int $window_type = 0 ): string {
+	protected function get_prodcompany_details( string $name, string $comp_id = '', string $notes = '', int $window_type = 0 ): string {
 
 		// No Links class or AMP, do not display any link.
 		if ( $window_type === 1 ) {
@@ -600,7 +587,7 @@ class Implement_Link_Maker {
 	 * @param 0|1 $window_type Define the window_type: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
 	 * @return string
 	 */
-	protected function lumiere_movies_officialsites_details_abstract ( string $url, string $name, int $window_type = 0 ): string {
+	protected function get_officialsites_details( string $url, string $name, int $window_type = 0 ): string {
 		// No Links class, do not display any link.
 		if ( $window_type === 1 ) {
 			return "\n\t\t\t" . sanitize_text_field( $name ) . ', ' . esc_url( $url );
@@ -616,7 +603,7 @@ class Implement_Link_Maker {
 	 * @param null|string $class extra class to add, only AMP does not use it
 	 * @return string
 	 */
-	protected function lumiere_movies_source_details_abstract ( string $mid, int $window_type = 0, ?string $class = null ): string {
+	protected function get_source_details( string $mid, int $window_type = 0, ?string $class = null ): string {
 
 		// No Links class, do not return links.
 		if ( $window_type === 1 ) {

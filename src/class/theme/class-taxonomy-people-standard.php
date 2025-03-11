@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.9
+ * Version: 3.9.1
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package lumiere-movies
@@ -34,7 +34,7 @@ use WP_Query;
  * @see \Lumiere\Alteration\Taxonomy Build the taxonomy system and taxonomy pages
  * @see \Lumiere\Main Trait to get $this->link_maker var (builds the links, AMP being the most relevant), the config class, the options
  *
- * @since 4.1 Use of plugins detection, lumiere_medaillon_bio() returns larger number of characters for introduction, Polylang form with AMP works
+ * @since 4.1 Use of plugins detection, get_medaillon_bio() returns larger number of characters for introduction, Polylang form with AMP works
  * @since 4.3 More OOP, Polylang and Imdbphp plugins fully utilised, returning the current job queried only
  */
 class Taxonomy_People_Standard {
@@ -433,14 +433,14 @@ class Taxonomy_People_Standard {
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
 		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp pics only if cache is active
-			$output .= isset( $this->person_class ) ? $this->link_maker->lumiere_link_picture(
+			$output .= isset( $this->person_class ) ? $this->link_maker->get_picture(
 				$this->person_class->photoLocalurl( false ),
 				$this->person_class->photoLocalurl( true ),
 				$person_name
 			) : '';
 		} else { // no_pics otherwise
 			$no_pic = $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif';
-			$output .= $this->link_maker->lumiere_link_picture( $no_pic, $no_pic, $person_name );
+			$output .= $this->link_maker->get_picture( $no_pic, $no_pic, $person_name );
 		}
 
 		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
@@ -509,7 +509,7 @@ class Taxonomy_People_Standard {
 		$output .= '<span class="lumiere_font_small">';
 
 		// Biography, function in trait.
-		$output .= isset( $this->person_class ) ? $this->link_maker->lumiere_medaillon_bio( $this->person_class->bio(), 1500 ) ?? '' : '';
+		$output .= isset( $this->person_class ) ? $this->link_maker->get_medaillon_bio( $this->person_class->bio(), 1500 ) ?? '' : '';
 
 		$output .= "\n\t\t\t\t\t" . '</span></div>';
 		$output .= "\n\t\t\t\t" . '</div>';

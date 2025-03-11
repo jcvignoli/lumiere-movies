@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Method to display Extsites for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Extsites extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -56,7 +56,7 @@ class Movie_Extsites extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items && $i < $hardcoded_max_sites; $i++  ) {
 
-			$output .= $this->link_maker->lumiere_movies_officialsites_details(
+			$output .= $this->link_maker->get_officialsites(
 				$external_sites[ $i ]['url'],
 				$external_sites[ $i ]['label'],
 			);
@@ -85,7 +85,7 @@ class Movie_Extsites extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++  ) {
 
-			$output .= $this->link_maker->lumiere_movies_officialsites_details(
+			$output .= $this->link_maker->get_officialsites(
 				$external_sites[ $i ]['url'],
 				$external_sites[ $i ]['label'],
 			);

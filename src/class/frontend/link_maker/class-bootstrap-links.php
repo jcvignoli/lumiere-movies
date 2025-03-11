@@ -91,25 +91,25 @@ class Bootstrap_Links extends Implement_Link_Maker implements Interface_Link_Mak
 	/**
 	 * @inherit
 	 */
-	public function lumiere_link_popup_people( array $imdb_data_people, int $number ): string {
+	public function get_popup_people( string $imdb_id, string $name ): string {
 		// Function in abstract class, before last param defines the output, last param specific <A> class.
-		return parent::lumiere_link_popup_people_abstract( $imdb_data_people[ $number ]['imdb'], $imdb_data_people[ $number ]['name'], 1, 'lum_link_make_popup lum_link_with_people' );
+		return parent::get_popup_people_details( $imdb_id, $name, 1, 'lum_link_make_popup lum_link_with_people' );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function lumiere_link_picture( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {
+	public function get_picture( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {
 		// Function in abstract class, 2 before last param defines the output, before last param specific A class, last param specific IMG class.
-		return parent::lumiere_link_picture_abstract( $photo_localurl_false, $photo_localurl_true, $movie_title, 2, '', 'img-thumbnail' );
+		return parent::get_picture_details( $photo_localurl_false, $photo_localurl_true, $movie_title, 2, '', 'img-thumbnail' );
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function lumiere_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string {
+	public function get_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string {
 		// Function in abstract class
-		return parent::lumiere_medaillon_bio_abstract( $bio_array, 0, $limit_text_bio );
+		return parent::get_medaillon_bio_details( $bio_array, 0, $limit_text_bio );
 	}
 
 	/**
@@ -117,8 +117,7 @@ class Bootstrap_Links extends Implement_Link_Maker implements Interface_Link_Mak
 	 */
 	public function lumiere_imdburl_to_internalurl( string $text ): string {
 		// Function in abstract class.
-		return parent::lumiere_imdburl_to_internalurl_abstract( $text );
-
+		return parent::lumiere_imdburl_to_internalurl_details( $text );
 	}
 
 	/**
@@ -126,79 +125,71 @@ class Bootstrap_Links extends Implement_Link_Maker implements Interface_Link_Mak
 	 */
 	public function lumiere_imdburl_of_taxonomy( string $text ): string {
 		// Function in abstract class, second param for bootstrap.
-		return parent::lumiere_imdburl_of_taxonomy_abstract( $text, 3 );
+		return parent::lumiere_imdburl_of_taxonomy_details( $text, 3 );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function lumiere_imdburl_of_soundtrack( string $text_url, string $text_name ): string {
-		// Function in abstract class, third param for bootstrap.
-		return parent::lumiere_imdburl_of_soundtrack_abstract( $text_url, $text_name, 1 );
-	}
-
-	/**
-	 * @inherit
-	 */
-	public function popup_film_link( array $link_parsed, ?string $popuplarg = null, ?string $popuplong = null ): string {
+	public function replace_span_to_popup( string $title_or_name, ?string $popuplarg = null, ?string $popuplong = null ): string {
 		// Function in abstract class, fourth param for bootstrap.
-		return parent::popup_film_link_abstract( $link_parsed, $popuplarg, $popuplong, 1 );
+		return parent::replace_span_to_popup_details( $title_or_name, $popuplarg, $popuplong, 1 );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function popup_film_link_inbox( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string {
+	public function get_popup_film( string $title, string $imdbid, ?string $popuplarg = null, ?string $popuplong = null ): string {
 		// Function in abstract class, fifth param for bootstrap.
-		return parent::popup_film_link_inbox_abstract( $title, $imdbid, $popuplarg, $popuplong, 1 );
+		return parent::get_popup_film_details( $title, $imdbid, $popuplarg, $popuplong, 1 );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function lumiere_movies_trailer_details( string $url, string $website_title ): string {
+	public function get_trailer( string $url, string $website_title ): string {
 		// Function in abstract class, third param for links.
-		return parent::lumiere_movies_trailer_details_abstract( $url, $website_title, 0 );
+		return parent::get_trailer_details( $url, $website_title, 0 );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function lumiere_movies_prodcompany_details( string $name, string $comp_id, string $notes ): string {
+	public function get_prodcompany( string $name, string $comp_id, string $notes ): string {
 		// Function in abstract class, fourth param for links.
-		return parent::lumiere_movies_prodcompany_details_abstract( $name, $comp_id, $notes, 0 );
+		return parent::get_prodcompany_details( $name, $comp_id, $notes, 0 );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function lumiere_movies_officialsites_details( string $url, string $name ): string {
+	public function get_officialsites( string $url, string $name ): string {
 		// Function in abstract class, third param for links.
-		return parent::lumiere_movies_officialsites_details_abstract( $url, $name, 0 );
+		return parent::get_officialsites_details( $url, $name, 0 );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function lumiere_movies_plot_details( string $plot ): string {
+	public function get_plot( string $plot ): string {
 		// Function in abstract class.
-		return parent::lumiere_movies_plot_details_abstract( $plot );
+		return parent::get_plot_details( $plot );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function lumiere_movies_source_details( string $mid ): string {
+	public function get_source( string $mid ): string {
 		// Function in abstract class, second for normal display, third param to include imdbelementSOURCE-picture.
-		return parent::lumiere_movies_source_details_abstract( $mid, 0, 'imdbelementSOURCE-picture' );
+		return parent::get_source_details( $mid, 0, 'imdbelementSOURCE-picture' );
 	}
 
 	/**
 	 * @inherit
 	 */
-	public function lumiere_movies_rating_picture( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string {
+	public function get_rating_picture( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string {
 		// Function in abstract class, last param with 1 to display class="imdbelementRATING-picture".
-		return parent::lumiere_movies_rating_picture_abstract( $rating, $votes, $votes_average_txt, $out_of_ten_txt, $votes_txt, 1 );
+		return parent::get_rating_picture_details( $rating, $votes, $votes_average_txt, $out_of_ten_txt, $votes_txt, 1 );
 	}
 }
 

@@ -419,7 +419,7 @@ class Settings extends Settings_Helper {
 	 * @see Get_Options::get_list_trivia_cat() Call this class
 	 * @see \IMDb\Title::trivia() List of trivia categories
 	 *
-	 * @since 4.4.3 method added
+	 * @since 4.5 method added
 	 *
 	 * @return array<string, string>
 	 */

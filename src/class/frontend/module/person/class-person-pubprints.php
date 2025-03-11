@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options_Person;
 /**
  * Method to display Pubprints for persons
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 

@@ -23,7 +23,7 @@ use Lumiere\Frontend\Movie\Movie_Taxonomy;
 /**
  * Method to display actor for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -66,7 +66,7 @@ class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_first',
-				$this->link_maker->lumiere_link_popup_people( $item_results, $i ) // From trait Main.
+				parent::get_popup_person( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] )
 			);
 
 			$output .= $this->output_class->misc_layout(

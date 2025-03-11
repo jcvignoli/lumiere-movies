@@ -21,7 +21,7 @@ use Lumiere\Frontend\Layout\Output;
 /**
  * Layouts for popups
  *
- * @since 4.4.3
+ * @since 4.5
  */
 class Output_Popup extends Output {
 

@@ -21,7 +21,7 @@ use Imdb\Title;
 /**
  * Method to display title for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 

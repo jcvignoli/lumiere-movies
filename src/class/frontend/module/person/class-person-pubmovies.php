@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options_Person;
 /**
  * Method to display Pubmovies for person
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -52,7 +52,7 @@ class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 
-			$output .= $this->link_maker->lumiere_link_popup_people( $item_results, $i ); // From trait Main.
+			$output .= parent::get_popup_person( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
 
 			if ( isset( $item_results[ $i ]['year'] ) && $item_results[ $i ]['year'] > 0 ) {
 				$output .= ' (' . intval( $item_results[ $i ]['year'] ) . ') ';

@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Method to display soundtrack for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -58,10 +58,7 @@ class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 			$output .= isset( $item_results[ $i ]['credits'][0] ) ? ' <i>' . $item_results[ $i ]['credits'][0] . '</i>' : '';
 			if ( isset( $item_results[ $i ]['creditSplit']['creditors'][0]['name'] ) && isset( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] ) ) {
 				$output .= ' <i>' . $item_results[ $i ]['creditSplit']['creditors'][0]['creditType'] . ' ';
-				$output .= $this->link_maker->lumiere_imdburl_of_soundtrack(
-					$item_results[ $i ]['creditSplit']['creditors'][0]['nameId'],
-					$item_results[ $i ]['creditSplit']['creditors'][0]['name'],
-				);
+				$output .= parent::get_popup_person( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'], $item_results[ $i ]['creditSplit']['creditors'][0]['name'] );
 				$output .= '</i>';
 			}
 			if ( $i < ( $admin_total_items - 1 ) && $i < ( $nb_total_items - 1 ) ) {

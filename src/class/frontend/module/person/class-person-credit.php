@@ -18,12 +18,13 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Name;
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Tools\Data;
 
 /**
  * Method to display Credit for person
  * Retrieves all movies that are available in \Lumiere\Config\Settings_Person::credits_role_all()
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -49,11 +50,11 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $sub_cat ] )
+			Data::mb_ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $sub_cat ] ) // Can start with special charas, so use homemade ucfirst that behaves like mb_ucfirst().
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= "\n\t\t\t\t " . $this->link_maker->lumiere_link_popup_people( $item_results[ $sub_cat ], $i );
+			$output .= "\n\t\t\t\t " . parent::get_popup_person( $item_results[ $sub_cat ][ $i ]['imdb'], $item_results[ $sub_cat ][ $i ]['name'] );
 
 			if ( isset( $item_results[ $sub_cat ][ $i ]['year'] ) ) {
 				$output .= ' (' . strval( $item_results[ $sub_cat ][ $i ]['year'] ) . ')';
@@ -91,7 +92,7 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $sub_cat ] )
+			Data::mb_ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $sub_cat ] ) // Can start with special charas, so use homemade ucfirst that behaves like mb_ucfirst().
 		);
 
 		if ( $nb_total_items > $max_results ) {

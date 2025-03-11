@@ -23,7 +23,7 @@ use Lumiere\Frontend\Movie\Movie_Taxonomy;
 /**
  * Method to display Cinematographer for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -62,7 +62,7 @@ class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= $this->link_maker->lumiere_link_popup_people( $item_results, $i );
+			$output .= parent::get_popup_person( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}

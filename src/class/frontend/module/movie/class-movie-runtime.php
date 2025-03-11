@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Method to display Runtime for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Runtime extends \Lumiere\Frontend\Module\Parent_Module {
 

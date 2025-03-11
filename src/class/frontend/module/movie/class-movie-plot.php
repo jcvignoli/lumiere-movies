@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Method to display Plot for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Plot extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -56,7 +56,7 @@ class Movie_Plot extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( ! isset( $item_results[ $i ]['plot'] ) ) {
 				continue;
 			}
-			$output .= $this->link_maker->lumiere_movies_plot_details( $item_results[ $i ]['plot'] );
+			$output .= $this->link_maker->get_plot( $item_results[ $i ]['plot'] );
 			// add hr to every plot but the last.
 			$output .= $i < ( $nb_total_items - 1 ) && $i < ( $admin_total_items - 1 ) ? "\n\t\t\t\t<hr>" : '';
 		}

@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Method to display pic for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -36,11 +36,11 @@ class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 
 		// If cache is active, use the pictures from IMDBphp class.
 		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) {
-			return $this->link_maker->lumiere_link_picture( $movie->photoLocalurl( false ), $movie->photoLocalurl( true ), $movie->title() );
+			return $this->link_maker->get_picture( $movie->photoLocalurl( false ), $movie->photoLocalurl( true ), $movie->title() );
 		}
 
 		// If cache is deactivated, display no_pics.gif
 		$no_pic_url = Get_Options::LUM_PICS_URL . 'no_pics.gif';
-		return $this->link_maker->lumiere_link_picture( $no_pic_url, $no_pic_url, $movie->title() );
+		return $this->link_maker->get_picture( $no_pic_url, $no_pic_url, $movie->title() );
 	}
 }

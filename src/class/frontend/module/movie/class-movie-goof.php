@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Method to display goof for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 

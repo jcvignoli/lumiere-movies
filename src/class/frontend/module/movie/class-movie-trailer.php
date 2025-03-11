@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Method to display Trailer for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -60,7 +60,7 @@ class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 				continue;
 			}
 
-			$output .= $this->link_maker->lumiere_movies_trailer_details( $item_results[ $i ]['playbackUrl'], $item_results[ $i ]['name'] );
+			$output .= $this->link_maker->get_trailer( $item_results[ $i ]['playbackUrl'], $item_results[ $i ]['name'] );
 
 			if ( $i < ( $admin_max_items - 1 ) && $i < ( $nb_total_items - 1 ) ) {
 				$output .= ', '; // add comma to every trailer but the last.
@@ -87,7 +87,7 @@ class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( ! isset( $item_results[ $i ]['playbackUrl'] ) ) {
 				continue;
 			}
-			$output .= $this->link_maker->lumiere_movies_trailer_details( $item_results[ $i ]['playbackUrl'], $item_results[ $i ]['name'] );
+			$output .= $this->link_maker->get_trailer( $item_results[ $i ]['playbackUrl'], $item_results[ $i ]['name'] );
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', '; // add comma to every trailer but the last.
 			}

@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Method to display prodcompany for movies
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Movie_Prodcompany extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -53,7 +53,7 @@ class Movie_Prodcompany extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$comment = isset( $item_results[ $i ]['attribute'][0] ) ? '"' . $item_results[ $i ]['attribute'][0] . '"' : '';
-			$output .= $this->link_maker->lumiere_movies_prodcompany_details(
+			$output .= $this->link_maker->get_prodcompany(
 				$item_results[ $i ]['name'],
 				$item_results[ $i ]['id'],
 				$comment,
@@ -78,7 +78,7 @@ class Movie_Prodcompany extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$comment = isset( $item_results[ $i ]['attribute'][0] ) ? '"' . $item_results[ $i ]['attribute'][0] . '"' : '';
-			$output .= $this->link_maker->lumiere_movies_prodcompany_details(
+			$output .= $this->link_maker->get_prodcompany(
 				$item_results[ $i ]['name'],
 				$item_results[ $i ]['id'],
 				$comment,

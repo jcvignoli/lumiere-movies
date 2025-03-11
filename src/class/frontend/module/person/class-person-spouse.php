@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options_Person;
 /**
  * Method to display Spouse for person
  *
- * @since 4.4.3 new class
+ * @since 4.5 new class
  */
 class Person_Spouse extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -52,7 +52,7 @@ class Person_Spouse extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= "\n\t\t\t\t\t" . $this->link_maker->lumiere_link_popup_people( $item_results, $i );
+				$output .= "\n\t\t\t\t\t" . parent::get_popup_person( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
 			} elseif ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
 				$output .= $item_results[ $i ]['name'];
 			}

@@ -360,7 +360,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 					echo "\n\t\t\t\t" . '</font></div>';
 				}
 
-				$bio = $this->link_maker->lumiere_medaillon_bio( $this->person_class->bio() );
+				$bio = $this->link_maker->get_medaillon_bio( $this->person_class->bio() );
 
 				if ( is_string( $bio ) && strlen( $bio ) > 0 ) {
 					echo "\n\t\t\t\t" . '<div id="bio" class="lumiere_padding_two lumiere_align_left"><font size="-1">';
