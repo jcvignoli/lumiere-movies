@@ -132,14 +132,6 @@ class Highslide_Links extends Implement_Link_Maker implements Interface_Link_Mak
 	/**
 	 * @inheritdoc
 	 */
-	public function lumiere_imdburl_of_taxonomy( string $text ): string {
-		// Function in abstract class.
-		return parent::lumiere_imdburl_of_taxonomy_details( $text, 0, 'highslide' );
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function replace_span_to_popup( string $title_or_name, ?string $popuplarg = null, ?string $popuplong = null ): string {
 		// Function in abstract class, fourth param for highslide.
 		return parent::replace_span_to_popup_details( $title_or_name, $popuplarg, $popuplong );

@@ -62,14 +62,6 @@ interface Interface_Link_Maker {
 	public function lumiere_imdburl_to_internalurl( string $text ): string;
 
 	/**
-	 * Convert an IMDb url into a Popup link for People and Movies
-	 * Meant to be used inside in posts or widgets (not in Popups)
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into a popup link
-	 */
-	public function lumiere_imdburl_of_taxonomy( string $text ): string;
-
-	/**
 	 * Inside a post Popup movie builder
 	 * Build an HTML link inside the posts to open a popup
 	 *

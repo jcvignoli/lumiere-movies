@@ -96,16 +96,6 @@ class Classic_Links extends Implement_Link_Maker implements Interface_Link_Maker
 	}
 
 	/**
-	 * @inherit
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into an internal link
-	 */
-	public function lumiere_imdburl_of_taxonomy( string $text ): string {
-		// Function in abstract class.
-		return parent::lumiere_imdburl_of_taxonomy_details( $text );
-	}
-
-	/**
 	 * @inheritdoc
 	 */
 	public function replace_span_to_popup( string $title_or_name, ?string $popuplarg = null, ?string $popuplong = null ): string {

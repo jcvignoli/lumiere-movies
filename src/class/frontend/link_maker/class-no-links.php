@@ -62,14 +62,6 @@ class No_Links extends Implement_Link_Maker implements Interface_Link_Maker {
 	/**
 	 * @inheritdoc
 	 */
-	public function lumiere_imdburl_of_taxonomy( string $text ): string {
-		// Function in abstract class, last param for removing all links.
-		return parent::lumiere_imdburl_of_taxonomy_details( $text, 2 );
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function replace_span_to_popup( string $title_or_name, ?string $popuplarg = null, ?string $popuplong = null ): string {
 		// Function in abstract class, fourth param for No links.
 		return parent::replace_span_to_popup_details( $title_or_name, $popuplarg, $popuplong, 2 );

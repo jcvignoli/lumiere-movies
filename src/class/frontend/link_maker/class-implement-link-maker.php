@@ -280,9 +280,10 @@ class Implement_Link_Maker {
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
-	 * @obsolete not in use anymore as of 4 something, to be deleted at some point in the future
+	 * @see Implement_Link_Maker::get_medaillon_bio_details() used only there!
+	 * @obsolete, medaillon text doesn't include links anymore, remove it
 	 */
-	protected function lumiere_imdburl_of_taxonomy_details( string $text, int $window_type = 0, string $specific_class = '' ): string {
+	private function lumiere_imdburl_of_taxonomy_details( string $text, int $window_type = 0, string $specific_class = '' ): string {
 
 		$popup_link_person = '';
 		$popup_link_movie = '';

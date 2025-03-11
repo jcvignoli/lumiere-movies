@@ -123,14 +123,6 @@ class Bootstrap_Links extends Implement_Link_Maker implements Interface_Link_Mak
 	/**
 	 * @inherit
 	 */
-	public function lumiere_imdburl_of_taxonomy( string $text ): string {
-		// Function in abstract class, second param for bootstrap.
-		return parent::lumiere_imdburl_of_taxonomy_details( $text, 3 );
-	}
-
-	/**
-	 * @inherit
-	 */
 	public function replace_span_to_popup( string $title_or_name, ?string $popuplarg = null, ?string $popuplong = null ): string {
 		// Function in abstract class, fourth param for bootstrap.
 		return parent::replace_span_to_popup_details( $title_or_name, $popuplarg, $popuplong, 1 );
