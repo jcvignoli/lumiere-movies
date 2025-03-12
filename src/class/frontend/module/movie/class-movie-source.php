@@ -66,11 +66,6 @@ class Movie_Source extends \Lumiere\Frontend\Module\Parent_Module {
 			ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		);
 
-		$output = $this->output_class->misc_layout(
-			'frontend_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
-		);
-
 		$output .= $this->link_maker->get_source( $get_mid );
 
 		return $output;

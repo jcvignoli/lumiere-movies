@@ -145,7 +145,11 @@ class Movie_Director extends \Lumiere\Frontend\Module\Parent_Module {
 		for ( $i = 0; $i < $nbtotalitems; $i++ ) {
 
 			$taxo_options = $this->add_taxo_class->create_taxonomy_options( $item_name, $item_results[ $i ]['name'], $this->imdb_admin_values );
-			$output .= $this->output_class->get_taxo_layout_items( $movie->title(), $taxo_options, $this->add_taxo_class->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) );
+			$output .= $this->output_class->get_taxo_layout_items(
+				$movie->title(),
+				$taxo_options,
+				$this->add_taxo_class->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ),
+			);
 
 			if ( $i < $nbtotalitems - 1 ) {
 				$output .= ', ';

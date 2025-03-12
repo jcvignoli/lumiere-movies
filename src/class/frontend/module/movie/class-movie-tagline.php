@@ -77,7 +77,7 @@ class Movie_Tagline extends \Lumiere\Frontend\Module\Parent_Module {
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$output .= "\n\t\t\t&laquo; " . $item_results[ $i ] . ' &raquo; ';
 			if ( $i < $nb_total_items - 1 ) {
-				$output .= ', '; // add comma to every tagline but the last.
+				$output .= ', ';
 			}
 		}
 		return $output;

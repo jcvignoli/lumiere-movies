@@ -58,7 +58,7 @@ class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module_popup( string $title, string $year_text ): string {
 
 		return $this->output_class->misc_layout(
-			'frontend_title',
+			'popup_title',
 			$title . $year_text
 		);
 	}
