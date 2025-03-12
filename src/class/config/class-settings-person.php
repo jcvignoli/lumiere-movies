@@ -75,7 +75,7 @@ class Settings_Person {
 			'actress'            => __( 'actress', 'lumiere-movies' ),
 			'assistantDirector'  => __( 'assistant director', 'lumiere-movies' ),
 			'editor'             => __( 'editor', 'lumiere-movies' ),
-			'miscellaneous'      => __( 'divers', 'lumiere-movies' ),
+			'miscellaneous'      => __( 'miscellaneous', 'lumiere-movies' ),
 			'producer'           => __( 'producer', 'lumiere-movies' ),
 			'self'               => __( 'self', 'lumiere-movies' ),
 			'showrunner'         => __( 'showrunner', 'lumiere-movies' ),
