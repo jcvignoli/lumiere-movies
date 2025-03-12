@@ -37,6 +37,7 @@
 	<rule ref="rulesets/design.xml">
 		<!-- normal in WP for redirects, etc -->
 		<exclude name="ExitExpression" />
+		<exclude name="NumberOfChildren" />
 	</rule>
 	
 	<rule ref="rulesets/naming.xml/ShortVariable">
@@ -55,7 +56,7 @@
 	<rule ref="rulesets/unusedcode.xml/UnusedPrivateMethod">
 		<properties>
 			<property name="exception">
-				<value>create_movie_file,create_people_file</value>
+				<value>create_movie_file,create_people_file,maybe_copy_theme_template,search_missing_template,get_default_admin_option,get_default_cache_option,get_default_data_option,lumiere_parse_spans_callback_id,lumiere_parse_spans_callback_title,lumiere_build_popup_link,oceanwp_is_active,polylang_is_active,aioseo_is_active,irp_is_active,sub_update_options,sub_copy_taxo</value>
 			</property>
 		</properties>
 	</rule>
@@ -63,7 +64,7 @@
 	<rule ref="rulesets/unusedcode.xml/UnusedLocalVariable">
 		<properties>
 			<property name="exceptions">
-				<value>trivia_type,trivia_content,static_start,int,that,row_number,rewrite_class,info,key,value,backoffice_extra_class,time,class_save,self_class,taxonomy_class,nb_items_connected_movies</value>
+				<value>cron_class,trivia_type,trivia_content,static_start,int,that,row_number,rewrite_class,info,key,value,backoffice_extra_class,time,class_save,self_class,taxonomy_class,nb_items_connected_movies</value>
 			</property>
 		</properties>
 	</rule>

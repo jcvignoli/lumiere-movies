@@ -153,21 +153,13 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
+= 4.5 =
+
+Added trivia item. Plugin is now fully OOP.
+
 = 4.4 =
 
 PHP >= 8.1 is now required. New item: connected movies, quotes are back. Most work has been done under the hood, to have a faster and more maintenable plugin.
-
-= 4.3.3 =
-
-Cache auto-refresh entirely reviewed. It now works per batches.
-
-= 4.3.2 =
-
-Taxonomy templates automatically updated, Widget was not executed in custom taxonomy posts (thanks Sean)
-
-= 4.3.1 =
-
-Bugs related to the introduction of IMDbGraphQL fixed. "Official sites" fixed. Bots were not banned anymore. Translation of the plugin facilitated (wink, wink!).
 
 = 4.3 =
 
