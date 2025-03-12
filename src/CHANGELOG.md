@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.5.1
+
 v.4.5
 * [feature] Added trivia item in Frontpage and popups
 * [feature] Full translation of people popup's items
