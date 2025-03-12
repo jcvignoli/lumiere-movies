@@ -347,6 +347,7 @@ span.lum_results_section_subtitle_subcat_content::before { content: " (" counter
 
 .lumiere_font_12 {font-size:12px;}
 .lumiere_font_small {font-size:small;}
+.lumiere_font_smaller {font-size:smaller;}
 .lumiere_img_taxo_thumbnail{
 	position: absolute;
 	bottom: 0;

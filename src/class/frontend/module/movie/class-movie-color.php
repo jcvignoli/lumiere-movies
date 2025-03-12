@@ -128,8 +128,8 @@ class Movie_Color extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			$get_taxo_options = $this->add_taxo_class->create_taxonomy_options( $item_name, sanitize_text_field( $item_results[ $i ]['type'] ), $this->imdb_admin_values );
-			$output .= $this->output_class->get_layout_items( $movie->title(), $get_taxo_options );
+			$taxo_options = $this->add_taxo_class->create_taxonomy_options( $item_name, sanitize_text_field( $item_results[ $i ]['type'] ), $this->imdb_admin_values );
+			$output .= $this->output_class->get_taxo_layout_items( $movie->title(), $taxo_options, $this->add_taxo_class->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ) );
 
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';

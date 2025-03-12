@@ -88,4 +88,18 @@ class Add_Taxonomy {
 			'taxonomy_term' => $taxonomy_term,
 		];
 	}
+
+	/**
+	 * Create an html href link for taxonomy using the name passed
+	 * @see \Lumiere\Frontend\Modules\Movie\* call this
+	 *
+	 * @param string $name_searched The name searched, such as 'Stanley Kubrick'
+	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'
+	 * @return string The WordPress HTML href link for the name with that category
+	 */
+	public function get_taxonomy_url_href( string $name_searched, string $taxo_category ): string {
+		$find_term = get_term_by( 'name', $name_searched, $taxo_category );
+		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->term_id, $taxo_category ) : '';
+		return $taxo_link instanceof \WP_Error ? '' : $taxo_link;
+	}
 }

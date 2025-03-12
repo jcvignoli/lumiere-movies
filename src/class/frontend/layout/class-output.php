@@ -25,7 +25,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 class Output {
 
 	/**
-	 * Display misceallenous texts
+	 * Display misceallenous layouts
 	 *
 	 * @param string $selector Select which column to return
 	 * @param string $text_one Optional, an extra text to use
@@ -38,7 +38,7 @@ class Output {
 			/* translators: %1s is a movie field string, such as director, actor */
 			'click_more_start'               => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . wp_sprintf( __( 'click to show more %1s', 'lumiere-movies' ), $text_one ) . ')</strong></div>' . "\n\t\t\t<div class=\"hidesection\">",
 			'click_more_end'                 => "\n\t\t\t</div>\n\t\t\t<!-- end hidesection -->",
-			'see_all_start'                  => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '&nbsp;<span class="activatehidesection"><font size="-1"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ")</strong></font></span>\n\t\t\t<span class=\"hidesection\">",
+			'see_all_start'                  => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '&nbsp;<span class="activatehidesection lumiere_font_small"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ")</strong></span>\n\t\t\t<span class=\"hidesection\">",
 			'see_all_end'                    => "\n\t\t\t</span>\n\t\t\t<!-- end hidesection -->",
 			'frontend_items_sub_cat_parent'  => "\n\t\t\t\t<br>\n\t\t\t\t<span class=\"lum_results_section_subtitle_parent\">\n\t\t\t\t\t<span class=\"lum_results_section_subtitle_subcat\">" . $text_one . '</span>: ',
 			'frontend_items_sub_cat_content' => "\n\t\t\t\t\t<span class=\"lum_results_section_subtitle_subcat_content\">" . $text_one . "</span>\n\t\t\t\t</span>",
@@ -49,6 +49,7 @@ class Output {
 			'frontend_title'                 => "\n\t\t\t<span id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text_one ) . '">' . $text_one . '</span>',
 			'popup_subtitle_item'            => "\n\t\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . '</span>',
 			'numbered_list'                  => "\n\t\t\t<div>\n\t\t\t\t[#" . strval( $text_one ) . '] <i>' . $text_two . '</i>&nbsp;' . $text_three . "\n\t\t\t" . '</div>',
+			'frontend_no_results'            => "\n\t\t\t<span class=\"lumiere_font_small\">" . $text_one . '</span>',
 		];
 		return $container[ $selector ];
 	}
@@ -118,6 +119,8 @@ class Output {
 	}
 
 	/**
+	 * Get the layout for taxonomy-compatible modules
+	 *
 	 * Layout selection depends on $item_line_name value
 	 * If data was passed, use the first layout, if null was passed, use the second layout
 	 * First layout display two items per row
@@ -127,10 +130,11 @@ class Output {
 	 * @param string $movie_title
 	 * @param array<string, string> $taxo_options
 	 * @phstan-param array{'custom_taxonomy_fullname': string, 'taxonomy_term': string} $taxo_options
+	 * @param string $taxo_url The url for taxonomy, built with Add_Taxonomy::get_taxonomy_url_href()
 	 * @param string|null $item_line_name Null if the layout two should be utilised
 	 * @return string
 	 */
-	public function get_layout_items( string $movie_title, array $taxo_options, ?string $item_line_name = null ): string {
+	public function get_taxo_layout_items( string $movie_title, array $taxo_options, string $taxo_url, ?string $item_line_name = null ): string {
 
 		$lang = strtok( get_bloginfo( 'language' ), '-' );
 		$lang_term = $lang !== false ? $lang : '';
@@ -148,7 +152,7 @@ class Output {
 				$this->get_link(
 					'taxonomy',
 					$link_id_final,
-					$this->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ),
+					$taxo_url,
 					__( 'Find similar taxonomy results', 'lumiere-movies' ),
 					$taxo_options['taxonomy_term'],
 				),
@@ -165,23 +169,10 @@ class Output {
 		$output .= $this->get_link(
 			'taxonomy',
 			$link_id_final,
-			$this->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ),
+			$taxo_url,
 			__( 'Find similar taxonomy results', 'lumiere-movies' ),
 			$taxo_options['taxonomy_term'],
 		);
 		return $output;
-	}
-
-	/**
-	 * Create an html href link for taxonomy using the name passed
-	 *
-	 * @param string $name_searched The name searched, such as 'Stanley Kubrick'
-	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'
-	 * @return string The WordPress HTML href link for the name with that category
-	 */
-	private function get_taxonomy_url_href( string $name_searched, string $taxo_category ): string {
-		$find_term = get_term_by( 'name', $name_searched, $taxo_category );
-		$taxo_link = $find_term instanceof \WP_Term ? get_term_link( $find_term->term_id, $taxo_category ) : '';
-		return $taxo_link instanceof \WP_Error ? '' : $taxo_link;
 	}
 }

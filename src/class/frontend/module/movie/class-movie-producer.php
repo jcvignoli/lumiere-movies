@@ -182,12 +182,12 @@ class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 				}
 			}
 
-			$get_taxo_options = $this->add_taxo_class->create_taxonomy_options(
+			$taxo_options = $this->add_taxo_class->create_taxonomy_options(
 				$item_name,
 				$item_results[ $i ]['name'] ?? '',
 				$this->imdb_admin_values
 			);
-			$output .= $this->output_class->get_layout_items( $movie->title(), $get_taxo_options, $jobs );
+			$output .= $this->output_class->get_taxo_layout_items( $movie->title(), $taxo_options, $this->add_taxo_class->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ), $jobs );
 		}
 		return $output;
 	}

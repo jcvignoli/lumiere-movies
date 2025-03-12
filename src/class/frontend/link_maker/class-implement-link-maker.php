@@ -19,6 +19,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
+use Lumiere\Frontend\Layout\Output_Linkmaker;
 use Exception;
 
 /**
@@ -26,7 +27,7 @@ use Exception;
  * The child classes, called in the factory, use then this parent class adding only the extra LINK_OPTIONS so we know what process should be run
  * Child classes also take care of calling styles and javascripts they need
  *
- * @since 4.5 renamed methods to make them shorter and more meaningful, new constant LINK_OPTIONS (using it in child classes for code simplification)
+ * @since 4.5 renamed methods to make them shorter and more meaningful, new constant LINK_OPTIONS (using it in child classes for code simplification), use of Output_linkmaker class
  */
 class Implement_Link_Maker {
 
@@ -50,7 +51,9 @@ class Implement_Link_Maker {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct(
+		private Output_Linkmaker $output_linkmaker_class = new Output_Linkmaker(),
+	) {
 		// Get global settings class properties.
 		$this->get_db_options(); // In Open_Options trait.
 	}
@@ -86,8 +89,8 @@ class Implement_Link_Maker {
 	 * @param string|bool $photo_thumb The picture of small size
 	 * @param string $title_text Title of the movie/Name of the person
 	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
-	 * @param string $specific_a_class Extra class to be added in the building link, none by default
-	 * @param string $specific_img_class Extra class to be added in the building link, none by default
+	 * @param string $a_class Extra class to be added in the building link, none by default
+	 * @param string $img_class Extra class to be added in the building link, none by default
 	 *
 	 * @return string
 	 */
@@ -96,11 +99,11 @@ class Implement_Link_Maker {
 		string|bool $photo_thumb,
 		string $title_text,
 		int $window_type,
-		string $specific_a_class = '',
-		string $specific_img_class = '',
+		string $a_class = '',
+		string $img_class = '',
 	): string {
 
-		$output = "\n\t\t\t" . '<div class="imdbelementPIC">';
+		$output = '';
 
 		// Make sure $photo_thumb is a string so we can use esc_html() function
 		$photo_localurl = is_string( $photo_thumb ) ? esc_html( $photo_thumb ) : '';
@@ -119,7 +122,7 @@ class Implement_Link_Maker {
 
 		// Highslide, classic or Bootstrap class
 		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['bootstrap'] ) {
-			$output .= "\n\t\t\t\t\t" . '<a class="' . esc_attr( $specific_a_class ) . '" title="' . esc_attr( $title_text ) . '" href="' . esc_url( $photo_url_final_href ) . '">';
+			$output .= "\n\t\t\t\t\t" . '<a class="' . esc_attr( $a_class ) . '" title="' . esc_attr( $title_text ) . '" href="' . esc_url( $photo_url_final_href ) . '">';
 			// AMP or No Links class
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] || $window_type === self::LINK_OPTIONS['amp'] ) {
 			$output .= '';
@@ -140,30 +143,30 @@ class Implement_Link_Maker {
 		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
 			$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
 			$height = $width * 1.4;
-			$output .= ' class="' . $specific_img_class . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
-				. esc_html__( 'Photo of', 'lumiere-movies' ) . ' '
+			$output .= ' class="' . esc_attr( $img_class ) . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
+				/* Translators: %1s is a name, ie Stanley Kubrick */
+				. wp_sprintf( __( 'Photo of %1s', 'lumiere-movies' ), $title_text )
 				. esc_attr( $title_text ) . '" width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '" />';
 
 			// set to 100 width and 160 height if "Display only thumbnail" is active
 		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
-			$output .= ' class="' . $specific_img_class . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
-				. esc_html__( 'Photo of', 'lumiere-movies' ) . ' ' . esc_attr( $title_text ) . '" height="160" width="100" />';
+			$output .= ' class="' . esc_attr( $img_class ) . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
+				/* Translators: %1s is a name, ie Stanley Kubrick */
+				. wp_sprintf( __( 'Photo of %1s', 'lumiere-movies' ), $title_text ) . '" height="160" width="100" />';
 		}
 
 		// Not classic links, so we can close <a>
-		if ( $window_type !== self::LINK_OPTIONS['classic'] && $window_type !== self::LINK_OPTIONS['highslide'] && $window_type !== self::LINK_OPTIONS['bootstrap'] ) {
+		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			$output .= "\n\t\t\t\t\t" . '</a>';
 		}
 
-		$output .= "\n\t\t\t" . '</div>';
-
-		return $output;
+		return $this->output_linkmaker_class->main_layout( 'item_picture', $output );
 	}
 
 	/**
 	 * Display mini biographical text, not all people have one
 	 *
-	 * 1- Cut the maximum of characters to be displayed with $click_text
+	 * 1- Cut the maximum of characters to be displayed with 'click_more_start' and 'click_more_end'
 	 * 2- Detect if there is html tags that can break with $esc_html_breaker
 	 * 3- Build links either to popups (if taxonomy) or internal links (if popup people)
 	 *
@@ -177,19 +180,16 @@ class Implement_Link_Maker {
 	protected function get_medaillon_bio_details( array $bio_array, int $window_type, int $limit_text_bio = 0 ): string {
 
 		if ( count( $bio_array ) === 0 ) {
-			return "\n\t\t\t" . '<span class="lum_results_section_subtitle lumiere_font_small">' . esc_html__( 'No biography available', 'lumiere-movies' ) . '</span>';
+			return $this->output_linkmaker_class->misc_layout( 'frontend_no_results', __( 'No biography available', 'lumiere-movies' ) );
 		}
 
 		/** Vars */
-		$click_text = esc_html__( 'click to expand', 'lumiere-movies' ); // text for cutting.
 		$max_length = $limit_text_bio !== 0 ? $limit_text_bio : 200; // maximum number of characters before cutting, 200 is perfect for popups.
-		$bio_head = "\n\t\t\t" . '<span class="lum_results_section_subtitle">'
-			. esc_html__( 'Biography', 'lumiere-movies' )
-			. '</span>';
+		$bio_head = $this->output_linkmaker_class->misc_layout( 'frontend_subtitle_item', __( 'Biography', 'lumiere-movies' ) );
 		$bio_text = '';
 
 		// Get the first bio result.
-		$bio_text = isset( $bio_array[0]['desc'] ) ? trim( str_replace( [ '<br>', '<br />', '<br/>', '</div>' ], ' ', $bio_array[0]['desc'] ) ) : '';
+		$bio_text = $bio_array[0]['desc'] ?? '';
 
 		// Medaillon is displayed in a popup person page, build internal URL.
 		/**
@@ -224,8 +224,8 @@ class Implement_Link_Maker {
 			? $last_a_html + 3
 			: $max_length;
 
-		// There is 1/ a bio, and 2/ its length is greater to above $esc_html_breaker
-		if ( strlen( $bio_text ) !== 0 && strlen( $bio_text ) > $esc_html_breaker ) {
+		// There is 1/ a bio, and 2/ its length is greater that above $esc_html_breaker
+		if ( strlen( $bio_text ) > 0 && strlen( $bio_text ) > $esc_html_breaker ) {
 
 			// If $esc_html_breaker comes after $max_length, go for it.
 			$max_length = $max_length < $esc_html_breaker ? $esc_html_breaker : $max_length;
@@ -235,11 +235,7 @@ class Implement_Link_Maker {
 			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */
 			$str_two = substr( $bio_text, $max_length, strlen( $bio_text ) );
 
-			$bio_text = "\n\t\t\t" . $str_one
-				. "\n\t\t\t" . '<span class="activatehidesection"><strong>&nbsp;(' . $click_text . ')</strong></span> '
-				. "\n\t\t\t" . '<span class="hidesection">'
-				. "\n\t\t\t" . $str_two
-				. "\n\t\t\t" . '</span>';
+			$bio_text = "\n\t\t\t" . $str_one . $this->output_linkmaker_class->misc_layout( 'see_all_start' ) . "\n\t\t\t" . $str_two . $this->output_linkmaker_class->misc_layout( 'see_all_end' );
 
 		}
 		return strlen( $bio_text ) > 0 ? $bio_head . $bio_text : '';
@@ -312,9 +308,9 @@ class Implement_Link_Maker {
 				break;
 			case 2: // Bootstrap popups
 				$popup_link_person = '<a class="lum_taxo_link lum_link_with_people" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-				. $this->bootstrap_modal( '${4}', '${6}' );
+				. $this->output_linkmaker_class->bootstrap_modal( '${4}', '${6}', $this->imdb_admin_values );
 				$popup_link_movie = '<a class="lum_taxo_link lum_link_with_movie" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-				. $this->bootstrap_modal( '${4}', '${6}' );
+				. $this->output_linkmaker_class->bootstrap_modal( '${4}', '${6}', $this->imdb_admin_values );
 				break;
 			case 3: // No links class
 				$popup_link_person = '${6}';
@@ -336,62 +332,6 @@ class Implement_Link_Maker {
 
 		return $output_two;
 	}*/
-
-	/**
-	 * Build bootstrap HTML part
-	 * This HTML code enable to display bootstrap modal window
-	 * Using spans instead of divs to not break the regex replace in content (WP adds extra <p> when divs are used)
-	 *
-	 * @param string $imdb_id Id of the IMDB person/movie
-	 * @param string $imdb_data Name/title of the IMDB person/movie
-	 *
-	 * @since 4.0.1 Added spinner and dialog size
-	 * @return string
-	 */
-	private function bootstrap_modal( string $imdb_id, string $imdb_data ): string {
-
-		return "\n\t\t\t\t\t" . '<span class="modal fade" id="theModal' . esc_attr( $imdb_id ) . '">'
-			. "\n\t\t\t\t\t\t" . '<span id="bootstrap' . esc_attr( $imdb_id ) . '" class="modal-dialog modal-dialog-centered' . esc_attr( $this->bootstrap_convert_modal_size() ) . '" role="dialog">'
-			. "\n\t\t\t\t\t\t\t" . '<span class="modal-content">'
-			. "\n\t\t\t\t\t\t\t\t" . '<span class="modal-header bootstrap_black">'
-			. "\n\t\t\t\t\t\t\t\t\t" . '<span id="lumiere_bootstrap_spinner_id" role="status" class="spinner-border">'
-			. "\n\t\t\t\t\t\t\t\t\t\t" . '<span class="sr-only"></span>'
-			. "\n\t\t\t\t\t\t\t\t\t" . '</span>'
-			/**
-			 * Deactivated: Title's popup doesn't change when navigating
-			 * . esc_html__( 'Information about', 'lumiere-movies' ) . ' ' . esc_html( ucfirst( $imdb_data ) )
-			 */
-			. "\n\t\t\t\t\t\t\t\t\t" . '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-target="theModal' . esc_html( $imdb_id ) . '"></button>'
-			. "\n\t\t\t\t\t\t\t\t" . '</span>'
-			. "\n\t\t\t\t\t\t\t\t" . '<span class="modal-body embed-responsive embed-responsive-16by9"></span>'
-			. "\n\t\t\t\t\t\t\t" . '</span>'
-			. "\n\t\t\t\t\t\t" . '</span>'
-			. "\n\t\t\t\t\t" . '</span>';
-	}
-
-	/**
-	 * Get popup width and convert it to an incremental bootstrap size
-	 *
-	 * @return string
-	 * @since 4.0.1
-	 */
-	private function bootstrap_convert_modal_size(): string {
-
-		$modal_standard_with = [
-			300 => 'modal-sm',
-			500 => '',
-			800 => 'modal-lg',
-			1140 => 'modal-xl',
-		];
-
-		$modal_size_name = '';
-		foreach ( $modal_standard_with as $size_width => $size_name ) {
-			if ( $this->imdb_admin_values['imdbpopuplarg'] >= $size_width ) {
-				$modal_size_name = ' ' . $size_name;
-			}
-		}
-		return $modal_size_name;
-	}
 
 	/**
 	 * Plots data details, removing all links => no links anymore, removed wp_strip_all_tags()
@@ -439,7 +379,7 @@ class Implement_Link_Maker {
 
 		// Modal bootstrap HTML part.
 		if ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
-			$output .= $this->bootstrap_modal( $imdbid, $imdbname );
+			$output .= $this->output_linkmaker_class->bootstrap_modal( $imdbid, $imdbname, $this->imdb_admin_values );
 		}
 
 		return $output;
@@ -466,7 +406,7 @@ class Implement_Link_Maker {
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
 			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>'
-			. $this->bootstrap_modal( sanitize_title( $title ), '' );
+			. $this->output_linkmaker_class->bootstrap_modal( sanitize_title( $title ), '', $this->imdb_admin_values );
 
 			// No Link modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
@@ -501,7 +441,7 @@ class Implement_Link_Maker {
 			// Bootstrap modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>' . $this->bootstrap_modal( esc_html( $imdbid ), '' );
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>' . $this->output_linkmaker_class->bootstrap_modal( $imdbid, '', $this->imdb_admin_values );
 
 			// No Link modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
@@ -564,8 +504,7 @@ class Implement_Link_Maker {
 			$output .= '&nbsp;';
 		}
 
-		$output .= '</div>'
-			. "\n\t\t\t</div>";
+		$output .= '</div>' . "\n\t\t\t</div>";
 
 		return $output;
 	}
