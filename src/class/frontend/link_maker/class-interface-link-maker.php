@@ -23,13 +23,15 @@ if ( ! defined( 'WPINC' ) ) {
 interface Interface_Link_Maker {
 
 	/**
-	 * Build link to popup for IMDb people
+	 * Source the rating picture
 	 *
-	 * @param string $imdb_id Movie's IMDB
-	 * @param string $name Name of the person
-	 * @return string
+	 * @param int $rating The movie's score
+	 * @param int $votes Number of votes
+	 * @param string $votes_average_txt Vote averages in string
+	 * @param string $out_of_ten_txt Of ten, text
+	 * @param string $votes_txt Proper vote text
 	 */
-	public function get_popup_people( string $imdb_id, string $name ): string;
+	public function get_rating_picture( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string;
 
 	/**
 	 * Build picture of the movie
@@ -52,6 +54,22 @@ interface Interface_Link_Maker {
 	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
 	 */
 	public function get_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string;
+
+	/**
+	 * Plots data details
+	 *
+	 * @param string $plot Text of the plot
+	 */
+	public function get_plot( string $plot ): string;
+
+	/**
+	 * Build link to popup for IMDb people
+	 *
+	 * @param string $imdb_id Movie's IMDB
+	 * @param string $name Name of the person
+	 * @return string
+	 */
+	public function get_popup_people( string $imdb_id, string $name ): string;
 
 	/**
 	 * Build a Popup movie link based on the title/name
@@ -94,24 +112,6 @@ interface Interface_Link_Maker {
 	 * @param string $name prod company name
 	 */
 	public function get_officialsites( string $url, string $name ): string;
-
-	/**
-	 * Plots data details
-	 *
-	 * @param string $plot Text of the plot
-	 */
-	public function get_plot( string $plot ): string;
-
-	/**
-	 * Source the rating picture
-	 *
-	 * @param int $rating The movie's score
-	 * @param int $votes Number of votes
-	 * @param string $votes_average_txt Vote averages in string
-	 * @param string $out_of_ten_txt Of ten, text
-	 * @param string $votes_txt Proper vote text
-	 */
-	public function get_rating_picture( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string;
 
 	/**
 	 * Source data details

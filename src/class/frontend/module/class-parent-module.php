@@ -22,7 +22,7 @@ use Lumiere\Frontend\Main;
 
 /**
  * Simplify coding, using most usefull classes
- * @see \Lumiere\Frontend\Movie\Movie_Taxonomy extra class is only used in modules that need it
+ * @see \Lumiere\Frontend\Taxonomy\Add_Taxonomy extra class is only used in modules that need it
  *
  * @since 4.5 new class
  */

@@ -16,8 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Title;
-
 /**
  * Method to display Rating for movies
  * Uses Link_Maker class
@@ -29,10 +27,10 @@ class Movie_Rating extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Rating
 	 *
-	 * @param Title $movie IMDbPHP title class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 * @param 'rating' $item_name The name of the item, ie 'director', 'writer'
 	 */
-	public function get_module( Title $movie, string $item_name ): string {
+	public function get_module( \Imdb\Title $movie, string $item_name ): string {
 
 		$votes_sanitized = intval( $movie->votes() );
 		$rating_sanitized = intval( $movie->$item_name() );

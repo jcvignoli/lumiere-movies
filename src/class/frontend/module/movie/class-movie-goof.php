@@ -16,7 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Title;
 use Lumiere\Config\Get_Options;
 
 /**
@@ -29,10 +28,10 @@ class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the main module version
 	 *
-	 * @param Title $movie IMDbPHP title class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 * @param 'goof' $item_name The name of the item
 	 */
-	public function get_module( Title $movie, string $item_name ): string {
+	public function get_module( \Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->$item_name();
 		$filter_nbtotal_items = array_filter( $item_results, fn( array $item_results ) => ( count( array_values( $item_results ) ) > 0 ) ); // counts the actual goofs, not their categories

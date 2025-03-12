@@ -199,11 +199,13 @@ class UninstallCest {
 		// Disable keep settings option to get rid of all options
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
+		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->wait(2);
 		$I->scrollTo('#imdbwordpress_tooladminmenu');
 		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
-
+		$I->waitPageLoad();
+		
 		// Deactivate plugin
 		$I->amOnPluginsPage();
 		$I->wait(1);

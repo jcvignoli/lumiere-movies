@@ -25,7 +25,7 @@ use Lumiere\Frontend\Movie\Movie_Display;
  * The class uses \Lumiere\Link_Maker\Link_Factory to automatically select the appropriate Link maker class to display data ( i.e. Classic links, Highslide/Bootstrap, No Links, AMP)
  * It uses ImdbPHP Classes to display movies/people data
  * It uses Layout defined in Output
- * It uses taxonomy functions in Movie_Taxonomy
+ * It uses taxonomy functions in Add_Taxonomy
  * It is extended by Movie_Display, child class
  *
  * @since 4.0 new class, methods were extracted from Movie_Display class

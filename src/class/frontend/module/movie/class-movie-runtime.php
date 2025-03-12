@@ -16,7 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Title;
 use Lumiere\Config\Get_Options;
 
 /**
@@ -29,10 +28,10 @@ class Movie_Runtime extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Runtime
 	 *
-	 * @param Title $movie IMDbPHP title class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 * @param 'runtime' $item_name The name of the item
 	 */
-	public function get_module( Title $movie, string $item_name ): string {
+	public function get_module( \Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = isset( $movie->$item_name()[0]['time'] ) ? strval( $movie->$item_name()[0]['time'] ) : '';
 

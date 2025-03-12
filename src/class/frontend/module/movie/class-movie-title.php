@@ -16,8 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Title;
-
 /**
  * Method to display title for movies
  *
@@ -28,10 +26,10 @@ class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the title and possibly the year
 	 *
-	 * @param Title $movie IMDbPHP title class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 * @param 'title' $item_name The name of the item
 	 */
-	public function get_module( Title $movie, string $item_name ): string {
+	public function get_module( \Imdb\Title $movie, string $item_name ): string {
 
 		$year = $movie->year();
 		$title = $movie->$item_name();

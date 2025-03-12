@@ -5,7 +5,7 @@
  * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version 1.1
+ * @version 2.0
  * @since   3.8
  * @package lumiere-movies
  */
@@ -19,11 +19,14 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
+use Exception;
 
 /**
- * Defines methods utilised in Link Maker child classes
+ * Polyphormism using the interface
+ * The child classes, called in the factory, use then this parent class adding only the extra LINK_OPTIONS so we know what process should be run
+ * Child classes also take care of calling styles and javascripts they need
  *
- * @since 4.5 renamed methods to make them shorter and more meaningful
+ * @since 4.5 renamed methods to make them shorter and more meaningful, new constant LINK_OPTIONS (using it in child classes for code simplification)
  */
 class Implement_Link_Maker {
 
@@ -31,6 +34,18 @@ class Implement_Link_Maker {
 	 * Traits
 	 */
 	use Open_Options;
+
+	/**
+	 * Numbers to identify the link class used
+	 * Used by child classes
+	 */
+	protected const LINK_OPTIONS = [
+		'classic'   => 0,
+		'highslide' => 1,
+		'bootstrap' => 2,
+		'nolinks'   => 3,
+		'amp'       => 4,
+	];
 
 	/**
 	 * Constructor
@@ -70,7 +85,7 @@ class Implement_Link_Maker {
 	 * @param string|bool $photo_big_cover The picture of big size
 	 * @param string|bool $photo_thumb The picture of small size
 	 * @param string $title_text Title of the movie/Name of the person
-	 * @param int $window_type Pass 0 for Highslide or Classic (default), 1 AMP, 2 Bootstrop, 3 No Links
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @param string $specific_a_class Extra class to be added in the building link, none by default
 	 * @param string $specific_img_class Extra class to be added in the building link, none by default
 	 *
@@ -80,7 +95,7 @@ class Implement_Link_Maker {
 		string|bool $photo_big_cover,
 		string|bool $photo_thumb,
 		string $title_text,
-		int $window_type = 0,
+		int $window_type,
 		string $specific_a_class = '',
 		string $specific_img_class = '',
 	): string {
@@ -91,7 +106,7 @@ class Implement_Link_Maker {
 		$photo_localurl = is_string( $photo_thumb ) ? esc_html( $photo_thumb ) : '';
 
 		// Any class but AMP
-		if ( $window_type !== 1 ) {
+		if ( $window_type !== self::LINK_OPTIONS['amp'] ) {
 			// Select picture: if 1/ big picture exists, so use it, use thumbnail otherwise
 			$photo_localurl = is_string( $photo_big_cover ) && strlen( $photo_big_cover ) > 1 ? $photo_big_cover : $photo_localurl;
 		}
@@ -102,18 +117,18 @@ class Implement_Link_Maker {
 		// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
 		$photo_url_final_img = is_string( $photo_thumb ) === false || strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
 
-		// Normal class or Bootstrap class
-		if ( $window_type === 0 || $window_type === 2 ) {
+		// Highslide, classic or Bootstrap class
+		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			$output .= "\n\t\t\t\t\t" . '<a class="' . esc_attr( $specific_a_class ) . '" title="' . esc_attr( $title_text ) . '" href="' . esc_url( $photo_url_final_href ) . '">';
 			// AMP or No Links class
-		} elseif ( $window_type === 1 || $window_type === 3 ) {
+		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] || $window_type === self::LINK_OPTIONS['amp'] ) {
 			$output .= '';
 		}
 
 		// Build image HTML tag <img>
 		$output .= "\n\t\t\t\t\t\t" . '<img ';
 		// AMP class, loading="XXX" breaks AMP
-		if ( $window_type !== 1 ) {
+		if ( $window_type !== self::LINK_OPTIONS['amp'] ) {
 			$output .= 'loading="lazy"';
 		}
 
@@ -136,14 +151,13 @@ class Implement_Link_Maker {
 		}
 
 		// Not classic links, so we can close <a>
-		if ( $window_type !== 3 && $window_type !== 1 ) {
+		if ( $window_type !== self::LINK_OPTIONS['classic'] && $window_type !== self::LINK_OPTIONS['highslide'] && $window_type !== self::LINK_OPTIONS['bootstrap'] ) {
 			$output .= "\n\t\t\t\t\t" . '</a>';
 		}
 
 		$output .= "\n\t\t\t" . '</div>';
 
 		return $output;
-
 	}
 
 	/**
@@ -154,13 +168,13 @@ class Implement_Link_Maker {
 	 * 3- Build links either to popups (if taxonomy) or internal links (if popup people)
 	 *
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
-	 * @param 0|1 $window_type Define the window_type: 0 for full (default), 1 for no links (AMP, No Link classes)
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
 	 * @return string
 	 *
 	 * @since 4.1 added $limit_text_bio param
 	 */
-	protected function get_medaillon_bio_details( array $bio_array, int $window_type = 0, int $limit_text_bio = 0 ): string {
+	protected function get_medaillon_bio_details( array $bio_array, int $window_type, int $limit_text_bio = 0 ): string {
 
 		if ( count( $bio_array ) === 0 ) {
 			return "\n\t\t\t" . '<span class="lum_results_section_subtitle lumiere_font_small">' . esc_html__( 'No biography available', 'lumiere-movies' ) . '</span>';
@@ -186,12 +200,12 @@ class Implement_Link_Maker {
 			// This is a taxonomy page, build popup URL.
 		} elseif ( is_tax() && strlen( $bio_text ) > 0 ) {
 			$bio_text = $this->convert_imdburl_to_taxonomy( $bio_text );
-		}
+		}*/
 
 		// No Links class, exit before building clickable biography, show everything at once
-		if ( $window_type === 1 ) {
+		if ( $window_type === self::LINK_OPTIONS['nolinks'] || $window_type === self::LINK_OPTIONS['amp'] ) {
 			return $bio_head . "\n\t\t\t" . $bio_text;
-		}*/
+		}
 
 		/**
 		 * HTML tags break for 'read more' cutting.
@@ -236,19 +250,19 @@ class Implement_Link_Maker {
 	 * Meant to be used inside popups (not in posts or widgets)
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into an internal link
-	 * @param 0|1 $window_type Define the window_type: 0 for links (default), 1 for no links
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 *
 	 * @return string
 	 *
 	 * @see Implement_Link_Maker::get_medaillon_bio_details() used only there!
 	 * @deprecated No more in use, was utilised to parse things like trivia, trademarks, etc, that don't included imdb links anymore
 	 */
-	/*private function convert_imdburl_to_internalurl( string $text, int $window_type = 0 ): string {
+	/*private function convert_imdburl_to_internalurl( string $text, int $window_type ): string {
 
 		$internal_link_person = '';
 		$internal_link_movie = '';
 
-		if ( intval( $window_type ) === 0 ) {
+		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			$internal_link_person = '<a class="lum_popup_internal_link lum_add_spinner" href="' . wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
 			$internal_link_movie = '<a class="lum_popup_internal_link lum_add_spinner lum_popup_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
 		}
@@ -276,14 +290,14 @@ class Implement_Link_Maker {
 	 * Convert an IMDb url into a popup link for People and Movies in Taxonomy pages
 	 *
 	 * @param string $text Text that includes IMDb URL to convert into an internal link
-	 * @param 0|1|2|3 $window_type Define the window_type: 0 for classic links (default), 1 regular popups, 2 for no links, 3 for bootstrap
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @param string $specific_class Extra class to be added in popup building link, none by default
 	 *
 	 * @return string
 	 * @see Implement_Link_Maker::get_medaillon_bio_details() used only there!
 	 * @deprecated, medaillon text doesn't include links anymore, remove it
 	 */
-	/*private function convert_imdburl_to_taxonomy( string $text, int $window_type = 0, string $specific_class = '' ): string {
+	/*private function convert_imdburl_to_taxonomy( string $text, int $window_type, string $specific_class = '' ): string {
 
 		$popup_link_person = '';
 		$popup_link_movie = '';
@@ -292,21 +306,23 @@ class Implement_Link_Maker {
 			case 0: // Build modal classic window popups.
 				$popup_link_person = '<a class="lum_taxo_link lum_link_with_people ' . $specific_class . '" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
 				$popup_link_movie = '<a class="lum_taxo_link lum_link_with_movie ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
+			case 1: // Build modal highslide window popups (=classic).
+				$popup_link_person = '<a class="lum_taxo_link lum_link_with_people ' . $specific_class . '" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
+				$popup_link_movie = '<a class="lum_taxo_link lum_link_with_movie ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
 				break;
-			case 1: // Build internal links with no popups.
-				$popup_link_person = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'person', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
-				$popup_link_movie = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'film', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
+			case 2: // Bootstrap popups
+				$popup_link_person = '<a class="lum_taxo_link lum_link_with_people" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+				. $this->bootstrap_modal( '${4}', '${6}' );
+				$popup_link_movie = '<a class="lum_taxo_link lum_link_with_movie" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
+				. $this->bootstrap_modal( '${4}', '${6}' );
 				break;
-			case 2: // No links class
+			case 3: // No links class
 				$popup_link_person = '${6}';
 				$popup_link_movie = '${6}';
 				break;
-			case 3: // Bootstrap popups
-				$popup_link_person = '<a class="lum_taxo_link lum_link_with_people" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-				. $this->bootstrap_modal( '${4}', '${6}' );
-
-				$popup_link_movie = '<a class="lum_taxo_link lum_link_with_movie" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-				. $this->bootstrap_modal( '${4}', '${6}' );
+			case 4: // Build internal links with no popups.
+				$popup_link_person = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'person', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
+				$popup_link_movie = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'film', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
 				break;
 		}
 
@@ -351,7 +367,6 @@ class Implement_Link_Maker {
 			. "\n\t\t\t\t\t\t\t" . '</span>'
 			. "\n\t\t\t\t\t\t" . '</span>'
 			. "\n\t\t\t\t\t" . '</span>';
-
 	}
 
 	/**
@@ -375,20 +390,19 @@ class Implement_Link_Maker {
 				$modal_size_name = ' ' . $size_name;
 			}
 		}
-
-		return strlen( $modal_size_name ) > 0 ? $modal_size_name : '';
+		return $modal_size_name;
 	}
 
 	/**
-	 * Plots data details, removing all links
+	 * Plots data details, removing all links => no links anymore, removed wp_strip_all_tags()
 	 *
 	 * @param string $plot Text of the plot
-	 *
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @return string
 	 */
-	protected function get_plot_details( string $plot ): string {
-
-		return "\n\t\t\t\t" . wp_strip_all_tags( $plot );
+	protected function get_plot_details( string $plot, int $window_type ): string {
+		// return "\n\t\t\t\t" . wp_strip_all_tags( $plot );
+		return "\n\t\t\t\t" . $plot;
 	}
 
 	/**
@@ -396,20 +410,19 @@ class Implement_Link_Maker {
 	 *
 	 * @param string $imdbid IMDB id
 	 * @param string $imdbname Name of the person
-	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for no links, 3 for AMP
-	 * @param string $specific_a_class Extra class to be added in popup building link, none by default
-	 *
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
+	 * @param string $a_class Extra class to be added in popup building link, none by default
 	 * @return string
 	 */
-	protected function get_popup_people_details( string $imdbid, string $imdbname, int $window_type = 0, string $specific_a_class = '' ): string {
+	protected function get_popup_people_details( string $imdbid, string $imdbname, int $window_type, string $a_class = '' ): string {
 
 		// No link creation, exit
-		if ( intval( $window_type ) === 2 ) {
+		if ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
 			return esc_html( $imdbname );
 		}
 
 		// Building link.
-		$output = "\n\t\t\t\t\t" . '<a class="add_cursor ' . esc_attr( $specific_a_class ) . '"' . " id=\"link-$imdbid\""
+		$output = "\n\t\t\t\t\t" . '<a class="add_cursor ' . esc_attr( $a_class ) . '"' . " id=\"link-$imdbid\""
 		. ' data-modal_window_nonce="' . wp_create_nonce() . '"'
 		. ' data-modal_window_people="' . esc_attr( $imdbid ) . '"'
 		// Data target is utilised by bootstrap only, but should be safe to keep it.
@@ -418,14 +431,14 @@ class Implement_Link_Maker {
 		. ' title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), $imdbname ) ) . '"';
 
 		// AMP, build a HREF.
-		if ( intval( $window_type ) === 3 ) {
+		if ( $window_type === self::LINK_OPTIONS['amp'] ) {
 			$output .= ' href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdbid ) ) . '"';
 		}
 
 		$output .= '>' . esc_html( $imdbname ) . '</a>';
 
 		// Modal bootstrap HTML part.
-		if ( intval( $window_type ) === 1 ) {
+		if ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			$output .= $this->bootstrap_modal( $imdbid, $imdbname );
 		}
 
@@ -436,7 +449,7 @@ class Implement_Link_Maker {
 	 * Build a Popup movie link based on the title
 	 *
 	 * @param string $title Either the movie's title or person name found in inside the post
-	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for AMP, 3 for no links
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @param string $a_class Class to be added in popup building link, none by default
 	 *
 	 * @return string
@@ -445,26 +458,26 @@ class Implement_Link_Maker {
 	protected function get_popup_film_title_details( string $title, int $window_type, string $a_class = '' ): string {
 
 		// Highslide & Classic modal.
-		if ( $window_type === 0 ) {
+		if ( $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['highslide'] ) {
 			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
 			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// Bootstrap modal.
-		} elseif ( $window_type === 1 ) {
+		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
 			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>'
 			. $this->bootstrap_modal( sanitize_title( $title ), '' );
 
-			// AMP modal.
-		} elseif ( $window_type === 2 ) {
-			return '<a class="add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . sanitize_title( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
-
 			// No Link modal.
-		} elseif ( $window_type === 3 ) {
+		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
 			return esc_html( $title );
 
+			// AMP modal.
+		} elseif ( $window_type === self::LINK_OPTIONS['amp'] ) {
+			return '<a class="add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . sanitize_title( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
 		}
-		return '';
+
+		throw new Exception( 'No window_type found' );
 	}
 
 	/**
@@ -472,7 +485,7 @@ class Implement_Link_Maker {
 	 *
 	 * @param string $title The movie's title
 	 * @param string $imdbid The movie's imdb ID
-	 * @param int $window_type Define the window_type: 0 for highslide & classic links (default), 1 bootstrap popups, 2 for AMP, 3 for no links
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @param string $a_class A class to be added in popup building link, none by default
 	 * @return string
 	 *
@@ -481,25 +494,26 @@ class Implement_Link_Maker {
 	protected function get_popup_film_id_details( string $title, string $imdbid, int $window_type, string $a_class = '' ): string {
 
 		// Highslide & Classic modal
-		if ( $window_type === 0 ) {
+		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] ) {
 			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
 			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// Bootstrap modal.
-		} elseif ( $window_type === 1 ) {
+		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
 			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>' . $this->bootstrap_modal( esc_html( $imdbid ), '' );
 
-			// AMP modal.
-		} elseif ( $window_type === 2 ) {
-			return '<a class="add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
-
 			// No Link modal.
-		} elseif ( $window_type === 3 ) {
+		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
 			return esc_html( $title );
 
+			// AMP modal.
+		} elseif ( $window_type === self::LINK_OPTIONS['amp'] ) {
+			return '<a class="add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
+
 		}
-		return '';
+
+		throw new Exception( 'No window_type found' );
 	}
 
 	/**
@@ -507,17 +521,17 @@ class Implement_Link_Maker {
 	 *
 	 * @param string $url Url to the trailer
 	 * @param string $website_title website name
-	 * @param 0|1 $window_type Define the window_type: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @return string
 	 */
-	protected function get_trailer_details( string $url, string $website_title, int $window_type = 0 ): string {
+	protected function get_trailer_details( string $url, string $website_title, int $window_type ): string {
 
 		// No Links class, do not display any link.
-		if ( $window_type === 1 ) {
-			return "\n\t\t\t" . sanitize_text_field( $website_title ) . ', ' . esc_url( $url );
+		if ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
+			return "\n\t\t\t" . esc_html( $website_title ) . ', ' . esc_url( $url );
 		}
-
-		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html__( 'Watch on IMBb website the trailer for ', 'lumiere-movies' ) . esc_html( $website_title ) . "'>" . sanitize_text_field( $website_title ) . '</a>';
+		/* Translators: %1s is a website name, ie "New 70mm Trailer" */
+		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html( wp_sprintf( __( 'Watch on IMBb website the trailer for %1s', 'lumiere-movies' ), $website_title ) ) . "'>" . esc_html( $website_title ) . '</a>';
 
 	}
 
@@ -526,13 +540,13 @@ class Implement_Link_Maker {
 	 *
 	 * @param string $name prod company name
 	 * @param string $comp_id ID of the prod company
-	 * @param 0|1 $window_type Define the window_type: 0 for highslide, bootstrap classic links (default), 1 for no links & AMP
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @return string
 	 */
 	protected function get_prodcompany_details( string $name, string $comp_id = '', string $notes = '', int $window_type = 0 ): string {
 
 		// No Links class or AMP, do not display any link.
-		if ( $window_type === 1 ) {
+		if ( $window_type === self::LINK_OPTIONS['nolinks'] || $window_type === self::LINK_OPTIONS['amp'] ) {
 			return esc_attr( $name ) . '<br />';
 		}
 
@@ -561,12 +575,12 @@ class Implement_Link_Maker {
 	 *
 	 * @param string $url Url to the offical website
 	 * @param string $name Offical website name
-	 * @param 0|1 $window_type Define the window_type: 0 for highslide, bootstrap, AMP & classic links (default), 1 for no links
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @return string
 	 */
-	protected function get_officialsites_details( string $url, string $name, int $window_type = 0 ): string {
+	protected function get_officialsites_details( string $url, string $name, int $window_type ): string {
 		// No Links class, do not display any link.
-		if ( $window_type === 1 ) {
+		if ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
 			return "\n\t\t\t" . sanitize_text_field( $name ) . ', ' . esc_url( $url );
 		}
 		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>" . esc_html( $name ) . '</a>';
@@ -576,14 +590,14 @@ class Implement_Link_Maker {
 	 * Source data details
 	 *
 	 * @param string $mid IMDb ID of the movie
-	 * @param 0|1 $window_type Define the window_type: 0 for AMP, highslide, bootstrap & classic links (default), 1 for No links
+	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @param null|string $class extra class to add, only AMP does not use it
 	 * @return string
 	 */
-	protected function get_source_details( string $mid, int $window_type = 0, ?string $class = null ): string {
+	protected function get_source_details( string $mid, int $window_type, ?string $class = null ): string {
 
 		// No Links class, do not return links.
-		if ( $window_type === 1 ) {
+		if ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
 			return "\n\t\t\t"
 				. '<img class="imdbelementSOURCE-picture" alt="link to imdb" width="33" height="15" src="'
 				. esc_url(

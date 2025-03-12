@@ -16,9 +16,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Title;
 use Lumiere\Config\Get_Options;
-use Lumiere\Frontend\Movie\Movie_Taxonomy;
+use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
 
 /**
  * Method to display Cinematographer for movies
@@ -31,7 +30,7 @@ class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Constructor
 	 */
 	public function __construct(
-		protected Movie_Taxonomy $movie_taxo = new Movie_Taxonomy()
+		protected Add_Taxonomy $add_taxo_class = new Add_Taxonomy()
 	) {
 		parent::__construct();
 	}
@@ -39,10 +38,10 @@ class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the main module version
 	 *
-	 * @param Title $movie IMDbPHP title class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 * @param 'cinematographer' $item_name The name of the item
 	 */
-	public function get_module( Title $movie, string $item_name ): string {
+	public function get_module( \Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->$item_name();
 		$nb_total_items = count( $item_results );
@@ -66,7 +65,6 @@ class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
-
 		}
 		return $output;
 	}
@@ -100,10 +98,10 @@ class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Popup version of the module, displaying all results on two columns
 	 *
-	 * @param Title $movie IMDbPHP title class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 * @param 'cinematographer' $item_name The name of the item
 	 */
-	public function get_module_popup_two_columns( Title $movie, string $item_name ): string {
+	public function get_module_popup_two_columns( \Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->$item_name();
 		$nb_total_items = count( $item_results );
@@ -134,10 +132,10 @@ class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Taxonomy module version
 	 *
-	 * @param Title $movie IMDbPHP title class
+	 * @param \Imdb\Title $movie IMDbPHP title class
 	 * @param 'cinematographer' $item_name The name of the item
 	 */
-	public function get_module_taxo( Title $movie, string $item_name ): string {
+	public function get_module_taxo( \Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->$item_name();
 		$nb_total_items = count( $item_results );
@@ -153,7 +151,7 @@ class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$get_taxo_options = $this->movie_taxo->create_taxonomy_options( 'cinematographer', $item_results[ $i ]['name'], $this->imdb_admin_values );
+			$get_taxo_options = $this->add_taxo_class->create_taxonomy_options( 'cinematographer', $item_results[ $i ]['name'], $this->imdb_admin_values );
 			$output .= $this->output_class->get_layout_items( $movie->title(), $get_taxo_options );
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
