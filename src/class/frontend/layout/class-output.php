@@ -2,11 +2,10 @@
 /**
  * Class for displaying movies' layout.
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2025, Lost Highway
  *
  * @version       1.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Layout;
@@ -79,7 +78,7 @@ class Output {
 	 *
 	 * @param string $text The text to be embeded with the layout
 	 * @param string $item The item to transform, such as director, title, etc
-	 * @param non-empty-array<string, string> $imdb_admin_values
+	 * @param array<string, string> $imdb_admin_values
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 * @return string
 	 */
@@ -109,7 +108,7 @@ class Output {
 	 * Make sure the theme selected in admin options is used
 	 * @see \Lumiere\Frontend\Movie\Movie_Display::lum_display_movies_box()
 	 *
-	 * @param non-empty-array<string, string> $imdb_admin_values
+	 * @param array<string, string> $imdb_admin_values
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 * @param string $text The text to be embeded with the layout
 	 * @return string

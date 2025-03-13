@@ -1,16 +1,12 @@
 <?php declare( strict_types = 1 );
 /**
  * Class to build Bootstrap links
- * Is called by the Link Factory class, implements abstract Link Maker class
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version 2.0
- * @since 3.8
- * @package lumiere-movies
+ * @version       2.0
+ * @package       lumieremovies
  */
-
 namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.
@@ -24,6 +20,7 @@ use Lumiere\Config\Get_Options;
  * This class is used when bootstrap option is selected
  *
  * Bootstrap Popup links are created, including in taxonomy pages
+ * @since 3.8
  */
 class Bootstrap_Links extends Implement_Link_Maker implements Interface_Link_Maker {
 

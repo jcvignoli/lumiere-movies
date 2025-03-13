@@ -2,12 +2,10 @@
 /**
  * Factory class for selecting the link maker
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @since 3.8
  * @version       1.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Link_Maker;
@@ -26,6 +24,7 @@ use Exception;
  *
  * @phpstan-type LINKMAKERCLASSES \Lumiere\Frontend\Link_Maker\AMP_Links|\Lumiere\Frontend\Link_Maker\Bootstrap_Links|\Lumiere\Frontend\Link_Maker\Classic_Links|\Lumiere\Frontend\Link_Maker\Highslide_Links|\Lumiere\Frontend\Link_Maker\No_Links
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
+ * @since 3.8
  */
 class Link_Factory {
 

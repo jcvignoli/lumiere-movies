@@ -2,11 +2,10 @@
 /**
  * Frontend Trait for pages including movies
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
  * @version       1.2
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend;

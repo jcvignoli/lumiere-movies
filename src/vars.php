@@ -2,9 +2,7 @@
 /**
  * Lumière Movies WordPress global vars
  *
- * @package           lumiere-movies
- * @author            jcvignoli
- * @copyright         2005 https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
+ * @package       lumieremovies
  */
 
 // Get the path of Lumière dir

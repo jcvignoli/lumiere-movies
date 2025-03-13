@@ -3,11 +3,10 @@
  * Settings build
  * Helper class for Settings class
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2025, Lost Highway
  *
  * @version       1.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 namespace Lumiere\Config;
 
@@ -143,7 +142,7 @@ class Settings_Helper {
 	 * @see Settings::get_default_data_option() Meant to be used there
 	 *
 	 * @param array<string, string>|null $activated List of taxonomy to activate by default
-	 * @return non-empty-array<string, string>
+	 * @return array<string, string>
 	 * @phpstan-return ARRAY_WITHNUMBERS
 	 */
 	protected function get_data_rows_withnumbers( ?array $activated ): array {

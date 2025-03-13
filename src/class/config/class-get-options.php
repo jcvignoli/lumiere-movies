@@ -2,11 +2,10 @@
 /**
  * Getting Settings and database options
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
  *
  * @version       1.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Config;
@@ -28,7 +27,7 @@ class Get_Options extends Settings {
 	/**
 	 * Define all the pages of Lumiere
 	 *
-	 * @see \Lumiere\Admin\Admin:lumiere_execute_admin_assets()
+	 * @see \Lumiere\Admin\Admin::lumiere_execute_admin_assets()
 	 *
 	 * @return array<string>
 	 */

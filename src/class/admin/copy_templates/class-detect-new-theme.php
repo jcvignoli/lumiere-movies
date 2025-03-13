@@ -2,11 +2,10 @@
 /**
  * Detect new theme template based on custom Lumière taxonomy
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2024, Lost Highway
  *
  * @version       2.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Admin\Copy_Templates;

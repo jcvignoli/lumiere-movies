@@ -3,11 +3,10 @@
  * Cache options class
  * Child of Admin_Menu
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
  * @version       2.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Admin\Submenu;

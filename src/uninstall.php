@@ -2,11 +2,9 @@
 /**
  * Uninstall Class : Lumière gets blind forever
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright (c) 2021, Lost Highway
- *
  * @version       1.0
- * @package lumiere-movies
+ * @package       lumieremovies
+ * @copyright (c) 2021, Lost Highway
  * @phpcs:disable WordPress.Files.FileName
  */
 

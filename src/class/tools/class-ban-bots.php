@@ -2,12 +2,10 @@
 /**
  * Detect and ban bots
  *
- * @author Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2023, Lost Highway
  *
- * @version 1.0
- * @since 3.11.4
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Tools;
@@ -21,6 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
  * Class that detects IPs, User agent, HTTP_REFERER and bans those found as bots
  * Is usefull to prevent the access to popups that create a lot of cache files
  *
+ * @since 3.11.4
  * @since 4.2.3 two conditional methods in __construct, no automatic ban function available to outside anymore (ban_bot_now() is now private)
  * @since 4.3 As we're using nonces for accessing to popups, there should be limited interest in the class, except in regards to self::maybe_ban_noreferrer()
  */

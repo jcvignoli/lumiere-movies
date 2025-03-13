@@ -2,12 +2,10 @@
 /**
  * Start the Plugins class
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version 1.0
- * @since 4.1
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Plugins;
@@ -30,6 +28,7 @@ use Lumiere\Plugins\Plugins_Detect;
  * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  *
  * @see \Lumiere\Plugins\Plugins_Detect Detect the plugins available should be instanciated
+ * @since 4.1
  */
 class Plugins_Start {
 

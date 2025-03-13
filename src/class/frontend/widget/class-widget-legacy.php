@@ -2,11 +2,10 @@
 /**
  * Widget Legacy class
  *
- * @author Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version 2.0
- * @package lumiere-movies
+ * @version       2.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Widget;

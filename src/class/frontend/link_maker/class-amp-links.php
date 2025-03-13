@@ -2,12 +2,10 @@
 /**
  * Class to build AMP Links
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version 2.0
- * @since 3.7.1
- * @package lumiere-movies
+ * @version       2.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Link_Maker;
@@ -22,6 +20,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Is called by the Link Factory class, implements abstract Link Maker class
  * 1/ External HTML links are kept
  * 2/ But no popup link is created, only links to the content of popups
+ * @since 3.7.1
  */
 class AMP_Links extends Implement_Link_Maker implements Interface_Link_Maker {
 

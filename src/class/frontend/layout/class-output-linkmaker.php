@@ -2,11 +2,10 @@
 /**
  * Class for displaying Link_Maker layout.
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2025, Lost Highway
  *
  * @version       1.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Layout;
@@ -60,7 +59,7 @@ class Output_Linkmaker extends Output {
 	 *
 	 * @param string $imdb_id Id of the IMDB person/movie
 	 * @param string $imdb_data Name/title of the IMDB person/movie
-	 * @param non-empty-array<string, string> $imdb_admin_values
+	 * @param array<string, string> $imdb_admin_values
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 *
 	 * @since 4.0.1 Added spinner and dialog size
@@ -89,7 +88,7 @@ class Output_Linkmaker extends Output {
 	/**
 	 * Get popup width and convert it to an incremental bootstrap size
 	 *
-	 * @param non-empty-array<string, string> $imdb_admin_values
+	 * @param array<string, string> $imdb_admin_values
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 * @return string
 	 *

@@ -2,11 +2,10 @@
 /**
  * Class for IRP plugin (Intelly Related Post)
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version 1.0
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Plugins\Auto;
@@ -59,8 +58,8 @@ class Irp {
 	 * @param null|string $content Text in the_content
 	 * @return string Text in the_content untouched
 	 *
-	 * @see {Lumiere\Frontend\Find_Movie::$nb_of_movies} for the static property that includes if one or more movies are displayed in the post
-	 * @see intelly-related-posts/includes/core.php for the IRP filter
+	 * @see Lumiere\Frontend\Movie\Movie_Display::$nb_of_movies for the static property that includes if one or more movies are displayed in the post
+	 * @info check intelly-related-posts/includes/core.php for the IRP filter
 	 */
 	public function lumiere_remove_irp_if_relevant( ?string $content ): string {
 

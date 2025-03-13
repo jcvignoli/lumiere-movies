@@ -2,11 +2,10 @@
 /**
  * Class for displaying movies. This class automatically catches spans. It displays taxonomy links and add taxonomy according to the selected options
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
  * @version       3.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Movie;
@@ -163,7 +162,7 @@ class Movie_Display {
 	 * @since 4.3.2 method created
 	 * @since 4.4 An array of movies's name without ['bymid'] can be passed
 	 *
-	 * @param non-empty-array<array-key, array<string, string>|string> $films_array Th
+	 * @param array<array-key, array<string, string>|string> $films_array Th
 	 * @phpstan-param array<array-key|string, array{bymid?: string, byname?: string}|string> $films_array
 	 * @return list<string> Array of results of imdbids
 	 */

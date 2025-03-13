@@ -1,12 +1,11 @@
 <?php declare( strict_types = 1 );
 /**
- * Edit popups <head>
+ * Head for popups
  *
- * @author      Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright   2023, Lost Highway
+ * @copyright     2023, Lost Highway
  *
- * @version     1.0
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Popups;
@@ -23,7 +22,7 @@ use Lumiere\Config\Get_Options;
 use Lumiere\Plugins\Plugins_Start;
 
 /**
- * Edit <head> for popups
+ * Head for popups
  * Add stylesheets, css, check if popup, nonce, get plugins, get link_maker, use ban_bots, add metas html
  * Extended by children classes
  *

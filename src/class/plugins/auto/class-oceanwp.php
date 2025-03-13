@@ -2,11 +2,10 @@
 /**
  * Class for OceanWP
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version 1.0
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Plugins\Auto;

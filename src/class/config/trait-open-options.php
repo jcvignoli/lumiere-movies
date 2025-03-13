@@ -2,11 +2,10 @@
 /**
  * Settings Trait for including database options
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
  * @version       1.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Config;

@@ -2,8 +2,8 @@
 /**
  * Copy Taxonomy Themes templates based on taxonomy
  *
- * @version 1.0
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Admin\Copy_Templates;

@@ -2,11 +2,10 @@
 /**
  * Validator Gets URL in popups
  *
- * @author      Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright   2024, Lost Highway
+ * @copyright     2024, Lost Highway
  *
- * @version     1.0
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 namespace Lumiere\Tools;
 

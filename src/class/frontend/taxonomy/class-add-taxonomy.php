@@ -2,11 +2,10 @@
 /**
  * Class for dealing with movies' taxonomy movies.
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2025, Lost Highway
  *
  * @version       1.0
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Taxonomy;
@@ -38,10 +37,10 @@ class Add_Taxonomy {
 	 *
 	 * @param string $type_item The general category of the item, ie 'director', 'color'
 	 * @param string $taxonomy_term The name of the first string to display, ie "Stanley Kubrick"
-	 * @param non-empty-array<string, string> $imdb_admin_values
+	 * @param array<string, string> $imdb_admin_values
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 * @return array<string, string>
-	 * @phstan-return array{'custom_taxonomy_fullname': string, 'taxonomy_term': string}
+	 * @phpstan-return array{'custom_taxonomy_fullname': string, 'taxonomy_term': string}
 	 */
 	public function create_taxonomy_options( string $type_item, string $taxonomy_term, array $imdb_admin_values ): array {
 
@@ -91,7 +90,7 @@ class Add_Taxonomy {
 
 	/**
 	 * Create an html href link for taxonomy using the name passed
-	 * @see \Lumiere\Frontend\Modules\Movie\* call this
+	 * @info \Lumiere\Frontend\Modules\Movie\* call this
 	 *
 	 * @param string $name_searched The name searched, such as 'Stanley Kubrick'
 	 * @param string $taxo_category The taxonomy category used, such as 'lumiere-director'

@@ -1,13 +1,11 @@
 <?php declare( strict_types = 1 );
 /**
  * Widget Frontend class
- * Display Movie data for Auto title widget and Normal widget (Metabox)
  *
- * @author Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2021, Lost Highway
  *
- * @version 2.0
- * @package lumiere-movies
+ * @version       2.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Widget;

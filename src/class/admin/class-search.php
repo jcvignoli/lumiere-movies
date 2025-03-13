@@ -1,12 +1,11 @@
 <?php declare( strict_types = 1 );
 /**
- * IMDbPHP search class
+ * Admin movies search class
  *
- * @author      Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright   2021, Lost Highway
  *
  * @version     1.0
- * @package lumiere-movies
+ * @package     lumieremovies
  */
 
 namespace Lumiere\Admin;

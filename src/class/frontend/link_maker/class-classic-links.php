@@ -2,13 +2,11 @@
 /**
  * Class to build Classic Links
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version 2.0
- * @package lumiere-movies
+ * @version       2.0
+ * @package       lumieremovies
  */
-
 namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.

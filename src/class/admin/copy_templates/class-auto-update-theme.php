@@ -2,8 +2,8 @@
 /**
  * Auto Update Taxonomy templates
  *
- * @version 1.0
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Admin\Copy_Templates;

@@ -2,11 +2,10 @@
 /**
  * Select the Popup to display
  *
- * @author      Lost Highway <https://www.jcvignoli.com/blog>
- * @copyright   2025, Lost Highway
+ * @copyright     2025, Lost Highway
  *
- * @version     1.0
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Popups;

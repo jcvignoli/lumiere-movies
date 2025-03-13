@@ -4,13 +4,11 @@
  *
  * Use Child classes to process the updates
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version 3.0
- * @package lumiere-movies
+ * @version       3.0
+ * @package       lumieremovies
  */
-
 namespace Lumiere;
 
 // If this file is called directly, abort.

@@ -2,8 +2,7 @@
 /**
  * Lumière Movies WordPress plugin
  *
- * @package           lumiere-movies
- * @author            jcvignoli
+ * @package           lumieremovies
  * @copyright         2005 https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
  * @license           GPL-3.0-or-later
  *

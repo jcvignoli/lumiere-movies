@@ -2,12 +2,10 @@
 /**
  * Class Polylang plugin
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version 1.0
- * @since 3.7.1
- * @package lumiere-movies
+ * @version       1.0
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Plugins\Auto;
@@ -28,6 +26,7 @@ use Lumiere\Tools\Validate_Get;
  * Can method get_active_plugins() to get an extra property $active_plugins, as available in {@link Plugins_Start::activate_plugins()}
  * Executed in Frontend only (except for {@see Polylang::add_polylang_taxonomy()} that can be called from ie admin)
  *
+ * @since 3.7.1
  * @since 4.3 Using add_filter() and more OOP, removing custom Polylang translation for taxonomy terms (same term will have one entry only, no translation anymore)
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect

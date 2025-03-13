@@ -13,10 +13,9 @@
  * This file is automatically registered and run in class-updates.php
  * @phpcs:disable WordPress.Files.FileName
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @package lumiere-movies
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Updates;

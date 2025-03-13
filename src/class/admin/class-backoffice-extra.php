@@ -2,11 +2,10 @@
 /**
  * Admin Extra: Complement natural backoffice WordPress functions
  *
- * @author      Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright   2023, Lost Highway
  *
  * @version     1.0
- * @package lumiere-movies
+ * @package     lumieremovies
  */
 
 namespace Lumiere\Admin;

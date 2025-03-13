@@ -2,12 +2,10 @@
 /**
  * Interface for building links
  *
- * @author        Lost Highway <https://www.jcvignoli.com/blog>
  * @copyright (c) 2022, Lost Highway
  *
- * @version 1.1
- * @since   3.8
- * @package lumiere-movies
+ * @version       1.1
+ * @package       lumieremovies
  */
 
 namespace Lumiere\Frontend\Link_Maker;
@@ -19,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Defines methods utilised in Link Maker classes
+ * @since   3.8
  */
 interface Interface_Link_Maker {
 
