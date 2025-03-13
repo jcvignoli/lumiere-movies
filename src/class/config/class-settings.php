@@ -131,14 +131,13 @@ class Settings extends Settings_Helper {
 	 * Must be public, used everywhere
 	 */
 	public const FILE_COPY_THEME_TAXONOMY           = 'class/admin/taxo/class-copy-template-taxonomy.php';
-	public const GUTENBERG_SEARCH_FILE              = 'class/admin/class-search.php';
-	public const SEARCH_URL_BIT                     = 'lumiere/search/';
-	public const SEARCH_URL_ADMIN                   = '/wp-admin/' . self::SEARCH_URL_BIT;
+	public const GUTENBERG_SEARCH_FILE              = 'class/admin/class-search-movie.php';
 	public const POPUP_SEARCH_PATH                  = 'class/frontend/popups/class-popup-movie-search.php';
 	public const POPUP_MOVIE_PATH                   = 'class/frontend/popups/class-popup-movie.php';
 	public const POPUP_PERSON_PATH                  = 'class/frontend/popups/class-popup-person.php';
 	public const TAXO_PEOPLE_THEME                  = 'class/theme/class-taxonomy-people-standard.php';
 	public const TAXO_ITEMS_THEME                   = 'class/theme/class-taxonomy-items-standard.php';
+	public const SEARCH_MOVIE_URL_ADMIN             = '/wp-admin/lumiere/search-movie/';
 
 	/**
 	 * URL string for taxonomy
@@ -226,7 +225,8 @@ class Settings extends Settings_Helper {
 
 	/**
 	 * Get ADMIN vars for javascript
-	 * @see \Lumiere\Admin\Admin::lumiere_execute_admin_assets() Add this to wp_add_inline_script()
+	 * @see \Lumiere\Admin\Admin::lumiere_execute_admin_assets() Include the vars
+	 * Used in wp_add_inline_script() function
 	 *
 	 * @return string The full javascript piece to be included
 	 */
@@ -234,11 +234,9 @@ class Settings extends Settings_Helper {
 		$imdb_admin_option = get_option( self::LUM_ADMIN_OPTIONS );
 		$scripts_admin_vars = wp_json_encode(
 			[
-				'imdb_path'                   => LUM_WP_URL,
+				'lum_path'                    => LUM_WP_URL,
 				'wordpress_path'              => site_url(),
-				'wordpress_admin_path'        => admin_url(),
-				'gutenberg_search_url_string' => self::SEARCH_URL_BIT,
-				'gutenberg_search_url'        => self::SEARCH_URL_ADMIN,
+				'admin_movie_search_url'      => self::SEARCH_MOVIE_URL_ADMIN,
 				'ico80'                       => LUM_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
 				'popupLarg'                   => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong'                   => $imdb_admin_option['imdbpopuplong'],
@@ -249,7 +247,8 @@ class Settings extends Settings_Helper {
 
 	/**
 	 * Get FRONTEND vars for javascript
-	 * @see \Lumiere\Frontend\Frontend::frontpage_execute_assets() Add this to wp_add_inline_script()
+	 * @see \Lumiere\Frontend\Frontend::frontpage_execute_assets() Include the vars
+	 * Used in wp_add_inline_script() function
 	 *
 	 * @return string The full javascript piece to be included
 	 */
@@ -257,7 +256,7 @@ class Settings extends Settings_Helper {
 		$imdb_admin_option = get_option( self::LUM_ADMIN_OPTIONS );
 		$scripts_vars = wp_json_encode(
 			[
-				'imdb_path'           => LUM_WP_URL,
+				'lum_path'            => LUM_WP_URL,
 				'urlpopup_film'       => Get_Options::get_popup_url( 'film', site_url() ),
 				'urlpopup_person'     => Get_Options::get_popup_url( 'person', site_url() ),
 				'popup_border_colour' => $imdb_admin_option['imdbpopuptheme'],

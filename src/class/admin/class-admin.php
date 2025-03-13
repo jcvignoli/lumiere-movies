@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Backoffice_Extra;
 use Lumiere\Admin\Metabox_Selection;
-use Lumiere\Admin\Search;
+use Lumiere\Admin\Search_Movie;
 use Lumiere\Tools\Data;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Open_Options;
@@ -62,7 +62,7 @@ class Admin {
 		}
 
 		// Display search page, must be executed before the admin control
-		add_filter( 'template_redirect', [ $start, 'lum_search_redirect' ] );
+		add_filter( 'template_redirect', [ $start, 'lum_search_movie_redirect' ] );
 
 		/**
 		 * (2) Only for admin pages, so after this, only init and below should work
@@ -191,11 +191,7 @@ class Admin {
 			wp_enqueue_script( 'lumiere_scripts_admin' );
 
 			// Add inline scripts.
-			wp_add_inline_script(
-				'lumiere_scripts_admin',
-				Get_Options::get_scripts_admin_vars(),
-				'before'
-			);
+			wp_add_inline_script( 'lumiere_scripts_admin', Get_Options::get_scripts_admin_vars(), 'before' );
 
 			// Load hide/show js.
 			wp_enqueue_script( 'lumiere_hide_show' );
@@ -259,21 +255,21 @@ class Admin {
 	}
 
 	/**
-	 * Display search popup/page in admin, but since it's called in external pages, it can't be an admin page
+	 * Display search popup/page for movies in admin, but since it's called in external pages, it can't be an admin page
 	 *
 	 * @param string $template_path The path to the page of the theme currently in use - not utilised
-	 * @return Search|string The Search class is displayed if successfull, template path otherwise
+	 * @return Search_Movie|string The Search class is displayed if successfull, template path otherwise
 	 */
-	public function lum_search_redirect( string $template_path ): Search|string {
+	public function lum_search_movie_redirect( string $template_path ): Search_Movie|string {
 
 		// Display only if URL is ok and is not admin (to save time.
 		if (
-			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options::SEARCH_URL_ADMIN ) !== 0
+			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options::SEARCH_MOVIE_URL_ADMIN ) !== 0
 			|| is_admin()
 		) {
 			return $template_path;
 		}
 
-		return new Search();
+		return new Search_Movie();
 	}
 }

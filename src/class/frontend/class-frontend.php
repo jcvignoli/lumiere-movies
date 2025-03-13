@@ -136,10 +136,7 @@ class Frontend {
 		 * Pass variables to javascript lumiere_scripts.js.
 		 * These variables contains popup sizes, color, paths, etc.
 		 */
-		wp_add_inline_script(
-			'lumiere_scripts',
-			Get_Options::get_scripts_frontend_vars(),
-		);
+		wp_add_inline_script( 'lumiere_scripts', Get_Options::get_scripts_frontend_vars() );
 
 		// Do not enqueue it more than once.
 		if ( wp_script_is( 'lumiere_scripts', 'enqueued' ) === false ) {

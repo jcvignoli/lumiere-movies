@@ -36,12 +36,12 @@
 
 				// Full URL for Querying /wp-admin/lumiere/search
 				var gutenberg_url = lumiere_admin_vars.wordpress_path
-							+ lumiere_admin_vars.gutenberg_search_url
+							+ lumiere_admin_vars.admin_movie_search_url
 							+ "?moviesearched=";
 
 				// ICON to display before tagged words
 				var lum_image = '<img src="'
-						+ lumiere_admin_vars.imdb_path
+						+ lumiere_admin_vars.lum_path
 						+ 'assets/pics/lumiere-ico-noir13x13.png" class="lumiere_admin_tiny_img" width="13" />';
 
 				// SPANS
@@ -61,7 +61,7 @@
 					'lumiere_tiny',
 					{
 						title : 'Lumière! add info',
-						image : lumiere_admin_vars.imdb_path + 'assets/pics/lumiere-ico-noir13x13.png',
+						image : lumiere_admin_vars.lum_path + 'assets/pics/lumiere-ico-noir13x13.png',
 						type: 'menubutton',
 						menu: menu,
 						menu: [

@@ -29,7 +29,7 @@ use Lumiere\Tools\Validate_Get;
  * @see \Lumiere\Admin Call this page in add_filter( 'template_include' )
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Imdbphp
  */
-class Search {
+class Search_Movie {
 
 	/**
 	 * Traits
@@ -201,7 +201,7 @@ class Search {
 		} ?>
 
 <br>
-<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Get_Options::SEARCH_URL_ADMIN ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
+<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Get_Options::SEARCH_MOVIE_URL_ADMIN ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
 <br>
 <br><?php
 	}
