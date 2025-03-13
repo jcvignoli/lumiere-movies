@@ -198,7 +198,7 @@ class Head_Popups {
 
 		echo "\n\t\t" . '<!-- /Lumière! Movies -->' . "\n";
 
-		$this->logger->log->debug( '[Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->log?->debug( '[Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 	}
 
 }

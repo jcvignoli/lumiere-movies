@@ -70,7 +70,7 @@ class Widget_Legacy extends Widget_Selection {
 		 */
 		$widget_class = new Widget_Frontpage();
 		$lum_widget_name = isset( $args['widget_name'] ) && is_string( $args['widget_name'] ) ? esc_html( $args['widget_name'] ) : '';
-		$widget_class->logger->log->debug( '[Widget_Legacy] Using ' . $lum_widget_name . '.' );
+		$widget_class->logger->log?->debug( '[Widget_Legacy] Using ' . $lum_widget_name . '.' );
 
 		$kses_escape = [
 			'div' => [

@@ -52,11 +52,8 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 			return;
 		}
 
-		// Simplify the coding.
-		$logger = $this->logger->log;
-
 		// Update the number of updates already processed in Lumière options.
-		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -69,15 +66,11 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 		 * Obsolete
 		 */
 		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetcomment' ) ) {
-
 			$text = 'Lumière option imdbwidgetcomment successfully removed.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-
 			$text = 'Lumière option imdbwidgetcomment could not be removed.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/*
@@ -117,18 +110,13 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 		) ) {
 
 			$text = 'Lumière option imdbwidgetorder successfully updated.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-
 			$text = 'Lumière option imdbwidgetorder could not be updated.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/** ------------------------- Editing part (end) --------------
 		 */
-
 	}
-
 }

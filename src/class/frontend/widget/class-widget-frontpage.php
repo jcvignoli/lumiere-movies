@@ -162,12 +162,12 @@ class Widget_Frontpage {
 
 		// Exit it's home, frontpage, 404, attachment, etc (must allow people with custom posts to display the widget)
 		if ( $this->is_forbidden_areas() === true ) {
-			$this->logger->log->debug( '[Widget_Frontpage] This is a forbidden area for displaying the widget, process stopped.' );
+			$this->logger->log?->debug( '[Widget_Frontpage] This is a forbidden area for displaying the widget, process stopped.' );
 			return '';
 		}
 
 		if ( isset( $inside_tags ) ) {
-			$this->logger->log->debug( '[Widget_Frontpage] Shortcode [' . $tags . '] added.' );
+			$this->logger->log?->debug( '[Widget_Frontpage] Shortcode [' . $tags . '] added.' );
 			return $this->lum_get_widget( $inside_tags );
 		}
 		return '';
@@ -189,7 +189,7 @@ class Widget_Frontpage {
 
 		// Exit it's home, frontpage, 404, attachment, etc (must allow people with custom posts to display the widget)
 		if ( $this->is_forbidden_areas() === true ) {
-			$this->logger->log->debug( '[Widget_Frontpage] This is a forbidden area for displaying the widget, process stopped.' );
+			$this->logger->log?->debug( '[Widget_Frontpage] This is a forbidden area for displaying the widget, process stopped.' );
 			return '';
 		}
 
@@ -199,16 +199,16 @@ class Widget_Frontpage {
 		$post_id = get_the_ID();
 
 		if ( is_int( $post_id ) === false || $post_id === 0 ) {
-			$this->logger->log->debug( '[Widget_Frontpage] Wrong post ID' );
+			$this->logger->log?->debug( '[Widget_Frontpage] Wrong post ID' );
 			return '';
 		}
 
 		// Log what widget type is in use.
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
-			$this->logger->log->debug( '[Widget_Frontpage] Block-based widget found' );
+			$this->logger->log?->debug( '[Widget_Frontpage] Block-based widget found' );
 		} elseif ( is_active_widget( false, false, Widget_Selection::WIDGET_NAME, false ) !== false ) {
-			$this->logger->log->debug( '[Widget_Frontpage] Pre-5.8 WordPress widget found' );
+			$this->logger->log?->debug( '[Widget_Frontpage] Pre-5.8 WordPress widget found' );
 		}
 
 		/**
@@ -220,14 +220,14 @@ class Widget_Frontpage {
 			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) !== 'disabled' // thus the var may not have been created.
 		) {
 			$movies_array[]['byname'] = esc_html( get_the_title( $post_id ) );
-			$this->logger->log->debug( '[Widget_Frontpage] Auto title widget activated, using the post title ' . esc_html( get_the_title( $post_id ) ) . ' for querying' );
+			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget activated, using the post title ' . esc_html( get_the_title( $post_id ) ) . ' for querying' );
 
 			// the post-based selection for auto title widget is turned off
 		} elseif (
 			$this->imdb_admin_values['imdbautopostwidget'] === '1'
 			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) === 'disabled'
 		) {
-			$this->logger->log->debug( '[Widget_Frontpage] Auto title widget is specifically deactivated for this post' );
+			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget is specifically deactivated for this post' );
 		}
 
 		// Check if a post ID is available add it.
@@ -242,7 +242,7 @@ class Widget_Frontpage {
 		);
 		// Exit if array is empty (meaning that no metadata was found and auto title option is disabled)
 		if ( count( $movies_array_cleaned ) === 0 ) {
-			$this->logger->log->debug( '[Widget_Frontpage] Neither movie title nor id were passed to be queried for this widget, exit' );
+			$this->logger->log?->debug( '[Widget_Frontpage] Neither movie title nor id were passed to be queried for this widget, exit' );
 			return '';
 		}
 
@@ -280,7 +280,7 @@ class Widget_Frontpage {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_name as $key => $value ) {
 				$movies_array['byname'] = esc_html( $value );
-				$this->logger->log->debug( "[Widget_Frontpage] Custom field lumiere_widget_movietitle found, using \"$value\" for querying" );
+				$this->logger->log?->debug( "[Widget_Frontpage] Custom field lumiere_widget_movietitle found, using \"$value\" for querying" );
 			}
 
 		}
@@ -290,7 +290,7 @@ class Widget_Frontpage {
 			// Do a loop, even if today the plugin allows only one metabox.
 			foreach ( $get_movie_id as $key => $value ) {
 				$movies_array['bymid'] = esc_html( $value );
-				$this->logger->log->debug( "[Widget_Frontpage] Custom field lumiere_widget_movieid found, using \"$value\" for querying" );
+				$this->logger->log?->debug( "[Widget_Frontpage] Custom field lumiere_widget_movieid found, using \"$value\" for querying" );
 			}
 
 		}

@@ -52,11 +52,8 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 			return;
 		}
 
-		// Simplify the coding.
-		$logger = $this->logger->log;
-
 		// Update the number of updates already processed in Lumière options.
-		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
@@ -71,12 +68,12 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdbdelayimdbrequest', 0 ) ) {
 
 			$text = 'Lumière option imdbdelayimdbrequest successfully added.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbdelayimdbrequest could not be added.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -87,12 +84,12 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_add_options( Get_Options::get_cache_tablename(), 'imdbcacheautorefreshcron', 0 ) ) {
 
 			$text = 'Lumière option imdbcacheautorefreshcron successfully added.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbcacheautorefreshcron could not be added.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -103,12 +100,12 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_remove_options( Get_Options::get_cache_tablename(), 'imdbusezip' ) ) {
 
 			$text = 'Lumière option imdbusezip successfully removed.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbusezip could not be removed.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -119,12 +116,12 @@ class Lumiere_Update_File_14 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_remove_options( Get_Options::get_cache_tablename(), 'imdbconverttozip' ) ) {
 
 			$text = 'Lumière option imdbconverttozip successfully removed.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbconverttozip could not be removed.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 

@@ -62,13 +62,13 @@ class Updates {
 	public function run_update_options(): void {
 
 		// Debug info
-		$this->logger->log->debug( '[updateClass] Running updates...' );
+		$this->logger->log?->debug( '[updateClass] Running updates...' );
 
 		// Count the number of files in class/updates/
 		$files = new FilesystemIterator( LUM_WP_PATH . 'class/updates/', FilesystemIterator::SKIP_DOTS );
 		$nb_of_files_in_updates_folder = iterator_count( $files );
 
-		$this->logger->log->debug( '[updateClass] Number of updates found: ' . $nb_of_files_in_updates_folder );
+		$this->logger->log?->debug( '[updateClass] Number of updates found: ' . $nb_of_files_in_updates_folder );
 
 		// Iteration for each class in class/updates/
 		for ( $i = 1; $i <= $nb_of_files_in_updates_folder; $i++ ) {
@@ -103,12 +103,12 @@ class Updates {
 	protected function lumiere_add_options( ?string $option_array = null, ?string $option_key = null, mixed $option_value = null ): bool {
 
 		if ( is_null( $option_array ) === true ) {
-			$this->logger->log->error( '[updateClass][lumiere_add_options] Cannot update Lumière options, var array is undefined.' );
+			$this->logger->log?->error( '[updateClass][lumiere_add_options] Cannot update Lumière options, var array is undefined.' );
 			return false;
 		}
 
 		if ( is_null( $option_key ) === true ) {
-			$this->logger->log->error( '[updateClass][lumiere_add_options] Cannot update Lumière options, var key is undefined.' );
+			$this->logger->log?->error( '[updateClass][lumiere_add_options] Cannot update Lumière options, var key is undefined.' );
 			return false;
 		}
 
@@ -120,13 +120,13 @@ class Updates {
 			$option_array_search[ $option_key ] = $option_value;
 			update_option( $option_array, $option_array_search );
 
-			$this->logger->log->info( "[updateClass][lumiere_add_options] Lumière option ($option_key) added." );
+			$this->logger->log?->info( "[updateClass][lumiere_add_options] Lumière option ($option_key) added." );
 
 			return true;
 
 		}
 
-		$this->logger->log->error( "[updateClass][lumiere_add_options] Lumière option ($option_key) already exists." );
+		$this->logger->log?->error( "[updateClass][lumiere_add_options] Lumière option ($option_key) already exists." );
 
 		return false;
 	}
@@ -144,12 +144,12 @@ class Updates {
 	protected function lumiere_update_options( ?string $option_array = null, ?string $option_key = null, mixed $option_value = null ): bool {
 
 		if ( is_null( $option_array ) === true ) {
-			$this->logger->log->error( '[updateClass][lumiere_update_options] Cannot update Lumière options, var array is undefined.' );
+			$this->logger->log?->error( '[updateClass][lumiere_update_options] Cannot update Lumière options, var array is undefined.' );
 			return false;
 		}
 
 		if ( is_null( $option_key ) === true ) {
-			$this->logger->log->error( '[updateClass][lumiere_update_options] Cannot update Lumière options, var key is undefined.' );
+			$this->logger->log?->error( '[updateClass][lumiere_update_options] Cannot update Lumière options, var key is undefined.' );
 			return false;
 		}
 
@@ -160,13 +160,13 @@ class Updates {
 			$option_array_search[ $option_key ] = $option_value;
 			update_option( $option_array, $option_array_search );
 
-			$this->logger->log->info( "[updateClass][lumiere_update_options] Lumière option ($option_key) was successfully updated." );
+			$this->logger->log?->info( "[updateClass][lumiere_update_options] Lumière option ($option_key) was successfully updated." );
 
 			return true;
 
 		}
 
-		$this->logger->log->error( "[updateClass][lumiere_update_options] Lumière option ($option_key) was not found." );
+		$this->logger->log?->error( "[updateClass][lumiere_update_options] Lumière option ($option_key) was not found." );
 
 		return false;
 	}
@@ -183,12 +183,12 @@ class Updates {
 	protected function lumiere_remove_options( ?string $option_array = null, ?string $option_key = null ): bool {
 
 		if ( is_null( $option_array ) === true ) {
-			$this->logger->log->error( '[updateClass][lumiere_remove_options] Cannot remove Lumière options, var array is undefined.' );
+			$this->logger->log?->error( '[updateClass][lumiere_remove_options] Cannot remove Lumière options, var array is undefined.' );
 			return false;
 		}
 
 		if ( is_null( $option_key ) === true ) {
-			$this->logger->log->error( '[updateClass][lumiere_remove_options] Cannot remove Lumière options, var key is undefined.' );
+			$this->logger->log?->error( '[updateClass][lumiere_remove_options] Cannot remove Lumière options, var key is undefined.' );
 			return false;
 		}
 
@@ -200,13 +200,13 @@ class Updates {
 			unset( $option_array_search[ $option_key ] );
 			update_option( $option_array, $option_array_search );
 
-			$this->logger->log->info( "[updateClass][lumiere_remove_options] Lumière options ($option_key) successfully removed." );
+			$this->logger->log?->info( "[updateClass][lumiere_remove_options] Lumière options ($option_key) successfully removed." );
 
 			return true;
 
 		}
 
-		$this->logger->log->error( "[updateClass][lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist." );
+		$this->logger->log?->error( "[updateClass][lumiere_remove_options] Cannot remove Lumière options, ($option_key) does not exist." );
 
 		return false;
 	}
@@ -244,11 +244,11 @@ class Updates {
 			&& ( (string) $this->imdb_admin_values['imdbHowManyUpdates'] === $update_number_string )
 		) {
 
-			$this->logger->log->debug( "[updateClass] Update $update_number_string has started" );
+			$this->logger->log?->debug( "[updateClass] Update $update_number_string has started" );
 			return true;
 		}
 
-		$this->logger->log->debug( "[updateClass] Update $update_number_string not needed." );
+		$this->logger->log?->debug( "[updateClass] Update $update_number_string not needed." );
 		return false;
 	}
 }

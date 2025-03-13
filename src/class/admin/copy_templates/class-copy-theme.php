@@ -102,7 +102,7 @@ class Copy_Theme {
 		) {
 			if ( $this->copy_theme_template( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, $lumiere_taxo_title ) === true ) {
 				set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );
-				$this->logger->log->info( 'Template file ' . $lumiere_taxonomy_theme_file . ' was copied.' );
+				$this->logger->log?->info( '[Copy_Theme] Template file ' . $lumiere_taxonomy_theme_file . ' was copied.' );
 				$this->maybe_redirect( $url_data_taxo_page, $wp_cli_taxonomy );
 				return;
 			}

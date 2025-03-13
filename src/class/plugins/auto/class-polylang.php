@@ -382,19 +382,19 @@ class Polylang {
 			$this->logger = null;
 		}
 
-		$this->logger?->log->info( '[Taxonomy][Update terms][Polylang] Polylang taxonomy version started' );
-		$this->logger?->log->debug( '[Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" being processed' );
+		$this->logger?->log?->info( '[Taxonomy][Update terms][Polylang] Polylang taxonomy version started' );
+		$this->logger?->log?->debug( '[Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" being processed' );
 
 		$get_lang = pll_get_post_language( $page_id );
 		$lang = $get_lang !== false ? $get_lang : '';
 		$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
 
 		if ( $terms_post === false || $terms_post instanceof \WP_Error ) {
-			$this->logger?->log->error( '[Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
+			$this->logger?->log?->error( '[Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
 			return false;
 		}
 
-		$this->logger?->log->debug( '[Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" in lang ' . esc_html( $lang ) . ' being processed' );
+		$this->logger?->log?->debug( '[Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" in lang ' . esc_html( $lang ) . ' being processed' );
 
 		foreach ( $terms_post as $key => $term_post ) {
 
@@ -413,7 +413,7 @@ class Polylang {
 				/** @psalm-suppress PossiblyInvalidPropertyFetch (it's always object!) */
 				$term_slug = isset( $term_post ) && ! $term_post instanceof \WP_Error ? $term_post->slug : '';
 
-				$this->logger?->log->notice( '[Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );
+				$this->logger?->log?->notice( '[Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );
 
 			} else {
 				// Set the term's language.
@@ -431,11 +431,11 @@ class Polylang {
 
 			// Insert sucess.
 			if ( isset( $adding_terms ) && ! $adding_terms instanceof \WP_Error && count( $adding_terms ) > 0 ) {
-				$this->logger?->log->info( '[Taxonomy][Update terms][Polylang][Added] Term *' . esc_html( $term_slug ) . '* to post *' . esc_html( $title ) . '* in lang ' . esc_html( $lang ) );
+				$this->logger?->log?->info( '[Taxonomy][Update terms][Polylang][Added] Term *' . esc_html( $term_slug ) . '* to post *' . esc_html( $title ) . '* in lang ' . esc_html( $lang ) );
 			}
-			$this->logger?->log->debug( '[Taxonomy][Update terms][Polylang][Processed] Term *' . esc_html( $term_slug ) . '* processed' );
+			$this->logger?->log?->debug( '[Taxonomy][Update terms][Polylang][Processed] Term *' . esc_html( $term_slug ) . '* processed' );
 		}
-		$this->logger?->log->debug( '[Taxonomy][Update terms][Polylang][Post] Title *' . esc_html( $title ) . '* processed' );
+		$this->logger?->log?->debug( '[Taxonomy][Update terms][Polylang][Post] Title *' . esc_html( $title ) . '* processed' );
 		return true;
 	}
 }

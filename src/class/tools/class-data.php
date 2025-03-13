@@ -97,7 +97,7 @@ class Data {
 	 * @param string $term the term searched for
 	 * @return bool
 	 */
-	public static function lumiere_array_contains_term( array $array_list, string $term ): bool {
+	public static function array_contains_term( array $array_list, string $term ): bool {
 
 		// Escape special url string characters for following regex
 		$array_list_escaped = str_replace( [ '?', '&', '#' ], [ '\?', '\&', '\#' ], $array_list );

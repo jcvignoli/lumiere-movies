@@ -19,18 +19,16 @@
 			<path>src/vendor</path>
 		    </ignore>
 		    <markers>
+			<marker>INFO</marker>
 			<marker>info</marker>
-			<marker>@TODO</marker>
-			<marker>@todo</marker>
+			<marker>TODO</marker>
+			<marker>todo</marker>
 			<marker>@phpstan-ignore-next-line</marker>
-			<marker>@phpstan</marker>
+			<marker>@phpstan-ignore </marker>
 			<marker>@psalm-suppress</marker>
-			<marker>@psalm</marker>
 			<marker>@phan-suppress-current-line</marker>
 			<marker>@phan-suppress-next-line</marker>
-			<marker>@phan</marker>
-			<marker>@phpcs</marker>
-			<marker>@suppress</marker>
+			<marker>phpcs:ignore</marker>
 		    </markers>
 	    </api>
     </version>

@@ -75,7 +75,7 @@ class Auto_Update_Theme extends Copy_Theme {
 		global $wp_filesystem;
 
 		if ( ! isset( $destination_file ) || ! isset( $origin_file ) ) {
-			$this->logger->log->error( '[Auto_update_Theme] Missing origin or destination file, aborting' );
+			$this->logger->log?->error( '[Auto_update_Theme] Missing origin or destination file, aborting' );
 			return;
 		}
 
@@ -88,10 +88,10 @@ class Auto_Update_Theme extends Copy_Theme {
 		// If 'TemplateAutomaticUpdate' is found, auto update
 		if ( is_string( $content_destination ) && preg_match( '~TemplateAutomaticUpdate~i', $content_destination ) > 0 ) {
 			parent::copy_theme_template( $origin_file, $destination_file, $item );
-			$this->logger->log->debug( '[Auto_update_Theme] Template file ' . $destination_file . ' has been updated to the latest version' );
+			$this->logger->log?->debug( '[Auto_update_Theme] Template file ' . $destination_file . ' has been updated to the latest version' );
 			return;
 		}
-		$this->logger->log->info( '[Auto_update_Theme] Template file ' . $destination_file . ' was not updated, probably TemplateAutomaticUpdate was removed.' );
+		$this->logger->log?->info( '[Auto_update_Theme] Template file ' . $destination_file . ' was not updated, probably TemplateAutomaticUpdate was removed.' );
 	}
 
 	/**

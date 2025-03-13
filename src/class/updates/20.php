@@ -53,7 +53,7 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		}
 
 		// Update the number of updates already processed in Lumière options.
-		$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -67,10 +67,10 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		 */
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetwriternumber', '10' ) ) {
 			$text = 'Lumière option imdbwidgetwriternumber successfully added.';
-			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetwriternumber could not be added.';
-			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/**
@@ -79,10 +79,10 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		 */
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetconnection', '1' ) ) {
 			$text = 'Lumière option imdbwidgetconnection successfully added.';
-			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetconnection could not be added.';
-			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/**
@@ -91,10 +91,10 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		 */
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetconnectionnumber', '3' ) ) {
 			$text = 'Lumière option imdbwidgetconnectionnumber successfully added.';
-			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetconnectionnumber could not be added.';
-			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/*
@@ -134,10 +134,10 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 			]
 		) ) {
 			$text = 'Lumière option imdbwidgetorder successfully updated.';
-			$this->logger->log->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetorder could not be updated.';
-			$this->logger->log->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/** ------------------------- Editing part (end) --------------

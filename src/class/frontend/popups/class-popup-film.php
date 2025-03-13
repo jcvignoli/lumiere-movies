@@ -110,14 +110,14 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		// A movie imdb id is provided in URL.
 		if ( isset( $movie_id ) && strlen( $movie_id ) > 0 ) {
 
-			$this->logger->log->debug( '[Popup_Movie] Movie id provided in URL: ' . esc_html( $movie_id ) );
+			$this->logger->log?->debug( '[Popup_Movie] Movie id provided in URL: ' . esc_html( $movie_id ) );
 
 			$final_movie_id = $movie_id;
 
 			// No movie id is provided, but a title was.
 		} elseif ( isset( $movie_title ) && strlen( $movie_title ) > 0 ) {
 
-			$this->logger->log->debug( '[Popup_Movie] Movie title provided in URL: ' . esc_html( $movie_title ) );
+			$this->logger->log?->debug( '[Popup_Movie] Movie title provided in URL: ' . esc_html( $movie_title ) );
 
 			// Search the movie's ID according to the title.
 			$search = $this->plugins_classes_active['imdbphp']->search_movie_title(
@@ -133,7 +133,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		if ( $final_movie_id === null ) {
 			status_header( 404 );
 			$text = __( 'Could not find any IMDb movie with this query.', 'lumiere-movies' );
-			$this->logger->log->error( '[Popup_Movie] ' . esc_html( $text ) );
+			$this->logger->log?->error( '[Popup_Movie] ' . esc_html( $text ) );
 			wp_die( esc_html( $text ) );
 		}
 
@@ -166,7 +166,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 		 */
 		echo '<div id="spinner-placeholder"></div>';
 
-		$this->logger->log->debug( '[Popup_Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
+		$this->logger->log?->debug( '[Popup_Movie] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
 
 		$this->display_menu( $this->movie_class, $this->page_title );
 

@@ -52,11 +52,8 @@ class Lumiere_Update_File_04 extends \Lumiere\Updates {
 			return;
 		}
 
-		// Simplify the coding.
-		$logger = $this->logger->log;
-
 		// Update the number of updates already processed in Lumière options.
-		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -67,34 +64,24 @@ class Lumiere_Update_File_04 extends \Lumiere\Updates {
 		// Add 'imdbSerieMovies'
 		// New option to select to search for movies, series, or both
 		if ( true === $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdbseriemovies', 'movies+series' ) ) {
-
 			$text = 'Lumière option imdbSerieMovies successfully added.';
-			$logger->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-
 			$text = 'Lumière option imdbSerieMovies could not be added.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		// Add 'imdbHowManyUpdates'
 		// New option to manage the number of updates made
 		// Without such an option, all updates are went through
 		if ( true === $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', 1 ) ) {
-
 			$text = 'Lumière option imdbHowManyUpdates successfully added.';
-			$logger->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-
 			$text = 'Lumière option imdbHowManyUpdates could not be added.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		/** ------------------------- Editing part (end) --------------
 		 */
-
 	}
-
 }

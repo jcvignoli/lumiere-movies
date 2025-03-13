@@ -53,10 +53,7 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 			return;
 		}
 
-		// Simplify the coding.
-		$logger = $this->logger->log;
-
-		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 
 		// Update the number of updates already processed in Lumière options
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
@@ -68,38 +65,23 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 		// Remove 'imdbwidgetcommentsnumber'
 		// Deprecated: only one comment is returned by imdbphp libraries
 		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetcommentsnumber' ) ) {
-
 			$text = 'Lumière option imdbwidgetcommentsnumber successfully removed.';
-
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-
 			$text = 'Lumière option imdbwidgetcommentsnumber not removed.';
-
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		// Add 'imdbintotheposttheme'
 		// New option to manage theme colors for into the post/widget
 		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbintotheposttheme', 'grey' ) ) {
-
 			$text = 'Lumière option imdbintotheposttheme successfully added.';
-
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-
 			$text = 'Lumière option imdbintotheposttheme not added.';
-
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
-
 		/** ------------------------- Editing part (end) --------------
 		 */
-
 	}
-
 }

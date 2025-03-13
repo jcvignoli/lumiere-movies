@@ -52,11 +52,8 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 			return;
 		}
 
-		// Simplify the coding.
-		$logger = $this->logger->log;
-
 		// Update the number of updates already processed in Lumière options.
-		$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -69,12 +66,12 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_remove_options( Get_Options::get_admin_tablename(), 'imdbdisplaylinktoimdb' ) ) {
 
 			$text = 'Lumière option imdbdisplaylinktoimdb successfully removed.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbdisplaylinktoimdb could not be removed.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -83,12 +80,12 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_remove_options( Get_Options::get_admin_tablename(), 'imdbpicsize' ) ) {
 
 			$text = 'Lumière option imdbpicsize successfully removed.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbpicsize could not be removed.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -97,12 +94,12 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_remove_options( Get_Options::get_admin_tablename(), 'imdbpicurl' ) ) {
 
 			$text = 'Lumière option imdbpicurl successfully removed.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbpicurl could not be removed.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -111,23 +108,23 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdblinkingkill' ) ) {
 
 			$text = 'Lumière option imdblinkingkill successfully removed.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdblinkingkill could not be removed.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 		if ( true === $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdblinkingkill', 'false' ) ) {
 
 			$text = 'Lumière option imdblinkingkill successfully added.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdblinkingkill could not be added.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
@@ -136,55 +133,45 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbautopostwidget' ) ) {
 
 			$text = 'Lumière option imdbautopostwidget successfully removed.';
-			$logger->info( "[updateVersion] $text" );
+			$this->logger->log?->info( "[updateVersion] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbautopostwidget could not be removed.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
 		if ( true === $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdbautopostwidget', 'false' ) ) {
 
 			$text = 'Lumière option imdbautopostwidget successfully added.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbautopostwidget could not be added.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 
 		// Move 'imdbintotheposttheme'
 		// Variable moved from widget options to admin
 		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbintotheposttheme' ) ) {
-
 			$text = 'Lumière option imdbintotheposttheme successfully removed.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-
 			$text = 'Lumière option imdbintotheposttheme could not be removed.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		if ( true === $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdbintotheposttheme', 'grey' ) ) {
-
 			$text = 'Lumière option imdbintotheposttheme successfully added.';
-			$logger->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-
 			$text = 'Lumière option imdbintotheposttheme could not be added.';
-			$logger->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/** ------------------------- Editing part (end) --------------
 		 */
-
 	}
-
 }

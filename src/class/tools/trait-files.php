@@ -15,6 +15,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Lumiere\Config\Settings class, 
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Config\Get_Options;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use Exception;
@@ -22,6 +23,7 @@ use Exception;
 /**
  * Trait for files operations
  * @since 4.0.1 Trait created
+ * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 trait Files {
 
@@ -163,6 +165,69 @@ trait Files {
 			}
 			$wp_filesystem->delete( $dir . $file['name'] );
 		}
+	}
+
+	/**
+	 * Make sure debug log exists and is writable
+	 * Create debug log if it doesn't exist
+	 *
+	 * @param array<string, string> $imdb_admin_values Log file with the full path
+	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
+	 * @param bool $second_try Whether the function is called a second time
+	 * @return null|string Null if log creation was unsuccessful, Log full path file if successfull
+	 *
+	 * @since 3.7.1
+	 * @since 3.9.1, is a method, and using fopen and added error_log(), if file creation in wp-content fails try with Lumière plugin folder
+	 * @since 4.1.2 rewriting with global $wp_filesystem, refactorized, update the database with the new path if using Lumière plugin folder
+	 * @since 4.5.1 Moved from Logger class to here
+	 * @see \Lumiere\Plugins\Logger::set_logger()
+	 */
+	public function maybe_create_log( array $imdb_admin_values, bool $second_try = false ): ?string {
+
+		global $wp_filesystem;
+		$log_file = $imdb_admin_values['imdbdebuglogpath'];
+		$this->lumiere_wp_filesystem_cred( $log_file ); // in trait Files.
+
+		// Debug file doesn't exist, create it.
+		if ( $wp_filesystem->is_file( $log_file ) === false ) {
+			$wp_filesystem->put_contents( $log_file, '' );
+			error_log( '***WP Lumiere Plugin***: Debug did not exist, created a debug file ' . $log_file ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		}
+
+		// Debug file permissions are wrong, change them.
+		if ( $wp_filesystem->is_file( $log_file ) === true && $wp_filesystem->is_writable( $log_file ) === false ) {
+
+			$fs_chmod = defined( 'FS_CHMOD_FILE' ) ? FS_CHMOD_FILE : 0770;
+
+			// Permissions on the file are not correct, change them.
+			if ( $wp_filesystem->chmod( $log_file, $fs_chmod ) === true ) {
+				error_log( '***WP Lumiere Plugin***: changed chmod permissions debug file ' . $log_file ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				return $log_file;
+			}
+			error_log( '***WP Lumiere Plugin ERROR***: cannot change permission of debug file ' . $log_file ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		}
+
+		// If couldnt create debug file in wp-content, change the path to Lumière plugin folder.
+		// This is run only on the first call of the method, using $second_try.
+		if ( ( $wp_filesystem->is_file( $log_file ) === false || $wp_filesystem->is_writable( $log_file ) === false ) && $second_try === false ) {
+
+			$log_file = $imdb_admin_values['imdbpluginpath'] . 'debug.log';
+
+			// Update database with the new value for debug path.
+			$new_options = get_option( Get_Options::get_admin_tablename() );
+			$new_options['imdbdebuglogpath'] = $log_file;
+			update_option( Get_Options::get_admin_tablename(), $new_options );
+
+			error_log( '***WP Lumiere Plugin***: debug file could not be written in normal place, using plugin folder: ' . $log_file ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			$this->maybe_create_log( $imdb_admin_values, true );
+		}
+
+		// If this failed again, send an Apache error message and exit.
+		if ( is_file( $log_file ) === false || $wp_filesystem->is_writable( $log_file ) === false ) {
+			error_log( '***WP Lumiere Plugin ERROR***: Tried everything, cannot create any debug log both neither in wp-content nor in Lumiere plugin folder.' ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			return null;
+		}
+		return $log_file;
 	}
 }
 

@@ -153,13 +153,15 @@ class Admin_Menu {
 		 * (a) on the left, can be the WP standard (inside settings) or a bigger one if that option was selected in the admin options
 		 * (b) on the top, option selected by default but can be removed in admin options
 		 */
-		// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$that(Lumiere\Admin), non-falsy-string} given
-		add_action( 'admin_menu', [ &$that, $that->get_id() . '_add_left_menu' ] );
+		$menu_method = $that->get_id() . '_add_left_menu';
+		// @phpstan-ignore-next-line (Parameter #2 $callback of function add_action expects callable(): mixed, array{$that(Lumiere\Admin), non-falsy-string} given)
+		add_action( 'admin_menu', [ $that, $menu_method ] );
 
 		// Add Lumiere menu in WordPress top menu
 		if ( $that->imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
-			// @phpstan-ignore-next-line -- Parameter #2 $callback of function add_action expects callable(): mixed, array{$that(Lumiere\Admin), non-falsy-string} given
-			add_action( 'admin_bar_menu', [ $that, $that->get_id() . '_admin_add_top_menu' ], 70 );
+			$bar_menu_method = $that->get_id() . '_admin_add_top_menu';
+			// @phpstan-ignore-next-line (Parameter #2 $callback of function add_action expects callable(): mixed, array{$that(Lumiere\Admin), non-falsy-string} given)
+			add_action( 'admin_bar_menu', [ $that, $bar_menu_method ], 70 );
 		}
 	}
 
@@ -178,7 +180,7 @@ class Admin_Menu {
 
 		$get_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_URL );
 		$current_step = $get_page !== false ? $get_page : '';
-		/** @phpstan-ignore argument.type (Parameter #3 $subject of function str_replace expects array<string>|string, string|null given => it can't be null, not using FILTER_NULL_ON_FAILURE flag) */
+		// @phpstan-ignore argument.type (Parameter #3 $subject of function str_replace expects array<string>|string, string|null given => it can't be null, not using FILTER_NULL_ON_FAILURE flag)
 		return str_replace( $this->get_id() . '_options', '', $current_step );
 	}
 

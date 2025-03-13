@@ -76,11 +76,11 @@ class Uninstall {
 
 		// If databases were not created, exit as the plugin was not installed
 		if ( ! isset( $this->imdb_admin_values ) || ! isset( $this->imdb_data_values ) || ! isset( $this->imdb_cache_values ) ) {
-			$this->logger->log->debug( '[uninstall] Lumiere was not installed, exiting' );
+			$this->logger->log?->debug( '[uninstall] Lumiere was not installed, exiting' );
 			return;
 		}
 
-		$this->logger->log->debug( '[uninstall] Processing uninstall' );
+		$this->logger->log?->debug( '[uninstall] Processing uninstall' );
 
 		/********* Below actions are executed for everybody */
 
@@ -93,7 +93,7 @@ class Uninstall {
 			array_key_exists( 'imdbkeepsettings', $this->imdb_admin_values )
 			&& ( $this->imdb_admin_values['imdbkeepsettings'] === '1' )
 		) {
-			$this->logger->log->info( '[uninstall] Lumière uninstall: keep settings selected, process finished.' );
+			$this->logger->log?->info( '[uninstall] Lumière uninstall: keep settings selected, process finished.' );
 			return;
 		}
 
@@ -121,7 +121,7 @@ class Uninstall {
 		global $wp_filesystem;
 
 		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
-			$this->logger->log->warning( '[uninstall][Cache] Lumière Cache Options unavailable' );
+			$this->logger->log?->warning( '[uninstall][Cache] Lumière Cache Options unavailable' );
 			return;
 		}
 
@@ -130,14 +130,14 @@ class Uninstall {
 		$this->lumiere_wp_filesystem_cred( $lumiere_cache_path ); // in trait Admin_General.
 
 		if ( strlen( $lumiere_cache_path ) === 0 || $wp_filesystem->is_dir( $lumiere_cache_path ) === false ) {
-			$this->logger->log->warning( '[uninstall][Cache] Standard cache folder was not found. Could not delete ' . $lumiere_cache_path );
+			$this->logger->log?->warning( '[uninstall][Cache] Standard cache folder was not found. Could not delete ' . $lumiere_cache_path );
 			return;
 		}
 
 		if ( $wp_filesystem->delete( $lumiere_cache_path, true ) === true ) {
-			$this->logger->log->debug( '[uninstall][Cache] Cache files and folder deleted' );
+			$this->logger->log?->debug( '[uninstall][Cache] Cache files and folder deleted' );
 		}
-		$this->logger->log->debug( '[uninstall][Cache] Lumière cache deletion processed' );
+		$this->logger->log?->debug( '[uninstall][Cache] Lumière cache deletion processed' );
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Uninstall {
 	private function delete_taxonomy(): void {
 
 		if ( ! isset( $this->imdb_data_values ) || ! isset( $this->imdb_admin_values['imdburlstringtaxo'] ) ) {
-			$this->logger->log->warning( '[uninstall][Taxonomy terms] Lumière Options unavailable' );
+			$this->logger->log?->warning( '[uninstall][Taxonomy terms] Lumière Options unavailable' );
 			return;
 		}
 
@@ -178,7 +178,7 @@ class Uninstall {
 
 			// Filer: Get rid of errors, keep arrays only.
 			if ( $terms instanceof \WP_Error ) {
-				$this->logger->log->error( '[uninstall][Taxonomy terms] Invalid terms: ' . $terms->get_error_message() );
+				$this->logger->log?->error( '[uninstall][Taxonomy terms] Invalid terms: ' . $terms->get_error_message() );
 				continue;
 			}
 
@@ -188,7 +188,7 @@ class Uninstall {
 				// Filter: Get rid of integers and strings, keep objects only.
 				/* removed, PHPStan says it's useless, kept for the logic
 				if ( $term instanceof \WP_Term === false ) {
-					$this->logger->log->error( '[uninstall] Invalid term: ' . $term );
+					$this->logger->log?->error( '[uninstall] Invalid term: ' . $term );
 					continue;
 				}
 				*/
@@ -200,18 +200,18 @@ class Uninstall {
 
 				// Delete the term.
 				if ( wp_delete_term( $term_id, $filter_taxonomy ) !== true ) {
-					$this->logger->log->error( '[uninstall][Taxonomy terms] Taxonomy: failed to delete ' . $term_name . ' in ' . $term_taxonomy );
+					$this->logger->log?->error( '[uninstall][Taxonomy terms] Taxonomy: failed to delete ' . $term_name . ' in ' . $term_taxonomy );
 					continue;
 				}
 
 				// Confirm success.
-				$this->logger->log->debug( '[uninstall][Taxonomy terms] Taxonomy: term ' . $term_name . ' in ' . $term_taxonomy . ' deleted.' );
+				$this->logger->log?->debug( '[uninstall][Taxonomy terms] Taxonomy: term ' . $term_name . ' in ' . $term_taxonomy . ' deleted.' );
 			}
 
 			unregister_taxonomy( $filter_taxonomy );
-			$this->logger->log->debug( '[uninstall][Taxonomy terms] Taxonomy ' . $filter_taxonomy . ' deleted.' );
+			$this->logger->log?->debug( '[uninstall][Taxonomy terms] Taxonomy ' . $filter_taxonomy . ' deleted.' );
 		}
-		$this->logger->log->debug( '[uninstall][Taxonomy terms] Lumière taxonomy terms deletion processed.' );
+		$this->logger->log?->debug( '[uninstall][Taxonomy terms] Lumière taxonomy terms deletion processed.' );
 	}
 
 	/**
@@ -222,7 +222,7 @@ class Uninstall {
 		global $wp_filesystem;
 
 		if ( ! isset( $this->imdb_admin_values['imdburlstringtaxo'] ) ) {
-			$this->logger->log->warning( '[uninstall][Taxonomy template] Lumière Admin Options unavailable' );
+			$this->logger->log?->warning( '[uninstall][Taxonomy template] Lumière Admin Options unavailable' );
 			return;
 		}
 
@@ -230,16 +230,16 @@ class Uninstall {
 
 		// No taxo files found
 		if ( $get_taxo_templates === false || count( $get_taxo_templates ) === 0 ) {
-			$this->logger->log->debug( '[uninstall][Taxonomy template] No taxonomy files found in the template folder ' . get_stylesheet_directory() );
+			$this->logger->log?->debug( '[uninstall][Taxonomy template] No taxonomy files found in the template folder ' . get_stylesheet_directory() );
 			return;
 		}
 
 		foreach ( $get_taxo_templates as $tax_file ) {
 			$this->lumiere_wp_filesystem_cred( $tax_file ); // in trait Admin_General.
 			$wp_filesystem->delete( $tax_file );
-			$this->logger->log->debug( '[uninstall][Taxonomy template] File ' . $tax_file . ' deleted' );
+			$this->logger->log?->debug( '[uninstall][Taxonomy template] File ' . $tax_file . ' deleted' );
 		}
-		$this->logger->log->debug( '[uninstall][Taxonomy template] Lumière taxonomy templates deletion processed.' );
+		$this->logger->log?->debug( '[uninstall][Taxonomy template] Lumière taxonomy templates deletion processed.' );
 	}
 
 	/**
@@ -251,10 +251,10 @@ class Uninstall {
 		$list_crons_available = [ 'lumiere_exec_once_update', 'lumiere_cron_deletecacheoversized', 'lumiere_cron_autofreshcache' ];
 		foreach ( $list_crons_available as $cron_installed ) {
 			if ( wp_clear_scheduled_hook( $cron_installed ) > 0 ) {
-				$this->logger->log->debug( '[uninstall][Crons] Cron ' . $cron_installed . ' deleted.' );
+				$this->logger->log?->debug( '[uninstall][Crons] Cron ' . $cron_installed . ' deleted.' );
 			}
 		}
-		$this->logger->log->debug( '[uninstall][Crons] Lumière crons deletion processed.' );
+		$this->logger->log?->debug( '[uninstall][Crons] Lumière crons deletion processed.' );
 	}
 
 	/**
@@ -268,11 +268,11 @@ class Uninstall {
 
 		foreach ( $list_transients as $transient ) {
 			if ( delete_transient( $transient ) ) {
-				$this->logger->log->debug( '[uninstall][Transients] Lumière ' . $transient . ' transients deleted.' );
+				$this->logger->log?->debug( '[uninstall][Transients] Lumière ' . $transient . ' transients deleted.' );
 			}
 		}
 
-		$this->logger->log->debug( '[uninstall][Transients] Lumière transients deletion processed.' );
+		$this->logger->log?->debug( '[uninstall][Transients] Lumière transients deletion processed.' );
 	}
 
 	/**
@@ -281,15 +281,15 @@ class Uninstall {
 	private function delete_options(): void {
 
 		if ( delete_option( Get_Options::get_admin_tablename() ) === true ) {
-			$this->logger->log->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_admin_tablename() );
+			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_admin_tablename() );
 		}
 		if ( delete_option( Get_Options::get_data_tablename() ) === true ) {
-			$this->logger->log->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_data_tablename() );
+			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_data_tablename() );
 		}
 		if ( delete_option( Get_Options::get_cache_tablename() ) === true ) {
-			$this->logger->log->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_cache_tablename() );
+			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_cache_tablename() );
 		}
-		$this->logger->log->debug( '[uninstall][Delete options] Lumière options deletion processed.' );
+		$this->logger->log?->debug( '[uninstall][Delete options] Lumière options deletion processed.' );
 	}
 }
 

@@ -120,7 +120,7 @@ class Movie_Display {
 		 * @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse (Call to function array_key_exists() with 'amp' and array...will always evaluate to false)
 		 */
 		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
-			$this->logger->log->debug( '[Movie_Display] This is an AMP validation test, exiting to save server resources' );
+			$this->logger->log?->debug( '[Movie_Display] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
 
@@ -139,7 +139,7 @@ class Movie_Display {
 	public function lum_display_movies_box( array $movies_searched ): string {
 		$output = '';
 		foreach ( $movies_searched as $movie_found ) {
-			$this->logger->log->debug( "[Movie_Display] Displaying rows for *$movie_found*" );
+			$this->logger->log?->debug( "[Movie_Display] Displaying rows for *$movie_found*" );
 			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, ( new Movie_Factory() )->factory_movie_items_methods( $movie_found ) );
 		}
 		return $output;
@@ -173,8 +173,8 @@ class Movie_Display {
 
 		// Using singleton to display only once.
 		if ( $this->movie_run_once === false ) {
-			$this->logger->log->debug( '[Movie_Display] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
-			$this->logger->log->debug( '[Movie_Display] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+			$this->logger->log?->debug( '[Movie_Display] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
+			$this->logger->log?->debug( '[Movie_Display] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 			$this->movie_run_once = true;
 		}
 
@@ -183,23 +183,23 @@ class Movie_Display {
 			// A movie's ID was passed, which is a numeric-string.
 			if ( isset( $films_array[ $i ]['bymid'] ) && ctype_digit( $films_array[ $i ]['bymid'] ) ) {
 				$movies_found[] = esc_html( strval( $films_array[ $i ]['bymid'] ) );
-				$this->logger->log->debug( '[Movie_Display] Storing IMDb ID: *' . $movies_found[0] . '*' );
+				$this->logger->log?->debug( '[Movie_Display] Storing IMDb ID: *' . $movies_found[0] . '*' );
 				continue;
 				// A movie's title was provided
 			} elseif ( isset( $films_array[ $i ]['byname'] ) ) {
 				$movie_name = strtolower( $films_array[ $i ]['byname'] );
-				$this->logger->log->debug( '[Movie_Display] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
+				$this->logger->log?->debug( '[Movie_Display] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
 				// If ['byname'] is not provided, assume a movie's name was in the array (string in the loop)
 			} elseif ( is_string( $films_array[ $i ] ) ) {
 				$movie_name = strtolower( $films_array[ $i ] );
-				$this->logger->log->debug( '[Movie_Display] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
+				$this->logger->log?->debug( '[Movie_Display] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
 			} else {
-				$this->logger->log->debug( '[Movie_Display] Invalid IMDb ID or title provided, aborting' );
+				$this->logger->log?->debug( '[Movie_Display] Invalid IMDb ID or title provided, aborting' );
 				continue;
 			}
 
 			// check a the movie title exists.
-			$this->logger->log->debug( '[Movie_Display] Searching ' . esc_html( $movie_name ) );
+			$this->logger->log?->debug( '[Movie_Display] Searching ' . esc_html( $movie_name ) );
 
 			/** @phpstan-var TITLESEARCH_RETURNSEARCH|null $results */
 			$results = strlen( $movie_name ) > 0 ? $this->plugins_classes_active['imdbphp']->search_movie_title(
@@ -209,13 +209,13 @@ class Movie_Display {
 
 			// No results were found in imdbphp query.
 			if ( ! isset( $results[0] ) ) {
-				$this->logger->log->info( '[Movie_Display] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . esc_html( $movie_name ) . ', aborting.' );
+				$this->logger->log?->info( '[Movie_Display] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . esc_html( $movie_name ) . ', aborting.' );
 				continue;
 			}
 
 			// Get the first result from the search
 			$movies_found[] = esc_html( $results[0]['imdbid'] );
-			$this->logger->log->debug( '[Movie_Display] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
+			$this->logger->log?->debug( '[Movie_Display] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
 
 		}
 		return $movies_found;

@@ -154,7 +154,7 @@ class Search {
 			exit;
 		}
 
-		$this->logger->log->debug( "[admin search] Querying *$this->movie_searched*" );
+		$this->logger->log?->debug( "[admin search] Querying *$this->movie_searched*" );
 
 		/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
 		$results = $this->imdbphp_class->search_movie_title(
@@ -180,7 +180,7 @@ class Search {
 		}
 		foreach ( $results as $res ) {
 			if ( $iterator > $limit_search ) {
-				$this->logger->log->debug( "[admin search] Limit of '$limit_search' results reached." );
+				$this->logger->log?->debug( "[admin search] Limit of '$limit_search' results reached." );
 				echo '<div class="lumiere_italic lumiere_padding_five lumiere_align_center">' . esc_html__( 'Maximum number of results reached. You can increase this limit in the admin options.', 'lumiere-movies' ) . '</div>';
 				break;
 			}
@@ -211,7 +211,7 @@ class Search {
 	 */
 	private function initial_form (): string {
 
-		$this->logger->log->debug( '[admin search] Waiting for a search' );
+		$this->logger->log?->debug( '[admin search] Waiting for a search' );
 
 		$ouput = "\n<div align=\"center\">";
 		$ouput .= "\n\t" . '<h1 id="searchmovie_title">' . esc_html__( 'Search a movie IMDb ID', 'lumiere-movies' ) . '</h1>';
