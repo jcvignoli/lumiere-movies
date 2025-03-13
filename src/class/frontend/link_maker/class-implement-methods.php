@@ -460,14 +460,14 @@ class Implement_Methods {
 	 *
 	 * @param string $url Url to the trailer
 	 * @param string $website_title website name
-	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
+	 * @param 0|1|2|3|4 $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
 	 * @return string
 	 */
 	protected function get_trailer_details( string $url, string $website_title, int $window_type ): string {
 
 		// No Links class, do not display any link.
 		if ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
-			return "\n\t\t\t" . esc_html( $website_title ) . ', ' . esc_url( $url );
+			return "\n\t\t\t" . esc_html( $website_title );
 		}
 		/* Translators: %1s is a website name, ie "New 70mm Trailer" */
 		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html( wp_sprintf( __( 'Watch on IMBb website the trailer for %1s', 'lumiere-movies' ), $website_title ) ) . "'>" . esc_html( $website_title ) . '</a>';
@@ -519,7 +519,7 @@ class Implement_Methods {
 	protected function get_officialsites_details( string $url, string $name, int $window_type ): string {
 		// No Links class, do not display any link.
 		if ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
-			return "\n\t\t\t" . sanitize_text_field( $name ) . ', ' . esc_url( $url );
+			return "\n\t\t\t" . sanitize_text_field( $name );
 		}
 		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>" . esc_html( $name ) . '</a>';
 	}
