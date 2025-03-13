@@ -70,26 +70,6 @@ if ( ! function_exists( 'lum_incompatible_plugins_uninstall' ) ) {
 	}
 }
 
-if ( ! function_exists( 'lum_php_min_version' ) ) {
-	/**
-	 * Check if PHP is minimum version
-	 *
-	 * @param string $php_min_version The minimum version of PHP to have the plugin to work
-	 * @param string $plugin_lumiere Lumiere plugin file
-	 * @return void An incompatiblity notice is echoed and Lumière is uninstalled
-	 */
-	function lum_php_min_version( string $php_min_version, string $plugin_lumiere ): void {
-		if ( version_compare( PHP_VERSION, $php_min_version, '<' ) ) {
-			add_action( 'admin_notices', 'lum_incompatible_php_text' );
-			if ( ! function_exists( 'deactivate_plugins' ) ) {
-				require_once ABSPATH . 'wp-admin/includes/plugin.php';
-			}
-			deactivate_plugins( $plugin_lumiere );
-			return;
-		}
-	}
-}
-
 if ( ! function_exists( 'lum_get_version' ) ) {
 	/**
 	 * Get the version of Lumière automatically from the Readme
