@@ -19,7 +19,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Defines methods utilised in Link Maker classes
  * @since   3.8
  */
-interface Interface_Link_Maker {
+interface Interface_Linkmaker {
 
 	/**
 	 * Source the rating picture

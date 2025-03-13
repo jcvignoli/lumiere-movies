@@ -50,13 +50,13 @@ class Link_Factory {
 	 * @see \Lumiere\Frontend\Main::is_amp_page() Detects if AMP is active and current
 	 * @throws Exception if no link class was found
 	 */
-	public function select_link_maker( $imdb_admin_values ): Interface_Link_Maker {
+	public function select_link_maker( $imdb_admin_values ): Interface_Linkmaker {
 
 		// Checks if the current page is AMP
 		if ( $this->is_amp_page() === true ) { // Method in Main trait.
 			return new AMP_Links();
 
-			// Not display Lumière! links is selected in admin options
+			// No display Lumière! links is selected in admin options
 		} elseif ( $imdb_admin_values['imdblinkingkill'] === '1' ) {
 			return new No_Links();
 
@@ -68,7 +68,7 @@ class Link_Factory {
 		} elseif ( $imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
 			return new Highslide_Links();
 
-			// None was selected in admin options, display classic popups
+			// Classic is selected in admin options
 		} elseif ( $imdb_admin_values['imdbpopup_modal_window'] === 'classic' ) {
 			return new Classic_Links();
 		}
@@ -83,7 +83,7 @@ class Link_Factory {
 	 *
 	 * @phpstan-return LINKMAKERCLASSES Instance the relevant class
 	 */
-	public static function select_link_type( $imdb_admin_values ): Interface_Link_Maker {
+	public static function select_link_type( $imdb_admin_values ): Interface_Linkmaker {
 		return ( new self() )->select_link_maker( $imdb_admin_values );
 	}
 }

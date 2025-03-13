@@ -22,7 +22,7 @@ if ( ! defined( 'WPINC' ) ) {
  * 2/ But no popup link is created, only links to the content of popups
  * @since 3.7.1
  */
-class AMP_Links extends Implement_Link_Maker implements Interface_Link_Maker {
+class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 
 	/**
 	 * @inheritdoc

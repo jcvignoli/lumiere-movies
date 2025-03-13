@@ -25,10 +25,10 @@ use Exception;
  * The child classes, called in the factory, use then this parent class adding only the extra LINK_OPTIONS so we know what process should be run
  * Child classes also take care of calling styles and javascripts they need
  *
- * @since   3.8
+ * @since 3.8
  * @since 4.5 renamed methods to make them shorter and more meaningful, new constant LINK_OPTIONS (using it in child classes for code simplification), use of Output_linkmaker class
  */
-class Implement_Link_Maker {
+class Implement_Methods {
 
 	/**
 	 * Traits

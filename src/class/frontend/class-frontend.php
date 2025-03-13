@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Lumiere\Frontend\Widget\Widget_Frontpage;
 use Lumiere\Frontend\Movie\Movie_Display;
-use Lumiere\Frontend\Popups\Popup_Select;
+use Lumiere\Frontend\Popups\Popup_Factory;
 use Lumiere\Config\Get_Options;
 
 /**
@@ -40,7 +40,7 @@ class Frontend {
 	public function __construct(
 		Movie_Display $movie_display = new Movie_Display(),
 		Widget_Frontpage $widget_front = new Widget_Frontpage(),
-		Popup_Select $popup_select = new Popup_Select(),
+		Popup_Factory $popup_factory = new Popup_Factory(),
 	) {
 
 		if ( is_admin() ) {
@@ -68,7 +68,7 @@ class Frontend {
 		/**
 		 * Add filter for Popups
 		 */
-		add_filter( 'template_include', [ $popup_select, 'maybe_find_template' ] );
+		add_filter( 'template_include', [ $popup_factory, 'maybe_find_template' ] );
 	}
 
 	/**

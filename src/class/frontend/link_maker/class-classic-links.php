@@ -25,7 +25,7 @@ use Lumiere\Config\Get_Options;
  *
  * @since 3.7
  */
-class Classic_Links extends Implement_Link_Maker implements Interface_Link_Maker {
+class Classic_Links extends Implement_Methods implements Interface_Linkmaker {
 
 	/**
 	 * Constructor
