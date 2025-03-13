@@ -160,7 +160,7 @@ class Copy_Theme {
 		global $wp_filesystem;
 
 		// Make sure we got right credentials to use $wp_filesystem
-		$this->lumiere_wp_filesystem_cred( $lumiere_taxonomy_theme_file ); // in trait Admin_General.
+		$this->wp_filesystem_cred( $lumiere_taxonomy_theme_file ); // in trait Admin_General.
 
 		if ( $wp_filesystem === null ) {
 			esc_html_e( 'Could not get the credentials wp_filesystem for copying', 'lumiere-movies' );

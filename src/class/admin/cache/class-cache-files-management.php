@@ -86,7 +86,7 @@ class Cache_Files_Management {
 	 */
 	public function delete_file( string $movie_or_people, string $imdb_id ): bool {
 
-		$this->lumiere_wp_filesystem_cred( $this->imdb_cache_values['imdbcachedir'] ); // from Files trait.
+		$this->wp_filesystem_cred( $this->imdb_cache_values['imdbcachedir'] ); // from Files trait.
 
 		global $wp_filesystem;
 
@@ -382,7 +382,7 @@ class Cache_Files_Management {
 
 		global $wp_filesystem;
 		$final_folder = $folder ?? $this->imdb_cache_values['imdbcachedir'];
-		$this->lumiere_wp_filesystem_cred( $final_folder ); // in trait Admin_General that includes trait Files.
+		$this->wp_filesystem_cred( $final_folder ); // in trait Admin_General that includes trait Files.
 
 		if ( ! is_dir( $final_folder ) ) {
 			return 0;
@@ -416,7 +416,7 @@ class Cache_Files_Management {
 
 		global $wp_filesystem;
 		$final_folder = $folder ?? $this->imdb_cache_values['imdbcachedir'];
-		$this->lumiere_wp_filesystem_cred( $final_folder ); // in trait Admin_General that includes trait Files.
+		$this->wp_filesystem_cred( $final_folder ); // in trait Admin_General that includes trait Files.
 
 		$folder_iterator = $wp_filesystem->is_writable( $final_folder ) ? new RecursiveIteratorIterator(
 			new RecursiveDirectoryIterator( $final_folder, RecursiveDirectoryIterator::SKIP_DOTS )
@@ -543,7 +543,7 @@ class Cache_Files_Management {
 			return false;
 		}
 
-		$this->lumiere_wp_filesystem_cred( $lumiere_folder_cache ); // in trait Admin_General that includes trait Files.
+		$this->wp_filesystem_cred( $lumiere_folder_cache ); // in trait Admin_General that includes trait Files.
 
 		// Everything is fine, exit.
 		if ( $wp_filesystem->is_writable( $lumiere_folder_cache ) && $wp_filesystem->is_writable( $lumiere_folder_cache_images ) ) {

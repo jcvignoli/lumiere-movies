@@ -175,7 +175,7 @@ class Detect_New_Theme {
 		$templates_paths = $this->get_template_paths( $item );
 
 		// Make sure we have the credentials to read the files
-		$this->lumiere_wp_filesystem_cred( $templates_paths['destination'] ); // Function in trait Admin_General.
+		$this->wp_filesystem_cred( $templates_paths['destination'] ); // Function in trait Admin_General.
 
 		if ( $wp_filesystem === null || ! is_file( $templates_paths['destination'] ) ) {
 			return null;

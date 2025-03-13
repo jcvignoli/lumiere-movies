@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 /**
  * Class for debuging operations
- * They should all be static
+ * All methods must be static
  */
 class Debug {
 

@@ -80,7 +80,7 @@ class Auto_Update_Theme extends Copy_Theme {
 		}
 
 		// Make sure we have the credentials to read the files.
-		$this->lumiere_wp_filesystem_cred( $origin_file ); // Function in trait Admin_General.
+		$this->wp_filesystem_cred( $origin_file ); // Function in trait Admin_General.
 
 		// Lumiere's taxonomy file in user theme folder.
 		$content_destination = $wp_filesystem->get_contents( $destination_file );

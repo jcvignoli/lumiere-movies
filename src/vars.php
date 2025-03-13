@@ -1,6 +1,8 @@
 <?php declare( strict_types = 1 );
 /**
  * Lumière Movies WordPress global vars
+ * These vars are available before the Plugin activation
+ * They are available anywhere in the Plugin or for any plugin
  *
  * @package       lumieremovies
  */

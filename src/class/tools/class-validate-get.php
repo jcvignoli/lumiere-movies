@@ -18,7 +18,7 @@ use Exception;
 
 /**
  * Validate and sanitize $_GET['XXXXX']
- * No class instanciation
+ * All methods must be static
  */
 class Validate_Get {
 

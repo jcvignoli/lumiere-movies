@@ -18,9 +18,9 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Tools\Data;
-use Lumiere\Admin\Admin_General;
 use Lumiere\Plugins\Logger;
+use Lumiere\Tools\Data;
+use Lumiere\Tools\Files;
 
 /**
  * Uninstall plugin
@@ -36,7 +36,7 @@ class Uninstall {
 	/**
 	 * Traits
 	 */
-	use Admin_General;
+	use Files;
 
 	/**
 	 * Admin options
@@ -72,7 +72,7 @@ class Uninstall {
 	 *
 	 * @since 4.0 created private methods to deal with processes, added precheck of database exists
 	 */
-	public function uninstall(): void {
+	public function run_uninstall(): void {
 
 		// If databases were not created, exit as the plugin was not installed
 		if ( ! isset( $this->imdb_admin_values ) || ! isset( $this->imdb_data_values ) || ! isset( $this->imdb_cache_values ) ) {
@@ -127,7 +127,7 @@ class Uninstall {
 
 		// Remove cache.
 		$lumiere_cache_path = $this->imdb_cache_values['imdbcachedir'];
-		$this->lumiere_wp_filesystem_cred( $lumiere_cache_path ); // in trait Admin_General.
+		$this->wp_filesystem_cred( $lumiere_cache_path ); // in trait Files.
 
 		if ( strlen( $lumiere_cache_path ) === 0 || $wp_filesystem->is_dir( $lumiere_cache_path ) === false ) {
 			$this->logger->log?->warning( '[uninstall][Cache] Standard cache folder was not found. Could not delete ' . $lumiere_cache_path );
@@ -235,7 +235,7 @@ class Uninstall {
 		}
 
 		foreach ( $get_taxo_templates as $tax_file ) {
-			$this->lumiere_wp_filesystem_cred( $tax_file ); // in trait Admin_General.
+			$this->wp_filesystem_cred( $tax_file ); // in trait Files.
 			$wp_filesystem->delete( $tax_file );
 			$this->logger->log?->debug( '[uninstall][Taxonomy template] File ' . $tax_file . ' deleted' );
 		}
@@ -294,5 +294,4 @@ class Uninstall {
 }
 
 // Run uninstall.
-$lumiere_uninstall_class = new Uninstall();
-$lumiere_uninstall_class->uninstall();
+( new Uninstall() )->run_uninstall();

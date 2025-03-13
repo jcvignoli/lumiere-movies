@@ -124,7 +124,7 @@ class Help extends Admin_Menu {
 			throw new Exception( 'File ' . esc_html( $compatfile ) . ' has wrong permissions or does not exist' );
 		}
 		// Make sure we got right credentials to use $wp_filesystem.
-		$this->lumiere_wp_filesystem_cred( $compatfile );
+		$this->wp_filesystem_cred( $compatfile );
 
 		// Open the file (as an array).
 		$compatfile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $compatfile ) : '';
@@ -178,7 +178,7 @@ class Help extends Admin_Menu {
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		$this->lumiere_wp_filesystem_cred( $readmefile ); // in trait Admin_General.
+		$this->wp_filesystem_cred( $readmefile ); // in trait Admin_General.
 
 		// Open the file.
 		$faqfile = $wp_filesystem !== null ? $wp_filesystem->get_contents( $readmefile ) : '';
@@ -233,7 +233,7 @@ class Help extends Admin_Menu {
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		$this->lumiere_wp_filesystem_cred( $changelogfile ); // in trait Admin_General.
+		$this->wp_filesystem_cred( $changelogfile ); // in trait Admin_General.
 
 		// Open the file (as an array).
 		$changelogfile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $changelogfile ) : '';
@@ -282,7 +282,7 @@ class Help extends Admin_Menu {
 		}
 
 		// Make sure we got right credentials to use $wp_filesystem.
-		$this->lumiere_wp_filesystem_cred( $acknowledgefile );
+		$this->wp_filesystem_cred( $acknowledgefile );
 
 		// Open the file (as an array).
 		$acknowledgefile = $wp_filesystem !== null ? $wp_filesystem->get_contents_array( $acknowledgefile ) : '';

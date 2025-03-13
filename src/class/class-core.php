@@ -31,8 +31,8 @@ use FilesystemIterator;
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @since 4.1.2 WP Cli commands compatible
+ * @todo Since 4.1.1 an update version check is now executed on every admin page, find a better hook
  */
-// @TODO Since 4.1.1 an update version check is now executed on every admin page, find a better hook
 final class Core {
 
 	/**

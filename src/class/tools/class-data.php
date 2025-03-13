@@ -16,9 +16,11 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 /**
- * Trait for data operations, like string or array modifications
+ * Class for data operations, like string or array modifications
+ * All methods must be static
+ *
  * @since 4.1 Trait created
- * @since 4.3 It is a class and all methods are static
+ * @since 4.3 It now is a class and all methods are static
  */
 class Data {
 

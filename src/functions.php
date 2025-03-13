@@ -1,6 +1,8 @@
 <?php declare( strict_types = 1 );
 /**
  * Lumière Movies WordPress global functions
+ * These functions can be executed before the Plugin activation
+ * They are available anywhere in the Plugin or for any plugin
  *
  * @package           lumieremovies
  * @copyright         2005 https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin

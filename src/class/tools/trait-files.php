@@ -101,7 +101,7 @@ trait Files {
 	 *
 	 * @since 3.9.7 Added extra require_once() if $wp_filesystem is null
 	 */
-	public function lumiere_wp_filesystem_cred( string $file ): void {
+	public function wp_filesystem_cred( string $file ): void {
 
 		global $wp_filesystem;
 
@@ -149,7 +149,7 @@ trait Files {
 		$files = [];
 
 		// Make sure we have the correct credentials.
-		$this->lumiere_wp_filesystem_cred( $dir );
+		$this->wp_filesystem_cred( $dir );
 
 		if ( $wp_filesystem->is_dir( $dir ) === false ) {
 			return;
@@ -186,7 +186,7 @@ trait Files {
 
 		global $wp_filesystem;
 		$log_file = $imdb_admin_values['imdbdebuglogpath'];
-		$this->lumiere_wp_filesystem_cred( $log_file ); // in trait Files.
+		$this->wp_filesystem_cred( $log_file ); // in trait Files.
 
 		// Debug file doesn't exist, create it.
 		if ( $wp_filesystem->is_file( $log_file ) === false ) {
