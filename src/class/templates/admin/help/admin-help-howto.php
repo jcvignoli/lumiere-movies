@@ -200,7 +200,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<blockquote class="lumiere_bloquote_help lum_align_left">
 					&lt;form action="" method="post" method="get" id="searchmovie" &gt<br>
 						&lt;div&gt Search a movie: &lt;/div&gt<br>
-						&lt;input type="text" id="moviesearched" name="moviesearched" &gt<br>
+						&lt;input type="text" id="&lt;?php echo Get_Options::SEARCH_MOVIE_QUERY_STRING; ?&gt;" name="&lt;?php echo Get_Options::SEARCH_MOVIE_QUERY_STRING; ?&gt;" &gt<br>
 						&lt;input type="submit" value="Go"&gt<br>
 					&lt;/form&gt<br>
 				</blockquote>
@@ -218,8 +218,8 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					# Initialization of IMDBphp libraries<br>
 					$search = new \Imdb\TitleSearch($config_imdb );<br>
 
-					if ( (isset ($_GET["moviesearched"])) && (!empty ($_GET["moviesearched"])) ){<br>
-						$search_sanitized = isset($_GET["moviesearched"]) ? sanitize_text_field( $_GET["moviesearched"] ) : NULL;<br>
+					if ( (isset ($_GET[ Get_Options::SEARCH_MOVIE_QUERY_STRING ])) && (!empty ($_GET[ Get_Options::SEARCH_MOVIE_QUERY_STRING ])) ){<br>
+						$search_sanitized = isset($_GET[ Get_Options::SEARCH_MOVIE_QUERY_STRING ]) ? sanitize_text_field( $_GET[ Get_Options::SEARCH_MOVIE_QUERY_STRING] ) : NULL;<br>
 						$results = $search->search ($search_sanitized, $typeSearch );<br>
 					}<br>
 					<br>

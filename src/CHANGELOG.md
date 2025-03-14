@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.5.1
+* [feature] "Open search" option when editing a post was broken for a long time. One can select again a movie's title inside the Lumière blocks to automatically search that text and get its IMDb's ID.
 
 v.4.5
 * [feature] Added trivia item in Frontpage and popups

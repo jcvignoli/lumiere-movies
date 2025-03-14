@@ -34,10 +34,10 @@
 				// Var to save temporary 'THIS' inside the button and use it later
 				var temp_this = null;
 
-				// Full URL for Querying /wp-admin/lumiere/search
+				// Full URL for Querying ie /wp-admin/lumiere/search-movie/?query_string=
 				var gutenberg_url = lumiere_admin_vars.wordpress_path
 							+ lumiere_admin_vars.admin_movie_search_url
-							+ "?moviesearched=";
+							+ '?' + lumiere_admin_vars.admin_movie_search_qstring + '=';
 
 				// ICON to display before tagged words
 				var lum_image = '<img src="'

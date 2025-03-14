@@ -138,6 +138,7 @@ class Settings extends Settings_Helper {
 	public const TAXO_PEOPLE_THEME                  = 'class/theme/class-taxonomy-people-standard.php';
 	public const TAXO_ITEMS_THEME                   = 'class/theme/class-taxonomy-items-standard.php';
 	public const SEARCH_MOVIE_URL_ADMIN             = '/wp-admin/lumiere/search-movie/';
+	public const SEARCH_MOVIE_QUERY_STRING          = 'moviesearched'; // in url, such as ?moviesearched=
 
 	/**
 	 * URL string for taxonomy
@@ -237,6 +238,7 @@ class Settings extends Settings_Helper {
 				'lum_path'                    => LUM_WP_URL,
 				'wordpress_path'              => site_url(),
 				'admin_movie_search_url'      => self::SEARCH_MOVIE_URL_ADMIN,
+				'admin_movie_search_qstring'  => self::SEARCH_MOVIE_QUERY_STRING,
 				'ico80'                       => LUM_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
 				'popupLarg'                   => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong'                   => $imdb_admin_option['imdbpopuplong'],

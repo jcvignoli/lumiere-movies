@@ -1,14 +1,15 @@
 // Activated on selecting text in Movie block, field movie's title
-( function ( data, compose, element, richText, blockEditor, i18n ) {
+( ( wp ) => {
 
-	var { withSelect } = data;
-	var { ifCondition } = compose;
-	var { compose } = compose;
-	var { RichTextToolbarButton } = blockEditor;
-	var { blockProps } = blockEditor.useBlockProps;
-	var { registerFormatType } = richText;
-	var el = element.createElement;
-	var __ = i18n.__;
+	const el = wp.element.createElement;
+	const __ = wp.i18n.__;
+	const registerBlock = wp.richText.registerFormatType;
+	const Selector = wp.data.withSelect;
+	const RichTextTool = wp.blockEditor.RichTextToolbarButton;
+	const { blockProps } = wp.blockEditor.useBlockProps;
+	var ifCond = wp.compose.ifCondition;
+	var Composer = wp.compose.compose;
+
 	const iconLumiereWindow = el(
 		'svg',
 		{ width: 20, height: 20, viewBox: "0 0 1200 1200" },
@@ -21,28 +22,28 @@
 
 	var ButtonOpenSearch = ( blockProps ) => {
 		return el(
-			RichTextToolbarButton,
+			RichTextTool,
 			{
 				icon: iconLumiereWindow,
 				title: __( 'Open search IMDB ID', 'lumiere-movies' ),
 				onClick: () => {
 					var selectedtext = blockProps.contentRef.current.innerText;
-					open( lumiere_admin_vars.wordpress_path + lumiere_admin_vars.admin_movie_search_url + '?moviesearched=' + selectedtext, 'Lumiere popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + lumiere_admin_vars.popupLarg + ', height=' + lumiere_admin_vars.popupLong + ', top=100, left=100' );
+					open( lumiere_admin_vars.wordpress_path + lumiere_admin_vars.admin_movie_search_url + '?' + lumiere_admin_vars.admin_movie_search_qstring + '=' + selectedtext, 'Lumiere popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + lumiere_admin_vars.popupLarg + ', height=' + lumiere_admin_vars.popupLong + ', top=100, left=100' );
 				},
 				isActive: blockProps.isActive,
 			}
 		);
 	};
 
-	var ConditionalButton = compose(
-		withSelect(
+	var ConditionalButton = Composer(
+		Selector(
 			( select ) => {
 				return {
 					selectedBlock: select( 'core/block-editor' ).getSelectedBlock(),
 				};
 			}
 		),
-		ifCondition(
+		ifCond(
 			( blockProps ) => {
 				return (
 					blockProps.selectedBlock &&
@@ -52,7 +53,7 @@
 		)
 	)( ButtonOpenSearch );
 
-	registerFormatType(
+	registerBlock(
 		'lumiere/opensearch',
 		{
 			title: __( 'Open a search window', 'lumiere-movies' ),
@@ -62,4 +63,4 @@
 			edit: ConditionalButton,
 		}
 	);
-} )( window.wp.data, window.wp.compose, window.wp.element, window.wp.richText, window.wp.blockEditor, window.wp.i18n  );
+} )( window.wp );
