@@ -175,9 +175,10 @@ class Cli_Commands {
 
 		// Build the constant to call in Get_Options - can be admin, cache or data
 		$settings_name = 'get_' . strtolower( $args[1] ) . '_tablename';
-		$options_tablename = Get_Options::$settings_name();
-		if ( strtolower( $args[1] ) === 'data' ) {
+		if ( strtolower( $args[1] ) === 'data' ) { // If this is get_data_tablename, we need Get_Options_Movie helper class.
 			$options_tablename = Get_Options_Movie::$settings_name();
+		} else {
+			$options_tablename = Get_Options::$settings_name();
 		}
 
 		// Get options from DB and get the (first) array key from the passed values in $dashed_extra_args.
