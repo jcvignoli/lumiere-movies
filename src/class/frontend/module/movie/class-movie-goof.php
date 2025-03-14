@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * Method to display goof for movies
@@ -52,7 +53,7 @@ class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
-		foreach ( Get_Options::get_list_goof_cat() as $category => $data_explain ) {
+		foreach ( Get_Options_Movie::get_list_goof_cat() as $category => $data_explain ) {
 			if ( ! isset( $item_results[ $category ] ) ) {
 				continue;
 			}
@@ -86,7 +87,7 @@ class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$overall_loop = 1;
 
-		foreach ( Get_Options::get_list_goof_cat() as $category => $data_explain ) {
+		foreach ( Get_Options_Movie::get_list_goof_cat() as $category => $data_explain ) {
 			if ( ! isset( $item_results[ $category ] ) ) {
 				continue;
 			}
@@ -106,7 +107,7 @@ class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 				$overall_loop ++;
 			}
 
-			if ( $category === array_key_last( Get_Options::get_list_goof_cat() ) ) {
+			if ( $category === array_key_last( Get_Options_Movie::get_list_goof_cat() ) ) {
 				$output .= $this->output_class->misc_layout( 'click_more_end' );
 			}
 

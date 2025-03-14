@@ -24,6 +24,16 @@ use Lumiere\Config\Settings_Person;
 class Get_Options_Person extends Settings_Person {
 
 	/**
+	 * Get the type of people elements that are used for taxonomy
+	 *
+	 * @param int $number Optional: a number to turn into plural if needed
+	 * @return array<string, string>
+	 */
+	public static function get_list_people_taxo( int $number = 1 ): array {
+		return parent::define_list_taxo_people( $number );
+	}
+
+	/**
 	 * Get People fields
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed

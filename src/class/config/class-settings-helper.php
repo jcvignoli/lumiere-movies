@@ -17,7 +17,8 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 
 use FilesystemIterator;
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings;
+use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options_Person;
 use Lumiere\Tools\Data;
 
 /**
@@ -55,8 +56,8 @@ class Settings_Helper {
 	 */
 	protected function get_data_rows_taxo( ?array $activated ): array {
 		$taxonomy_keys = [
-			...array_keys( Settings::define_list_taxo_people() ),
-			...array_keys( Settings::define_list_taxo_items() ),
+			...array_keys( Get_Options_Person::get_list_people_taxo() ),
+			...array_keys( Get_Options_Movie::get_list_items_taxo() ),
 		];
 		$array_taxonomy = [];
 		foreach ( $taxonomy_keys as $row_number => $taxonomy_key ) {
@@ -66,6 +67,7 @@ class Settings_Helper {
 			}
 			$array_taxonomy[ 'imdbtaxonomy' . $taxonomy_key ] = '0';
 		}
+		/** @psalm-var ARRAY_TAXO_ITEMS $array_taxonomy Dunno why psalm needs this */
 		return $array_taxonomy;
 	}
 
@@ -80,9 +82,9 @@ class Settings_Helper {
 	 */
 	protected function get_data_rows_widget( ?array $activated ): array {
 		$widget_keys = [
-			...array_keys( Settings::define_list_non_taxo_items() ),
-			...array_keys( Settings::define_list_taxo_items() ),
-			...array_keys( Settings::define_list_taxo_people() ),
+			...array_keys( Get_Options_Movie::get_list_non_taxo_items() ),
+			...array_keys( Get_Options_Movie::get_list_items_taxo() ),
+			...array_keys( Get_Options_Person::get_list_people_taxo() ),
 		];
 		$array_widget = [];
 		foreach ( $widget_keys as $row_number => $widget_key ) {
@@ -92,6 +94,7 @@ class Settings_Helper {
 			}
 			$array_widget[ 'imdbwidget' . $widget_key ] = '0';
 		}
+		/** @psalm-var ARRAY_WIDGET $array_widget Dunno why psalm needs this */
 		return $array_widget;
 	}
 
@@ -106,9 +109,9 @@ class Settings_Helper {
 	 */
 	protected function get_data_rows_imdbwidgetorder(): array {
 		$widget_keys = [
-			...array_keys( Settings::define_list_non_taxo_items() ),
-			...array_keys( Settings::define_list_taxo_people() ),
-			...array_keys( Settings::define_list_taxo_items() ),
+			...array_keys( Get_Options_Movie::get_list_non_taxo_items() ),
+			...array_keys( Get_Options_Person::get_list_people_taxo() ),
+			...array_keys( Get_Options_Movie::get_list_items_taxo() ),
 		];
 
 		$array_imdbwidgetorder = [];
@@ -121,18 +124,19 @@ class Settings_Helper {
 		}
 
 		// Reorder by swapping two columns.
-		/** @phan-suppress-next-line PhanTypePossiblyInvalidDimOffset (Phpstan doesn't say so) */
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'runtime', 'director' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'alsoknow', 'tagline' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'rating', 'actor' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'connection', 'genre' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'prodCompany', 'alsoknow' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'goof', 'rating' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'plot', 'writer' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'extSites', 'keyword' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'source', 'country' );
-		$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'color', 'source' );
-		/** @psalm-var ARRAY_IMDBWIDGETORDER $array_imdbwidgetorder */
+		if ( isset( $array_imdbwidgetorder['imdbwidgetorder'] ) ) {
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'runtime', 'director' );
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'alsoknow', 'tagline' );
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'rating', 'actor' );
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'connection', 'genre' );
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'prodCompany', 'alsoknow' );
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'goof', 'rating' );
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'plot', 'writer' );
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'extSites', 'keyword' );
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'source', 'country' );
+			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'color', 'source' );
+		}
+		/** @psalm-var ARRAY_IMDBWIDGETORDER $array_imdbwidgetorder Dunno why psalm needs this */
 		return $array_imdbwidgetorder;
 	}
 
@@ -153,7 +157,7 @@ class Settings_Helper {
 		foreach ( $reversed as $k => $v ) {
 			$reversed_array[] = [ $k => $v ];
 		}
-		$loop = array_keys( Settings::DATA_DEFAULT_WITHNUMBER );
+		$loop = array_keys( Get_Options_Movie::DATA_DEFAULT_WITHNUMBER );
 		foreach ( $loop as $key => $withnumber_key ) {
 			if ( in_array( $withnumber_key, array_keys( $reversed ), true ) && $count > -1 ) {
 				$array_with_numbers[ 'imdbwidget' . $withnumber_key . 'number' ] = $reversed_array[ $count ][ $withnumber_key ];

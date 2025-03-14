@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) 
 }
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * Trait for including database options
@@ -24,7 +25,7 @@ use Lumiere\Config\Get_Options;
  * Below can't be imported, it might be related to PHPStan bug #5091
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
  */
 trait Open_Options {
 
@@ -59,13 +60,13 @@ trait Open_Options {
 	public function get_db_options(): void {
 
 		$admin_values = get_option( Get_Options::get_admin_tablename() );
-		$data_values = get_option( Get_Options::get_data_tablename() );
+		$data_values = get_option( Get_Options_Movie::get_data_tablename() );
 		$cache_values = get_option( Get_Options::get_cache_tablename() );
 
 		if ( $admin_values === false || $data_values === false || $cache_values === false ) {
 			Get_Options::create_database_options();
 			$admin_values = get_option( Get_Options::get_admin_tablename() );
-			$data_values = get_option( Get_Options::get_data_tablename() );
+			$data_values = get_option( Get_Options_Movie::get_data_tablename() );
 			$cache_values = get_option( Get_Options::get_cache_tablename() );
 		}
 

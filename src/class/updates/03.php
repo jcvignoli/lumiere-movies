@@ -20,6 +20,7 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -105,7 +106,7 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 
 		// Move 'imdblinkingkill'
 		// Variable moved from widget options to admin
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdblinkingkill' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdblinkingkill' ) ) {
 
 			$text = 'Lumière option imdblinkingkill successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -130,7 +131,7 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 
 		// Move 'imdbautopostwidget'
 		// Variable moved from widget options to admin
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbautopostwidget' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbautopostwidget' ) ) {
 
 			$text = 'Lumière option imdbautopostwidget successfully removed.';
 			$this->logger->log?->info( "[updateVersion] $text" );
@@ -156,7 +157,7 @@ class Lumiere_Update_File_03 extends \Lumiere\Updates {
 
 		// Move 'imdbintotheposttheme'
 		// Variable moved from widget options to admin
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbintotheposttheme' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbintotheposttheme' ) ) {
 			$text = 'Lumière option imdbintotheposttheme successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {

@@ -24,7 +24,14 @@ class Settings_Person {
 	 * Used to build the full person namespace
 	 * @see \Lumiere\Frontend\Popup\Popup_Person
 	 */
-	public const LUM_PERSON_MODULE_CLASS = '\Lumiere\Frontend\Module\Person\Person_';
+	public const LUM_PERSON_MODULE_CLASS            = '\Lumiere\Frontend\Module\Person\Person_';
+
+	/**
+	 * Internal URL pages constants
+	 * Must be public, used everywhere
+	 */
+	public const POPUP_PERSON_PATH                  = 'class/frontend/popups/class-popup-person.php';
+	public const TAXO_PEOPLE_THEME                  = 'class/theme/class-taxonomy-people-standard.php';
 
 	/**
 	 * Define the type items for Persons
@@ -82,6 +89,26 @@ class Settings_Person {
 			'stunts'             => __( 'stunts', 'lumiere-movies' ),
 			'thanks'             => _n( 'thanks movie', 'thanks movies', $number, 'lumiere-movies' ),
 			'writer'             => __( 'writer', 'lumiere-movies' ),
+		];
+	}
+
+	/**
+	 * Define the type of people items that are used for taxonomy
+	 * All items in type people are actually taxonomy
+	 * @see Settings::get_default_data_option() use this list to create the options
+	 *
+	 * @param int $number Optional: a number to turn into plural if needed
+	 * @return array<string, string>
+	 * @phpstan-return array{ 'actor': string, 'composer': string, 'cinematographer':string, 'director':string, 'producer':string, 'writer':string }
+	 */
+	public static function define_list_taxo_people( int $number = 1 ): array {
+		return [
+			'director'         => _n( 'director', 'directors', $number, 'lumiere-movies' ),
+			'actor'            => _n( 'actor', 'actors', $number, 'lumiere-movies' ),
+			'cinematographer'  => _n( 'cinematographer', 'cinematographers', $number, 'lumiere-movies' ),
+			'composer'         => _n( 'composer', 'composers', $number, 'lumiere-movies' ),
+			'writer'           => _n( 'writer', 'writers', $number, 'lumiere-movies' ),
+			'producer'         => _n( 'producer', 'producers', $number, 'lumiere-movies' ),
 		];
 	}
 }

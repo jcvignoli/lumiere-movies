@@ -20,6 +20,7 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -65,7 +66,7 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		 * Add 'imdbwidgetwriternumber' to LUM_DATA_OPTIONS
 		 * New var to allow have new option to limit the number of writers
 		 */
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetwriternumber', '10' ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetwriternumber', '10' ) ) {
 			$text = 'Lumière option imdbwidgetwriternumber successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -77,7 +78,7 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		 * Add 'imdbwidgetconnection' to LUM_DATA_OPTIONS
 		 * New var to allow have new option connected movies
 		 */
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetconnection', '1' ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetconnection', '1' ) ) {
 			$text = 'Lumière option imdbwidgetconnection successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -89,7 +90,7 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		 * Add 'imdbwidgetconnectionnumber' to LUM_DATA_OPTIONS
 		 * New var to allow have new option connected movies number
 		 */
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetconnectionnumber', '3' ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetconnectionnumber', '3' ) ) {
 			$text = 'Lumière option imdbwidgetconnectionnumber successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -102,7 +103,7 @@ class Lumiere_Update_File_20 extends \Lumiere\Updates {
 		 * New
 		 */
 		if ( true === $this->lumiere_update_options(
-			Get_Options::get_data_tablename(),
+			Get_Options_Movie::get_data_tablename(),
 			'imdbwidgetorder',
 			[
 				'title' => '1',

@@ -21,6 +21,7 @@ use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Admin\Search_Movie;
 use Lumiere\Tools\Data;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Open_Options;
 
 /**
@@ -264,7 +265,7 @@ class Admin {
 
 		// Display only if URL is ok and is not admin (to save time.
 		if (
-			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options::SEARCH_MOVIE_URL_ADMIN ) !== 0
+			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options_Movie::SEARCH_MOVIE_URL_ADMIN ) !== 0
 			|| is_admin()
 		) {
 			return $template_path;

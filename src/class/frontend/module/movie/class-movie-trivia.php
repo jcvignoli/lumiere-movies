@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * Method to display trivia for movies
@@ -54,12 +55,12 @@ class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
-		foreach ( Get_Options::get_list_trivia_cat() as $trivia_cat ) {
+		foreach ( Get_Options_Movie::get_list_trivia_cat() as $trivia_cat ) {
 			for ( $i = 0; $i < $total_displayed; $i++ ) {
 				if ( ! isset( $item_results[ $trivia_cat ][ $i ]['content'] ) ) {
 					continue;
 				}
-				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_parent', Get_Options::get_list_trivia_cat() [ $trivia_cat ] );
+				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_parent', Get_Options_Movie::get_list_trivia_cat() [ $trivia_cat ] );
 				$output .= $this->output_class->misc_layout( 'frontend_items_sub_cat_content', $item_results[ $trivia_cat ][ $i ]['content'] );
 
 			}
@@ -88,7 +89,7 @@ class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 		foreach ( $item_results as $trivia_type => $trivia_content ) {
 
 			// Process only categories in settings.
-			if ( in_array( $trivia_type, Get_Options::get_list_trivia_cat(), true ) === false ) {
+			if ( in_array( $trivia_type, Get_Options_Movie::get_list_trivia_cat(), true ) === false ) {
 				continue;
 			}
 
@@ -101,7 +102,7 @@ class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 					continue;
 				}
 
-				$output .= $this->output_class->misc_layout( 'numbered_list', strval( $overall_loop ), Get_Options::get_list_trivia_cat() [ $trivia_type ], $text );
+				$output .= $this->output_class->misc_layout( 'numbered_list', strval( $overall_loop ), Get_Options_Movie::get_list_trivia_cat() [ $trivia_type ], $text );
 
 				if ( $overall_loop === 5 ) {
 					$isset_next = isset( $item_results[ $trivia_type ][ $overall_loop + 1 ] ) ? true : false;

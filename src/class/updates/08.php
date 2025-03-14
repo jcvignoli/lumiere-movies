@@ -20,6 +20,7 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -304,7 +305,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 		 * Remove 'imdbwidgetonpage'
 		 * Obsolete
 		 */
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetonpage' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetonpage' ) ) {
 			$text = 'Lumière option imdbwidgetonpage successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
@@ -317,7 +318,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 		 * Remove 'imdbwidgetonpost'
 		 * Obsolete
 		 */
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetonpost' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetonpost' ) ) {
 			$text = 'Lumière option imdbwidgetonpost successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -365,7 +366,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 		 * Replace 'imdbwidgetgoofsnumber' by 'imdbwidgetgoofnumber'
 		 * Singularizing items
 		 */
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetgoofsnumber' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetgoofsnumber' ) ) {
 			$text = 'Lumière option imdbwidgetgoofsnumber successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -373,7 +374,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetgoofnumber', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetgoofnumber', false ) ) {
 			$text = 'Lumière option imdbwidgetgoofnumber successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -385,7 +386,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 		 * Replace 'imdbwidgetquotesnumber' by 'imdbwidgetquotenumber'
 		 * Singularizing items
 		 */
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetquotesnumber' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetquotesnumber' ) ) {
 			$text = 'Lumière option imdbwidgetquotesnumber successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -393,7 +394,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetquotenumber', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetquotenumber', false ) ) {
 			$text = 'Lumière option imdbwidgetquotenumber successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -405,7 +406,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 		 * Replace 'imdbwidgettaglines' by 'imdbwidgettagline'
 		 * Singularizing items
 		 */
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgettaglinesnumber' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgettaglinesnumber' ) ) {
 			$text = 'Lumière option imdbwidgettaglinesnumber successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -413,7 +414,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgettaglinenumber', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgettaglinenumber', false ) ) {
 			$text = 'Lumière option imdbwidgettaglinenumber successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -426,7 +427,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 		 * Singularizing items
 		 */
 		if ( true === $this->lumiere_update_options(
-			Get_Options::get_data_tablename(),
+			Get_Options_Movie::get_data_tablename(),
 			'imdbwidgetorder',
 			[
 				'title' => '1',
@@ -468,7 +469,7 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 		 * Remove 'imdbtaxonomytitle'
 		 * Obsolete value, no taxonomy built according to the title
 		 */
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbtaxonomytitle' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbtaxonomytitle' ) ) {
 			$text = 'Lumière option imdbtaxonomytitle successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -492,33 +493,33 @@ class Lumiere_Update_File_08 extends \Lumiere\Updates {
 		 * imdbwidget values are not bool anymore, so they're set within apostrophes
 		 * Don't get any confirmation in the following updates
 		 */
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgettitle', '1' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetpic', '1' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetruntime', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetdirector', '1' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetcountry', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetactor', '1' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetcreator', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetrating', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetlanguage', '1' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetgenre', '1' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetwriter', '1' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetproducer', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetkeyword', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetprodcompany', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetplot', '1' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetgoof', '1' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetcomment', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetquote', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgettagline', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetcolor', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetalsoknow', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetcomposer', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetsoundtrack', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetofficialsites', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetsource', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetyear', '0' );
-		$this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgettrailer', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgettitle', '1' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetpic', '1' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetruntime', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetdirector', '1' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcountry', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetactor', '1' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcreator', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetrating', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetlanguage', '1' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetgenre', '1' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetwriter', '1' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetproducer', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetkeyword', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetprodcompany', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetplot', '1' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetgoof', '1' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcomment', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetquote', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgettagline', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcolor', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetalsoknow', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcomposer', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetsoundtrack', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetofficialsites', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetsource', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetyear', '0' );
+		$this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgettrailer', '0' );
 		$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Maybe updated imdbwidget* vars to be strings instead of bools' );
 
 		/*

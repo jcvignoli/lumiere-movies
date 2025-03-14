@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) 
 }
 
 use Exception;
-use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * Validate and sanitize $_GET['XXXXX']
@@ -60,7 +60,7 @@ class Validate_Get {
 				'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
 				'flags'  => FILTER_FLAG_QUERY_REQUIRED | FILTER_NULL_ON_FAILURE,
 			],
-			Get_Options::SEARCH_MOVIE_QUERY_STRING      => [ // var used in Lumiere\Admin\Search_Movie, ie 'moviesearched'
+			Get_Options_Movie::SEARCH_MOVIE_QUERY_STRING      => [ // var used in Lumiere\Admin\Search_Movie, ie 'moviesearched'
 				'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
 				'flags'  => FILTER_SANITIZE_ADD_SLASHES | FILTER_FLAG_QUERY_REQUIRED | FILTER_NULL_ON_FAILURE,
 			],

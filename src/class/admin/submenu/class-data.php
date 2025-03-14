@@ -20,6 +20,7 @@ use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Copy_Templates\Detect_New_Theme;
 use Lumiere\Tools\Debug;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * Display data options for taxonomy, data order and data selection
@@ -121,7 +122,7 @@ class Data extends Admin_Menu {
 					$this->imdb_data_values, // data options.
 					$this->get_display_select_options()[0], // list of items and people with two extra lists.
 					$this->get_display_select_options()[1], // explaination of items and people with the two extra lists.
-					Get_Options::get_items_with_numbers(), // data details in a field to fill in.
+					Get_Options_Movie::get_items_with_numbers(), // data details in a field to fill in.
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);

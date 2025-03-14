@@ -20,6 +20,7 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -73,7 +74,7 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 
 		// Add 'imdbwidgetalsoknownumber'
 		// New option the number of akas displayed
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetalsoknownumber', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetalsoknownumber', false ) ) {
 			$text = 'Lumière option imdbwidgetalsoknownumber successfully added.';
 			$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -83,7 +84,7 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 
 		// Add 'imdbwidgetproducernumber'
 		// New option to limit the number of producers displayed
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetproducernumber', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetproducernumber', false ) ) {
 			$text = 'Lumière option imdbwidgetproducernumber successfully added.';
 			$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {

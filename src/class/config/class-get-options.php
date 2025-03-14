@@ -17,6 +17,8 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) 
 
 use Lumiere\Tools\Data;
 use Lumiere\Config\Settings;
+use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options_Person;
 
 /**
  * Getting Settings and database options
@@ -36,11 +38,11 @@ class Get_Options extends Settings {
 		return [
 			$imdb_admin_option !== false ? $imdb_admin_option['imdburlstringtaxo'] : parent::URL_STRING_TAXO,
 			parent::FILE_COPY_THEME_TAXONOMY,
-			parent::GUTENBERG_SEARCH_FILE,          // For accessing the search in clicking a link (ie gutenberg)
-			parent::SEARCH_MOVIE_URL_ADMIN,         // For accessing the search in URL lumiere/search
-			parent::POPUP_SEARCH_PATH, // to be removed?
-			parent::POPUP_MOVIE_PATH, // to be removed?
-			parent::POPUP_PERSON_PATH, // to be removed?
+			Get_Options_Movie::SEARCH_MOVIE_FILE, // For accessing the search in clicking a link (ie gutenberg)
+			Get_Options_Movie::SEARCH_MOVIE_URL_ADMIN,  // For accessing the search in URL lumiere/search
+			Get_Options_Movie::POPUP_SEARCH_PATH, // to be removed?
+			Get_Options_Movie::POPUP_MOVIE_PATH, // to be removed?
+			Get_Options_Person::POPUP_PERSON_PATH, // to be removed?
 		];
 	}
 
@@ -53,7 +55,7 @@ class Get_Options extends Settings {
 	 * @phpstan-return array<array-key, string>
 	 */
 	public static function get_taxonomy_activated(): array {
-		$imdb_data_values = get_option( self::get_data_tablename() );
+		$imdb_data_values = get_option( Get_Options_Movie::get_data_tablename() );
 		$imdb_admin_values = get_option( self::get_admin_tablename() );
 		$all_tax_array = Data::lumiere_array_key_exists_wildcard( $imdb_data_values, 'imdbtaxonomy*', 'key-value' ); // Method in trait Data
 		$taxonomy_full_name = [];
@@ -97,41 +99,12 @@ class Get_Options extends Settings {
 	}
 
 	/**
-	 * Get Data options row name as in wp_options
-	 *
-	 * @return string
-	 */
-	public static function get_data_tablename(): string {
-		return parent::LUM_DATA_OPTIONS;
-	}
-
-	/**
 	 * Get Cache options row name as in wp_options
 	 *
 	 * @return string
 	 */
 	public static function get_cache_tablename(): string {
 		return parent::LUM_CACHE_OPTIONS;
-	}
-
-	/**
-	 * Get the type of people elements that are used for taxonomy
-	 *
-	 * @param int $number Optional: a number to turn into plural if needed
-	 * @return array<string, string>
-	 */
-	public static function get_list_people_taxo( int $number = 1 ): array {
-		return parent::define_list_taxo_people( $number );
-	}
-
-	/**
-	 * Get the type items elements that are used for taxonomy
-	 *
-	 * @param int $number Optional: a number to turn into plural if needed
-	 * @return array<string, string>
-	 */
-	public static function get_list_items_taxo( int $number = 1 ): array {
-		return parent::define_list_taxo_items( $number );
 	}
 
 	/**
@@ -142,8 +115,8 @@ class Get_Options extends Settings {
 	 */
 	public static function get_list_all_items( int $number = 1 ): array {
 		return [
-			...parent::define_list_non_taxo_items( $number ),
-			...parent::define_list_taxo_items( $number ),
+			...Get_Options_Movie::get_list_non_taxo_items( $number ),
+			...Get_Options_Movie::get_list_items_taxo( $number ),
 		];
 	}
 
@@ -155,39 +128,9 @@ class Get_Options extends Settings {
 	 */
 	public static function get_list_fields_taxo( int $number = 1 ): array {
 		return [
-			...parent::define_list_taxo_people( $number ),
-			...parent::define_list_taxo_items( $number ),
+			...Get_Options_Person::get_list_people_taxo( $number ),
+			...Get_Options_Movie::get_list_items_taxo( $number ),
 		];
-	}
-
-	/**
-	 * Get all categories of connected movies
-	 *
-	 * @since 4.4 method added
-	 * @return array<string, string>
-	 */
-	public static function get_list_connect_cat(): array {
-		return parent::define_list_connect_cat();
-	}
-
-	/**
-	 * Get all categories of goofs
-	 *
-	 * @since 4.4 method added
-	 * @return array<string, string>
-	 */
-	public static function get_list_goof_cat(): array {
-		return parent::define_list_goof_cat();
-	}
-
-	/**
-	 * Get all categories of trivias
-	 *
-	 * @since 4.5 method added
-	 * @return array<string, string>
-	 */
-	public static function get_list_trivia_cat(): array {
-		return parent::define_list_trivia_cat();
 	}
 
 	/**
@@ -200,31 +143,10 @@ class Get_Options extends Settings {
 	 */
 	public static function get_all_fields( int $number = 1 ): array {
 		return [
-			...parent::define_list_non_taxo_items( $number ),
-			...parent::define_list_taxo_people( $number ), // Taxo_people is all people options, since there are no people options that are not taxonomy.
-			...parent::define_list_taxo_items( $number ),
+			...Get_Options_Movie::get_list_non_taxo_items( $number ),
+			...Get_Options_Person::get_list_people_taxo( $number ), // Taxo_people is all people options, since there are no people options that are not taxonomy.
+			...Get_Options_Movie::get_list_items_taxo( $number ),
 		];
-	}
-
-	/**
-	 * Get all elements (people and items) that can take numbers as options
-	 * Find all Settings::DATA_DEFAULT_WITHNUMBER available in define_list_taxo_people(), define_list_taxo_items() or define_list_non_taxo_items()
-	 *
-	 * @see Settings::get_default_data_option()
-
-	 * @return array<string, string>
-	 * @phpstan-return array{actor?: string, alsoknow?: string, connection?: string, goof?: string, plot?: string, producer?: string, quote?: string, soundtrack?: string, tagline?: string, trailer?: string, trivia?: string, writer?: string}
-	 */
-	public static function get_items_with_numbers( int $number = 1 ): array {
-		$list_all = self::get_all_fields( $number );
-		$list_elements_with_numbers = [];
-		$list_keys_with_numbers = array_keys( Settings::DATA_DEFAULT_WITHNUMBER );
-		foreach ( $list_all as $element => $translation ) {
-			if ( in_array( $element, $list_keys_with_numbers, true ) ) {
-				$list_elements_with_numbers[ $element ] = $translation;
-			}
-		}
-		return $list_elements_with_numbers;
 	}
 
 	/**

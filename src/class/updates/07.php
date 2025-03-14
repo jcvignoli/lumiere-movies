@@ -20,6 +20,7 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -63,7 +64,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 		// Replace 'imdbwidgetcomments' by 'imdbwidgetcomment'
 		// Singularizing items
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetcomments' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcomments' ) ) {
 
 			$text = 'Lumière option imdbwidgetcomments successfully removed.';
 
@@ -76,7 +77,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetcomment', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcomment', false ) ) {
 
 			$text = 'Lumière option imdbwidgetcomment successfully added.';
 
@@ -92,7 +93,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 		// Replace 'imdbwidgetcolors' by 'imdbwidgetcolor'
 		// Singularizing items
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetcolors' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcolors' ) ) {
 
 			$text = 'Lumière option imdbwidgetcolors successfully removed.';
 
@@ -105,7 +106,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetcolor', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcolor', false ) ) {
 
 			$text = 'Lumière option imdbwidgetcolor successfully added.';
 
@@ -121,7 +122,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 		// Replace 'imdbwidgettaglines' by 'imdbwidgettagline'
 		// Singularizing items
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgettaglines' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgettaglines' ) ) {
 
 			$text = 'Lumière option imdbwidgettaglines successfully removed.';
 
@@ -134,7 +135,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgettagline', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgettagline', false ) ) {
 
 			$text = 'Lumière option imdbwidgettagline successfully added.';
 
@@ -150,7 +151,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 		// Replace 'imdbwidgetquotes' by 'imdbwidgetquote'
 		// Singularizing items
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetquotes' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetquotes' ) ) {
 
 			$text = 'Lumière option imdbwidgetquotes successfully removed.';
 
@@ -163,7 +164,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetquote', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetquote', false ) ) {
 
 			$text = 'Lumière option imdbwidgetquote successfully added.';
 
@@ -179,7 +180,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 		// Replace 'imdbwidgetgoofs' by 'imdbwidgetgoof'
 		// Singularizing items
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetgoofs' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetgoofs' ) ) {
 
 			$text = 'Lumière option imdbwidgetgoofs successfully removed.';
 
@@ -192,7 +193,7 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetgoof', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetgoof', false ) ) {
 
 			$text = 'Lumière option imdbwidgetgoof successfully added.';
 
@@ -208,14 +209,14 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 
 		// Replace 'imdbwidgetkeywords' by 'imdbwidgetkeyword'
 		// Singularizing items
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetkeywords' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetkeywords' ) ) {
 			$text = 'Lumière option imdbwidgetkeywords successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetkeywords could not be removed.';
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetkeyword', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetkeyword', false ) ) {
 			$text = 'Lumière option imdbwidgetkeyword successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -224,14 +225,14 @@ class Lumiere_Update_File_07 extends \Lumiere\Updates {
 		}
 		// Replace 'imdbtaxonomykeywords' by 'imdbtaxonomykeyword'
 		// Singularizing items
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbtaxonomykeywords' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbtaxonomykeywords' ) ) {
 			$text = 'Lumière option imdbtaxonomykeywords successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbtaxonomykeywords could not be removed.';
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbtaxonomykeyword', false ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbtaxonomykeyword', false ) ) {
 			$text = 'Lumière option imdbtaxonomykeyword successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {

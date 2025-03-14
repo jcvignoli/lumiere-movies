@@ -16,6 +16,8 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 use Lumiere\Plugins\Logger;
 use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options_Person;
 use Lumiere\Admin\Admin_General;
 use Exception;
 
@@ -72,9 +74,9 @@ class Copy_Theme {
 		$lumiere_taxo_title = esc_html( $this->get_taxotype_url() ?? $wp_cli_taxonomy ?? '' );
 
 		// Build links and vars.
-		if ( in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_people_taxo() ), true ) ) {
-			$lumiere_taxo_file_tocopy = Get_Options::TAXO_PEOPLE_THEME;
-		} elseif ( in_array( $lumiere_taxo_title, array_keys( Get_Options::get_list_items_taxo() ), true ) ) {
+		if ( in_array( $lumiere_taxo_title, array_keys( Get_Options_Person::get_list_people_taxo() ), true ) ) {
+			$lumiere_taxo_file_tocopy = Get_Options_Person::TAXO_PEOPLE_THEME;
+		} elseif ( in_array( $lumiere_taxo_title, array_keys( Get_Options_Movie::get_list_items_taxo() ), true ) ) {
 			$lumiere_taxo_file_tocopy = Get_Options::TAXO_ITEMS_THEME;
 		} else {
 			throw new Exception( 'This template ' . esc_html( $lumiere_taxo_title ) . ' does not exist, aborting' );

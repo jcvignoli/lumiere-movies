@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Open_Options;
 use Exception;
 
@@ -28,7 +29,7 @@ use Exception;
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
  */
 class Save_Options {
 
@@ -567,7 +568,7 @@ class Save_Options {
 			'_nonce_data_settings',
 		];
 
-		$imdb_data_values = get_option( Get_Options::get_data_tablename(), [] );
+		$imdb_data_values = get_option( Get_Options_Movie::get_data_tablename(), [] );
 		foreach ( $_POST as $key => $postvalue ) {
 
 			if ( in_array( $key, $forbidden_terms, true ) ) {
@@ -593,7 +594,7 @@ class Save_Options {
 			}
 		}
 
-		update_option( Get_Options::get_data_tablename(), $imdb_data_values );
+		update_option( Get_Options_Movie::get_data_tablename(), $imdb_data_values );
 
 		/**
 		 * New custom pages need a flush rewrite rules to make sure taxonomy pages are available.
@@ -617,7 +618,7 @@ class Save_Options {
 	 */
 	private function lumiere_data_options_reset( string|bool $get_referer, ): void {
 
-		delete_option( Get_Options::get_data_tablename() );
+		delete_option( Get_Options_Movie::get_data_tablename() );
 		Get_Options::create_database_options();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {

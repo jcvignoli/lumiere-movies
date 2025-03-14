@@ -20,6 +20,7 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -65,7 +66,7 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 		 * Remove 'imdbwidgetcomment'
 		 * Obsolete
 		 */
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetcomment' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcomment' ) ) {
 			$text = 'Lumière option imdbwidgetcomment successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -78,7 +79,7 @@ class Lumiere_Update_File_09 extends \Lumiere\Updates {
 		 * Obsolete
 		 */
 		if ( true === $this->lumiere_update_options(
-			Get_Options::get_data_tablename(),
+			Get_Options_Movie::get_data_tablename(),
 			'imdbwidgetorder',
 			[
 				'title' => '1',

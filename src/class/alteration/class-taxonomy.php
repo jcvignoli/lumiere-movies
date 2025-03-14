@@ -28,7 +28,7 @@ use WP_Query;
  * @Info Use of conditions for instanciate Logger class, otherwhise "Notice: Function _load_textdomain_just_in_time was called incorrectly."
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
  */
 class Taxonomy {
 

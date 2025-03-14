@@ -21,6 +21,7 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -64,7 +65,7 @@ class Lumiere_Update_File_02 extends \Lumiere\Updates {
 
 		// Update 'imdbwidgetsource'
 		// No need to display the source by default
-		if ( true === $this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetsource', '0' ) ) {
+		if ( true === $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetsource', '0' ) ) {
 			$text = 'Lumière option imdbwidgetsource successfully updated.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {

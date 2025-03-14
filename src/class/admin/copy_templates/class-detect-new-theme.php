@@ -18,13 +18,15 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Lumiere\Admin\Admin_General;
 use Lumiere\Admin\Admin_Notifications;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options_Person;
 
 /**
  * Detect if new templates templates are available, or templates should be installed
  * Taxonomy theme pages copy class is called here
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
  * @since 4.1
  */
 class Detect_New_Theme {
@@ -51,7 +53,7 @@ class Detect_New_Theme {
 	 */
 	public function __construct() {
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
-		$this->imdb_data_values = get_option( Get_Options::get_data_tablename() );
+		$this->imdb_data_values = get_option( Get_Options_Movie::get_data_tablename() );
 	}
 
 	/**
@@ -105,7 +107,7 @@ class Detect_New_Theme {
 			}
 		} else {
 			// Build array of people and items from config
-			$array_all = array_merge( array_keys( Get_Options::get_list_people_taxo() ), array_keys( Get_Options::get_list_items_taxo() ) );
+			$array_all = array_merge( array_keys( Get_Options_Person::get_list_people_taxo() ), array_keys( Get_Options_Movie::get_list_items_taxo() ) );
 			asort( $array_all );
 
 			foreach ( $array_all as $item ) {
@@ -136,7 +138,7 @@ class Detect_New_Theme {
 		}
 
 		// Build array of people and items from config
-		$array_all = array_merge( Get_Options::get_list_people_taxo(), Get_Options::get_list_items_taxo() );
+		$array_all = array_merge( Get_Options_Person::get_list_people_taxo(), Get_Options_Movie::get_list_items_taxo() );
 		asort( $array_all );
 
 		foreach ( $array_all as $item => $item_translated ) {
@@ -211,8 +213,8 @@ class Detect_New_Theme {
 	 */
 	public function get_template_paths( $item ): array {
 		$template_paths = [];
-		$original_in_plugin = in_array( $item, array_keys( Get_Options::get_list_people_taxo() ), true )
-			? Get_Options::TAXO_PEOPLE_THEME
+		$original_in_plugin = in_array( $item, array_keys( Get_Options_Person::get_list_people_taxo() ), true )
+			? Get_Options_Person::TAXO_PEOPLE_THEME
 			: Get_Options::TAXO_ITEMS_THEME;
 		$template_paths['origin'] = LUM_WP_PATH . $original_in_plugin;
 		$template_paths['destination'] = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';

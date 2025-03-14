@@ -18,6 +18,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Files;
@@ -29,7 +30,7 @@ use Lumiere\Tools\Files;
  * @since 4.0 option properties can be null and construct is different.
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
  */
 class Uninstall {
 
@@ -63,7 +64,7 @@ class Uninstall {
 		private Logger $logger = new Logger( 'uninstallClass', false )
 	) {
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), null );
-		$this->imdb_data_values = get_option( Get_Options::get_data_tablename(), null );
+		$this->imdb_data_values = get_option( Get_Options_Movie::get_data_tablename(), null );
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename(), null );
 	}
 
@@ -283,8 +284,8 @@ class Uninstall {
 		if ( delete_option( Get_Options::get_admin_tablename() ) === true ) {
 			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_admin_tablename() );
 		}
-		if ( delete_option( Get_Options::get_data_tablename() ) === true ) {
-			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_data_tablename() );
+		if ( delete_option( Get_Options_Movie::get_data_tablename() ) === true ) {
+			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options_Movie::get_data_tablename() );
 		}
 		if ( delete_option( Get_Options::get_cache_tablename() ) === true ) {
 			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_cache_tablename() );

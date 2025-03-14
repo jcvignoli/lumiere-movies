@@ -21,6 +21,7 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -64,7 +65,7 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 
 		// Remove 'imdbwidgetcommentsnumber'
 		// Deprecated: only one comment is returned by imdbphp libraries
-		if ( true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetcommentsnumber' ) ) {
+		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcommentsnumber' ) ) {
 			$text = 'Lumière option imdbwidgetcommentsnumber successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -74,7 +75,7 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 
 		// Add 'imdbintotheposttheme'
 		// New option to manage theme colors for into the post/widget
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbintotheposttheme', 'grey' ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbintotheposttheme', 'grey' ) ) {
 			$text = 'Lumière option imdbintotheposttheme successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {

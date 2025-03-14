@@ -17,6 +17,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Lumiere\Tools\Files;
 use Lumiere\Admin\Copy_Templates\Copy_Theme;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options_Person;
 use WP_CLI;
 use \ReflectionClass;
 use \ReflectionMethod;
@@ -35,7 +37,7 @@ use \ReflectionMethod;
  * @see \ReflectionMethod Allows to specify we want private methods
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings
+ * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
  */
 class Cli_Commands {
 
@@ -173,9 +175,13 @@ class Cli_Commands {
 
 		// Build the constant to call in Get_Options - can be admin, cache or data
 		$settings_name = 'get_' . strtolower( $args[1] ) . '_tablename';
+		$options_tablename = Get_Options::$settings_name();
+		if ( strtolower( $args[1] ) === 'data' ) {
+			$options_tablename = Get_Options_Movie::$settings_name();
+		}
 
 		// Get options from DB and get the (first) array key from the passed values in $dashed_extra_args.
-		$database_options = get_option( Get_Options::$settings_name() );
+		$database_options = get_option( $options_tablename );
 		$array_key = array_key_first( $dashed_extra_args );
 
 		// Exit if the array key doesn't exist in Lumière! DB admin options
@@ -187,7 +193,7 @@ class Cli_Commands {
 
 		// Build new array and update database.
 		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ];
-		update_option( Get_Options::$settings_name(), $database_options );
+		update_option( $options_tablename, $database_options );
 
 		WP_CLI::success( 'Updated var ' . $array_key . ' with value ' . $database_options[ $array_key ] );
 	}
@@ -207,8 +213,8 @@ class Cli_Commands {
 
 		// Build the principal vars.
 		$template_types = [ 'items', 'people' ];
-		$items = Get_Options::get_list_items_taxo();
-		$people = Get_Options::get_list_people_taxo();
+		$items = Get_Options_Movie::get_list_items_taxo();
+		$people = Get_Options_Person::get_list_people_taxo();
 		$all = array_merge( $items, $people );
 		$array_items = [ $template_types[0] => $items ];
 		$array_people = [ $template_types[1] => $people ];

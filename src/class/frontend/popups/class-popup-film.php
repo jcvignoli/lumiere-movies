@@ -19,6 +19,7 @@ use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Basic;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Settings_Popup;
 use Imdb\Title;
 
@@ -437,7 +438,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	private function get_items( Title $movie_class, array $items ): string {
 		$output = '';
 		foreach ( $items as $module ) {
-			$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( $module );
+			$class_name = Get_Options_Movie::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
 				$final_text = $class_module->get_module( $movie_class, $module );
@@ -463,7 +464,7 @@ class Popup_Film extends Head_Popups implements Popup_Basic {
 	private function get_items_two_columns( Title $movie_class, array $items ): string {
 		$output = '';
 		foreach ( $items as $module ) {
-			$class_name = Get_Options::LUM_FILM_MODULE_CLASS . ucfirst( $module );
+			$class_name = Get_Options_Movie::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
 				$final_text = $class_module->get_module_popup_two_columns( $movie_class, $module );

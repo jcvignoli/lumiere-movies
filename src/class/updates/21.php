@@ -20,6 +20,7 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -65,21 +66,21 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		/** ------------------------- Editing part (beginning) --------------
 		 */
 
-		$imdb_data_options = get_option( Get_Options::get_data_tablename() );
+		$imdb_data_options = get_option( Get_Options_Movie::get_data_tablename() );
 
 		/**
 		 * Change 'prodcompany' to 'prodCompany' to LUM_DATA_OPTIONS
 		 * Change the name var to match imdbphp library method names, retrieving the saved value and setting the new value with it
 		 */
 		$prodcompany_value = $imdb_data_options['imdbwidgetprodcompany'] ?? false;
-		if ( $prodcompany_value !== false && true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetprodcompany' ) ) {
+		if ( $prodcompany_value !== false && true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetprodcompany' ) ) {
 			$text = 'Lumière option imdbwidgetprodcompany successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetprodcompany could not be removed.';
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetprodCompany', $prodcompany_value ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetprodCompany', $prodcompany_value ) ) {
 			$text = 'Lumière option prodCompany successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -90,7 +91,7 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
 		$order_value['prodCompany'] = $order_value !== false && isset( $order_value['prodcompany'] ) ? $order_value['prodcompany'] : false;
 		unset( $order_value['prodcompany'] );
-		if ( $order_value['prodCompany'] !== false && true === $this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
+		if ( $order_value['prodCompany'] !== false && true === $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
 			$text = 'Lumière option imdbwidgetorder successfully updated.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -103,14 +104,14 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		 * Change the name var to match imdbphp library method names, retrieving the saved value and setting the new value with it
 		 */
 		$extsites_value = $imdb_data_options['imdbwidgetofficialsites'] ?? false;
-		if ( $extsites_value !== false && true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetofficialsites' ) ) {
+		if ( $extsites_value !== false && true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetofficialsites' ) ) {
 			$text = 'Lumière option imdbwidgetofficialsites successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetofficialsites could not be removed.';
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetextSites', $extsites_value ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetextSites', $extsites_value ) ) {
 			$text = 'Lumière option imdbwidgetextSites successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -121,7 +122,7 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
 		$order_value['extSites'] = $order_value !== false && isset( $order_value['officialsites'] ) ? $order_value['officialsites'] : false;
 		unset( $order_value['officialsites'] );
-		if ( true === $this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
+		if ( true === $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
 			$text = 'Lumière option imdbwidgetorder successfully updated.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -134,14 +135,14 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		 * Change the name var to match imdbphp library method names, retrieving the saved value and setting the new value with it
 		 */
 		$cinematographer_value = $imdb_data_options['imdbwidgetcreator'] ?? false;
-		if ( $cinematographer_value !== false && true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbwidgetcreator' ) ) {
+		if ( $cinematographer_value !== false && true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcreator' ) ) {
 			$text = 'Lumière option imdbwidgetcreator successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetcreator could not be removed.';
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgetcinematographer', $cinematographer_value ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcinematographer', $cinematographer_value ) ) {
 			$text = 'Lumière option imdbwidgetcinematographer successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -152,7 +153,7 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
 		$order_value['cinematographer'] = $order_value !== false && isset( $order_value['creator'] ) ? $order_value['creator'] : '18';
 		unset( $order_value['creator'] );
-		if ( $order_value !== false && true === $this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
+		if ( $order_value !== false && true === $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
 			$text = 'Lumière option imdbwidgetorder successfully updated.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -161,14 +162,14 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		}
 		// Update imdbtaxonomycinematographer
 		$cinematographertaxo_value = $imdb_data_options['imdbtaxonomycreator'] ?? false;
-		if ( $cinematographertaxo_value !== false && true === $this->lumiere_remove_options( Get_Options::get_data_tablename(), 'imdbtaxonomycreator' ) ) {
+		if ( $cinematographertaxo_value !== false && true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbtaxonomycreator' ) ) {
 			$text = 'Lumière option imdbtaxonomycreator successfully removed.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbtaxonomycreator could not be removed.';
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbtaxonomycinematographer', $cinematographertaxo_value ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbtaxonomycinematographer', $cinematographertaxo_value ) ) {
 			$text = 'Lumière option imdbtaxonomycinematographer successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -180,7 +181,7 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		 * Add 'imdbwidgettrivia' to LUM_DATA_OPTIONS
 		 */
 		// Trivia widget
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgettrivia', '0' ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgettrivia', '0' ) ) {
 			$text = 'Lumière option imdbwidgettrivia successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -189,7 +190,7 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		}
 
 		// Trivia number
-		if ( true === $this->lumiere_add_options( Get_Options::get_data_tablename(), 'imdbwidgettrivianumber', '3' ) ) {
+		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgettrivianumber', '3' ) ) {
 			$text = 'Lumière option imdbwidgettrivianumber successfully added.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
@@ -199,7 +200,7 @@ class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		// Create imdbwidgetorder with trivia if doesn't exist (it shouldn't)
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
 		$order_value['cinematographer'] = $order_value !== false && isset( $order_value['trivia'] ) ? $order_value['trivia'] : '27';
-		if ( $order_value !== false && true === $this->lumiere_update_options( Get_Options::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
+		if ( $order_value !== false && true === $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
 			$text = 'Lumière option imdbwidgetorder (trivia) successfully updated.';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
