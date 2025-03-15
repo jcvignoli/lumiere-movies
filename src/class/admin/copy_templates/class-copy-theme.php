@@ -74,10 +74,10 @@ class Copy_Theme {
 		$lumiere_taxo_title = esc_html( $this->get_taxotype_url() ?? $wp_cli_taxonomy ?? '' );
 
 		// Build links and vars.
-		if ( in_array( $lumiere_taxo_title, array_keys( Get_Options_Person::get_list_people_taxo() ), true ) ) {
-			$lumiere_taxo_file_tocopy = Get_Options_Person::TAXO_PEOPLE_THEME;
+		if ( in_array( $lumiere_taxo_title, array_keys( Get_Options_Movie::get_list_people_taxo() ), true ) ) {
+			$lumiere_taxo_file_tocopy = Get_Options_Person::LUM_TAXO_PEOPLE_THEME;
 		} elseif ( in_array( $lumiere_taxo_title, array_keys( Get_Options_Movie::get_list_items_taxo() ), true ) ) {
-			$lumiere_taxo_file_tocopy = Get_Options::TAXO_ITEMS_THEME;
+			$lumiere_taxo_file_tocopy = Get_Options::LUM_TAXO_ITEMS_THEME;
 		} else {
 			throw new Exception( 'This template ' . esc_html( $lumiere_taxo_title ) . ' does not exist, aborting' );
 		}

@@ -37,12 +37,12 @@ class Get_Options extends Settings {
 		$imdb_admin_option = get_option( parent::LUM_ADMIN_OPTIONS );
 		return [
 			$imdb_admin_option !== false ? $imdb_admin_option['imdburlstringtaxo'] : parent::URL_STRING_TAXO,
-			parent::FILE_COPY_THEME_TAXONOMY,
-			Get_Options_Movie::SEARCH_MOVIE_FILE, // For accessing the search in clicking a link (ie gutenberg)
-			Get_Options_Movie::SEARCH_MOVIE_URL_ADMIN,  // For accessing the search in URL lumiere/search
-			Get_Options_Movie::POPUP_SEARCH_PATH, // to be removed?
-			Get_Options_Movie::POPUP_MOVIE_PATH, // to be removed?
-			Get_Options_Person::POPUP_PERSON_PATH, // to be removed?
+			parent::LUM_FILE_COPY_THEME_TAXONOMY,
+			Get_Options_Movie::LUM_SEARCH_MOVIE_FILE, // For accessing the search in clicking a link (ie gutenberg)
+			Get_Options_Movie::LUM_SEARCH_MOVIE_URL_ADMIN,  // For accessing the search in URL lumiere/search
+			Get_Options_Movie::LUM_POPUP_SEARCH_PATH, // to be removed?
+			Get_Options_Movie::LUM_POPUP_MOVIE_PATH, // to be removed?
+			Get_Options_Person::LUM_POPUP_PERSON_PATH, // to be removed?
 		];
 	}
 
@@ -128,7 +128,7 @@ class Get_Options extends Settings {
 	 */
 	public static function get_list_fields_taxo( int $number = 1 ): array {
 		return [
-			...Get_Options_Person::get_list_people_taxo( $number ),
+			...Get_Options_Movie::get_list_people_taxo( $number ),
 			...Get_Options_Movie::get_list_items_taxo( $number ),
 		];
 	}
@@ -144,7 +144,7 @@ class Get_Options extends Settings {
 	public static function get_all_fields( int $number = 1 ): array {
 		return [
 			...Get_Options_Movie::get_list_non_taxo_items( $number ),
-			...Get_Options_Person::get_list_people_taxo( $number ), // Taxo_people is all people options, since there are no people options that are not taxonomy.
+			...Get_Options_Movie::get_list_people_taxo( $number ), // Taxo_people is all people options, since there are no people options that are not taxonomy.
 			...Get_Options_Movie::get_list_items_taxo( $number ),
 		];
 	}

@@ -16,7 +16,12 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 
 /**
  * Settings class for Person
-  */
+ * Is extended by Get_Options_Person
+ * If a new IMDB field is created it will automatically create new fields, be it in database and in the admin panel options
+ * IMDB fields are automatically translated if plural
+
+ * @see \Imdb\Name Function and constants here are related to data coming from there
+ */
 class Settings_Person {
 
 	/**
@@ -30,8 +35,8 @@ class Settings_Person {
 	 * Internal URL pages constants
 	 * Must be public, used everywhere
 	 */
-	public const POPUP_PERSON_PATH                  = 'class/frontend/popups/class-popup-person.php';
-	public const TAXO_PEOPLE_THEME                  = 'class/theme/class-taxonomy-people-standard.php';
+	public const LUM_POPUP_PERSON_PATH              = 'class/frontend/popups/class-popup-person.php';
+	public const LUM_TAXO_PEOPLE_THEME              = 'class/theme/class-taxonomy-people-standard.php';
 
 	/**
 	 * Define the type items for Persons
@@ -89,26 +94,6 @@ class Settings_Person {
 			'stunts'             => __( 'stunts', 'lumiere-movies' ),
 			'thanks'             => _n( 'thanks movie', 'thanks movies', $number, 'lumiere-movies' ),
 			'writer'             => __( 'writer', 'lumiere-movies' ),
-		];
-	}
-
-	/**
-	 * Define the type of people items that are used for taxonomy
-	 * All items in type people are actually taxonomy
-	 * @see Settings::get_default_data_option() use this list to create the options
-	 *
-	 * @param int $number Optional: a number to turn into plural if needed
-	 * @return array<string, string>
-	 * @phpstan-return array{ 'actor': string, 'composer': string, 'cinematographer':string, 'director':string, 'producer':string, 'writer':string }
-	 */
-	public static function define_list_taxo_people( int $number = 1 ): array {
-		return [
-			'director'         => _n( 'director', 'directors', $number, 'lumiere-movies' ),
-			'actor'            => _n( 'actor', 'actors', $number, 'lumiere-movies' ),
-			'cinematographer'  => _n( 'cinematographer', 'cinematographers', $number, 'lumiere-movies' ),
-			'composer'         => _n( 'composer', 'composers', $number, 'lumiere-movies' ),
-			'writer'           => _n( 'writer', 'writers', $number, 'lumiere-movies' ),
-			'producer'         => _n( 'producer', 'producers', $number, 'lumiere-movies' ),
 		];
 	}
 }

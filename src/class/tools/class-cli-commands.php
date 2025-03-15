@@ -18,7 +18,6 @@ use Lumiere\Tools\Files;
 use Lumiere\Admin\Copy_Templates\Copy_Theme;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
-use Lumiere\Config\Get_Options_Person;
 use WP_CLI;
 use \ReflectionClass;
 use \ReflectionMethod;
@@ -215,7 +214,7 @@ class Cli_Commands {
 		// Build the principal vars.
 		$template_types = [ 'items', 'people' ];
 		$items = Get_Options_Movie::get_list_items_taxo();
-		$people = Get_Options_Person::get_list_people_taxo();
+		$people = Get_Options_Movie::get_list_people_taxo();
 		$all = array_merge( $items, $people );
 		$array_items = [ $template_types[0] => $items ];
 		$array_people = [ $template_types[1] => $people ];

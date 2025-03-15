@@ -34,33 +34,33 @@ class Validate_Get {
 	 */
 	private static function get_valid_list(): array {
 		return [
-			'film'                                      => [ // Lumiere\Frontend\Popups\Head_Popups, Lumiere\Frontend\Popups\Popup_Movie
+			'film'                                           => [ // Lumiere\Frontend\Popups\Head_Popups, Lumiere\Frontend\Popups\Popup_Movie
 				'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
 				'flags'  => FILTER_FLAG_QUERY_REQUIRED | FILTER_NULL_ON_FAILURE,
 			],
-			'mid'                                       => [  // Lumiere\Frontend\Popups\Head_Popups, Lumiere\Frontend\Popups\Popup_Movie
+			'mid'                                            => [  // Lumiere\Frontend\Popups\Head_Popups, Lumiere\Frontend\Popups\Popup_Movie
 				'filter' => FILTER_SANITIZE_NUMBER_INT,
 				'flags'  => FILTER_FLAG_QUERY_REQUIRED | FILTER_NULL_ON_FAILURE,
 			],
-			'info'                                      => [ // Lumiere\Frontend\Popups\Popup_Movie
+			'info'                                           => [ // Lumiere\Frontend\Popups\Popup_Movie
 				'filter'  => FILTER_VALIDATE_REGEXP,
 				'options' => [ 'regexp' => '~(actors|crew|resume|divers|^$)~' ], // Matches also empty string, which is needed for at first.
 				'flags'   => FILTER_FLAG_QUERY_REQUIRED | FILTER_NULL_ON_FAILURE,
 			],
-			'info_person'                               => [ // Lumiere\Frontend\Popups\Popup_Person
+			'info_person'                                    => [ // Lumiere\Frontend\Popups\Popup_Person
 				'filter'  => FILTER_VALIDATE_REGEXP,
 				'options' => [ 'regexp' => '~(filmo|bio|misc|^$)~' ], // Matches also empty string, which is needed at first.
 				'flags'   => FILTER_FLAG_QUERY_REQUIRED | FILTER_NULL_ON_FAILURE,
 			],
-			'tag_lang'                                  => [ // Lumiere\Plugins\Auto\Polylang
+			'tag_lang'                                       => [ // Lumiere\Plugins\Auto\Polylang
 				'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
 				'flags'  => FILTER_FLAG_QUERY_REQUIRED | FILTER_NULL_ON_FAILURE,
 			],
-			'submit_lang'                               => [ // Lumiere\Plugins\Auto\Polylang
+			'submit_lang'                                    => [ // Lumiere\Plugins\Auto\Polylang
 				'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
 				'flags'  => FILTER_FLAG_QUERY_REQUIRED | FILTER_NULL_ON_FAILURE,
 			],
-			Get_Options_Movie::SEARCH_MOVIE_QUERY_STRING      => [ // var used in Lumiere\Admin\Search_Movie, ie 'moviesearched'
+			Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING => [ // var used in Lumiere\Admin\Search_Movie, ie 'moviesearched'
 				'filter' => FILTER_SANITIZE_SPECIAL_CHARS,
 				'flags'  => FILTER_SANITIZE_ADD_SLASHES | FILTER_FLAG_QUERY_REQUIRED | FILTER_NULL_ON_FAILURE,
 			],

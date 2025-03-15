@@ -130,8 +130,8 @@ class Settings extends Settings_Helper {
 	 * Internal URL pages constants
 	 * Must be public, used everywhere
 	 */
-	public const FILE_COPY_THEME_TAXONOMY           = 'class/admin/taxo/class-copy-template-taxonomy.php';
-	public const TAXO_ITEMS_THEME                   = 'class/theme/class-taxonomy-items-standard.php';
+	public const LUM_FILE_COPY_THEME_TAXONOMY       = 'class/admin/taxo/class-copy-template-taxonomy.php';
+	public const LUM_TAXO_ITEMS_THEME               = 'class/theme/class-taxonomy-items-standard.php';
 
 	/**
 	 * URL string for taxonomy
@@ -201,8 +201,8 @@ class Settings extends Settings_Helper {
 			[
 				'lum_path'                    => LUM_WP_URL,
 				'wordpress_path'              => site_url(),
-				'admin_movie_search_url'      => Get_Options_Movie::SEARCH_MOVIE_URL_ADMIN,
-				'admin_movie_search_qstring'  => Get_Options_Movie::SEARCH_MOVIE_QUERY_STRING,
+				'admin_movie_search_url'      => Get_Options_Movie::LUM_SEARCH_MOVIE_URL_ADMIN,
+				'admin_movie_search_qstring'  => Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING,
 				'ico80'                       => LUM_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
 				'popupLarg'                   => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong'                   => $imdb_admin_option['imdbpopuplong'],
@@ -342,10 +342,10 @@ class Settings extends Settings_Helper {
 	 */
 	private function get_default_data_option(): array {
 		return array_merge(
-			parent::get_data_rows_widget( Get_Options_Movie::DATA_DEFAULT_WIDGET_ACTIVE    /* Activated rows by default */ ),
+			parent::get_data_rows_widget( Get_Options_Movie::LUM_DATA_DEFAULT_WIDGET_ACTIVE    /* Activated rows by default */ ),
 			parent::get_data_rows_imdbwidgetorder(),
-			parent::get_data_rows_taxo( Get_Options_Movie::DATA_DEFAULT_TAXO_ACTIVE        /* Activated rows by default */ ),
-			parent::get_data_rows_withnumbers( Get_Options_Movie::DATA_DEFAULT_WITHNUMBER  /* Rows that must have a specific number */ ),
+			parent::get_data_rows_taxo( Get_Options_Movie::LUM_DATA_DEFAULT_TAXO_ACTIVE        /* Activated rows by default */ ),
+			parent::get_data_rows_withnumbers( Get_Options_Movie::LUM_DATA_DEFAULT_WITHNUMBER  /* Rows that must have a specific number */ ),
 		);
 	}
 }

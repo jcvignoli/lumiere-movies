@@ -18,7 +18,6 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 use FilesystemIterator;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
-use Lumiere\Config\Get_Options_Person;
 use Lumiere\Tools\Data;
 
 /**
@@ -56,7 +55,7 @@ class Settings_Helper {
 	 */
 	protected function get_data_rows_taxo( ?array $activated ): array {
 		$taxonomy_keys = [
-			...array_keys( Get_Options_Person::get_list_people_taxo() ),
+			...array_keys( Get_Options_Movie::get_list_people_taxo() ),
 			...array_keys( Get_Options_Movie::get_list_items_taxo() ),
 		];
 		$array_taxonomy = [];
@@ -84,7 +83,7 @@ class Settings_Helper {
 		$widget_keys = [
 			...array_keys( Get_Options_Movie::get_list_non_taxo_items() ),
 			...array_keys( Get_Options_Movie::get_list_items_taxo() ),
-			...array_keys( Get_Options_Person::get_list_people_taxo() ),
+			...array_keys( Get_Options_Movie::get_list_people_taxo() ),
 		];
 		$array_widget = [];
 		foreach ( $widget_keys as $row_number => $widget_key ) {
@@ -110,7 +109,7 @@ class Settings_Helper {
 	protected function get_data_rows_imdbwidgetorder(): array {
 		$widget_keys = [
 			...array_keys( Get_Options_Movie::get_list_non_taxo_items() ),
-			...array_keys( Get_Options_Person::get_list_people_taxo() ),
+			...array_keys( Get_Options_Movie::get_list_people_taxo() ),
 			...array_keys( Get_Options_Movie::get_list_items_taxo() ),
 		];
 
@@ -157,7 +156,7 @@ class Settings_Helper {
 		foreach ( $reversed as $k => $v ) {
 			$reversed_array[] = [ $k => $v ];
 		}
-		$loop = array_keys( Get_Options_Movie::DATA_DEFAULT_WITHNUMBER );
+		$loop = array_keys( Get_Options_Movie::LUM_DATA_DEFAULT_WITHNUMBER );
 		foreach ( $loop as $key => $withnumber_key ) {
 			if ( in_array( $withnumber_key, array_keys( $reversed ), true ) && $count > -1 ) {
 				$array_with_numbers[ 'imdbwidget' . $withnumber_key . 'number' ] = $reversed_array[ $count ][ $withnumber_key ];

@@ -55,7 +55,7 @@ class Search_Movie {
 
 		// Get global settings class properties.
 		$this->get_db_options(); // In Open_Options trait.
-		$this->movie_searched = Validate_Get::sanitize_url( Get_Options_Movie::SEARCH_MOVIE_QUERY_STRING );
+		$this->movie_searched = Validate_Get::sanitize_url( Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING );
 
 		// Register admin scripts.
 		add_action( 'wp_enqueue_scripts', [ $this, 'search_register_scripts' ] );
@@ -174,14 +174,14 @@ class Search_Movie {
 
 		if (
 			(
-				! isset( $_GET[ Get_Options_Movie::SEARCH_MOVIE_QUERY_STRING ], $_GET['search_nonce'] )
+				! isset( $_GET[ Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING ], $_GET['search_nonce'] )
 				|| ( wp_verify_nonce( sanitize_key( $_GET['search_nonce'] ), 'lumiere_search' ) > 0 ) === false
-				|| strlen( sanitize_key( $_GET[ Get_Options_Movie::SEARCH_MOVIE_QUERY_STRING ] ) ) === 0
+				|| strlen( sanitize_key( $_GET[ Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING ] ) ) === 0
 			)
 			&&
 			(
 				// If there is no nonce to verify, make sure it comes from editing post
-				! isset( $_GET[ Get_Options_Movie::SEARCH_MOVIE_QUERY_STRING ] ) || strlen( sanitize_key( $_GET[ Get_Options_Movie::SEARCH_MOVIE_QUERY_STRING ] ) ) === 0
+				! isset( $_GET[ Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING ] ) || strlen( sanitize_key( $_GET[ Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING ] ) ) === 0
 				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'post.php?post=' ) === false
 			)
 		) {
@@ -254,7 +254,7 @@ class Search_Movie {
 		} ?>
 
 <br>
-<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Get_Options_Movie::SEARCH_MOVIE_URL_ADMIN ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
+<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Get_Options_Movie::LUM_SEARCH_MOVIE_URL_ADMIN ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
 <br>
 <br><?php
 	}
@@ -270,7 +270,7 @@ class Search_Movie {
 		$ouput .= "\n\t" . '<h1 id="lum_search_title">' . esc_html__( 'Search a movie IMDb ID', 'lumiere-movies' ) . '</h1>';
 		$ouput .= "\n\t" . '<form action="" method="get" id="searchmovie">';
 
-		$ouput .= "\n\t\t" . '<input type="text" id="lum_movie_input" name="' . Get_Options_Movie::SEARCH_MOVIE_QUERY_STRING . '" value="">';
+		$ouput .= "\n\t\t" . '<input type="text" id="lum_movie_input" name="' . Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING . '" value="">';
 
 		$ouput .= wp_nonce_field( 'lumiere_search', 'search_nonce', true, false );
 

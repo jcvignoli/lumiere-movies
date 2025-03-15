@@ -107,7 +107,7 @@ class Detect_New_Theme {
 			}
 		} else {
 			// Build array of people and items from config
-			$array_all = array_merge( array_keys( Get_Options_Person::get_list_people_taxo() ), array_keys( Get_Options_Movie::get_list_items_taxo() ) );
+			$array_all = array_merge( array_keys( Get_Options_Movie::get_list_people_taxo() ), array_keys( Get_Options_Movie::get_list_items_taxo() ) );
 			asort( $array_all );
 
 			foreach ( $array_all as $item ) {
@@ -138,7 +138,7 @@ class Detect_New_Theme {
 		}
 
 		// Build array of people and items from config
-		$array_all = array_merge( Get_Options_Person::get_list_people_taxo(), Get_Options_Movie::get_list_items_taxo() );
+		$array_all = array_merge( Get_Options_Movie::get_list_people_taxo(), Get_Options_Movie::get_list_items_taxo() );
 		asort( $array_all );
 
 		foreach ( $array_all as $item => $item_translated ) {
@@ -213,9 +213,9 @@ class Detect_New_Theme {
 	 */
 	public function get_template_paths( $item ): array {
 		$template_paths = [];
-		$original_in_plugin = in_array( $item, array_keys( Get_Options_Person::get_list_people_taxo() ), true )
-			? Get_Options_Person::TAXO_PEOPLE_THEME
-			: Get_Options::TAXO_ITEMS_THEME;
+		$original_in_plugin = in_array( $item, array_keys( Get_Options_Movie::get_list_people_taxo() ), true )
+			? Get_Options_Person::LUM_TAXO_PEOPLE_THEME
+			: Get_Options::LUM_TAXO_ITEMS_THEME;
 		$template_paths['origin'] = LUM_WP_PATH . $original_in_plugin;
 		$template_paths['destination'] = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
 		return $template_paths;

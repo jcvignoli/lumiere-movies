@@ -19,19 +19,9 @@ use Lumiere\Config\Settings_Person;
 
 /**
  * Get settings related to Persons
- * Helper class meant to be called anywhere, so all methods should be static
+ * Helper class meant to be called anywhere, so all methods should be static and public
  */
 class Get_Options_Person extends Settings_Person {
-
-	/**
-	 * Get the type of people elements that are used for taxonomy
-	 *
-	 * @param int $number Optional: a number to turn into plural if needed
-	 * @return array<string, string>
-	 */
-	public static function get_list_people_taxo( int $number = 1 ): array {
-		return parent::define_list_taxo_people( $number );
-	}
 
 	/**
 	 * Get People fields
