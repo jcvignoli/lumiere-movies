@@ -8,14 +8,14 @@
  * @package       lumieremovies
  */
 
-namespace Lumiere\Frontend\Movie;
+namespace Lumiere\Frontend\Post;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Movie\Movie_Factory;
+use Lumiere\Frontend\Post\Movie_Factory;
 use Lumiere\Frontend\Layout\Output;
 use Lumiere\Plugins\Plugins_Start;
 use Lumiere\Frontend\Main;

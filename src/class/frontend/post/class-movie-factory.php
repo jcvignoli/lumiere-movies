@@ -8,7 +8,7 @@
  * @package       lumieremovies
  */
 
-namespace Lumiere\Frontend\Movie;
+namespace Lumiere\Frontend\Post;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
@@ -17,7 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Imdb\Title;
 use Lumiere\Config\Get_Options_Movie;
-use Lumiere\Frontend\Movie\Movie_Display;
+use Lumiere\Frontend\Post\Movie_Display;
 
 /**
  * Those methods are utilised by class Movie to display the sections
