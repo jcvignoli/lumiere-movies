@@ -139,5 +139,14 @@ class Get_Options_Movie extends Settings_Movie {
 	public static function get_list_people_taxo( int $number = 1 ): array {
 		return parent::define_list_taxo_people( $number );
 	}
+
+	/**
+	 * Get the type of people elements that are used for taxonomy
+	 *
+	 * @return array<string, string>
+	 */
+	public static function get_items_details_comments(): array {
+		return parent::define_items_details_comments();
+	}
 }
 

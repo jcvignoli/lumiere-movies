@@ -228,5 +228,47 @@ class Settings_Movie extends Settings_Helper {
 			'actorTrademark'       => __( 'actor trademark', 'lumiere-movies' ),
 		];
 	}
+
+	/**
+	 * Define the list of data comments
+	 * This comment is display in admin data, explaining the purpose of selecting an item
+	 * @see \Lumiere\Admin\Submenu\Data::get_details_comments() Call this class
+	 *
+	 * @since 4.5.1 method added
+	 *
+	 * @return array<string, string>
+	 */
+	protected static function define_items_details_comments(): array {
+		return [
+			'actor'           => __( 'Display (a number of) actors', 'lumiere-movies' ),
+			'alsoknow'        => __( 'Display (a number of) alternative movie names and in other languages', 'lumiere-movies' ),
+			'color'           => __( 'Display colors', 'lumiere-movies' ),
+			'composer'        => __( 'Display composer', 'lumiere-movies' ),
+			'connection'      => __( 'Display (a number of) related movies', 'lumiere-movies' ),
+			'country'         => __( 'Display country', 'lumiere-movies' ),
+			'cinematographer' => __( 'Display cinematographers', 'lumiere-movies' ),
+			'director'        => __( 'Display directors', 'lumiere-movies' ),
+			'genre'           => __( 'Display genre', 'lumiere-movies' ),
+			'goof'            => __( 'Display (a number of) goofs (per category limit)', 'lumiere-movies' ),
+			'keyword'         => __( 'Display keywords', 'lumiere-movies' ),
+			'language'        => __( 'Display languages', 'lumiere-movies' ),
+			'extSites'        => __( 'Display official websites', 'lumiere-movies' ),
+			'pic'             => __( 'Display the main poster', 'lumiere-movies' ),
+			'plot'            => __( 'Display plots. This field may require much size in your page.', 'lumiere-movies' ),
+			'producer'        => __( 'Display (a number of) producers', 'lumiere-movies' ),
+			'prodCompany'     => __( 'Display the production companies', 'lumiere-movies' ),
+			'quote'           => __( 'Display (a number of) quotes', 'lumiere-movies' ),
+			'rating'          => __( 'Display rating', 'lumiere-movies' ),
+			'runtime'         => __( 'Display the runtime', 'lumiere-movies' ),
+			'soundtrack'      => __( 'Display (a number of) soundtracks', 'lumiere-movies' ),
+			'source'          => __( 'Display IMDb website source of the movie', 'lumiere-movies' ),
+			'tagline'         => __( 'Display (a number of) taglines', 'lumiere-movies' ),
+			'title'           => __( 'Display the title', 'lumiere-movies' ),
+			'trailer'         => __( 'Display (a number of) trailers', 'lumiere-movies' ),
+			'trivia'          => __( 'Display (a number of) trivias (per category limit)', 'lumiere-movies' ),
+			'writer'          => __( 'Display writers', 'lumiere-movies' ),
+			'year'            => __( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
+		];
+	}
 }
 

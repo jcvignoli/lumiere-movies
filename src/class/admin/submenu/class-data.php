@@ -31,54 +31,6 @@ use Lumiere\Config\Get_Options_Movie;
 class Data extends Admin_Menu {
 
 	/**
-	 * List of data comments
-	 * @var array<string>
-	 */
-	private array $details_comments;
-
-	/**
-	 * Constructor
-	 */
-	protected function __construct() {
-
-		// Construct parent class
-		parent::__construct();
-
-		// Build the list of data comments
-		$this->details_comments = [
-			'actor'           => esc_html__( 'Display (a number of) actors', 'lumiere-movies' ),
-			'alsoknow'        => esc_html__( 'Display (a number of) alternative movie names and in other languages', 'lumiere-movies' ),
-			'color'           => esc_html__( 'Display colors', 'lumiere-movies' ),
-			'composer'        => esc_html__( 'Display composer', 'lumiere-movies' ),
-			'connection'      => esc_html__( 'Display (a number of) related movies', 'lumiere-movies' ),
-			'country'         => esc_html__( 'Display country', 'lumiere-movies' ),
-			'cinematographer' => esc_html__( 'Display cinematographers', 'lumiere-movies' ),
-			'director'        => esc_html__( 'Display directors', 'lumiere-movies' ),
-			'genre'           => esc_html__( 'Display genre', 'lumiere-movies' ),
-			'goof'            => esc_html__( 'Display (a number of) goofs (per category limit)', 'lumiere-movies' ),
-			'keyword'         => esc_html__( 'Display keywords', 'lumiere-movies' ),
-			'language'        => esc_html__( 'Display languages', 'lumiere-movies' ),
-			'extSites'        => esc_html__( 'Display official websites', 'lumiere-movies' ),
-			'pic'             => esc_html__( 'Display the main poster', 'lumiere-movies' ),
-			'plot'            => esc_html__( 'Display plots. This field may require much size in your page.', 'lumiere-movies' ),
-			'producer'        => esc_html__( 'Display (a number of) producers', 'lumiere-movies' ),
-			'prodCompany'     => esc_html__( 'Display the production companies', 'lumiere-movies' ),
-			'quote'           => esc_html__( 'Display (a number of) quotes', 'lumiere-movies' ),
-			'rating'          => esc_html__( 'Display rating', 'lumiere-movies' ),
-			'runtime'         => esc_html__( 'Display the runtime', 'lumiere-movies' ),
-			'soundtrack'      => esc_html__( 'Display (a number of) soundtracks', 'lumiere-movies' ),
-			'source'          => esc_html__( 'Display IMDb website source of the movie', 'lumiere-movies' ),
-			'tagline'         => esc_html__( 'Display (a number of) taglines', 'lumiere-movies' ),
-			'title'           => esc_html__( 'Display the title', 'lumiere-movies' ),
-			'trailer'         => esc_html__( 'Display (a number of) trailers', 'lumiere-movies' ),
-			'trivia'          => esc_html__( 'Display (a number of) trivias (per category limit)', 'lumiere-movies' ),
-			'writer'          => esc_html__( 'Display writers', 'lumiere-movies' ),
-			'year'            => esc_html__( 'Display release year. The release year will appear next to the movie title into brackets', 'lumiere-movies' ),
-		];
-
-	}
-
-	/**
 	 * Display the body
 	 *
 	 * @param \Lumiere\Admin\Cache\Cache_Files_Management $cache_mngmt_class Not utilised in this class, but needed in some other Submenu classes
@@ -194,7 +146,7 @@ class Data extends Admin_Menu {
 		asort( $array_full );
 
 		// Add the comments to the arrays of items and people
-		return [ $array_full, $this->details_comments ];
+		return [ $array_full, Get_Options_Movie::get_items_details_comments() ];
 	}
 }
 
