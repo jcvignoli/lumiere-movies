@@ -25,6 +25,12 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 class Settings_Person {
 
 	/**
+	 * Name of the databases as stored in WordPress db
+	 * Only used in child class, has to be called in Get_Options
+	 */
+	protected const LUM_DATA_PERSON_OPTIONS         = 'lumiere_data_person_options';
+
+	/**
 	 * Partial namespace of modules
 	 * Used to build the full person namespace
 	 * @see \Lumiere\Frontend\Popup\Popup_Person
@@ -37,6 +43,27 @@ class Settings_Person {
 	 */
 	public const LUM_POPUP_PERSON_PATH              = 'class/frontend/popups/class-popup-person.php';
 	public const LUM_TAXO_PEOPLE_THEME              = 'class/theme/class-taxonomy-people-standard.php';
+
+	/**
+	 * Classes to be used in frontend
+	 */
+	public const LUM_FRONT_PERSON_ITEMS = [
+		'title',
+		'pic',
+		'bio',
+		'nickname',
+		'spouse',
+		'children',
+		'credit',
+		'news',
+		'pubinterview',
+		'pubmovies',
+		'pubportrayal',
+		/* 'pubprints', */
+		'quotes',
+		'trivia',
+		'trademark',
+	];
 
 	/**
 	 * Define the type items for Persons

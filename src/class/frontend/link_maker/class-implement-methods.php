@@ -392,7 +392,7 @@ class Implement_Methods {
 	 * @param string $a_class Class to be added in popup building link, none by default
 	 *
 	 * @return string
-	 * @see \Lumiere\Frontend\Movie\Movie_Display::lumiere_build_popup_link() uses this method
+	 * @see \Lumiere\Frontend\Movie\Front_Parser::build_popup_link() uses this method
 	 */
 	protected function get_popup_film_title_details( string $title, int $window_type, string $a_class = '' ): string {
 
@@ -453,6 +453,26 @@ class Implement_Methods {
 		}
 
 		throw new Exception( 'No window_type found' );
+	}
+
+	/**
+	 * Exernal URL
+	 *
+	 * @param string $website_title The URL's title
+	 * @param string $url The external URL
+	 * @param 0|1|2|3|4 $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
+	 * @param string $a_class A class to be added in popup building link, none by default
+	 * @return string
+	 */
+	protected function get_external_url_details( string $website_title, string $url, int $window_type, string $a_class = '' ): string {
+
+		// No Links class, do not display any link.
+		if ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
+			return "\n\t\t\t" . esc_html( $website_title );
+		}
+		/* Translators: %1s is a website name, ie "New 70mm Trailer" */
+		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html( wp_sprintf( __( 'External URL %1s', 'lumiere-movies' ), $website_title ) ) . "'>" . esc_html( $website_title ) . '</a>';
+
 	}
 
 	/**

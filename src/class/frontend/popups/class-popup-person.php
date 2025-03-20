@@ -153,8 +153,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === null || strlen( $get_info_person ) === 0
 		) {
-			$max_results = 9; /** max number of movies before breaking with "see all" */
-			$display_summary = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_SUMMARY_ROLES, $max_results );
+			$display_summary = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_SUMMARY_ROLES );
 			echo strlen( $display_summary ) > 0 ? wp_kses(
 				$display_summary,
 				[
@@ -181,8 +180,7 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 		if (
 			$get_info_person === 'filmo'
 		) {
-			$max_results = 15; /** max number of movies before breaking with "see all" */
-			$display_full_filmo = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_ALL_ROLES, $max_results );
+			$display_full_filmo = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_ALL_ROLES );
 			echo strlen( $display_full_filmo ) > 0 ? wp_kses(
 				$display_full_filmo,
 				[
@@ -459,15 +457,14 @@ class Popup_Person extends Head_Popups implements Popup_Basic {
 	 * @param Name $person_class
 	 * @param list<string> $list_roles List of the roles, translated and pluralised in \Lumiere\Config\Settings_Person::credits_role_all()
 	 * @phpstan-param Settings_Popup::PERSON_ALL_ROLES|Settings_Popup::PERSON_SUMMARY_ROLES $list_roles
-	 * @param int<0, max> $max_movies Limit of the movies to display before breaking with "see all"
 	 */
-	private function get_movies_credit( Name $person_class, array $list_roles, int $max_movies ): string {
+	private function get_movies_credit( Name $person_class, array $list_roles ): string {
 		$output = '';
 		foreach ( $list_roles as $module ) {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . 'Credit';
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				$final_text = $class_module->get_module( $person_class, $module, $max_movies );
+				$final_text = $class_module->get_module( $person_class, $module );
 				if ( strlen( $final_text ) > 0 ) {
 					$output .= $this->output_popup_class->person_element_embeded(
 						$final_text,

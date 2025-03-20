@@ -1,0 +1,138 @@
+<?php declare( strict_types = 1 );
+/**
+ * Class for displaying person module News.
+ *
+ * @copyright (c) 2025, Lost Highway
+ *
+ * @version       1.0
+ * @package       lumieremovies
+ */
+
+namespace Lumiere\Frontend\Module\Person;
+
+// If this file is called directly, abort.
+if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+	wp_die( 'Lumière Movies: You can not call directly this page' );
+}
+
+use Lumiere\Config\Get_Options_Person;
+
+/**
+ * Method to display news for persons
+ *
+ * @since 4.5 new class
+ */
+class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
+
+	/**
+	 * Display the main module version
+	 *
+	 * @param \Imdb\Name $person_class IMDbPHP title class
+	 * @param 'news' $item_name The name of the item
+	 */
+	public function get_module( \Imdb\Name $person_class, string $item_name ): string {
+
+		$item_results = $person_class->$item_name();
+		$nb_total_items = count( $item_results );
+		$nb_rows_click_more = 5;
+
+		if ( $nb_total_items === 0 ) {
+			return '';
+		}
+
+		if ( $this->is_popup_page() === true ) { // Method in trait Main.
+			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
+		}
+
+		$output = $this->output_class->misc_layout(
+			'frontend_subtitle_item',
+			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
+		);
+
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+
+			// URL.
+			$output .= isset( $item_results[ $i ] ) && isset( $item_results[ $i ]['title'] ) && isset( $item_results[ $i ]['extUrl'] ) ? parent::get_external_url( $item_results[ $i ]['title'], $item_results[ $i ]['extUrl'] ) : $item_results[ $i ]['title'] ?? '';
+
+			// Date.
+			if ( isset( $item_results[ $i ]['date'] ) && strlen( $item_results[ $i ]['date'] ) > 0 ) {
+				$output .= ' (' . gmdate( 'd-m-Y', strtotime( $item_results[ $i ]['date'] ) ) . ')';
+			}
+
+			// Display a "show more" after XX results
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+			}
+
+			// Text, limited in charas.
+			if ( isset( $item_results[ $i ]['textText'] ) && strlen( $item_results[ $i ]['textText'] ) > 0 ) {
+				$output .= ' ' . substr( $item_results[ $i ]['textText'], 0, 300 ) . ' [...]';
+			}
+
+			// End of "click to show more"
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'click_more_end' );
+			}
+
+			// Breaking line.
+			if ( $i < $nb_total_items - 1 ) {
+				$output .= '<br>';
+			}
+
+		}
+		return $output;
+	}
+
+	/**
+	 * Display the Popup version of the module
+	 *
+	 * @param 'news' $item_name The name of the item
+	 * @param array<array-key, array<string, string|array<array-key, string>>> $item_results
+	 * @phpstan-param array<array-key, array{ title?: string, date?: string, textText?: string, extUrl?: string}> $item_results
+	 * @param int<1, max> $nb_total_items
+	 */
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
+
+		$nb_rows_click_more = 5;
+
+		$output = $this->output_class->misc_layout(
+			'popup_subtitle_item',
+			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
+		);
+
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+
+			// URL.
+			$output .= isset( $item_results[ $i ] ) && isset( $item_results[ $i ]['title'] ) && isset( $item_results[ $i ]['extUrl'] ) ? parent::get_external_url( $item_results[ $i ]['title'], $item_results[ $i ]['extUrl'] ) : $item_results[ $i ]['title'] ?? '';
+
+			// Date.
+			if ( isset( $item_results[ $i ]['date'] ) && strlen( $item_results[ $i ]['date'] ) > 0 ) {
+				$date = strtotime( $item_results[ $i ]['date'] );
+				$output .= $date !== false ? ' (' . gmdate( 'd-m-Y', $date ) . ')' : '';
+			}
+
+			// Display a "show more" after XX results
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+			}
+
+			// Text, limited in charas.
+			if ( isset( $item_results[ $i ]['textText'] ) && strlen( $item_results[ $i ]['textText'] ) > 0 ) {
+				$output .= ' ' . substr( $item_results[ $i ]['textText'], 0, 200 ) . ' [...]';
+			}
+
+			// Breaking line.
+			if ( $i < $nb_total_items - 1 ) {
+				$output .= '<br>';
+			}
+
+			// End of "click to show more"
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'click_more_end' );
+			}
+		}
+		return $output;
+	}
+}

@@ -16,7 +16,8 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Frontend\Widget\Widget_Frontpage;
-use Lumiere\Frontend\Post\Movie_Display;
+use Lumiere\Frontend\Post\Front_Parser;
+use Lumiere\Frontend\Post\Find_Items;
 use Lumiere\Frontend\Popups\Popup_Factory;
 use Lumiere\Config\Get_Options;
 
@@ -38,7 +39,8 @@ class Frontend {
 	 * Constructor
 	 */
 	public function __construct(
-		Movie_Display $movie_display = new Movie_Display(),
+		Front_Parser $front_parser = new Front_Parser(),
+		Find_Items $find_items = new Find_Items(),
 		Widget_Frontpage $widget_front = new Widget_Frontpage(),
 		Popup_Factory $popup_factory = new Popup_Factory(),
 	) {
@@ -56,9 +58,11 @@ class Frontend {
 		/**
 		 * Movie's related actions and filters
 		 */
-		add_action( 'init', [ $movie_display, 'start' ], 11 );
-		add_filter( 'lum_display_movies_box', [ $movie_display, 'lum_display_movies_box' ], 10, 1 );
-		add_filter( 'lum_find_movie_id', [ $movie_display, 'find_imdb_id' ], 10, 1 );
+		add_action( 'init', [ $front_parser, 'start' ], 11 );
+		add_filter( 'lum_display_movies_box', [ $front_parser, 'lum_display_movies_box' ], 10, 1 );
+		add_filter( 'lum_display_persons_box', [ $front_parser, 'lum_display_persons_box' ], 10, 1 );
+		add_filter( 'lum_find_movie_id', [ $find_items, 'find_movie_imdb_id' ], 10, 1 );
+		add_filter( 'lum_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
 
 		/**
 		 * Widget's related action

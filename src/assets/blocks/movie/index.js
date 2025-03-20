@@ -107,6 +107,8 @@
 										// Keeping double i18n, but only the second is needed
 										el( "option", { label: __( "By movie title", 'lumiere-movies' ), value: "movie_title" }, __( "By movie title", 'lumiere-movies' ) ),
 										el( "option", { label: __( "By IMDb ID", 'lumiere-movies' ), value: "movie_id" }, __( "By IMDb ID", 'lumiere-movies' ) ),
+										el( "option", { label: __( "By person name", 'lumiere-movies' ), value: "person_name" }, __( "By movie title", 'lumiere-movies' ) ),
+										el( "option", { label: __( "By person ID", 'lumiere-movies' ), value: "person_id" }, __( "By IMDb ID", 'lumiere-movies' ) ),
 									)
 								),
 								el(

@@ -35,6 +35,7 @@ class Person_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );
+		$nb_rows_display_clickmore = 10;
 
 		if ( $nb_total_items === 0 ) {
 			return '';
@@ -58,8 +59,19 @@ class Person_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 				continue;
 			}
 
+			// Display a "show more" after 3 results
+			if ( $i === $nb_rows_display_clickmore ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+			}
+
 			$text_cleaned = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text );
 			$output .= $this->output_class->misc_layout( 'numbered_list', strval( $i + 1 ), '', $text_cleaned ?? '' );
+
+			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'click_more_end' );
+			}
+
 		}
 		return $output;
 	}

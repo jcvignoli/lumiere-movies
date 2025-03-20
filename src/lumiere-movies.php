@@ -10,7 +10,7 @@
  * Plugin Name:       Lumière Movies
  * Plugin URI:        https://www.wordpress.org/plugins/lumiere-movies/
  * Description:       Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post.
- * Version:           4.5.1
+ * Version:           4.6
  * Requires at least: 5.6
  * Requires PHP:      8.1
  * Author:            psykonevro

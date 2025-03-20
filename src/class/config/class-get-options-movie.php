@@ -102,7 +102,7 @@ class Get_Options_Movie extends Settings_Movie {
 	/**
 	 * Get all items non-taxonomy
 	 *
-	 * @since 4.5.1 method added
+	 * @since 4.6 method added
 	 * @return array<string, string>
 	 */
 	public static function get_list_non_taxo_items( int $number = 1 ): array {

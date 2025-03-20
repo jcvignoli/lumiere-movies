@@ -20,7 +20,7 @@ use Lumiere\Plugins\Logger;
 /**
  * The class is meant to deal with taxonomy
  *
- * @since 4.4 Class created, using methods that were in Movie_Display
+ * @since 4.4 Class created, using methods that were in Front_Parser
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 class Add_Taxonomy {

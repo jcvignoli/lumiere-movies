@@ -35,6 +35,7 @@ class Person_Quotes extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );
+		$nb_rows_click_more = 10;
 
 		if ( $nb_total_items === 0 ) {
 			return '';
@@ -51,7 +52,18 @@ class Person_Quotes extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$text = $item_results[ $i ] ?? '';
+
+			// Display a "show more" after XX results
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+			}
+
 			$output .= strlen( $text ) > 0 ? $this->output_class->misc_layout( 'numbered_list', strval( $i + 1 ), '', $text ) : '';
+
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'click_more_end' );
+			}
 		}
 		return $output;
 	}

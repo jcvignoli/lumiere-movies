@@ -21,7 +21,7 @@ use Lumiere\Config\Get_Options_Movie;
  * Validate and sanitize $_GET['XXXXX']
  * All methods must be static
  *
- * @since 4.5.1 New method allowing the use of dynamic vars (get_valid_list() instead of a constant)
+ * @since 4.6 New method allowing the use of dynamic vars (using get_valid_list() instead of a constant)
  */
 class Validate_Get {
 

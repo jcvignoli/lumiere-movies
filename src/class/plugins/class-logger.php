@@ -146,7 +146,7 @@ final class Logger {
 				/**
 				 * Create log file if it doesn't exist, use null logger and exit if can't write to the log.
 				 * @since 3.9.1 created maybe_create_log() method, using its output to exit if no path created.
-				 * @since 4.5.1 moved method maybe_create_log() to trait Files
+				 * @since 4.6 moved method maybe_create_log() to trait Files
 				 */
 				$final_log_file = $this->maybe_create_log( $imdb_admin_values ); // In Files trait.
 

@@ -24,6 +24,15 @@ use Lumiere\Config\Settings_Person;
 class Get_Options_Person extends Settings_Person {
 
 	/**
+	 * Get Data options row name as in wp_options
+	 *
+	 * @return string
+	 */
+	public static function get_data_person_tablename(): string {
+		return parent::LUM_DATA_PERSON_OPTIONS;
+	}
+
+	/**
 	 * Get People fields
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed

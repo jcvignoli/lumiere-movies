@@ -176,10 +176,9 @@ trait Files {
 	 * @param bool $second_try Whether the function is called a second time
 	 * @return null|string Null if log creation was unsuccessful, Log full path file if successfull
 	 *
-	 * @since 3.7.1
-	 * @since 3.9.1, is a method, and using fopen and added error_log(), if file creation in wp-content fails try with Lumière plugin folder
+	 * @since 3.9.1 is a method, and using fopen and added error_log(), if file creation in wp-content fails try with Lumière plugin folder
 	 * @since 4.1.2 rewriting with global $wp_filesystem, refactorized, update the database with the new path if using Lumière plugin folder
-	 * @since 4.5.1 Moved from Logger class to here
+	 * @since 4.6 Moved from Logger class to here
 	 * @see \Lumiere\Plugins\Logger::set_logger()
 	 */
 	public function maybe_create_log( array $imdb_admin_values, bool $second_try = false ): ?string {

@@ -62,9 +62,10 @@ class Parent_Module {
 	}
 
 	/**
-	 * Build internal link for movies (no popup)
-	 * Add a nounce
+	 * Build internal url for movies (no popup)
+	 * Adds a nounce
 	 * Should be used in POPUPS
+	 *
 	 * Caution: these links ARE NOT changed according to Linkmaker classes
 	 * @param string $imdb_id The imdb id of the movie
 	 * @param string $title The movie's title
@@ -78,9 +79,10 @@ class Parent_Module {
 	}
 
 	/**
-	 * Build Popup link for person
+	 * Build Popup url for person
 	 * Should be used in FRONTEND, to get a popup link (if relevant according to the current Link_Maker used)
-	 * Add a nounce
+	 * Adds a nounce
+	 *
 	 * These links ARE changed according to Linkmaker
 	 * @param string $imdb_id The imdb id of the person
 	 * @param string $name The person's name
@@ -110,5 +112,15 @@ class Parent_Module {
 	 */
 	protected function get_popup_film_bytitle( string $title ): string {
 		return $this->link_maker->get_popup_film_title( $title, '' /* specific extra class */ );
+	}
+
+	/**
+	 * Build external urls
+	 *
+	 * @param string $title The text to be embeded
+	 * @param string $url The external url
+	 */
+	protected function get_external_url( string $title, string $url ): string {
+		return $this->link_maker->get_external_url( $title, $url );
 	}
 }

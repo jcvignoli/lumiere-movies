@@ -51,7 +51,7 @@ class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 
-			$output .= parent::get_popup_person( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
+			$output .= parent::get_popup_person( $item_results[ $i ]['id'], $item_results[ $i ]['title'] );
 
 			if ( isset( $item_results[ $i ]['year'] ) && $item_results[ $i ]['year'] > 0 ) {
 				$output .= ' (' . intval( $item_results[ $i ]['year'] ) . ') ';

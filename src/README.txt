@@ -3,7 +3,7 @@ Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 5.6
 Tested up to: 6.7.1
-Stable tag: 4.5.1
+Stable tag: 4.6
 Requires PHP: 8.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -152,6 +152,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 == Changelog == 
 
 Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
+
+= 4.6 =
+
+Person details (in addition to movie details) are now available
 
 = 4.5 =
 

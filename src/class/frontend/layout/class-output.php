@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 /**
  * Layouts
  *
- * @since 4.4 Class created, using methods that were in Movie_Display
+ * @since 4.4 Class created, using methods that were in Front_Parser
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 class Output {
@@ -106,7 +106,7 @@ class Output {
 	/**
 	 * Function wrapping with "<!-- Lumière! movies plugin -->" the final text
 	 * Make sure the theme selected in admin options is used
-	 * @see \Lumiere\Frontend\Movie\Movie_Display::lum_display_movies_box()
+	 * @see \Lumiere\Frontend\Movie\Front_Parser::lum_display_movies_box()
 	 *
 	 * @param array<string, string> $imdb_admin_values
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values

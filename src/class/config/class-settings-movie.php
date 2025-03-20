@@ -29,7 +29,7 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * IMDB fields are automatically translated if plural
  * @see \Imdb\Title Function and constants here are related to data coming from there
  *
- * @since 4.5.1 Class created, splitted from {@see \Lumiere\Config\Settings}
+ * @since 4.5 Class created, splitted from {@see \Lumiere\Config\Settings}
  *
  * @phpstan-type ORDER_OPTIONS_DATA array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, cinematographer?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodCompany?: string, plot?: string, goof?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, extSites?: string, source?: string, trivia?: string, year?: string}
  * @phpstan-type OPTIONS_DATA array{imdbtaxonomyactor?: '0'|'1', imdbtaxonomycinematographer?: '0'|'1', imdbtaxonomycolor?: '0'|'1', imdbtaxonomycomposer?: '0'|'1', imdbtaxonomycountry?: '0'|'1', imdbtaxonomydirector?: '0'|'1', imdbtaxonomygenre?: '0'|'1', imdbtaxonomykeyword?: '0'|'1', imdbtaxonomylanguage?: '0'|'1', imdbtaxonomyproducer?: '0'|'1', imdbtaxonomywriter?: '0'|'1', imdbwidgetactor?: '0'|'1', imdbwidgetactornumber?: string, imdbwidgetalsoknow?: '0'|'1', imdbwidgetalsoknownumber?: string, imdbwidgetcinematographer?: '0'|'1', imdbwidgetcolor?: '0'|'1', imdbwidgetcomposer?: '0'|'1', imdbwidgetconnection?: '0'|'1', imdbwidgetconnectionnumber?: string, imdbwidgetcountry?: '0'|'1', imdbwidgetdirector?: '0'|'1', imdbwidgetextSites?: '0'|'1', imdbwidgetgenre?: '0'|'1', imdbwidgetgoof?: '0'|'1', imdbwidgetgoofnumber?: string, imdbwidgetkeyword?: '0'|'1', imdbwidgetlanguage?: '0'|'1', imdbwidgetpic?: '0'|'1', imdbwidgetplot?: '0'|'1', imdbwidgetplotnumber?: string, imdbwidgetprodCompany?: '0'|'1', imdbwidgetproducer?: '0'|'1', imdbwidgetproducernumber?: string, imdbwidgetquote?: '0'|'1', imdbwidgetquotenumber?: string, imdbwidgetrating?: '0'|'1', imdbwidgetruntime?: '0'|'1', imdbwidgetsoundtrack?: '0'|'1', imdbwidgetsoundtracknumber?: string, imdbwidgetsource?: '0'|'1', imdbwidgettagline?: '0'|'1', imdbwidgettaglinenumber?: string, imdbwidgettitle?: '0'|'1', imdbwidgettrailer?: '0'|'1', imdbwidgettrailernumber?: string, imdbwidgettrivia?: '0'|'1', imdbwidgettrivianumber?: string, imdbwidgetwriter?: '0'|'1', imdbwidgetwriternumber?: string, imdbwidgetyear?: '0'|'1', 'imdbwidgetorder': ORDER_OPTIONS_DATA }
@@ -234,7 +234,7 @@ class Settings_Movie extends Settings_Helper {
 	 * This comment is display in admin data, explaining the purpose of selecting an item
 	 * @see \Lumiere\Admin\Submenu\Data::get_details_comments() Call this class
 	 *
-	 * @since 4.5.1 method added
+	 * @since 4.6 method added
 	 *
 	 * @return array<string, string>
 	 */

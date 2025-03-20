@@ -15,6 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Post\Person_Factory;
 use Lumiere\Frontend\Post\Movie_Factory;
 use Lumiere\Frontend\Layout\Output;
 use Lumiere\Plugins\Plugins_Start;
@@ -34,20 +35,7 @@ use Lumiere\Frontend\Main;
  * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
-class Movie_Display {
-
-	/**
-	 * Singleton: Make sure events are runned once in this class
-	 *
-	 * @var bool $movie_run_once
-	 */
-	private bool $movie_run_once = false;
-
-	/**
-	 * Keep track of the number of movies called
-	 * Static public property meant to be called from another class
-	 */
-	public static int $nb_of_movies = 0;
+class Front_Parser {
 
 	/**
 	 * Traits
@@ -89,11 +77,11 @@ class Movie_Display {
 	public function start(): void {
 
 		// Transform spans into movies.
-		add_filter( 'the_content', [ $this, 'lumiere_parse_spans' ] );
+		add_filter( 'the_content', [ $this, 'parse_spans' ] );
 
 		// Transform spans into links to popups.
-		add_filter( 'the_content', [ $this, 'lumiere_link_popup_maker' ] );
-		add_filter( 'the_excerpt', [ $this, 'lumiere_link_popup_maker' ] );
+		add_filter( 'the_content', [ $this, 'link_popup_maker' ] );
+		add_filter( 'the_excerpt', [ $this, 'link_popup_maker' ] );
 
 		/**
 		 * Detect the shortcodes [imdblt][/imdblt] and [imdbltid][/imdbltid] to display the movies, old way
@@ -111,7 +99,7 @@ class Movie_Display {
 	 *
 	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title
 	 */
-	public function lumiere_show( array $imdb_id_or_title ): string {
+	public function display_movies( array $imdb_id_or_title ): string {
 
 		/**
 		 * If it is an AMP validation test, exit
@@ -120,12 +108,37 @@ class Movie_Display {
 		 * @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse (Call to function array_key_exists() with 'amp' and array...will always evaluate to false)
 		 */
 		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
-			$this->logger->log?->debug( '[Movie_Display] This is an AMP validation test, exiting to save server resources' );
+			$this->logger->log?->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
 
 		$array_movies_with_imdbid = apply_filters( 'lum_find_movie_id', $imdb_id_or_title );
 		return apply_filters( 'lum_display_movies_box', $array_movies_with_imdbid );
+	}
+
+	/**
+	 * Search the persons and output the results
+	 *
+	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once
+	 * @since 4.3.2 added is_amp_validating() method
+	 *
+	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title
+	 */
+	public function display_persons( array $imdb_id_or_title ): string {
+
+		/**
+		 * If it is an AMP validation test, exit
+		 * Create much cache and may lead to a PHP Fatal error
+		 * @psalm-suppress InvalidArrayOffset
+		 * @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse (Call to function array_key_exists() with 'amp' and array...will always evaluate to false)
+		 */
+		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
+			$this->logger->log?->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
+			return '';
+		}
+
+		$array_persons_with_imdbid = apply_filters( 'lum_find_person_id', $imdb_id_or_title );
+		return apply_filters( 'lum_display_persons_box', $array_persons_with_imdbid );
 	}
 
 	/**
@@ -139,8 +152,25 @@ class Movie_Display {
 	public function lum_display_movies_box( array $movies_searched ): string {
 		$output = '';
 		foreach ( $movies_searched as $movie_found ) {
-			$this->logger->log?->debug( "[Movie_Display] Displaying rows for *$movie_found*" );
+			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$movie_found*" );
 			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, ( new Movie_Factory() )->factory_movie_items_methods( $movie_found ) );
+		}
+		return $output;
+	}
+
+	/**
+	 * Display the persons in the box
+	 * Is a hook declared in {@see \Lumiere\Frontend\Frontend::__construct()}
+	 *
+	 * @since 4.6 method created
+	 *
+	 * @param array<array-key, string> $persons_searched
+	 */
+	public function lum_display_persons_box( array $persons_searched ): string {
+		$output = '';
+		foreach ( $persons_searched as $person_found ) {
+			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$person_found*" );
+			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, ( new Person_Factory() )->factory_person_items_methods( $person_found ) );
 		}
 		return $output;
 	}
@@ -156,72 +186,6 @@ class Movie_Display {
 	}
 
 	/**
-	 * Search movies: if title is provied, search its imdbid; use imdbid otherwise
-	 * Is a hook declared in {@see \Lumiere\Frontend\Frontend::__construct()}
-	 *
-	 * @since 4.3.2 method created
-	 * @since 4.4 An array of movies's name without ['bymid'] can be passed
-	 *
-	 * @param array<array-key, array<string, string>|string> $films_array Th
-	 * @phpstan-param array<array-key|string, array{bymid?: string, byname?: string}|string> $films_array
-	 * @return list<string> Array of results of imdbids
-	 */
-	public function find_imdb_id( array $films_array ): array {
-
-		self::$nb_of_movies = count( $films_array );
-		$movies_found = [];
-
-		// Using singleton to display only once.
-		if ( $this->movie_run_once === false ) {
-			$this->logger->log?->debug( '[Movie_Display] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
-			$this->logger->log?->debug( '[Movie_Display] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
-			$this->movie_run_once = true;
-		}
-
-		for ( $i = 0; $i < self::$nb_of_movies; $i++ ) {
-
-			// A movie's ID was passed, which is a numeric-string.
-			if ( isset( $films_array[ $i ]['bymid'] ) && ctype_digit( $films_array[ $i ]['bymid'] ) ) {
-				$movies_found[] = esc_html( strval( $films_array[ $i ]['bymid'] ) );
-				$this->logger->log?->debug( '[Movie_Display] Storing IMDb ID: *' . $movies_found[0] . '*' );
-				continue;
-				// A movie's title was provided
-			} elseif ( isset( $films_array[ $i ]['byname'] ) ) {
-				$movie_name = strtolower( $films_array[ $i ]['byname'] );
-				$this->logger->log?->debug( '[Movie_Display] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
-				// If ['byname'] is not provided, assume a movie's name was in the array (string in the loop)
-			} elseif ( is_string( $films_array[ $i ] ) ) {
-				$movie_name = strtolower( $films_array[ $i ] );
-				$this->logger->log?->debug( '[Movie_Display] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
-			} else {
-				$this->logger->log?->debug( '[Movie_Display] Invalid IMDb ID or title provided, aborting' );
-				continue;
-			}
-
-			// check a the movie title exists.
-			$this->logger->log?->debug( '[Movie_Display] Searching ' . esc_html( $movie_name ) );
-
-			/** @phpstan-var TITLESEARCH_RETURNSEARCH|null $results */
-			$results = strlen( $movie_name ) > 0 ? $this->plugins_classes_active['imdbphp']->search_movie_title(
-				$movie_name,
-				$this->logger->log,
-			) : null;
-
-			// No results were found in imdbphp query.
-			if ( ! isset( $results[0] ) ) {
-				$this->logger->log?->info( '[Movie_Display] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . esc_html( $movie_name ) . ', aborting.' );
-				continue;
-			}
-
-			// Get the first result from the search
-			$movies_found[] = esc_html( $results[0]['imdbid'] );
-			$this->logger->log?->debug( '[Movie_Display] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
-
-		}
-		return $movies_found;
-	}
-
-	/**
 	 * Find in content the span to build the movies
 	 * Looks for <span data-lum_movie_maker="[1]"></span> where [1] is movie_title or movie_id
 	 *
@@ -231,7 +195,7 @@ class Movie_Display {
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string
 	 */
-	public function lumiere_parse_spans( ?string $content ): string {
+	public function parse_spans( ?string $content ): string {
 
 		// if no content is available, abort.
 		if ( ! isset( $content ) ) {
@@ -243,39 +207,49 @@ class Movie_Display {
 			return $content;
 		}
 
-		$pattern_movid_id = '~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~';
-		if ( preg_match( $pattern_movid_id, $content, $match ) === 1 ) {
-			$content = preg_replace_callback( $pattern_movid_id, [ $this, 'lumiere_parse_spans_callback_id' ], $content ) ?? $content;
-		}
-
-		$pattern_movid_title = '~<span data-lum_movie_maker="movie_title">(.+?)<\/span>~';
-		if ( preg_match( $pattern_movid_title, $content, $match ) === 1 ) {
-			$content = preg_replace_callback( $pattern_movid_title, [ $this, 'lumiere_parse_spans_callback_title' ], $content ) ?? $content;
-		}
-
-		return $content;
+		return preg_replace_callback_array(
+			[
+				'~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~' => function ( array $match ) {
+					return $this->replace_movie_spans( $match[1], 'bymid' );
+				},
+				'~<span data-lum_movie_maker="movie_title">(.+?)<\/span>~' => function ( array $match ) {
+					return $this->replace_movie_spans( $match[1], 'byname' );
+				},
+				'~<span data-lum_movie_maker="person_name">(.+?)<\/span>~' => function ( array $match ) {
+					return $this->replace_person_spans( $match[1], 'byname' );
+				},
+				'~<span data-lum_movie_maker="person_id">(.+?)<\/span>~' => function ( array $match ) {
+					return $this->replace_person_spans( $match[1], 'bymid' );
+				},
+			],
+			$content
+		) ?? $content;
 	}
 
 	/**
-	 * Callback for movies by IMDb ID
+	 * Callback for movies
+	 * It applies method display_movies() on the text found
 	 *
-	 * @param array<int, string> $block_span
+	 * @param string $text_found Text found inside <span></span>
+	 * @param 'byname'|'bymid' $search_type Searching type of the movie
 	 */
-	private function lumiere_parse_spans_callback_id( array $block_span ): string {
+	private function replace_movie_spans( string $text_found, string $search_type ): string {
 		$imdb_id_or_title = [];
-		$imdb_id_or_title[]['bymid'] = esc_html( $block_span[1] );
-		return $this->lumiere_show( $imdb_id_or_title );
+		$imdb_id_or_title[][ $search_type ] = esc_html( $text_found );
+		return $this->display_movies( $imdb_id_or_title );
 	}
 
 	/**
-	 * Callback for movies by imdb title
+	 * Callback for movies
+	 * It applies method display_movies() on the text found
 	 *
-	 * @param array<string> $block_span
+	 * @param string $text_found Text found inside <span></span>
+	 * @param 'byname'|'bymid' $search_type Searching type of the movie
 	 */
-	private function lumiere_parse_spans_callback_title( array $block_span ): string {
+	private function replace_person_spans( string $text_found, string $search_type ): string {
 		$imdb_id_or_title = [];
-		$imdb_id_or_title[]['byname'] = esc_html( $block_span[1] );
-		return $this->lumiere_show( $imdb_id_or_title );
+		$imdb_id_or_title[][ $search_type ] = esc_html( $text_found );
+		return $this->display_persons( $imdb_id_or_title );
 	}
 
 	/**
@@ -322,7 +296,7 @@ class Movie_Display {
 	 * @since 4.1 Added the possibility to have some text after the data with [^>]*
 	 * @since 4.2.3 The function will return if not executed in autorized area
 	 */
-	public function lumiere_link_popup_maker( ?string $text ): ?string {
+	public function link_popup_maker( ?string $text ): ?string {
 
 		if ( ! isset( $text ) ) {
 			return null;
@@ -333,15 +307,19 @@ class Movie_Display {
 			return $text;
 		}
 
-		// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
-		$pattern = '~<span[^>]*data-lum_link_maker="popup"[^>]*>(.+)<\/span>~iU';
-		$text = preg_replace_callback( $pattern, [ $this, 'lumiere_build_popup_link' ], $text ) ?? $text;
-
-		// Kept for compatibility purposes:  <!--imdb--> still works -- it's really old, should be @deprecated
-		$pattern_two = '~<!--imdb-->(.*?)<!--\/imdb-->~i';
-		$text = preg_replace_callback( $pattern_two, [ $this, 'lumiere_build_popup_link' ], $text ) ?? $text;
-
-		return $text;
+		return preg_replace_callback_array(
+			[
+				// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
+				'~<span[^>]*data-lum_link_maker="popup"[^>]*>(.+)<\/span>~iU' => function ( array $match ) {
+					return $this->get_popup_link( $match );
+				},
+				// Kept for compatibility purposes:  <!--imdb--> still works -- it's really old, should be @deprecated
+				 '~<!--imdb-->(.*?)<!--\/imdb-->~i' => function ( array $match ) {
+					return $this->get_popup_link( $match );
+				 },
+			],
+			$text
+		) ?? $text;
 	}
 
 	/**
@@ -352,7 +330,7 @@ class Movie_Display {
 	 *
 	 * @since 4.1 Replaced preg_match() by str_replace() and simplified the method
 	 */
-	private function lumiere_build_popup_link( array $correspondances ): string {
+	private function get_popup_link( array $correspondances ): string {
 		$result = isset( $correspondances[0] )
 			? str_replace( $correspondances[0], $this->link_maker->get_popup_film_title( $correspondances[1], 'lum_link_with_movie' /* the class that adds the movie ico */ ), $correspondances[0] )
 			: '';
@@ -381,6 +359,6 @@ class Movie_Display {
 			$imdb_id_or_title[]['bymid'] = esc_html( $filmid );
 		}
 		/** @psalm-var array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title */
-		return $this->lumiere_show( $imdb_id_or_title );
+		return $this->display_movies( $imdb_id_or_title );
 	}
 }

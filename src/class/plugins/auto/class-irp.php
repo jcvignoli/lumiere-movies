@@ -15,7 +15,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Post\Movie_Display;
+use Lumiere\Frontend\Post\Find_Items;
 use Lumiere\Config\Get_Options;
 
 /**
@@ -45,7 +45,7 @@ class Irp {
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
 
 		// Disable IRP plugin in Lumiere pages, it breaks them
-		add_filter( 'the_content', [ $this, 'lumiere_remove_irp_if_relevant' ], 11, 1 );
+		add_filter( 'the_content', [ $this, 'remove_irp_if_relevant' ], 11, 1 );
 
 	}
 
@@ -58,17 +58,17 @@ class Irp {
 	 * @param null|string $content Text in the_content
 	 * @return string Text in the_content untouched
 	 *
-	 * @see Lumiere\Frontend\Movie\Movie_Display::$nb_of_movies for the static property that includes if one or more movies are displayed in the post
+	 * @see Lumiere\Frontend\Post\Front_Parser::$nb_of_movies for the static property that includes if one or more movies are displayed in the post
 	 * @info check intelly-related-posts/includes/core.php for the IRP filter
 	 */
-	public function lumiere_remove_irp_if_relevant( ?string $content ): string {
+	public function remove_irp_if_relevant( ?string $content ): string {
 
 		if ( $this->imdb_admin_values['imdbirpdisplay'] === '1' ) {
 			return $content ?? '';
 		}
 
 		// Remove the filter is one or more movies are detected using a static property in the relevant class.
-		if ( Movie_Display::$nb_of_movies > 0 ) {
+		if ( Find_Items::$nb_of_movies > 0 ) {
 			remove_filter( 'the_content', 'irp_the_content', intval( get_option( 'IRP_HookPriority', '99999' ) ) );
 		}
 

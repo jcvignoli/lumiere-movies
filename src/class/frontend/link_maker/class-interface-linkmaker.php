@@ -88,6 +88,15 @@ interface Interface_Linkmaker {
 	public function get_popup_film_id( string $title, string $imdbid, string $a_class = '' ): string;
 
 	/**
+	 * Build an external URL
+	 *
+	 * @param string $title The URL's title
+	 * @param string $url The external URL
+	 * @param string $a_class A class to be added in popup building link, none by default
+	 */
+	public function get_external_url( string $title, string $url, string $a_class = '' ): string;
+
+	/**
 	 * Trailer data details
 	 *
 	 * @param string $url Url to the trailer

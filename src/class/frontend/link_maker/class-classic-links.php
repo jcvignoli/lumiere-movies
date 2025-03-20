@@ -81,7 +81,6 @@ class Classic_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @inheritdoc
 	 */
 	public function get_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string {
-		// Function in implementation class.
 		return parent::get_medaillon_bio_details( $bio_array, parent::LINK_OPTIONS['classic'], $limit_text_bio );
 	}
 
@@ -89,7 +88,6 @@ class Classic_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @inheritdoc
 	 */
 	public function get_plot( string $plot ): string {
-		// Function in abstract class.
 		return parent::get_plot_details( $plot, parent::LINK_OPTIONS['nolinks'] );
 	}
 
@@ -97,7 +95,7 @@ class Classic_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @inherit
 	 */
 	public function get_popup_people( string $imdb_id, string $name ): string {
-		// Function in abstract class, before last param defines the output, last param specific <A> class.
+		// Function in parent class, last param for a specific <A> class needed for classic links.
 		return parent::get_popup_people_details( $imdb_id, $name, parent::LINK_OPTIONS['classic'], 'lum_link_make_popup lum_link_with_people' );
 	}
 
@@ -105,7 +103,6 @@ class Classic_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @inheritdoc
 	 */
 	public function get_popup_film_title( string $title, string $a_class = '' ): string {
-		// Function in abstract class, second param for classic links.
 		return parent::get_popup_film_title_details( $title, parent::LINK_OPTIONS['classic'], $a_class );
 	}
 
@@ -113,15 +110,20 @@ class Classic_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @inherit
 	 */
 	public function get_popup_film_id( string $title, string $imdbid, string $a_class = '' ): string {
-		// Function in abstract class, third param for classic links.
 		return parent::get_popup_film_id_details( $title, $imdbid, parent::LINK_OPTIONS['classic'], $a_class );
+	}
+
+	/**
+	 * @inherit
+	 */
+	public function get_external_url( string $title, string $url, string $a_class = '' ): string {
+		return parent::get_external_url_details( $title, $url, parent::LINK_OPTIONS['classic'], $a_class );
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function get_trailer( string $url, string $website_title ): string {
-		// Function in abstract class, third param for links.
 		return parent::get_trailer_details( $url, $website_title, parent::LINK_OPTIONS['classic'] );
 	}
 
@@ -129,7 +131,6 @@ class Classic_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @inheritdoc
 	 */
 	public function get_prodcompany( string $name, string $comp_id, string $notes ): string {
-		// Function in abstract class, fifth param for links.
 		return parent::get_prodcompany_details( $name, $comp_id, $notes, parent::LINK_OPTIONS['classic'] );
 	}
 
@@ -137,7 +138,6 @@ class Classic_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @inheritdoc
 	 */
 	public function get_officialsites( string $url, string $name ): string {
-		// Function in abstract class, third param for links.
 		return parent::get_officialsites_details( $url, $name, parent::LINK_OPTIONS['classic'] );
 	}
 
@@ -147,7 +147,7 @@ class Classic_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @param string $mid IMDb ID of the movie
 	 */
 	public function get_source( string $mid ): string {
-		// Function in abstract class, second for normal display, third param to include imdbelementSOURCE-picture.
+		// Function in parent class, third param to include specific class needed for classic links..
 		return parent::get_source_details( $mid, parent::LINK_OPTIONS['classic'], 'imdbelementSOURCE-picture' );
 	}
 }

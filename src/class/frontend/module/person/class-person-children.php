@@ -54,11 +54,6 @@ class Person_Children extends \Lumiere\Frontend\Module\Parent_Module {
 
 			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
 				$output .= parent::get_popup_person( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
-				if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
-					$output .= ' (<span class="lumiere_italic">' . $item_results[ $i ]['relType'] . '</span>) ';
-				}
-			} elseif ( isset( $item_results[ $i ]['name'] ) ) {
-				$output .= $item_results[ $i ]['name'];
 			}
 			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
 				$output .= ' (<span class="lumiere_italic">' . $item_results[ $i ]['relType'] . '</span>) ';
@@ -85,8 +80,6 @@ class Person_Children extends \Lumiere\Frontend\Module\Parent_Module {
 
 			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
 				$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
-			} elseif ( isset( $item_results[ $i ]['name'] ) ) {
-				$output .= $item_results[ $i ]['name'];
 			}
 			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
 				$output .= ' (<span class="lumiere_italic">' . $item_results[ $i ]['relType'] . '</span>) ';

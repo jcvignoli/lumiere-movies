@@ -35,6 +35,7 @@ class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );
+		$nb_rows_display_clickmore = 10;
 
 		if ( $nb_total_items === 0 ) {
 			return '';
@@ -50,12 +51,13 @@ class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+
 			if ( isset( $item_results[ $i ]['author'][0] ) && strlen( $item_results[ $i ]['author'][0] ) > 0 ) {
 				$output .= "\n\t\t" . $item_results[ $i ]['author'][0];
 			}
 
 			if ( isset( $item_results[ $i ]['title'] ) && strlen( $item_results[ $i ]['title'] ) > 0 ) {
-				$output .= ' <i>' . $item_results[ $i ]['title'] . '</i> ';
+				$output .= ' &ldquo;<i>' . $item_results[ $i ]['title'] . '</i>&rdquo;';
 			}
 
 			if ( isset( $item_results[ $i ]['year'] ) && strlen( $item_results[ $i ]['year'] ) > 0 ) {
@@ -63,7 +65,13 @@ class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 			}
 
 			if ( isset( $item_results[ $i ]['details'] ) && strlen( $item_results[ $i ]['details'] ) !== 0 ) {
-				$output .= $item_results[ $i ]['details'] . ' ';
+				$output .= $item_results[ $i ]['details'];
+			}
+
+			// Display a "click to show more" after XX results
+			if ( $i === $nb_rows_display_clickmore ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'see_all_start', $item_name ) : '';
 			}
 
 			if ( $i < ( $nb_total_items - 1 ) ) {
@@ -73,6 +81,12 @@ class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( $i === ( $nb_total_items - 1 ) ) {
 				$output .= "\n\t" . '</span>';
 			}
+
+			// End of "click to show more"
+			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'see_all_end' );
+			}
+
 		}
 		return $output;
 	}
@@ -96,18 +110,12 @@ class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			// Display a "click to show more" after XX results
-			if ( $i === $nb_rows_display_clickmore ) {
-				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_class->misc_layout( 'see_all_start', $item_name ) : '';
-			}
-
 			if ( isset( $item_results[ $i ]['author'][0] ) && strlen( $item_results[ $i ]['author'][0] ) > 0 ) {
 				$output .= "\n\t\t" . $item_results[ $i ]['author'][0];
 			}
 
 			if ( isset( $item_results[ $i ]['title'] ) && strlen( $item_results[ $i ]['title'] ) > 0 ) {
-				$output .= ' <i>' . $item_results[ $i ]['title'] . '</i> ';
+				$output .= ' &ldquo;<i>' . $item_results[ $i ]['title'] . '</i>&rdquo;';
 			}
 
 			if ( isset( $item_results[ $i ]['year'] ) && strlen( $item_results[ $i ]['year'] ) > 0 ) {
@@ -115,7 +123,13 @@ class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 			}
 
 			if ( isset( $item_results[ $i ]['details'] ) && strlen( $item_results[ $i ]['details'] ) !== 0 ) {
-				$output .= $item_results[ $i ]['details'] . ' ';
+				$output .= $item_results[ $i ]['details'];
+			}
+
+			// Display a "click to show more" after XX results
+			if ( $i === $nb_rows_display_clickmore ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'see_all_start', $item_name ) : '';
 			}
 
 			if ( $i < ( $nb_total_items - 1 ) ) {

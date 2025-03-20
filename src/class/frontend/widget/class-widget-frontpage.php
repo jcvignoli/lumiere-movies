@@ -247,7 +247,7 @@ class Widget_Frontpage {
 		}
 
 		/**
-		 * Get movie's data from {@link \Lumiere\Frontend\Movie\Movie_Display}
+		 * Get movie's data from {@link \Lumiere\Frontend\Movie\Front_Parser}
 		 * @since 4.4 using filters declared in {@see \Lumiere\Frontend\Frontend::__construct()}
 		 *
 		 * @psalm-var array<array-key, array{bymid?: string, byname?: string}> $get_array_imdbid
