@@ -56,18 +56,18 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 
 			// Date.
 			if ( isset( $item_results[ $i ]['date'] ) && strlen( $item_results[ $i ]['date'] ) > 0 ) {
-				$output .= ' (' . gmdate( 'd-m-Y', strtotime( $item_results[ $i ]['date'] ) ) . ')';
+				$output .= ' (' . (string) wp_date( get_option( 'date_format' ), strtotime( $item_results[ $i ]['date'] ) ) . ')';
+			}
+
+			// Text, limited in charas.
+			if ( isset( $item_results[ $i ]['textText'] ) && strlen( $item_results[ $i ]['textText'] ) > 0 ) {
+				$output .= ' ' . substr( $item_results[ $i ]['textText'], 0, 300 ) . ' [...]';
 			}
 
 			// Display a "show more" after XX results
 			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
-			}
-
-			// Text, limited in charas.
-			if ( isset( $item_results[ $i ]['textText'] ) && strlen( $item_results[ $i ]['textText'] ) > 0 ) {
-				$output .= ' ' . substr( $item_results[ $i ]['textText'], 0, 300 ) . ' [...]';
 			}
 
 			// End of "click to show more"
@@ -109,18 +109,18 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 			// Date.
 			if ( isset( $item_results[ $i ]['date'] ) && strlen( $item_results[ $i ]['date'] ) > 0 ) {
 				$date = strtotime( $item_results[ $i ]['date'] );
-				$output .= $date !== false ? ' (' . gmdate( 'd-m-Y', $date ) . ')' : '';
+				$output .= $date !== false ? ' (' . (string) wp_date( get_option( 'date_format' ), $date ) . ')' : '';
+			}
+
+			// Text, limited in charas.
+			if ( isset( $item_results[ $i ]['textText'] ) && strlen( $item_results[ $i ]['textText'] ) > 0 ) {
+				$output .= ' ' . substr( $item_results[ $i ]['textText'], 0, 200 ) . ' [...]';
 			}
 
 			// Display a "show more" after XX results
 			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
-			}
-
-			// Text, limited in charas.
-			if ( isset( $item_results[ $i ]['textText'] ) && strlen( $item_results[ $i ]['textText'] ) > 0 ) {
-				$output .= ' ' . substr( $item_results[ $i ]['textText'], 0, 200 ) . ' [...]';
 			}
 
 			// Breaking line.

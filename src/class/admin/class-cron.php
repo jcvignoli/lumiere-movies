@@ -102,7 +102,7 @@ class Cron {
 	 */
 	public function exec_once_update(): void {
 
-		$this->logger->log?->debug( '[Cron] Cron run once started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
+		$this->logger->log?->debug( '[Cron] Cron run once started at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
 
 		// Run updating process.
 		$start_update_options = new Updates();
@@ -135,7 +135,7 @@ class Cron {
 	 */
 	public function cache_auto_refresh(): void {
 
-		$this->logger->log?->debug( '[Cron] Cron refreshing cache started at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
+		$this->logger->log?->debug( '[Cron] Cron refreshing cache started at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
 
 		$cache_class = new Cache_Files_Management();
 		$cache_class->cron_all_cache_refresh(
@@ -143,7 +143,7 @@ class Cron {
 			self::CACHE_DAYS_AUTO_REFRESH_ROUND /* nb of days before having a new overall refresh */
 		);
 
-		$this->logger->log?->debug( '[Cron] Cron refreshing cache ended at ' . gmdate( 'd/m/Y h:i:s a', time() ) );
+		$this->logger->log?->debug( '[Cron] Cron refreshing cache ended at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
 	}
 
 	/**

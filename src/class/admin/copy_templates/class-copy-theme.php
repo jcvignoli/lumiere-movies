@@ -182,7 +182,7 @@ class Copy_Theme {
 			return false;
 		}
 
-		$new_phpdoc_text = '* Automatically copied by Lumière! on ' . gmdate( 'd/m/Y @H:i:s' );
+		$new_phpdoc_text = '* Automatically copied by Lumière! on ' . (string) wp_date( get_option( 'date_format' ) . ' @' . get_option( 'time_format' ) );
 		$content_cleaned = preg_replace( '~\*\sYou can replace.*do it automatically~s', $new_phpdoc_text, $content );
 		$content = $content_cleaned !== null ? str_replace( 'standard', $lumiere_taxo_title, $content_cleaned ) : $content;
 		$content = str_replace( 'Standard', ucfirst( $lumiere_taxo_title ), $content );

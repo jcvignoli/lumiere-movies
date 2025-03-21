@@ -162,12 +162,12 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 						$lumiere_next_cron_run !== false
 						&& $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '1'
 					) {
-						$lumiere_next_cron_run = gmdate( 'd/m/Y @H:i:s', intval( $lumiere_next_cron_run ) );
+						$lumiere_next_cron_run = wp_date( get_option( 'date_format' ), intval( $lumiere_next_cron_run ) );
 						$lum_total_cron = $lum_cron_ppl_left !== false && $lum_cron_mv_left !== false ? count( $lum_cron_ppl_left ) + count( $lum_cron_mv_left ) : false;
 
 						if ( $lum_total_cron === false ) {
 							esc_html_e( 'Started refreshing cache, this message will be updated as first batch of files has been run.', 'lumiere-movies' );
-						} else {
+						} elseif ( $lumiere_next_cron_run !== false ) {
 							/* translators: %s is a number */
 							$lum_files = wp_sprintf( _n( '%s file', '%s files', intval( $lum_total_cron ), 'lumiere-movies' ), esc_html( strval( $lum_total_cron ) ) );
 							/* translators: %1s is a number + file (singular or plural), %2s is replaced with a date in numbers */

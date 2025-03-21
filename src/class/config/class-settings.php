@@ -40,7 +40,8 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
  *
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
-  */
+ * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
+ */
 class Settings extends Settings_Helper {
 
 	/**
@@ -48,7 +49,6 @@ class Settings extends Settings_Helper {
 	 * Only used in child class, has to be called in Get_Options
 	 */
 	protected const LUM_ADMIN_OPTIONS               = 'lumiere_admin_options';
-	protected const LUM_DATA_OPTIONS                = 'lumiere_data_options';
 	protected const LUM_CACHE_OPTIONS               = 'lumiere_cache_options';
 
 	/**
@@ -177,9 +177,9 @@ class Settings extends Settings_Helper {
 			update_option( self::LUM_ADMIN_OPTIONS, $that->get_default_admin_option() );
 		}
 
-		$lum_data_option = get_option( self::LUM_DATA_OPTIONS );
+		$lum_data_option = get_option( Get_Options_Movie::get_data_tablename() );
 		if ( is_array( $lum_data_option ) === false  ) {
-			update_option( self::LUM_DATA_OPTIONS, $that->get_default_data_option() );
+			update_option( Get_Options_Movie::get_data_tablename(), $that->get_default_data_movie_option() );
 		}
 
 		$lum_cache_option = get_option( self::LUM_CACHE_OPTIONS );
@@ -329,7 +329,7 @@ class Settings extends Settings_Helper {
 	}
 
 	/**
-	 * Return default DATA options
+	 * Return default DATA Movies options
 	 *
 	 * @since 4.4 Totally rewritten and automatized
 	 * @see Settings_Helper::get_data_rows_taxo() Import automatically taxonomy built vars
@@ -340,13 +340,27 @@ class Settings extends Settings_Helper {
 	 * @phpstan-return OPTIONS_DATA
 	 * @return array<string, string|array<string, string>>
 	 */
-	private function get_default_data_option(): array {
+	private function get_default_data_movie_option(): array {
 		return array_merge(
 			parent::get_data_rows_widget( Get_Options_Movie::LUM_DATA_DEFAULT_WIDGET_ACTIVE    /* Activated rows by default */ ),
 			parent::get_data_rows_imdbwidgetorder(),
 			parent::get_data_rows_taxo( Get_Options_Movie::LUM_DATA_DEFAULT_TAXO_ACTIVE        /* Activated rows by default */ ),
 			parent::get_data_rows_withnumbers( Get_Options_Movie::LUM_DATA_DEFAULT_WITHNUMBER  /* Rows that must have a specific number */ ),
 		);
+	}
+
+	/**
+	 * Return default DATA Person options
+	 *
+	 * @since 4.6 new
+	 * @return array<string>
+	 * @phpstan-ignore method.unused (Temporary)
+	 */
+	private function get_default_data_person_option(): array {
+		$data = [];
+		/** @phpstan-var OPTIONS_DATA_PERSON $data */
+		$data['order'] = Get_Options_Person::get_all_person_fields();
+		return array_keys( $data );
 	}
 }
 

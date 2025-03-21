@@ -46,7 +46,7 @@ class Person_Factory extends Front_Parser {
 			$this->logger->log,
 		);
 
-		foreach ( Get_Options_Person::LUM_FRONT_PERSON_ITEMS as $data_detail ) {
+		foreach ( Get_Options_Person::get_all_person_fields() as $data_detail => $translation ) {
 			// Get files in module, wrapping it
 			$outputfinal .= $this->output_class->front_item_wrapper(
 				$this->get_module_person( $name_object, $data_detail ),
@@ -67,14 +67,15 @@ class Person_Factory extends Front_Parser {
 
 		$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( strtolower( $item_name ) ); // strtolower to avoid camelCase names.
 
-		// Return if class doesn't exist
-		if ( class_exists( $class_name ) === false ) { // Class Movie_Year is therefore skipped.
+		// Exit if class doesn't exist.
+		if ( class_exists( $class_name ) === false ) {
 			return '';
 		}
 
 		$module = new $class_name();
 
 		// Taxonomy is active.
+		// Not yet in use
 		/*if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
 			return $module->get_module_taxo( $movie_object, $item_name );
 		}*/

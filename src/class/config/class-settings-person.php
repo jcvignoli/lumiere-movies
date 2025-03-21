@@ -19,7 +19,9 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
  * Is extended by Get_Options_Person
  * If a new IMDB field is created it will automatically create new fields, be it in database and in the admin panel options
  * IMDB fields are automatically translated if plural
-
+ *
+ * @phpstan-type OPTIONS_DATA_PERSON array{ order: array{ 'title': string, 'pic': string, 'bio': string, 'nickname': string, 'spouse': string, 'children': string, 'credit': string, 'news': string, 'pubinterview': string, 'pubmovies': string, 'pubportrayal': string, 'pubprints': string, 'quotes': string, 'trivia': string, 'trademark': string, 'award': string, 'birthname': string, 'born': string, 'died': string, 'name': string } }
+ *
  * @see \Imdb\Name Function and constants here are related to data coming from there
  */
 class Settings_Person {
@@ -45,27 +47,6 @@ class Settings_Person {
 	public const LUM_TAXO_PEOPLE_THEME              = 'class/theme/class-taxonomy-people-standard.php';
 
 	/**
-	 * Classes to be used in frontend
-	 */
-	public const LUM_FRONT_PERSON_ITEMS = [
-		'title',
-		'pic',
-		'bio',
-		'nickname',
-		'spouse',
-		'children',
-		'credit',
-		'news',
-		'pubinterview',
-		'pubmovies',
-		'pubportrayal',
-		/* 'pubprints', */
-		'quotes',
-		'trivia',
-		'trademark',
-	];
-
-	/**
 	 * Define the type items for Persons
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
@@ -73,23 +54,26 @@ class Settings_Person {
 	 */
 	protected static function define_list_items_person( int $number = 1 ): array {
 		return [
-			'award'        => _n( 'award', 'awards', $number, 'lumiere-movies' ),
-			'birthname'    => __( 'birthname', 'lumiere-movies' ),
-			'born'         => __( 'born', 'lumiere-movies' ),
+			'title'        => __( 'title', 'lumiere-movies' ),
+			'pic'          => __( 'pic', 'lumiere-movies' ),
+			'bio'          => __( 'biography', 'lumiere-movies' ),
+			'nickname'     => _n( 'nickname', 'nicknames', $number, 'lumiere-movies' ),
+			'spouse'       => _n( 'spouse', 'spouses', $number, 'lumiere-movies' ),
 			'children'     => _n( 'child', 'children', $number, 'lumiere-movies' ),
 			'credit'       => _n( 'credit', 'credits', $number, 'lumiere-movies' ),
-			'died'         => __( 'died', 'lumiere-movies' ),
-			'name'         => __( 'name', 'lumiere-movies' ),
 			'news'         => __( 'news', 'lumiere-movies' ),
-			'nickname'     => _n( 'nickname', 'nicknames', $number, 'lumiere-movies' ),
 			'pubinterview' => _n( 'public interview', 'public interviews', $number, 'lumiere-movies' ),
 			'pubmovies'    => _n( 'biographical movie', 'biographical movies', $number, 'lumiere-movies' ),
 			'pubportrayal' => __( 'portrayed in', 'lumiere-movies' ),
 			'pubprints'    => __( 'printed publicity', 'lumiere-movies' ),
 			'quotes'       => _n( 'quote', 'quotes', $number, 'lumiere-movies' ),
-			'spouse'       => _n( 'spouse', 'spouses', $number, 'lumiere-movies' ),
 			'trivia'       => _n( 'trivia', 'trivias', $number, 'lumiere-movies' ),
 			'trademark'    => _n( 'trademark', 'trademarks', $number, 'lumiere-movies' ),
+			'award'        => _n( 'award', 'awards', $number, 'lumiere-movies' ),
+			'birthname'    => __( 'birthname', 'lumiere-movies' ),
+			'born'         => __( 'born', 'lumiere-movies' ),
+			'died'         => __( 'died', 'lumiere-movies' ),
+			'name'         => __( 'name', 'lumiere-movies' ),
 		];
 	}
 

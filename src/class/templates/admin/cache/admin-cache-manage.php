@@ -278,7 +278,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					$lum_data[] = '	<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table width="100%"><tr><td>
 			<img id="pic_' . $lum_title_sanitized . '" class="lum_cache_pic_float" ' . $lum_moviepicturelink . ' width="40px">
 
-			<input type="checkbox" id="imdb_cachedeletefor_movies_' . str_replace( ' ', '_', $lum_title_sanitized ) . '" name="imdb_cachedeletefor_movies[]" value="' . $lum_obj_sanitized . '" /><span class="lumiere_font_smaller"><label for="imdb_cachedeletefor_movies[]" class="lum_bold">' . $lum_title_sanitized . '</label><br>' . esc_html__( 'last updated on ', 'lumiere-movies' ) . gmdate( 'j M Y H:i:s', $lum_filetime_movie ) . '</span> 
+			<input type="checkbox" id="imdb_cachedeletefor_movies_' . str_replace( ' ', '_', $lum_title_sanitized ) . '" name="imdb_cachedeletefor_movies[]" value="' . $lum_obj_sanitized . '" /><span class="lumiere_font_smaller"><label for="imdb_cachedeletefor_movies[]" class="lum_bold">' . $lum_title_sanitized . '</label><br>' . esc_html__( 'last updated on ', 'lumiere-movies' ) . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $lum_filetime_movie ) . '</span> 
 			<div id="refresh_edit_' . $lum_title_sanitized . '" class="row-actions lum_align_left">
 			
 				&nbsp;&nbsp;
@@ -400,7 +400,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					$lum_datapeople[] = '	
 	<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table width="100%"><tr><td>
 	<img id="pic_' . $lum_name_sanitized . '" class="lum_cache_pic_float" ' . $lum_picturelink . ' width="40px" alt="no pic">
-	<input type="checkbox" id="imdb_cachedeletefor_people_' . str_replace( ' ', '_', $lum_name_sanitized ) . '" name="imdb_cachedeletefor_people[]" value="' . $lum_objpiple_sanitized . '" /><span class="lumiere_font_smaller"><label for="imdb_cachedeletefor_people_[]" class="lum_bold">' . $lum_name_sanitized . '</label><br>' . esc_html__( 'last updated on ', 'lumiere-movies' ) . gmdate( 'j M Y H:i:s', $lum_filetime_people ) . '
+	<input type="checkbox" id="imdb_cachedeletefor_people_' . str_replace( ' ', '_', $lum_name_sanitized ) . '" name="imdb_cachedeletefor_people[]" value="' . $lum_objpiple_sanitized . '" /><span class="lumiere_font_smaller"><label for="imdb_cachedeletefor_people_[]" class="lum_bold">' . $lum_name_sanitized . '</label><br>' . esc_html__( 'last updated on ', 'lumiere-movies' ) . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $lum_filetime_people ) . '
 	</span>
 	<div class="row-actions lum_align_left">
 		

@@ -47,7 +47,7 @@ class Settings_Helper {
 	/**
 	 * Create rows for 'imdbtaxonomy' using internal methods
 	 *
-	 * @see Settings::get_default_data_option() Meant to be used there
+	 * @see Settings::get_default_data_movie_option() Meant to be used there
 	 *
 	 * @param list<string>|null $activated List of taxonomy to activate by default
 	 * @return array<string, string>
@@ -73,7 +73,7 @@ class Settings_Helper {
 	/**
 	 * Create rows for 'imdbwidget' using internal methods
 	 *
-	 * @see Settings::get_default_data_option() Meant to be used there
+	 * @see Settings::get_default_data_movie_option() Meant to be used there
 	 *
 	 * @param list<string>|null $activated List of taxonomy to activate by default
 	 * @return array<string, string>
@@ -142,7 +142,7 @@ class Settings_Helper {
 	/**
 	 * Create rows for 'imdbtaxonomy'
 	 *
-	 * @see Settings::get_default_data_option() Meant to be used there
+	 * @see Settings::get_default_data_movie_option() Meant to be used there
 	 *
 	 * @param array<string, string>|null $activated List of taxonomy to activate by default
 	 * @return array<string, string>

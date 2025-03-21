@@ -72,7 +72,7 @@
 	Let's play with WP Coding standards and fit Lumiere needs
 	https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties
 	-->
-	<config name="minimum_supported_wp_version" value="4.9"/>
+	<config name="minimum_supported_wp_version" value="5.6"/>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
@@ -94,7 +94,8 @@
 	<rule ref="WordPress.Security.EscapeOutput">
 		<properties>
 			<property name="customAutoEscapedFunctions" type="array">
-				<!--<element value="lumiere_check_taxo_template"/>-->
+				<!-- this doesn't need escape! -->
+				<element value="wp_date"/>
 			</property>
 		</properties>
 	</rule>
