@@ -23,15 +23,9 @@ $lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 <div id="tabswrap" class="lumiere_wrap">
 	<div class="lumiere_flex_container lumiere_padding_five">
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-whattodisplay.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to display', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_data ); ?>"><?php esc_html_e( 'Display', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items selection', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_data ); ?>"><?php esc_html_e( 'Movie items selection', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Display order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_data_order ); ?>"><?php esc_html_e( 'Display order', 'lumiere-movies' ); ?></a></div>
-
-			<?php if ( $lumiere_that->imdb_admin_values['imdbtaxonomy'] === '1' ) { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'What to taxonomize', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_data_taxo ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
-			<?php } else { ?>
-		<div class="lumiere_flex_auto lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-whattotaxo.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>
-			<?php } ?>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-person-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Person item selection', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_person_data ); ?>"><?php esc_html_e( 'Person item selection', 'lumiere-movies' ); ?></a></div>
 
 	</div>
 </div>

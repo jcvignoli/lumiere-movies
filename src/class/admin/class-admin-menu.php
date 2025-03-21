@@ -46,6 +46,7 @@ class Admin_Menu {
 	protected string $page_data;
 	protected string $page_data_order;
 	protected string $page_data_taxo;
+	protected string $page_person_data;
 	protected string $page_main_base;
 	protected string $page_main_advanced;
 	protected string $page_help;
@@ -89,6 +90,9 @@ class Admin_Menu {
 		$this->page_data = admin_url( $page_data );
 		$this->page_data_order = admin_url( $page_data . '&subsection=order' );
 		$this->page_data_taxo = admin_url( $page_data . '&subsection=taxo' );
+
+		$page_person_data = 'admin.php?page=' . $this->menu_id . '_person_data';
+		$this->page_person_data = admin_url( $page_person_data );
 
 		$page_cache = 'admin.php?page=' . $this->menu_id . '_cache';
 		$this->page_cache_option = admin_url( $page_cache );

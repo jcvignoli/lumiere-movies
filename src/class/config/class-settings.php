@@ -35,6 +35,10 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * @since 4.1 Renamed *imdb_widget_* to *imdb_data_* all over the website
  * @since 4.4 Options are created only when installing/activating the plugin, widely rewritten and simplified. OPTIONS_DATA is dynamically created according to the arrays of items/people added. Using {@see Get_Options} class as child class for all external calls. {@see Settings_Build} is the class that includes helper methods.
  *
+ * @see \Lumiere\Config\Settings_Movie complement this class
+ * @see \Lumiere\Config\Settings_Person complement this class
+ * @see \Lumiere\Config\Settings_Popup complement this class
+ *
  * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: string, imdbdebug: '0'|'1'|string, imdbdebuglevel: 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY', imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: '0'|'1'|string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: string, imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
  *
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
@@ -177,9 +181,14 @@ class Settings extends Settings_Helper {
 			update_option( self::LUM_ADMIN_OPTIONS, $that->get_default_admin_option() );
 		}
 
-		$lum_data_option = get_option( Get_Options_Movie::get_data_tablename() );
-		if ( is_array( $lum_data_option ) === false  ) {
+		$lum_data_movie_option = get_option( Get_Options_Movie::get_data_tablename() );
+		if ( is_array( $lum_data_movie_option ) === false  ) {
 			update_option( Get_Options_Movie::get_data_tablename(), $that->get_default_data_movie_option() );
+		}
+
+		$lum_data_person_option = get_option( Get_Options_Person::get_data_person_tablename() );
+		if ( is_array( $lum_data_person_option ) === false  ) {
+			update_option( Get_Options_Person::get_data_person_tablename(), $that->get_default_data_person_option() );
 		}
 
 		$lum_cache_option = get_option( self::LUM_CACHE_OPTIONS );
@@ -353,14 +362,16 @@ class Settings extends Settings_Helper {
 	 * Return default DATA Person options
 	 *
 	 * @since 4.6 new
-	 * @return array<string>
-	 * @phpstan-ignore method.unused (Temporary)
+	 * @return array<string, list<string>>
+	 * @phpstan-return OPTIONS_DATA_PERSON
 	 */
 	private function get_default_data_person_option(): array {
 		$data = [];
+		$values = array_keys( Get_Options_Person::get_all_person_fields() );
 		/** @phpstan-var OPTIONS_DATA_PERSON $data */
-		$data['order'] = Get_Options_Person::get_all_person_fields();
-		return array_keys( $data );
+		$data['order'] = $values;
+		/** @psalm-var OPTIONS_DATA_PERSON */
+		return $data;
 	}
 }
 

@@ -61,7 +61,8 @@ class Settings_Movie extends Settings_Helper {
 
 	/**
 	 * Default imdb fields when creating DATA_OPTIONS
-	 * @see Settings::get_default_data_option()
+	 *
+	 * @see Settings::get_default_data_movie_option() Use these lists to build the database
 	 * @see Settings_Helper::get_data_rows_withnumbers() to build list with LUM_DATA_DEFAULT_WITHNUMBER
 	 */
 	public const LUM_DATA_DEFAULT_TAXO_ACTIVE       = [ 'director', 'genre' ];
@@ -84,7 +85,7 @@ class Settings_Movie extends Settings_Helper {
 	/**
 	 * Define the type of (Title movie) people items that are used for taxonomy
 	 * All items in type people are actually taxonomy
-	 * @see Settings::get_default_data_option() use this list to create the options
+	 * @see Settings::get_default_data_movie_option() use this list to build the database
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>
@@ -104,7 +105,7 @@ class Settings_Movie extends Settings_Helper {
 	/**
 	 * Define the type (Title movie) items that are used for taxonomy
 	 * Complements define_list_non_taxo_items() which are for non-taxo items
-	 * @see Settings::get_default_data_option() use this list to create the options
+	 * @see Settings::get_default_data_movie_option() use this list to build the database
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>

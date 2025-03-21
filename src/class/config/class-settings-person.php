@@ -22,6 +22,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
  *
  * @phpstan-type OPTIONS_DATA_PERSON array{ order: array{ 'title': string, 'pic': string, 'bio': string, 'nickname': string, 'spouse': string, 'children': string, 'credit': string, 'news': string, 'pubinterview': string, 'pubmovies': string, 'pubportrayal': string, 'pubprints': string, 'quotes': string, 'trivia': string, 'trademark': string, 'award': string, 'birthname': string, 'born': string, 'died': string, 'name': string } }
  *
+ * @since 4.6 class created
  * @see \Imdb\Name Function and constants here are related to data coming from there
  */
 class Settings_Person {
@@ -48,6 +49,8 @@ class Settings_Person {
 
 	/**
 	 * Define the type items for Persons
+	 * @see \Lumiere\Frontend\Post\Person_Factory::factory_person_items_methods() will be matched against this list to get the modules
+	 * @see \Lumiere\Config\Settings::get_default_data_person_option() Build the database using this list
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>

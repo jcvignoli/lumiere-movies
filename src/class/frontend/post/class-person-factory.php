@@ -46,7 +46,7 @@ class Person_Factory extends Front_Parser {
 			$this->logger->log,
 		);
 
-		foreach ( Get_Options_Person::get_all_person_fields() as $data_detail => $translation ) {
+		foreach ( $this->imdb_data_person_values['order'] as $data_detail ) {
 			// Get files in module, wrapping it
 			$outputfinal .= $this->output_class->front_item_wrapper(
 				$this->get_module_person( $name_object, $data_detail ),
