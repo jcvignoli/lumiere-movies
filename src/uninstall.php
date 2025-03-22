@@ -19,6 +19,7 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options_Person;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Files;
@@ -31,6 +32,9 @@ use Lumiere\Tools\Files;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_PSALM from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
+ * @phpstan-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
 class Uninstall {
 
@@ -46,10 +50,18 @@ class Uninstall {
 	private ?array $imdb_admin_values;
 
 	/**
-	 * Data options
+	 * Data movie options
 	 * @phpstan-var null|OPTIONS_DATA
+	 * @psalm-var null|OPTIONS_DATA_PSALM
 	 */
 	private ?array $imdb_data_values;
+
+	/**
+	 * Data options
+	 * @phpstan-var null|OPTIONS_DATA
+	 * @psalm-var null|OPTIONS_DATA_PSALM
+	 */
+	private ?array $imdb_data_person_values;
 
 	/**
 	 * Cache options
@@ -65,6 +77,7 @@ class Uninstall {
 	) {
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), null );
 		$this->imdb_data_values = get_option( Get_Options_Movie::get_data_tablename(), null );
+		$this->imdb_data_person_values = get_option( Get_Options_Person::get_data_person_tablename(), null );
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename(), null );
 	}
 
@@ -76,7 +89,7 @@ class Uninstall {
 	public function run_uninstall(): void {
 
 		// If databases were not created, exit as the plugin was not installed
-		if ( ! isset( $this->imdb_admin_values ) || ! isset( $this->imdb_data_values ) || ! isset( $this->imdb_cache_values ) ) {
+		if ( ! isset( $this->imdb_admin_values ) || ! isset( $this->imdb_data_values ) || ! isset( $this->imdb_cache_values ) || ! isset( $this->imdb_data_person_values ) ) {
 			$this->logger->log?->debug( '[uninstall] Lumiere was not installed, exiting' );
 			return;
 		}
@@ -286,6 +299,9 @@ class Uninstall {
 		}
 		if ( delete_option( Get_Options_Movie::get_data_tablename() ) === true ) {
 			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options_Movie::get_data_tablename() );
+		}
+		if ( delete_option( Get_Options_Person::get_data_person_tablename() ) === true ) {
+			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options_Person::get_data_person_tablename() );
 		}
 		if ( delete_option( Get_Options::get_cache_tablename() ) === true ) {
 			$this->logger->log?->error( '[uninstall][Options] Successfully deleted ' . Get_Options::get_cache_tablename() );

@@ -26,7 +26,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
  *
  * // Final list of options
  * @phpstan-type OPTIONS_DATA_PERSON \Union<OPTIONS_DATA_PERSON_ORDER, OPTIONS_DATA_PERSON_ACTIVATED, OPTIONS_DATA_PERSON_NUMBER>
- * @phpstan-type OPTIONS_DATA_PERSON_PSALM OPTIONS_DATA_PERSON_ORDER|OPTIONS_DATA_PERSON_ACTIVATED|OPTIONS_DATA_PERSON_NUMBER
+ * @psalm-type OPTIONS_DATA_PERSON_PSALM OPTIONS_DATA_PERSON_ORDER&&OPTIONS_DATA_PERSON_ACTIVATED&&OPTIONS_DATA_PERSON_NUMBER
  *
  * @since 4.6 class created
  * @see \Imdb\Name Function and constants here are related to data coming from there

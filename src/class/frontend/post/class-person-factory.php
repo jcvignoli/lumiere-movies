@@ -46,7 +46,6 @@ class Person_Factory extends Front_Parser {
 			$this->logger->log,
 		);
 
-		/** @psalm-suppress PossiblyUndefinedArrayOffset,PossiblyNullIterator */
 		foreach ( $this->imdb_data_person_values['order'] as $data_detail => $order ) {
 
 			$key_data_values = $data_detail . '_active';

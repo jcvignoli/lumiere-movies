@@ -27,10 +27,11 @@ use Lumiere\Tools\Data;
  *
  * @since 4.4 Created
  *
- * @phpstan-type ARRAY_IMDBWIDGETORDER array{ 'imdbwidgetorder': array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, cinematographer?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodCompany?: string, plot?: string, goof?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, extSites?: string, source?: string, trivia?: string, year?: string} }
  * @phpstan-type ARRAY_WITHNUMBERS array{imdbwidgetactornumber?: string, imdbwidgetalsoknownumber?: string, imdbwidgetconnectionnumber?: string, imdbwidgetgoofnumber?: string, imdbwidgetplotnumber?: string, imdbwidgetproducernumber?: string, imdbwidgetquotenumber?: string, imdbwidgetsoundtracknumber?: string, imdbwidgettaglinenumber?: string, imdbwidgettrailernumber?: string, imdbwidgettrivianumber?: string, imdbwidgetwriternumber?: string}
- * @phpstan-type ARRAY_TAXO_ITEMS array{imdbtaxonomyactor?: '0'|'1', imdbtaxonomycolor?: '0'|'1', imdbtaxonomycomposer?: '0'|'1', imdbtaxonomycountry?: '0'|'1', imdbtaxonomycinematographer?: '0'|'1', imdbtaxonomydirector?: '0'|'1', imdbtaxonomygenre?: '0'|'1', imdbtaxonomykeyword?: '0'|'1', imdbtaxonomylanguage?: '0'|'1', imdbtaxonomyproducer?: '0'|'1', imdbtaxonomywriter?: '0'|'1'}
- * @phpstan-type ARRAY_WIDGET array{imdbwidgettitle?: '0'|'1', imdbwidgetpic?: '0'|'1', imdbwidgetruntime?: '0'|'1', imdbwidgetdirector?: '0'|'1', imdbwidgetconnection?: '0'|'1', imdbwidgetcountry?: '0'|'1', imdbwidgetactor?: '0'|'1', imdbwidgetcinematographer?: '0'|'1', imdbwidgetrating?: '0'|'1', imdbwidgetlanguage?: '0'|'1', imdbwidgetgenre?: '0'|'1', imdbwidgetwriter?: '0'|'1', imdbwidgetproducer?: '0'|'1', imdbwidgetkeyword?: '0'|'1', imdbwidgetprodCompany?: '0'|'1', imdbwidgetplot?: '0'|'1', imdbwidgetgoof?: '0'|'1', imdbwidgetquote?: '0'|'1', imdbwidgettagline?: '0'|'1', imdbwidgettrailer?: '0'|'1', imdbwidgetcolor?: '0'|'1', imdbwidgetalsoknow?: '0'|'1', imdbwidgetcomposer?: '0'|'1', imdbwidgetsoundtrack?: '0'|'1', imdbwidgetextSites?: '0'|'1', imdbwidgetsource?: '0'|'1', imdbwidgettrivia?: '0'|'1', imdbwidgetyear?: '0'|'1'}
+ *
+ * @phpstan-import-type OPTIONS_DATA_ORDER from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_TAXO from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_WIDGET from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON_ORDER from \Lumiere\Config\Settings_Person
  * @phpstan-import-type OPTIONS_DATA_PERSON_ACTIVATED from \Lumiere\Config\Settings_Person
  * @phpstan-import-type OPTIONS_DATA_PERSON_NUMBER from \Lumiere\Config\Settings_Person
@@ -55,7 +56,7 @@ class Settings_Helper {
 	 *
 	 * @param list<string>|null $activated List of taxonomy to activate by default
 	 * @return array<string, string>
-	 * @phpstan-return ARRAY_TAXO_ITEMS
+	 * @phpstan-return OPTIONS_DATA_WIDGET
 	 */
 	protected function get_data_rows_taxo( ?array $activated ): array {
 		$taxonomy_keys = [
@@ -70,7 +71,10 @@ class Settings_Helper {
 			}
 			$array_taxonomy[ 'imdbtaxonomy' . $taxonomy_key ] = '0';
 		}
-		/** @psalm-var ARRAY_TAXO_ITEMS $array_taxonomy Dunno why psalm needs this */
+		/**
+		 * @psalm-var OPTIONS_DATA_WIDGET $array_taxonomy Dunno why psalm needs this
+		 * @phpstan-ignore varTag.nativeType (is not subtype of native type array<non-falsy-string, '0'|'1'>)
+		 */
 		return $array_taxonomy;
 	}
 
@@ -81,7 +85,7 @@ class Settings_Helper {
 	 *
 	 * @param list<string>|null $activated List of taxonomy to activate by default
 	 * @return array<string, string>
-	 * @phpstan-return ARRAY_WIDGET
+	 * @phpstan-return OPTIONS_DATA_TAXO
 	 */
 	protected function get_data_rows_widget( ?array $activated ): array {
 		$widget_keys = [
@@ -97,7 +101,7 @@ class Settings_Helper {
 			}
 			$array_widget[ 'imdbwidget' . $widget_key ] = '0';
 		}
-		/** @psalm-var ARRAY_WIDGET $array_widget Dunno why psalm needs this */
+		/** @psalm-var OPTIONS_DATA_TAXO $array_widget Dunno why psalm needs this */
 		return $array_widget;
 	}
 
@@ -108,7 +112,7 @@ class Settings_Helper {
 	 * @see Settings::get_default_data_option() Meant to be used there
 	 *
 	 * @return array{imdbwidgetorder:array<string,string>}
-	 * @phpstan-return ARRAY_IMDBWIDGETORDER
+	 * @phpstan-return OPTIONS_DATA_ORDER
 	 */
 	protected function get_data_rows_imdbwidgetorder(): array {
 		$widget_keys = [
@@ -139,7 +143,7 @@ class Settings_Helper {
 			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'source', 'country' );
 			$array_imdbwidgetorder['imdbwidgetorder'] = Data::array_multiassoc_swap_values( $array_imdbwidgetorder['imdbwidgetorder'], 'color', 'source' );
 		}
-		/** @psalm-var ARRAY_IMDBWIDGETORDER $array_imdbwidgetorder Dunno why psalm needs this */
+		/** @psalm-var OPTIONS_DATA_ORDER $array_imdbwidgetorder Dunno why psalm needs this */
 		return $array_imdbwidgetorder;
 	}
 
@@ -177,7 +181,7 @@ class Settings_Helper {
 	 *
 	 * @see Settings::get_default_data_person_option() Meant to be used there
 	 *
-	 * @return array<array-key, array<string, string>>
+	 * @return array<'order', array<string, string>>
 	 * @phpstan-return OPTIONS_DATA_PERSON_ORDER
 	 */
 	protected function get_data_person_order(): array {
@@ -187,9 +191,6 @@ class Settings_Helper {
 		foreach ( $values as $value ) {
 			$data['order'][ $value ] = (string) $i;
 			$i++;
-		}
-		if ( ! isset( $data['order'] ) || count( $data['order'] ) < 2 ) {
-			throw new \Exception( 'Could not create data person order' );
 		}
 		/**
 		 * @psalm-var OPTIONS_DATA_PERSON_ORDER $data (says return is less specific otherwise)
@@ -215,9 +216,6 @@ class Settings_Helper {
 				continue;
 			}
 			$data['activated'][ $value . '_active' ] = '0';
-		}
-		if ( ! isset( $data['activated'] ) || count( $data['activated'] ) < 2 ) {
-			throw new \Exception( 'Could not create data person activated' );
 		}
 		/** @psalm-var OPTIONS_DATA_PERSON_ACTIVATED $data */
 		return $data;

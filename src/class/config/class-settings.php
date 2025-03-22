@@ -28,12 +28,13 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * Main settings
  * Method create_database_options() to set the options in WP config database
  * Is extended by Get_Options, extends Settings_Build
- * If a new IMDB field is created it will automatically create new fields, be it in database and in the admin panel options
+ * Fields are automatically created, be it in database and in the admin panel options
  * IMDB fields are automatically translated if plural
  *
  * @since 4.0 Moved cache folder creation to class cache tools
  * @since 4.1 Renamed *imdb_widget_* to *imdb_data_* all over the website
  * @since 4.4 Options are created only when installing/activating the plugin, widely rewritten and simplified. OPTIONS_DATA is dynamically created according to the arrays of items/people added. Using {@see Get_Options} class as child class for all external calls. {@see Settings_Build} is the class that includes helper methods.
+ * @since 4.6 Added {@see Settings::get_default_data_person_option()} method
  *
  * @see \Lumiere\Config\Settings_Movie complement this class
  * @see \Lumiere\Config\Settings_Person complement this class
@@ -44,6 +45,7 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
  *
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_PSALM from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
  * @phpstan-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
@@ -348,6 +350,7 @@ class Settings extends Settings_Helper {
 	 * @see Settings_Helper::get_data_rows_imdbwidgetorder() Import 'imdbwidgetorder' array
 	 *
 	 * @phpstan-return OPTIONS_DATA
+	 * @psalm-return OPTIONS_DATA_PSALM
 	 * @return array<string, string|array<string, string>>
 	 */
 	private function get_default_data_movie_option(): array {
