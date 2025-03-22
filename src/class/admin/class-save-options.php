@@ -665,6 +665,15 @@ class Save_Options {
 				$key_san = esc_html( $key );
 				$val_san = is_string( $post_value ) ? esc_html( $post_value ) : '';
 				$imdb_data_person_values['number'][ $key_san ] = $val_san;
+			} elseif ( $key === 'person_order' && is_array( $post_value ) ) {
+				$post_value_san = map_deep( $post_value, 'esc_html' );
+				$key_final = 'order';
+				$val_final = [];
+				foreach ( $post_value_san as $val_array_key => $val_array_value ) {
+					// use the row number as value; add one since it's supposed to start at 1 in Settings.
+					$val_final[ $val_array_value ] = strval( $val_array_key + 1 );
+				}
+				$imdb_data_person_values[ $key_final ] = $val_final;
 			}
 		}
 

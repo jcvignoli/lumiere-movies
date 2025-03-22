@@ -46,9 +46,10 @@ class Person_Trademark extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$nb_rows_display_clickmore = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 10; /** max number of movies before breaking with "see all" */
 
+		$item_may_plural = Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ];
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
+			ucfirst( $item_may_plural )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
@@ -58,7 +59,7 @@ class Person_Trademark extends \Lumiere\Frontend\Module\Parent_Module {
 			// Display a "show more" after XX results
 			if ( $i === $nb_rows_display_clickmore ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_may_plural ) : '';
 			}
 
 			$output .= strlen( $text ) > 0 ? $this->output_class->misc_layout( 'numbered_list', strval( $i + 1 ), '', $text ) : '';

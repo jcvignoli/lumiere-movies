@@ -45,9 +45,10 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
 
+		$item_may_plural = Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ];
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
+			ucfirst( $item_may_plural )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
@@ -55,7 +56,7 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 			// Display a "show more" after XX results
 			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_may_plural ) : '';
 			}
 
 			// URL.
@@ -97,9 +98,10 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
 
+		$item_may_plural = Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ];
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
+			ucfirst( $item_may_plural )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
@@ -107,7 +109,7 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 			// Display a "show more" after XX results
 			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_may_plural ) : '';
 			}
 
 			// URL.

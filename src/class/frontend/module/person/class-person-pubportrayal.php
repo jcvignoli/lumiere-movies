@@ -63,9 +63,6 @@ class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_class->misc_layout( 'see_all_end' );
 			}
-			if ( $i < $nb_total_items - 1 ) {
-				$output .= ', ';
-			}
 		}
 		return $output;
 	}

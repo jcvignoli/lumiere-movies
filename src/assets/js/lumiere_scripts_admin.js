@@ -11,7 +11,6 @@
 /** 
  * Functions to activate/unactivate forms checkboxes (depending on the choice made)
  */
-
 // If input with data-modificator is selected, get the data-field_to_change (id of the other field to activate or unactivate) and data-field_to_change_value (if activate (1) or unactivate (0))
 document.addEventListener(
 	'DOMContentLoaded',
@@ -135,9 +134,9 @@ function GereControle(Controle, Masquer) {
  * Function to move values inside a select box form
  * Credits go to Rick Hitchcock https://stackoverflow.com/a/28682653
  * @since 4.6 refactorized with git copilot to be used with various #id
- * Must use now data-container-id such as:
- * <button id="movemovieup" data-container-id="name_id_select">Move Movie Up</button>
- * <button id="movemoviedown" data-container-id="name_id_select">Move Movie Down</button>
+ * 	Must use now data-container-id such as:
+ * 	<button id="movemovieup" data-container-id="name_id_select">Move Movie Up</button>
+ * 	<button id="movemoviedown" data-container-id="name_id_select">Move Movie Down</button>
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -199,24 +198,23 @@ document.addEventListener('DOMContentLoaded', function () {
 	);
 })( jQuery );
 
-// Functions to check/uncheck all selected fields
-//
-//
-
+/**
+ * Functions to check/uncheck all selected fields
+ */
 function checkAll(field){
 	for (var i = 0, fieldLenght = field.length; i < fieldLenght; i++) {
 		field[i].checked = true;
 	}
 }
-
-
 function uncheckAll(field){
 	for (var i = 0, fieldLenght = field.length; i < fieldLenght; i++) {
 		field[i].checked = false;
 	}
 }
 
-/* check all inputs */
+/**
+ * Check all inputs in cache
+ */
 /******** movies */
 (function ($) {
 	$( document ).on(
@@ -238,7 +236,9 @@ function uncheckAll(field){
 	);
 })( jQuery );
 
-/******** uncheck all inputs */
+/**
+ * Uncheck all inputs in cache
+ */
 /* movies */
 (function ($) {
 	$( document ).on(
@@ -260,6 +260,9 @@ function uncheckAll(field){
 	);
 })( jQuery );
 
+/**
+ * Modify another field value if click on a checkbox with 'data-valuemodificator'
+ */
 document.addEventListener(
 	'DOMContentLoaded',
 	function () {
