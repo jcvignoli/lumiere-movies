@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Admin movies search class
+ * Admin movies/persons search class
  *
  * @copyright   2021, Lost Highway
  *
@@ -16,21 +16,20 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Config\Settings' 
 }
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Open_Options;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Tools\Validate_Get;
 
 /**
- * Display search results related to a movie to get their IMDbID
- * Can be called to display a full page for searching movies
+ * Display search results related to a movie or person to get their IMDbID
+ * Can be called to display a full page for searching movies/people
  * Is available at wp-admin/lumiere/search/, and in edit post interface. Also in Help admin section.
  *
  * @see \Lumiere\Admin Call this page in add_filter( 'template_include' )
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Imdbphp
  */
-class Search_Movie {
+class Search_Items {
 
 	/**
 	 * Traits
@@ -38,9 +37,9 @@ class Search_Movie {
 	use Open_Options;
 
 	/**
-	 * Name of the movie queried
+	 * Name of the movie/person queried
 	 */
-	private ?string $movie_searched;
+	private ?string $item_searched;
 
 	/**
 	 * Constructor
@@ -55,7 +54,7 @@ class Search_Movie {
 
 		// Get global settings class properties.
 		$this->get_db_options(); // In Open_Options trait.
-		$this->movie_searched = Validate_Get::sanitize_url( Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING );
+		$this->item_searched = Validate_Get::sanitize_url( Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING );
 
 		// Register admin scripts.
 		add_action( 'wp_enqueue_scripts', [ $this, 'search_register_scripts' ] );
@@ -86,9 +85,9 @@ class Search_Movie {
 	 */
 	public function edit_title( array $title ): array {
 
-		$new_title = isset( $this->movie_searched ) && strlen( $this->movie_searched ) > 0
+		$new_title = isset( $this->item_searched ) && strlen( $this->item_searched ) > 0
 			/* translators: %1s is a movie's title */
-			? wp_sprintf( __( 'Lumière Query Interface %1s', 'lumiere-movies' ), '[ searching for ' . esc_html( ucfirst( $this->movie_searched ) ) . ' ]' )
+			? wp_sprintf( __( 'Lumière Query Interface %1s', 'lumiere-movies' ), '[ searching for ' . esc_html( ucfirst( $this->item_searched ) ) . ' ]' )
 			: '[ ' . __( 'Lumière Query Interface', 'lumiere-movies' ) . ' ]';
 
 		$title['title'] = $new_title;
@@ -174,55 +173,85 @@ class Search_Movie {
 
 		if (
 			(
-				! isset( $_GET[ Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING ], $_GET['search_nonce'] )
+				! isset( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ], $_GET['search_nonce'] )
 				|| ( wp_verify_nonce( sanitize_key( $_GET['search_nonce'] ), 'lumiere_search' ) > 0 ) === false
-				|| strlen( sanitize_key( $_GET[ Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING ] ) ) === 0
+				|| strlen( sanitize_key( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ) === 0
 			)
 			&&
 			(
 				// If there is no nonce to verify, make sure it comes from editing post
-				! isset( $_GET[ Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING ] ) || strlen( sanitize_key( $_GET[ Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING ] ) ) === 0
+				! isset( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) || strlen( sanitize_key( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ) === 0
 				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'post.php?post=' ) === false
 			)
 		) {
 			echo wp_kses(
 				$this->initial_form(),
 				[
-					'div' => [ 'align' => [] ],
-					'a' => [],
-					'h1' => [ 'id' => [] ],
-					'form' => [
+					'div'    => [
+						'align'  => [],
+					],
+					'a'      => [],
+					'h1'     => [
+						'id'     => [],
+					],
+					'form'   => [
 						'action' => [],
-						'id' => [],
+						'id'     => [],
 						'method' => [],
 					],
-					'input' => [
-						'type' => [],
-						'id' => [],
-						'name' => [],
-						'value' => [],
+					'input'  => [
+						'type'   => [],
+						'id'     => [],
+						'name'   => [],
+						'value'  => [],
+					],
+					'select' => [
+						'id'     => [],
+						'name'   => [],
+					],
+					'option' => [
+						'label'  => [],
 					],
 				]
 			);
 			exit;
 		}
 
-		$this->logger->log?->debug( "[admin search] Querying *$this->movie_searched*" );
+		$this->logger->log?->debug( "[admin search] Querying *$this->item_searched* of type " . $_GET['select_search_type'] );
 
-		/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
-		$results = $this->imdbphp_class->search_movie_title(
-			$this->movie_searched ?? '',
-			$this->logger->log,
-		);
+		$results = [];
+		$first_column_header = '';
+		$second_column_header = '';
+		$year = '';
+		if ( esc_html( $_GET['select_search_type'] ) === 'movie' ) {
+
+			/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
+			$results = $this->imdbphp_class->search_movie_title(
+				$this->item_searched ?? '',
+				$this->logger->log,
+			);
+			$first_column_header = 'title';
+			$second_column_header = 'imdbid';
+			$year = 'year';
+
+		} elseif ( esc_html( $_GET['select_search_type'] ) === 'person' ) {
+			/** @phpstan-var array<array-key, mixed> $results */
+			$results = $this->imdbphp_class->search_person_name(
+				$this->item_searched ?? '',
+				$this->logger->log,
+			);
+			$first_column_header = 'name';
+			$second_column_header = 'id';
+		}
 
 		$limit_search = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 5;
 		$iterator = 1;
 		?>
 		
-<h1 class="lum_search_title lumiere_italic"><?php esc_html_e( 'Results related to your query:', 'lumiere-movies' ); ?> <span class="lum_search_results"><?php echo esc_html( $this->movie_searched ?? '' ); ?></span></h1>
+<h1 class="lum_search_title lumiere_italic"><?php esc_html_e( 'Results related to your query:', 'lumiere-movies' ); ?> <span class="lum_search_results"><?php echo esc_html( ucwords( $this->item_searched ?? '' ) ); ?></span></h1>
 <div class="lumiere_container">
-	<div class="lumiere_container_flex50 lumiere_align_center"><h2><?php esc_html_e( 'Titles results', 'lumiere-movies' ); ?></h2></div>
-	<div class="lumiere_container_flex50 lumiere_align_center"><h2><?php esc_html_e( 'Identification number', 'lumiere-movies' ); ?></h2></div>
+	<div class="lumiere_container_flex50 lumiere_align_center"><h2><?php esc_html_e( 'Items results', 'lumiere-movies' ); ?></h2></div>
+	<div class="lumiere_container_flex50 lumiere_align_center"><h2><?php esc_html_e( 'IMDb Identification number', 'lumiere-movies' ); ?></h2></div>
 </div>
 
 		<?php
@@ -239,14 +268,14 @@ class Search_Movie {
 			}
 
 			echo "\n" . '<div class="lumiere_container lum_search_container">';
-
 			// ---- Movie title results
-			echo "\n\t<div class='lumiere_container_flex50 lumiere_italic lum_search_results'>" . esc_html( $res['title'] ) . ' (' . esc_html( strval( $res['year'] ) ) . ')</div>';
+			$maybe_year = $first_column_header === 'title' ? ' (' . esc_html( strval( $res['year'] ) ) . ')' : '';
+			echo "\n\t<div class='lumiere_container_flex50 lumiere_italic lum_search_results'>" . esc_html( $res[ $first_column_header ] ) . esc_html( $maybe_year ) . '</div>';
 
 			// ---- IMDb id results
 			echo "\n\t<div class='lumiere_container_flex50 lumiere_align_center lum_search_results'>";
 			echo "\n\t\t<span class='lumiere_bold'>" . esc_html__( 'IMDb ID:', 'lumiere-movies' ) . '</span> ';
-			echo "\n\t\t" . '<span class="lum_search_imdbid" id="imdbid_' . esc_html( $res['imdbid'] ) . '">' . esc_html( $res['imdbid'] ) . '</span>';
+			echo "\n\t\t" . '<span class="lum_search_imdbid" id="imdbid_' . esc_html( $res[ $second_column_header ] ) . '">' . esc_html( $res[ $second_column_header ] ) . '</span>';
 			echo "\n\t</div>";
 			echo "\n</div>";
 
@@ -254,7 +283,7 @@ class Search_Movie {
 		} ?>
 
 <br>
-<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Get_Options_Movie::LUM_SEARCH_MOVIE_URL_ADMIN ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
+<div align="center" class="lumiere_padding_five"><a href="<?php echo esc_url( site_url( '', 'relative' ) . Get_Options::LUM_SEARCH_ITEMS_URL_ADMIN ); ?>"><?php esc_html_e( 'Do a new query', 'lumiere-movies' ); ?></a></div>
 <br>
 <br><?php
 	}
@@ -262,21 +291,22 @@ class Search_Movie {
 	/**
 	 * Display the form for searching movies
 	 */
-	private function initial_form (): string {
+	private function initial_form(): string {
 
 		$this->logger->log?->debug( '[admin search] Waiting for a search' );
 
-		$ouput = "\n<div align=\"center\">";
-		$ouput .= "\n\t" . '<h1 id="lum_search_title">' . esc_html__( 'Search a movie IMDb ID', 'lumiere-movies' ) . '</h1>';
-		$ouput .= "\n\t" . '<form action="" method="get" id="searchmovie">';
+		$output = "\n<div align=\"center\">";
+		$output .= "\n\t" . '<form action="" method="get" id="searchmovie">';
+		$output .= "\n\t" . '<h1 id="lum_search_title">' . esc_html__( 'Search an IMDb ID for', 'lumiere-movies' );
+		$output .= '<select id="select_search_type" name="select_search_type"><option label="' . ucfirst( esc_html__( 'movie', 'lumiere-movies' ) ) . '">' . esc_html__( 'movie', 'lumiere-movies' ) . '</option><option label="' . ucfirst( esc_html__( 'person', 'lumiere-movies' ) ) . '">' . esc_html__( 'person', 'lumiere-movies' ) . '</option></select></h1>';
 
-		$ouput .= "\n\t\t" . '<input type="text" id="lum_movie_input" name="' . Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING . '" value="">';
+		$output .= "\n\t\t" . '<input type="text" id="lum_movie_input" name="' . Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING . '" value="">';
 
-		$ouput .= wp_nonce_field( 'lumiere_search', 'search_nonce', true, false );
+		$output .= wp_nonce_field( 'lumiere_search', 'search_nonce', true, false );
 
-		$ouput .= "\n\t\t" . '<input type="submit" value="Search">';
-		$ouput .= "\n\t" . '</form>';
-		$ouput .= "\n" . '</div>';
-		return $ouput;
+		$output .= "\n\t\t" . '<input type="submit" value="Search">';
+		$output .= "\n\t" . '</form>';
+		$output .= "\n" . '</div>';
+		return $output;
 	}
 }

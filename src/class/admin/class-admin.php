@@ -18,10 +18,9 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Backoffice_Extra;
 use Lumiere\Admin\Metabox_Selection;
-use Lumiere\Admin\Search_Movie;
+use Lumiere\Admin\Search_Items;
 use Lumiere\Tools\Data;
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Open_Options;
 
 /**
@@ -259,18 +258,18 @@ class Admin {
 	 * Display search popup/page for movies in admin, but since it's called in external pages, it can't be an admin page
 	 *
 	 * @param string $template_path The path to the page of the theme currently in use - not utilised
-	 * @return Search_Movie|string The Search class is displayed if successfull, template path otherwise
+	 * @return Search_Items|string The Search class is displayed if successfull, template path otherwise
 	 */
-	public function lum_search_movie_redirect( string $template_path ): Search_Movie|string {
+	public function lum_search_movie_redirect( string $template_path ): Search_Items|string {
 
 		// Display only if URL is ok and is not admin (to save time.
 		if (
-			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options_Movie::LUM_SEARCH_MOVIE_URL_ADMIN ) !== 0
+			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options::LUM_SEARCH_ITEMS_URL_ADMIN ) !== 0
 			|| is_admin()
 		) {
 			return $template_path;
 		}
 
-		return new Search_Movie();
+		return new Search_Items();
 	}
 }

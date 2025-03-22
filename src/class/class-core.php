@@ -102,7 +102,7 @@ final class Core {
 	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() which registers gutenberg widget blocks
 	 */
 	public function lum_enqueue_blocks(): void {
-		$blocks = [ 'movie', 'addlink', 'opensearch' ];
+		$blocks = [ 'post', 'addlink', 'opensearch' ];
 		$block_dir = LUM_WP_PATH . 'assets/blocks';
 
 		foreach ( $blocks as $block ) {

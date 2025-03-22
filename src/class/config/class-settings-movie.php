@@ -53,9 +53,6 @@ class Settings_Movie extends Settings_Helper {
 	 */
 	public const LUM_POPUP_MOVIE_PATH               = 'class/frontend/popups/class-popup-movie.php';
 	public const LUM_POPUP_SEARCH_PATH              = 'class/frontend/popups/class-popup-movie-search.php';
-	public const LUM_SEARCH_MOVIE_FILE              = 'class/admin/class-search-movie.php';
-	public const LUM_SEARCH_MOVIE_URL_ADMIN         = '/wp-admin/lumiere/search-movie/';
-	public const LUM_SEARCH_MOVIE_QUERY_STRING      = 'moviesearched'; // in url, such as ?moviesearched=
 
 	/**
 	 * Partial namespace of modules

@@ -3,7 +3,7 @@
  */
 
 /** on click, copy the selected IMDb ID */
-spans = document.querySelectorAll( ".lumiere_gutenberg_copy_class" );
+spans = document.querySelectorAll( ".lum_search_imdbid" );
 for (const span of spans) {
 	span.onclick = function() {
 		document.execCommand( "copy" );

@@ -21,12 +21,12 @@
 			}
 		)
 	);
-	var linkPopup = '<a data-lumiere_admin_search_popup="noInfoNeeded" class="link-imdblt-highslidepeople" target="_blank">' + __( 'IMDb movie id' , 'lumiere-movies' ) + '</a>';
+	var linkPopup = '<a data-lumiere_admin_search_popup="noInfoNeeded" class="link-imdblt-highslidepeople" target="_blank">' + __( 'IMDb id' , 'lumiere-movies' ) + '</a>';
 
 	registerBlockType(
 		'lumiere/main', {
-			title: __( 'Add a movie into your post', 'lumiere-movies' ),
-			description: __( 'Add a block in your posts that displays movie data.', 'lumiere-movies' ),
+			title: __( 'Add a movie or person into your post', 'lumiere-movies' ),
+			description: __( 'Add a block in your posts that displays movie/person data.', 'lumiere-movies' ),
 			icon: iconLumiere,
 			category: 'embed',
 			keywords: [ 'lumiere', 'imdb', 'movies', 'film' ],
@@ -74,11 +74,11 @@
 								tagName: 'gutenberg',
 								children: __( 'This block is visible only in your admin area. In your blog frontpage, it will be replaced by the movie you selected here.' , 'lumiere-movies' )
 									+ '<br />'
-									+ __( '"By Movie title": You can just enter the movie name.' , 'lumiere-movies' )
+									+ __( '"By Movie title/Person name": Enter the title/name.' , 'lumiere-movies' )
 									+ '<br />'
-									+ __( '"By Movie ID": you can get the' , 'lumiere-movies' )
+									+ __( '"By Movie/Person ID": you can get the' , 'lumiere-movies' )
 									+ ' ' + linkPopup + ' '
-									+ __( 'or type your movie name and select "Open search IMDb Id" and copy the ID found.' , 'lumiere-movies' ),
+									+ __( 'in the popup and then copy the ID found here.' , 'lumiere-movies' ),
 
 							},),// end explanation div
 							el(

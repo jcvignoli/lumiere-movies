@@ -38,8 +38,8 @@ class Get_Options extends Settings {
 		return [
 			$imdb_admin_option !== false ? $imdb_admin_option['imdburlstringtaxo'] : parent::URL_STRING_TAXO,
 			parent::LUM_FILE_COPY_THEME_TAXONOMY,
-			Get_Options_Movie::LUM_SEARCH_MOVIE_FILE, // For accessing the search in clicking a link (ie gutenberg)
-			Get_Options_Movie::LUM_SEARCH_MOVIE_URL_ADMIN,  // For accessing the search in URL lumiere/search
+			parent::LUM_SEARCH_ITEMS_FILE, // For accessing the search in clicking a link (ie gutenberg)
+			parent::LUM_SEARCH_ITEMS_URL_ADMIN,  // For accessing the search in URL lumiere/search
 			Get_Options_Movie::LUM_POPUP_SEARCH_PATH, // to be removed?
 			Get_Options_Movie::LUM_POPUP_MOVIE_PATH, // to be removed?
 			Get_Options_Person::LUM_POPUP_PERSON_PATH, // to be removed?

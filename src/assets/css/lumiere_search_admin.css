@@ -1,12 +1,6 @@
 /**
- * Lumiere Movies CSS standard for frontpages
+ * Lumiere Movies/Persons CSS standard for admin search
  */
-
-/**
- * Lumiere Movies CSS standard for frontpages
- */
-
-/* ---------------------------------------- Search class */
 
 body.lum_search{margin:20px !important;background-color:grey;color:white;}
 body.lum_search a{background-color:darkslategrey;color:darkgrey;border-radius:10px;padding:5px;}
@@ -20,4 +14,4 @@ input#lum_movie_input{ width:60%;background-color:lightyellow;}
 .lum_search_results{color:lavender;}
 span.lum_search_imdbid{background-color: cornsilk;color:darkgrey;padding:10px;border-radius:10px;margin:5px;border: 1px solid black;}
 
-
+select#select_search_type{width:auto;margin-left:1em;background-color:#83a4c5;color:white;}

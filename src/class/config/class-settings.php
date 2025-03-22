@@ -68,6 +68,13 @@ class Settings extends Settings_Helper {
 	public const LUM_GIT_URL                        = 'https://github.com/jcvignoli/lumiere-movies';
 
 	/**
+	 * Admin search
+	 */
+	public const LUM_SEARCH_ITEMS_FILE              = 'class/admin/class-search-items.php';
+	public const LUM_SEARCH_ITEMS_URL_ADMIN         = '/wp-admin/lumiere/search-items/';
+	public const LUM_SEARCH_ITEMS_QUERY_STRING      = 'itemsearched'; // search string in url, such as ?moviesearched=
+
+	/**
 	 * URL Strings for popups
 	 * This helps build automatically the links to popups and checks if in the URL string a correct string was passed
 	 *
@@ -213,8 +220,8 @@ class Settings extends Settings_Helper {
 			[
 				'lum_path'                    => LUM_WP_URL,
 				'wordpress_path'              => site_url(),
-				'admin_movie_search_url'      => Get_Options_Movie::LUM_SEARCH_MOVIE_URL_ADMIN,
-				'admin_movie_search_qstring'  => Get_Options_Movie::LUM_SEARCH_MOVIE_QUERY_STRING,
+				'admin_movie_search_url'      => self::LUM_SEARCH_ITEMS_URL_ADMIN,
+				'admin_movie_search_qstring'  => self::LUM_SEARCH_ITEMS_QUERY_STRING,
 				'ico80'                       => LUM_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
 				'popupLarg'                   => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong'                   => $imdb_admin_option['imdbpopuplong'],
