@@ -155,9 +155,9 @@ class Save_Options extends Save_Helper {
 			$type = sanitize_text_field( wp_unslash( $_GET['type'] ) );
 			$where = sanitize_text_field( wp_unslash( $_GET['where'] ) );
 
-			if ( $_GET['dothis'] === 'delete' && parent::is_valid_nonce( 'deleteindividual', '_nonce_cache_deleteindividual' ) ) {
+			if ( $_GET['dothis'] === 'delete' && parent::is_valid_nonce( 'deleteindividual', '_nonce_cache_deleteindividual', 'get' ) ) {
 				$this->do_delete_cache_linked_file( $referer, $cache_mngmt_class, $type, $where );
-			} elseif ( $_GET['dothis'] === 'refresh' && parent::is_valid_nonce( 'refreshindividual', '_nonce_cache_refreshindividual' ) ) {
+			} elseif ( $_GET['dothis'] === 'refresh' && parent::is_valid_nonce( 'refreshindividual', '_nonce_cache_refreshindividual', 'get' ) ) {
 				$this->do_refresh_cache_linked_file( $referer, $cache_mngmt_class, $type, $where );
 			}
 		}
