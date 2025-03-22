@@ -50,8 +50,8 @@
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
 		<!-- I want to use call_user_func() -->
 		<exclude name="NeutronStandard.Functions.DisallowCallUserFunc.CallUserFunc"/>
-		<!-- Followig rule should be commented out, therefore active
-		<exclude name="WordPress.Security.NonceVerification"/> -->
+		<!-- Using a custom rule later -->
+		<exclude name="WordPress.Security.NonceVerification"/> 
 		<!-- I want to use define() -->
 		<exclude name="NeutronStandard.Constants.DisallowDefine.Define"/>
 	</rule> 
@@ -90,12 +90,11 @@
 			</property>
 		</properties>
 	</rule>
-
-	<rule ref="WordPress.Security.EscapeOutput">
+	
+	<rule ref="WordPress.Security.NonceVerification">
 		<properties>
-			<property name="customAutoEscapedFunctions" type="array">
-				<!-- this doesn't need escape! -->
-				<element value="wp_date"/>
+			<property name="customNonceVerificationFunctions" type="array">
+				<element value="is_valid_nonce"/>
 			</property>
 		</properties>
 	</rule>

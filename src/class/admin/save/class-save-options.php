@@ -4,11 +4,11 @@
  *
  * @copyright (c) 2024, Lost Highway
  *
- * @version       1.0
+ * @version       2.0
  * @package       lumieremovies
  */
 
-namespace Lumiere\Admin;
+namespace Lumiere\Admin\Save;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,50 +16,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Admin\Cache\Cache_Files_Management;
-use Lumiere\Admin\Admin_General;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
-use Lumiere\Config\Open_Options;
+use Lumiere\Admin\Save\Save_Helper;
 use Exception;
 
 /**
  * Saving or resetting options when an admin form is submitted
  *
  * @since 4.0 Created by extracting all the methods from the main admin menu and its subclasses and factorized them here, added check nonces for refresh/delete individual movies, added transiants to trigger notices in {@see \Lumiere\Admin\Admin_Menu::lumiere_admin_display_messages() } and crons in {@see \Lumiere\Admin\Cron::lumiere_add_remove_crons_cache() }
- *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
- * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
+ * @since 4.6 refactorized, use a parent class
  */
-class Save_Options {
-
-	/**
-	 * Traits
-	 */
-	use Open_Options, Admin_General;
-
-	/**
-	 * Allows to limit the calls to rewrite rules refresh
-	 * @var string|null $page_data_taxo Full URL to data page taxonomy subpage
-	 * @see Save_Options::save_data_options()
-	 * @since 4.1
-	 */
-	private null|string $page_data_taxo;
+class Save_Options extends Save_Helper {
 
 	/**
 	 * Constructor
 	 * @param string|null $page_data_taxo Full URL to data page taxonomy subpage
 	 */
 	public function __construct( ?string $page_data_taxo = null ) {
-
-		// Store page
-		$this->page_data_taxo = $page_data_taxo;
-
-		// Get options from database.
-		$this->get_db_options(); // In Open_Options trait.
-
+		parent::__construct( $page_data_taxo );
 		add_action( 'admin_init', [ $this, 'process_headers' ] );
 	}
 
@@ -76,9 +52,11 @@ class Save_Options {
 
 	/**
 	 * Update taxonomy and terms in every post
+	 * External call
+	 *
 	 * @param string|null $get_referer Full URL to Lumière admin advanced options
 	 *
-	 * @see Admin_Menu Call the method
+	 * @see \Lumiere\Admin\Admin_Menu Call this method
 	 * @see Taxonomy Process
 	 * @since 4.3 Method added
 	 */
@@ -86,7 +64,7 @@ class Save_Options {
 
 		$class_save = new self();
 
-		if ( isset( $_POST['_nonce_main_settings'] ) && ( wp_verify_nonce( sanitize_key( $_POST['_nonce_main_settings'] ), 'lumiere_nonce_main_settings' ) > 0 ) ) { // Nonce
+		if ( $class_save->is_valid_nonce( 'lumiere_nonce_main_settings', '_nonce_main_settings' ) ) {
 
 			$imdburlstringtaxo = isset( $_POST['imdb_imdburlstringtaxo'] ) ? sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) : '';
 			if (
@@ -114,148 +92,103 @@ class Save_Options {
 	}
 
 	/**
-	 * Build the current URL for referer
-	 * Use all the values data in $_GET automatically, except those in $forbidden_url_strings
-	 * @return false|string The URL string if it's ok, false if both the $_GET is non-existant and wp_get_referer() can't get anything
-	 */
-	private function get_referer(): bool|string {
-
-		/** @psalm-suppress PossiblyNullArgument -- Argument 1 of esc_html cannot be null, possibly null value provided - I don't even understand*/
-		$gets_array = array_map( 'esc_html', $_GET ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- no escape ok!
-		// These forbidden strings are generated in Cache class in $_GET
-		$forbidden_url_strings = [ 'dothis', 'where', 'type', '_nonce_cache_deleteindividual', '_nonce_cache_refreshindividual' ];
-		$first_url_string = '';
-		$next_url_strings = '';
-		foreach ( $gets_array as $var => $value ) {
-
-			// Don't add to the URL those forbidden strings
-			if ( in_array( $var, $forbidden_url_strings, true ) ) {
-				continue;
-			}
-			// Build the beginning of the URL on the first occurence
-			if ( $var === array_key_first( $gets_array ) ) {
-				$first_url_string = 'admin.php?' . $var . '=' . $value;
-				continue;
-			}
-
-			// Add the strings on the next lines after the first one
-			$next_url_strings .= '&' . $var . '=' . $value;
-		}
-		return count( $gets_array ) > 0 ? admin_url( $first_url_string . $next_url_strings ) : wp_get_referer();
-	}
-
-	/**
 	 * Process headers to know what method to call based upon $_GETs and $_POSTs
 	 * This is the main method executed to call the class methods
 	 * @return void Settings saved/reset, files deleted/refreshed
 	 */
 	public function process_headers(): void {
+		$referer = parent::get_referer();
 
-		/** Main options */
-		if (
-			isset( $_POST['lumiere_update_main_settings'], $_POST['_nonce_main_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_main_settings'] ), 'lumiere_nonce_main_settings' ) > 0
-		) {
-			$this->lumiere_main_options_save(
-				$this->get_referer(),
-				// @phpstan-var array{'imdb_imdburlstringtaxo': string|null} $_POST
-				sanitize_text_field( wp_unslash( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ),
-				sanitize_text_field( wp_unslash( $_POST['imdb_imdburlpopups'] ?? '' ) )
-			);
-		} elseif (
-			isset( $_POST['lumiere_reset_main_settings'], $_POST['_nonce_main_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_main_settings'] ), 'lumiere_nonce_main_settings' ) > 0
-		) {
-			$this->lumiere_main_options_reset( $this->get_referer() );
+		$this->handle_main_options( $referer );
+		$this->handle_cache_options( $referer );
+		$this->handle_individual_cache_files( $referer );
+		$this->handle_data_options( $referer );
+	}
+
+	/**
+	 * Handle main options save/reset
+	 * @param false|string $referer Current referer URL
+	 */
+	private function handle_main_options( $referer ): void {
+		if ( parent::is_valid_nonce( 'lumiere_nonce_main_settings', '_nonce_main_settings' ) ) {
+			if ( isset( $_POST['lumiere_update_main_settings'] ) ) {
+				$this->lumiere_main_options_save(
+					$referer,
+					sanitize_text_field( wp_unslash( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ),
+					sanitize_text_field( wp_unslash( $_POST['imdb_imdburlpopups'] ?? '' ) )
+				);
+			} elseif ( isset( $_POST['lumiere_reset_main_settings'] ) ) {
+				$this->lumiere_main_options_reset( $referer );
+			}
+		}
+	}
+
+	/**
+	 * Handle cache options save/reset/delete/refresh
+	 * @param false|string $referer Current referer URL
+	 */
+	private function handle_cache_options( $referer ): void {
+		if ( parent::is_valid_nonce( 'lumiere_nonce_cache_settings', '_nonce_cache_settings' ) ) {
+			if ( isset( $_POST['lumiere_update_cache_settings'] ) ) {
+				$this->lumiere_cache_options_save( $referer );
+			} elseif ( isset( $_POST['lumiere_reset_cache_settings'] ) ) {
+				$this->lumiere_cache_options_reset( $referer );
+			} elseif ( isset( $_POST['delete_all_cache'] ) ) {
+				$this->lumiere_cache_delete_allfiles( $referer );
+			} elseif ( isset( $_POST['delete_query_cache'] ) ) {
+				$this->lumiere_cache_delete_query( $referer, new Cache_Files_Management() );
+			} elseif ( isset( $_POST['refresh_ticked_cache'] ) ) {
+				$this->cache_refresh_ticked_files( $referer, new Cache_Files_Management(), $_POST['imdb_cachedeletefor_movies'] ?? null, $_POST['imdb_cachedeletefor_people'] ?? null );
+			} elseif ( isset( $_POST['delete_ticked_cache'] ) ) {
+				$this->cache_delete_ticked_files( $referer, new Cache_Files_Management(), $_POST['imdb_cachedeletefor_movies'] ?? null, $_POST['imdb_cachedeletefor_people'] ?? null );
+			}
+		}
+	}
+
+	/**
+	 * Handle individual cache file delete/refresh
+	 * @param false|string $referer Current referer URL
+	 */
+	private function handle_individual_cache_files( $referer ): void {
+		if ( isset( $_GET['dothis'] ) ) {
+			$cache_mngmt_class = new Cache_Files_Management();
+			$type = sanitize_text_field( wp_unslash( $_GET['type'] ) );
+			$where = sanitize_text_field( wp_unslash( $_GET['where'] ) );
+
+			if ( $_GET['dothis'] === 'delete' && parent::is_valid_nonce( 'deleteindividual', '_nonce_cache_deleteindividual' ) ) {
+				$this->do_delete_cache_linked_file( $referer, $cache_mngmt_class, $type, $where );
+			} elseif ( $_GET['dothis'] === 'refresh' && parent::is_valid_nonce( 'refreshindividual', '_nonce_cache_refreshindividual' ) ) {
+				$this->do_refresh_cache_linked_file( $referer, $cache_mngmt_class, $type, $where );
+			}
+		}
+	}
+
+	/**
+	 * Handle data options save/reset
+	 * @param false|string $referer Current referer URL
+	 */
+	private function handle_data_options( $referer ): void {
+		if ( parent::is_valid_nonce( 'lumiere_nonce_data_settings', '_nonce_data_settings' ) ) {
+			if ( isset( $_POST['lumiere_update_data_settings'] ) ) {
+				$this->save_data_options( $referer );
+			} elseif ( isset( $_POST['lumiere_reset_data_settings'] ) ) {
+				$this->lumiere_data_options_reset( $referer );
+			}
 		}
 
-		/** Cache options */
-		if (
-			isset( $_POST['lumiere_update_cache_settings'], $_POST['_nonce_cache_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) > 0
-		) {
-			// save options
-			$this->lumiere_cache_options_save( $this->get_referer() );
-		} elseif (
-			isset( $_POST['lumiere_reset_cache_settings'], $_POST['_nonce_cache_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) !== false
-		) {
-			// reset options
-			$this->lumiere_cache_options_reset( $this->get_referer() );
-		} elseif (
-			isset( $_POST['delete_all_cache'], $_POST['_nonce_cache_all_and_query_check'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_all_and_query_check'] ), 'cache_all_and_query_check' ) > 0
-		) {
-			$this->lumiere_cache_delete_allfiles( $this->get_referer() );
-		} elseif (
-			isset( $_POST['delete_query_cache'], $_POST['_nonce_cache_all_and_query_check'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_all_and_query_check'] ), 'cache_all_and_query_check' ) > 0
-		) {
-			// delete all query cache files.
-			$this->lumiere_cache_delete_query( $this->get_referer(), new Cache_Files_Management() );
-		} elseif (
-			isset( $_POST['refresh_ticked_cache'], $_POST['_nonce_cache_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) > 0
-		) {
-			// Refresh several ticked files, they can be either movies or people, using same method. Using checkboxes of delete.
-			$refresh_movies = isset( $_POST['imdb_cachedeletefor_movies'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_movies'] ) : null;
-			$refresh_people = isset( $_POST['imdb_cachedeletefor_people'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_people'] ) : null;
-			$this->cache_refresh_ticked_files( $this->get_referer(), new Cache_Files_Management(), $refresh_movies, $refresh_people );
-		} elseif (
-			isset( $_POST['delete_ticked_cache'], $_POST['_nonce_cache_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) > 0
-		) {
-			// delete several ticked files, they can be either movies or people, using same method.
-			$delete_movies = isset( $_POST['imdb_cachedeletefor_movies'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_movies'] ) : null;
-			$delete_people = isset( $_POST['imdb_cachedeletefor_people'] ) ? array_map( 'sanitize_key', $_POST['imdb_cachedeletefor_people'] ) : null;
-			$this->cache_delete_ticked_files( $this->get_referer(), new Cache_Files_Management(), $delete_movies, $delete_people );
-		} elseif (
-			isset( $_GET['dothis'] ) && $_GET['dothis'] === 'delete'
-			&& isset( $_GET['type'], $_GET['where'], $_GET['_nonce_cache_deleteindividual'] )
-			&& wp_verify_nonce( sanitize_key( $_GET['_nonce_cache_deleteindividual'] ), 'deleteindividual' ) > 0
-		) {
-			// delete a specific file by clicking on it.
-			$this->do_delete_cache_linked_file( $this->get_referer(), new Cache_Files_Management(), sanitize_text_field( wp_unslash( $_GET['type'] ) ), sanitize_text_field( wp_unslash( $_GET['where'] ) ) );
-		} elseif (
-			isset( $_GET['dothis'] ) && $_GET['dothis'] === 'refresh'
-			&& isset( $_GET['type'], $_GET['where'], $_GET['_nonce_cache_refreshindividual'] )
-			&& wp_verify_nonce( sanitize_key( $_GET['_nonce_cache_refreshindividual'] ), 'refreshindividual' ) > 0
-		) {
-			// refresh a specific file by clicking on it.
-			$this->do_refresh_cache_linked_file( $this->get_referer(), new Cache_Files_Management(), sanitize_text_field( wp_unslash( $_GET['type'] ) ), sanitize_text_field( wp_unslash( $_GET['where'] ) ) );
-		}
-
-		/** Data movies options */
-		if (
-			isset( $_POST['lumiere_update_data_settings'], $_POST['_nonce_data_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) > 0
-		) {
-			$this->save_data_options( $this->get_referer() );
-		} elseif (
-			isset( $_POST['lumiere_reset_data_settings'], $_POST['_nonce_data_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) > 0
-		) {
-			$this->lumiere_data_options_reset( $this->get_referer() );
-		}
-
-		/** Data movies options */
-		if (
-			isset( $_POST['lumiere_update_data_person_settings'], $_POST['_nonce_data_person_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_person_settings'] ), 'lumiere_nonce_data_person_settings' ) > 0
-		) {
-			$this->save_data_person_options( $this->get_referer() );
-		} elseif (
-			isset( $_POST['lumiere_reset_data_person_settings'], $_POST['_nonce_data_person_settings'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_person_settings'] ), 'lumiere_nonce_data_person_settings' ) > 0
-		) {
-			$this->lumiere_data_person_options_reset( $this->get_referer() );
+		if ( parent::is_valid_nonce( 'lumiere_nonce_data_person_settings', '_nonce_data_person_settings' ) ) {
+			if ( isset( $_POST['lumiere_update_data_person_settings'] ) ) {
+				$this->save_data_person_options( $referer );
+			} elseif ( isset( $_POST['lumiere_reset_data_person_settings'] ) ) {
+				$this->lumiere_data_person_options_reset( $referer );
+			}
 		}
 	}
 
 	/**
 	 * Save Main options
 	 *
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 * @param null|string $imdburlstringtaxo $_POST['imdb_imdburlstringtaxo']
 	 * @param null|string $imdburlpopups $_POST['imdbpopup_modal_window']
 	 */
@@ -286,7 +219,7 @@ class Save_Options {
 		}
 
 		// Check if nonce is a valid value.
-		if ( ! isset( $_POST['_nonce_main_settings'] ) || ! ( wp_verify_nonce( sanitize_key( $_POST['_nonce_main_settings'] ), 'lumiere_nonce_main_settings' ) > 0 ) ) {
+		if ( ! parent::is_valid_nonce( 'lumiere_nonce_main_settings', '_nonce_main_settings' ) ) {
 			set_transient( 'notice_lumiere_msg', 'invalid_nonce', 30 );
 			if ( $get_referer !== false && wp_safe_redirect( esc_url_raw( $get_referer ) ) ) {
 				exit( 0 );
@@ -344,7 +277,7 @@ class Save_Options {
 	/**
 	 * Reset Main options
 	 *
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 */
 	private function lumiere_main_options_reset( string|bool $get_referer ): void {
 
@@ -360,14 +293,14 @@ class Save_Options {
 	/**
 	 * Save Cache options
 	 *
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 *
 	 * @see Lumiere\Admin\Cron::lumiere_add_remove_crons_cache()
 	 * @throws Exception if nonces are incorrect
 	 */
 	private function lumiere_cache_options_save( string|bool $get_referer ): void {
 
-		if ( ! isset( $_POST['_nonce_cache_settings'] ) || wp_verify_nonce( sanitize_key( $_POST['_nonce_cache_settings'] ), 'lumiere_nonce_cache_settings' ) === false ) {
+		if ( ! parent::is_valid_nonce( 'lumiere_nonce_cache_settings', '_nonce_cache_settings' ) ) {
 			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
 		}
 
@@ -421,7 +354,7 @@ class Save_Options {
 	/**
 	 * Reset Cache options
 	 *
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 */
 	private function lumiere_cache_options_reset( string|bool $get_referer ): void {
 		delete_option( Get_Options::get_cache_tablename() );
@@ -470,7 +403,7 @@ class Save_Options {
 	/**
 	 * Refresh ticked People/Movie files (based on inputs)
 	 *
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
 	 * @param null|array<string> $refresh_movies $_POST['imdb_cachedeletefor_movies']
 	 * @param null|array<string> $refresh_people $_POST['imdb_cachedeletefor_people']
@@ -497,7 +430,7 @@ class Save_Options {
 	/**
 	 * Delete ticked People/Movie files (based on inputs)
 	 *
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
 	 * @param null|array<string> $delete_movies $_POST['imdb_cachedeletefor_movies']
 	 * @param null|array<string> $delete_people $_POST['imdb_cachedeletefor_people']
@@ -523,7 +456,7 @@ class Save_Options {
 
 	/**
 	 * Delete specific People/Movie files (based on html links)
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
 	 * @param 'movie'|'people'|string $type result of $_GET['type'] to define either people or movie
 	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
@@ -541,7 +474,7 @@ class Save_Options {
 	/**
 	 * Refresh specific People/Movie files (based on html links)
 	 *
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
 	 * @param 'movie'|'people'|string $type result of $_GET['type'] to define either people or movie
 	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
@@ -561,7 +494,7 @@ class Save_Options {
 	 * Do the distinction between value in associative array as array ('imdbwidgetorder') and string (the others)
 	 * Remove string 'imdb_' sent in $_POST
 	 *
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 *
 	 * @throws Exception if nonces are incorrect
 	 * @since 4.1 added flush_rewrite_rules()
@@ -569,7 +502,7 @@ class Save_Options {
 	 */
 	private function save_data_options( string|bool $get_referer, ): void {
 
-		if ( ! isset( $_POST['_nonce_data_settings'] ) || wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) === false ) {
+		if ( ! parent::is_valid_nonce( 'lumiere_nonce_data_settings', '_nonce_data_settings' ) ) {
 			throw new Exception( 'Wrong nounce' );
 		}
 
@@ -628,7 +561,7 @@ class Save_Options {
 
 	/**
 	 * Reset Data options
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 */
 	private function lumiere_data_options_reset( string|bool $get_referer, ): void {
 
@@ -644,14 +577,14 @@ class Save_Options {
 	/**
 	 * Save Data person options
 	 *
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 *
 	 * @throws Exception if nonces are incorrect
 	 * @since 4.6 new
 	 */
 	private function save_data_person_options( string|bool $get_referer, ): void {
 
-		if ( ! isset( $_POST['_nonce_data_person_settings'] ) || wp_verify_nonce( sanitize_key( $_POST['_nonce_data_person_settings'] ), 'lumiere_nonce_data_person_settings' ) === false ) {
+		if ( ! parent::is_valid_nonce( 'lumiere_nonce_data_person_settings', '_nonce_data_person_settings' ) ) {
 			throw new Exception( 'Wrong nounce' );
 		}
 
@@ -687,7 +620,7 @@ class Save_Options {
 
 	/**
 	 * Reset Data person options
-	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 */
 	private function lumiere_data_person_options_reset( string|bool $get_referer, ): void {
 

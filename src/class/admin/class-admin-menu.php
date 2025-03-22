@@ -21,6 +21,7 @@ use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Admin\Copy_Templates\Detect_New_Theme;
+use Lumiere\Admin\Save\Save_Options;
 
 /**
  * Display Admin Menus: Top, Left and default menus
@@ -28,7 +29,7 @@ use Lumiere\Admin\Copy_Templates\Detect_New_Theme;
  * It is checked priorly if the user can manage options
  *
  * @see \Lumiere\Admin\Copy_Templates\Copy_Theme to copy new page template
- * @see \Lumiere\Admin\Save_Options Check the $_GET to know if we need to save the submitted data
+ * @see \Lumiere\Admin\Save\Save_Options Check the $_GET to know if we need to save the submitted data
  * @see \Lumiere\Admin\Admin_Notifications
  */
 class Admin_Menu {
