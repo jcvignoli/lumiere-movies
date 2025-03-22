@@ -35,7 +35,6 @@ class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );
-		$nb_rows_display_clickmore = 10;
 
 		if ( $nb_total_items === 0 ) {
 			return '';
@@ -44,6 +43,8 @@ class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
 			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
+
+		$nb_rows_display_clickmore = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 10; /** max number of movies before breaking with "see all" */
 
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',

@@ -38,10 +38,10 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module( Name $person_class, string $sub_cat ): string {
 
 		$item_results = $person_class->credit();
-		$max_results = 9; /** max number of movies before breaking with "see all" */
+		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $sub_cat . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $sub_cat . '_number' ] ) : 9; /** max number of movies before breaking with "see all" */
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $sub_cat, $item_results, 1 /* not used in get_module_popup() method */, $max_results );
+			return $this->get_module_popup( $sub_cat, $item_results, 1 /* not used in get_module_popup() method */ );
 		}
 
 		$output = '';
@@ -82,12 +82,12 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 				}
 
 				// Display a "show more" after XX results, only if a next result exists.
-				if ( $i === $max_results ) {
+				if ( $i === $nb_rows_click_more ) {
 					$isset_next = isset( $item_results[ $module ][ $i + 1 ] ) ? true : false;
 					$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
 				}
 
-				if ( $i > $max_results && $i === ( $nb_total_items - 1 ) ) {
+				if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
 					$output .= $this->output_class->misc_layout( 'see_all_end' );
 				}
 			}
@@ -104,10 +104,10 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 	 * @param array<array-key, array<array-key, array<string, string|array<array-key, string>>>> $item_results
 	 * @phpstan-param array<array-key, array<array-key, array{titleId: string, titleName: string, year?: string, characters?: list<string>}>> $item_results
 	 * @param int<1, max> $nb_total_items
-	 * @param int<0, max> $max_results Limit the number of results
 	 */
-	public function get_module_popup( string $sub_cat, array $item_results, int $nb_total_items, int $max_results ): string {
+	public function get_module_popup( string $sub_cat, array $item_results, int $nb_total_items ): string {
 
+		$nb_rows_click_more = 9; /** max number of movies before breaking with "see all" */
 		$nb_total_items = count( $item_results[ $sub_cat ] ?? [] );
 
 		if ( $nb_total_items === 0 ) {
@@ -119,7 +119,7 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 			Data::mb_ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $sub_cat ] ) // Can start with special charas, so use homemade ucfirst that behaves like mb_ucfirst().
 		);
 
-		if ( $nb_total_items > $max_results ) {
+		if ( $nb_total_items > $nb_rows_click_more ) {
 			$output .= '(' . strval( $nb_total_items ) . ')'; // Show the total number found right after the title.
 		}
 
@@ -135,12 +135,12 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 			}
 
 			// Display a "show more" after XX results, only if a next result exists.
-			if ( $i === $max_results ) {
+			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $sub_cat ][ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
 			}
 
-			if ( $i > $max_results && $i === ( $nb_total_items - 1 ) ) {
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_class->misc_layout( 'see_all_end' );
 			}
 		}

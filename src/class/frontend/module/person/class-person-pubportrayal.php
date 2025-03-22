@@ -35,6 +35,7 @@ class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );
+		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
 
 		if ( $nb_total_items === 0 ) {
 			return '';
@@ -50,9 +51,20 @@ class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
+			// Display a "show more" after XX results, only if a next result exists.
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
+			}
 			$output .= parent::get_popup_person( $item_results[ $i ]['id'], $item_results[ $i ]['title'] );
 			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 0 ) {
 				$output .= ' (' . $item_results[ $i ]['year'] . ') ';
+			}
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'see_all_end' );
+			}
+			if ( $i < $nb_total_items - 1 ) {
+				$output .= ', ';
 			}
 		}
 		return $output;

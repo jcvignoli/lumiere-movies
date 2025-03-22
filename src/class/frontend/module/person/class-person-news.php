@@ -34,7 +34,6 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );
-		$nb_rows_click_more = 5;
 
 		if ( $nb_total_items === 0 ) {
 			return '';
@@ -44,12 +43,20 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
+		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
+
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+
+			// Display a "show more" after XX results
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+			}
 
 			// URL.
 			$output .= isset( $item_results[ $i ] ) && isset( $item_results[ $i ]['title'] ) && isset( $item_results[ $i ]['extUrl'] ) ? parent::get_external_url( $item_results[ $i ]['title'], $item_results[ $i ]['extUrl'] ) : $item_results[ $i ]['title'] ?? '';
@@ -62,12 +69,6 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 			// Text, limited in charas.
 			if ( isset( $item_results[ $i ]['textText'] ) && strlen( $item_results[ $i ]['textText'] ) > 0 ) {
 				$output .= ' ' . substr( $item_results[ $i ]['textText'], 0, 300 ) . ' [...]';
-			}
-
-			// Display a "show more" after XX results
-			if ( $i === $nb_rows_click_more ) {
-				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
 			}
 
 			// End of "click to show more"
@@ -94,7 +95,7 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
-		$nb_rows_click_more = 5;
+		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
@@ -102,6 +103,12 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
+
+			// Display a "show more" after XX results
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
+			}
 
 			// URL.
 			$output .= isset( $item_results[ $i ] ) && isset( $item_results[ $i ]['title'] ) && isset( $item_results[ $i ]['extUrl'] ) ? parent::get_external_url( $item_results[ $i ]['title'], $item_results[ $i ]['extUrl'] ) : $item_results[ $i ]['title'] ?? '';

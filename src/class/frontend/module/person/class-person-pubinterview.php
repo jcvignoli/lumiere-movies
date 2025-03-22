@@ -35,6 +35,7 @@ class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );
+		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
 
 		if ( $nb_total_items === 0 ) {
 			return '';
@@ -57,6 +58,15 @@ class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( isset( $item_results[ $i ]['reference'] ) && strlen( $item_results[ $i ]['reference'] ) !== 0 ) {
 				$output .= ' ' . $item_results[ $i ]['reference'];
 			}
+			// Display a "show more" after XX results, only if a next result exists.
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
+			}
+
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'see_all_end' );
+			}
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';
 			}
@@ -74,6 +84,8 @@ class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
+		$nb_rows_click_more = 5; /** max number of movies before breaking with "see all" */
+
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			ucfirst( Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ] )
@@ -86,6 +98,15 @@ class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
 			}
 			if ( isset( $item_results[ $i ]['reference'] ) && strlen( $item_results[ $i ]['reference'] ) !== 0 ) {
 				$output .= ' ' . $item_results[ $i ]['reference'];
+			}
+			// Display a "show more" after XX results, only if a next result exists.
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
+			}
+
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'see_all_end' );
 			}
 			if ( $i < $nb_total_items - 1 ) {
 				$output .= ', ';

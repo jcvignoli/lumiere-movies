@@ -45,6 +45,7 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  *
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
+ * @phpstan-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
 class Settings extends Settings_Helper {
 
@@ -341,10 +342,10 @@ class Settings extends Settings_Helper {
 	 * Return default DATA Movies options
 	 *
 	 * @since 4.4 Totally rewritten and automatized
-	 * @see Settings_Helper::get_data_rows_taxo() Import automatically taxonomy built vars
-	 * @see Settings_Helper::get_data_rows_withnumbers() Import automatically with numbers built vars
-	 * @see Settings_Helper::get_data_rows_widget() Import automatically 'imdbwidget...' built vars
-	 * @see Settings_Helper::get_data_rows_imdbwidgetorder() Import automatically array 'imdbwidgetorder' built vars
+	 * @see Settings_Helper::get_data_rows_taxo() Import taxonomy array
+	 * @see Settings_Helper::get_data_rows_withnumbers() Import with numbers array
+	 * @see Settings_Helper::get_data_rows_widget() Import 'imdbwidget...' array
+	 * @see Settings_Helper::get_data_rows_imdbwidgetorder() Import 'imdbwidgetorder' array
 	 *
 	 * @phpstan-return OPTIONS_DATA
 	 * @return array<string, string|array<string, string>>
@@ -362,16 +363,19 @@ class Settings extends Settings_Helper {
 	 * Return default DATA Person options
 	 *
 	 * @since 4.6 new
-	 * @return array<string, list<string>>
-	 * @phpstan-return OPTIONS_DATA_PERSON
+	 * @see Settings_Helper::get_data_person_order() Import person order array
+	 * @see Settings_Helper::get_data_person_activated() Import person activated array
+	 *
+	 * @return array<string, array<string, string>>
+	 * @phpstan-return OPTIONS_DATA_PERSON (use of Union)
+	 * @psalm-return OPTIONS_DATA_PERSON_PSALM (use of | )
 	 */
 	private function get_default_data_person_option(): array {
-		$data = [];
-		$values = array_keys( Get_Options_Person::get_all_person_fields() );
-		/** @phpstan-var OPTIONS_DATA_PERSON $data */
-		$data['order'] = $values;
-		/** @psalm-var OPTIONS_DATA_PERSON */
-		return $data;
+		return [
+			...parent::get_data_person_order(),
+			...parent::get_data_person_activated(),
+			...parent::get_data_person_number(),
+		];
 	}
 }
 

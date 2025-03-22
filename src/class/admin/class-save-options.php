@@ -19,6 +19,7 @@ use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Open_Options;
 use Exception;
 
@@ -30,6 +31,7 @@ use Exception;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
  */
 class Save_Options {
 
@@ -223,7 +225,7 @@ class Save_Options {
 			$this->do_refresh_cache_linked_file( $this->get_referer(), new Cache_Files_Management(), sanitize_text_field( wp_unslash( $_GET['type'] ) ), sanitize_text_field( wp_unslash( $_GET['where'] ) ) );
 		}
 
-		/** Data options */
+		/** Data movies options */
 		if (
 			isset( $_POST['lumiere_update_data_settings'], $_POST['_nonce_data_settings'] )
 			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) > 0
@@ -234,6 +236,19 @@ class Save_Options {
 			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) > 0
 		) {
 			$this->lumiere_data_options_reset( $this->get_referer() );
+		}
+
+		/** Data movies options */
+		if (
+			isset( $_POST['lumiere_update_data_person_settings'], $_POST['_nonce_data_person_settings'] )
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_person_settings'] ), 'lumiere_nonce_data_person_settings' ) > 0
+		) {
+			$this->save_data_person_options( $this->get_referer() );
+		} elseif (
+			isset( $_POST['lumiere_reset_data_person_settings'], $_POST['_nonce_data_person_settings'] )
+			&& wp_verify_nonce( sanitize_key( $_POST['_nonce_data_person_settings'] ), 'lumiere_nonce_data_person_settings' ) > 0
+		) {
+			$this->lumiere_data_person_options_reset( $this->get_referer() );
 		}
 	}
 
@@ -542,7 +557,7 @@ class Save_Options {
 	}
 
 	/**
-	 * Save Data options
+	 * Save Data movies options
 	 * Do the distinction between value in associative array as array ('imdbwidgetorder') and string (the others)
 	 * Remove string 'imdb_' sent in $_POST
 	 *
@@ -555,7 +570,7 @@ class Save_Options {
 	private function save_data_options( string|bool $get_referer, ): void {
 
 		if ( ! isset( $_POST['_nonce_data_settings'] ) || wp_verify_nonce( sanitize_key( $_POST['_nonce_data_settings'] ), 'lumiere_nonce_data_settings' ) === false ) {
-			throw new Exception( 'Wrong nounce error' );
+			throw new Exception( 'Wrong nounce' );
 		}
 
 		// These $_POST values shouldn't be processed
@@ -609,7 +624,6 @@ class Save_Options {
 			set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
 			exit( 0 );
 		}
-
 	}
 
 	/**
@@ -619,6 +633,56 @@ class Save_Options {
 	private function lumiere_data_options_reset( string|bool $get_referer, ): void {
 
 		delete_option( Get_Options_Movie::get_data_tablename() );
+		Get_Options::create_database_options();
+
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
+			set_transient( 'notice_lumiere_msg', 'options_reset', 30 );
+			exit( 0 );
+		}
+	}
+
+	/**
+	 * Save Data person options
+	 *
+	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 *
+	 * @throws Exception if nonces are incorrect
+	 * @since 4.6 new
+	 */
+	private function save_data_person_options( string|bool $get_referer, ): void {
+
+		if ( ! isset( $_POST['_nonce_data_person_settings'] ) || wp_verify_nonce( sanitize_key( $_POST['_nonce_data_person_settings'] ), 'lumiere_nonce_data_person_settings' ) === false ) {
+			throw new Exception( 'Wrong nounce' );
+		}
+
+		$imdb_data_person_values = get_option( Get_Options_Person::get_data_person_tablename(), [] );
+		foreach ( $_POST as $key => $post_value ) {
+			if ( str_contains( $key, '_active' ) ) {
+				$key_san = esc_html( $key );
+				$val_san = is_string( $post_value ) ? esc_html( $post_value ) : '';
+				$imdb_data_person_values['activated'][ $key_san ] = $val_san;
+			} elseif ( str_contains( $key, '_number' ) ) {
+				$key_san = esc_html( $key );
+				$val_san = is_string( $post_value ) ? esc_html( $post_value ) : '';
+				$imdb_data_person_values['number'][ $key_san ] = $val_san;
+			}
+		}
+
+		update_option( Get_Options_Person::get_data_person_tablename(), $imdb_data_person_values );
+
+		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
+			set_transient( 'notice_lumiere_msg', 'options_updated', 30 );
+			exit( 0 );
+		}
+	}
+
+	/**
+	 * Reset Data person options
+	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
+	 */
+	private function lumiere_data_person_options_reset( string|bool $get_referer, ): void {
+
+		delete_option( Get_Options_Person::get_data_person_tablename() );
 		Get_Options::create_database_options();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {

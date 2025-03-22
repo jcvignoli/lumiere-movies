@@ -51,5 +51,14 @@ class Get_Options_Person extends Settings_Person {
 	public static function get_all_credit_role( int $number = 1 ): array {
 		return parent::credits_role_all( $number );
 	}
+
+	/**
+	 * Get list of comments for item details
+	 *
+	 * @return array<string, string>
+	 */
+	public static function get_items_person_details_comments(): array {
+		return parent::define_items_person_details_comments();
+	}
 }
 

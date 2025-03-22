@@ -47,11 +47,13 @@ class Data extends Admin_Menu {
 		);
 
 		// Show the vars if debug is activated.
-		if ( isset( $this->imdb_admin_values['imdbdebug'] ) && $this->imdb_admin_values['imdbdebug'] === '1' ) {
+		if (
+			isset( $this->imdb_admin_values['imdbdebug'] ) && $this->imdb_admin_values['imdbdebug'] === '1'
+			&& ! isset( $_GET['subsection'] )
+		) {
 			Debug::display_lum_vars( $this->imdb_data_values, 'no_var_dump', null );
 		} elseif (
 			isset( $this->imdb_admin_values['imdbdebug'] ) && $this->imdb_admin_values['imdbdebug'] === '1'
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_person_data, $_GET['subsection'] )
 		) {
 			Debug::display_lum_vars( $this->imdb_data_person_values, 'no_var_dump', null );
 		}
@@ -74,7 +76,7 @@ class Data extends Admin_Menu {
 			 * The template will retrieve the args. In parent class.
 			 */
 			$this->include_with_vars(
-				'data/admin-data-display',
+				'data/admin-data-movie-display',
 				[
 					$this->imdb_data_values, // data options.
 					$this->get_display_select_options()[0], // list of items and people with two extra lists.
@@ -120,6 +122,23 @@ class Data extends Admin_Menu {
 					$this->get_taxo_fields(),
 					( new Detect_New_Theme() )->search_new_update(),
 					$this->page_data_taxo . '&taxotype=',
+				], /** Add an array with vars to send in the template */
+				self::TRANSIENT_ADMIN,
+			);
+		} elseif (
+			isset( $_GET['page'] ) && str_contains( $this->page_person_data, sanitize_key( $_GET['page'] ) ) === true
+			&& isset( $_GET['subsection'] ) && str_contains( $this->page_person_data, sanitize_key( $_GET['subsection'] ) )
+			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
+		) {
+
+			/**
+			 * Taxonomy data template
+			 * The template will retrieve the args. In parent class.
+			 */
+			$this->include_with_vars(
+				'data/admin-data-person-display',
+				[
+					$this,
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);

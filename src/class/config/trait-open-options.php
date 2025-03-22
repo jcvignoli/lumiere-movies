@@ -27,6 +27,7 @@ use Lumiere\Config\Get_Options_Movie;
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
+ * @phpstan-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
 trait Open_Options {
 
@@ -49,8 +50,8 @@ trait Open_Options {
 	/**
 	 * Data Person options
 	 * // PHPStan bug #5091, remove below line later @phpstan-var OPTIONS_DATA_PERSON $imdb_data_person_values
-	 * @phpstan-var array{ order: array{ 'title': string, 'pic': string, 'bio': string, 'nickname': string, 'spouse': string, 'children': string, 'credit': string, 'news': string, 'pubinterview': string, 'pubmovies': string, 'pubportrayal': string, 'pubprints': string, 'quotes': string, 'trivia': string, 'trademark': string, 'award': string, 'birthname': string, 'born': string, 'died': string, 'name': string } }
-	 * @psalm-var OPTIONS_DATA_PERSON
+	 * @phpstan-var array{ activated: array{ title_active: '1', pic_active: '1', bio_active: '0'|'1', nickname_active: '0'|'1', spouse_active?: '0'|'1', children_active?: '0'|'1', credit_active?: '0'|'1', news_active?: '0'|'1', pubinterview_active?: '0'|'1', pubmovies_active?: '0'|'1', pubportrayal_active?: '0'|'1', pubprints_active?: '0'|'1', quotes_active?: '0'|'1', trivia_active?: '0'|'1', trademark_active?: '0'|'1', award_active?: '0'|'1' }, order: array{ 'title': numeric-string, 'pic': numeric-string, 'bio': numeric-string, 'nickname': numeric-string, 'spouse': numeric-string, 'children': numeric-string, 'credit': numeric-string, 'news': numeric-string, 'pubinterview': numeric-string, 'pubmovies': numeric-string, 'pubportrayal': numeric-string, 'pubprints': numeric-string, 'quotes': numeric-string, 'trivia': numeric-string, 'trademark': numeric-string, 'award': numeric-string, 'birthname': numeric-string, 'born': numeric-string, 'died': numeric-string, 'name': numeric-string }, number: array{ award_number: numeric-string, credit_number: numeric-string, news_number: numeric-string, pubinterview_number: numeric-string, pubmovies_number: numeric-string, pubportrayal_number: numeric-string, pubprints_number: numeric-string, quotes_number: numeric-string, trivia_number: numeric-string, trademark_number: numeric-string } }
+	 * @psalm-var OPTIONS_DATA_PERSON_PSALM
 	 */
 	public array $imdb_data_person_values;
 

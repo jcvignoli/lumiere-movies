@@ -27,6 +27,7 @@
         "dealerdirect/phpcodesniffer-composer-installer": "@stable",
         "phan/phan": "@stable",
         "skaut/wordpress-stubs": "@stable",
+        "lipemat/phpstan-wordpress": "@stable",
         "phpstan/phpstan-strict-rules": "@stable",
         "szepeviktor/phpstan-wordpress": "@stable",
         "vimeo/psalm": "@stable",
@@ -43,7 +44,8 @@
             "php": "8.1"
         },
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         }
     },
     "scripts": {

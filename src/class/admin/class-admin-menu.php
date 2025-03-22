@@ -91,8 +91,7 @@ class Admin_Menu {
 		$this->page_data_order = admin_url( $page_data . '&subsection=order' );
 		$this->page_data_taxo = admin_url( $page_data . '&subsection=taxo' );
 
-		$page_person_data = 'admin.php?page=' . $this->menu_id . '_person_data';
-		$this->page_person_data = admin_url( $page_person_data );
+		$this->page_person_data = admin_url( $page_data . '&subsection=person_data' );
 
 		$page_cache = 'admin.php?page=' . $this->menu_id . '_cache';
 		$this->page_cache_option = admin_url( $page_cache );

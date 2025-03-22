@@ -18,6 +18,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 use FilesystemIterator;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options_Person;
 use Lumiere\Tools\Data;
 
 /**
@@ -30,6 +31,9 @@ use Lumiere\Tools\Data;
  * @phpstan-type ARRAY_WITHNUMBERS array{imdbwidgetactornumber?: string, imdbwidgetalsoknownumber?: string, imdbwidgetconnectionnumber?: string, imdbwidgetgoofnumber?: string, imdbwidgetplotnumber?: string, imdbwidgetproducernumber?: string, imdbwidgetquotenumber?: string, imdbwidgetsoundtracknumber?: string, imdbwidgettaglinenumber?: string, imdbwidgettrailernumber?: string, imdbwidgettrivianumber?: string, imdbwidgetwriternumber?: string}
  * @phpstan-type ARRAY_TAXO_ITEMS array{imdbtaxonomyactor?: '0'|'1', imdbtaxonomycolor?: '0'|'1', imdbtaxonomycomposer?: '0'|'1', imdbtaxonomycountry?: '0'|'1', imdbtaxonomycinematographer?: '0'|'1', imdbtaxonomydirector?: '0'|'1', imdbtaxonomygenre?: '0'|'1', imdbtaxonomykeyword?: '0'|'1', imdbtaxonomylanguage?: '0'|'1', imdbtaxonomyproducer?: '0'|'1', imdbtaxonomywriter?: '0'|'1'}
  * @phpstan-type ARRAY_WIDGET array{imdbwidgettitle?: '0'|'1', imdbwidgetpic?: '0'|'1', imdbwidgetruntime?: '0'|'1', imdbwidgetdirector?: '0'|'1', imdbwidgetconnection?: '0'|'1', imdbwidgetcountry?: '0'|'1', imdbwidgetactor?: '0'|'1', imdbwidgetcinematographer?: '0'|'1', imdbwidgetrating?: '0'|'1', imdbwidgetlanguage?: '0'|'1', imdbwidgetgenre?: '0'|'1', imdbwidgetwriter?: '0'|'1', imdbwidgetproducer?: '0'|'1', imdbwidgetkeyword?: '0'|'1', imdbwidgetprodCompany?: '0'|'1', imdbwidgetplot?: '0'|'1', imdbwidgetgoof?: '0'|'1', imdbwidgetquote?: '0'|'1', imdbwidgettagline?: '0'|'1', imdbwidgettrailer?: '0'|'1', imdbwidgetcolor?: '0'|'1', imdbwidgetalsoknow?: '0'|'1', imdbwidgetcomposer?: '0'|'1', imdbwidgetsoundtrack?: '0'|'1', imdbwidgetextSites?: '0'|'1', imdbwidgetsource?: '0'|'1', imdbwidgettrivia?: '0'|'1', imdbwidgetyear?: '0'|'1'}
+ * @phpstan-import-type OPTIONS_DATA_PERSON_ORDER from \Lumiere\Config\Settings_Person
+ * @phpstan-import-type OPTIONS_DATA_PERSON_ACTIVATED from \Lumiere\Config\Settings_Person
+ * @phpstan-import-type OPTIONS_DATA_PERSON_NUMBER from \Lumiere\Config\Settings_Person
  */
 class Settings_Helper {
 
@@ -45,7 +49,7 @@ class Settings_Helper {
 	}
 
 	/**
-	 * Create rows for 'imdbtaxonomy' using internal methods
+	 * Create rows for 'imdbtaxonomy' using internal methods in data_movie
 	 *
 	 * @see Settings::get_default_data_movie_option() Meant to be used there
 	 *
@@ -71,7 +75,7 @@ class Settings_Helper {
 	}
 
 	/**
-	 * Create rows for 'imdbwidget' using internal methods
+	 * Create rows for 'imdbwidget' using internal methods in data_movie
 	 *
 	 * @see Settings::get_default_data_movie_option() Meant to be used there
 	 *
@@ -98,7 +102,7 @@ class Settings_Helper {
 	}
 
 	/**
-	 * Create rows for 'imdbwidgetorder' array
+	 * Create rows for 'imdbwidgetorder' array in data_movie
 	 * Get all elements items/people, then reorder them since it will be the order by default when installing the plugin
 	 *
 	 * @see Settings::get_default_data_option() Meant to be used there
@@ -140,7 +144,7 @@ class Settings_Helper {
 	}
 
 	/**
-	 * Create rows for 'imdbtaxonomy'
+	 * Create rows for 'imdbtaxonomy' in data_movie
 	 *
 	 * @see Settings::get_default_data_movie_option() Meant to be used there
 	 *
@@ -166,6 +170,78 @@ class Settings_Helper {
 			$array_with_numbers[ 'imdbwidget' . $withnumber_key . 'number' ] = '0';
 		}
 		return $array_with_numbers;
+	}
+
+	/**
+	 * Create rows for 'order' array in data_person
+	 *
+	 * @see Settings::get_default_data_person_option() Meant to be used there
+	 *
+	 * @return array<array-key, array<string, string>>
+	 * @phpstan-return OPTIONS_DATA_PERSON_ORDER
+	 */
+	protected function get_data_person_order(): array {
+		$data = [];
+		$values = array_keys( Get_Options_Person::get_all_person_fields() );
+		$i = 1;
+		foreach ( $values as $value ) {
+			$data['order'][ $value ] = (string) $i;
+			$i++;
+		}
+		if ( ! isset( $data['order'] ) || count( $data['order'] ) < 2 ) {
+			throw new \Exception( 'Could not create data person order' );
+		}
+		/**
+		 * @psalm-var OPTIONS_DATA_PERSON_ORDER $data (says return is less specific otherwise)
+		 * @phpstan-ignore varTag.nativeType (PHPDoc tag @var with type array{order: array{title: numeric-string...} is not subtype of native type array{order:non-empty-array<lowercase-string&non-falsy-string&numeric-string&uppercase-string>})
+		 */
+		return $data;
+	}
+
+	/**
+	 * Create rows for 'activated' array in data_person
+	 *
+	 * @see Settings::get_default_data_person_option() Meant to be used there
+	 *
+	 * @return array<'activated', array<string, string>>
+	 * @phpstan-return OPTIONS_DATA_PERSON_ACTIVATED
+	 */
+	protected function get_data_person_activated(): array {
+		$data = [];
+		$values = array_keys( Get_Options_Person::get_all_person_fields() );
+		foreach ( $values as $value ) {
+			if ( $value === 'title' || $value === 'pic' ) { // Always activated.
+				$data['activated'][ $value . '_active' ] = '1';
+				continue;
+			}
+			$data['activated'][ $value . '_active' ] = '0';
+		}
+		if ( ! isset( $data['activated'] ) || count( $data['activated'] ) < 2 ) {
+			throw new \Exception( 'Could not create data person activated' );
+		}
+		/** @psalm-var OPTIONS_DATA_PERSON_ACTIVATED $data */
+		return $data;
+	}
+
+	/**
+	 * Create rows for 'number' array in data_person
+	 * Do not include data that will always be unactivated in Settings_Person::LUM_DATA_PERSON_UNACTIVE
+	 *
+	 * @see Settings::get_default_data_person_option() Meant to be used there
+	 *
+	 * @return array<'number', array<string, string>>
+	 * @phpstan-return OPTIONS_DATA_PERSON_NUMBER
+	 */
+	protected function get_data_person_number(): array {
+		$data = [];
+		foreach ( Get_Options_Person::LUM_DATA_PERSON_DEFAULT_WITHNUMBER as $key => $number ) {
+			$data['number'][ $key . '_number' ] = $number;
+		}
+		/**
+		 * @psalm-var OPTIONS_DATA_PERSON_NUMBER $data
+		 * @phpstan-ignore varTag.nativeType
+		 */
+		return $data;
 	}
 }
 

@@ -19,7 +19,7 @@ use Imdb\Name;
 use Lumiere\Config\Get_Options_Person;
 
 /**
- * Method to display Pubmovies for person
+ * Method to display Pubmovies (biographical movies) for person
  *
  * @since 4.5 new class
  */
@@ -35,6 +35,7 @@ class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );
+		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
 
 		if ( $nb_total_items === 0 ) {
 			return '';
@@ -56,14 +57,22 @@ class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( isset( $item_results[ $i ]['year'] ) && $item_results[ $i ]['year'] > 0 ) {
 				$output .= ' (' . intval( $item_results[ $i ]['year'] ) . ') ';
 			}
+			// Display a "show more" after XX results, only if a next result exists.
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
+			}
+
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'see_all_end' );
+			}
 		}
 
 		return $output;
 	}
 
 	/**
-	 * Display the Popup version of the module, all results are displayed in one line comma-separated
-	 * Array of results is sorted by column
+	 * Display the Popup version of the module
 	 *
 	 * @param 'pubmovies' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
