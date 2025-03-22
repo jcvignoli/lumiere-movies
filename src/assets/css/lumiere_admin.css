@@ -79,10 +79,10 @@ width: 100%;border-color: black;}
 
 #tabs li {display:inline;}
 
-#imdbwidgetorderContainer{height:auto;color:grey;border-radius:15px;font-size:medium;vertical-align: middle;}
+#movie_order, #person_order{height:auto;color:grey;border-radius:15px;font-size:medium;vertical-align: middle;}
 @media(max-width: 400px) { /** small screen special case */
-	#imdbwidgetorderContainer{height:auto;color:grey;font-size:medium;vertical-align: middle;}
-	#container_imdbwidgetorderContainer{flex-flow:wrap-reverse;}
+	#movie_order, #person_order{height:auto;color:grey;font-size:medium;vertical-align: middle;}
+	#movie_order, #person_order{flex-flow:wrap-reverse;}
 	.lumiere_writing_vertical{writing-mode: unset !important;}
 }
 

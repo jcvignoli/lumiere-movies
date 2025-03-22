@@ -134,44 +134,50 @@ function GereControle(Controle, Masquer) {
 /** 
  * Function to move values inside a select box form
  * Credits go to Rick Hitchcock https://stackoverflow.com/a/28682653
+ * @since 4.6 refactorized with git copilot to be used with various #id
+ * Must use now data-container-id such as:
+ * <button id="movemovieup" data-container-id="name_id_select">Move Movie Up</button>
+ * <button id="movemoviedown" data-container-id="name_id_select">Move Movie Down</button>
  */
-document.addEventListener(
-	'DOMContentLoaded',
-	function () {
-		jQuery( '#movemovieup' ).click(
-			function() {
-				var opt = jQuery( '#imdbwidgetorderContainer option:selected' );
+document.addEventListener('DOMContentLoaded', function () {
 
-				if (opt.is( ':first-child' )) {
-					opt.insertAfter( jQuery( '#imdbwidgetorderContainer option:last-child' ) );
-				} else {
-					opt.insertBefore( opt.prev() );
-				}
-			}
-		);
+    function moveOptionUp(containerId) {
+        var $opt = jQuery('#' + containerId + ' option:selected');
+        if ($opt.is(':first-child')) {
+            $opt.insertAfter(jQuery('#' + containerId + ' option:last-child'));
+        } else {
+            $opt.insertBefore($opt.prev());
+        }
+    }
 
-		jQuery( '#movemoviedown' ).click(
-			function() {
-				var opt = jQuery( '#imdbwidgetorderContainer option:selected' );
+    function moveOptionDown(containerId) {
+        var $opt = jQuery('#' + containerId + ' option:selected');
+        if ($opt.is(':last-child')) {
+            $opt.insertBefore(jQuery('#' + containerId + ' option:first-child'));
+        } else {
+            $opt.insertAfter($opt.next());
+        }
+    }
 
-				if (opt.is( ':last-child' )) {
-					opt.insertBefore( jQuery( '#imdbwidgetorderContainer option:first-child' ) );
-				} else {
-					opt.insertAfter( opt.next() );
-				}
-			}
-		);
+    function selectAllOptions(containerId) {
+        jQuery('#' + containerId + ' option').prop('selected', true);
+    }
 
-		// Get all selected and unselected options from select#imdbwidgetorderContainer
-		jQuery( '#imdbconfig_save' ).submit(
-			function () {
-				var opt = jQuery( '#imdbwidgetorderContainer' ).find( 'option' );
-				opt.prop( 'selected', true );
-			}
-		);
+    jQuery('#movemovieup').click(function () {
+        var containerId = jQuery(this).data('container-id');
+        moveOptionUp(containerId);
+    });
 
-	}
-);
+    jQuery('#movemoviedown').click(function () {
+        var containerId = jQuery(this).data('container-id');
+        moveOptionDown(containerId);
+    });
+
+    jQuery('#imdbconfig_save').submit(function () {
+        var containerId = jQuery('#movemovieup').data('container-id'); // Assuming the same container ID
+        selectAllOptions(containerId);
+    });
+});
 
 
 /************************************** admin/submenu/class-cache.php

@@ -36,10 +36,10 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<?php // Data subpage is relative to what is activated. ?>
 
 				<div class="lumiere_padding_five lumiere_flex_auto">
-					<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
+					<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 
 
-					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_that->page_data ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>
+					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_that->page_data_movie ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>
 
 		<?php
 		/**
@@ -57,7 +57,7 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 		}
 		if ( $lum_that->imdb_admin_values['imdbtaxonomy'] === '0' ) {
 
-			?> - <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'admin.php?page=lumiere_options&subsection=advanced#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
+			?> - <em><font size=-2><a href="<?php echo esc_url( admin_url() . $lum_that->page_main_advanced . '#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
 
 	<?php } ?>
 

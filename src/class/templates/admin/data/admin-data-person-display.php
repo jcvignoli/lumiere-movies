@@ -29,11 +29,11 @@ $lum_comments_fields = Get_Options_Person::get_items_person_details_comments();
 
 	<div class="lumiere_title_options lumiere_border_shadow lumiere_flex_container lum_flex_space_evenly">
 		<h3 id="taxodetails" name="taxodetails" class=""><?php esc_html_e( 'Persons items to display', 'lumiere-movies' ); ?></h3>
-<!-- not yet active 
-		<div class="">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_calling_class->page_data_order ); ?>"><?php esc_html_e( 'Items order', 'lumiere-movies' ); ?></a></div>
 
+		<div class="">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_calling_class->page_data_person_order ); ?>"><?php esc_html_e( 'Items order', 'lumiere-movies' ); ?></a></div>
+<!-- not yet active 
 			<?php if ( $lum_calling_class->imdb_admin_values['imdbtaxonomy'] === '1' ) { ?>
-		<div class=" lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-taxonomy.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items to use as taxonomy', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_calling_class->page_data_taxo ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
+		<div class=" lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-taxonomy.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items to use as taxonomy', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_calling_class->page_data_movie_taxo ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
 			<?php } else { ?>
 		<div class="lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-taxonomy.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>
 			<?php } ?>

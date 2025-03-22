@@ -1,11 +1,11 @@
 <?php declare( strict_types = 1 );
 /**
- * Child class for displaying data option selection
+ * Child class for displaying movie data option selection
  * Child of Admin_Menu
  *
  * @copyright (c) 2021, Lost Highway
  *
- * @version       2.0
+ * @version       2.1
  * @package       lumieremovies
  */
 
@@ -23,12 +23,13 @@ use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 
 /**
- * Display data options for taxonomy, data order and data selection
+ * Display movie data options for taxonomy, data order and data selection
  *
  * @since 4.0 Using templates file instead of the HTML code here
+ * @since 4.6 Renamed to Datamovie class and splitted with new Dataperson class
  * @see \Lumiere\Admin\Admin_Menu for templates copy, if put it here the transiant is not passed to { @link \Lumiere\Admin\Copy_Templates\Copy_Theme }
  */
-class Data extends Admin_Menu {
+class Datamovie extends Admin_Menu {
 
 	/**
 	 * Display the body
@@ -49,13 +50,8 @@ class Data extends Admin_Menu {
 		// Show the vars if debug is activated.
 		if (
 			isset( $this->imdb_admin_values['imdbdebug'] ) && $this->imdb_admin_values['imdbdebug'] === '1'
-			&& ! isset( $_GET['subsection'] )
 		) {
 			Debug::display_lum_vars( $this->imdb_data_values, 'no_var_dump', null );
-		} elseif (
-			isset( $this->imdb_admin_values['imdbdebug'] ) && $this->imdb_admin_values['imdbdebug'] === '1'
-		) {
-			Debug::display_lum_vars( $this->imdb_data_person_values, 'no_var_dump', null );
 		}
 
 		// Display submenu
@@ -67,7 +63,7 @@ class Data extends Admin_Menu {
 
 		if (
 			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_data, sanitize_key( $_GET['page'] ) ) === true
+			&& isset( $_GET['page'] ) && str_contains( $this->page_data_movie, sanitize_key( $_GET['page'] ) ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 
@@ -78,17 +74,16 @@ class Data extends Admin_Menu {
 			$this->include_with_vars(
 				'data/admin-data-movie-display',
 				[
-					$this->imdb_data_values, // data options.
+					$this, // This class
 					$this->get_display_select_options()[0], // list of items and people with two extra lists.
 					$this->get_display_select_options()[1], // explaination of items and people with the two extra lists.
-					$this, // This class, to get the page path
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_data_order, sanitize_key( $_GET['page'] ) ) === true
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_order, sanitize_key( $_GET['subsection'] ) )
+			isset( $_GET['page'] ) && str_contains( $this->page_data_movie_order, sanitize_key( $_GET['page'] ) ) === true
+			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_movie_order, sanitize_key( $_GET['subsection'] ) )
 			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
 
@@ -97,17 +92,14 @@ class Data extends Admin_Menu {
 			 * The template will retrieve the args. In parent class.
 			 */
 			$this->include_with_vars(
-				'data/admin-data-order',
-				[
-					$this,
-					Get_Options::get_all_fields(), // list of items and people with two extra lists.
-				], /** Add an array with vars to send in the template */
+				'data/admin-data-movie-order',
+				[ $this ], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_data_taxo, sanitize_key( $_GET['page'] ) ) === true
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_taxo, sanitize_key( $_GET['subsection'] ) )
+			isset( $_GET['page'] ) && str_contains( $this->page_data_movie_taxo, sanitize_key( $_GET['page'] ) ) === true
+			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_movie_taxo, sanitize_key( $_GET['subsection'] ) )
 			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
 
@@ -116,29 +108,12 @@ class Data extends Admin_Menu {
 			 * The template will retrieve the args. In parent class.
 			 */
 			$this->include_with_vars(
-				'data/admin-data-taxonomy',
+				'data/admin-data-movie-taxonomy',
 				[
 					$this,
 					$this->get_taxo_fields(),
 					( new Detect_New_Theme() )->search_new_update(),
-					$this->page_data_taxo . '&taxotype=',
-				], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
-			);
-		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_person_data, sanitize_key( $_GET['page'] ) ) === true
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_person_data, sanitize_key( $_GET['subsection'] ) )
-			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-		) {
-
-			/**
-			 * Taxonomy data template
-			 * The template will retrieve the args. In parent class.
-			 */
-			$this->include_with_vars(
-				'data/admin-data-person-display',
-				[
-					$this,
+					$this->page_data_movie_taxo . '&taxotype=',
 				], /** Add an array with vars to send in the template */
 				self::TRANSIENT_ADMIN,
 			);

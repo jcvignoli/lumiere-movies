@@ -14,9 +14,11 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Config\Get_Options;
+
 // Retrieve the vars from calling class.
 $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
-$lum_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
+$lum_items_people = Get_Options::get_all_fields();
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -36,14 +38,14 @@ $lum_items_people = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
 			<div class="lumiere_padding_ten lum_align_last_center lumiere_flex_auto">
 
 				<div><?php esc_html_e( 'Move selected movie detail:', 'lumiere-movies' ); ?></div>
-				<input type="button" value="<?php esc_html_e( 'up', 'lumiere-movies' ); ?>" name="movemovieup" id="movemovieup" data-moveform="-1" /> 
-				<input type="button" value="<?php esc_html_e( 'down', 'lumiere-movies' ); ?>" name="movemoviedown" id="movemoviedown" data-moveform="+1" />
+				<input type="button" value="<?php esc_html_e( 'up', 'lumiere-movies' ); ?>" data-container-id="movie_order" name="movemovieup" id="movemovieup" data-moveform="-1" /> 
+				<input type="button" value="<?php esc_html_e( 'down', 'lumiere-movies' ); ?>" data-container-id="movie_order" name="movemoviedown" id="movemoviedown" data-moveform="+1" />
 
 				<input type="hidden" name="imdb_imdbwidgetorder" id="imdb_imdbwidgetorder" value="" class="lumiere_hidden" />
 			</div>
 
 			<div class="lumiere_padding_ten lum_align_last_center lumiere_flex_auto">
-				<select id="imdbwidgetorderContainer" name="imdbwidgetorderContainer[]" class="imdbwidgetorderContainer" size="<?php echo ( count( $lum_that->imdb_data_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
+				<select id="movie_order" name="imdbwidgetorderContainer[]" class="movie_order" size="<?php echo ( count( $lum_that->imdb_data_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
 
 				foreach ( $lum_that->imdb_data_values['imdbwidgetorder'] as $lum_key => $lumiere_value ) {
 					echo "\n\t\t\t\t<option value='" . esc_attr( $lum_key ) . "'";

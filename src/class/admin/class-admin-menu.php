@@ -43,10 +43,11 @@ class Admin_Menu {
 	 */
 	protected string $page_cache_manage;
 	protected string $page_cache_option;
-	protected string $page_data;
-	protected string $page_data_order;
-	protected string $page_data_taxo;
-	protected string $page_person_data;
+	protected string $page_data_movie;
+	protected string $page_data_movie_order;
+	protected string $page_data_movie_taxo;
+	protected string $page_data_person;
+	protected string $page_data_person_order;
 	protected string $page_main_base;
 	protected string $page_main_advanced;
 	protected string $page_help;
@@ -86,12 +87,14 @@ class Admin_Menu {
 		$this->page_main_base = admin_url( 'admin.php?page=' . $this->menu_id );
 		$this->page_main_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&subsection=advanced' );
 
-		$page_data = 'admin.php?page=' . $this->menu_id . '_data';
-		$this->page_data = admin_url( $page_data );
-		$this->page_data_order = admin_url( $page_data . '&subsection=order' );
-		$this->page_data_taxo = admin_url( $page_data . '&subsection=taxo' );
+		$page_data_movie = 'admin.php?page=' . $this->menu_id . '_data_movie';
+		$this->page_data_movie = admin_url( $page_data_movie );
+		$this->page_data_movie_order = admin_url( $page_data_movie . '&subsection=order' );
+		$this->page_data_movie_taxo = admin_url( $page_data_movie . '&subsection=taxo' );
 
-		$this->page_person_data = admin_url( $page_data . '&subsection=person_data' );
+		$page_data_person = 'admin.php?page=' . $this->menu_id . '_data_person';
+		$this->page_data_person = admin_url( $page_data_person );
+		$this->page_data_person_order = admin_url( $page_data_person . '&subsection=order' );
 
 		$page_cache = 'admin.php?page=' . $this->menu_id . '_cache';
 		$this->page_cache_option = admin_url( $page_cache );
@@ -120,7 +123,7 @@ class Admin_Menu {
 		 */
 		$is_lum_admin_menu = str_contains( $that->get_current_admin_url(), $that->page_main_base );
 		if ( $is_lum_admin_menu === true ) {
-			add_action( 'admin_notices', fn() => Detect_New_Theme::get_notif_templates( $that->page_data_taxo ), 10, 1 );
+			add_action( 'admin_notices', fn() => Detect_New_Theme::get_notif_templates( $that->page_data_movie_taxo ), 10, 1 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
 		}
 
@@ -137,7 +140,7 @@ class Admin_Menu {
 		 * @see Save_Options::process_headers()
 		 * @since 4.0
 		 */
-		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start( $that->page_data_taxo ) );
+		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start( $that->page_data_movie_taxo ) );
 		add_action( 'init', fn() => Save_Options::lumiere_static_start_taxonomy( $that->page_main_advanced ), 11 );
 
 		/**
@@ -148,7 +151,7 @@ class Admin_Menu {
 			&& isset( $_GET['_wpnonce_linkcopytaxo'] )
 			&& wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
 		) {
-			add_action( 'admin_init', fn() => Copy_Templates\Copy_Theme::start_copy_theme( $that->page_data_taxo ) );
+			add_action( 'admin_init', fn() => Copy_Templates\Copy_Theme::start_copy_theme( $that->page_data_movie_taxo ) );
 		}
 
 		/**
@@ -249,10 +252,18 @@ class Admin_Menu {
 			);
 			add_submenu_page(
 				$this->menu_id,
-				esc_html__( 'Data management', 'lumiere-movies' ),
-				esc_html__( 'Data', 'lumiere-movies' ),
+				esc_html__( 'Data management for movies', 'lumiere-movies' ),
+				esc_html__( 'Data movies', 'lumiere-movies' ),
 				'manage_options',
-				$this->menu_id . '_data',
+				$this->menu_id . '_data_movie',
+				[ $this, 'call_admin_subclass' ],
+			);
+			add_submenu_page(
+				$this->menu_id,
+				esc_html__( 'Data management for persons', 'lumiere-movies' ),
+				esc_html__( 'Data persons', 'lumiere-movies' ),
+				'manage_options',
+				$this->menu_id . '_data_person',
 				[ $this, 'call_admin_subclass' ],
 			);
 			add_submenu_page(
@@ -307,11 +318,22 @@ class Admin_Menu {
 		$admin_bar->add_menu(
 			[
 				'parent' => $id,
-				'id' => $this->get_id() . '_top_menu_data',
-				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-widget-inside.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data', 'lumiere-movies' ),
-				'href' => $this->page_data,
+				'id' => $this->get_id() . '_top_menu_data_movie',
+				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-widget-inside-movie-items.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data movie', 'lumiere-movies' ),
+				'href' => $this->page_data_movie,
 				'meta' => [
-					'title' => esc_html__( 'Data option and taxonomy', 'lumiere-movies' ),
+					'title' => esc_html__( 'Data option and taxonomy for movies', 'lumiere-movies' ),
+				],
+			]
+		);
+		$admin_bar->add_menu(
+			[
+				'parent' => $id,
+				'id' => $this->get_id() . '_top_menu_data_person',
+				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-widget-inside-person-items.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data person', 'lumiere-movies' ),
+				'href' => $this->page_data_person,
+				'meta' => [
+					'title' => esc_html__( 'Data option and taxonomy for persons', 'lumiere-movies' ),
 				],
 			]
 		);
