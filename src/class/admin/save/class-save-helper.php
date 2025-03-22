@@ -93,7 +93,7 @@ class Save_Helper {
 	 */
 	protected function is_valid_nonce( string $nonce_action, string $nonce_field, string $get_or_post = 'post' ): bool {
 		if ( $get_or_post === 'get' ) {
-			return isset( $_GET[ $nonce_field ] ) && is_string( $_GET[ $nonce_field ] ) && wp_verify_nonce( sanitize_key( $_GET[ $nonce_field ] ), $nonce_action ) > 0;
+			return isset( $_GET[ $nonce_field ] ) && wp_verify_nonce( sanitize_key( $_GET[ $nonce_field ] ), $nonce_action ) > 0;
 		}
 		return isset( $_POST[ $nonce_field ] ) && is_string( $_POST[ $nonce_field ] ) && wp_verify_nonce( sanitize_key( $_POST[ $nonce_field ] ), $nonce_action ) > 0;
 	}

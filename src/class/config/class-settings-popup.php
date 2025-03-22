@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 /**
  * Settings class for Popups, (films/persons/search)
  * Meant to select which data display in which popup menus
- * Doesn't include any Get_Options_class since there is no methods to get, only constants
+ * Doesn't include any Get_Options_class as there are only constants
  */
 class Settings_Popup {
 
@@ -80,8 +80,8 @@ class Settings_Popup {
 	 * @var list<string>
 	 */
 	public const PERSON_DISPLAY_ITEMS_MISC  = [
-		'trivia',
 		'nickname',
+		'trivia',
 		'quotes',
 		'trademark',
 	];
