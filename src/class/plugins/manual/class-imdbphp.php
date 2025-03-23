@@ -57,8 +57,8 @@ class Imdbphp extends Imdbphp_Config {
 	public function __construct() {
 
 		// Get options from database.
-		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
-		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
+		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename(), [] );
 
 		/**
 		 * Send Lumiere options to IMDbGraphqlPHP parent class
