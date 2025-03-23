@@ -125,8 +125,8 @@ final class Logger {
 
 		/** @psalm-suppress UndefinedConstant, RedundantCondition -- Psalm can't deal with dynamic constants */
 		if (
-			( current_user_can( 'manage_options' ) && $imdb_admin_values['imdbdebug'] === '1' )
-			|| ( $imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON )
+			( current_user_can( 'manage_options' ) && isset( $imdb_admin_values['imdbdebug'] ) && $imdb_admin_values['imdbdebug'] === '1' )
+			|| ( isset( $imdb_admin_values['imdbdebug'] ) && $imdb_admin_values['imdbdebug'] === '1' && defined( 'DOING_CRON' ) && DOING_CRON )
 		) {
 
 			// Start Monolog class.

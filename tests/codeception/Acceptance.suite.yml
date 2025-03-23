@@ -24,7 +24,7 @@ modules:
             password: '%TEST_LOCAL_DB_PASSWORD%'
             url: '%TEST_LOCAL_WP_URL%'
             tablePrefix: '%TEST_TABLE_PREFIX%'
-            dump: 'tests/codeception/Support/Data/lumiere_codeception_2025_01_14.sql'
+            dump: 'tests/codeception/Support/Data/lumiere_codeception_2025_03_23.sql'
             populate: false
             cleanup: false
             createIfNotExists: false

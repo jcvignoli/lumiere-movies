@@ -25,8 +25,8 @@ use Lumiere\Config\Get_Options_Movie;
  * Below can't be imported, it might be related to PHPStan bug #5091
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
- * @psalm-import-type OPTIONS_DATA_PSALM from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
+ * @psalm-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
  * @psalm-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
@@ -42,9 +42,9 @@ trait Open_Options {
 
 	/**
 	 * Data Movie options
-	 * // PHPStan bug #5091, remove below line later @phpstan-var OPTIONS_DATA $imdb_data_values
+	 * // PHPStan bug #5091, remove below line later @phpstan-var OPTIONS_DATA_MOVIE $imdb_data_values
 	 * @phpstan-var array{'imdbtaxonomyactor'?:string, 'imdbtaxonomycolor'?:string, 'imdbtaxonomycomposer'?:string, 'imdbtaxonomycountry'?:string, 'imdbtaxonomycinematographer'?:string, 'imdbtaxonomydirector'?:string, 'imdbtaxonomygenre'?:string, 'imdbtaxonomykeyword'?:string, 'imdbtaxonomylanguage'?:string, 'imdbtaxonomyproducer'?:string, 'imdbtaxonomywriter'?:string, 'imdbwidgetactor'?:string, 'imdbwidgetactornumber'?:string, 'imdbwidgetalsoknow'?:string, 'imdbwidgetalsoknownumber'?:string, 'imdbwidgetcolor'?:string, 'imdbwidgetcomposer'?:string, 'imdbwidgetconnection'?:string, 'imdbwidgetconnectionnumber'?:string, 'imdbwidgetcountry'?:string, 'imdbwidgetcinematographer'?:string, 'imdbwidgetdirector'?:string, 'imdbwidgetgenre'?:string, 'imdbwidgetgoof'?:string, 'imdbwidgetgoofnumber'?:string, 'imdbwidgetkeyword'?:string, 'imdbwidgetlanguage'?:string, 'imdbwidgetextSites'?:string, 'imdbwidgetpic'?:string, 'imdbwidgetplot'?:string, 'imdbwidgetplotnumber'?:string, 'imdbwidgetprodCompany'?:string, 'imdbwidgetproducer'?:string, 'imdbwidgetproducernumber'?:string, 'imdbwidgetquote'?:string, 'imdbwidgetquotenumber'?:string, 'imdbwidgetrating'?:string, 'imdbwidgetruntime'?:string, 'imdbwidgetsoundtrack'?:string, 'imdbwidgetsoundtracknumber'?:string, 'imdbwidgetsource'?:string, 'imdbwidgettagline'?:string, 'imdbwidgettaglinenumber'?:string, 'imdbwidgettitle'?:string, 'imdbwidgettrailer'?:string, 'imdbwidgettrailernumber'?:string, 'imdbwidgettrivia'?:string, 'imdbwidgettrivianumber'?:string, 'imdbwidgetwriter'?:string, 'imdbwidgetwriternumber'?:string, 'imdbwidgetyear'?:string,'imdbwidgetorder': array{title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, cinematographer?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodCompany?: string, plot?: string, goof?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, extSites?: string, source?: string, trivia?: string, year?: string} }
-	 * @psalm-var OPTIONS_DATA_PSALM
+	 * @psalm-var OPTIONS_DATA_MOVIE_PSALM
 	 */
 	public array $imdb_data_values;
 
@@ -69,24 +69,10 @@ trait Open_Options {
 	 * @since 4.4 Added fake checks and Settings::create_database_options(), since during a first install the Frontend may fail (according to WP Plugin Check)
 	 */
 	public function get_db_options(): void {
-
-		$admin_values = get_option( Get_Options::get_admin_tablename() );
-		$data_movie_values = get_option( Get_Options_Movie::get_data_tablename() );
-		$data_person_values = get_option( Get_Options_Person::get_data_person_tablename() );
-		$cache_values = get_option( Get_Options::get_cache_tablename() );
-
-		if ( $admin_values === false || $data_movie_values === false || $cache_values === false || $data_person_values === false ) {
-			Get_Options::create_database_options();
-			$admin_values = get_option( Get_Options::get_admin_tablename() );
-			$data_movie_values = get_option( Get_Options_Movie::get_data_tablename() );
-			$data_person_values = get_option( Get_Options_Person::get_data_person_tablename() );
-			$cache_values = get_option( Get_Options::get_cache_tablename() );
-		}
-
-		$this->imdb_admin_values       = $admin_values;
-		$this->imdb_data_values        = $data_movie_values;
-		$this->imdb_data_person_values = $data_person_values;
-		$this->imdb_cache_values       = $cache_values;
+		$this->imdb_admin_values       = get_option( Get_Options::get_admin_tablename(), [] );
+		$this->imdb_data_values        = get_option( Get_Options_Movie::get_data_tablename(), [] );
+		$this->imdb_data_person_values = get_option( Get_Options_Person::get_data_person_tablename(), [] );
+		$this->imdb_cache_values       = get_option( Get_Options::get_cache_tablename(), [] );
 	}
 }
 

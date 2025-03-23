@@ -21,14 +21,13 @@ use \Lumiere\Config\Get_Options;
 $lum_calling_class = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 $lum_imdb_data_values = $lum_calling_class->imdb_data_person_values;
 $lum_perso_list = Get_Options_Person::get_all_person_fields();
-$lum_perso_forbiden_items = Get_Options_Person::LUM_DATA_PERSON_UNACTIVE;
 $lum_comments_fields = Get_Options_Person::get_items_person_details_comments();
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 
 	<div class="lumiere_title_options lumiere_border_shadow lumiere_flex_container lum_flex_space_evenly">
-		<h3 id="taxodetails" name="taxodetails" class=""><?php esc_html_e( 'Persons items to display', 'lumiere-movies' ); ?></h3>
+		<h3 id="person_display" name="person_display" class=""><?php esc_html_e( 'Persons items to display', 'lumiere-movies' ); ?></h3>
 
 		<div class="">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_calling_class->page_data_person_order ); ?>"><?php esc_html_e( 'Items order', 'lumiere-movies' ); ?></a></div>
 <!-- not yet active 
@@ -49,7 +48,7 @@ $lum_comments_fields = Get_Options_Person::get_items_person_details_comments();
 		foreach ( $lum_perso_list as $lum_item => $lum_item_translated ) {
 
 			// Do not display in the selection neither title nor pic
-			if ( in_array( $lum_item, $lum_perso_forbiden_items, true ) === true  ) {
+			if ( in_array( $lum_item, Get_Options_Person::LUM_DATA_PERSON_UNACTIVE, true ) === true  ) {
 				continue;
 			}
 

@@ -32,9 +32,9 @@ class WidgetCest {
 	 */
 	public function prepare( AcceptanceTester $I ) {
 		// Title needs to be activated for finding the titles
-		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL);
-		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_settings' );	
+		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL);
+		$I->scrollTo('#imdb_imdbwidgettagline_yes');
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_movie_settings' );	
 	}
 
 	/**

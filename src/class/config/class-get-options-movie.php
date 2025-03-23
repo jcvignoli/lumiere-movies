@@ -30,7 +30,7 @@ class Get_Options_Movie extends Settings_Movie {
 	 * @return string
 	 */
 	public static function get_data_tablename(): string {
-		return parent::LUM_DATA_OPTIONS;
+		return parent::LUM_DATA_MOVIE_OPTIONS;
 	}
 
 	/**

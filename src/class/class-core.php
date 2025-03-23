@@ -223,6 +223,7 @@ final class Core {
 			$imdb_admin_values = get_option( Get_Options::get_cache_tablename() );
 			if (
 				defined( 'WP_DEBUG' )
+				&& isset( $imdb_admin_values['imdbdebug'] )
 				&& $imdb_admin_values['imdbdebug'] === '1'
 				&& isset( $imdb_admin_values['imdbdebuglogpath'] )
 			) {

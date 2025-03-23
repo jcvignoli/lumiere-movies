@@ -21,7 +21,6 @@ parameters:
         - tests/bootstrap-testing.php
     ignoreErrors:
         - '#Variable method call on#'
-        - '#Variable static method call on#'
         - '#Unable to resolve the template type T in call to function wp_unslash#' #=> waiting for the PRs to be accepted on Github
         - '#Parameter \#1 \$url of function esc_url_raw expects string, array<string>\|string given#' #=> waiting for the PRs to be accepted on Github
         - '#Parameter \#1 \$str of function sanitize_text_field expects string, array<string>\|string#' #=> waiting for the PRs to be accepted on Github

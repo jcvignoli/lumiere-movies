@@ -18,6 +18,7 @@ use Lumiere\Tools\Files;
 use Lumiere\Admin\Copy_Templates\Copy_Theme;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options_Person;
 use WP_CLI;
 use \ReflectionClass;
 use \ReflectionMethod;
@@ -36,7 +37,8 @@ use \ReflectionMethod;
  * @see \ReflectionMethod Allows to specify we want private methods
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
  */
 class Cli_Commands {
 
@@ -153,18 +155,18 @@ class Cli_Commands {
 	 *  --array_key=new_value
 	 *  Ex:  --imdbdebug=0
 	 *
-	 * Pass the database to update admin|data|cache
-	 * wp lum update_options admin|data|cache
+	 * Pass the database to update admin|data_movie|data_person|cache
+	 * wp lum update_options admin|data_movie|data_person|cache
 	 *
 	 * @param array<int, string> $args The first argument only is used to detect which subcommand run, such as "wp lum update_options "
-	 * @param array<string, 'admin'|'data'|'cache'> $dashed_extra_args The list of arguments passed as in --array_key=new_value, [] if empty.
-	 * @param-phpstan array<string, string>|OPTIONS_ADMIN|OPTIONS_CACHE|OPTIONS_DATA> $dashed_extra_args
+	 * @param array<string, 'admin'|'data_movie'|'data_person'|'cache'> $dashed_extra_args The list of arguments passed as in --array_key=new_value, [] if empty.
+	 * @param-phpstan array<string, string>|OPTIONS_ADMIN|OPTIONS_CACHE|OPTIONS_DATA_MOVIE|OPTIONS_DATA_PERSON> $dashed_extra_args
 	 */
 	private function sub_update_options( array $args, array $dashed_extra_args ): void {
 
 		// If no second main argument was passed, we don't know which database update, so exit.
-		if ( ! isset( $args[1] ) || in_array( $args[1], [ 'admin', 'data', 'cache' ], true ) === false ) {
-			WP_CLI::error( "The second argument is missing or wrong, the command must comply with:\nwp lum update_options admin|data|cache --array_key=new_value" );
+		if ( ! isset( $args[1] ) || in_array( $args[1], [ 'admin', 'data_movie', 'data_person', 'cache' ], true ) === false ) {
+			WP_CLI::error( "The second argument is missing or wrong, the command must comply with:\nwp lum update_options admin|data_movie|data_person|cache --array_key=new_value" );
 		}
 
 		// If no extra dashed arguments passed or more than one, exit.
@@ -173,26 +175,37 @@ class Cli_Commands {
 		}
 
 		// Build the constant to call in Get_Options - can be admin, cache or data
-		$settings_name = 'get_' . strtolower( $args[1] ) . '_tablename';
-		if ( strtolower( $args[1] ) === 'data' ) { // If this is get_data_tablename, we need Get_Options_Movie helper class.
-			$options_tablename = Get_Options_Movie::$settings_name();
-		} else {
-			$options_tablename = Get_Options::$settings_name();
+		//$settings_name = 'get_' . strtolower( $args[1] ) . '_tablename';
+		$settings_name = null;
+		if ( strtolower( $args[1] ) === 'data_movie' ) { // If this is get_data_tablename, we need Get_Options_Movie helper class.
+			$options_tablename = Get_Options_Movie::get_data_tablename();
+		} elseif ( strtolower( $args[1] ) === 'data_person' ) {
+			$options_tablename = Get_Options_Person::get_data_person_tablename();
+		} elseif ( strtolower( $args[1] ) === 'admin' ) {
+			$options_tablename = Get_Options::get_admin_tablename();
+		} elseif ( strtolower( $args[1] ) === 'cache' ) {
+			$options_tablename = Get_Options::get_cache_tablename();
+		}
+
+		// $options_tablename isn't defined, something went wrong
+		if ( ! isset( $options_tablename ) ) {
+			WP_CLI::error( "The second argument is missing or wrong, the command must comply with:\nwp lum update_options admin|data_movie|data_person|cache --array_key=new_value" );
 		}
 
 		// Get options from DB and get the (first) array key from the passed values in $dashed_extra_args.
+		/** @phan-suppress-next-line PhanTypeMismatchArgumentNullable -- can never be null, using WP_CLI::error */
 		$database_options = get_option( $options_tablename );
 		$array_key = array_key_first( $dashed_extra_args );
 
 		// Exit if the array key doesn't exist in Lumière! DB admin options
-		/** @psalm-suppress PossiblyNullArgument -- can never be null! */
-		if ( array_key_exists( $array_key, $database_options ) === false ) {
+		if ( ! isset( $array_key ) || array_key_exists( $array_key, $database_options ) === false ) {
 			WP_CLI::error( 'This var does not exist, only accepted: ' . implode( ', ', array_keys( $database_options ) ) );
-
 		}
 
 		// Build new array and update database.
-		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ];
+		/** @psalm-suppress PossiblyNullArrayOffset -- can never be null, using WP_CLI::error */
+		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ]; // @phan-suppress-current-line PhanTypeMismatchDimFetchNullable
+		/** @phan-suppress-next-line PhanTypeMismatchArgumentNullable -- can never be null, using WP_CLI::error */
 		update_option( $options_tablename, $database_options );
 
 		WP_CLI::success( 'Updated var ' . $array_key . ' with value ' . $database_options[ $array_key ] );

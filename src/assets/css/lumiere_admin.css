@@ -9,7 +9,7 @@
 .hidesection, .hidesectionOfCheckbox, .hidesectionOfCheckboxTwo{display:none;}
 .activatehidesection {cursor:pointer;}
 
-#lumiere_reset_main_settings, #lumiere_reset_data_settings, #lumiere_reset_data_person_settings, #lumiere_reset_cache_settings { /* reset admin options */
+#lumiere_reset_main_settings, #lumiere_reset_data_movie_settings, #lumiere_reset_data_person_settings, #lumiere_reset_cache_settings { /* reset admin options */
 	border-color: #ff8484;
 	background: #ff4b4b;
 }

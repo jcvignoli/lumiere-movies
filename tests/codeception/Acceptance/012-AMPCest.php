@@ -38,9 +38,9 @@ class AMPCest {
 		$I->maybeActivatePlugin('amp');
 		
 		// Make sure actor data is enabled
-		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#taxodetails');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_movie_settings' );
 
 		// Make sure Bootstrap is active, the test is run with Bootstrap.
 		$I->SwitchModalWindow('Bootstrap');
@@ -63,14 +63,14 @@ class AMPCest {
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#update_imdbSettings' );
 
 		// Activate director data detail.
-		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#imdb_imdbwidgetcomposer_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetdirector_yes', '#update_imdbwidgetSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetdirector_yes', '#lumiere_update_data_movie_settings' );
 
 		// Activate director taxonomy.
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
 		$I->scrollTo('#imdb_imdbtaxonomycomposer_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbtaxonomydirector_yes', '#update_imdbwidgetSettings' );
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomydirector_yes', '#lumiere_update_data_movie_settings' );
 	}
 	
 	/** 

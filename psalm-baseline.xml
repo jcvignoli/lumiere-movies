@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+  <file src="src/class/plugins/auto/class-polylang.php">
+    <InvalidDocblock>
+      <code><![CDATA[array{PLUGINS_ALL_KEYS: class-string<PLUGINS_ALL_CLASSES>}]]></code>
+      <code><![CDATA[private array $active_plugins;]]></code>
+    </InvalidDocblock>
+  </file>
+</files>

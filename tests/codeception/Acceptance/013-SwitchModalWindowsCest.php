@@ -35,6 +35,8 @@ class ModalWindowsCest {
 
 		// Make sure kill imdb links is not active
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->reloadPage();
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#behaviourpart');
 		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
 
@@ -44,8 +46,6 @@ class ModalWindowsCest {
 		$I->waitPageLoad();
 		
 		// Make sure a term for English taxo exists
-		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );# Check regular page
 		$I->seeInPageSource("lumiere_highslide_core_style-css");
 		$I->seeInPageSource("lumiere_style_main-css"); 	
@@ -126,6 +126,8 @@ class ModalWindowsCest {
 		// Check NoLinks class
 		$I->comment(Helper\Color::set('Check if No Links works', "italic+bold+cyan"));
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->reloadPage();
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#behaviourpart');
 		$I->CustomActivateCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
 		$I->waitPageLoad();
@@ -158,6 +160,8 @@ class ModalWindowsCest {
 
 		// End, Switch back To Highslide, remove kill imdb links
 		$I->SwitchModalWindow('Highslide');
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->reloadPage();
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#behaviourpart');
 		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );

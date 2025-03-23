@@ -45,6 +45,10 @@ $lum_perso_list = Get_Options_Person::get_all_person_fields();
 				<select id="person_order" name="person_order[]" class="person_order" size="<?php echo ( count( $lum_that->imdb_data_person_values['order'] ) / 2 ); ?>" multiple><?php
 
 				foreach ( $lum_that->imdb_data_person_values['order'] as $lum_key => $lumiere_value ) {
+					// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules.
+					if ( in_array( $lum_key, Get_Options_Person::LUM_DATA_PERSON_UNACTIVE, true ) ) {
+						continue;
+					}
 					echo "\n\t\t\t\t<option value='" . esc_attr( $lum_key ) . "'";
 
 					if ( $lum_that->imdb_data_person_values['activated'][ $lum_key . '_active' ] !== '1' ) {

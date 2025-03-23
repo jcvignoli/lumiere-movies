@@ -50,6 +50,7 @@ class CronsCest {
 		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
 		$I->scrollTo('#imdb_imdbcachekeepsizeunder_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbcachekeepsizeunder_yes', '#lumiere_update_cache_settings' );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_URL );
 		$I->scrollTo('#imdb_imdbcacheautorefreshcron_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbcacheautorefreshcron_yes', '#lumiere_update_cache_settings' );
 		

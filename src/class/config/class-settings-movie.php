@@ -36,8 +36,8 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * @phpstan-type OPTIONS_DATA_WIDGET array{ imdbwidgetactor?: '0'|'1', imdbwidgetactornumber?: string, imdbwidgetalsoknow?: '0'|'1', imdbwidgetalsoknownumber?: string, imdbwidgetcinematographer?: '0'|'1', imdbwidgetcolor?: '0'|'1', imdbwidgetcomposer?: '0'|'1', imdbwidgetconnection?: '0'|'1', imdbwidgetconnectionnumber?: string, imdbwidgetcountry?: '0'|'1', imdbwidgetdirector?: '0'|'1', imdbwidgetextSites?: '0'|'1', imdbwidgetgenre?: '0'|'1', imdbwidgetgoof?: '0'|'1', imdbwidgetgoofnumber?: string, imdbwidgetkeyword?: '0'|'1', imdbwidgetlanguage?: '0'|'1', imdbwidgetpic?: '0'|'1', imdbwidgetplot?: '0'|'1', imdbwidgetplotnumber?: string, imdbwidgetprodCompany?: '0'|'1', imdbwidgetproducer?: '0'|'1', imdbwidgetproducernumber?: string, imdbwidgetquote?: '0'|'1', imdbwidgetquotenumber?: string, imdbwidgetrating?: '0'|'1', imdbwidgetruntime?: '0'|'1', imdbwidgetsoundtrack?: '0'|'1', imdbwidgetsoundtracknumber?: string, imdbwidgetsource?: '0'|'1', imdbwidgettagline?: '0'|'1', imdbwidgettaglinenumber?: string, imdbwidgettitle?: '0'|'1', imdbwidgettrailer?: '0'|'1', imdbwidgettrailernumber?: string, imdbwidgettrivia?: '0'|'1', imdbwidgettrivianumber?: string, imdbwidgetwriter?: '0'|'1', imdbwidgetwriternumber?: string, imdbwidgetyear?: '0'|'1' }
  *
  * // Final list of options
- * @phpstan-type OPTIONS_DATA \Union<OPTIONS_DATA_TAXO, OPTIONS_DATA_WIDGET, OPTIONS_DATA_ORDER>
- * @psalm-type OPTIONS_DATA_PSALM OPTIONS_DATA_TAXO&&OPTIONS_DATA_WIDGET&&OPTIONS_DATA_ORDER
+ * @phpstan-type OPTIONS_DATA_MOVIE \Union<OPTIONS_DATA_TAXO, OPTIONS_DATA_WIDGET, OPTIONS_DATA_ORDER>
+ * @psalm-type OPTIONS_DATA_MOVIE_PSALM OPTIONS_DATA_TAXO&&OPTIONS_DATA_WIDGET&&OPTIONS_DATA_ORDER
  */
 class Settings_Movie extends Settings_Helper {
 
@@ -45,7 +45,7 @@ class Settings_Movie extends Settings_Helper {
 	 * Name of the databases as stored in WordPress db
 	 * Only used in child class, has to be called in Get_Options
 	 */
-	protected const LUM_DATA_OPTIONS                = 'lumiere_data_options';
+	protected const LUM_DATA_MOVIE_OPTIONS          = 'lumiere_data_options';
 
 	/**
 	 * Internal URL pages constants

@@ -35,6 +35,14 @@ class PopupsHighslideCest {
 	private function highslide(AcceptanceTester $I) {
 		// Make sure Highslide is active, following tests are run with Highslide
 		$I->SwitchModalWindow('Highslide');
+
+		// Disable debug if it exists, debug screws the display in popups
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->reloadPage();
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->waitForElement('#imdbkeepsettings', 30);
+		$I->scrollTo('#imdbkeepsettings');
+		$I->CustomDisableCheckbox('#imdb_imdbdebug_yes', '#lumiere_update_main_settings');
 	}
 
 	/**

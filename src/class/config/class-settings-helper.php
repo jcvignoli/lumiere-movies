@@ -211,7 +211,7 @@ class Settings_Helper {
 		$data = [];
 		$values = array_keys( Get_Options_Person::get_all_person_fields() );
 		foreach ( $values as $value ) {
-			if ( $value === 'title' || $value === 'pic' ) { // Always activated.
+			if ( in_array( $value, Get_Options_Person::LUM_DATA_PERSON_DEFAULT_ACTIVE, true ) ) { // Always activated.
 				$data['activated'][ $value . '_active' ] = '1';
 				continue;
 			}
@@ -223,7 +223,6 @@ class Settings_Helper {
 
 	/**
 	 * Create rows for 'number' array in data_person
-	 * Do not include data that will always be unactivated in Settings_Person::LUM_DATA_PERSON_UNACTIVE
 	 *
 	 * @see Settings::get_default_data_person_option() Meant to be used there
 	 *

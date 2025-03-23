@@ -54,8 +54,11 @@ class Settings_Person {
 	public const LUM_TAXO_PEOPLE_THEME              = 'class/theme/class-taxonomy-people-standard.php';
 
 	/**
-	 * Default imdb fields with numbers selection
+	 * Default imdb fields with numbers selection and active by default
+	 * @see \Lumiere\Config\Settings_Helper::get_data_person_activated() use LUM_DATA_PERSON_DEFAULT_ACTIVE when building the database
+	 * @see \Lumiere\Config\Settings_Helper::get_data_person_number() use LUM_DATA_PERSON_DEFAULT_WITHNUMBER when building the database
 	 */
+	public const LUM_DATA_PERSON_DEFAULT_ACTIVE     = [ 'bio', 'nickname', 'child', 'news', 'credit', 'quote', 'title', 'pic' ];
 	public const LUM_DATA_PERSON_DEFAULT_WITHNUMBER = [
 		'award'        => '5',
 		'credit'       => '5',
@@ -72,15 +75,19 @@ class Settings_Person {
 	/**
 	 * List of items that are unactive
 	 * The list targets Settings_Person::define_list_items_person()
+	 *
+	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_people_file() use this list so doesn't call those methods in \IMDB\Name
+	 * @see class/templates/admin/data/admin-data-person-display.php use this list to not display those methods (always selected or never selected)
+	 * @see class/templates/admin/data/admin-data-person-order.php use this list to not display those methods in ordering list
 	 */
 	public const LUM_DATA_PERSON_UNACTIVE          = [
-		'pic',
-		'title',
-		'died',
-		'born',
-		'name',
-		'birthname',
-		'award',
+		'pic',      /* Never exists in Name (but it does as module), must always stay here */
+		'title',        /* Never exists in Name (but it does as module), must always stay here */
+		'died',     /* No module existing for now, and probably never */
+		'born',     /* No module existing for now, and probably never */
+		'birthname',    /* No module existing for now, and probably never */
+		'name',     /* No module existing for now */
+		'award',    /* No module existing for now */
 	];
 
 	/**

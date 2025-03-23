@@ -38,93 +38,93 @@ class DataDetailsCest {
 
 		// Activate $item in 'what to display'
 		# first row
-		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL);
+		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL);
 		$I->scrollTo('#taxodetails');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#taxodetails');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetalsoknow_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetalsoknow_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#taxodetails');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetcinematographer_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetcinematographer_yes', '#lumiere_update_data_movie_settings' );
 		# second row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetcomposer_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetcomposer_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetcountry_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetcountry_yes', '#lumiere_update_data_movie_settings' );
 		# third row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetdirector_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetdirector_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetgenre_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetgenre_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetgoof_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetgoof_yes', '#lumiere_update_data_movie_settings' );
 		# fourth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetkeyword_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetkeyword_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetlanguage_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetlanguage_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetextSites_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetextSites_yes', '#lumiere_update_data_movie_settings' );
 		# fifth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetplot_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetplot_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetproducer_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetproducer_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetprodCompany_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetprodCompany_yes', '#lumiere_update_data_movie_settings' );
 		# sixth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetquote_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetquote_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetrating_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetrating_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		# seventh row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetruntime_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetruntime_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetsoundtrack_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetsoundtrack_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetsource_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetsource_yes', '#lumiere_update_data_movie_settings' );
 		# eighth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetruntime_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgettagline_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgettagline_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetruntime_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgettrailer_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgettrailer_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetruntime_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgettrivia_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgettrivia_yes', '#lumiere_update_data_movie_settings' );
 		# ninth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgettagline_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgettagline_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_movie_settings' );
 
 		// See if data is not available
 		$I->comment( Helper\Color::set("Check if data is available", "italic+bold+cyan") );
@@ -201,102 +201,102 @@ class DataDetailsCest {
 		// Activate $item in 'what to display'
 		// FillField have no effect (no submit), just checking that the field actually exists.
 		# first row
-		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL);
+		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL);
 		$I->scrollTo('#taxodetails');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgetactornumber', '10');
 		$I->waitPageLoad();
 		$I->scrollTo('#taxodetails');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetalsoknow_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetalsoknow_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgetalsoknownumber', '10');
 		$I->waitPageLoad();
 		$I->scrollTo('#taxodetails');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetcinematographer_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetcinematographer_yes', '#lumiere_update_data_movie_settings' );
 		# second row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetcolor_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetcomposer_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetcomposer_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetactor_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetcountry_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetcountry_yes', '#lumiere_update_data_movie_settings' );
 		# third row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetdirector_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetdirector_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetgenre_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetgenre_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetcolor_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetgoof_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetgoof_yes', '#lumiere_update_data_movie_settings' );
 		# fourth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetkeyword_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetkeyword_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgetgoofnumber', '2');
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetlanguage_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetlanguage_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetdirector_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetextSites_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetextSites_yes', '#lumiere_update_data_movie_settings' );
 		# fifth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetplot_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetplot_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetproducer_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetproducer_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgetplotnumber', '5');
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetkeyword_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetprodCompany_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetprodCompany_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgetproducernumber', '3');
 		# sixth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetquote_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetquote_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetrating_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetrating_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgetquotenumber', '2');
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetconnection_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgetconnectionnumber', '10');
 		# seventh row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetruntime_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetruntime_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetsoundtrack_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetsoundtrack_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgetsoundtracknumber', '3');
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetplot_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetsource_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetsource_yes', '#lumiere_update_data_movie_settings' );
 		# eighth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgettagline_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgettagline_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgettaglinenumber', '5');
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgettrailer_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgettrailer_yes', '#lumiere_update_data_movie_settings' );
 		$I->fillField('#imdb_imdbwidgettrailernumber', '2');
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgetquote_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgettrivia_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgettrivia_yes', '#lumiere_update_data_movie_settings' );
 		# ninth row
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgettagline_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_movie_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#imdb_imdbwidgettagline_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_movie_settings' );
 		
 		// See if data is available
 		$I->comment(Helper\Color::set("Check if data is available", "italic+bold+cyan"));

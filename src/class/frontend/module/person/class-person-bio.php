@@ -53,7 +53,7 @@ class Person_Bio extends \Lumiere\Frontend\Module\Parent_Module {
 
 		return $this->output_class->misc_layout(
 			'popup_title',
-			$this->link_maker->get_medaillon_bio( $bio, 300 ) ?? ''
+			$this->link_maker->get_medaillon_bio( $bio, 600 ) ?? ''
 		);
 	}
 }

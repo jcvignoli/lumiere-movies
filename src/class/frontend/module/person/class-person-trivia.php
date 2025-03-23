@@ -67,8 +67,7 @@ class Person_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_may_plural ) : '';
 			}
 
-			$text_cleaned = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text );
-			$output .= $this->output_class->misc_layout( 'numbered_list', strval( $i + 1 ), '', $text_cleaned ?? '' );
+			$output .= $this->output_class->misc_layout( 'numbered_list', strval( $i + 1 ), '', $text );
 
 			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_class->misc_layout( 'click_more_end' );
@@ -112,8 +111,7 @@ class Person_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_may_plural ) : '';
 			}
 
-			$text_cleaned = preg_replace( '~^\s\s\s\s\s\s\s(.*)<br \/>\s\s\s\s\s$~', "\\1", $text );
-			$output .= $this->output_class->misc_layout( 'numbered_list', strval( $i + 1 ), '', $text_cleaned ?? '' );
+			$output .= $this->output_class->misc_layout( 'numbered_list', strval( $i + 1 ), '', $text );
 
 			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_class->misc_layout( 'click_more_end' );

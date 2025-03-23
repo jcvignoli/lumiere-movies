@@ -31,8 +31,8 @@ use Lumiere\Tools\Files;
  * @since 4.0 option properties can be null and construct is different.
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
- * @phpstan-import-type OPTIONS_DATA_PSALM from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
  * @phpstan-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
@@ -51,15 +51,15 @@ class Uninstall {
 
 	/**
 	 * Data movie options
-	 * @phpstan-var null|OPTIONS_DATA
-	 * @psalm-var null|OPTIONS_DATA_PSALM
+	 * @phpstan-var null|OPTIONS_DATA_MOVIE
+	 * @psalm-var null|OPTIONS_DATA_MOVIE_PSALM
 	 */
 	private ?array $imdb_data_values;
 
 	/**
 	 * Data options
-	 * @phpstan-var null|OPTIONS_DATA
-	 * @psalm-var null|OPTIONS_DATA_PSALM
+	 * @phpstan-var null|OPTIONS_DATA_MOVIE
+	 * @psalm-var null|OPTIONS_DATA_MOVIE_PSALM
 	 */
 	private ?array $imdb_data_person_values;
 

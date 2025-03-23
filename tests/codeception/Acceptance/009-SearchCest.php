@@ -47,13 +47,13 @@ class SearchCest {
 		$I->comment( 'Check that search page is working' );
 
 		// Welcome page is up
-		$I->amOnPage( "/wp-admin/lumiere/search/" );
-		$I->fillField( '#moviesearched', '2001' );
+		$I->amOnPage( "/wp-admin/lumiere/search-items/" );
+		$I->fillField( '#lum_movie_input', '2001' );
 		$I->click( 'Search' );
 		$I->waitPageLoad();
 
 		// Check if search function is working
-		$I->seeInCurrentUrl( "/wp-admin/lumiere/search/?moviesearched=2001" );
+		$I->seeInCurrentUrl( "/wp-admin/lumiere/search-items/?select_search_type=movie&itemsearched=2001" );
 		$I->see( '2001: A Space Odyssey (1968)' );
 		$I->see( '0062622' );
 		$I->click( "#imdbid_0062622" );
@@ -90,10 +90,10 @@ class SearchCest {
 			$last_window = end($handles);
 			$webdriver->switchTo()->window($last_window);
 		});
-		$I->waitForElementVisible( '#moviesearched', 15 ); // wait up to 15 seconds
+		$I->waitForElementVisible( '#lum_movie_input', 15 ); // wait up to 15 seconds
 		
-		$I->scrollTo('#moviesearched');
-		$I->fillField( '#moviesearched', '2001' );
+		$I->scrollTo('#lum_movie_input');
+		$I->fillField( '#lum_movie_input', '2001' );
 		$I->click( 'Search' );
 		$I->waitPageLoad();
 		$I->see( '2001: A Space Odyssey (1968)' );

@@ -114,12 +114,12 @@ class TaxonomyCest {
 		$I->customThemeFileExistsDelete( self::THEME_NAME . '/taxonomy-lumiere-' . $example[0] . '.php');
 
 		// Activate $item in 'what to display'
-		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_movie_settings' );
 
 		// Activate $item in 'Taxonomy'
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_TAXO_URL );
@@ -127,7 +127,7 @@ class TaxonomyCest {
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy'.$example[0].'_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy'.$example[0].'_yes', '#lumiere_update_data_movie_settings' );
 		/*	Conditional click to copy if the theme is found (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
@@ -148,33 +148,33 @@ class TaxonomyCest {
 		$I->see('Tehran');
 
 		// Disable $item in 'what to display'
-		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_settings' );
-		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->CustomDisableCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_movie_settings' );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#taxodetails');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
-		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_movie_settings' );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
-		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
+		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_movie_settings' );
 
 		// Check that the template has been successfully removed
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->dontSee('Director:');
 
 		// Re-activate $item in 'what to display'
-		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#imdb_imdbwidget' . $example[1] .'_yes');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_settings' );
-		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->CustomActivateCheckbox('#imdb_imdbwidget'.$example[0].'_yes', '#lumiere_update_data_movie_settings' );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#taxodetails');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_settings' );
-		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_WHATDISPLAY_URL );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_movie_settings' );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_movie_settings' );
 
 	}
 
@@ -189,7 +189,7 @@ class TaxonomyCest {
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbtaxonomygenre_yes', '#lumiere_update_data_settings' );
+		$I->CustomActivateCheckbox('#imdb_imdbtaxonomygenre_yes', '#lumiere_update_data_movie_settings' );
 		
 		// Copy Lumière taxonomy template to theme folder
 		$I->maybeCopyThemeFile( 'genre' );

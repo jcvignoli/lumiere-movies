@@ -70,11 +70,12 @@ class StylesScriptsHighslideCest {
 		$I->comment(Helper\Color::set('Check Lumière (Gutenberg) Block Editor page', 'italic+bold+cyan'));
 		$I->amOnPage( ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
-		$I->seeInPageSource("assets/blocks/movie/index.min.js"); 	# Gutenberg movie block js
-		$I->seeInPageSource("assets/blocks/movie/index.min.css"); 	# Gutenberg movie block css
+		$I->seeInPageSource("assets/blocks/post/index.min.js"); 	# Gutenberg movie block js
+		$I->seeInPageSource("assets/blocks/post/index.min.css"); 	# Gutenberg movie block css
 		$I->seeInPageSource("assets/blocks/addlink/index.min.js"); 	# Gutenberg addlink block js
 		$I->seeInPageSource("assets/blocks/widget/index.min.css");	# Gutenberg widget block css
 		$I->seeInPageSource("assets/blocks/widget/index.min.js");	# Gutenberg widget block js
+		$I->seeInPageSource("assets/blocks/opensearch/index.min.js");	# Gutenberg opensearch block js
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 		# Lumière main js
 		$I->seeInPageSource('lumiere_css_admin-css'); 			# Lumière main css
 		$I->seeInPageSource("lumiere_scripts_admin-js-before"); 	# Lumière js vars for scripts
@@ -93,16 +94,17 @@ class StylesScriptsHighslideCest {
 		$I->comment(Helper\Color::set('Check Lumière Classic Editor page (with Classic Editor plugin)', 'italic+bold+cyan'));
 		$I->amOnPage( ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
-		$I->dontSeeInPageSource("assets/blocks/movie/index.min.js"); 	# Gutenberg movie block js
-		$I->dontSeeInPageSource("assets/blocks/movie/index.min.css"); 	# Gutenberg movie block css
-		$I->dontSeeInPageSource("assets/blocks/addlink/index.min.js"); 	# Gutenberg addlink block js
-		$I->dontSeeInPageSource("assets/blocks/widget/index.min.css");	# Gutenberg widget block css
-		$I->dontSeeInPageSource("assets/blocks/widget/index.min.js");	# Gutenberg widget block js
-		$I->seeInPageSource("lumiere_scripts_admin-js"); 		# Lumière main js
-		$I->seeInPageSource("lumiere_scripts_admin-js-before");		# Lumière js vars for scripts
-		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 		# Quicktag Lumière plugin
-		$I->seeInPageSource("lumiere_hide_show-js"); 			# hide/show script
-		$I->seeInPageSource("lum_form_type_query"); 			# Lumière Metabox is available
+		$I->dontSeeInPageSource("assets/blocks/post/index.min.js"); 		# Gutenberg movie block js
+		$I->dontSeeInPageSource("assets/blocks/post/index.min.css"); 		# Gutenberg movie block css
+		$I->dontSeeInPageSource("assets/blocks/addlink/index.min.js"); 		# Gutenberg addlink block js
+		$I->dontSeeInPageSource("assets/blocks/widget/index.min.css");		# Gutenberg widget block css
+		$I->dontSeeInPageSource("assets/blocks/widget/index.min.js");		# Gutenberg widget block js
+		$I->dontSeeInPageSource("assets/blocks/opensearch/index.min.js");	# Gutenberg opensearch block js
+		$I->seeInPageSource("lumiere_scripts_admin-js"); 	 		# Lumière main js
+		$I->seeInPageSource("lumiere_scripts_admin-js-before");			# Lumière js vars for scripts
+		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 			# Quicktag Lumière plugin
+		$I->seeInPageSource("lumiere_hide_show-js"); 				# hide/show script
+		$I->seeInPageSource("lum_form_type_query"); 				# Lumière Metabox is available
 
 			/** 
 			 * Frontend pages

@@ -26,8 +26,8 @@ use Lumiere\Config\Get_Options_Person;
  * Taxonomy theme pages copy class is called here
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_DATA from \Lumiere\Config\Settings_Movie
- * @psalm-import-type OPTIONS_DATA_PSALM from \Lumiere\Config\Settings_Movie
+ * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
+ * @psalm-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
  * @since 4.1
  */
 class Detect_New_Theme {
@@ -45,8 +45,8 @@ class Detect_New_Theme {
 
 	/**
 	 * Data options
-	 * @phpstan-var OPTIONS_DATA
-	 * @psalm-var OPTIONS_DATA_PSALM
+	 * @phpstan-var OPTIONS_DATA_MOVIE
+	 * @psalm-var OPTIONS_DATA_MOVIE_PSALM
 	 */
 	public array $imdb_data_values;
 

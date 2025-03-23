@@ -208,10 +208,18 @@ class Admin_Menu {
 			);
 			add_submenu_page(
 				$this->menu_id,
-				esc_html__( 'Data management', 'lumiere-movies' ),
-				esc_html__( 'Data', 'lumiere-movies' ),
+				esc_html__( 'Data management for movies', 'lumiere-movies' ),
+				esc_html__( 'Data movies', 'lumiere-movies' ),
 				'manage_options',
-				$this->menu_id . '_data',
+				$this->menu_id . '_data_movie',
+				[ $this, 'call_admin_subclass' ],
+			);
+			add_submenu_page(
+				$this->menu_id,
+				esc_html__( 'Data management for persons', 'lumiere-movies' ),
+				esc_html__( 'Data persons', 'lumiere-movies' ),
+				'manage_options',
+				$this->menu_id . '_data_person',
 				[ $this, 'call_admin_subclass' ],
 			);
 			add_submenu_page(
@@ -293,11 +301,11 @@ class Admin_Menu {
 
 		$id = $this->get_id() . '_top_menu';
 
-		$admin_bar->add_menu(
+		$admin_bar->add_node(
 			[
+				'parent' => '',
 				'id' => $id,
 				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "lumiere-ico13x13.png' width='16' height='16' />&nbsp;&nbsp;" . 'Lumière',
-				'parent' => false,
 				'href' => $this->page_main_base,
 				'meta' => [
 					'title' => esc_html__( 'Lumière Menu', 'lumiere-movies' ),
@@ -305,10 +313,10 @@ class Admin_Menu {
 			]
 		);
 
-		$admin_bar->add_menu(
+		$admin_bar->add_node(
 			[
 				'parent' => $id,
-				'id' => $this->get_id() . '_top_menu_main',
+				'id' => $id . '_main',
 				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-main.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Main', 'lumiere-movies' ),
 				'href' => $this->page_main_base,
 				'meta' => [
@@ -316,10 +324,10 @@ class Admin_Menu {
 				],
 			]
 		);
-		$admin_bar->add_menu(
+		$admin_bar->add_node(
 			[
 				'parent' => $id,
-				'id' => $this->get_id() . '_top_menu_data_movie',
+				'id' => $id . '_data_movie',
 				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-widget-inside-movie-items.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data movie', 'lumiere-movies' ),
 				'href' => $this->page_data_movie,
 				'meta' => [
@@ -327,10 +335,10 @@ class Admin_Menu {
 				],
 			]
 		);
-		$admin_bar->add_menu(
+		$admin_bar->add_node(
 			[
 				'parent' => $id,
-				'id' => $this->get_id() . '_top_menu_data_person',
+				'id' => $id . '_data_person',
 				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-widget-inside-person-items.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data person', 'lumiere-movies' ),
 				'href' => $this->page_data_person,
 				'meta' => [
@@ -338,10 +346,10 @@ class Admin_Menu {
 				],
 			]
 		);
-		$admin_bar->add_menu(
+		$admin_bar->add_node(
 			[
 				'parent' => $id,
-				'id' => $this->get_id() . '_top_menu_cache',
+				'id' => $id . '_cache',
 				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-cache.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Cache', 'lumiere-movies' ),
 				'href' => $this->page_cache_option,
 				'meta' => [
@@ -350,10 +358,10 @@ class Admin_Menu {
 			]
 		);
 
-		$admin_bar->add_menu(
+		$admin_bar->add_node(
 			[
 				'parent' => $id,
-				'id' => $this->get_id() . '_top_menu_help',
+				'id' => $id . '_help',
 				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-help.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Help', 'lumiere-movies' ),
 				'href' => $this->page_help,
 				'meta' => [

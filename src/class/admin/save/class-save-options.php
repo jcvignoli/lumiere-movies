@@ -169,9 +169,9 @@ class Save_Options extends Save_Helper {
 	 */
 	private function handle_data_options( $referer ): void {
 		if ( parent::is_valid_nonce( 'lumiere_nonce_data_settings', '_nonce_data_settings' ) ) {
-			if ( isset( $_POST['lumiere_update_data_settings'] ) ) {
+			if ( isset( $_POST['lumiere_update_data_movie_settings'] ) ) {
 				$this->save_data_options( $referer );
-			} elseif ( isset( $_POST['lumiere_reset_data_settings'] ) ) {
+			} elseif ( isset( $_POST['lumiere_reset_data_movie_settings'] ) ) {
 				$this->lumiere_data_options_reset( $referer );
 			}
 		}
