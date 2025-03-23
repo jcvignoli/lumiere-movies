@@ -57,16 +57,16 @@ class Settings_Person {
 	 * Default imdb fields with numbers selection
 	 */
 	public const LUM_DATA_PERSON_DEFAULT_WITHNUMBER = [
-		'award'        => '10',
-		'credit'       => '10',
-		'news'         => '10',
+		'award'        => '5',
+		'credit'       => '5',
+		'news'         => '5',
 		'pubinterview' => '5',
 		'pubmovies'    => '3',
 		'pubportrayal' => '3',
 		'pubprints'    => '3',
-		'quotes'       => '10',
+		'quotes'       => '5',
 		'trivia'       => '3',
-		'trademark'    => '10',
+		'trademark'    => '5',
 	];
 
 	/**

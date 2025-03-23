@@ -29,9 +29,6 @@ use Lumiere\Admin\Widget_Selection;
  *
  * @see \Lumiere\Admin\Metabox_Selection Select the metadata to display, whether output auto title widget or not
  * @see \Lumiere\Frontend\Widget_Legacy Is used if the legacy widget is in use
- *
- * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Widget_Frontpage {
 
@@ -46,61 +43,26 @@ class Widget_Frontpage {
 	 * Doesn't need to be deleted when uninstalling Lumière plugin
 	 * @see Block widget which includes the shortcode
 	 */
-	public const WIDGET_SHORTCODE = 'lumiereWidget';
+	public const WIDGET_SHORTCODE                     = 'lumiereWidget';
+
+	/**
+	 * List of data that can be expected from custom post fields
+	 */
+	private const LUM_CUSTOM_POST_FIELDS              = [
+		'lumiere_widget_movietitle' => [ 'movie', 'byname' ],
+		'lumiere_widget_movieid'    => [ 'movie', 'bymid' ],
+		'lumiere_widget_personname' => [ 'person', 'byname' ],
+		'lumiere_widget_personid'   => [ 'person', 'bymid' ],
+	];
 
 	/**
 	 * HTML wrapping to the widget name
 	 */
-	public const ARGS = [
-		'after_widget' => '</div>',
-		'before_title' => '<h4 id="lumiere_movies_widget_title" class="widget-title">',
-		'after_title' => '</h4>',
+	public const ARGS                                 = [
+		'after_widget'  => '</div>',
+		'before_title'  => '<h4 id="lumiere_movies_widget_title" class="widget-title">',
+		'after_title'   => '</h4>',
 		'before_widget' => '<div id="lumiere_movies_widget" class="sidebar-box widget_lumiere_movies_widget clr">',
-	];
-
-	/**
-	 * HTML allowed for use of wp_kses()
-	 */
-	private const ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS = [
-		'div' => [
-			'id' => [],
-			'class' => [],
-		],
-		'h4' => [
-			'id' => [],
-			'class' => [],
-		],
-		'button' => [ // Utilised by bootstrap modal window
-			'type' => [],
-			'class' => [],
-			'aria-label' => [],
-			'data-*' => true, // perhaps due to the wildcard, [] doesn't work here
-		],
-		'i' => [],
-		'br' => [],
-		'strong' => [],
-		'hr' => [],
-		'a' => [
-			'id' => [],
-			'class' => [],
-			'href' => [],
-			'title' => [],
-			'data-*' => true, // perhaps due to the wildcard, [] doesn't work here
-		],
-		'span' => [
-			'id' => [],
-			'class' => [],
-		],
-		'img' => [
-			'width' => [],
-			'height' => [],
-			'alt' => [],
-			'loading' => [],
-			'src' => [],
-			'id' => [],
-			'title' => [],
-			'class' => [],
-		],
 	];
 
 	/**
@@ -204,6 +166,7 @@ class Widget_Frontpage {
 		}
 
 		// Log what widget type is in use.
+		/** @psalm-suppress UndefinedClass (mysterious error, never understood why, this class exists) */
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
 			$this->logger->log?->debug( '[Widget_Frontpage] Block-based widget found' );
@@ -240,62 +203,73 @@ class Widget_Frontpage {
 				return count( array_values( $movies_array ) ) > 0;
 			}
 		);
+
 		// Exit if array is empty (meaning that no metadata was found and auto title option is disabled)
 		if ( count( $movies_array_cleaned ) === 0 ) {
 			$this->logger->log?->debug( '[Widget_Frontpage] Neither movie title nor id were passed to be queried for this widget, exit' );
 			return '';
 		}
 
-		/**
-		 * Get movie's data from {@link \Lumiere\Frontend\Movie\Front_Parser}
-		 * @since 4.4 using filters declared in {@see \Lumiere\Frontend\Frontend::__construct()}
-		 *
-		 * @psalm-var array<array-key, array{bymid?: string, byname?: string}> $get_array_imdbid
-		 */
-		$get_array_imdbid = apply_filters( 'lum_find_movie_id', $movies_array_cleaned );
-		$lum_movie_box = apply_filters( 'lum_display_movies_box', $get_array_imdbid );
+		// Get the output based on the arrays found.
+		$get_output = $this->apply_movie_person_filter( $movies_array_cleaned );
 
-		// Output the result in a layout wrapper.
-		return $this->wrap_widget_content( $title_box, $lum_movie_box );
+		// Wrap the output.
+		return $this->wrap_widget_content( $title_box, $get_output );
 	}
 
 	/**
 	 * Query WordPress current post using the PostID to get post metadata
-	 * Custom field lumiere_widget_movietitle, which may include the name of the movie if user added it
-	 * Custom field lumiere_widget_movieid, which may include the ID of the movie if user added it
+	 * Custom fields in Widget_Frontpage::LUM_CUSTOM_POST_FIELDS
 	 *
 	 * @param int $post_id WordPress post ID to query about metaboxes
-	 * @return array<string, string> Results found in metaboxes if any
+	 * @return array<string, array<string, string>> Results found in metaboxes if any
 	 *
 	 * @see \Lumiere\Admin\Metabox_Selection Post metada is added in a metabox
 	 */
 	private function maybe_get_lum_post_metada( int $post_id ): array {
-
 		$movies_array = [];
-		$get_movie_name = get_post_meta( $post_id, 'lumiere_widget_movietitle', false /* false to get an array of values, can have many */ );
-		$get_movie_id = get_post_meta( $post_id, 'lumiere_widget_movieid', false /* false to get an array of values, can have many */ );
-
-		// Custom field "lumiere_widget_movietitle", using the movie title provided.
-		if ( $get_movie_name !== false && count( $get_movie_name ) > 0 ) {
-			// Do a loop, even if today the plugin allows only one metabox.
-			foreach ( $get_movie_name as $key => $value ) {
-				$movies_array['byname'] = esc_html( $value );
-				$this->logger->log?->debug( "[Widget_Frontpage] Custom field lumiere_widget_movietitle found, using \"$value\" for querying" );
+		foreach ( self::LUM_CUSTOM_POST_FIELDS as $post_meta_custom => $type ) {
+			$get_post_meta = get_post_meta( $post_id, $post_meta_custom, false /* false to get an array of values, can have many */ );
+			if ( $get_post_meta !== false && count( $get_post_meta ) > 0 ) {
+				foreach ( $get_post_meta as $key => $value ) {
+					$movies_array[ $type[0] ][ $type[1] ] = esc_html( $value );
+					$this->logger->log?->debug( "[Widget_Frontpage] Custom field $type[1] found, using \"$value\" for querying" );
+				}
 			}
-
 		}
-
-		// Custom field "lumiere_widget_movieid", using the movie ID provided.
-		if ( $get_movie_id !== false && count( $get_movie_id ) > 0 ) {
-			// Do a loop, even if today the plugin allows only one metabox.
-			foreach ( $get_movie_id as $key => $value ) {
-				$movies_array['bymid'] = esc_html( $value );
-				$this->logger->log?->debug( "[Widget_Frontpage] Custom field lumiere_widget_movieid found, using \"$value\" for querying" );
-			}
-
-		}
-
 		return $movies_array;
+	}
+
+	/**
+	 * Apply movie and person filters
+	 * Gets the data for movies and people
+	 * Use filters defined in {@link \Lumiere\Frontend\Frontend} and available in {@link \Lumiere\Frontend\Movie\Front_Parser}
+	 *
+	 * @since 4.4 using filters declared in {@see \Lumiere\Frontend\Frontend::__construct()}
+	 * @since 4.6 is now a method, so it can discriminates which filter use (person or movie)
+	 *
+	 * @param array<array-key, array<string, string>> $array
+	 * @phpstan-param array{0?: array{byname: string}, 1?: array{ movie?: array{bymid: string, byname: string}, person?: array{bymid: string, byname: string} }}|array{movie?: array{bymid: string, byname: string}, person?: array{bymid: string, byname: string}} $array
+	 * @psalm-param non-empty-array<int<0, max>, array<string, array<string, string>|string>> $array
+	 * @return string The movie/person data
+	 */
+	private function apply_movie_person_filter( array $array ): string {
+		$output = '';
+		foreach ( $array as $movie_person ) {
+			$key = array_keys( $movie_person )[0] ?? '';
+			$values = array_values( $movie_person );
+			if ( $key === 'movie' ) {                           // Movie.
+				$get_array_imdbid = apply_filters( 'lum_find_movie_id', $values );
+				$output .= apply_filters( 'lum_display_movies_box', $get_array_imdbid );
+			} elseif ( $key === 'person' ) {                        // Person.
+				$get_array_imdbid = apply_filters( 'lum_find_person_id', $values );
+				$output .= apply_filters( 'lum_display_persons_box', $get_array_imdbid );
+			} elseif ( $key === 'byname' ) {                        // automatic title, always movie, always byname.
+				$get_array_imdbid = apply_filters( 'lum_find_movie_id', $values );
+				$output .= apply_filters( 'lum_display_movies_box', $get_array_imdbid );
+			}
+		}
+		return $output;
 	}
 
 	/**
@@ -313,14 +287,9 @@ class Widget_Frontpage {
 		}
 
 		$embeded_title_box = strlen( $title_box ) > 0 ? self::ARGS['before_title'] . $title_box . self::ARGS['after_title'] : '';
+
 		apply_filters( 'widget_title', $embeded_title_box ); // Change widget title according to the extra args.
 
-		$output = wp_kses( self::ARGS['before_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
-		$output .= wp_kses( $embeded_title_box, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); // title of widget.
-		$output .= wp_kses( $movie, self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS ); // Movie data.
-		$output .= wp_kses( self::ARGS['after_widget'], self::ALLOWED_HTML_FOR_ESC_HTML_FUNCTIONS );
-
-		return $output;
+		return self::ARGS['before_widget'] . $embeded_title_box . $movie . self::ARGS['after_widget'];
 	}
-
 }

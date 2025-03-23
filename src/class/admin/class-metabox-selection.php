@@ -73,20 +73,22 @@ class Metabox_Selection {
 
 		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
 		$select_options = [
-			__( 'Movie by IMDb ID', 'lumiere-movies' ) => 'lumiere_widget_movieid',
-			__( 'Movie by title', 'lumiere-movies' ) => 'lumiere_widget_movietitle',
+			__( 'Movie by IMDb ID', 'lumiere-movies' )  => 'lumiere_widget_movieid',
+			__( 'Movie by title', 'lumiere-movies' )    => 'lumiere_widget_movietitle',
+			__( 'Person by name', 'lumiere-movies' )    => 'lumiere_widget_personname',
+			__( 'Person by IMDb ID', 'lumiere-movies' ) => 'lumiere_widget_personid',
 		];
 
 		?>
 
 		<p>
 		
-		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Enter a movie to display', 'lumiere-movies' ); ?></div>
+		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Select which items to display', 'lumiere-movies' ); ?></div>
 
 		<div class="lumiere_display_flex lumiere_flex_make_responsive_metabox">
 
 			<div class="lumiere_padding_five">
-				<label for="lum_form_type_query"><?php esc_html_e( 'How to query the movie?', 'lumiere-movies' ); ?></label>
+				<label for="lum_form_type_query"><?php esc_html_e( 'How to query the items?', 'lumiere-movies' ); ?></label>
 				<select id="lum_form_type_query" name="lum_form_type_query">
 				<?php
 				foreach ( $select_options as $key => $value ) {
@@ -99,9 +101,13 @@ class Metabox_Selection {
 			</div>
 
 			<div class="lumiere_padding_five">
-				<label for="lum_form_query_value"><?php esc_html_e( 'Title or ID:', 'lumiere-movies' ); ?></label>
-				<input id="lum_form_query_value" name="lum_form_query_value" class="lum_width_fillall" type="text" value="<?php echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_movieid', true ) );
-				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_movietitle', true ) );?>">
+				<label for="lum_form_query_value"><?php esc_html_e( 'Title/Name or ID:', 'lumiere-movies' ); ?></label>
+				<input id="lum_form_query_value" name="lum_form_query_value" class="lum_width_fillall" type="text" value="<?php
+				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_movieid', true ) );
+				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_movietitle', true ) );
+				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_personname', true ) );
+				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_personid', true ) );
+				?>">
 			</div>
 
 		</div>
@@ -112,7 +118,7 @@ class Metabox_Selection {
 				wp_sprintf(
 					/* translators: %1$s and %2$s are HTML tags */
 					__( 'Use %1$sthe query tool%2$s to find the IMDb\'s ID.', 'lumiere-movies' ),
-					'<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded" title="' . esc_html__( 'Open a popup to search the movie\'s ID', 'lumiere-movies' ) . '">',
+					'<a class="lum_adm_make_popup" data-lumiere_admin_search_popup="noInfoNeeded" title="' . esc_html__( 'Open a popup to search the movie or person ID', 'lumiere-movies' ) . '">',
 					'</a>'
 				),
 				[
@@ -204,15 +210,31 @@ class Metabox_Selection {
 		// Delete the other custom data.
 		if ( $lum_form_type_query === 'lumiere_widget_movieid' ) {
 			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
+			delete_post_meta( $post_id, 'lumiere_widget_personid' );
+			delete_post_meta( $post_id, 'lumiere_widget_personname' );
 		}
 		if ( $lum_form_type_query === 'lumiere_widget_movietitle' ) {
 			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
+			delete_post_meta( $post_id, 'lumiere_widget_personid' );
+			delete_post_meta( $post_id, 'lumiere_widget_personname' );
+		}
+		if ( $lum_form_type_query === 'lumiere_widget_personname' ) {
+			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
+			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
+			delete_post_meta( $post_id, 'lumiere_widget_personid' );
+		}
+		if ( $lum_form_type_query === 'lumiere_widget_personid' ) {
+			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
+			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
+			delete_post_meta( $post_id, 'lumiere_widget_personname' );
 		}
 
 		// Delete every custom data if no value was passed.
 		if ( ! isset( $lum_form_query_value ) || strlen( $lum_form_query_value ) === 0 ) {
 			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
 			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
+			delete_post_meta( $post_id, 'lumiere_widget_personid' );
+			delete_post_meta( $post_id, 'lumiere_widget_personname' );
 		}
 	}
 }
