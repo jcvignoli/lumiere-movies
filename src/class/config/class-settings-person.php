@@ -162,8 +162,9 @@ class Settings_Person {
 	 */
 	protected static function define_items_person_details_comments(): array {
 		return [
-			'title'        => __( 'Display title', 'lumiere-movies' ),
-			'pic'          => __( 'Display photography', 'lumiere-movies' ),
+			'title'        => __( 'Display title (always activated)', 'lumiere-movies' ),
+			'name'         => __( 'Display the name (always activated)', 'lumiere-movies' ),
+			'pic'          => __( 'Display photography (always activated)', 'lumiere-movies' ),
 			'bio'          => __( 'Display biography', 'lumiere-movies' ),
 			'died'         => __( 'Display date of death', 'lumiere-movies' ),
 			'born'         => __( 'Display date of birth', 'lumiere-movies' ),

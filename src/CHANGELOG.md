@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.6.1
+
 v.4.6
 * [feature] Major: it is now possible to add Persons details to your posts!
 * [feature] "Open search" block option when editing a post was broken since a long time. One can select again a movie's title inside the Lumière blocks to automatically search that text and get its IMDb's ID.
