@@ -84,7 +84,7 @@ class Settings_Person {
 		'pic',          /* Never exists in Name (but it does as module), must always stay here */
 		'title',        /* Never exists in Name (but it does as module), must always stay here */
 		'birthname',    /* No module existing for now, and probably never */
-		'name',         /* No module existing for now */
+		'name',         /* No module existing for now, is worth creating it, remove then in Cache_Files_Management::create_people_file() */
 	];
 
 	/**

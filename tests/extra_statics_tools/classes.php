@@ -38,4 +38,3 @@ if ( ! class_exists( 'OCEANWP_Theme_Class' ) ) {
 		public static function theme_css(): void {}
 	}
 }
-

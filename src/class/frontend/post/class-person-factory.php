@@ -58,9 +58,14 @@ class Person_Factory extends Front_Parser {
 				&& isset( $this->imdb_data_person_values['activated'][ $key_data_values ] )
 				&& $this->imdb_data_person_values['activated'][ $key_data_values ] === '1'
 			) {
-				// Get files in module, wrapping it
+				// Get module.
+				$text = $this->get_module_person( $name_object, $data_detail );
+				if ( strlen( $text ) === 0 ) {
+					continue;
+				}
+				// If the module exists and returned text, display and wrap it.
 				$outputfinal .= $this->output_class->front_item_wrapper(
-					$this->get_module_person( $name_object, $data_detail ),
+					$text,
 					$data_detail,
 					$this->imdb_admin_values
 				);

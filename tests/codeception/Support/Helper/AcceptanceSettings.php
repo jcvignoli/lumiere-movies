@@ -34,7 +34,7 @@ class AcceptanceSettings {
 	public const TESTING_PAGE_POPUP_FILM_TITLE            = 'interstellar';
 	public const TESTING_PAGE_BASE_URL_FR                 = '/2023/test-codeception-french/';
 	public const TESTING_PAGE_BASE_URL_FR_TWO             = '/blogpourext/2021/y-tu-mama-tambien/';
-	public const TESTING_PAGE_BASE_PERSON                 = '/2025/test-person-auto/';
+	public const TESTING_PAGE_BASE_PERSON                 = '/2025/stanley-kubrick/';
 	public const TESTING_NORMAL_PAGE                      = '/2020/le-site-de-kotosh-et-le-temple-des-mains-croisees/';
 	// Here, Jorge Rivero
 	public const TESTING_PAGE_POPUP_PERSON_URL            = '/en/lumiere/person/?mid=0729473';

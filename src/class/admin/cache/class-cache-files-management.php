@@ -285,8 +285,8 @@ class Cache_Files_Management {
 		$all_methods = Get_Options_Person::get_all_person_fields();
 
 		foreach ( $all_methods as $field => $translated_field ) {
-			// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules.
-			if ( in_array( $field, Get_Options_Person::LUM_DATA_PERSON_UNACTIVE, true ) ) {
+			// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules. Name must always be executed.
+			if ( in_array( $field, Get_Options_Person::LUM_DATA_PERSON_UNACTIVE, true ) === true && $field !== 'name' ) {
 				continue;
 			}
 			$person->$field();

@@ -21,6 +21,7 @@ use \Lumiere\Config\Get_Options;
 $lum_calling_class = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 $lum_imdb_data_values = $lum_calling_class->imdb_data_person_values;
 $lum_perso_list = Get_Options_Person::get_all_person_fields();
+asort( $lum_perso_list );
 $lum_comments_fields = Get_Options_Person::get_items_person_details_comments();
 ?>
 <div class="lumiere_wrap">

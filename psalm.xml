@@ -11,7 +11,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-        errorBaseline="psalm-baseline.xml"
 >
 	<!-- Load and analyze -->
 	<projectFiles>
@@ -26,6 +25,10 @@
 		<!-- <file name="tests/bootstrap-testing.php"/> => not needed -->
 		<file name="vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php"/>
 		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php" />
+		<file name="tests/extra_statics_tools/wpcli.php" />		
+		<!--<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php" /> defined in wpcli.php -->
+		<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php" />
+		<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php" />
 	</stubs>
 	<globals>
 		<!-- Personal Globals Psalm is not aware of -->
@@ -45,12 +48,14 @@
 		<InvalidDocblock>
 			<errorLevel type="suppress">
 				<file name="src/class/plugins/class-plugins-start.php" />
+				<file name="src/class/plugins/auto/class-polylang.php" />
 			</errorLevel>
 		</InvalidDocblock>
 		<!-- Didn't find any other way to remove three MissingTemplateParam -->
 		<MissingTemplateParam>
 			<errorLevel type="suppress">
 				<file name="src/class/admin/class-widget-selection.php" />
+				<file name="src/class/plugins/auto/class-polylang.php" />
 			</errorLevel>
 		</MissingTemplateParam>
 	</issueHandlers>

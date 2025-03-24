@@ -54,48 +54,58 @@ class CronsCest {
 		# first row
 		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_PERSON_URL);
 		$I->scrollTo('#person_display');
-		$I->CustomDisableCheckbox('#bio_active_yes', '#lumiere_update_data_person_settings' );
+		$I->CustomDisableCheckbox('#award_active_yes', '#lumiere_update_data_person_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#person_display');
-		$I->CustomDisableCheckbox('#nickname_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#person_display');
-		$I->CustomDisableCheckbox('#spouse_active_yes', '#lumiere_update_data_person_settings' );
-		# second row
-		$I->waitPageLoad();
-		$I->scrollTo('#bio_active_yes');
-		$I->CustomDisableCheckbox('#children_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#bio_active_yes');
-		$I->CustomDisableCheckbox('#credit_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#bio_active_yes');
-		$I->CustomDisableCheckbox('#news_active_yes', '#lumiere_update_data_person_settings' );		
-		# third row
-		$I->waitPageLoad();
-		$I->scrollTo('#children_active_yes');
-		$I->CustomDisableCheckbox('#pubinterview_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#children_active_yes');
 		$I->CustomDisableCheckbox('#pubmovies_active_yes', '#lumiere_update_data_person_settings' );
 		$I->waitPageLoad();
-		$I->scrollTo('#children_active_yes');
-		$I->CustomDisableCheckbox('#pubportrayal_active_yes', '#lumiere_update_data_person_settings' );
+		$I->scrollTo('#person_display');
+		$I->CustomDisableCheckbox('#bio_active_yes', '#lumiere_update_data_person_settings' );
+		# second row
+		$I->waitPageLoad();
+		$I->scrollTo('#award_active_yes');
+		$I->CustomDisableCheckbox('#born_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#award_active_yes');
+		$I->CustomDisableCheckbox('#children_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#award_active_yes');
+		$I->CustomDisableCheckbox('#credit_active_yes', '#lumiere_update_data_person_settings' );
+		# third row
+		$I->waitPageLoad();
+		$I->scrollTo('#born_active_yes');
+		$I->CustomDisableCheckbox('#died_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#born_active_yes');
+		$I->CustomDisableCheckbox('#news_active_yes', '#lumiere_update_data_person_settings' );		
+		$I->waitPageLoad();
+		$I->scrollTo('#born_active_yes');
+		$I->CustomDisableCheckbox('#nickname_active_yes', '#lumiere_update_data_person_settings' );
 		# fourth row
 		$I->waitPageLoad();
-		$I->scrollTo('#pubinterview_active_yes');
+		$I->scrollTo('#died_active_yes');
+		$I->CustomDisableCheckbox('#pubportrayal_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#died_active_yes');
 		$I->CustomDisableCheckbox('#pubprints_active_yes', '#lumiere_update_data_person_settings' );
 		$I->waitPageLoad();
-		$I->scrollTo('#pubinterview_active_yes');
-		$I->CustomDisableCheckbox('#quotes_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#pubinterview_active_yes');
-		$I->CustomDisableCheckbox('#trivia_active_yes', '#lumiere_update_data_person_settings' );
+		$I->scrollTo('#died_active_yes');
+		$I->CustomDisableCheckbox('#pubinterview_active_yes', '#lumiere_update_data_person_settings' );
 		# Fifth row
 		$I->waitPageLoad();
-		$I->scrollTo('#pubprints_active_yes');
-		$I->CustomDisableCheckbox('#trademark_active_yes', '#lumiere_update_data_person_settings' );
+		$I->scrollTo('#pubportrayal_active_yes');
+		$I->CustomDisableCheckbox('#quotes_active_yes', '#lumiere_update_data_person_settings' );
 		$I->waitPageLoad();
+		$I->scrollTo('#pubportrayal_active_yes');
+		$I->CustomDisableCheckbox('#spouse_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#pubportrayal_active_yes');
+		$I->CustomDisableCheckbox('#trademark_active_yes', '#lumiere_update_data_person_settings' );
+		# Fifth row
+		$I->waitPageLoad();
+		$I->scrollTo('#quotes_active_yes');
+		$I->CustomDisableCheckbox('#trivia_active_yes', '#lumiere_update_data_person_settings' );
+
 		
 		// See if data is not available
 		$I->comment( Helper\Color::set("Check if data is hidden", "italic+bold+cyan") );
@@ -127,48 +137,57 @@ class CronsCest {
 		# first row
 		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_PERSON_URL);
 		$I->scrollTo('#person_display');
-		$I->CustomActivateCheckbox('#bio_active_yes', '#lumiere_update_data_person_settings' );
+		$I->CustomActivateCheckbox('#award_active_yes', '#lumiere_update_data_person_settings' );
 		$I->waitPageLoad();
 		$I->scrollTo('#person_display');
-		$I->CustomActivateCheckbox('#nickname_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#person_display');
-		$I->CustomActivateCheckbox('#spouse_active_yes', '#lumiere_update_data_person_settings' );
-		# second row
-		$I->waitPageLoad();
-		$I->scrollTo('#bio_active_yes');
-		$I->CustomActivateCheckbox('#children_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#bio_active_yes');
-		$I->CustomActivateCheckbox('#credit_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#bio_active_yes');
-		$I->CustomActivateCheckbox('#news_active_yes', '#lumiere_update_data_person_settings' );		
-		# third row
-		$I->waitPageLoad();
-		$I->scrollTo('#children_active_yes');
-		$I->CustomActivateCheckbox('#pubinterview_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#children_active_yes');
 		$I->CustomActivateCheckbox('#pubmovies_active_yes', '#lumiere_update_data_person_settings' );
 		$I->waitPageLoad();
-		$I->scrollTo('#children_active_yes');
-		$I->CustomActivateCheckbox('#pubportrayal_active_yes', '#lumiere_update_data_person_settings' );
+		$I->scrollTo('#person_display');
+		$I->CustomActivateCheckbox('#bio_active_yes', '#lumiere_update_data_person_settings' );
+		# second row
+		$I->waitPageLoad();
+		$I->scrollTo('#award_active_yes');
+		$I->CustomActivateCheckbox('#born_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#award_active_yes');
+		$I->CustomActivateCheckbox('#children_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#award_active_yes');
+		$I->CustomActivateCheckbox('#credit_active_yes', '#lumiere_update_data_person_settings' );
+		# third row
+		$I->waitPageLoad();
+		$I->scrollTo('#born_active_yes');
+		$I->CustomActivateCheckbox('#died_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#born_active_yes');
+		$I->CustomActivateCheckbox('#news_active_yes', '#lumiere_update_data_person_settings' );		
+		$I->waitPageLoad();
+		$I->scrollTo('#born_active_yes');
+		$I->CustomActivateCheckbox('#nickname_active_yes', '#lumiere_update_data_person_settings' );
 		# fourth row
 		$I->waitPageLoad();
-		$I->scrollTo('#pubinterview_active_yes');
+		$I->scrollTo('#died_active_yes');
+		$I->CustomActivateCheckbox('#pubportrayal_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#died_active_yes');
 		$I->CustomActivateCheckbox('#pubprints_active_yes', '#lumiere_update_data_person_settings' );
 		$I->waitPageLoad();
-		$I->scrollTo('#pubinterview_active_yes');
-		$I->CustomActivateCheckbox('#quotes_active_yes', '#lumiere_update_data_person_settings' );
-		$I->waitPageLoad();
-		$I->scrollTo('#pubinterview_active_yes');
-		$I->CustomActivateCheckbox('#trivia_active_yes', '#lumiere_update_data_person_settings' );
+		$I->scrollTo('#died_active_yes');
+		$I->CustomActivateCheckbox('#pubinterview_active_yes', '#lumiere_update_data_person_settings' );
 		# Fifth row
 		$I->waitPageLoad();
-		$I->scrollTo('#pubprints_active_yes');
-		$I->CustomActivateCheckbox('#trademark_active_yes', '#lumiere_update_data_person_settings' );
+		$I->scrollTo('#pubportrayal_active_yes');
+		$I->CustomActivateCheckbox('#quotes_active_yes', '#lumiere_update_data_person_settings' );
 		$I->waitPageLoad();
+		$I->scrollTo('#pubportrayal_active_yes');
+		$I->CustomActivateCheckbox('#spouse_active_yes', '#lumiere_update_data_person_settings' );
+		$I->waitPageLoad();
+		$I->scrollTo('#pubportrayal_active_yes');
+		$I->CustomActivateCheckbox('#trademark_active_yes', '#lumiere_update_data_person_settings' );
+		# Fifth row
+		$I->waitPageLoad();
+		$I->scrollTo('#quotes_active_yes');
+		$I->CustomActivateCheckbox('#trivia_active_yes', '#lumiere_update_data_person_settings' );
 		
 		// See if data is not available
 		$I->comment( Helper\Color::set("Check if data is hidden", "italic+bold+cyan") );
