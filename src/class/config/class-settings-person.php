@@ -81,13 +81,10 @@ class Settings_Person {
 	 * @see class/templates/admin/data/admin-data-person-order.php use this list to not display those methods in ordering list
 	 */
 	public const LUM_DATA_PERSON_UNACTIVE          = [
-		'pic',      /* Never exists in Name (but it does as module), must always stay here */
+		'pic',          /* Never exists in Name (but it does as module), must always stay here */
 		'title',        /* Never exists in Name (but it does as module), must always stay here */
-		'died',     /* No module existing for now, and probably never */
-		'born',     /* No module existing for now, and probably never */
 		'birthname',    /* No module existing for now, and probably never */
-		'name',     /* No module existing for now */
-		'award',    /* No module existing for now */
+		'name',         /* No module existing for now */
 	];
 
 	/**
@@ -102,6 +99,8 @@ class Settings_Person {
 		return [
 			'title'        => __( 'title', 'lumiere-movies' ),
 			'pic'          => __( 'pic', 'lumiere-movies' ),
+			'born'         => __( 'born', 'lumiere-movies' ),
+			'died'         => __( 'died', 'lumiere-movies' ),
 			'bio'          => __( 'biography', 'lumiere-movies' ),
 			'nickname'     => _n( 'nickname', 'nicknames', $number, 'lumiere-movies' ),
 			'spouse'       => _n( 'spouse', 'spouses', $number, 'lumiere-movies' ),
@@ -117,8 +116,6 @@ class Settings_Person {
 			'trademark'    => _n( 'trademark', 'trademarks', $number, 'lumiere-movies' ),
 			'award'        => _n( 'award', 'awards', $number, 'lumiere-movies' ),
 			'birthname'    => __( 'birthname', 'lumiere-movies' ),
-			'born'         => __( 'born', 'lumiere-movies' ),
-			'died'         => __( 'died', 'lumiere-movies' ),
 			'name'         => __( 'name', 'lumiere-movies' ),
 		];
 	}
@@ -168,6 +165,8 @@ class Settings_Person {
 			'title'        => __( 'Display title', 'lumiere-movies' ),
 			'pic'          => __( 'Display photography', 'lumiere-movies' ),
 			'bio'          => __( 'Display biography', 'lumiere-movies' ),
+			'died'         => __( 'Display date of death', 'lumiere-movies' ),
+			'born'         => __( 'Display date of birth', 'lumiere-movies' ),
 			'nickname'     => __( 'Display nicknames', 'lumiere-movies' ),
 			'spouse'       => __( 'Display spouses', 'lumiere-movies' ),
 			'children'     => __( 'Display children', 'lumiere-movies' ),

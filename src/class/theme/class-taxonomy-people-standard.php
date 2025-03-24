@@ -1,10 +1,10 @@
 <?php declare( strict_types = 1 );
 /**
- * Template People: Taxonomy for Lumière! Movies WordPress plugin (set up for standard people taxonomy)
+ * Template Movie jobs: Taxonomy for Lumière! Movies WordPress plugin (set up for standard people taxonomy)
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.9.2
+ * Version: 3.10
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package       lumieremovies
@@ -19,6 +19,10 @@ if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Config\Settings' 
 
 use Imdb\Name;
 use Lumiere\Frontend\Main;
+use Lumiere\Frontend\Module\Person\Person_Bio;
+use Lumiere\Frontend\Module\Person\Person_Born;
+use Lumiere\Frontend\Module\Person\Person_Died;
+use Lumiere\Frontend\Layout\Output;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Plugins\Plugins_Start;
 use WP_Query;
@@ -73,6 +77,10 @@ class Taxonomy_People_Standard {
 	 */
 	public function __construct(
 		private Plugins_Start $plugins_start,
+		private Output $output_class = new Output(),
+		private Person_Born $person_born_class = new Person_Born(),
+		private Person_Died $person_died_class = new Person_Died(),
+		private Person_Bio $person_bio_class = new Person_Bio(),
 	) {
 		// Run on taxonomy pages only.
 		if ( is_tax() === false ) {
@@ -444,73 +452,18 @@ class Taxonomy_People_Standard {
 			$output .= $this->link_maker->get_picture( $no_pic, $no_pic, $person_name );
 		}
 
-		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Birth -->';
-		$output .= "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
-		$output .= '">';
-		$output .= '<span class="lumiere_font_small">';
+		$born = isset( $this->person_class ) ? $this->person_born_class->get_module( $this->person_class, 'born' ) : '';
+		$output .= $this->output_class->misc_layout( 'date_outside', 'Birth', $this->imdb_admin_values['imdbintotheposttheme'], $born );
+		$died = isset( $this->person_class ) ? $this->person_died_class->get_module( $this->person_class, 'died' ) : '';
+		$output .= $this->output_class->misc_layout( 'date_outside', 'Death', $this->imdb_admin_values['imdbintotheposttheme'], $died );
 
-		# Birth
-		$birthday = isset( $this->person_class ) && $this->person_class->born() !== null ? $this->person_class->born() : [];
-		/** @psalm-suppress PossiblyNullArgument (It can't be null!) */
-		if ( count( $birthday ) > 0 ) {
-
-			$birthday_day = isset( $birthday['day'] ) && strlen( strval( $birthday['day'] ) ) > 0 ? strval( $birthday['day'] ) . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
-			$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : '(' . __( 'month unknown', 'lumiere-movies' ) . ') ';
-			$birthday_year = isset( $birthday['year'] ) && strlen( strval( $birthday['year'] ) ) > 0 ? strval( $birthday['year'] ) : '(' . __( 'year unknown', 'lumiere-movies' ) . ')';
-
-			$output .= "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
-				. '&#9788;&nbsp;'
-				. esc_html__( 'Born on', 'lumiere-movies' ) . '&nbsp;</span>'
-				. esc_html( $birthday_day . $birthday_month . $birthday_year );
-		} else {
-			$output .= '&nbsp;';
-		}
-
-		if ( ( isset( $birthday['place'] ) ) && ( strlen( $birthday['place'] ) !== 0 ) ) {
-			$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
-		}
-
-		$output .= "\n\t\t\t\t" . '</span></div>';
-		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Death -->';
-		$output .= "\n\t\t\t\t" . '<div class="lumiere-lines-common';
-		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
-		$output .= '">';
-		$output .= '<span class="lumiere_font_small">';
-
-		# Death
-		$death = isset( $this->person_class ) && count( $this->person_class->died() ) > 0 ? $this->person_class->died() : null;
-		if ( isset( $death['status'] ) && $death['status'] === 'DEAD' ) {
-
-			$death_day = isset( $death['day'] ) && strlen( strval( $death['day'] ) ) > 0 ? strval( $death['day'] ) . ' ' : '(' . __( '(day unknown)', 'lumiere-movies' ) . ') ';
-			$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : '(' . __( '(month unknown)', 'lumiere-movies' ) . ') ';
-			$death_year = isset( $death['year'] ) && strlen( strval( $death['year'] ) ) > 0 ? strval( $death['year'] ) : '(' . __( '(year unknown)', 'lumiere-movies' ) . ')';
-
-			$output .= "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
-				. '&#8224;&nbsp;'
-				. esc_html__( 'Died on', 'lumiere-movies' ) . '&nbsp;</span>'
-				. esc_html( $death_day . $death_month . $death_year );
-
-			if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
-				/** translators: 'in' like 'Died in' */
-				$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $death['place'] );
-			}
-
-			if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
-				/** translators: 'cause' like 'Cause of death' */
-				$output .= ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . esc_html( $death['cause'] );
-			}
-		}
-
-		$output .= "\n\t\t\t\t" . '</span></div>';
 		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
 		$output .= "\n\t\t\t\t" . '<div id="lum_taxo_page_bio" class="lumiere-lines-common';
 		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
 		$output .= ' lumiere-lines-common-fix">';
 		$output .= '<span class="lumiere_font_small">';
 
-		// Biography, function in trait.
-		$output .= isset( $this->person_class ) ? $this->link_maker->get_medaillon_bio( $this->person_class->bio(), 1500 ) ?? '' : '';
+		$output .= isset( $this->person_class ) ? $this->person_bio_class->get_module( $this->person_class, 'bio' ) : '';
 
 		$output .= "\n\t\t\t\t\t" . '</span></div>';
 		$output .= "\n\t\t\t\t" . '</div>';

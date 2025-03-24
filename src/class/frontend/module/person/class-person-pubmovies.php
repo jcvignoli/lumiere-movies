@@ -15,7 +15,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Name;
 use Lumiere\Config\Get_Options_Person;
 
 /**
@@ -28,10 +27,10 @@ class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the main module version
 	 *
-	 * @param Name $person_class IMDbPHP title class
+	 * @param \Imdb\Name $person_class IMDbPHP title class
 	 * @param 'pubmovies' $item_name The name of the item
 	 */
-	public function get_module( Name $person_class, string $item_name ): string {
+	public function get_module( \Imdb\Name $person_class, string $item_name ): string {
 
 		$item_results = $person_class->$item_name();
 		$nb_total_items = count( $item_results );

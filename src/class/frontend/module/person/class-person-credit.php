@@ -15,7 +15,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Imdb\Name;
 use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Settings_Popup;
 use Lumiere\Tools\Data;
@@ -32,10 +31,10 @@ class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the main module version
 	 *
-	 * @param Name $person_class IMDbPHP title class
+	 * @param \Imdb\Name $person_class IMDbPHP title class
 	 * @param string $sub_cat The name of the subcategory
 	 */
-	public function get_module( Name $person_class, string $sub_cat ): string {
+	public function get_module( \Imdb\Name $person_class, string $sub_cat ): string {
 
 		$item_results = $person_class->credit();
 		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $sub_cat . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $sub_cat . '_number' ] ) : 9; /** max number of movies before breaking with "see all" */

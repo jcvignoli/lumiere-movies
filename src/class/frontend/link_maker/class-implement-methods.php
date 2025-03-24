@@ -237,7 +237,7 @@ class Implement_Methods {
 			$bio_text = "\n\t\t\t" . $str_one . $this->output_linkmaker_class->misc_layout( 'see_all_start' ) . "\n\t\t\t" . $str_two . $this->output_linkmaker_class->misc_layout( 'see_all_end' );
 
 		}
-		return strlen( $bio_text ) > 0 ? $bio_head . $bio_text : '';
+		return strlen( $bio_text ) > 0 ? $bio_head . "\n\t\t\t" . $bio_text : '';
 	}
 
 	/**

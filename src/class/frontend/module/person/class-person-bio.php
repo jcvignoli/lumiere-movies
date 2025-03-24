@@ -29,17 +29,11 @@ class Person_Bio extends \Lumiere\Frontend\Module\Parent_Module {
 	 * @param 'bio' $item_name The name of the item
 	 */
 	public function get_module( \Imdb\Name $name, string $item_name ): string {
-
 		$bio = $name->$item_name();
-
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $bio, $item_name );
+			return $this->get_module_popup( $bio );
 		}
-
-		return $this->output_class->misc_layout(
-			'frontend_title',
-			$this->link_maker->get_medaillon_bio( $bio, 600 ) ?? ''
-		);
+		return $this->link_maker->get_medaillon_bio( $bio, 800 ) ?? '';
 	}
 
 	/**
@@ -47,13 +41,8 @@ class Person_Bio extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Not in use, kept for compatibility
 	 *
 	 * @param array<array<string, string>> $bio Biography
-	 * @param 'bio' $item_name The name of the item
 	 */
-	public function get_module_popup( array $bio, string $item_name ): string {
-
-		return $this->output_class->misc_layout(
-			'popup_title',
-			$this->link_maker->get_medaillon_bio( $bio, 600 ) ?? ''
-		);
+	public function get_module_popup( array $bio ): string {
+		return $this->link_maker->get_medaillon_bio( $bio, 600 ) ?? '';
 	}
 }

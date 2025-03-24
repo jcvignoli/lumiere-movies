@@ -49,6 +49,8 @@ class Output {
 			'popup_subtitle_item'            => "\n\t\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . '</span>',
 			'numbered_list'                  => "\n\t\t\t<div>\n\t\t\t\t[#" . strval( $text_one ) . '] <i>' . $text_two . '</i>&nbsp;' . $text_three . "\n\t\t\t" . '</div>',
 			'frontend_no_results'            => "\n\t\t\t<span class=\"lumiere_font_small\">" . $text_one . '</span>',
+			'date_outside'                   => "\n\n\t\t\t\t\t\t\t\t\t\t\t<!-- " . $text_one . " -->\n\t\t\t\t<div class=\"lumiere-lines-common lumiere-lines-common_" . $text_two . "\">\n\t\t\t\t\t<span class=\"lumiere_font_small\">" . $text_three . "\n\t\t\t\t\t</span>\n\t\t\t\t</div>",
+			'date_inside'                    => "\n\t\t\t\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . '</span>' . $text_two,
 		];
 		return $container[ $selector ];
 	}
