@@ -32,24 +32,11 @@ use Monolog\Logger;
  *
  * Imdb\Title return definition
  * @phpstan-type TITLESEARCH_RETURNSEARCH array<array-key, array{imdbid: string, title: string, originalTitle: string, year: string, movietype: string, titleSearchObject: \Imdb\Title}>
+ * @phpstan-type NAMESEARCH_RETURNSEARCH array<array-key, array{id: string, name: string, titleSearchObject: \Imdb\Name}>
  *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
- * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  */
 class Imdbphp extends Imdbphp_Config {
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Can't change snakeCase properties defined in an external class
-
-	/**
-	 * Admin options
-	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
-	 */
-	private array $imdb_admin_values;
-
-	/**
-	 * Cache options
-	 * @phpstan-var OPTIONS_CACHE $imdb_cache_values
-	 */
-	private array $imdb_cache_values;
 
 	/**
 	 * Constructor
@@ -57,8 +44,8 @@ class Imdbphp extends Imdbphp_Config {
 	public function __construct() {
 
 		// Get options from database.
-		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
-		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename(), [] );
+		$imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
+		$imdb_cache_values = get_option( Get_Options::get_cache_tablename(), [] );
 
 		/**
 		 * Send Lumiere options to IMDbGraphqlPHP parent class
@@ -69,16 +56,16 @@ class Imdbphp extends Imdbphp_Config {
 		$this->throwHttpExceptions = false; // Not an option in Lumière!, prevent throwing Exceptions that stop the execution and prevent pages display
 		$this->useLocalization = true; // Not an option in Lumière!, always use localization
 		$this->language = ''; // Disable language so it's not used but $this->country only.
-		$this->country = strtoupper( $this->imdb_admin_values['imdblanguage'] );
-		$this->cacheDir = rtrim( $this->imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
-		$this->photodir = $this->imdb_cache_values['imdbphotodir'];// ?imdbphotoroot? Bug imdbphp?
-		$this->cacheExpire = intval( $this->imdb_cache_values['imdbcacheexpire'] );
-		$this->photoroot = $this->imdb_cache_values['imdbphotoroot']; // ?imdbphotodir? Bug imdbphp?
-		$this->cacheUse = $this->imdb_cache_values['imdbusecache'] === '1' ? true : false;
+		$this->country = strtoupper( $imdb_admin_values['imdblanguage'] );
+		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
+		$this->photodir = $imdb_cache_values['imdbphotodir'];// ?imdbphotoroot? Bug imdbphp?
+		$this->cacheExpire = intval( $imdb_cache_values['imdbcacheexpire'] );
+		$this->photoroot = $imdb_cache_values['imdbphotoroot']; // ?imdbphotodir? Bug imdbphp?
+		$this->cacheUse = $imdb_cache_values['imdbusecache'] === '1' ? true : false;
 		$this->cacheStore = $this->cacheUse === false ? false : true; // Not an option in Lumière!, don't store cache if cache is not used
 		$this->cacheUseZip = $this->cacheUse === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
 		$this->cacheConvertZip = $this->cacheUse === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
-		$this->curloptTimeout = intval( $this->imdb_admin_values['imdbdelayimdbrequest'] );
+		$this->curloptTimeout = intval( $imdb_admin_values['imdbdelayimdbrequest'] );
 	}
 
 	/**
@@ -98,7 +85,7 @@ class Imdbphp extends Imdbphp_Config {
 	 *
 	 * @param string $title Movie's name
 	 * @param Logger|null $logger
-	 * @return array<array-key, array<string, \Imdb\Title|string>>
+	 * @return array<array<string, \Imdb\Title|int|string>>
 	 * @phpstan-return TITLESEARCH_RETURNSEARCH
 	 */
 	public function search_movie_title( string $title, Logger|null $logger = null ): array {
@@ -114,10 +101,13 @@ class Imdbphp extends Imdbphp_Config {
 	 * @param string $name Person's name
 	 * @param Logger|null $logger
 	 * @return array<array-key, mixed>|array{}
+	 * @phpstan-return NAMESEARCH_RETURNSEARCH
 	 */
 	public function search_person_name( string $name, Logger|null $logger = null ): array {
 		$search = new NameSearch( $this, $logger );
-		return $search->search( esc_html( $name ) );
+		/** @psalm-var NAMESEARCH_RETURNSEARCH $return Dunno why it must be specified here again... */
+		$return = $search->search( esc_html( $name ) );
+		return $return;
 	}
 
 	/**

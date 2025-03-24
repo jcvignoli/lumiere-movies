@@ -28,6 +28,7 @@ use Lumiere\Tools\Validate_Get;
  *
  * @see \Lumiere\Admin Call this page in add_filter( 'template_include' )
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Imdbphp
+ * @phpstan-import-type NAMESEARCH_RETURNSEARCH from Imdbphp
  */
 class Search_Items {
 
@@ -87,8 +88,8 @@ class Search_Items {
 
 		$new_title = isset( $this->item_searched ) && strlen( $this->item_searched ) > 0
 			/* translators: %1s is a movie's title */
-			? wp_sprintf( __( 'Lumière Query Interface %1s', 'lumiere-movies' ), '[ searching for ' . esc_html( ucfirst( $this->item_searched ) ) . ' ]' )
-			: '[ ' . __( 'Lumière Query Interface', 'lumiere-movies' ) . ' ]';
+			? '[ ' . wp_sprintf( __( 'Lumière Query Interface %1s', 'lumiere-movies' ), '] Search: &ldquo;' . esc_html( ucfirst( $this->item_searched ) ) . '&rdquo;' )
+			: __( 'Lumière Query Interface', 'lumiere-movies' );
 
 		$title['title'] = $new_title;
 
@@ -220,9 +221,9 @@ class Search_Items {
 		$this->logger->log?->debug( "[admin search] Querying *$this->item_searched* of type " . $_GET['select_search_type'] );
 
 		$results = [];
-		$first_column_header = '';
-		$second_column_header = '';
-		$year = '';
+		$first_column_header = 'title';
+		$second_column_header = 'imdbid';
+		$year = 'year';
 		if ( esc_html( $_GET['select_search_type'] ) === 'movie' ) {
 
 			/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
@@ -230,18 +231,15 @@ class Search_Items {
 				$this->item_searched ?? '',
 				$this->logger->log,
 			);
-			$first_column_header = 'title';
-			$second_column_header = 'imdbid';
-			$year = 'year';
-
 		} elseif ( esc_html( $_GET['select_search_type'] ) === 'person' ) {
-			/** @phpstan-var array<array-key, mixed> $results */
+			/** @phpstan-var NAMESEARCH_RETURNSEARCH $results */
 			$results = $this->imdbphp_class->search_person_name(
 				$this->item_searched ?? '',
 				$this->logger->log,
 			);
 			$first_column_header = 'name';
 			$second_column_header = 'id';
+			$year = '';
 		}
 
 		$limit_search = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 5;
@@ -260,6 +258,7 @@ class Search_Items {
 			esc_html_e( 'No results found.', 'lumiere-movies' );
 			echo "\n</div>";
 		}
+
 		foreach ( $results as $res ) {
 			if ( $iterator > $limit_search ) {
 				$this->logger->log?->debug( "[admin search] Limit of '$limit_search' results reached." );
@@ -269,13 +268,15 @@ class Search_Items {
 
 			echo "\n" . '<div class="lumiere_container lum_search_container">';
 			// ---- Movie title results
-			$maybe_year = $first_column_header === 'title' ? ' (' . esc_html( strval( $res['year'] ) ) . ')' : '';
-			echo "\n\t<div class='lumiere_container_flex50 lumiere_italic lum_search_results'>" . esc_html( $res[ $first_column_header ] ) . esc_html( $maybe_year ) . '</div>';
+			$maybe_year = isset( $res['year'] ) && $first_column_header === 'title' ? ' (' . esc_html( strval( $res['year'] ) ) . ')' : '';
+			/** @psalm-suppress PossiblyInvalidArgument */
+			echo isset( $res[ $first_column_header ] ) ? "\n\t<div class='lumiere_container_flex50 lumiere_italic lum_search_results'>" . esc_html( $res[ $first_column_header ] ) . esc_html( $maybe_year ) . '</div>' : '(' . esc_html__( 'no year found', 'lumiere-movies' ) . ')';
 
 			// ---- IMDb id results
 			echo "\n\t<div class='lumiere_container_flex50 lumiere_align_center lum_search_results'>";
 			echo "\n\t\t<span class='lumiere_bold'>" . esc_html__( 'IMDb ID:', 'lumiere-movies' ) . '</span> ';
-			echo "\n\t\t" . '<span class="lum_search_imdbid" id="imdbid_' . esc_html( $res[ $second_column_header ] ) . '">' . esc_html( $res[ $second_column_header ] ) . '</span>';
+			/** @psalm-suppress PossiblyInvalidArgument */
+			echo isset( $res[ $second_column_header ] ) ? "\n\t\t" . '<span class="lum_search_imdbid" id="imdbid_' . esc_html( $res[ $second_column_header ] ) . '">' . esc_html( $res[ $second_column_header ] ) . '</span>' : '(' . esc_html__( 'no IMDb ID found', 'lumiere-movies' ) . ')';
 			echo "\n\t</div>";
 			echo "\n</div>";
 

@@ -1,5 +1,5 @@
 <?php
-// Phan Needs this previous definition, dunno know why
+// Definition of WP_CLI, because error() needs @return never
 
 namespace {
 	class WP_CLI {
