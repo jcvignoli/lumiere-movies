@@ -128,6 +128,12 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					echo apply_filters( 'lum_display_movies_box', [ '0435625' ] );
 				</blockquote>
 
+				<?php esc_html_e( "Since Lumière 4.6, you can also add people in addition to movies. The filers are 'lum_find_person_id' and 'lum_display_person_box':", 'lumiere-movies' ); ?>
+
+				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
+					$film_imdbid = apply_filters( 'lum_find_person_id', [ 'stanley kubrick' ] );<br>
+					echo apply_filters( 'lum_display_person_box', $film_imdbid );
+				</blockquote>
 
 				<h4><?php esc_html_e( 'I want to get rid of thoses links opening popups', 'lumiere-movies' ); ?></h4>
 				<?php esc_html_e( "It could happen you do not want popups at all. Since by default Lumière Movies adds links whenever relevant to movie's details inside your article, you may change that behaviour. In order to do so, look for 'Main options / Advanced / Remove popup links' and uncheck the box. No links will be displayed, both for the widget and within your articles.", 'lumiere-movies' ); ?>

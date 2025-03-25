@@ -36,7 +36,7 @@ trait Admin_General {
 	 * @return string
 	 */
 	public function get_current_admin_url(): string {
-		$current_url = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
+		$current_url = esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) );
 		return admin_url( str_replace( site_url( '', 'relative' ) . '/wp-admin', '', $current_url ) );
 	}
 }

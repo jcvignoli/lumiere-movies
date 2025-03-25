@@ -92,7 +92,7 @@ class Ban_Bots {
 	 * @return void The user is banned if found in any of those lists
 	 */
 	private function maybe_ban_useragent( array $banned_recipients ): void {
-		$agent = esc_url_raw( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ?? '' ) );
+		$agent = esc_url_raw( wp_unslash( strval( $_SERVER['HTTP_USER_AGENT'] ?? '' ) ) );
 		foreach ( $banned_recipients as $bot ) {
 			if ( preg_match( "~$bot~i", $agent ) === 1 ) {
 				$this->ban_bot_now();
@@ -105,12 +105,12 @@ class Ban_Bots {
 	 */
 	private function get_user_ip(): string {
 		$ip_address = null;
-		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) && strlen( esc_url_raw( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) ) ) > 0 ) {
-			$ip_address = esc_url_raw( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
-		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && strlen( esc_url_raw( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) > 0 ) {
-			$ip_address = esc_url_raw( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
+		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) && strlen( esc_url_raw( wp_unslash( strval( $_SERVER['HTTP_CLIENT_IP'] ) ) ) ) > 0 ) {
+			$ip_address = esc_url_raw( wp_unslash( strval( $_SERVER['HTTP_CLIENT_IP'] ) ) );
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && strlen( esc_url_raw( wp_unslash( strval( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) ) > 0 ) {
+			$ip_address = esc_url_raw( wp_unslash( strval( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
 		} else {
-			$ip_address = esc_url_raw( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) );
+			$ip_address = esc_url_raw( wp_unslash( strval( $_SERVER['REMOTE_ADDR'] ?? '' ) ) );
 		}
 		return $ip_address;
 	}

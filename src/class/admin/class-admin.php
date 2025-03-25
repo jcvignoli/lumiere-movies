@@ -173,14 +173,14 @@ class Admin {
 			|| 'post-new.php' === $page_caller
 			|| 'widgets.php' === $page_caller
 			// All Lumière pages.
-			|| Data::array_contains_term( Get_Options::get_admin_lum_pages(), esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ) )
+			|| Data::array_contains_term( Get_Options::get_admin_lum_pages(), esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ) )
 			// Extra WP Admin pages.
 			|| Data::array_contains_term(
 				[
 					'admin.php?page=lumiere_options',
 					'options-general.php?page=lumiere_options',
 				],
-				esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) )
+				esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) )
 			) // Trait data
 		) {
 
@@ -264,7 +264,7 @@ class Admin {
 
 		// Display only if URL is ok and is not admin (to save time.
 		if (
-			stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options::LUM_SEARCH_ITEMS_URL_ADMIN ) !== 0
+			stripos( esc_url_raw( strval( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ) ), site_url( '', 'relative' ) . Get_Options::LUM_SEARCH_ITEMS_URL_ADMIN ) !== 0
 			|| is_admin()
 		) {
 			return $template_path;

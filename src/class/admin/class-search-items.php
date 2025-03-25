@@ -181,8 +181,8 @@ class Search_Items {
 			&&
 			(
 				// If there is no nonce to verify, make sure it comes from editing post
-				! isset( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) || strlen( sanitize_key( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ) === 0
-				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'post.php?post=' ) === false
+				! isset( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) || strlen( sanitize_key( strval( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ) ) === 0
+				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( esc_url_raw( wp_unslash( strval( $_SERVER['HTTP_REFERER'] ) ) ), 'post.php?post=' ) === false
 			)
 		) {
 			echo wp_kses(

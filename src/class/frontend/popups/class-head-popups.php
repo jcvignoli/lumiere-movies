@@ -160,14 +160,14 @@ class Head_Popups {
 
 		// Add canonical.
 		// Canonical for search popup.
-		if ( 0 === stripos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), site_url( '', 'relative' ) . Get_Options::get_popup_url( 'movie_search' ) ) && $sanitized_film !== null ) {
+		if ( 0 === stripos( esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ), site_url( '', 'relative' ) . Get_Options::get_popup_url( 'movie_search' ) ) && $sanitized_film !== null ) {
 
 			$my_canon = Get_Options::get_popup_url( 'movie_search', site_url() ) . '?film=' . $sanitized_film;
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 		}
 
 		// Canonical for movies popups.
-		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'film' ) ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ), Get_Options::get_popup_url( 'film' ) ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === null ? '' : '&info=' . $sanitized_info;
 			$url_str_film = $sanitized_film === null ? '' : '&film=' . $sanitized_film;
@@ -182,7 +182,7 @@ class Head_Popups {
 		}
 
 		// Canonical for people popups.
-		if ( str_contains( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), Get_Options::get_popup_url( 'person' ) ) && is_string( $sanitized_mid ) ) {
+		if ( str_contains( esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ), Get_Options::get_popup_url( 'person' ) ) && is_string( $sanitized_mid ) ) {
 
 			$url_str_info = $sanitized_info === null ? '' : '&info=' . $sanitized_info;
 			$my_canon = Get_Options::get_popup_url( 'person', site_url() ) . $sanitized_mid . '/?mid=' . $sanitized_mid . $url_str_info;

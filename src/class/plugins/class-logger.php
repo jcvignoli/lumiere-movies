@@ -102,7 +102,7 @@ final class Logger {
 		 * If the referer of current page is a specific one, set $is_editor_page on true.
 		 * This is useful when saving a post in editor interface.
 		 */
-		$referer = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
+		$referer = esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) );
 		if ( Data::array_contains_term( self::PAGES_PROHIBITED, $referer ) ) {
 			return true;
 		}

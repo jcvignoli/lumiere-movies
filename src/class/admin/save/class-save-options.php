@@ -114,8 +114,8 @@ class Save_Options extends Save_Helper {
 			if ( isset( $_POST['lumiere_update_main_settings'] ) ) {
 				$this->lumiere_main_options_save(
 					$referer,
-					sanitize_text_field( wp_unslash( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ),
-					sanitize_text_field( wp_unslash( $_POST['imdb_imdburlpopups'] ?? '' ) )
+					sanitize_text_field( wp_unslash( strval( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ) ),
+					sanitize_text_field( wp_unslash( strval( $_POST['imdb_imdburlpopups'] ?? '' ) ) )
 				);
 			} elseif ( isset( $_POST['lumiere_reset_main_settings'] ) ) {
 				$this->lumiere_main_options_reset( $referer );
@@ -152,8 +152,8 @@ class Save_Options extends Save_Helper {
 	private function handle_individual_cache_files( $referer ): void {
 		if ( isset( $_GET['dothis'] ) ) {
 			$cache_mngmt_class = new Cache_Files_Management();
-			$type = sanitize_text_field( wp_unslash( $_GET['type'] ) );
-			$where = sanitize_text_field( wp_unslash( $_GET['where'] ) );
+			$type = sanitize_text_field( wp_unslash( strval( $_GET['type'] ) ) );
+			$where = sanitize_text_field( wp_unslash( strval( $_GET['where'] ) ) );
 
 			if ( $_GET['dothis'] === 'delete' && parent::is_valid_nonce( 'deleteindividual', '_nonce_cache_deleteindividual', 'get' ) ) {
 				$this->do_delete_cache_linked_file( $referer, $cache_mngmt_class, $type, $where );

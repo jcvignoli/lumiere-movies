@@ -106,7 +106,7 @@ trait Main {
 
 		// If url contains ?amp and AMP__VERSION constant found, it is a frontpage AMP page
 		if (
-		( str_contains( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) ), '?amp' ) && defined( 'AMP__VERSION' ) )
+		( str_contains( sanitize_text_field( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ), '?amp' ) && defined( 'AMP__VERSION' ) )
 		|| ( isset( $_GET ['wpamp'] ) && defined( 'AMP__VERSION' ) ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
 		|| ( isset( $_GET ['amp'] ) && defined( 'AMP__VERSION' ) ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
 		) {
@@ -125,7 +125,7 @@ trait Main {
 	 */
 	public function is_popup_page(): bool {
 
-		$get_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : null;
+		$get_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ) ) ) : null;
 		if (
 			isset( $get_request_uri )
 			&&

@@ -72,7 +72,7 @@ class Main extends Admin_Menu {
 		if (
 			// Main options.
 			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_main_base, sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) === true
+			&& isset( $_GET['page'] ) && str_contains( $this->page_main_base, sanitize_text_field( wp_unslash( strval( $_GET['page'] ) ) ) ) === true
 			&& ! isset( $_GET['subsection'] )
 		) {
 			$this->include_with_vars(
@@ -83,7 +83,7 @@ class Main extends Admin_Menu {
 
 		} elseif (
 			// Advanced options.
-			isset( $_GET['page'] ) && str_contains( $this->page_main_advanced, sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) === true
+			isset( $_GET['page'] ) && str_contains( $this->page_main_advanced, sanitize_text_field( wp_unslash( strval( $_GET['page'] ) ) ) ) === true
 			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'advanced'
 			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
 		) {
