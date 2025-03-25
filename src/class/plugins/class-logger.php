@@ -131,6 +131,7 @@ final class Logger {
 
 			// Start Monolog class.
 			$monolog_class = new LoggerMonolog( $logger_name );
+			$monolog_class->setTimezone( wp_timezone() );
 
 			// Get the verbosity from options and build the constant.
 			$logger_verbosity = constant( '\Monolog\Logger::' . $imdb_admin_values['imdbdebuglevel'] );
