@@ -27,6 +27,24 @@ use Lumiere\Config\Get_Options_Person;
 class Get_Options extends Settings {
 
 	/**
+	 * Get Admin options row name as in wp_options
+	 *
+	 * @return string
+	 */
+	public static function get_admin_tablename(): string {
+		return parent::LUM_ADMIN_OPTIONS;
+	}
+
+	/**
+	 * Get Cache options row name as in wp_options
+	 *
+	 * @return string
+	 */
+	public static function get_cache_tablename(): string {
+		return parent::LUM_CACHE_OPTIONS;
+	}
+
+	/**
 	 * Define all the pages of Lumiere
 	 *
 	 * @see \Lumiere\Admin\Admin::lumiere_execute_admin_assets()
@@ -87,24 +105,6 @@ class Get_Options extends Settings {
 	public static function get_type_search(): string {
 		$imdb_admin_option = get_option( self::get_admin_tablename() );
 		return parent::LUM_IMDB_SEARCH_CATEGORY[ $imdb_admin_option['imdbseriemovies'] ];
-	}
-
-	/**
-	 * Get Admin options row name as in wp_options
-	 *
-	 * @return string
-	 */
-	public static function get_admin_tablename(): string {
-		return parent::LUM_ADMIN_OPTIONS;
-	}
-
-	/**
-	 * Get Cache options row name as in wp_options
-	 *
-	 * @return string
-	 */
-	public static function get_cache_tablename(): string {
-		return parent::LUM_CACHE_OPTIONS;
 	}
 
 	/**

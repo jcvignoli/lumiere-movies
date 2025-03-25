@@ -33,6 +33,22 @@ class Get_Options_Movie extends Settings_Movie {
 	}
 
 	/**
+	 * Get all type items (taxo+non taxo)
+	 *
+	 * @since 4.4 method added
+	 *
+	 * @param int $number Optional: a number to turn into plural if needed
+	 * @return array<string, string>
+	 */
+	public static function get_all_fields( int $number = 1 ): array {
+		return [
+			...parent::define_list_non_taxo_items( $number ),
+			...parent::define_list_taxo_people( $number ), // Taxo_people is all people options, since there are no people options that are not taxonomy.
+			...parent::define_list_taxo_items( $number ),
+		];
+	}
+
+	/**
 	 * Get the type items elements that are used for taxonomy
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
@@ -146,22 +162,6 @@ class Get_Options_Movie extends Settings_Movie {
 	 */
 	public static function get_items_details_comments(): array {
 		return parent::define_items_details_comments();
-	}
-
-	/**
-	 * Get all type items (taxo+non taxo)
-	 *
-	 * @since 4.4 method added
-	 *
-	 * @param int $number Optional: a number to turn into plural if needed
-	 * @return array<string, string>
-	 */
-	public static function get_all_fields( int $number = 1 ): array {
-		return [
-			...self::get_list_non_taxo_items( $number ),
-			...self::get_list_people_taxo( $number ), // Taxo_people is all people options, since there are no people options that are not taxonomy.
-			...self::get_list_items_taxo( $number ),
-		];
 	}
 }
 
