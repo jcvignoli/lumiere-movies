@@ -73,18 +73,29 @@ class Settings_Person {
 	];
 
 	/**
-	 * List of items that are unactive
-	 * The list targets Settings_Person::define_list_items_person()
+	 * List of modules that have not method in Imdb\Name (but a method exists)
+	 * The list targets {@see Settings_Person::define_list_items_person()}
 	 *
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_people_file() use this list so doesn't call those methods in \IMDB\Name
 	 * @see class/templates/admin/data/admin-data-person-display.php use this list to not display those methods (always selected or never selected)
 	 * @see class/templates/admin/data/admin-data-person-order.php use this list to not display those methods in ordering list
 	 */
-	public const LUM_DATA_PERSON_UNACTIVE          = [
+	public const LUM_DATA_PERSON_NO_METHOD          = [
 		'pic',          /* Never exists in Name (but it does as module), must always stay here */
 		'title',        /* Never exists in Name (but it does as module), must always stay here */
 		'birthname',    /* No module existing for now, and probably never */
 		'name',         /* No module existing for now, is worth creating it, remove then in Cache_Files_Management::create_people_file() */
+	];
+
+	/**
+	 * List of items that are not available as module but are available as methods in Imdb\Name
+	 * Gather extra methods to be run when refreshing cache files
+	 *
+	 * @see \Imdb\Name List of methods
+	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_people_file() use this list so doesn't call those methods in \IMDB\Name
+	 */
+	public const LUM_DATA_PERSON_EXTRA_GENERATION  = [
+		'name',     /* No module existing for now, is worth creating it, would need to be removed from from LUM_DATA_PERSON_NO_METHOD */
 	];
 
 	/**

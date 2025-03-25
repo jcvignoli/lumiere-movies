@@ -49,7 +49,7 @@ $lum_comments_fields = Get_Options_Person::get_items_person_details_comments();
 		foreach ( $lum_perso_list as $lum_item => $lum_item_translated ) {
 
 			// Do not display in the selection neither title nor pic
-			if ( in_array( $lum_item, Get_Options_Person::LUM_DATA_PERSON_UNACTIVE, true ) === true  ) {
+			if ( in_array( $lum_item, Get_Options_Person::LUM_DATA_PERSON_NO_METHOD, true ) === true  ) {
 				continue;
 			}
 

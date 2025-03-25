@@ -20,6 +20,7 @@ use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Admin_General;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Config\Get_Options_Movie;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
@@ -261,9 +262,15 @@ class Cache_Files_Management {
 		// create cache for everything.
 		$all_fields = Get_Options::get_list_all_items();
 		foreach ( $all_fields as $field => $translated_field ) {
-			if ( $field === 'pic' || $field === 'source' ) { // source && pic don't exist as IMDb library methods.
+			// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules.
+			if ( in_array( $field, Get_Options_Movie::LUM_DATA_MOVIE_NO_METHOD, true ) === true ) {
 				continue;
 			}
+			$movie->$field();
+		}
+
+		// Extra generations for the methods not available
+		foreach ( Get_Options_Movie::LUM_DATA_MOVIE_EXTRA_GENERATION as $field ) {
 			$movie->$field();
 		}
 
@@ -285,10 +292,15 @@ class Cache_Files_Management {
 		$all_methods = Get_Options_Person::get_all_person_fields();
 
 		foreach ( $all_methods as $field => $translated_field ) {
-			// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules. Name must always be executed.
-			if ( in_array( $field, Get_Options_Person::LUM_DATA_PERSON_UNACTIVE, true ) === true && $field !== 'name' ) {
+			// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules.
+			if ( in_array( $field, Get_Options_Person::LUM_DATA_PERSON_NO_METHOD, true ) === true ) {
 				continue;
 			}
+			$person->$field();
+		}
+
+		// Extra generations for the methods not available
+		foreach ( Get_Options_Person::LUM_DATA_PERSON_EXTRA_GENERATION as $field ) {
 			$person->$field();
 		}
 

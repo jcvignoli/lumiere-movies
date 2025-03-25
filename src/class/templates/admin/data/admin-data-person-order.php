@@ -46,7 +46,7 @@ $lum_perso_list = Get_Options_Person::get_all_person_fields();
 
 				foreach ( $lum_that->imdb_data_person_values['order'] as $lum_key => $lumiere_value ) {
 					// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules.
-					if ( in_array( $lum_key, Get_Options_Person::LUM_DATA_PERSON_UNACTIVE, true ) ) {
+					if ( in_array( $lum_key, Get_Options_Person::LUM_DATA_PERSON_NO_METHOD, true ) ) {
 						continue;
 					}
 					echo "\n\t\t\t\t<option value='" . esc_attr( $lum_key ) . "'";

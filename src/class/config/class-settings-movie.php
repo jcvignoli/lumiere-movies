@@ -85,6 +85,31 @@ class Settings_Movie extends Settings_Helper {
 	public const LUM_DATA_DEFAULT_WIDGET_ACTIVE     = [ 'title', 'pic', 'actor', 'connection', 'director', 'genre', 'goof', 'plot', 'tagline', 'writer' ];
 
 	/**
+	 * List of modules that have not method in Imdb\Title (but a method exists)
+	 * The list targets {@see Settings::get_list_all_items())
+	 *
+	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this list so doesn't call those methods in \IMDB\Title
+	 */
+	public const LUM_DATA_MOVIE_NO_METHOD           = [
+		'pic',
+		'source',
+		'video',
+		'votes',
+		'stunts',
+	];
+
+	/**
+	 * List of items that are not available as module but are available as methods in Imdb\Title
+	 * Gather extra methods to be run when refreshing cache files
+	 *
+	 * @see \Imdb\Title List of methods
+	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this list so doesn't call those methods in \IMDB\Name
+	 */
+	public const LUM_DATA_MOVIE_EXTRA_GENERATION  = [
+		'votes',
+	];
+
+	/**
 	 * Define the type of (Title movie) people items that are used for taxonomy
 	 * All items in type people are actually taxonomy
 	 * @see Settings::get_default_data_movie_option() use this list to build the database
