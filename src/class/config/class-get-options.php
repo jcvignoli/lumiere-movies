@@ -108,48 +108,6 @@ class Get_Options extends Settings {
 	}
 
 	/**
-	 * Get the type items elements that are used for taxonomy
-	 *
-	 * @param int $number Optional: a number to turn into plural if needed
-	 * @return array<string, string>
-	 */
-	public static function get_list_all_items( int $number = 1 ): array {
-		return [
-			...Get_Options_Movie::get_list_non_taxo_items( $number ),
-			...Get_Options_Movie::get_list_items_taxo( $number ),
-		];
-	}
-
-	/**
-	 * Get All taxonomy types: all people and items elements that are used for taxonomy
-	 *
-	 * @param int $number Optional: a number to turn into plural if needed
-	 * @return array<string, string>
-	 */
-	public static function get_list_fields_taxo( int $number = 1 ): array {
-		return [
-			...Get_Options_Movie::get_list_people_taxo( $number ),
-			...Get_Options_Movie::get_list_items_taxo( $number ),
-		];
-	}
-
-	/**
-	 * Get all type items (taxo+non taxo)
-	 *
-	 * @since 4.4 method added
-	 *
-	 * @param int $number Optional: a number to turn into plural if needed
-	 * @return array<string, string>
-	 */
-	public static function get_all_fields( int $number = 1 ): array {
-		return [
-			...Get_Options_Movie::get_list_non_taxo_items( $number ),
-			...Get_Options_Movie::get_list_people_taxo( $number ), // Taxo_people is all people options, since there are no people options that are not taxonomy.
-			...Get_Options_Movie::get_list_items_taxo( $number ),
-		];
-	}
-
-	/**
 	 * Build the URLs for popups
 	 *
 	 * @since 4.4 method added

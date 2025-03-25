@@ -260,7 +260,7 @@ class Cache_Files_Management {
 		$movie = $this->imdbphp_class->get_title_class( $id, $this->logger->log_null() /* keep it quiet, no logger */ );
 
 		// create cache for everything.
-		$all_fields = Get_Options::get_list_all_items();
+		$all_fields = Get_Options_Movie::get_list_all_items();
 		foreach ( $all_fields as $field => $translated_field ) {
 			// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules.
 			if ( in_array( $field, Get_Options_Movie::LUM_DATA_MOVIE_NO_METHOD, true ) === true ) {

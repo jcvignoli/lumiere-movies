@@ -15,6 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 // Retrieve the vars passed in calling class.
 $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
@@ -125,7 +126,7 @@ if ( $lum_that->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
 	$lum_link_taxo_copy = add_query_arg( '_wpnonce_linkcopytaxo', wp_create_nonce( 'linkcopytaxo' ), $lum_current_admin_page . $lum_key );
 	$lum_file_in_stylesheet_path = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $lum_that->imdb_admin_values['imdburlstringtaxo'] . $lum_key . '.php';
-	$lum_translated_item = Get_options::get_all_fields()[ $lum_key ];
+	$lum_translated_item = Get_Options_Movie::get_all_fields()[ $lum_key ];
 
 	// No field to update found and no template to be updated found, offer to copy .
 	if ( count( $lum_fields_updated ) === 0 && is_file( $lum_file_in_stylesheet_path ) === false ) {

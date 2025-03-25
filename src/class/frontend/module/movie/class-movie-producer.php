@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
 
 /**
@@ -57,7 +57,7 @@ class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
+			ucfirst( Get_Options_Movie::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $admin_total_items && ( $i < $nb_total_items ); $i++ ) {
@@ -102,7 +102,7 @@ class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
+			ucfirst( Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		// Sort by column name the array of results.
@@ -135,7 +135,7 @@ class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 			return '';
 		}
 
-		$output = $this->output_class->misc_layout( 'popup_subtitle_item', ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) );
+		$output = $this->output_class->misc_layout( 'popup_subtitle_item', ucfirst( Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ] ) );
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
@@ -166,7 +166,7 @@ class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
+			ucfirst( Get_Options_Movie::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; ( $i < $nb_total_items ) && ( $i < $admin_total_items ); $i++ ) {

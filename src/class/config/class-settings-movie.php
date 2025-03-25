@@ -86,7 +86,7 @@ class Settings_Movie extends Settings_Helper {
 
 	/**
 	 * List of modules that have not method in Imdb\Title (but a method exists)
-	 * The list targets {@see Settings::get_list_all_items())
+	 * The list targets {@see Get_Options_Movie::get_list_all_items())
 	 *
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this list so doesn't call those methods in \IMDB\Title
 	 */

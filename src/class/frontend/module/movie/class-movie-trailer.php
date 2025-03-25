@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * Method to display Trailer for movies
@@ -49,7 +49,7 @@ class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 		$total_displayed = $admin_max_items > $nb_total_items ? $nb_total_items : $admin_max_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
+			ucfirst( Get_Options_Movie::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $admin_max_items && $i < $nb_total_items; $i++ ) {
@@ -78,7 +78,7 @@ class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
+			ucfirst( Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {

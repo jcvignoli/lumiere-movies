@@ -14,11 +14,11 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 // Retrieve the vars from calling class.
 $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
-$lum_items_people = Get_Options::get_all_fields();
+$lum_items_people = Get_Options_Movie::get_all_fields();
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">

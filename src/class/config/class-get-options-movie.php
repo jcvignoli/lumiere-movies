@@ -15,7 +15,6 @@ if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) 
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Movie;
 
 /**
@@ -119,7 +118,7 @@ class Get_Options_Movie extends Settings_Movie {
 	 * @phpstan-return array{actor?: string, alsoknow?: string, connection?: string, goof?: string, plot?: string, producer?: string, quote?: string, soundtrack?: string, tagline?: string, trailer?: string, trivia?: string, writer?: string}
 	 */
 	public static function get_items_with_numbers( int $number = 1 ): array {
-		$list_all = Get_Options::get_all_fields( $number );
+		$list_all = self::get_all_fields( $number );
 		$list_elements_with_numbers = [];
 		$list_keys_with_numbers = array_keys( parent::LUM_DATA_DEFAULT_WITHNUMBER );
 		foreach ( $list_all as $element => $translation ) {
@@ -147,6 +146,22 @@ class Get_Options_Movie extends Settings_Movie {
 	 */
 	public static function get_items_details_comments(): array {
 		return parent::define_items_details_comments();
+	}
+
+	/**
+	 * Get all type items (taxo+non taxo)
+	 *
+	 * @since 4.4 method added
+	 *
+	 * @param int $number Optional: a number to turn into plural if needed
+	 * @return array<string, string>
+	 */
+	public static function get_all_fields( int $number = 1 ): array {
+		return [
+			...self::get_list_non_taxo_items( $number ),
+			...self::get_list_people_taxo( $number ), // Taxo_people is all people options, since there are no people options that are not taxonomy.
+			...self::get_list_items_taxo( $number ),
+		];
 	}
 }
 

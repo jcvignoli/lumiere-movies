@@ -19,7 +19,6 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 use Lumiere\Admin\Admin_Menu;
 use Lumiere\Admin\Copy_Templates\Detect_New_Theme;
 use Lumiere\Tools\Debug;
-use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 
 /**
@@ -126,7 +125,7 @@ class Datamovie extends Admin_Menu {
 	 * @return array<string, string>
 	 */
 	private function get_taxo_fields(): array {
-		$all_taxo_elements = Get_Options::get_list_fields_taxo();
+		$all_taxo_elements = Get_Options_Movie::get_list_fields_taxo();
 		asort( $all_taxo_elements );
 		return $all_taxo_elements;
 	}
@@ -139,7 +138,7 @@ class Datamovie extends Admin_Menu {
 	private function get_display_select_options(): array {
 
 		// Merge the list of items and people with two extra lists
-		$array_full = Get_Options::get_all_fields();
+		$array_full = Get_Options_Movie::get_all_fields();
 
 		// Sort the array to display in alphabetical order
 		asort( $array_full );

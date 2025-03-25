@@ -15,7 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * Method to display soundtrack for movies
@@ -47,7 +47,7 @@ class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 		$total_displayed = $admin_total_items > $nb_total_items ? $nb_total_items : $admin_total_items;
 		$output = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $total_displayed )[ $item_name ] )
+			ucfirst( Get_Options_Movie::get_all_fields( $total_displayed )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $admin_total_items && ( $i < $nb_total_items ); $i++ ) {
@@ -81,7 +81,7 @@ class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			ucfirst( Get_Options::get_all_fields( $nb_total_items )[ $item_name ] )
+			ucfirst( Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
@@ -95,7 +95,7 @@ class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 
 			if ( $i === $nb_rows_display_clickmore ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
-				$output .= $isset_next === true ? $this->output_class->misc_layout( 'see_all_start', Get_Options::get_all_fields( $nb_total_items )[ $item_name ] ) : '';
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'see_all_start', Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ] ) : '';
 			}
 
 			if ( $i > $nb_rows_display_clickmore && $i === ( $nb_total_items - 1 ) ) {
