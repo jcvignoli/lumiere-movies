@@ -1,3 +1,5 @@
+import './index.css';
+
 // Wrapping it into a function allows to have a unique constant definition in this file
 ( ( wp ) => {
 

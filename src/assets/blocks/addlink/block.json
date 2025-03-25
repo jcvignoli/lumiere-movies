@@ -6,5 +6,5 @@
 	"category": "text",
 	"description": "Add a link that opens a popup with your selected movie",
 	"textdomain": "lumiere-movies",
-	"editorScript": "file:./index.min.js"
+	"editorScript": "file:./index.js"
 }

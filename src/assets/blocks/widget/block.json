@@ -6,6 +6,6 @@
 	"description": "Widget to add a movie or prevent auto title widget from adding movies in selected posts",
 	"textdomain": "lumiere-movies",
 	"category": "widgets",
-	"editorScript": "file:./index.min.js",
-	"editorStyle": "file:./index.min.css"
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css"
 }

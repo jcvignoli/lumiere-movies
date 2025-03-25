@@ -72,11 +72,13 @@ var paths = {
 		dist: './dist',								/* main lumiere path destination */
 		watch: './dist/**/*.*',							/* main browsersync watch folder */
 		sourcemap: '../tmp/sourcemap',						/* sourcemap output folder */
+		blocks: './src/assets/blocks/**/*.*',
 	},
 	stylesheets: {
 		src: [
 			'./src/**/*.css',
 			'!./src/assets/js/highslide/*.*',
+			'!./src/assets/blocks/**/*.*',					/* taken care by wp-scripts */
 			'!./src/vendor/**/*.*'
 		],
 		dist: './dist'
@@ -85,7 +87,8 @@ var paths = {
 		src: [ 
 			'./src/**/*.js',
 				'!./src/assets/js/highslide/**/**/*.*',
-				'!./src/vendor/**/*.*'
+				'!./src/assets/blocks/**/*.*',				/* taken care by wp-scripts */
+				'!./src/vendor/**/*.*',
 		],
 		dist: './dist'
 	},
@@ -101,7 +104,7 @@ var paths = {
 		src: [	'./src/**/*.{php,html,htm,xml,ico,webmanifest,md,txt,json}', 
 			'./src/vendor/twbs/bootstrap/dist/**/*.{min.js,min.css}', 
 
-			/* Remove irrelevant files in src/vendor */ 
+			/* Remove irelevant files in src/vendor */ 
 			'!./src/vendor/bin/*.*',				
 			'!./src/vendor/duck7000/imdb-graphql-php/src/Psr/**/*.*',
 			'!./src/vendor/duck7000/imdb-graphql-php/doc/**/*.*',
@@ -115,7 +118,8 @@ var paths = {
 			'./src/.**/**/*.{psd,json}',	 				/* extra files for .wordpress.org */
 			'./src/languages/*.*',
 				'!./src/languages/*.temp.po',  
-			'./src/assets/js/highslide/**/**/*.*'
+			'./src/assets/js/highslide/**/**/*.*',
+			'!./src/assets/blocks/**/*.*',					/* taken care by wp-scripts */
 		],
 		dist: './dist'
 	}
@@ -241,16 +245,27 @@ gulp.task('files_copy', () => {
 		.pipe(browserSync.stream())
 });
 
-// Task 5 - Watch files
+// Task 5 - Run "npm run watch:wp" --- wordpress watch
+import child from 'child_process';
+gulp.task('wpwatch', () => {
+	const cmd = child.spawn('npm', ['run', 'watch:wp']);
+	cmd.stdout.on('data', (data) => {
+		console.log(`stdout: ${data}`);
+	});
+	return cmd;
+});
+
+// Task 6 - Watch files
 gulp.task('watch', () => {		/* call tasks with ssh upload by default using var flagssh */
 	gulp.watch( paths.stylesheets.src, gulp.series('stylesheets'), flagssh = true);
 	gulp.watch( paths.javascripts.src, gulp.series('javascripts'), flagssh = true);
 	gulp.watch( paths.images.src, gulp.series('images'), flagssh = true);
 	gulp.watch( paths.files.src, gulp.series('files_copy'), flagssh = true);
-	console.log('Gulp watch started...');
+	gulp.watch( paths.base.blocks, gulp.series('wpwatch') );
+	console.log('Gulp watch with wp-scripts started...');
 });
 
-// Task 6 - Run browser-sync
+// Task 7 - Run browser-sync
 gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 	browserSync.init({
 
@@ -288,13 +303,13 @@ gulp.task('browserWatch', gulp.parallel( 'watch', (done) => {
 	done();
 }));
 
-// Task 7 - Build all files
+// Task 8 - Build all files
 gulp.task('build', (cb) => {
 	flagssh = false;
 	gulp.parallel( 'javascripts', 'stylesheets', 'images', 'files_copy' )(cb);
 });
 
-// Task 8 - Default
+// Task 9 - Default
 gulp.task('default', () => {
 	gulp.series( 'watch' );
 });

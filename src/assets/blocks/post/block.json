@@ -6,6 +6,6 @@
 	"description": "Add a block in your posts that displays movie and person",
 	"textdomain": "lumiere-movies",
 	"category": "embed",
-	"editorScript": "file:./index.min.js",
-	"editorStyle": "file:./index.min.css"
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css"
 }

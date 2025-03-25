@@ -14,6 +14,8 @@
 
 .lumiere_block_widget_input {padding:10px;text-align:center;background-color:grey;color:white;}
 
+#lum_form_type_query{max-width:82%;}
+
 /**
  * This class ensures that the legacy block is never hidden, behaves like it was clicked
  * Due to legacy widget preview, we can't know if there is a legacy widget when using block-based widget

@@ -28,7 +28,7 @@
 				title: __( 'Open search IMDB ID', 'lumiere-movies' ),
 				onClick: () => {
 					var selectedtext = blockProps.contentRef.current.innerText;
-					open( lumiere_admin_vars.wordpress_path + lumiere_admin_vars.admin_movie_search_url + '?' + lumiere_admin_vars.admin_movie_search_qstring + '=' + selectedtext, 'Lumiere popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + lumiere_admin_vars.popupLarg + ', height=' + lumiere_admin_vars.popupLong + ', top=100, left=100' );
+					open( lumiere_admin_vars.wordpress_path + lumiere_admin_vars.admin_movie_search_url + '?select_search_type=movie&' + lumiere_admin_vars.admin_movie_search_qstring + '=' + selectedtext, 'Lumiere popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + lumiere_admin_vars.popupLarg + ', height=' + lumiere_admin_vars.popupLong + ', top=100, left=100' );
 				},
 				isActive: blockProps.isActive,
 			}

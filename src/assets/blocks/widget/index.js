@@ -1,3 +1,5 @@
+import './index.css';
+
 // Wrapping it into a function allows to have a unique constant definition in this file
 // Can't get it work with API > 1 https://developer.wordpress.org/block-editor/reference-guides/block-api/block-api-versions/
 ( ( wp ) => {
