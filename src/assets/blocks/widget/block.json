@@ -1,11 +1,23 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 1,
-	"name": "lumiere/widget",
-	"title": "Add a movie in your Widget",
-	"description": "Widget to add a movie or prevent auto title widget from adding movies in selected posts",
-	"textdomain": "lumiere-movies",
-	"category": "widgets",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css"
+  "apiVersion": 1,
+  "name": "lumiere/widget",
+  "title": "Add a movie in your Widget",
+  "description": "Widget to add a movie or prevent auto title widget from adding movies in selected posts",
+  "category": "widgets",
+  "icon": {
+    "src": "lumiere",
+    "foreground": "#000000",
+    "background": "#ffffff"
+  },
+  "keywords": ["widget", "lumiere", "imdb", "movie", "film"],
+  "attributes": {
+    "lumiere_input": {
+      "type": "string",
+      "source": "html",
+      "selector": ".lumiere_block_widget_input",
+      "default": "Lumière Movies"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css"
 }
