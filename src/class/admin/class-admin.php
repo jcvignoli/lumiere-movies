@@ -75,7 +75,7 @@ class Admin {
 		add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
 
 		// Add the metabox to editor.
-		add_action( 'admin_init', fn() => Metabox_Selection::lumiere_static_start() );
+		add_action( 'admin_init', fn() => Metabox_Selection::init() );
 
 		// Register admin scripts.
 		add_action( 'admin_enqueue_scripts', [ $start, 'lumiere_register_admin_assets' ] );

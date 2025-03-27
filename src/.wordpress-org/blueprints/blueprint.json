@@ -1,7 +1,7 @@
 {
     "landingPage": "/wp-admin/admin.php?page=lumiere_options",
     "preferredVersions": {
-        "php": "8.0",
+        "php": "8.1",
         "wp": "latest"
     },
     "phpExtensionBundles": [
@@ -20,7 +20,7 @@
             "step": "installPlugin",
             "pluginZipFile": {
                 "resource": "url",
-                "url": "https:\/\/downloads.wordpress.org\/plugin\/lumiere-movies.4.1.zip"
+                "url": "https:\/\/downloads.wordpress.org\/plugin\/lumiere-movies.4.6.zip"
             },
             "options": {
                 "activate": true

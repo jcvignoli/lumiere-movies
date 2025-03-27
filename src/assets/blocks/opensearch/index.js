@@ -1,15 +1,15 @@
 // Activated on selecting text in Movie block, field movie's title
-( ( wp ) => {
 
-	const el = wp.element.createElement;
-	const __ = wp.i18n.__;
-	const registerBlock = wp.richText.registerFormatType;
-	const Selector = wp.data.withSelect;
-	const RichTextTool = wp.blockEditor.RichTextToolbarButton;
-	const { blockProps } = wp.blockEditor.useBlockProps;
-	var ifCond = wp.compose.ifCondition;
-	var Composer = wp.compose.compose;
+    const el = wp.element.createElement;
+    const __ = wp.i18n.__;
+    const registerBlock = wp.richText.registerFormatType;
+    const Selector = wp.data.withSelect;
+    const RichTextTool = wp.blockEditor.RichTextToolbarButton;
+    const { blockProps } = wp.blockEditor.useBlockProps;
+    const ifCond = wp.compose.ifCondition;
+    const Composer = wp.compose.compose;
 
+    // Define icon for the button
 	const iconLumiereWindow = el(
 		'svg',
 		{ width: 20, height: 20, viewBox: "0 0 1200 1200" },
@@ -20,47 +20,56 @@
 		)
 	);
 
-	var ButtonOpenSearch = ( blockProps ) => {
-		return el(
-			RichTextTool,
-			{
-				icon: iconLumiereWindow,
-				title: __( 'Open search IMDB ID', 'lumiere-movies' ),
-				onClick: () => {
-					var selectedtext = blockProps.contentRef.current.innerText;
-					open( lumiere_admin_vars.wordpress_path + lumiere_admin_vars.admin_movie_search_url + '?select_search_type=movie&' + lumiere_admin_vars.admin_movie_search_qstring + '=' + selectedtext, 'Lumiere popup', 'resizable=yes, toolbar=no, scrollbars=yes, location=no, width=' + lumiere_admin_vars.popupLarg + ', height=' + lumiere_admin_vars.popupLong + ', top=100, left=100' );
-				},
-				isActive: blockProps.isActive,
-			}
-		);
-	};
+    // Define the button component
+    const ButtonOpenSearch = ( blockProps ) => {
+        const handleClick = () => {
+            try {
+                const selectedText = blockProps.contentRef.current.textContent;
+                open(
+                    `${lumiere_admin_vars.wordpress_path}${lumiere_admin_vars.admin_movie_search_url}?select_search_type=movie&${lumiere_admin_vars.admin_movie_search_qstring}=${selectedText}`,
+                    'Lumiere',
+                    'width=800,height=600'
+                );
+            } catch (error) {
+                console.error('Error opening search window:', error);
+            }
+        };
 
-	var ConditionalButton = Composer(
-		Selector(
-			( select ) => {
-				return {
-					selectedBlock: select( 'core/block-editor' ).getSelectedBlock(),
-				};
-			}
-		),
-		ifCond(
-			( blockProps ) => {
-				return (
-					blockProps.selectedBlock &&
-					blockProps.selectedBlock.name === 'lumiere/main'
-				);
-			}
-		)
-	)( ButtonOpenSearch );
+        return el(
+            RichTextTool,
+            {
+                icon: iconLumiereWindow,
+                title: __( 'Open search IMDB ID', 'lumiere-movies' ),
+                onClick: handleClick,
+                isActive: blockProps.isActive,
+            }
+        );
+    };
 
-	registerBlock(
-		'lumiere/opensearch',
-		{
-			title: __( 'Open a search window', 'lumiere-movies' ),
-			description: __( 'Open a new window to query the IMDb for movie and retrieve its ID number.', 'lumiere-movies' ),
-			tagName: "someRandomTag",
-			className: null,
-			edit: ConditionalButton,
-		}
-	);
-} )( window.wp );
+    // Define conditional button component
+    const ConditionalButton = Composer(
+        Selector(
+            ( select ) => ({
+                selectedBlock: select( 'core/block-editor' ).getSelectedBlock(),
+            })
+        ),
+        ifCond(
+            ( blockProps ) => (
+                blockProps.selectedBlock &&
+                blockProps.selectedBlock.name === 'lumiere/main'
+            )
+        )
+    )( ButtonOpenSearch );
+
+    // Register the block
+    registerBlock(
+        'lumiere/opensearch',
+        {
+            title: __( 'Open a search window', 'lumiere-movies' ),
+            description: __( 'Open a new window to query the IMDb for movie and retrieve its ID number.', 'lumiere-movies' ),
+            tagName: "someRandomTag",
+            className: null,
+            edit: ConditionalButton,
+        }
+    );
+

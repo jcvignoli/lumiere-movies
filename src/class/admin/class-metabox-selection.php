@@ -4,7 +4,7 @@
  *
  * @copyright (c) 2021, Lost Highway
  *
- * @version       2.0
+ * @version       3.0
  * @package       lumieremovies
  */
 
@@ -22,12 +22,13 @@ use Lumiere\Config\Get_Options;
  * Add a metabox in admin post editing interface
  * It saves in metadata the value entered for IMDb title/ID
  * The metabox includes options to display IMDb results for a given IMDb movie ID/movie name
+ * Use blocks instead of this class if gutenberg is available
  *
  * @since 4.1 added auto title widget perpost exclusion/inclusion, simplified the class
+ * @since 4.6.1 Use this class for pre-gutenberg, blocks for post-gutenberg
+ *
  * @see \Lumiere\Admin\Admin Calls this class
  * @see \Lumiere\Frontend\Widget_Frontpage Output the metabox selection: movie id/name, auto title widget if not removed on a per-post basis
- *
- * @todo This should be a block!
  */
 class Metabox_Selection {
 
@@ -37,26 +38,49 @@ class Metabox_Selection {
 	use Open_Options;
 
 	/**
+	 * Store the custom meta post values
+	 * @var array<string, string>
+	 */
+	private array $custom_meta_selection;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		// Get global settings class properties.
 		$this->get_db_options(); // In Open_Options trait.
+
+		// Option for the select
+		$this->custom_meta_selection = [
+			__( 'Movie by IMDb ID', 'lumiere-movies' )  => 'lumiere_widget_movieid',
+			__( 'Movie by title', 'lumiere-movies' )    => 'lumiere_widget_movietitle',
+			__( 'Person by name', 'lumiere-movies' )    => 'lumiere_widget_personname',
+			__( 'Person by IMDb ID', 'lumiere-movies' ) => 'lumiere_widget_personid',
+		];
 	}
 
 	/**
-	 * Static instanciation of the class
+	 * Instanciation of the class
 	 *
 	 * @return void The class was instanciated
 	 * @see \Lumiere\Admin call this class
 	 */
-	public static function lumiere_static_start(): void {
+	public static function init(): void {
+
 		$metabox_class = new self();
 
 		/**
 		 * Register the metabox
 		 */
-		add_meta_box( 'lumiere_metabox_customfields', __( 'Lumière! widget area', 'lumiere-movies' ), [ $metabox_class, 'lum_show_metabox' ], [ 'post', 'page' ], 'side', 'high' );
+		add_meta_box(
+			'lumiere_metabox_customfields',
+			__( 'Lumière! widget area', 'lumiere-movies' ),
+			[ $metabox_class, 'lum_show_metabox' ],
+			[ 'post', 'page' ],
+			'side',
+			'high',
+			//[ '__back_compat_meta_box' => true ] // To be removed if gutenberg (remove metabox in gutenberg), as we are dealing with with blocks.
+		);
 		add_action( 'save_post', [ $metabox_class, 'save_custom_meta_box' ], 10, 2 );
 	}
 
@@ -70,15 +94,6 @@ class Metabox_Selection {
 	public function lum_show_metabox( \WP_Post $object ): void {
 
 		wp_nonce_field( basename( __FILE__ ), 'lum_metabox_nonce' );
-
-		// Option for the select, the two type of data to be taken over by imdb-movie.inc.php
-		$select_options = [
-			__( 'Movie by IMDb ID', 'lumiere-movies' )  => 'lumiere_widget_movieid',
-			__( 'Movie by title', 'lumiere-movies' )    => 'lumiere_widget_movietitle',
-			__( 'Person by name', 'lumiere-movies' )    => 'lumiere_widget_personname',
-			__( 'Person by IMDb ID', 'lumiere-movies' ) => 'lumiere_widget_personid',
-		];
-
 		?>
 
 		<p>
@@ -91,7 +106,7 @@ class Metabox_Selection {
 				<label for="lum_form_type_query"><?php esc_html_e( 'How to query the items?', 'lumiere-movies' ); ?></label>
 				<select id="lum_form_type_query" name="lum_form_type_query">
 				<?php
-				foreach ( $select_options as $key => $value ) {
+				foreach ( $this->custom_meta_selection as $key => $value ) {
 					echo '<option value="' . esc_attr( $value ) . '"';
 					echo strlen( get_post_meta( $object->ID, $value, true ) ) > 0 ? ' selected' : '';
 					echo '>' . esc_attr( $key ) . '</option>';

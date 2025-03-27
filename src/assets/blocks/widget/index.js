@@ -5,7 +5,8 @@ const { registerBlockType } = wp.blocks;
 const { useBlockProps } = wp.blockEditor;
 const { __: widget__ } = wp.i18n;
 const { Content: RichContent } = wp.blockEditor.RichText;
-	
+
+(function($) {	
 var iconLumiere = el(
 	'svg',
 	{ width: 35, height: 35, viewBox: "0 0 200 200" },
@@ -78,4 +79,5 @@ registerBlockType(
 
 	}
 );
+})(jQuery);
 
