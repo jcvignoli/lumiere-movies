@@ -74,7 +74,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 
 		// movie_id
 		$vars_movie_id = [ '"movie_id"', '"lum_movie_id"' ];
-		$result = $wpdb->get_results( $wpdb->prepare( 'UPDATE wp_posts SET post_content = REPLACE( post_content, %s, %s );', $vars_movie_id ) );
+		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_id ) );
 		if ( $wpdb->last_error ) {
 			$text = "Lumière database *movie_id* bit error: $wpdb->last_error";
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -83,8 +83,8 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		// movie_title
-		$vars_movie_id = [ '"movie_title"', '"lum_movie_title"' ];
-		$result = $wpdb->get_results( $wpdb->prepare( 'UPDATE wp_posts SET post_content = REPLACE( post_content, %s, %s );', $vars_movie_id ) );
+		$vars_movie_title = [ '"movie_title"', '"lum_movie_title"' ];
+		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_title ) );
 		if ( $wpdb->last_error ) {
 			$text = "Lumière database *movie_title* bit error: $wpdb->last_error";
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -93,8 +93,8 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		// person_name
-		$vars_movie_id = [ '"person_name"', '"lum_person_name"' ];
-		$result = $wpdb->get_results( $wpdb->prepare( 'UPDATE wp_posts SET post_content = REPLACE( post_content, %s, %s );', $vars_movie_id ) );
+		$vars_perso_name = [ '"person_name"', '"lum_person_name"' ];
+		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_name ) );
 		if ( $wpdb->last_error ) {
 			$text = "Lumière database *person_name* bit error: $wpdb->last_error";
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -103,8 +103,8 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		// person_id
-		$vars_movie_id = [ '"person_id"', '"lum_person_id"' ];
-		$result = $wpdb->get_results( $wpdb->prepare( 'UPDATE wp_posts SET post_content = REPLACE( post_content, %s, %s );', $vars_movie_id ) );
+		$vars_perso_id = [ '"person_id"', '"lum_person_id"' ];
+		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_id ) );
 		if ( $wpdb->last_error ) {
 			$text = "Lumière database *person_id* bit error: $wpdb->last_error";
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -128,7 +128,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_widget_movieid', true );
 			if ( $meta_value !== false && add_metadata( 'post', $post->ID, '_lum_movie_id_widget', $meta_value ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_widget_movieid' );
-				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_movieid* in postID $post->ID with to *_lum_movie_id_widget*" );
+				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_movieid* in postID $post->ID to *_lum_movie_id_widget*" );
 			} else {
 				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Error, couldn't update 'lumiere_widget_movieid' in postID $post->ID metadata: " . strval( $meta_value ) );
 			}
