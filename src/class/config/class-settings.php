@@ -148,6 +148,14 @@ class Settings extends Settings_Helper {
 	public const LUM_TAXO_ITEMS_THEME               = 'class/theme/class-taxonomy-items-standard.php';
 
 	/**
+	 * The name of the custom meta data field used for movie auto title widget
+	 * Utilised in Gutenberg
+	 * @see \Lumiere\Frontend\Widget\Widget_Frontpage::lum_get_widget() use it to check and display the auto title widget
+	 * @see \Lumiere\Admin\Metabox_Selection::register_post_meta_sidebar() use it to register the custom meta data
+	 */
+	public const LUM_AUTOTITLE_METADATA_FIELD_NAME  = '_lumiere_autotitlewidget_perpost';
+
+	/**
 	 * URL string for taxonomy
 	 * Must be public, used in parent class
 	 */
@@ -208,6 +216,39 @@ class Settings extends Settings_Helper {
 	}
 
 	/**
+	 * Define an array of available selection for type of search
+	 * The 'value' column must include either movie or person in _X_, it must end with 'id' if it is id related.
+	 *
+	 * @see Settings::get_scripts_admin_vars() Used in wp_add_inline_script() function
+	 * @see Get_Options::get_lum_all_type_search()
+	 * @see Get_Options::get_lum_all_type_search_widget()
+	 * @see \Lumiere\Admin\Metabox_Selection
+	 * @since 4.6.1
+	 *
+	 * @return array<array<string, string>>
+	 */
+	protected static function define_lum_all_type_search(): array {
+		return [
+			[
+				'label' => ucwords( __( 'By movie ID', 'lumiere-movies' ) ),
+				'value' => 'lum_movie_id',
+			],
+			[
+				'label' => ucwords( __( 'By movie title', 'lumiere-movies' ) ),
+				'value' => 'lum_movie_title',
+			],
+			[
+				'label' => ucwords( __( 'By person name', 'lumiere-movies' ) ),
+				'value' => 'lum_person_name',
+			],
+			[
+				'label' => ucwords( __( 'By person ID', 'lumiere-movies' ) ),
+				'value' => 'lum_person_id',
+			],
+		];
+	}
+
+	/**
 	 * Get ADMIN vars for javascript
 	 * @see \Lumiere\Admin\Admin::lumiere_execute_admin_assets() Include the vars
 	 * Used in wp_add_inline_script() function
@@ -225,6 +266,9 @@ class Settings extends Settings_Helper {
 				'ico80'                       => LUM_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
 				'popupLarg'                   => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong'                   => $imdb_admin_option['imdbpopuplong'],
+				'select_type_search'          => Get_Options::get_lum_all_type_search(),
+				'auto_title_field_name'       => self::LUM_AUTOTITLE_METADATA_FIELD_NAME,
+				'auto_title_activated'        => $imdb_admin_option['imdbautopostwidget'],
 			]
 		);
 		return $scripts_admin_vars !== false ? 'const lumiere_admin_vars = ' . $scripts_admin_vars : '';

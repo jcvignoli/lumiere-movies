@@ -1,6 +1,8 @@
 **Changelog**
 
 v.4.6.1
+* [bug] Blueprint wasn't updated to mandatory PHP8.1
+* [technical] Logger includes the URL in saved log and reports in local timezone.
 
 v.4.6
 * [feature] Major: it is now possible to add Persons details to your posts!

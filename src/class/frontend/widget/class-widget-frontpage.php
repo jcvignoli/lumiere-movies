@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Config\Open_Options;
+use Lumiere\Config\Get_Options;
 use Lumiere\Frontend\Widget\Widget_Legacy;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Widget_Selection;
@@ -47,13 +48,9 @@ class Widget_Frontpage {
 
 	/**
 	 * List of data that can be expected from custom post fields
+	 * @var array<string, array<int, string>>
 	 */
-	private const LUM_CUSTOM_POST_FIELDS              = [
-		'lumiere_widget_movietitle' => [ 'movie', 'byname' ],
-		'lumiere_widget_movieid'    => [ 'movie', 'bymid' ],
-		'lumiere_widget_personname' => [ 'person', 'byname' ],
-		'lumiere_widget_personid'   => [ 'person', 'bymid' ],
-	];
+	private array $lum_custom_post_fields              = [];
 
 	/**
 	 * HTML wrapping to the widget name
@@ -73,6 +70,9 @@ class Widget_Frontpage {
 	) {
 		// Get global settings class properties.
 		$this->get_db_options(); // In Open_Options trait.
+
+		// Get an array of the config.
+		$this->lum_custom_post_fields = Get_Options::get_lum_all_type_search_widget();
 	}
 
 	/**
@@ -178,9 +178,10 @@ class Widget_Frontpage {
 		 * Display the movie according to the post's title (option in -> main -> advanced).
 		 * Add the title to the array if auto title widget is enabled and is not disabled for this post
 		 */
+		$post_meta_autotitle_value = get_post_meta( $post_id, Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME, true );
 		if (
 			$this->imdb_admin_values['imdbautopostwidget'] === '1'
-			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) !== 'disabled' // thus the var may not have been created.
+			&& $post_meta_autotitle_value === '1' // thus the var may not have been created.
 		) {
 			$movies_array[]['byname'] = esc_html( get_the_title( $post_id ) );
 			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget activated, using the post title ' . esc_html( get_the_title( $post_id ) ) . ' for querying' );
@@ -188,9 +189,9 @@ class Widget_Frontpage {
 			// the post-based selection for auto title widget is turned off
 		} elseif (
 			$this->imdb_admin_values['imdbautopostwidget'] === '1'
-			&& get_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', true ) === 'disabled'
+			&& $post_meta_autotitle_value === '0'
 		) {
-			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget is specifically deactivated for this post' );
+			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget was specifically deactivated for this post' );
 		}
 
 		// Check if a post ID is available add it.
@@ -219,7 +220,7 @@ class Widget_Frontpage {
 
 	/**
 	 * Query WordPress current post using the PostID to get post metadata
-	 * Custom fields in Widget_Frontpage::LUM_CUSTOM_POST_FIELDS
+	 * Custom fields in Widget_Frontpage::$lum_custom_post_fields
 	 *
 	 * @param int $post_id WordPress post ID to query about metaboxes
 	 * @return array<string, array<string, string>> Results found in metaboxes if any
@@ -228,10 +229,13 @@ class Widget_Frontpage {
 	 */
 	private function maybe_get_lum_post_metada( int $post_id ): array {
 		$movies_array = [];
-		foreach ( self::LUM_CUSTOM_POST_FIELDS as $post_meta_custom => $type ) {
+		foreach ( $this->lum_custom_post_fields as $post_meta_custom => $type ) {
 			$get_post_meta = get_post_meta( $post_id, $post_meta_custom, false /* false to get an array of values, can have many */ );
 			if ( $get_post_meta !== false && count( $get_post_meta ) > 0 ) {
 				foreach ( $get_post_meta as $key => $value ) {
+					if ( strlen( $value ) === 0 ) { // continue if the metavar key has no value.
+						continue;
+					}
 					$movies_array[ $type[0] ][ $type[1] ] = esc_html( $value );
 					$this->logger->log?->debug( "[Widget_Frontpage] Custom field $type[1] found, using \"$value\" for querying" );
 				}
@@ -258,7 +262,7 @@ class Widget_Frontpage {
 		foreach ( $array as $movie_person ) {
 			$key = array_keys( $movie_person )[0] ?? '';
 			$values = array_values( $movie_person );
-			if ( $key === 'movie' ) {                           // Movie.
+			if ( $key === 'movie' ) {                       // Movie.
 				$get_array_imdbid = apply_filters( 'lum_find_movie_id', $values );
 				$output .= apply_filters( 'lum_display_movies_box', $get_array_imdbid );
 			} elseif ( $key === 'person' ) {                        // Person.

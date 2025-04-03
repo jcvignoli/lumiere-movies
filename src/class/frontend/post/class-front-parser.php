@@ -15,6 +15,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Config\Get_Options;
 use Lumiere\Frontend\Post\Person_Factory;
 use Lumiere\Frontend\Post\Movie_Factory;
 use Lumiere\Frontend\Layout\Output;
@@ -191,9 +192,10 @@ class Front_Parser {
 	 *
 	 * @since 3.10.2 The function always returns string, no null accepted -- PHP8.2 compatibility
 	 * @since 4.2.3 The function will return with the content if not executed in autorized area
+	 * @since 4.6.1 Use preg_replace_callback() instead of preg_replace_callback_array(), foreach loop, use {@see Get_Options::get_lum_all_type_search()}
 	 *
 	 * @param null|string $content HTML span tags + text inside
-	 * @return string
+	 * @return string The spans have been replaced with movies/persons boxes
 	 */
 	public function parse_spans( ?string $content ): string {
 
@@ -207,28 +209,28 @@ class Front_Parser {
 			return $content;
 		}
 
-		return preg_replace_callback_array(
-			[
-				'~<span data-lum_movie_maker="movie_id">(.+?)<\/span>~' => function ( array $match ) {
-					return $this->replace_movie_spans( $match[1], 'bymid' );
+		foreach ( Get_Options::get_lum_all_type_search() as $key => $value ) {
+			$value_array = explode( '_', $value['value'] );
+			$col1 = $value_array[1] ?? ''; // Either movie or person.
+			$col2 = isset( $value_array[2] ) && str_contains( $value_array[2], 'id' ) ? 'bymid' : 'byname';
+			$callback_name = 'replace_' . $col1 . '_spans';
+			$content = preg_replace_callback(
+				'~<span data-lum_movie_maker="' . $value['value'] . '">(.+?)<\/span>~',
+				function( $match ) use( $col2, $callback_name ): string {
+					return $this->{$callback_name}( $match[1], $col2 );
 				},
-				'~<span data-lum_movie_maker="movie_title">(.+?)<\/span>~' => function ( array $match ) {
-					return $this->replace_movie_spans( $match[1], 'byname' );
-				},
-				'~<span data-lum_movie_maker="person_name">(.+?)<\/span>~' => function ( array $match ) {
-					return $this->replace_person_spans( $match[1], 'byname' );
-				},
-				'~<span data-lum_movie_maker="person_id">(.+?)<\/span>~' => function ( array $match ) {
-					return $this->replace_person_spans( $match[1], 'bymid' );
-				},
-			],
-			$content
-		) ?? $content;
+				$content
+			) ?? $content;
+		}
+
+		return $content;
 	}
 
 	/**
-	 * Callback for movies
-	 * It applies method display_movies() on the text found
+	 * Callback for movies, helper method
+	 * It applies method {@see Front_Parser::display_movies()} on the text found
+	 *
+	 * @see Front_Parser::parse_spans() use this method
 	 *
 	 * @param string $text_found Text found inside <span></span>
 	 * @param 'byname'|'bymid' $search_type Searching type of the movie
@@ -240,11 +242,13 @@ class Front_Parser {
 	}
 
 	/**
-	 * Callback for movies
-	 * It applies method display_movies() on the text found
+	 * Callback for persons, helper method
+	 * It applies method {@see Front_Parser::display_persons()} on the text found
+	 *
+	 * @see Front_Parser::parse_spans() use this method
 	 *
 	 * @param string $text_found Text found inside <span></span>
-	 * @param 'byname'|'bymid' $search_type Searching type of the movie
+	 * @param 'byname'|'bymid' $search_type Searching type of the person
 	 */
 	private function replace_person_spans( string $text_found, string $search_type ): string {
 		$imdb_id_or_title = [];
@@ -310,11 +314,11 @@ class Front_Parser {
 		return preg_replace_callback_array(
 			[
 				// replace all occurences of <span class="lumiere_link_maker">(.+?)<\/span> into internal popup
-				'~<span[^>]*data-lum_link_maker="popup"[^>]*>(.+)<\/span>~iU' => function ( array $match ) {
+				'~<span[^>]*data-lum_link_maker="popup"[^>]*>(.+)<\/span>~iU' => function ( array $match ): string {
 					return $this->get_popup_link( $match );
 				},
 				// Kept for compatibility purposes:  <!--imdb--> still works -- it's really old, should be @deprecated
-				 '~<!--imdb-->(.*?)<!--\/imdb-->~i' => function ( array $match ) {
+				 '~<!--imdb-->(.*?)<!--\/imdb-->~i' => function ( array $match ): string {
 					return $this->get_popup_link( $match );
 				 },
 			],

@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "widget-sidebar-options",
+	"title": "Lumière Widget Options",
+	"description": "Change the behaviour of Lumière's widget",
+	"textdomain": "lumiere-movies",
+	"category": "widgets",
+	"keywords": ["sidebar", "lumiere", "imdb", "movies", "film"],
+	"attributes": {
+		"_lum_form_type_query": {
+			"type": "string",
+			"default": "lum_movie_title"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css"
+}

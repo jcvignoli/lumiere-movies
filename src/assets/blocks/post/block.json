@@ -2,10 +2,25 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "lumiere/main",
-	"title": "Add a movie/person block into your post",
-	"description": "Add a block in your posts that displays movie and person",
+	"title": "Add a movie or person into your post",
+	"description": "Add a block in your posts that displays movie/person data.",
 	"textdomain": "lumiere-movies",
 	"category": "embed",
+	"icon": {
+		"src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUiIGhlaWdodD0iMzUiIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj4KICA8cGF0aCBkPSJNMTAgMTAwIGMwIC00NyA0LTgwIDEwLTgwIDYgMCAxMCAzMyAxMCA4MCAwIDQ3LTQgODAtMTAgODAtNiAwLTEwLTMzLTEwLTgweiBNNTAgMTcwIGMwIC01IDIzLTEwIDUwLTEwIDI4IDAgNTAgNSA1MCAxMCAwIDYtMjIgMTAtNTAgMTAtMjcgMC01MC00LTUwLTEweiBNMTcwIDEwMCBjMCAtNDcgNC04MCAxMC04MCA2IDAgMTAgMzMgMTAgODAgMCA0Ny00IDgwLTEwIDgwLTYgMC0xMC0zMy0xMC04MHoiLz4KPC9zdmc+"
+	},
+	"keywords": ["lumiere", "imdb", "movies", "film"],
+	"example": {},
+	"attributes": {
+		"lumiere_imdblt_select": {
+			"type": "string",
+			"default": "lum_movie_title"
+		},
+		"content": {
+			"type": "string",
+			"default": "Enter the name or the IMDb ID movie"
+		}
+	},
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css"
 }

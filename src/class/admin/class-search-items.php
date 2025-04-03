@@ -212,6 +212,7 @@ class Search_Items {
 					],
 					'option' => [
 						'label'  => [],
+						'value'  => [],
 					],
 				]
 			);
@@ -299,7 +300,7 @@ class Search_Items {
 		$output = "\n<div align=\"center\">";
 		$output .= "\n\t" . '<form action="" method="get" id="searchmovie">';
 		$output .= "\n\t" . '<h1 id="lum_search_title">' . esc_html__( 'Search an IMDb ID for', 'lumiere-movies' );
-		$output .= '<select id="select_search_type" name="select_search_type"><option label="' . ucfirst( esc_html__( 'movie', 'lumiere-movies' ) ) . '">' . esc_html__( 'movie', 'lumiere-movies' ) . '</option><option label="' . ucfirst( esc_html__( 'person', 'lumiere-movies' ) ) . '">' . esc_html__( 'person', 'lumiere-movies' ) . '</option></select></h1>';
+		$output .= '<select id="select_search_type" name="select_search_type"><option label="movie" value="movie">' . esc_html__( 'movie', 'lumiere-movies' ) . '</option><option label="person" value="person">' . esc_html__( 'person', 'lumiere-movies' ) . '</option></select></h1>';
 
 		$output .= "\n\t\t" . '<input type="text" id="lum_movie_input" name="' . Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING . '" value="">';
 

@@ -3,7 +3,7 @@
 * This TinyMCE function createds a visual editor for Lumière! plugin
 * It adds an option in the toolbar with Lumière! tools to:
 * 1/ Add a link creating a popup in posts
-* 2/ Add a movie section based either on movie's title or IMDb ID
+* 2/ Add a movie/person section based either on movie/person's title/name or their IMDb ID
 * 3/ Open a search window to find IMDb ID
 *
 * It temporary adds a Lumière! icon to spot the Lumière! title or ID currently utilised
@@ -12,7 +12,7 @@
 * @author        Lost Highway <https://www.jcvignoli.com/blog>
 * @copyright (c) 2021, Lost Highway
 *
-* @version       4.0
+* @version       4.1
 */
 
 (function($) {
@@ -50,8 +50,8 @@
 				var data_movie_key = 'lum_movie_maker';
 				var span_movie_attr = 'data-' + data_movie_key;
 				var span_movie_begin = '<span ' + span_movie_attr + '="';
-				var span_movie_title = span_movie_begin + 'movie_title">';
-				var span_movie_id = span_movie_begin + 'movie_id">';
+				var span_movie_title = span_movie_begin + 'lum_movie_title">';
+				var span_movie_id = span_movie_begin + 'lum_movie_id">';
 
 				// Initialise MENU
 				var menu = [];
@@ -118,10 +118,12 @@
 										{
 											type: 'listbox',
 											name: 'movieFormat',
-											label: 'My movie is inserted by:',
+											label: 'My items is inserted by:',
 											'values': [
-											{text: 'By title', value: 'movie_title'},
-											{text: 'By id', value: 'movie_id'}
+											{text: 'By movie title', value: 'lum_movie_title'},
+											{text: 'By movie id', value: 'lum_movie_id'},
+											{text: 'By person name', value: 'lum_person_name'},
+											{text: 'By person id', value: 'lum_person_id'}
 											]
 										},
 										// Button to open search window
@@ -135,7 +137,7 @@
 													{
 														title: 'Internal Query to find IMDb ID',
 														file:  gutenberg_url + query_title,
-														width: 500,
+														width: 800,
 														height: 400,
 														// Whether to use modal dialog instead of separate browser window.
 														inline: 1,
@@ -177,7 +179,7 @@
 									{
 										title: 'Internal Query to find IMDb ID',
 										file:  gutenberg_url + query_title,
-										width: 500,
+										width: 700,
 										height: 400,
 										// Whether to use modal dialog instead of separate browser window.
 										inline: 1,
@@ -321,7 +323,7 @@
 					author : 'JCV',
 					authorurl : 'https://www.jcvignoli.com/blog',
 					infourl : 'https://www.jcvignoli.com/en/lumiere-movies-wordpress-plugin/',
-					version : "4.0"
+					version : "4.1"
 				};
 			},
 

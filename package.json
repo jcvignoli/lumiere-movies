@@ -18,10 +18,10 @@
   "license": "GPL-3.0",
   "scripts": {
     "watch": "gulp watch",
-    "watch:wp": "wp-scripts start --output-path=dist/assets/blocks --source-path=src/assets/blocks",
+    "watch:wp": "wp-scripts start --output-path=dist/assets/blocks --source-path=src/assets/blocks --webpack-copy-php",
     "browserWatch": "gulp browserWatch",
     "build": "if [ -d \"./dist\" ];then rm -R ./dist; else mkdir ./dist; fi && npm run build:wpbuild && gulp build --ssh false",
-    "build:wpbuild": "wp-scripts build --output-path=dist/assets/blocks --source-path=src/assets/blocks",
+    "build:wpbuild": "wp-scripts build --output-path=dist/assets/blocks --source-path=src/assets/blocks --webpack-copy-php",
     "build:github": "mkdir ./dist && gulp -f tests/gulpfile-github.js build",
     "phpdoc": "phpDocumentor run",
     "plugincheck": "wp @lumiere plugin check lumiere-movies --ignore-codes='WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing,PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage, WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary,WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace'",
@@ -38,9 +38,11 @@
     "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm plugincheck"
   },
   "devDependencies": {
+    "@wordpress/plugins": "^7.21.0",
     "@wordpress/scripts": "*",
     "browser-sync": "*",
     "fs-extra": "*",
+    "glob": "^11.0.1",
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-changed": "*",
@@ -53,7 +55,8 @@
     "gulp-replace": "*",
     "gulp-ssh": "*",
     "gulp-terser": "*",
-    "npm-run-all": "*"
+    "npm-run-all": "*",
+    "webpack-remove-empty-scripts": "^1.0.4"
   },
   "type": "module",
   "overrides": {

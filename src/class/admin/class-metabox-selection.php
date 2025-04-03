@@ -41,7 +41,7 @@ class Metabox_Selection {
 	 * Store the custom meta post values
 	 * @var array<string, string>
 	 */
-	private array $custom_meta_selection;
+	private array $custom_meta_selection = [];
 
 	/**
 	 * Constructor
@@ -50,13 +50,8 @@ class Metabox_Selection {
 		// Get global settings class properties.
 		$this->get_db_options(); // In Open_Options trait.
 
-		// Option for the select
-		$this->custom_meta_selection = [
-			__( 'Movie by IMDb ID', 'lumiere-movies' )  => 'lumiere_widget_movieid',
-			__( 'Movie by title', 'lumiere-movies' )    => 'lumiere_widget_movietitle',
-			__( 'Person by name', 'lumiere-movies' )    => 'lumiere_widget_personname',
-			__( 'Person by IMDb ID', 'lumiere-movies' ) => 'lumiere_widget_personid',
-		];
+		// Option for the select, starts with '_' and ends with '_widget'
+		$this->custom_meta_selection = Get_Options::get_lum_all_type_search_metabox(); // ie: _lum_person_id_widget.
 	}
 
 	/**
@@ -67,21 +62,79 @@ class Metabox_Selection {
 	 */
 	public static function init(): void {
 
-		$metabox_class = new self();
+		$that = new self();
 
 		/**
 		 * Register the metabox
+		 * Pre-5.8 WordPress, since we now use blocks {@see Metabox_Selection::register_post_meta_sidebar()}
 		 */
 		add_meta_box(
 			'lumiere_metabox_customfields',
 			__( 'Lumière! widget area', 'lumiere-movies' ),
-			[ $metabox_class, 'lum_show_metabox' ],
+			[ $that, 'lum_show_metabox' ],
 			[ 'post', 'page' ],
 			'side',
 			'high',
-			//[ '__back_compat_meta_box' => true ] // To be removed if gutenberg (remove metabox in gutenberg), as we are dealing with with blocks.
+			[ '__back_compat_meta_box' => true ] // Remove the metabox if post-gutenberg (post-5.8 WordPress).
 		);
-		add_action( 'save_post', [ $metabox_class, 'save_custom_meta_box' ], 10, 2 );
+		add_action( 'save_post', [ $that, 'save_custom_meta_box' ], 10, 2 );
+	}
+
+	/**
+	 * Register the sidebar's custom meta post data in Post settings
+	 * Only works with Gutenberg active (post-5.8 WordPress)
+	 * Method completely independent of the rest of the class
+	 *
+	 * @see \Lumiere\Admin Call this method
+	 * @see Block Post-options needs it
+	 * @return void Custom meta post data are registered
+	 */
+	public static function register_post_meta_sidebar(): void {
+
+		// Option for the select, add '_widget' to the value column
+		foreach ( Get_Options::get_lum_all_type_search_metabox() as $key => $value ) {
+			register_meta(
+				'post',
+				$value,
+				[
+					'show_in_rest'      => true,
+					'single'            => true,
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_text_field',
+					'auth_callback'     => function(): bool {
+						return current_user_can( 'edit_posts' );
+					},
+				]
+			);
+		}
+
+		// Extra selection for autotitle. Utilised in post/widget options.
+		register_meta(
+			'post',
+			Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME,
+			[
+				'show_in_rest'  => true,
+				'single'        => true,
+				'type'          => 'boolean',
+				'auth_callback' => function(): bool {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+		// Extra selection for the type of query, agregating all selection in Get_Options::get_lum_all_type_search_metabox(). Utilised in post/widget options.
+		register_meta(
+			'post',
+			'_lum_form_type_query',
+			[
+				'show_in_rest'      => true,
+				'single'            => true,
+				'sanitize_callback' => 'sanitize_text_field',
+				'type'              => 'string',
+				'auth_callback'     => function(): bool {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
 	}
 
 	/**
@@ -98,12 +151,13 @@ class Metabox_Selection {
 
 		<p>
 		
-		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Select which items to display', 'lumiere-movies' ); ?></div>
+		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Select items to display', 'lumiere-movies' ); ?></div>
 
 		<div class="lumiere_display_flex lumiere_flex_make_responsive_metabox">
 
 			<div class="lumiere_padding_five">
-				<label for="lum_form_type_query"><?php esc_html_e( 'How to query the items?', 'lumiere-movies' ); ?></label>
+				<label for="lum_form_type_query"><?php esc_html_e( 'How to query the items in the widget?', 'lumiere-movies' ); ?></label>
+				<br>
 				<select id="lum_form_type_query" name="lum_form_type_query">
 				<?php
 				foreach ( $this->custom_meta_selection as $key => $value ) {
@@ -118,10 +172,9 @@ class Metabox_Selection {
 			<div class="lumiere_padding_five">
 				<label for="lum_form_query_value"><?php esc_html_e( 'Title/Name or ID:', 'lumiere-movies' ); ?></label>
 				<input id="lum_form_query_value" name="lum_form_query_value" class="lum_width_fillall" type="text" value="<?php
-				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_movieid', true ) );
-				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_movietitle', true ) );
-				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_personname', true ) );
-				echo esc_attr( get_post_meta( $object->ID, 'lumiere_widget_personid', true ) );
+				foreach ( $this->custom_meta_selection as $key => $value ) {
+					echo esc_attr( get_post_meta( $object->ID, $value, true ) );
+				}
 				?>">
 			</div>
 
@@ -153,8 +206,9 @@ class Metabox_Selection {
 		
 		<div class="lumiere_padding_five">
 			
-			<input id="lumiere_autotitlewidget_perpost" name="lumiere_autotitlewidget_perpost" type="checkbox" value="disabled"<?php echo get_post_meta( $object->ID, 'lumiere_autotitlewidget_perpost', true ) === 'disabled' ? ' checked' : ''; ?>>
-			<label class="lum_metabox_label_checkbox" for="lumiere_autotitlewidget_perpost">
+			<input id="<?php echo esc_attr( Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME ); ?>" name="<?php echo esc_attr( Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME ); ?>" type="checkbox" <?php echo get_post_meta( $object->ID, Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME, true ) === '1' ? 'value="0" checked' : 'value="1"'; ?>>
+			<label class="lum_metabox_label_checkbox" for="<?php echo esc_attr( Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME ); ?>">
+			
 			<?php
 			echo wp_kses(
 				wp_sprintf(
@@ -212,44 +266,34 @@ class Metabox_Selection {
 		$post = sanitize_post( $_POST );
 		$lum_form_type_query = $post['lum_form_type_query'] ?? null;
 		$lum_form_query_value = $post['lum_form_query_value'] ?? null;
-		$lumiere_autotitlewidget_perpost = $post['lumiere_autotitlewidget_perpost'] ?? 'enabled';
+		/** @psalm-var '_lumiere_autotitlewidget_perpost'|string @lumiere_autotitlewidget_perpost */
+		$lumiere_autotitlewidget_perpost = $post[ Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME ] ?? false;
 
 		// Create or update the metas.
 		if ( isset( $lum_form_query_value ) && isset( $lum_form_type_query ) ) {
 			update_post_meta( $post_id, $lum_form_type_query, $lum_form_query_value );
 		}
-		if ( strlen( $lumiere_autotitlewidget_perpost ) > 0 ) {
-			update_post_meta( $post_id, 'lumiere_autotitlewidget_perpost', $lumiere_autotitlewidget_perpost );
+
+		// Detect if auto title is active, add '0' otherwise
+		if ( $lumiere_autotitlewidget_perpost === '1' ) { // Is supposed to be '1'|'0'
+			update_post_meta( $post_id, Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME, $lumiere_autotitlewidget_perpost );
+		} else {
+			update_post_meta( $post_id, Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME, '0' );
 		}
 
-		// Delete the other custom data.
-		if ( $lum_form_type_query === 'lumiere_widget_movieid' ) {
-			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
-			delete_post_meta( $post_id, 'lumiere_widget_personid' );
-			delete_post_meta( $post_id, 'lumiere_widget_personname' );
-		}
-		if ( $lum_form_type_query === 'lumiere_widget_movietitle' ) {
-			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
-			delete_post_meta( $post_id, 'lumiere_widget_personid' );
-			delete_post_meta( $post_id, 'lumiere_widget_personname' );
-		}
-		if ( $lum_form_type_query === 'lumiere_widget_personname' ) {
-			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
-			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
-			delete_post_meta( $post_id, 'lumiere_widget_personid' );
-		}
-		if ( $lum_form_type_query === 'lumiere_widget_personid' ) {
-			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
-			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
-			delete_post_meta( $post_id, 'lumiere_widget_personname' );
+		// Delete all custom post fields but the one passed in $_POST.
+		foreach ( $this->custom_meta_selection as $key => $value ) {
+			if ( $lum_form_type_query === $value ) {
+				continue;
+			}
+			delete_post_meta( $post_id, $value );
 		}
 
-		// Delete every custom data if no value was passed.
+		// Delete all custom post fields if no value was passed.
 		if ( ! isset( $lum_form_query_value ) || strlen( $lum_form_query_value ) === 0 ) {
-			delete_post_meta( $post_id, 'lumiere_widget_movieid' );
-			delete_post_meta( $post_id, 'lumiere_widget_movietitle' );
-			delete_post_meta( $post_id, 'lumiere_widget_personid' );
-			delete_post_meta( $post_id, 'lumiere_widget_personname' );
+			foreach ( $this->custom_meta_selection as $key => $value ) {
+				delete_post_meta( $post_id, $value );
+			}
 		}
 	}
 }

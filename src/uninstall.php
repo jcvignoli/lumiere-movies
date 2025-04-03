@@ -27,6 +27,7 @@ use Lumiere\Tools\Files;
 /**
  * Uninstall plugin
  * If imdbkeepsettings is set (advanced admin options), exit earlier to keep database settings
+ * Metadatas (Settings::define_lum_all_type_search() and 'lumiere_autotitlewidget_perpost') are not removed, even if imdbkeepsettings is set
  *
  * @since 4.0 option properties can be null and construct is different.
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
@@ -111,7 +112,7 @@ class Uninstall {
 			return;
 		}
 
-		//********* Next actions are executed only if the user selected to not keep their settings */
+		/********* Below actions are executed only if the user selected to not keep their settings */
 
 		// Delete cache folder.
 		$this->delete_cache();
@@ -258,6 +259,7 @@ class Uninstall {
 
 	/**
 	 * Delete crons
+	 * @return void Crons deleted
 	 */
 	private function lumiere_delete_crons(): void {
 
@@ -273,7 +275,7 @@ class Uninstall {
 
 	/**
 	 * Delete transients
-	 * Probably too much, who deletes transients anyway? Wordpress does it alone.
+	 * Probably too much, who deletes transients anyway? Wordpress does it by itsefl.
 	 * @return void Transient deleted
 	 */
 	private function lumiere_delete_transients(): void {
@@ -291,6 +293,7 @@ class Uninstall {
 
 	/**
 	 * Delete options
+	 * @return void Lumière options rows deleted
 	 */
 	private function delete_options(): void {
 

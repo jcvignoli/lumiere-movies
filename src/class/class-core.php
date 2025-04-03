@@ -63,14 +63,9 @@ final class Core {
 		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'lumiere_static_start' ] );
 
 		/**
-		 * Gutenberg blocks, must be executed on the whole website
-		 */
-		add_action( 'enqueue_block_editor_assets', [ $this, 'lum_enqueue_blocks' ] );
-
-		/**
 		 * Admin
 		 */
-		add_action( 'init', [ 'Lumiere\Admin\Admin', 'lumiere_static_start' ], 9 ); // Priority must be below 10.
+		add_action( 'init', [ 'Lumiere\Admin\Admin', 'init' ], 9 ); // Priority must be below 10.
 
 		/**
 		 * Frontpage
@@ -93,37 +88,6 @@ final class Core {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			add_action( 'cli_init', [ 'Lumiere\Tools\Cli_Commands', 'lumiere_static_start' ] );
 		}
-	}
-
-	/**
-	 * Register and enqueue gutenberg blocks, must be executed on the whole website
-	 *
-	 * @since 4.1 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
-	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() which registers gutenberg widget blocks
-	 */
-	public function lum_enqueue_blocks(): void {
-		$blocks = [ 'post', 'addlink', 'opensearch' ];
-		$block_dir = LUM_WP_PATH . 'assets/blocks';
-
-		foreach ( $blocks as $block ) {
-			register_block_type( $block_dir . '/' . $block );
-			add_action(
-				'init',
-				function( string $block ) {
-					wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', LUM_WP_PATH . 'languages/' );
-				}
-			);
-		}
-
-		// Javascript for Gutenberg blocks only.
-		wp_register_script(
-			'lumiere_scripts_admin_gutenberg',
-			LUM_WP_URL . 'assets/js/lumiere_scripts_admin_gutenberg.min.js',
-			[],
-			strval( filemtime( LUM_WP_PATH . 'assets/js/lumiere_scripts_admin_gutenberg.min.js' ) ),
-			true
-		);
-		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 	}
 
 	/**

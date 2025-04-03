@@ -97,6 +97,51 @@ class Get_Options extends Settings {
 	}
 
 	/**
+	 * Get an array of available selection for type of search
+	 * Used for the inner posts, ie 'By movie id' => 'lum_movie_id'
+	 * @since 4.6.1
+	 * @return array<array<string, string>>
+	 */
+	public static function get_lum_all_type_search(): array {
+		return parent::define_lum_all_type_search();
+	}
+
+	/**
+	 * Get an array of available selection for type of search => for widget
+	 * Adds '_' and '_widget' to the name of the 'value' column
+	 * Used for the widgets, => ie '_lum_movie_id_widget' => [ 'movie' => 'bymid' ]
+	 * @since 4.6.1
+	 * @see \Lumiere\Frontend\Widget\Widget_Frontpage::lum_get_widget() use it to check and display the auto title widget
+	 * @return array<string, array<int, string>>
+	 */
+	public static function get_lum_all_type_search_widget(): array {
+		$array = [];
+		foreach ( parent::define_lum_all_type_search() as $key => $value ) {
+			$value_array = explode( '_', $value['value'] );
+			$col1 = $value_array[1] ?? ''; // Either movie or person.
+			$col2 = isset( $value_array[2] ) && str_contains( $value_array[2], 'id' ) ? 'bymid' : 'byname';
+			$array[ '_' . $value['value'] . '_widget' ] = [ $col1, $col2 ];
+		}
+		return $array;
+	}
+
+	/**
+	 * Get an array of available selection for type of search => for metabox
+	 * Adds '_' and '_widget' to the name of the 'value' column
+	 * Used for the metaboxes (blocks and metabox) widgets => ie 'By movie id' => '_lum_movie_id_widget'
+	 * @since 4.6.1
+	 * @see \Lumiere\Admin\Metabox_Selection::register_post_meta_sidebar() use it to register the custom meta data (and the rest of the class too)
+	 * @return array<string,string>
+	 */
+	public static function get_lum_all_type_search_metabox(): array {
+		$array = [];
+		foreach ( parent::define_lum_all_type_search() as $key => $value ) {
+			$array[ $value['label'] ] = '_' . $value['value'] . '_widget';
+		}
+		return $array;
+	}
+
+	/**
 	 * Retrieve selected type of search in admin
 	 *
 	 * @return string

@@ -3,8 +3,8 @@
 	"apiVersion": 3,
 	"name": "lumiere/addlink",
 	"title": "Add a popup link",
-	"category": "text",
 	"description": "Add a link that opens a popup with your selected movie",
+	"category": "text",
 	"textdomain": "lumiere-movies",
 	"editorScript": "file:./index.js"
 }

@@ -50,7 +50,7 @@ class Admin {
 	 * Static start
 	 * @see \Lumiere\Core
 	 */
-	public static function lumiere_static_start(): void {
+	public static function init(): void {
 
 		$start = new self();
 
@@ -63,6 +63,9 @@ class Admin {
 
 		// Display search page, must be executed before the admin control
 		add_filter( 'template_redirect', [ $start, 'lum_search_movie_redirect' ] );
+
+		// Gutenberg-style sidebar. Must be called before is_admin().
+		add_action( 'init', fn() => Metabox_Selection::register_post_meta_sidebar() );
 
 		/**
 		 * (2) Only for admin pages, so after this, only init and below should work
@@ -93,13 +96,17 @@ class Admin {
 			return;
 		}
 
+		/**
+		 * Gutenberg blocks, must be executed on the whole website
+		 */
+		add_action( 'enqueue_block_editor_assets', [ $start, 'lum_enqueue_blocks' ] );
+
 		// Add Polylang specific methods to admin. Static methods that executes ony if Polylang is active.
 		add_action( 'init', [ 'Lumiere\Plugins\Auto\Polylang', 'add_polylang_in_admin' ] );
 
 		// Add admin menu.
 		add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
 	}
-
 	/**
 	 * Register admin scripts and styles
 	 */
@@ -157,6 +164,52 @@ class Admin {
 			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_admin_quicktags.min.js' ) ),
 			true
 		);
+	}
+
+	/**
+	 * Register and enqueue gutenberg blocks, must be executed on the whole website
+	 *
+	 * @since 4.1 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
+	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() which registers gutenberg widget blocks
+	 */
+	public function lum_enqueue_blocks(): void {
+
+		$block_dir = LUM_WP_PATH . 'assets/blocks';
+		$blocks = [ 'post', 'addlink', 'opensearch' ];
+		foreach ( $blocks as $block ) {
+			register_block_type( $block_dir . '/' . $block );
+			add_action(
+				'init',
+				function( string $block ) {
+					wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', LUM_WP_PATH . 'languages/' );
+				}
+			);
+		}
+
+		// Sidebar for post options, cannot use register_block_type() which needs to start with a domain ("lumiere/") but Sidebar doesn't accept "7"
+		wp_register_script(
+			'widget-sidebar-options', // name can't use underscores.
+			LUM_WP_URL . 'assets/blocks/widget-sidebar-options/index.js',
+			[ 'wp-element', 'wp-components', 'wp-plugins', 'wp-data', 'wp-editor', 'react' ],
+			strval( filemtime( LUM_WP_PATH . 'assets/blocks/widget-sidebar-options/index.js' ) )
+		);
+		wp_enqueue_script( 'widget-sidebar-options' );
+		wp_register_style(
+			'lumiere_css_widget_options',
+			LUM_WP_URL . 'assets/blocks/widget-sidebar-options/index.css',
+			[],
+			strval( filemtime( LUM_WP_PATH . 'assets/blocks/widget-sidebar-options/index.css' ) )
+		);
+		wp_enqueue_style( 'lumiere_css_widget_options' );
+		// Javascripts functions for Gutenberg blocks.
+		wp_register_script(
+			'lumiere_scripts_admin_gutenberg',
+			LUM_WP_URL . 'assets/js/lumiere_scripts_admin_gutenberg.min.js',
+			[],
+			strval( filemtime( LUM_WP_PATH . 'assets/js/lumiere_scripts_admin_gutenberg.min.js' ) ),
+			true
+		);
+		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 	}
 
 	/**
