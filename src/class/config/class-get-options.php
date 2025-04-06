@@ -108,7 +108,7 @@ class Get_Options extends Settings {
 
 	/**
 	 * Get an array of available selection for type of search => for widget
-	 * Adds '_' and '_widget' to the name of the 'value' column
+	 * Adds '_widget' to the name of the 'value' in first column
 	 * Used for the widgets, => ie '_lum_movie_id_widget' => [ 'movie' => 'bymid' ]
 	 * @since 4.6.1
 	 * @see \Lumiere\Frontend\Widget\Widget_Frontpage::lum_get_widget() use it to check and display the auto title widget
@@ -127,7 +127,7 @@ class Get_Options extends Settings {
 
 	/**
 	 * Get an array of available selection for type of search => for metabox
-	 * Adds '_' and '_widget' to the name of the 'value' column
+	 * Adds '_widget' to the name of the 'value' in the second column
 	 * Used for the metaboxes (blocks and metabox) widgets => ie 'By movie id' => '_lum_movie_id_widget'
 	 * @since 4.6.1
 	 * @see \Lumiere\Admin\Metabox_Selection::register_post_meta_sidebar() use it to register the custom meta data (and the rest of the class too)

@@ -82,11 +82,14 @@ class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 			// @phan-suppress-next-line PhanTypeInvalidDimOffset */
 			if ( $item_results[ $i ]['episode'] !== null && count( $item_results[ $i ]['episode'] ) > 0 && isset( $item_results[ $i ]['episode']['total'] ) && $item_results[ $i ]['episode']['total'] !== 0 ) {
 				$total = isset( $item_results[ $i ]['episode']['total'] ) ? $item_results[ $i ]['episode']['total'] . ' ' . _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) : '';
-				/* translators: "In" like in "in 2025" */
-				$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
+				$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] )
+					/* translators: "from" like in "from 2025" */
+					? _x( 'from', 'year', 'lumiere-movies' )
+					/* translators: "In" like in "in 2025" */
+					: _x( 'in', 'year', 'lumiere-movies' );
 				$year = isset( $item_results[ $i ]['episode']['year'] ) ? ' ' . $year_from_or_in . ' ' . $item_results[ $i ]['episode']['year'] : '';
 				/* translators: "To" like in "to 2025" */
-				$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . __( 'to', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['episode']['endYear'] : '';
+				$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . _x( 'to', 'year', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['episode']['endYear'] : '';
 				$second_column .= ' (<i>' . $total . $year . $end_year . '</i>)';
 			}
 
@@ -188,10 +191,16 @@ class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 				// @phan-suppress-next-line PhanTypeInvalidDimOffset */
 				if ( $item_results[ $i ]['episode'] !== null && count( $item_results[ $i ]['episode'] ) > 0 && isset( $item_results[ $i ]['episode']['total'] ) && $item_results[ $i ]['episode']['total'] !== 0 ) {
 					$total = $item_results[ $i ]['episode']['total'] > 0 ? $item_results[ $i ]['episode']['total'] . ' ' . _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) : '';
-					/* translators: "From" like in "from 2025" */
-					$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] ) ? __( 'from', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
-					/* translators: "To" like in "to 2025" */
-					$year_to_or_in = isset( $item_results[ $i ]['episode']['year'] ) ? __( 'to', 'lumiere-movies' ) : __( 'in', 'lumiere-movies' );
+					$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] )
+						/* translators: "from" like in "from 2025" */
+						? _x( 'from', 'year', 'lumiere-movies' )
+						/* translators: "In" like in "in 2025" */
+						: _x( 'in', 'year', 'lumiere-movies' );
+					$year_to_or_in = isset( $item_results[ $i ]['episode']['year'] )
+						/* translators: "To" like in "to 2025" */
+						? _x( 'to', 'year', 'lumiere-movies' )
+						/* translators: "In" like in "in 2025" */
+						: _x( 'in', 'year', 'lumiere-movies' );
 					$year = isset( $item_results[ $i ]['episode']['year'] ) ? ' ' . $year_from_or_in . ' ' . $item_results[ $i ]['episode']['year'] : '';
 					$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . $year_to_or_in . ' ' . $item_results[ $i ]['episode']['endYear'] : '';
 					$dates_episodes = strlen( $total . $year . $end_year ) > 0 ? ' (<i>' . $total . $year . $end_year . '</i>)' : '';

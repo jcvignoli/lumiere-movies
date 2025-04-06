@@ -90,39 +90,8 @@ class Metabox_Selection {
 	 * @return void Custom meta post data are registered
 	 */
 	public static function register_post_meta_sidebar(): void {
-
-		// Option for the select, add '_widget' to the value column
-		foreach ( Get_Options::get_lum_all_type_search_metabox() as $key => $value ) {
-			register_meta(
-				'post',
-				$value,
-				[
-					'show_in_rest'      => true,
-					'single'            => true,
-					'type'              => 'string',
-					'sanitize_callback' => 'sanitize_text_field',
-					'auth_callback'     => function(): bool {
-						return current_user_can( 'edit_posts' );
-					},
-				]
-			);
-		}
-
-		// Extra selection for autotitle. Utilised in post/widget options.
-		register_meta(
-			'post',
-			Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME,
-			[
-				'show_in_rest'  => true,
-				'single'        => true,
-				'type'          => 'boolean',
-				'auth_callback' => function(): bool {
-					return current_user_can( 'edit_posts' );
-				},
-			]
-		);
 		// Extra selection for the type of query, agregating all selection in Get_Options::get_lum_all_type_search_metabox(). Utilised in post/widget options.
-		register_meta(
+		register_post_meta(
 			'post',
 			'_lum_form_type_query',
 			[
@@ -130,11 +99,58 @@ class Metabox_Selection {
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'type'              => 'string',
-				'auth_callback'     => function(): bool {
-					return current_user_can( 'edit_posts' );
+				'auth_callback'     => function() {
+					return current_user_can( 'manage_options' );
 				},
 			]
 		);
+		register_post_meta(
+			'post',
+			'_lum_form_type_content',
+			[
+				'show_in_rest'      => true,
+				'single'            => true,
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'type'              => 'string',
+				'auth_callback'     => function() {
+					return current_user_can( 'manage_options' );
+				},
+			]
+		);
+		// Option for the select, add '_widget' to the value column
+		foreach ( Get_Options::get_lum_all_type_search_metabox() as $key => $value ) {
+			register_post_meta(
+				'post',
+				$value,
+				[
+					'show_in_rest'      => true,
+					'single'            => true,
+					'type'              => 'string',
+					'default'           => '',
+					'sanitize_callback' => 'sanitize_text_field',
+					'auth_callback'     => function() {
+						return current_user_can( 'manage_options' );
+					},
+				]
+			);
+		}
+
+		// Extra selection for autotitle. Utilised in post/widget options.
+		register_post_meta(
+			'post',
+			Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME,
+			[
+				'show_in_rest'  => true,
+				'single'        => true,
+				'type'          => 'boolean',
+				'default'       => '0',
+				'auth_callback' => function() {
+					return current_user_can( 'manage_options' );
+				},
+			]
+		);
+
 	}
 
 	/**

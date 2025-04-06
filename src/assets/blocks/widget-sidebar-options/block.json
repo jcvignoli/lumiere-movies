@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "widget-sidebar-options",
+	"name": "lumiere/widget-sidebar-options",
 	"title": "Lumière Widget Options",
 	"description": "Change the behaviour of Lumière's widget",
 	"textdomain": "lumiere-movies",
@@ -11,6 +11,30 @@
 		"_lum_form_type_query": {
 			"type": "string",
 			"default": "lum_movie_title"
+		},
+		"_lum_form_type_content": {
+			"type": "string",
+			"default": ""
+		},
+		"_lum_movie_id": {
+			"type": "string",
+			"default": ""
+		},
+		"_lum_movie_title": {
+			"type": "string",
+			"default": ""
+		},
+		"_lum_person_id": {
+			"type": "string",
+			"default": ""
+		},
+		"_lum_person_name": {
+			"type": "string",
+			"default": ""
+		},
+		"_lum_autotitle_perpost": {
+			"type": "boolean",
+			"default": "0"
 		}
 	},
 	"editorScript": "file:./index.js",

@@ -367,7 +367,7 @@ class Implement_Methods {
 		// Data target is utilised by bootstrap only, but should be safe to keep it.
 		. ' data-target="#theModal' . esc_attr( $imdbid ) . '"'
 		/* Translators: %1s is a name, ie Stanley Kubrick */
-		. ' title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), $imdbname ) ) . '"';
+		. ' title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'person name', 'lumiere-movies' ), $imdbname ) ) . '"';
 
 		// AMP, build a HREF.
 		if ( $window_type === self::LINK_OPTIONS['amp'] ) {
@@ -398,13 +398,13 @@ class Implement_Methods {
 
 		// Highslide & Classic modal.
 		if ( $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['highslide'] ) {
-			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// Bootstrap modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
-			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>'
+			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>'
 			. $this->output_linkmaker_class->bootstrap_modal( sanitize_title( $title ), '', $this->imdb_admin_values );
 
 			// No Link modal.
@@ -434,13 +434,13 @@ class Implement_Methods {
 
 		// Highslide & Classic modal
 		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] ) {
-			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// Bootstrap modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
-			/* Translators: %1s is a movie's name, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( __( 'Open a new window with IMDb informations for %1s', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>' . $this->output_linkmaker_class->bootstrap_modal( $imdbid, '', $this->imdb_admin_values );
+			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>' . $this->output_linkmaker_class->bootstrap_modal( $imdbid, '', $this->imdb_admin_values );
 
 			// No Link modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {

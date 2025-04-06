@@ -1,9 +1,10 @@
 const { createElement: el, RawHTML: elWithHTML } = wp.element;
 const { registerBlockType } = wp.blocks;
 const { useBlockProps } = wp.blockEditor;
-const { __: widget__ } = wp.i18n;
+const { __ } = wp.i18n;
 const { Content: RichContent } = wp.blockEditor.RichText;
 import jsonData from './block.json';
+import './index.css';
 
 const iconLumiere = (
   <svg width={35} height={35} viewBox="0 0 200 200">
@@ -11,11 +12,11 @@ const iconLumiere = (
   </svg>
 );
 
-const linkAutoTitleWidgetOption = '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">' + widget__( 'Lumière main advanced options' , 'lumiere-movies' ) + '</a>';
+const linkAutoTitleWidgetOption = '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">' + __( 'Lumière main advanced options' , 'lumiere-movies' ) + '</a>';
 	
 registerBlockType( jsonData.name, {
-	title: widget__( 'Add a movie in your Widget', 'lumiere-movies' ),
-	description: widget__( 'Widget to add a movie or prevent auto title widget from adding movies in selected posts', 'lumiere-movies' ),
+	title: __( 'Add a movie or star in your Widget', 'lumiere-movies' ),
+	description: __( 'Widget to add a movie or prevent auto title widget from adding movies in selected posts', 'lumiere-movies' ),
 	icon: iconLumiere,
 	keywords: jsonData.keywords,
 	attributes: {
@@ -36,9 +37,9 @@ registerBlockType( jsonData.name, {
 				elWithHTML({ className: 'lumiere_block_widget_title', children: 'Lumière! Widget' }),
 				elWithHTML({
 					className: 'lumiere_block_widget_explanation', tagName: 'gutenberg',
-					children: `${widget__('This widget fills your selected area with movie data according to the metabox data or the title of your post. After adding this widget, either find the metabox in your post or the title[...]')}`
+					children: `${__('This widget fills your selected area with movie data according to the metabox data or the title of your post. After adding this widget, either find the metabox in your post or the title[...]')}`
 					+ ` ${linkAutoTitleWidgetOption} `
-					+ `${widget__('should you want your selected area to be filled with movie data according to your post title.', 'lumiere-movies')}<br />`
+					+ `${__('should you want your selected area to be filled with movie data according to your post title.', 'lumiere-movies')}<br />`
 				}),
 				el(
 					'div', { className: 'lumiere_block_widget_container' },
@@ -59,12 +60,11 @@ registerBlockType( jsonData.name, {
 		);
 	},
 	save: ( props ) => {
-		const { attributes } = props;
 		return (
 			el('div', { className: 'wp-block-lumiere-widget' },
 			el(RichContent, {
 				  className: 'lumiere_block_widget_input',
-				  value: `[lumiereWidget]${attributes.lumiere_input}[/lumiereWidget]`
+				  value: `[lumiereWidget]${props.attributes.lumiere_input}[/lumiereWidget]`
 				})
 			)
 		);

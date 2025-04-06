@@ -153,7 +153,7 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Frontend\Widget\Widget_Frontpage::lum_get_widget() use it to check and display the auto title widget
 	 * @see \Lumiere\Admin\Metabox_Selection::register_post_meta_sidebar() use it to register the custom meta data
 	 */
-	public const LUM_AUTOTITLE_METADATA_FIELD_NAME  = '_lumiere_autotitlewidget_perpost';
+	public const LUM_AUTOTITLE_METADATA_FIELD_NAME  = '_lum_autotitle_perpost';
 
 	/**
 	 * URL string for taxonomy

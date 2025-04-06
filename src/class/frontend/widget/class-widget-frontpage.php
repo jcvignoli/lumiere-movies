@@ -181,7 +181,7 @@ class Widget_Frontpage {
 		$post_meta_autotitle_value = get_post_meta( $post_id, Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME, true );
 		if (
 			$this->imdb_admin_values['imdbautopostwidget'] === '1'
-			&& $post_meta_autotitle_value === '1' // thus the var may not have been created.
+			&& ( $post_meta_autotitle_value === '0' || strlen( $post_meta_autotitle_value ) === 0 )
 		) {
 			$movies_array[]['byname'] = esc_html( get_the_title( $post_id ) );
 			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget activated, using the post title ' . esc_html( get_the_title( $post_id ) ) . ' for querying' );
@@ -189,7 +189,7 @@ class Widget_Frontpage {
 			// the post-based selection for auto title widget is turned off
 		} elseif (
 			$this->imdb_admin_values['imdbautopostwidget'] === '1'
-			&& $post_meta_autotitle_value === '0'
+			&& $post_meta_autotitle_value === '1'
 		) {
 			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget was specifically deactivated for this post' );
 		}

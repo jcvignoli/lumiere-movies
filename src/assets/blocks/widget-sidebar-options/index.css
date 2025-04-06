@@ -2,3 +2,7 @@
  * Custom stylesheet
  */
 .lum_widget_options_subtitle{ font-size:1.1em;padding:0.5em;}
+
+.lum_form_type_query{min-width:100% !important;}
+
+.lum_sidebar_options_select div{min-width:inherit;} /* fixes a gutenberg bug with select title cut */

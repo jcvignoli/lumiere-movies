@@ -24,7 +24,10 @@ export default function Edit ( props ) {
 					<br />
 					{ __('"By Movie title/Person name": Enter the title/name.', 'lumiere-movies') }
 					<br />
-					{ htmlToElem( sprintf( __('You can get the IMDb ID number by %1$ssearching in the popup%2$s and then copy the ID found here.', 'lumiere-movies'), '<a data-lumiere_admin_search_popup="noInfoNeeded" class="link-imdblt-highslidepeople" target="_blank">', '</a>' ) ) }
+					{
+						/* translators: %1$s and %2$s are html tags */
+						htmlToElem( sprintf( __('You can get the IMDb ID number by %1$ssearching in the popup%2$s and then copy the ID found here.', 'lumiere-movies'), '<a data-lumiere_admin_search_popup="noInfoNeeded" class="link-imdblt-highslidepeople" target="_blank">', '</a>' ) )
+					}
 				</div>
 				<div className="lumiere_block_intothepost-container">
 					<div className="lumiere_block_intothepost-select">

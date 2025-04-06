@@ -175,32 +175,17 @@ class Admin {
 	public function lum_enqueue_blocks(): void {
 
 		$block_dir = LUM_WP_PATH . 'assets/blocks';
-		$blocks = [ 'post', 'addlink', 'opensearch' ];
+		$blocks = [ 'post', 'addlink', 'opensearch', 'widget-sidebar-options' ];
 		foreach ( $blocks as $block ) {
 			register_block_type( $block_dir . '/' . $block );
 			add_action(
 				'init',
 				function( string $block ) {
-					wp_set_script_translations( 'lumiere-' . $block . '-editor-script', 'lumiere-movies', LUM_WP_PATH . 'languages/' );
+					wp_set_script_translations( 'lumiere-movies-' . $block . '-editor-script', 'lumiere-movies', LUM_WP_PATH . 'languages/' );
 				}
 			);
 		}
 
-		// Sidebar for post options, cannot use register_block_type() which needs to start with a domain ("lumiere/") but Sidebar doesn't accept "7"
-		wp_register_script(
-			'widget-sidebar-options', // name can't use underscores.
-			LUM_WP_URL . 'assets/blocks/widget-sidebar-options/index.js',
-			[ 'wp-element', 'wp-components', 'wp-plugins', 'wp-data', 'wp-editor', 'react' ],
-			strval( filemtime( LUM_WP_PATH . 'assets/blocks/widget-sidebar-options/index.js' ) )
-		);
-		wp_enqueue_script( 'widget-sidebar-options' );
-		wp_register_style(
-			'lumiere_css_widget_options',
-			LUM_WP_URL . 'assets/blocks/widget-sidebar-options/index.css',
-			[],
-			strval( filemtime( LUM_WP_PATH . 'assets/blocks/widget-sidebar-options/index.css' ) )
-		);
-		wp_enqueue_style( 'lumiere_css_widget_options' );
 		// Javascripts functions for Gutenberg blocks.
 		wp_register_script(
 			'lumiere_scripts_admin_gutenberg',

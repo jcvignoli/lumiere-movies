@@ -74,7 +74,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 
 		// movie_id
 		$vars_movie_id = [ '"movie_id"', '"lum_movie_id"' ];
-		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_id ) );
+		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		if ( $wpdb->last_error ) {
 			$text = "Lumière database *movie_id* bit error: $wpdb->last_error";
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -84,7 +84,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		}
 		// movie_title
 		$vars_movie_title = [ '"movie_title"', '"lum_movie_title"' ];
-		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_title ) );
+		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_title ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		if ( $wpdb->last_error ) {
 			$text = "Lumière database *movie_title* bit error: $wpdb->last_error";
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -94,7 +94,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		}
 		// person_name
 		$vars_perso_name = [ '"person_name"', '"lum_person_name"' ];
-		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_name ) );
+		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_name ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		if ( $wpdb->last_error ) {
 			$text = "Lumière database *person_name* bit error: $wpdb->last_error";
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -104,7 +104,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		}
 		// person_id
 		$vars_perso_id = [ '"person_id"', '"lum_person_id"' ];
-		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_id ) );
+		$result = $wpdb->get_results( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_id ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		if ( $wpdb->last_error ) {
 			$text = "Lumière database *person_id* bit error: $wpdb->last_error";
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
@@ -120,7 +120,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_widget_movieid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => 'any',
+			'post_type' => [ 'page', 'post' ],
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
@@ -128,6 +128,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_widget_movieid', true );
 			if ( $meta_value !== false && add_metadata( 'post', $post->ID, '_lum_movie_id_widget', $meta_value ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_widget_movieid' );
+				add_metadata( 'post', $post->ID, '_lum_form_type_query', '_lum_movie_id_widget' );
 				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_movieid* in postID $post->ID to *_lum_movie_id_widget*" );
 			} else {
 				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Error, couldn't update 'lumiere_widget_movieid' in postID $post->ID metadata: " . strval( $meta_value ) );
@@ -137,7 +138,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_widget_movietitle' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => 'any',
+			'post_type' => [ 'page', 'post' ],
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
@@ -145,6 +146,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_widget_movietitle', true );
 			if ( $meta_value !== false && add_metadata( 'post', $post->ID, '_lum_movie_title_widget', $meta_value ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_widget_movietitle' );
+				add_metadata( 'post', $post->ID, '_lum_form_type_query', '_lum_movie_title_widget' );
 				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_movietitle* in postID $post->ID to *_lum_movie_title_widget*" );
 			} else {
 				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Error, couldn't update 'lumiere_widget_movietitle' in postID $post->ID metadata: " . strval( $meta_value ) );
@@ -154,7 +156,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_widget_personname' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => 'any',
+			'post_type' => [ 'page', 'post' ],
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
@@ -162,6 +164,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_widget_personname', true );
 			if ( $meta_value !== false && add_metadata( 'post', $post->ID, '_lum_person_name_widget', $meta_value ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_widget_personname' );
+				add_metadata( 'post', $post->ID, '_lum_form_type_query', '_lum_person_name_widget' );
 				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_personname* in postID $post->ID to *_lum_person_name_widget*" );
 			} else {
 				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Error, couldn't update 'lumiere_widget_personname' in postID $post->ID metadata: " . strval( $meta_value ) );
@@ -171,7 +174,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_widget_personid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => 'any',
+			'post_type' => [ 'page', 'post' ],
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
@@ -179,25 +182,26 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_widget_personid', true );
 			if ( $meta_value !== false && add_metadata( 'post', $post->ID, '_lum_person_id_widget', $meta_value ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_widget_personid' );
+				add_metadata( 'post', $post->ID, '_lum_form_type_query', '_lum_person_id_widget' );
 				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_personid* in postID $post->ID to *_lum_person_id_widget*" );
 			} else {
 				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Error, couldn't update 'lumiere_widget_personid' in postID $post->ID" );
 			}
 		}
-		// lumiere_autotitlewidget_perpost becomes _lumiere_autotitlewidget_perpost and the value changes to boolean
+		// lumiere_autotitlewidget_perpost becomes _lum_autotitle_perpost and the value changes to boolean
 		$args = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_autotitlewidget_perpost' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => 'any',
+			'post_type' => [ 'page', 'post' ],
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
 		foreach ( $posts_array as $post ) {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_autotitlewidget_perpost', true );
-			if ( $meta_value === 'enabled' && add_metadata( 'post', $post->ID, '_lumiere_autotitlewidget_perpost', '1' ) !== false ) {
+			if ( $meta_value === 'enabled' && add_metadata( 'post', $post->ID, '_lum_autotitle_perpost', '0' ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_autotitlewidget_perpost' );
-				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_autotitlewidget_perpost* in postID $post->ID to *_lumiere_autotitlewidget_perpost*" );
-			} elseif ( $meta_value === 'disabled' && add_metadata( 'post', $post->ID, '_lumiere_autotitlewidget_perpost', '0' ) !== false ) {
+				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_autotitlewidget_perpost* in postID $post->ID to *_lum_autotitle_perpost*" );
+			} elseif ( $meta_value === 'disabled' && add_metadata( 'post', $post->ID, '_lum_autotitle_perpost', '1' ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_autotitlewidget_perpost' );
 				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated 'lumiere_autotitlewidget_perpost' in postID $post->ID" );
 			} else {
@@ -213,7 +217,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_autowidget_perpost' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => 'any',
+			'post_type' => [ 'page', 'post' ],
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post_array -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */

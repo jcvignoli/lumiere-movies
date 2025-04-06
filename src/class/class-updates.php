@@ -45,6 +45,11 @@ class Updates {
 	use Open_Options;
 
 	/**
+	 * Detect if the class is already running
+	 */
+	private bool $is_running = false;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(
@@ -61,8 +66,15 @@ class Updates {
 	 */
 	public function run_update_options(): void {
 
-		// Debug info
 		$this->logger->log?->debug( '[updateClass] Running updates...' );
+
+		// Make sure it doesn't run twice.
+		if ( $this->is_running === false ) {
+			$this->is_running = true;
+		} else {
+			$this->logger->log?->debug( '[updateClass] Update process already running, exit' );
+			return;
+		}
 
 		// Count the number of files in class/updates/
 		$files = new FilesystemIterator( LUM_WP_PATH . 'class/updates/', FilesystemIterator::SKIP_DOTS );
@@ -88,6 +100,7 @@ class Updates {
 				$child_update_class->lumiere_run_local_update();
 			}
 		}
+		$this->logger->log?->debug( '[updateClass] Update process finished' );
 	}
 
 	/**
