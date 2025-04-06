@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.2.5
+ * Version: 3.2.6
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package       lumieremovies

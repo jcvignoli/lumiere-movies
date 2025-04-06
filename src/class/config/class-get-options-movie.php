@@ -66,6 +66,7 @@ class Get_Options_Movie extends Settings_Movie {
 	 */
 	public static function get_list_all_items( int $number = 1 ): array {
 		return [
+			...parent::define_list_taxo_people( $number ),
 			...parent::define_list_non_taxo_items( $number ),
 			...parent::define_list_taxo_items( $number ),
 		];

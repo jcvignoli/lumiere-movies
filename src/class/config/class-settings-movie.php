@@ -85,7 +85,7 @@ class Settings_Movie extends Settings_Helper {
 	public const LUM_DATA_DEFAULT_WIDGET_ACTIVE     = [ 'title', 'pic', 'actor', 'connection', 'director', 'genre', 'goof', 'plot', 'tagline', 'writer' ];
 
 	/**
-	 * List of modules that have not method in Imdb\Title (but a method exists)
+	 * List of modules that have not method in Imdb\Title (a module may or may not exist, but do not execute it since it calls Title methods)
 	 * The list targets {@see Get_Options_Movie::get_list_all_items())
 	 *
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this list so doesn't call those methods in \IMDB\Title
@@ -96,6 +96,7 @@ class Settings_Movie extends Settings_Helper {
 		'video',
 		'votes',
 		'stunts',
+		'actor',
 	];
 
 	/**
@@ -107,6 +108,7 @@ class Settings_Movie extends Settings_Helper {
 	 */
 	public const LUM_DATA_MOVIE_EXTRA_GENERATION  = [
 		'votes',
+		'cast',
 	];
 
 	/**
