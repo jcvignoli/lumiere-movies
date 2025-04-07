@@ -74,7 +74,7 @@ class Settings_Person {
 
 	/**
 	 * List of modules that have not method in Imdb\Name (but a method exists)
-	 * The list targets {@see Settings_Person::define_list_items_person()}
+	 * The list removes methods from {@see Settings_Person::define_list_items_person()}
 	 *
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_people_file() use this list so doesn't call those methods in \IMDB\Name
 	 * @see class/templates/admin/data/admin-data-person-display.php use this list to not display those methods (always selected or never selected)

@@ -49,13 +49,13 @@ class Settings_Movie extends Settings_Helper {
 
 	/**
 	 * Internal URL pages constants
-	 * Must be public, used everywhere
+	 * @see \Lumiere\Config\Get_Options used there, so visibility must be public
 	 */
 	public const LUM_POPUP_MOVIE_PATH               = 'class/frontend/popups/class-popup-movie.php';
 	public const LUM_POPUP_SEARCH_PATH              = 'class/frontend/popups/class-popup-movie-search.php';
 
 	/**
-	 * Partial namespace of modules
+	 * Partial namespace of movie modules
 	 * Used to build the full film namespace
 	 * @see \Lumiere\Frontend\Popup\Popup_Film
 	 */
@@ -68,7 +68,7 @@ class Settings_Movie extends Settings_Helper {
 	 * @see Settings_Helper::get_data_rows_withnumbers() to build list with LUM_DATA_DEFAULT_WITHNUMBER
 	 */
 	public const LUM_DATA_DEFAULT_TAXO_ACTIVE       = [ 'director', 'genre' ];
-	public const LUM_DATA_DEFAULT_WITHNUMBER        = [ // Public visibility as class {@see Settings_Helper::get_data_rows_withnumbers()} needs it
+	public const LUM_DATA_DEFAULT_WITHNUMBER        = [ // Public visibility as class {@see Settings_Helper::get_data_rows_withnumbers()} uses it
 		'actor'       => '10',
 		'alsoknow'    => '5',
 		'connection'  => '3',
@@ -86,29 +86,27 @@ class Settings_Movie extends Settings_Helper {
 
 	/**
 	 * List of modules that have not method in Imdb\Title (a module may or may not exist, but do not execute it since it calls Title methods)
-	 * The list targets {@see Get_Options_Movie::get_list_all_items())
+	 * The list removes methods from {@see Get_Options_Movie::get_list_all_items())
 	 *
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this list so doesn't call those methods in \IMDB\Title
 	 */
 	public const LUM_DATA_MOVIE_NO_METHOD           = [
-		'pic',
-		'source',
-		'video',
-		'votes',
-		'stunts',
-		'actor',
+		'pic',          /* local module, this doesn't exist in Title */
+		'source',       /* doesn't exist in Title */
+		'actor',        /* must be replaced by cast(), actor() is no method in Title */
 	];
 
 	/**
 	 * List of items that are not available as module but are available as methods in Imdb\Title
-	 * Gather extra methods to be run when refreshing cache files
+	 * The list add methods missing in {@see Get_Options_Movie::get_list_all_items()) which are not in define_*()
 	 *
 	 * @see \Imdb\Title List of methods
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this list so doesn't call those methods in \IMDB\Name
 	 */
 	public const LUM_DATA_MOVIE_EXTRA_GENERATION  = [
-		'votes',
-		'cast',
+		'votes',        /* There is no module named this in the define_*(), but we want it */
+		'cast',         /* Replaces "actor" in defines_*() */
+		'video',        /* There is no module named this in the define_*(), but we want it */
 	];
 
 	/**
@@ -190,7 +188,7 @@ class Settings_Movie extends Settings_Helper {
 	 *
 	 * @return array<string, string>
 	 */
-	public static function define_list_connect_cat(): array {
+	protected static function define_list_connect_cat(): array {
 		return [
 			//'alternateLanguageVersionOf' => __( 'Alternate language version of', 'lumiere-movies' ),
 			//'editedFrom'    => __( 'Edited from', 'lumiere-movies' ),
@@ -221,7 +219,7 @@ class Settings_Movie extends Settings_Helper {
 	 *
 	 * @return array<string, string>
 	 */
-	public static function define_list_goof_cat(): array {
+	protected static function define_list_goof_cat(): array {
 		return [
 			'continuity'                  => __( 'continuity', 'lumiere-movies' ),
 			'factualError'                => __( 'factual error', 'lumiere-movies' ),
@@ -248,7 +246,7 @@ class Settings_Movie extends Settings_Helper {
 	 *
 	 * @return array<string, string>
 	 */
-	public static function define_list_trivia_cat(): array {
+	protected static function define_list_trivia_cat(): array {
 		return [
 			'uncategorized'        => __( 'uncategorized', 'lumiere-movies' ),
 			'cameo'                => __( 'cameo', 'lumiere-movies' ),

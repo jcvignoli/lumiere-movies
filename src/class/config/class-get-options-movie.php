@@ -59,7 +59,8 @@ class Get_Options_Movie extends Settings_Movie {
 	}
 
 	/**
-	 * Get the type items elements that are used for taxonomy
+	 * Get all types of items elements
+	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this to refresh the cache
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>

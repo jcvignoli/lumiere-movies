@@ -111,9 +111,9 @@ final class Logger {
 	 * @param string $logger_name: title applied to the logger in the logs under origin
 	 * @param bool $screen_output Optional: whether to display the screen output.
 	 *
-	 * @return null|LoggerMonolog the logger in set in $monolog_class
+	 * @return LoggerMonolog the logger in set in $monolog_class
 	 */
-	private function set_logger( array $imdb_admin_values, string $logger_name, bool $screen_output = true ): ?LoggerMonolog {
+	private function set_logger( array $imdb_admin_values, string $logger_name, bool $screen_output = true ): LoggerMonolog {
 
 		/** @psalm-suppress UndefinedConstant, RedundantCondition -- Psalm can't deal with dynamic constants */
 		if (
@@ -139,10 +139,27 @@ final class Logger {
 			$monolog_class = $this->display_logger( $monolog_class, $imdb_admin_values, $logger_verbosity, $screen_output );
 
 			return $monolog_class;
+		} elseif ( isset( $imdb_admin_values['imdbdebug'] ) && $imdb_admin_values['imdbdebug'] === '1' ) {
+
+			// Start Monolog class.
+			$monolog_class = new LoggerMonolog( $logger_name );
+			$monolog_class->setTimezone( wp_timezone() );
+
+			/**
+			 * Set the verbosity from database option and build the constant.
+			 * @phpstan-var value-of<\Monolog\Level::VALUES> $logger_verbosity
+			 * @psalm-var int $logger_verbosity $logger_verbosity
+			 */
+			$logger_verbosity = constant( '\Monolog\Logger::' . $imdb_admin_values['imdbdebuglevel'] );
+
+			// Save to file if function activated activated.
+			$monolog_class = $this->save_logger( $monolog_class, $imdb_admin_values, $logger_verbosity );
+
+			return $monolog_class;
 		}
 
 		// Run null logger for all other cases.
-		return null;
+		return $this->log_null();
 	}
 
 	/**
@@ -157,36 +174,35 @@ final class Logger {
 	 * @return LoggerMonolog
 	 */
 	private function save_logger( LoggerMonolog $monolog_class, array $imdb_admin_values, int $logger_verbosity ): LoggerMonolog {
-		if ( $imdb_admin_values['imdbdebuglog'] === '1' ) {
 
-			// Add current url and referrer to the log
-			$monolog_class->pushProcessor( new WebProcessor( null, [ 'url', 'referrer' ] ) );
+		// Add current url and referrer to the log
+		$monolog_class->pushProcessor( new WebProcessor( null, [ 'url', 'referrer' ] ) );
 
-			/**
-			 * Create log file if it doesn't exist, use null logger and exit if can't write to the log.
-			 * @since 3.9.1 created maybe_create_log() method, using its output to exit if no path created.
-			 * @since 4.6 moved method maybe_create_log() to trait Files
-			 */
-			$final_log_file = $this->maybe_create_log( $imdb_admin_values ); // In trait Files.
+		/**
+		 * Create log file if it doesn't exist, use null logger and exit if can't write to the log.
+		 * @since 3.9.1 created maybe_create_log() method, using its output to exit if no path created.
+		 * @since 4.6 moved method maybe_create_log() to trait Files
+		 */
+		$final_log_file = $this->maybe_create_log( $imdb_admin_values ); // In trait Files.
 
-			// Cannot create the log file, use nullhandler, print error_log() and exit.
-			if ( $final_log_file === null ) {
-				$monolog_class->pushHandler( new NullHandler() );
-				error_log( '***WP Lumiere Plugin ERROR***: cannot use any log file' ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-				return $monolog_class;
-			}
-
-			// Add the file, the line, the class, the function to the log.
-			/** @psalm-suppress InvalidArgument (psalm can resolve value-of<\Monolog\Level::VALUES>) */
-			$monolog_class->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
-
-			// Change the date and output formats of the log.
-			$date_format = 'd-M-Y H:i:s';
-			$output = "[%datetime%] %channel%.%level_name%: %message% %extra%\n";
-			$stream_class = new StreamHandler( $final_log_file, $logger_verbosity );
-			$stream_class->setFormatter( new LineFormatter( $output, $date_format ) );
-			$monolog_class->pushHandler( $stream_class );
+		// Cannot create the log file, use nullhandler, print error_log() and exit.
+		if ( $final_log_file === null ) {
+			$monolog_class->pushHandler( new NullHandler() );
+			error_log( '***WP Lumiere Plugin ERROR***: cannot use any log file' ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			return $monolog_class;
 		}
+
+		// Add the file, the line, the class, the function to the log.
+		/** @psalm-suppress InvalidArgument (psalm can resolve value-of<\Monolog\Level::VALUES>) */
+		$monolog_class->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
+
+		// Change the date and output formats of the log.
+		$date_format = 'd-M-Y H:i:s';
+		$output = "[%datetime%] %channel%.%level_name%: %message% %extra%\n";
+		$stream_class = new StreamHandler( $final_log_file, $logger_verbosity );
+		$stream_class->setFormatter( new LineFormatter( $output, $date_format ) );
+		$monolog_class->pushHandler( $stream_class );
+
 		return $monolog_class;
 	}
 

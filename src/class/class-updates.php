@@ -261,7 +261,7 @@ class Updates {
 			return true;
 		}
 
-		$this->logger->log?->debug( "[updateClass] Update $update_number_string not needed." );
+		//$this->logger->log?->debug( "[updateClass] Update $update_number_string not needed." );
 		return false;
 	}
 }
