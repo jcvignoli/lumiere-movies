@@ -6,5 +6,5 @@
 src/*vendor*
 *.vscode*
 .env.codeception
-.gulpcredentials-lumiere.js
+.env.ssh.js
 .todo

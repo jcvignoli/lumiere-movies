@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "lumiere/widget-sidebar-options",
 	"title": "Lumière Widget Options",
 	"description": "Change the behaviour of Lumière's widget",
