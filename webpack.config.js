@@ -1,21 +1,27 @@
 /**
- * This config file is a standalone, extending WordPress default config
+ * This Webpack config file extends WordPress default config
+ * It copies all php/txt files from ./src to ./dist, minimize css & js & pics, build wp blocks, and upload by ssh the outcome
+ * An sync browser is also available, start it by clicking on the link in the terminal
  */
- 
- // Configs
-import wpConfig from '@wordpress/scripts/config/webpack.config.js';	/* WordPress webpack config */
-import extCred from './.env.ssh.js';			/* private credentials for ssh */
+
+// Configs
+import wpConfig from '@wordpress/scripts/config/webpack.config.js';			/* WordPress webpack config */
+import extCred from './.env.ssh.js';							/* Private credentials for ssh */
 
 // Plugins
-import TerserPlugin from "terser-webpack-plugin";
-import CopyPlugin from "copy-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+// a. From wp-scripts
+import TerserPlugin from "terser-webpack-plugin";					/* already installed through WordPress scripts */
+import CopyPlugin from "copy-webpack-plugin";						/* already installed through WordPress scripts */
+import MiniCssExtractPlugin from "mini-css-extract-plugin";				/* already installed through WordPress scripts */
+// b. need the NPM package to be installed
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
+import SSHWatchUploadWebpackPlugin from '@alexrah/ssh-watch-upload-webpack-plugin';	/* forked from ssh-watch-upload-webpack-plugin */
+import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 
 // Utilities
 import { resolve, relative, dirname, join, parse } from 'path';
-import { fileURLToPath } from 'url';
+import getCmdArgs from './scripts/cmd-line-args/index.js';				/* extract arguments from command-line */
 
 // Constants
 const __dirname = process.cwd();
@@ -28,8 +34,48 @@ export default {
 	output: {
 	    path: resolve('./dist/'),
 	},
+	module: {
+		...wpConfig.module,
+		rules: [
+			...wpConfig.module.rules,
+		]
+	},
 	plugins: [
 		...wpConfig.plugins,
+		// Runs only if "--watch" is passed in command-line
+		new BrowserSyncPlugin({
+			proxy: {
+			    target: extCred.proxy.address_http, /* must be in http, not in https, certif error otherwise */
+			    proxyReq: [
+				 function(proxyReq) {
+				 	// Allows to use lumiere codeception database
+					proxyReq.setHeader('X-Testing', 'true');
+				 }
+			    ],
+			},
+			// Don't show any notifications in the browser
+			notify:true,
+			// port: 8080,
+			// Tunnel  the Browsersync server through a Public URL
+			// tunnel: true,
+			// Additional info about the process, "info", "debug", "warn", or "silent", default: "info"
+			// logLevel: "debug",
+			// Stop the browser from automatically opening
+			open: false,
+			// Time, in milliseconds, to wait before instructing the browser to reload/inject following a file change event
+			reloadDelay: 5, // Need to wait until src/ is copied to dist/
+			// Will not attempt to determine your network status, assumes you're OFFLINE
+			online: false,
+		}),
+		// Runs only if "--mode development" is passed in command line
+		new SSHWatchUploadWebpackPlugin({
+			mode: getCmdArgs.mode==='development' ? 'development' : 'production',
+			host: extCred.mainserver.hostname,
+			port: extCred.mainserver.port,
+			username: extCred.mainserver.username,
+			privateKeyPath: extCred.mainserver.key,
+			uploadPath: extCred.mainserver.dist,
+		}),
 		new CopyPlugin( {
 			patterns: [
 			{
@@ -119,7 +165,7 @@ export default {
 			new TerserPlugin({
 				parallel: 10,
 				test: /\.js$/i,
-				exclude: [ /assets\/blocks\//, /assets\/js\/highslide\//, /vendor\// ],
+				exclude: [ /assets\/js\/highslide\//, /vendor\// ],
 			}),
 			new CssMinimizerPlugin({
 				minimizerOptions: {
@@ -132,7 +178,7 @@ export default {
 				},
 				parallel: 10,
 				test: /\.css$/i,
-				exclude: [ /assets\/blocks\//, /vendor\// ],
+				exclude: [ /vendor\// ],
 			}),
 			new ImageMinimizerPlugin({
 				minimizer: {
@@ -141,12 +187,12 @@ export default {
 						// Lossless optimization with custom option
 						plugins: [
 							["gifsicle", { interlaced: true }],
-							["mozjpeg", { progressive: true }],
+							["jpegtran", { progressive: true }],
 							["optipng", { optimizationLevel: 5 }],
 						],
 					},
 				},
-				exclude: [ /assets\/blocks\//, /assets\/js\/highslide\//, /vendor\// ],
+				exclude: [ /assets\/js\/highslide\//, /vendor\// ],
 			}),
 		],
 	}
