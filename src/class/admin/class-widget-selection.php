@@ -141,7 +141,7 @@ class Widget_Selection extends WP_Widget {
 		}
 
 		register_block_type( LUM_WP_PATH . 'assets/blocks/widget/', $extra_render );
-		wp_set_script_translations( 'lumiere-widget-editor-script', 'lumiere-movies', LUM_WP_PATH . 'languages/' );
+		//wp_set_script_translations( 'lumiere-widget-editor-script', 'lumiere-movies', LUM_WP_PATH . 'languages/' ); => using block.json and "wp i8n" generation
 	}
 
 	/**

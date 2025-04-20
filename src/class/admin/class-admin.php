@@ -189,12 +189,12 @@ class Admin {
 			}*/
 
 			register_block_type( $block_dir . '/' . $block, $extra_render );
-			add_action(
+			/*add_action( => using block.json and "wp i8n" generation
 				'init',
 				function( string $block ) {
 					wp_set_script_translations( 'lumiere-movies-' . $block . '-editor-script', 'lumiere-movies', LUM_WP_PATH . 'languages/' );
 				}
-			);
+			);*/
 		}
 
 		// Javascripts functions for Gutenberg blocks.
