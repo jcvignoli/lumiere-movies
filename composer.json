@@ -49,10 +49,10 @@
         }
     },
     "scripts": {
-        "phpcsbot": "vendor/bin/phpcs --warning-severity=0 --extensions=php src",
-        "phpstanbot": "vendor/bin/phpstan",
-        "phanbot": "vendor/bin/phan -k phan.php ",
-        "code-analyser": ["@phpcsbot", "@phpstanbot"],
+        "phpcsci": "vendor/bin/phpcs --warning-severity=0 --extensions=php src",
+        "phpstanci": "vendor/bin/phpstan -c tests/phpstan.ci.neon",
+        "phanci": "vendor/bin/phan -k phan.php ",
+        "static-code-analyser": ["@phpcsci", "@phpstanci"],
         "post-autoload-dump": [
             "./scripts/update-src-composer"
         ]

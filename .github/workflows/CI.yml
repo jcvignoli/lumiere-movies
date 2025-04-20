@@ -60,4 +60,4 @@ jobs:
 
       - name: "Code analyser"
         run: |
-          composer run-script code-analyser
+          composer run-script static-code-analyser

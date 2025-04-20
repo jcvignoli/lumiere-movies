@@ -1,0 +1,10 @@
+includes:
+# base config
+    - ../phpstan.neon
+    ignoreErrors:
+        - '#Variable method call on#'
+
+        -
+           identifier: include.fileNotFound
+           reportUnmatched: false
+
