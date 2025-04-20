@@ -3,7 +3,7 @@
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
-**Tested up to:** 6.7.1 \
+**Tested up to:** 6.8 \
 **Stable tag:** 4.6.1 \
 **Requires PHP:** 8.1 \
 **License:** GPLv3 \
@@ -182,7 +182,11 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 ## Changelog
 
-Recent list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
+Full list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
+
+### 4.6.1
+
+All gutenberg blocks are compatible with api version 3. Lumière sidebar is made of gutenberg block if using WordPress > 5.8
 
 ### 4.6
 
@@ -200,13 +204,11 @@ PHP >= 8.1 is now required. New item: connected movies, quotes are back. Most wo
 
 The base library is now IMDbGraphQL. Taxonomy deeply changed, forms in taxonomy pages (i.e. director, genre, etc) are working in AMP and with Polylang. Lot of bugs addressed, always more OOP.
 
-### 4.1
-
-Popup spinners to make you visitors wait, nicer popup layouts, faster taxonomy pages display, better support of Polylang if it's an AMP page. Fixed longstanding bugs.
-
-More flexibility for the auto title widget users: You can now prevent a post from displaying the auto title widget by ticking in the post edition's the Lumiere option "Deactivate autowidget for this post".
-
 ## Upgrade Notice
+
+### 4.6.1
+
+Lumière widget has changed. Visit the widget page, click on "recover" the widget, and save.
 
 ### 4.4
 
