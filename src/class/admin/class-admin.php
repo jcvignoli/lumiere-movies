@@ -180,10 +180,10 @@ class Admin {
 		foreach ( $blocks as $block ) {
 
 			// Include the render_callback if render.php exists
-			/**
+			/*
 			$file_render = LUM_WP_PATH . 'assets/blocks/' . $block . '/render.php';
 			if ( is_file( $file_render ) ) {
-				include_once $file_render;
+				require_once $file_render;
 				$callback = 'lum_render_block_' . $block;
 				$extra_render = [ 'render_callback' => $callback ];
 			}*/

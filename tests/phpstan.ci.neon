@@ -1,8 +1,9 @@
+# Extra PHPStan config file to include specific values for github CI
 includes:
-# base config
+    # base config
     - ../phpstan.neon
 parameters:
-    #reportUnmatchedIgnoredErrors: false
+    # Ignored errors should be specifically address an issue in a specific file
     ignoreErrors:
         -
             identifier: requireOnce.fileNotFound
