@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-06T19:26:08+00:00\n"
+"POT-Creation-Date: 2025-04-20T13:40:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: lumiere-movies\n"
@@ -352,7 +352,7 @@ msgstr ""
 msgid "Add automatically movie details to your pages with Lumière! Legacy version. As of WordPress 5.8, you rather should use block-based widgets."
 msgstr ""
 
-#: class/admin/class-widget-selection.php:163
+#: class/admin/class-widget-selection.php:170
 msgid "Widget title:"
 msgstr ""
 
@@ -2781,7 +2781,7 @@ msgstr ""
 
 #. translators: %1$s and %2$s are html tags
 #: assets/blocks/post/edit.js:29
-#: assets/blocks/widget-sidebar-options/sidebar.js:68
+#: assets/blocks/widget-sidebar-options/sidebar.js:82
 msgid "You can get the IMDb ID number by %1$ssearching in the popup%2$s and then copy the ID found here."
 msgstr ""
 
@@ -2793,50 +2793,56 @@ msgstr ""
 msgid "Add a block in your posts that displays movie/person data."
 msgstr ""
 
-#: assets/blocks/post/index.js:27
+#: assets/blocks/post/index.js:28
 msgid "Enter the name or the IMDb ID movie"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:47
+#: assets/blocks/widget-sidebar-options/sidebar.js:51
 msgid "Display items in widget"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:82
+#: assets/blocks/widget-sidebar-options/sidebar.js:98
 msgid "%1$sAuto title widget%2$s is unactive, related options are hidden"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:88
+#: assets/blocks/widget-sidebar-options/sidebar.js:105
 msgid "Deactivate Auto Title Widget for this post"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:90
+#: assets/blocks/widget-sidebar-options/sidebar.js:107
 msgid "Will prevent %1$sAuto Title Widget%2$s to be displayed on this post"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:101
+#. Translators: %1$s and %2$s are html tags
+#: assets/blocks/widget-sidebar-options/sidebar.js:118
+msgid "Theses features are functional only if you added a %1$sLumiere widget%2$s"
+msgstr ""
+
+#: assets/blocks/widget-sidebar-options/sidebar.js:123
 msgid "Lumière widget settings"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:107
-msgid "Theses features are functional only if you added a Lumiere widget"
+#. translators: %1$s and %2$s are html tags
+#: assets/blocks/widget/edit.js:8
+msgid "This widget fills your selected area, such as a sidebar, with movie/person data according to the data inserted in your metabox in post edit or the title of your post (if %1$sLumière auto widget option%2$s is active). Once this widget is saved, either the data you filled in the Lumière metabox in your post or the post's title will be used to display the movie/person data accordingly."
 msgstr ""
 
-#: assets/blocks/widget/index.js:15
-msgid "Lumière main advanced options"
+#: assets/blocks/widget/edit.js:16
+msgid "Lumière Icon"
 msgstr ""
 
-#: assets/blocks/widget/index.js:18
-msgid "Add a movie or star in your Widget"
+#: assets/blocks/widget/edit.js:20
+msgid "Enter widget title:"
 msgstr ""
 
-#: assets/blocks/widget/index.js:19
-msgid "Widget to add a movie or prevent auto title widget from adding movies in selected posts"
+#: assets/blocks/widget/index.js:16
+msgid "Add a movie/person data in your Widget"
 msgstr ""
 
-#: assets/blocks/widget/index.js:42
-msgid "should you want your selected area to be filled with movie data according to your post title."
+#: assets/blocks/widget/index.js:17
+msgid "Widget to add a movie/person data in your sidebar or display auto title widget data"
 msgstr ""
 
 #: assets/blocks/addlink/block.json
@@ -2886,27 +2892,23 @@ msgid "Add a block in your posts that displays movie/person data."
 msgstr ""
 
 #: assets/blocks/post/block.json
-#: assets/blocks/widget-sidebar-options/block.json
 #: assets/blocks/widget/block.json
 msgctxt "block keyword"
 msgid "lumiere"
 msgstr ""
 
 #: assets/blocks/post/block.json
-#: assets/blocks/widget-sidebar-options/block.json
 #: assets/blocks/widget/block.json
 msgctxt "block keyword"
 msgid "imdb"
 msgstr ""
 
 #: assets/blocks/post/block.json
-#: assets/blocks/widget-sidebar-options/block.json
 msgctxt "block keyword"
 msgid "movies"
 msgstr ""
 
 #: assets/blocks/post/block.json
-#: assets/blocks/widget-sidebar-options/block.json
 #: assets/blocks/widget/block.json
 msgctxt "block keyword"
 msgid "film"
@@ -2922,19 +2924,14 @@ msgctxt "block description"
 msgid "Change the behaviour of Lumière's widget"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/block.json
-msgctxt "block keyword"
-msgid "sidebar"
-msgstr ""
-
 #: assets/blocks/widget/block.json
 msgctxt "block title"
-msgid "Add a movie in your Widget"
+msgid "Add a movie/person data in your Widget"
 msgstr ""
 
 #: assets/blocks/widget/block.json
 msgctxt "block description"
-msgid "Widget to add a movie or prevent auto title widget from adding movies in selected posts"
+msgid "Widget to add a movie/person data in your sidebar or display auto title widget data"
 msgstr ""
 
 #: assets/blocks/widget/block.json

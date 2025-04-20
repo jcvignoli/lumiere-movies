@@ -1,12 +1,9 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "lumiere/widget-sidebar-options",
 	"title": "Lumière Widget Options",
 	"description": "Change the behaviour of Lumière's widget",
 	"textdomain": "lumiere-movies",
-	"category": "widgets",
-	"keywords": ["sidebar", "lumiere", "imdb", "movies", "film"],
 	"attributes": {
 		"_lum_form_type_query": {
 			"type": "string",
@@ -16,25 +13,25 @@
 			"type": "string",
 			"default": ""
 		},
-		"_lum_movie_id": {
+		"_lum_movie_id_widget": {
 			"type": "string",
 			"default": ""
 		},
-		"_lum_movie_title": {
+		"_lum_movie_title_widget": {
 			"type": "string",
 			"default": ""
 		},
-		"_lum_person_id": {
+		"_lum_person_id_widget": {
 			"type": "string",
 			"default": ""
 		},
-		"_lum_person_name": {
+		"_lum_person_name_widget": {
 			"type": "string",
 			"default": ""
 		},
 		"_lum_autotitle_perpost": {
 			"type": "boolean",
-			"default": "0"
+			"default": "false"
 		}
 	},
 	"editorScript": "file:./index.js",

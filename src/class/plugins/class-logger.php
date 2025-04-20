@@ -132,7 +132,7 @@ final class Logger {
 			 */
 			$logger_verbosity = constant( '\Monolog\Logger::' . $imdb_admin_values['imdbdebuglevel'] );
 
-			// Save to file if function activated activated.
+			// Save to file if function is activated.
 			$monolog_class = $this->save_logger( $monolog_class, $imdb_admin_values, $logger_verbosity );
 
 			// Display on screen the log if function is activated.
@@ -152,7 +152,7 @@ final class Logger {
 			 */
 			$logger_verbosity = constant( '\Monolog\Logger::' . $imdb_admin_values['imdbdebuglevel'] );
 
-			// Save to file if function activated activated.
+			// Save to file if function is activated.
 			$monolog_class = $this->save_logger( $monolog_class, $imdb_admin_values, $logger_verbosity );
 
 			return $monolog_class;
@@ -174,6 +174,10 @@ final class Logger {
 	 * @return LoggerMonolog
 	 */
 	private function save_logger( LoggerMonolog $monolog_class, array $imdb_admin_values, int $logger_verbosity ): LoggerMonolog {
+
+		if ( $imdb_admin_values['imdbdebuglog'] !== '1' ) {
+			return $monolog_class;
+		}
 
 		// Add current url and referrer to the log
 		$monolog_class->pushProcessor( new WebProcessor( null, [ 'url', 'referrer' ] ) );

@@ -1058,7 +1058,7 @@ msgstr ""
 msgid "Add automatically movie details to your pages with Lumière! Legacy version. As of WordPress 5.8, you rather should use block-based widgets."
 msgstr ""
 
-#: class/admin/class-widget-selection.php:163
+#: class/admin/class-widget-selection.php:170
 msgid "Widget title:"
 msgstr ""
 
@@ -2814,27 +2814,23 @@ msgid "Add a block in your posts that displays movie/person data."
 msgstr ""
 
 #: assets/blocks/post/block.json
-#: assets/blocks/widget-sidebar-options/block.json
 #: assets/blocks/widget/block.json
 msgctxt "block keyword"
 msgid "lumiere"
 msgstr ""
 
 #: assets/blocks/post/block.json
-#: assets/blocks/widget-sidebar-options/block.json
 #: assets/blocks/widget/block.json
 msgctxt "block keyword"
 msgid "imdb"
 msgstr ""
 
 #: assets/blocks/post/block.json
-#: assets/blocks/widget-sidebar-options/block.json
 msgctxt "block keyword"
 msgid "movies"
 msgstr ""
 
 #: assets/blocks/post/block.json
-#: assets/blocks/widget-sidebar-options/block.json
 #: assets/blocks/widget/block.json
 msgctxt "block keyword"
 msgid "film"
@@ -2848,21 +2844,6 @@ msgstr ""
 #: assets/blocks/widget-sidebar-options/block.json
 msgctxt "block description"
 msgid "Change the behaviour of Lumière's widget"
-msgstr ""
-
-#: assets/blocks/widget-sidebar-options/block.json
-msgctxt "block keyword"
-msgid "sidebar"
-msgstr ""
-
-#: assets/blocks/widget/block.json
-msgctxt "block title"
-msgid "Add a movie in your Widget"
-msgstr ""
-
-#: assets/blocks/widget/block.json
-msgctxt "block description"
-msgid "Widget to add a movie or prevent auto title widget from adding movies in selected posts"
 msgstr ""
 
 #: assets/blocks/widget/block.json
@@ -2905,4 +2886,14 @@ msgstr ""
 #: class/frontend/module/movie/class-movie-writer.php:201
 msgctxt "year"
 msgid "to"
+msgstr ""
+
+#: assets/blocks/widget/block.json
+msgctxt "block title"
+msgid "Add a movie/person data in your Widget"
+msgstr ""
+
+#: assets/blocks/widget/block.json
+msgctxt "block description"
+msgid "Widget to add a movie/person data in your sidebar or display auto title widget data"
 msgstr ""

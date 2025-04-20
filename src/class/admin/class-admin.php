@@ -170,14 +170,25 @@ class Admin {
 	 * Register and enqueue gutenberg blocks, must be executed on the whole website
 	 *
 	 * @since 4.1 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
-	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() which registers gutenberg widget blocks
+	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() Register widget block, not included here
 	 */
 	public function lum_enqueue_blocks(): void {
 
 		$block_dir = LUM_WP_PATH . 'assets/blocks';
 		$blocks = [ 'post', 'addlink', 'opensearch', 'widget-sidebar-options' ];
+		$extra_render = [];
 		foreach ( $blocks as $block ) {
-			register_block_type( $block_dir . '/' . $block );
+
+			// Include the render_callback if render.php exists
+			/**
+			$file_render = LUM_WP_PATH . 'assets/blocks/' . $block . '/render.php';
+			if ( is_file( $file_render ) ) {
+				include_once $file_render;
+				$callback = 'lum_render_block_' . $block;
+				$extra_render = [ 'render_callback' => $callback ];
+			}*/
+
+			register_block_type( $block_dir . '/' . $block, $extra_render );
 			add_action(
 				'init',
 				function( string $block ) {

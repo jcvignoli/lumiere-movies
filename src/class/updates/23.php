@@ -128,7 +128,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_widget_movieid', true );
 			if ( $meta_value !== false && add_metadata( 'post', $post->ID, '_lum_movie_id_widget', $meta_value ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_widget_movieid' );
-				add_metadata( 'post', $post->ID, '_lum_form_type_query', '_lum_movie_id_widget' );
+				add_metadata( 'post', $post->ID, '_lum_form_type_query', 'lum_movie_id' );
 				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_movieid* in postID $post->ID to *_lum_movie_id_widget*" );
 			} else {
 				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Error, couldn't update 'lumiere_widget_movieid' in postID $post->ID metadata: " . strval( $meta_value ) );
@@ -146,7 +146,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_widget_movietitle', true );
 			if ( $meta_value !== false && add_metadata( 'post', $post->ID, '_lum_movie_title_widget', $meta_value ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_widget_movietitle' );
-				add_metadata( 'post', $post->ID, '_lum_form_type_query', '_lum_movie_title_widget' );
+				add_metadata( 'post', $post->ID, '_lum_form_type_query', 'lum_movie_title' );
 				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_movietitle* in postID $post->ID to *_lum_movie_title_widget*" );
 			} else {
 				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Error, couldn't update 'lumiere_widget_movietitle' in postID $post->ID metadata: " . strval( $meta_value ) );
@@ -164,7 +164,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_widget_personname', true );
 			if ( $meta_value !== false && add_metadata( 'post', $post->ID, '_lum_person_name_widget', $meta_value ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_widget_personname' );
-				add_metadata( 'post', $post->ID, '_lum_form_type_query', '_lum_person_name_widget' );
+				add_metadata( 'post', $post->ID, '_lum_form_type_query', 'lum_person_name' );
 				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_personname* in postID $post->ID to *_lum_person_name_widget*" );
 			} else {
 				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Error, couldn't update 'lumiere_widget_personname' in postID $post->ID metadata: " . strval( $meta_value ) );
@@ -182,7 +182,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$meta_value = get_metadata( 'post', $post->ID, 'lumiere_widget_personid', true );
 			if ( $meta_value !== false && add_metadata( 'post', $post->ID, '_lum_person_id_widget', $meta_value ) !== false ) {
 				delete_metadata( 'post', $post->ID, 'lumiere_widget_personid' );
-				add_metadata( 'post', $post->ID, '_lum_form_type_query', '_lum_person_id_widget' );
+				add_metadata( 'post', $post->ID, '_lum_form_type_query', 'lum_person_id' );
 				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Successfully updated *lumiere_widget_personid* in postID $post->ID to *_lum_person_id_widget*" );
 			} else {
 				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] Error, couldn't update 'lumiere_widget_personid' in postID $post->ID" );

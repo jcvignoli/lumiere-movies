@@ -15,8 +15,9 @@ registerBlockType( jsonData.name, {
 	title: __('Add a movie or person into your post', 'lumiere-movies'),
 	description: __('Add a block in your posts that displays movie/person data.', 'lumiere-movies'),
 	icon: iconLumiere,
-	category: 'embed',
-	keywords: ['lumiere', 'imdb', 'movies', 'film'],
+	category: jsonData.category,
+	keywords: jsonData.keywords,
+	example: jsonData.example,
 	attributes: {
 		lumiere_imdblt_select: {
 			type: 'string',

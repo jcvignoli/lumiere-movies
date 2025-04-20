@@ -1,5 +1,4 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "lumiere/main",
 	"title": "Add a movie or person into your post",
@@ -7,10 +6,14 @@
 	"textdomain": "lumiere-movies",
 	"category": "embed",
 	"icon": {
-		"src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUiIGhlaWdodD0iMzUiIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj4KICA8cGF0aCBkPSJNMTAgMTAwIGMwIC00NyA0LTgwIDEwLTgwIDYgMCAxMCAzMyAxMCA4MCAwIDQ3LTQgODAtMTAgODAtNiAwLTEwLTMzLTEwLTgweiBNNTAgMTcwIGMwIC01IDIzLTEwIDUwLTEwIDI4IDAgNTAgNSA1MCAxMCAwIDYtMjIgMTAtNTAgMTAtMjcgMC01MC00LTUwLTEweiBNMTcwIDEwMCBjMCAtNDcgNC04MCAxMC04MCA2IDAgMTAgMzMgMTAgODAgMCA0Ny00IDgwLTEwIDgwLTYgMC0xMC0zMy0xMC04MHoiLz4KPC9zdmc+"
+		"src": "data:image/svg+xml;base64,ICA8c3ZnIHdpZHRoPXszNX0gaGVpZ2h0PXszNX0gdmlld0JveD0iMCAwIDIwMCAyMDAiPgogICAgPHBhdGggZD0iTTEwIDEwMCBjMCAtNDcgNCAtODAgMTAgLTgwIDYgMCAxMCAzMyAxMCA4MCAwIDQ3IC00IDgwIC0xMCA4MCAtNiAwIC0xMCAtMzMgLTEwIC04MHpNNTAgMTcwIGMwIC01IDIzIC0xMCA1MCAtMTAgMjggMCA1MCA1IDUwIDEwIDAgNiAtMjIgMTAgLTUwIDEwIC0yNyAwIC01MCAtNCAtNTAgLTEwek0xNzAgMTAwIGMwIC00NyA0IC04MCAxMCAtODAgNiAwIDEwIDMzIDEwIDgwIDAgNDcgLTQgODAgLTEwIDgwIC02IDAgLTEwIC0zMyAtMTAgLTgwek01MCAxMTAgYzAgLTI5IDEgLTMwIDUwIC0zMCA0OSAwIDUwIDEgNTAgMzAgMCAyOSAtMSAzMCAtNTAgMzAgLTQ5IDAgLTUwIC0xIC01MCAtMzB6TTUwIDM1IGMwIC0xMSAxMiAtMTUgNTAgLTE1IDM4IDAgNTAgNCA1MCAxNSAwIDExIC0xMiAxNSAtNTAgMTUgLTM4IDAgLTUwIC00IC01MCAtMTV6Ii8+CiAgPC9zdmc+"
 	},
 	"keywords": ["lumiere", "imdb", "movies", "film"],
-	"example": {},
+	"example": {
+		"attributes": {
+			"message": "This is a test"
+		}
+	},
 	"attributes": {
 		"lumiere_imdblt_select": {
 			"type": "string",

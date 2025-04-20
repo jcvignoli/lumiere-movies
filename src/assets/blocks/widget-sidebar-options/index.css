@@ -1,8 +1,14 @@
 /**
- * Custom stylesheet
+ * Custom stylesheet for sidebar options
  */
-.lum_widget_options_subtitle{ font-size:1.1em;padding:0.5em;}
+
+.lum_widget_options_title a, .lum_widget_options_title a:visited { text-decoration: none; }
+
+.lum_sidebar_options_select > div > div > div > div > label, .lum_sidebar_options_text > div > div > div > label{text-transform:none !important;}
+
+.lum_widget_options_subtitle{ font-size:1em;padding:0.5em;}
 
 .lum_form_type_query{min-width:100% !important;}
 
 .lum_sidebar_options_select div{min-width:inherit;} /* fixes a gutenberg bug with select title cut */
+

@@ -1,17 +1,23 @@
 {
-  "apiVersion": 1,
-  "name": "lumiere/widget",
-  "title": "Add a movie in your Widget",
-  "description": "Widget to add a movie or prevent auto title widget from adding movies in selected posts",
-  "category": "widgets",
-  "keywords": ["widget", "lumiere", "imdb", "movie", "film"],
-  "attributes": {
-    "lumiere_input": {
-      "type": "string",
-      "source": "html",
-      "default": "Lumière Movies"
-    }
-  },
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css"
+	"apiVersion": 3,
+	"name": "lumiere/widget",
+	"title": "Add a movie/person data in your Widget",
+	"description": "Widget to add a movie/person data in your sidebar or display auto title widget data",
+	"category": "widgets",
+	"textdomain": "lumiere-movies",
+	"keywords": ["widget", "lumiere", "imdb", "movie", "film"],
+	"attributes": {
+		"lumiere_input": {
+			"type": "string",
+			"default": "Lumière Movies"
+		}
+	},
+	"example": {
+		"attributes": {
+			"message": "This is a test"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"render": "file:./render.php"
 }

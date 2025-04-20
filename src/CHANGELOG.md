@@ -4,7 +4,8 @@ v.4.6.1
 * [feature] Blocks translation
 * [bug] Blueprint wasn't updated to mandatory PHP8.1
 * [bug] Taxonomy genre triggered fatal error if Logger class wasn't active
-* [technical] Using gutenberg blocks instead of metaboxes for post panel settings if WordPress > 5.8
+* [technical] Created gutenberg block for post panel settings (available if WordPress > 5.8)
+* [technical] Widget gutenberg block compatible with api version 3
 * [technical] Logger includes the URL in saved log and reports in local timezone.
 
 v.4.6

@@ -92,7 +92,7 @@ class Cache_Files_Management {
 		global $wp_filesystem;
 
 		// prevent drama.
-		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) || $wp_filesystem->is_dir( $this->imdb_cache_values['imdbcachedir'] ) === false ) {
+		if ( ! ( strlen( $this->imdb_cache_values['imdbcachedir'] ) > 0 ) || $wp_filesystem->is_dir( $this->imdb_cache_values['imdbcachedir'] ) === false ) {
 			throw new Exception( 'Cache directory does not exist.' );
 		}
 
@@ -317,7 +317,7 @@ class Cache_Files_Management {
 	public function delete_query_cache_files(): void {
 
 		// prevent drama.
-		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
+		if ( ! ( strlen( $this->imdb_cache_values['imdbcachedir'] ) > 0 ) ) {
 			throw new Exception( 'Cache folder does not exist' );
 		}
 

@@ -131,8 +131,15 @@ class Widget_Selection extends WP_Widget {
 	 */
 	public function lumiere_register_widget_block(): void {
 
-		register_block_type( dirname( dirname( __DIR__ ) ) . '/assets/blocks/widget/' );
-		wp_set_script_translations( 'lumiere-widget-editor-script', 'lumiere-movies', dirname( dirname( __DIR__ ) ) . '/languages/' );
+		$extra_render = [];
+		// Include the render_callback if render.php exists
+		if ( is_file( LUM_WP_PATH . 'assets/blocks/widget/render.php' ) ) {
+			require_once LUM_WP_PATH . 'assets/blocks/widget/render.php';
+			$extra_render = [ 'render_callback' => 'lum_render_block_widget' ];
+		}
+
+		register_block_type( LUM_WP_PATH . 'assets/blocks/widget/', $extra_render );
+		wp_set_script_translations( 'lumiere-widget-editor-script', 'lumiere-movies', LUM_WP_PATH . 'languages/' );
 	}
 
 	/**
