@@ -31,7 +31,7 @@ if ( !defined( 'LUM_WP_PATH' ) ) {
 		define( 'LUM_WP_PATH', $abs_path . 'wp-content/plugins/lumiere-movies/' );
 	} elseif ( defined( 'ABSPATH' ) ) {
 		// Value that PHPStan github gets.
-		define( 'LUM_WP_PATH', ABSPATH . 'wp-content/plugins/lumiere-movies/' );
+		define( 'LUM_WP_PATH', '/home/runner/work/wp-content/plugins/lumiere-movies/' );
 	}
 }
 
