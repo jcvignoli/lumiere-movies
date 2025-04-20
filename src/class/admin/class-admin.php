@@ -210,19 +210,22 @@ class Admin {
 
 	/**
 	 * Add assets of Lumière admin pages
-	 * @param string $page_caller
+	 * @param string $current_page
 	 */
-	public function lumiere_execute_admin_assets( string $page_caller ): void {
+	public function lumiere_execute_admin_assets( string $current_page ): void {
 
 		// Load assets only on Lumière admin pages.
 		// + WordPress edition pages + Lumière own pages (ie gutenberg search).
 		if (
-			'toplevel_page_lumiere_options' === $page_caller
-			|| 'post.php' === $page_caller
-			|| 'post-new.php' === $page_caller
-			|| 'widgets.php' === $page_caller
+			'toplevel_page_lumiere_options' === $current_page
+			|| 'post.php' === $current_page
+			|| 'post-new.php' === $current_page
+			|| 'widgets.php' === $current_page
 			// All Lumière pages.
-			|| Data::array_contains_term( Get_Options::get_admin_lum_pages(), esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ) )
+			|| Data::array_contains_term(
+				Get_Options::get_admin_lum_pages(),
+				esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) )
+			)
 			// Extra WP Admin pages.
 			|| Data::array_contains_term(
 				[
@@ -230,7 +233,7 @@ class Admin {
 					'options-general.php?page=lumiere_options',
 				],
 				esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) )
-			) // Trait data
+			)
 		) {
 
 			// Load main css.
@@ -253,27 +256,27 @@ class Admin {
 		// On 'plugins.php' show a confirmation dialogue if 'imdbkeepsettings' is set on delete Lumière! options.
 		if (
 			( ! isset( $this->imdb_admin_values['imdbkeepsettings'] ) || $this->imdb_admin_values['imdbkeepsettings'] === '0' )
-			&& $page_caller === 'plugins.php'
+			&& $current_page === 'plugins.php'
 		) {
 			wp_enqueue_script( 'lumiere_deactivation_plugin_message' );
 		}
 
 		//  Add Quicktag.
-		if ( ( 'post.php' === $page_caller || 'post-new.php' === $page_caller ) && wp_script_is( 'quicktags' ) ) {
+		if ( ( 'post.php' === $current_page || 'post-new.php' === $current_page ) && wp_script_is( 'quicktags' ) ) {
 			wp_enqueue_script( 'lumiere_quicktag_addbutton' );
 		}
 	}
 
 	/**
-	 *  Register TinyMCE
-	 * @param string $page_caller
+	 * Register TinyMCE
+	 * @param string $current_page
 	 */
-	public function lumiere_execute_tinymce( string $page_caller ): void {
+	public function lumiere_execute_tinymce( string $current_page ): void {
 
 		// Add only in Rich Editor mode for post.php and post-new.php pages
 		if (
 			get_user_option( 'rich_editing' ) === 'true'
-			&& ( 'post.php' === $page_caller || 'post-new.php' === $page_caller )
+			&& ( 'post.php' === $current_page || 'post-new.php' === $current_page )
 		) {
 
 			add_filter( 'mce_external_plugins', [ $this, 'lumiere_tinymce_addbutton' ] );
