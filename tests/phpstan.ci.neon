@@ -1,10 +1,11 @@
 includes:
 # base config
     - ../phpstan.neon
+parameters:
+    #reportUnmatchedIgnoredErrors: false
     ignoreErrors:
-        - '#Variable method call on#'
-
         -
-           identifier: include.fileNotFound
-           reportUnmatched: false
+            identifier: requireOnce.fileNotFound
+            reportUnmatched: false
+            path: ../src/class/admin/class-widget-selection.php
 
