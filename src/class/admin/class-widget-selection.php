@@ -133,8 +133,9 @@ class Widget_Selection extends WP_Widget {
 
 		$extra_render = [];
 		// Include the render_callback if render.php exists
-		if ( is_file( LUM_WP_PATH . 'assets/blocks/widget/render.php' ) ) {
-			require_once LUM_WP_PATH . 'assets/blocks/widget/render.php';
+		$file_render = LUM_WP_PATH . 'assets/blocks/widget/render.php';
+		if ( is_file( $file_render ) ) {
+			require_once $file_render;
 			$extra_render = [ 'render_callback' => 'lum_render_block_widget' ];
 		}
 
