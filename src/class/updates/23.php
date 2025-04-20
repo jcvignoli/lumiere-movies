@@ -128,14 +128,14 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 			$result_update = update_option( 'widget_block', $new_option );
 			if ( $result_update === true ) {
 				$text = 'Lumière database removing *[lumiereWidget][/lumiereWidget]* succesfully updated';
-				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 			} else {
 				$text = 'Lumière database *[lumiereWidget][/lumiereWidget]* not update';
-				$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+				$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 			}
 		} else {
 			$text = 'Lumière database *[lumiereWidget][/lumiereWidget]* not update';
-			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/**
