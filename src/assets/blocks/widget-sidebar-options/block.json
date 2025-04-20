@@ -9,10 +9,6 @@
 			"type": "string",
 			"default": "lum_movie_title"
 		},
-		"_lum_form_type_content": {
-			"type": "string",
-			"default": ""
-		},
 		"_lum_movie_id_widget": {
 			"type": "string",
 			"default": ""

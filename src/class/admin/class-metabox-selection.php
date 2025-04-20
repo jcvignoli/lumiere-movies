@@ -104,20 +104,6 @@ class Metabox_Selection {
 				},
 			]
 		);
-		register_post_meta(
-			'post',
-			'_lum_form_type_content',
-			[
-				'show_in_rest'      => true,
-				'single'            => true,
-				'default'           => '',
-				'sanitize_callback' => 'sanitize_text_field',
-				'type'              => 'string',
-				'auth_callback'     => function() {
-					return current_user_can( 'manage_options' );
-				},
-			]
-		);
 		// Option for the select, add '_widget' to the value column
 		foreach ( Get_Options::get_lum_all_type_search_metabox() as $key => $value ) {
 			register_post_meta(
