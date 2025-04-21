@@ -10,7 +10,7 @@
 
 if ( ! function_exists( 'lum_incompatible_plugin_text' ) ) {
 	/**
-	 * Notice of Plugins incompatibility
+	 * Notice of incompatibility with specific Plugins
 	 * @return void Notice was echoed
 	 */
 	function lum_incompatible_plugin_text(): void {
@@ -22,22 +22,6 @@ if ( ! function_exists( 'lum_incompatible_plugin_text' ) ) {
 			esc_html__( 'You installed one of them.', 'lumiere-movies' ),
 			esc_html__( 'Lumière has been deactivated and cannot be activated again unless you deactivate them all.', 'lumiere-movies' ),
 			esc_html( $incompatible_name_plugins )
-		);
-	}
-}
-
-if ( ! function_exists( 'lum_incompatible_php_text' ) ) {
-	/**
-	 * Notice of Plugins incompatibility
-	 * @return void Notice was echoed
-	 */
-	function lum_incompatible_php_text(): void {
-		printf(
-			'<div class="%1$s"><p>%2$s <strong>%3$s</strong> %4$s</p></div>',
-			'notice notice-error is-dismissible',
-			esc_html__( 'Lumière is incompatible with your PHP Version', 'lumiere-movies' ),
-			PHP_VERSION,
-			esc_html__( 'This plugin been deactivated. It cannot be activated again unless you upgrade PHP version.', 'lumiere-movies' )
 		);
 	}
 }
