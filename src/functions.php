@@ -58,19 +58,13 @@ if ( ! function_exists( 'lum_get_version' ) ) {
 	/**
 	 * Get the version of Lumière automatically from the Readme
 	 * @return string
+	 * @since 4.6.1 using get_file_data() instead of parsing the readme.txt with $wp_filesystem
 	 */
 	function lum_get_version(): string {
-		global $wp_filesystem;
-		if ( $wp_filesystem === null ) {
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-			WP_Filesystem();
+		if ( ! function_exists( 'get_file_data' ) ) {
+			require_once( ABSPATH . 'wp-includes/functions.php' );
 		}
-		$readme_file = plugin_dir_path( __FILE__ ) . '/README.txt';
-		$lumiere_version_recherche = isset( $wp_filesystem ) ? $wp_filesystem->get_contents( $readme_file ) : false;
-		if ( $lumiere_version_recherche === false ) {
-			throw new Exception( 'Lumière readme file is either missing or corrupted' );
-		}
-		preg_match( '#Stable tag:\s(.+)\n#', $lumiere_version_recherche, $lumiere_version_match );
-		return $lumiere_version_match[1] ?? '0';
+		$plugin_data = get_file_data( LUM_WP_PATH . '/lumiere-movies.php', [ 'Version' => 'Version' ] );
+		return $plugin_data['Version'];
 	}
 }

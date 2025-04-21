@@ -9,13 +9,13 @@
  * @wordpress-plugin
  * Plugin Name:       Lumière Movies
  * Plugin URI:        https://www.wordpress.org/plugins/lumiere-movies/
- * Description:       Add informative popups about movies with information extracted from the IMDb. Display data related to movies in a widget and inside your post.
- * Version:           4.6.1
- * Requires at least: 5.6
- * Requires PHP:      8.1
+ * Description:       Add movies/persons data to your blog with info from IMDb. Display it in your popups, widget and inside your post.
  * Author:            psykonevro
  * Author URI:        https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
+ * Version:           4.6.1
  * Text Domain:       lumiere-movies
+ * Requires at least: 5.6
+ * Requires PHP:      8.1
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
  */
