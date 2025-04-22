@@ -1,6 +1,8 @@
 import { __ } from '@wordpress/i18n';
-import { createElement } from '@wordpress/element';
-import { useBlockProps, RichTextToolbarButton } from '@wordpress/block-editor';
+import { registerFormatType, toggleFormat } from '@wordpress/rich-text';
+import { BlockControls } from '@wordpress/block-editor';
+import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import jsonData from './block.json';
 
 const iconLumiere = (
@@ -9,34 +11,41 @@ const iconLumiere = (
   </svg>
 );
 
-const addlinkRegister = wp.richText.registerFormatType;
-const addlinkRichToogle = wp.richText.toggleFormat;
+const ButtonTagIMDb = ( { isActive, onChange, value } ) => {
 
-var ButtonTagIMDb = ( useBlockProps ) => {
-	return createElement(
-		RichTextToolbarButton, {
-			icon: iconLumiere,
-			title: __( 'Add a popup link', 'lumiere-movies' ),
-			onClick: () => {
-				useBlockProps.onChange(
-					addlinkRichToogle(
-						useBlockProps.value, {
-							type: "lumiere/addimdblink",
-							attributes: {
-								"data-lum_link_maker": "popup"
-							},
-						},
-					)
-				);
-			},
-			isActive: useBlockProps.isActive,
-		}
-	);
+	const selectedBlock = useSelect( ( select ) => {
+		return select( 'core/block-editor' ).getSelectedBlock();
+	}, [] );
+
+	// Display only if paragraph block
+	if ( selectedBlock && selectedBlock.name !== 'core/paragraph' ) {
+		return null;
+	}
+	
+	return (
+		<BlockControls>
+			<ToolbarGroup>
+				<ToolbarButton
+					icon={ iconLumiere }
+					title={ __( 'Add a popup link', 'lumiere-movies' ) }
+					onClick={ () => {
+						onChange(
+							toggleFormat( value, {
+								type: jsonData.name, attributes: jsonData.attributes
+							} )
+						);
+					} }
+					isActive={ isActive }
+				/>
+			</ToolbarGroup>
+		</BlockControls>
+	)
 };
-addlinkRegister( jsonData.name, {
+
+registerFormatType( jsonData.name, {
 		title: __( 'Add a popup link', 'lumiere-movies' ),
 		tagName: 'span',
-		className: 'notneeded',
+		className: 'notneeded', // if no name is provided, error that span is already registered.
 		edit: ButtonTagIMDb,
 	}
 );
