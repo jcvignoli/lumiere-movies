@@ -45,11 +45,6 @@ class Updates {
 	use Open_Options;
 
 	/**
-	 * Detect if the class is already running
-	 */
-	private bool $is_running = false;
-
-	/**
 	 * Constructor
 	 */
 	public function __construct(
@@ -63,18 +58,19 @@ class Updates {
 	 * Main function: Run updates of options
 	 *
 	 * Use the files in folder class/updates/ to proceed with the update
+	 * @since 4.6.1 using WP_Upgrader::create_lock() to avoid running twice, lock lasts 120 seconds or is deleted at the end of the process
 	 */
 	public function run_update_options(): void {
 
 		$this->logger->log?->debug( '[updateClass] Running updates...' );
 
 		// Make sure it doesn't run twice.
-		if ( $this->is_running === false ) {
-			$this->is_running = true;
-		} else {
+		if ( get_transient( 'lum_update_started' ) === 'locked' ) {
 			$this->logger->log?->debug( '[updateClass] Update process already running, exit' );
 			return;
 		}
+
+		set_transient( 'lum_update_started', 'locked', 240 );
 
 		// Count the number of files in class/updates/
 		$files = new FilesystemIterator( LUM_WP_PATH . 'class/updates/', FilesystemIterator::SKIP_DOTS );
@@ -100,6 +96,9 @@ class Updates {
 				$child_update_class->lumiere_run_local_update();
 			}
 		}
+
+		delete_transient( 'lum_update_started' );
+
 		$this->logger->log?->debug( '[updateClass] Update process finished' );
 	}
 

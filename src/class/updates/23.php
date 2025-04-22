@@ -72,27 +72,36 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		 */
 		global $wpdb;
 
+		sleep( 5 ); // Avoids the database update to fail, dunno why exactly
+
 		// movie_id
 		$vars_movie_id = [ '"movie_id"', '"lum_movie_id"' ];
-		$result = $wpdb->query( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
-		if ( is_bool( $result ) ) {
+		$wpdb->flush();
+		$result_movie_id = $wpdb->query( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+		if ( is_bool( $result_movie_id ) ) {
 			$text = "Lumière database *movie_id* bit error: a bool was returned, it shouldn't happen " . $wpdb->last_error;
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-		} elseif ( is_int( $result ) ) {
-			$text = 'Lumière database *movie_id* bit successfully updated to *lum_movie_id* for ' . strval( $result ) . ' rows';
+			// In test
+		} elseif ( is_int( $result_movie_id ) && $result_movie_id === 0 ) {
+			$text = 'Lumière database *movie_id* bit error with *lum_movie_id*: ' . $wpdb->last_error;
+			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} elseif ( is_int( $result_movie_id ) ) {
+			$text = 'Lumière database *movie_id* bit successfully updated to *lum_movie_id* for ' . strval( $result_movie_id ) . ' rows';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = "Lumière database *movie_id* bit error: $wpdb->last_error";
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
+
 		// movie_title
 		$vars_movie_title = [ '"movie_title"', '"lum_movie_title"' ];
-		$result = $wpdb->query( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_title ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
-		if ( is_bool( $result ) ) {
+		$wpdb->flush();
+		$result_movie_title = $wpdb->query( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_movie_title ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+		if ( is_bool( $result_movie_title ) ) {
 			$text = "Lumière database *movie_title* bit error: a bool was returned, it shouldn't happen " . $wpdb->last_error;
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-		} elseif ( is_int( $result ) ) {
-			$text = 'Lumière database *movie_title* bit successfully updated to *lum_movie_title* for ' . strval( $result ) . ' rows';
+		} elseif ( is_int( $result_movie_title ) ) {
+			$text = 'Lumière database *movie_title* bit successfully updated to *lum_movie_title* for ' . strval( $result_movie_title ) . ' rows';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = "Lumière database *movie_title* bit error: $wpdb->last_error";
@@ -100,12 +109,13 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		}
 		// person_name
 		$vars_perso_name = [ '"person_name"', '"lum_person_name"' ];
-		$result = $wpdb->query( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_name ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
-		if ( is_bool( $result ) ) {
+		$wpdb->flush();
+		$result_perso_name = $wpdb->query( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_name ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+		if ( is_bool( $result_perso_name ) ) {
 			$text = "Lumière database *person_name* bit error: a bool was returned, it shouldn't happen " . $wpdb->last_error;
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-		} elseif ( is_int( $result ) ) {
-			$text = 'Lumière database *person_name* bit successfully updated to *lum_person_name* for ' . strval( $result ) . ' rows';
+		} elseif ( is_int( $result_perso_name ) ) {
+			$text = 'Lumière database *person_name* bit successfully updated to *lum_person_name* for ' . strval( $result_perso_name ) . ' rows';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = "Lumière database *person_name* bit error: $wpdb->last_error";
@@ -113,12 +123,13 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		}
 		// person_id
 		$vars_perso_id = [ '"person_id"', '"lum_person_id"' ];
-		$result = $wpdb->query( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_id ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
-		if ( is_bool( $result ) ) {
+		$wpdb->flush();
+		$result_perso_id = $wpdb->query( $wpdb->prepare( "UPDATE `$wpdb->posts` SET `post_content` = REPLACE( post_content, %s, %s );", $vars_perso_id ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+		if ( is_bool( $result_perso_id ) ) {
 			$text = "Lumière database *person_id* bit error: a bool was returned, it shouldn't happen " . $wpdb->last_error;
 			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
-		} elseif ( is_int( $result ) ) {
-			$text = 'Lumière database *person_id* bit successfully updated to *lum_person_id* for ' . strval( $result ) . ' rows';
+		} elseif ( is_int( $result_perso_id ) ) {
+			$text = 'Lumière database *person_id* bit successfully updated to *lum_person_id* for ' . strval( $result_perso_id ) . ' rows';
 			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = "Lumière database *person_id* bit error: $wpdb->last_error";
