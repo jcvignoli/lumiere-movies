@@ -4,12 +4,10 @@
 /**
  * Internal dependencies
  */
-import jsonData from './block.json';
 import './index.css';
 
-
 /**
- * This is a fake file, meant to include only the options.js
+ * This is a fake file, meant to include only sidebar.js
  *
 registerBlockType( jsonData.name, {
 	edit: ( props ) => {
@@ -19,13 +17,7 @@ registerBlockType( jsonData.name, {
 			</p>
 		);
 	},
-	save: ( props ) => {
-		return (
-			<p { ...useBlockProps.save() }>
-				{ 'Example Post Meta – hello from the saved content!' }
-			</p>
-		);
-	}
+	save: return null;
 } );
  */
 

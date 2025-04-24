@@ -6,11 +6,10 @@ import { PluginDocumentSettingPanel } from '@wordpress/editor';
 import { ToggleControl, TextControl, PanelRow, SelectControl, withFocusReturn } from '@wordpress/components';
 import { RawHTML } from '@wordpress/element';
 import { registerPlugin } from '@wordpress/plugins'; 
+import jsonData from './block.json';
 
 const iconLumiere = (
-  <svg width={35} height={35} viewBox="0 0 200 200">
-    <path d="M10 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80zM50 170 c0 -5 23 -10 50 -10 28 0 50 5 50 10 0 6 -22 10 -50 10 -27 0 -50 -4 -50 -10zM170 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80zM50 110 c0 -29 1 -30 50 -30 49 0 50 1 50 30 0 29 -1 30 -50 30 -49 0 -50 -1 -50 -30zM50 35 c0 -11 12 -15 50 -15 38 0 50 4 50 15 0 11 -12 15 -50 15 -38 0 -50 -4 -50 -15z"/>
-  </svg>
+	<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="20.000000pt" height="20.000000pt" viewBox="0 0 20.000000 20.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,20.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none"><path d="M10 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80zM50 170 c0 -5 23 -10 50 -10 28 0 50 5 50 10 0 6 -22 10 -50 10 -27 0 -50 -4 -50 -10zM170 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80zM50 110 c0 -29 1 -30 50 -30 49 0 50 1 50 30 0 29 -1 30 -50 30 -49 0 -50 -1 -50 -30zM50 35 c0 -11 12 -15 50 -15 38 0 50 4 50 15 0 11 -12 15 -50 15 -38 0 -50 -4 -50 -15z"/></g></svg>
 );
 const htmlToElem = ( htmlText ) => RawHTML( { children: htmlText } ); /* type of block that can include html */
 
@@ -22,6 +21,16 @@ const Lum_Sidebar_Options = () => {
 	if (! ('post' === postType || 'page' === postType ) ) return null;
 
 	const [ meta, setMeta ] = useEntityProp( 'postType', postType, 'meta' );
+
+	/**
+	 * Filter vars starting with "_lum*" in meta
+	 * Not in use
+	const metaLum = Object.keys(meta).filter(function(k) {
+		return k.indexOf('_lum') == 0;
+	}).reduce(function(newData, k) {
+		newData[k] = meta[k];
+		return newData;
+	}, {});*/
 
 	/**
 	 * Set a row _lum_*_widget to blank
@@ -66,13 +75,13 @@ const Lum_Sidebar_Options = () => {
 	 * @see https://developer.wordpress.org/block-editor/reference-guides/components/with-focus-return/
 	 */
 	const FuncFreeText = withFocusReturn( () => {
-		const getSavedValue = meta._lum_form_type_query || 'lum_movie_title'; // The saved selection, with a default value if not saved	
+		const getSavedValue = meta._lum_form_type_query || 'lum_movie_title'; 	// The saved selection, with a default value if not saved	
 		//const getSavedValue = useSelect( ( select ) => select( 'core/editor' ).getEditedPostAttribute( 'meta' )['_lum_form_type_query'], [] ) || 'lum_movie_title'; // === meta[ savedValue ]
 		const widget_key = makeWidgetRow( getSavedValue );			// => key of _lum_*_widget
 		
 		const funcOnChangeText = ( value ) => {
 			lumiere_admin_vars.select_type_search.forEach(cleanOptions); 	// Clean all _lum_*_widget rows on change
-			setMeta( { [ widget_key ]: value } ); 		// Set the curent value to _lum_*_widget row
+			setMeta( { [ widget_key ]: value } ); 			// Set the curent value to _lum_*_widget row
 		}
 		return(
 			<TextControl
@@ -99,7 +108,7 @@ const Lum_Sidebar_Options = () => {
 
 		// Do not display this part if auto widget title in Lumière options is unactive
 		if ( lumiere_admin_vars.auto_title_activated === '0' ) return ( <PanelRow><div className="lum_widget_options_subtitle">{textAutoTitleDeactivated}</div></PanelRow> );
-		
+			
 		return (
 			<ToggleControl
 				label={ __('Deactivate Auto Title Widget for this post', 'lumiere-movies') }
@@ -124,6 +133,7 @@ const Lum_Sidebar_Options = () => {
 			className="lum_widget_options_title"
 			icon={ iconLumiere }
 			initialOpen={true}
+			name="lumiere-widget-sidebar-options"
 		>
 			<PanelRow>
 				<div className="lum_widget_options_subtitle">{ openingText }</div>
