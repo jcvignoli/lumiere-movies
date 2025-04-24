@@ -137,7 +137,7 @@ class Widget_Selection extends WP_Widget {
 		$file_render = LUM_WP_PATH . 'assets/blocks/widget/render.php';
 		if ( is_file( $file_render ) ) {
 			require_once $file_render;
-			$extra_render = [ 'render_callback' => 'lum_render_block_widget' ];
+			$extra_render = [ 'render_callback' => '\Lumiere\lum_render_block_widget' ];
 		}
 
 		register_block_type( LUM_WP_PATH . 'assets/blocks/widget/', $extra_render );
@@ -156,7 +156,7 @@ class Widget_Selection extends WP_Widget {
 	#[\Override]
 	public function form( $instance ): string {
 
-		$title = $instance['title'] ?? '';
+		$title = $instance['title'] ?? 'Lumière Movies';
 
 		$output = "\n\t" . '<!-- Lumière movies widget -->';
 		$output .= "\n\t" . '<p class="lumiere_padding_ten">';
