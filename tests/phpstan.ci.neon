@@ -8,5 +8,5 @@ parameters:
         -
             identifier: requireOnce.fileNotFound
             reportUnmatched: false
-            path: ../src/class/admin/class-widget-selection.php
+            path: ../src/class/Admin/Widget_Selection.php
 
