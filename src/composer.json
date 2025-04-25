@@ -1,6 +1,7 @@
 {
     "name": "jcvignoli/lumiere-movies",
-    "description": "WordPress plugin for retrieving film and tv information from IMDb",
+    "version": "4.6.1",
+    "description": "WordPress plugin for retrieving film and people information from IMDb",
     "license": "GPL-3.0-or-later",
     "support": {
         "issues": "https://github.com/jcvignoli/lumiere-movies/issues",
@@ -16,13 +17,45 @@
             "php": "8.1"
         }
     },
+    "require-dev": {
+        "coenjacobs/mozart": "@stable"
+    },
     "require": {
         "php": ">=8.1",
         "duck7000/imdb-graphql-php": "dev-jcv",
-        "monolog/monolog": "@stable",
-        "twbs/bootstrap": "@stable"
+        "twbs/bootstrap": "@stable",
+        "monolog/monolog": "@stable"
     },
     "autoload": {
-        "classmap": ["class/"]
+	"psr-4": {
+		"Lumiere\\": "class/",
+		"Lumiere\\Vendor\\Psr\\Log\\": "vendor/Psr/Log",
+		"Lumiere\\Vendor\\Psr\\SimpleCache\\": "vendor/Psr/SimpleCache",
+		"Lumiere\\Vendor\\Monolog\\": "vendor/Monolog",
+		"Lumiere\\Vendor\\Imdb\\": "vendor/Imdb"
+	}
+    },
+    "extra": {
+        "mozart": {
+            "dep_namespace": "Lumiere\\Vendor\\",
+            "dep_directory": "/vendor/",
+            "classmap_directory": "/vendor/",
+            "classmap_prefix": "Lumiere\\Vendor\\",
+            "packages": [
+                "monolog/monolog",
+                "duck7000/imdb-graphql-php"
+            ],
+	    "delete_vendor_directories": true
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "\"vendor/bin/mozart\" compose",
+            "composer dump-autoload"
+        ],
+        "post-update-cmd": [
+            "\"vendor/bin/mozart\" compose",
+            "composer dump-autoload"
+        ]
     }
 }

@@ -35,16 +35,16 @@
     "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm plugincheck"
   },
   "devDependencies": {
-    "@alexrah/ssh-watch-upload-webpack-plugin": "^1.1.1",
-    "@wordpress/plugins": "^7.21.0",
+    "@alexrah/ssh-watch-upload-webpack-plugin": "*",
+    "@wordpress/plugins": "*",
     "@wordpress/scripts": "*",
-    "browser-sync-webpack-plugin": "^2.3.0",
+    "browser-sync-webpack-plugin": "*",
     "css-minimizer-webpack-plugin": "*",
     "image-minimizer-webpack-plugin": "*",
     "imagemin": "*",
-    "imagemin-gifsicle": "^7.0.0",
-    "imagemin-jpegtran": "^8.0.0",
-    "imagemin-optipng": "^8.0.0",
+    "imagemin-gifsicle": "*",
+    "imagemin-jpegtran": "*",
+    "imagemin-optipng": "*",
     "mini-css-extract-plugin": "*",
     "webpack-remove-empty-scripts": "*",
     "sass": "*"

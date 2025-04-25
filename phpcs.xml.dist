@@ -37,6 +37,9 @@
 		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning"/>
 		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned"/>
 		<exclude name="NeutronStandard.Functions.VariableFunctions.VariableFunction" />
+		<!-- Using Psr-4 filenames for composer -->
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 	</rule> 
 
 	<!-- Include the WordPress-Extra standard.-->

@@ -89,12 +89,13 @@ export default {
 				globOptions: {
 					concurrency: 100,
 					ignore: [
-						"**/assets/**",
-						"**/vendor/bin/*",
-						"**/duck7000/imdb-graphql-php/doc/*",
-						"**/duck7000/imdb-graphql-php/src/Psr/**",
-						"**/vendor/twbs/bootstrap/**",
-						"**/class/updates/.add_only_updates",
+						"**/assets/**",						// address specifically later
+						"**/vendor/bin/*",					// usefull for dev only
+						"**/vendor/coenjacobs/**",				// dev package
+						"**/vendor/league/**",					// dev package
+						"**/vendor/psr/**",					// dev package
+						"**/vendor/twbs/bootstrap/**",				// addressed specifically later
+						"**/class/Updates/.add_only_updates",			// dev file that would mess all up
 					],
 				},
 			},

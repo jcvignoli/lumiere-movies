@@ -47,15 +47,15 @@
 		<!-- Didn't find any other way to remove three invaliddocblocks -->
 		<InvalidDocblock>
 			<errorLevel type="suppress">
-				<file name="src/class/plugins/class-plugins-start.php" />
-				<file name="src/class/plugins/auto/class-polylang.php" />
+				<file name="src/class/Plugins/Plugins_Start.php" />
+				<file name="src/class/Plugins/Auto/Polylang.php" />
 			</errorLevel>
 		</InvalidDocblock>
 		<!-- Didn't find any other way to remove three MissingTemplateParam -->
 		<MissingTemplateParam>
 			<errorLevel type="suppress">
-				<file name="src/class/admin/class-widget-selection.php" />
-				<file name="src/class/plugins/auto/class-polylang.php" />
+				<file name="src/class/Admin/Widget_Selection.php" />
+				<file name="src/class/Plugins/Auto/Polylang.php" />
 			</errorLevel>
 		</MissingTemplateParam>
 	</issueHandlers>

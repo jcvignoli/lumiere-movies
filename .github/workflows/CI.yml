@@ -57,6 +57,7 @@ jobs:
           composer install -n --prefer-dist
           cd src
           composer install -n --prefer-dist
+          composer update --no-dev --no-scripts --optimize-autoloader
 
       - name: "Code analyser"
         run: |

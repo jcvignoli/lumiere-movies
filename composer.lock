@@ -609,22 +609,22 @@
         },
         {
             "name": "codeception/module-asserts",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-asserts.git",
-                "reference": "1b6b150b30586c3614e7e5761b31834ed7968603"
+                "reference": "c58281f3d741599c81676bcb92996cf1e22d9ffd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-asserts/zipball/1b6b150b30586c3614e7e5761b31834ed7968603",
-                "reference": "1b6b150b30586c3614e7e5761b31834ed7968603",
+                "url": "https://api.github.com/repos/Codeception/module-asserts/zipball/c58281f3d741599c81676bcb92996cf1e22d9ffd",
+                "reference": "c58281f3d741599c81676bcb92996cf1e22d9ffd",
                 "shasum": ""
             },
             "require": {
                 "codeception/codeception": "*@dev",
                 "codeception/lib-asserts": "^2.0",
-                "php": "^8.0"
+                "php": "^8.1"
             },
             "conflict": {
                 "codeception/codeception": "<5.0"
@@ -660,9 +660,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-asserts/issues",
-                "source": "https://github.com/Codeception/module-asserts/tree/3.0.0"
+                "source": "https://github.com/Codeception/module-asserts/tree/3.1.0"
             },
-            "time": "2022-02-16T19:48:08+00:00"
+            "time": "2025-04-24T17:18:25+00:00"
         },
         {
             "name": "codeception/module-cli",
@@ -2788,16 +2788,16 @@
         },
         {
             "name": "lucatume/wp-browser",
-            "version": "4.4.2",
+            "version": "4.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucatume/wp-browser.git",
-                "reference": "01ac557ef3769651d488c466cc181e0f479e30be"
+                "reference": "cc96ba1977208474fbeedd3fc42c8985edebddf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/01ac557ef3769651d488c466cc181e0f479e30be",
-                "reference": "01ac557ef3769651d488c466cc181e0f479e30be",
+                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/cc96ba1977208474fbeedd3fc42c8985edebddf0",
+                "reference": "cc96ba1977208474fbeedd3fc42c8985edebddf0",
                 "shasum": ""
             },
             "require": {
@@ -2817,9 +2817,9 @@
                 "ext-pdo": "*",
                 "ext-zip": "*",
                 "php": "^8.0",
-                "phpunit/phpunit": "<=12.0.0",
-                "symfony/filesystem": ">=4.4.24 <7.0",
-                "symfony/process": ">=4.4.24 <7.0",
+                "phpunit/phpunit": "<12.0.0",
+                "symfony/filesystem": ">=4.4.24 <8.0",
+                "symfony/process": ">=4.4.24 <8.0",
                 "vlucas/phpdotenv": "^5.0"
             },
             "require-dev": {
@@ -2876,7 +2876,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lucatume/wp-browser/issues",
-                "source": "https://github.com/lucatume/wp-browser/tree/4.4.2"
+                "source": "https://github.com/lucatume/wp-browser/tree/4.5.2"
             },
             "funding": [
                 {
@@ -2884,7 +2884,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-22T12:28:52+00:00"
+            "time": "2025-04-25T21:34:31+00:00"
         },
         {
             "name": "marc-mabe/php-enum",
