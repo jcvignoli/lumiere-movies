@@ -154,6 +154,7 @@ class TaxonomyCest {
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#taxodetails');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_movie_settings' );
+		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->CustomDisableCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_movie_settings' );
@@ -172,6 +173,7 @@ class TaxonomyCest {
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#taxodetails');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetactor_yes', '#lumiere_update_data_movie_settings' );
+		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
 		$I->scrollTo('#imdb_imdbwidgetsoundtrack_yes');
 		$I->CustomActivateCheckbox('#imdb_imdbwidgetwriter_yes', '#lumiere_update_data_movie_settings' );

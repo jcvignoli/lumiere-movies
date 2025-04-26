@@ -70,7 +70,7 @@ class Settings extends Settings_Helper {
 	/**
 	 * Admin search
 	 */
-	public const LUM_SEARCH_ITEMS_FILE              = 'class/admin/class-search-items.php';
+	public const LUM_SEARCH_ITEMS_FILE              = 'class/admin/Search_Items.php';
 	public const LUM_SEARCH_ITEMS_URL_ADMIN         = '/wp-admin/lumiere/search-items/';
 	public const LUM_SEARCH_ITEMS_QUERY_STRING      = 'itemsearched'; // search string in url, such as ?moviesearched=
 
@@ -143,9 +143,10 @@ class Settings extends Settings_Helper {
 	/**
 	 * Internal URL pages constants
 	 * Must be public, used everywhere
+	 * @TODO: remove, most certainely useless!
 	 */
-	public const LUM_FILE_COPY_THEME_TAXONOMY       = 'class/admin/taxo/class-copy-template-taxonomy.php';
-	public const LUM_TAXO_ITEMS_THEME               = 'class/theme/class-taxonomy-items-standard.php';
+	public const LUM_FILE_COPY_THEME_TAXONOMY       = 'class/Admin/Copy_Template/Copy_Theme.php';
+	public const LUM_TAXO_ITEMS_THEME               = 'class/Theme/Taxonomy_Items_Standard.php';
 
 	/**
 	 * The name of the custom meta data field used for movie auto title widget

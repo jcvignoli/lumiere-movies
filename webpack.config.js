@@ -90,10 +90,13 @@ export default {
 					concurrency: 100,
 					ignore: [
 						"**/assets/**",						// address specifically later
-						"**/vendor/bin/*",					// usefull for dev only
-						"**/vendor/coenjacobs/**",				// dev package
-						"**/vendor/league/**",					// dev package
+						"**/vendor/monolog/**",					// dev package
+						"**/vendor/duck7000/**",				// dev package
 						"**/vendor/psr/**",					// dev package
+						"**/vendor/coenjacobs/**",				// dev package, special, only with npm run watch
+						"**/vendor/bin/**",					// dev package, special, only with npm run watch
+						"**/vendor/league/**",					// dev package, special, only with npm run watch
+						"**/vendor/symfony/**",					// dev package, special, only with npm run watch
 						"**/vendor/twbs/bootstrap/**",				// addressed specifically later
 						"**/class/Updates/.add_only_updates",			// dev file that would mess all up
 					],

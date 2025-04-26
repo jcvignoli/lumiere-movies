@@ -51,8 +51,8 @@ class Settings_Movie extends Settings_Helper {
 	 * Internal URL pages constants
 	 * @see \Lumiere\Config\Get_Options used there, so visibility must be public
 	 */
-	public const LUM_POPUP_MOVIE_PATH               = 'class/frontend/popups/class-popup-movie.php';
-	public const LUM_POPUP_SEARCH_PATH              = 'class/frontend/popups/class-popup-movie-search.php';
+	public const LUM_POPUP_MOVIE_PATH               = 'class/Frontend/Popups/Popup_Movie.php';
+	public const LUM_POPUP_SEARCH_PATH              = 'class/Frontend/Popups/Popup_Movie_Search.php';
 
 	/**
 	 * Partial namespace of movie modules

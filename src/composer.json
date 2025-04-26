@@ -51,11 +51,13 @@
     "scripts": {
         "post-install-cmd": [
             "\"vendor/bin/mozart\" compose",
-            "composer dump-autoload"
+            "composer dump-autoload",
+            "composer update --no-dev --no-scripts --optimize-autoloader"
         ],
         "post-update-cmd": [
             "\"vendor/bin/mozart\" compose",
-            "composer dump-autoload"
+            "composer dump-autoload",
+            "composer update --no-dev --no-scripts --optimize-autoloader"
         ]
     }
 }

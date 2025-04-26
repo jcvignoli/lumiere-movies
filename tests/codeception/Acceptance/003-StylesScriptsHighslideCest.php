@@ -70,12 +70,12 @@ class StylesScriptsHighslideCest {
 		$I->comment(Helper\Color::set('Check Lumière (Gutenberg) Block Editor page', 'italic+bold+cyan'));
 		$I->amOnPage( ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
-		$I->seeInPageSource("assets/blocks/post/index.min.js"); 	# Gutenberg movie block js
-		$I->seeInPageSource("assets/blocks/post/index.min.css"); 	# Gutenberg movie block css
-		$I->seeInPageSource("assets/blocks/addlink/index.min.js"); 	# Gutenberg addlink block js
-		$I->seeInPageSource("assets/blocks/widget/index.min.css");	# Gutenberg widget block css
-		$I->seeInPageSource("assets/blocks/widget/index.min.js");	# Gutenberg widget block js
-		$I->seeInPageSource("assets/blocks/opensearch/index.min.js");	# Gutenberg opensearch block js
+		$I->seeInPageSource("assets/blocks/post/index.js?ver="); 	# Gutenberg movie block js
+		$I->seeInPageSource("assets/blocks/post/index.css?ver="); 	# Gutenberg movie block css
+		$I->seeInPageSource("assets/blocks/addlink/index.js?ver="); 	# Gutenberg addlink block js
+		$I->seeInPageSource("assets/blocks/widget/index.css?ver=");	# Gutenberg widget block css
+		$I->seeInPageSource("assets/blocks/widget/index.js?ver=");	# Gutenberg widget block js
+		$I->seeInPageSource("assets/blocks/opensearch/index.js?ver=");	# Gutenberg opensearch block js
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 		# Lumière main js
 		$I->seeInPageSource('lumiere_css_admin-css'); 			# Lumière main css
 		$I->seeInPageSource("lumiere_scripts_admin-js-before"); 	# Lumière js vars for scripts
@@ -94,12 +94,12 @@ class StylesScriptsHighslideCest {
 		$I->comment(Helper\Color::set('Check Lumière Classic Editor page (with Classic Editor plugin)', 'italic+bold+cyan'));
 		$I->amOnPage( ADMIN_POST_ID_TESTS );
 		$I->waitPageLoad();
-		$I->dontSeeInPageSource("assets/blocks/post/index.min.js"); 		# Gutenberg movie block js
-		$I->dontSeeInPageSource("assets/blocks/post/index.min.css"); 		# Gutenberg movie block css
-		$I->dontSeeInPageSource("assets/blocks/addlink/index.min.js"); 		# Gutenberg addlink block js
-		$I->dontSeeInPageSource("assets/blocks/widget/index.min.css");		# Gutenberg widget block css
-		$I->dontSeeInPageSource("assets/blocks/widget/index.min.js");		# Gutenberg widget block js
-		$I->dontSeeInPageSource("assets/blocks/opensearch/index.min.js");	# Gutenberg opensearch block js
+		$I->dontSeeInPageSource("assets/blocks/post/index.js?ver="); 		# Gutenberg movie block js
+		$I->dontSeeInPageSource("assets/blocks/post/index.css?ver="); 		# Gutenberg movie block css
+		$I->dontSeeInPageSource("assets/blocks/addlink/index.js?ver="); 	# Gutenberg addlink block js
+		$I->dontSeeInPageSource("assets/blocks/widget/index.css?ver=");		# Gutenberg widget block css
+		$I->dontSeeInPageSource("assets/blocks/widget/index.js?ver=");		# Gutenberg widget block js
+		$I->dontSeeInPageSource("assets/blocks/opensearch/index.js?ver=");	# Gutenberg opensearch block js
 		$I->seeInPageSource("lumiere_scripts_admin-js"); 	 		# Lumière main js
 		$I->seeInPageSource("lumiere_scripts_admin-js-before");			# Lumière js vars for scripts
 		$I->seeInPageSource("lumiere_quicktag_addbutton-js"); 			# Quicktag Lumière plugin
@@ -157,7 +157,7 @@ class StylesScriptsHighslideCest {
 		$I->click('Full biography');
 		$I->see('and muscular Mexican leading man');
 		$I->click('Misc');
-		$I->see('was born in the city of Guatemala');
+		$I->see('Rivero soon became a sex symbol and');
 
 			// Popup movie page
 
@@ -185,7 +185,6 @@ class StylesScriptsHighslideCest {
 		$I->see('a team of researchers, to find a new planet for humans.');
 		$I->click('Misc');
 		$I->see('Early in pre-production, Dr. Kip Thorne laid down tw');
-
 	}
 
 	/**
@@ -206,8 +205,8 @@ class StylesScriptsHighslideCest {
 		$I->click('#lumiere_update_main_settings');
 		$I->comment(Helper\Color::set('[Action] Selection has been switched to "black"', 'italic+bold+cyan'));
 
-		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->waitPageLoad();
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->seeInPageSource("lum_results_frame_black");		// CSS for black layout.
 
 		// Try with selection grey (default)
@@ -217,11 +216,10 @@ class StylesScriptsHighslideCest {
 		$I->selectOption("form [name=imdb_imdbintotheposttheme]", "grey");
 		$I->click('#lumiere_update_main_settings');
 		$I->comment(Helper\Color::set('[Action] Selection has been switched to "grey"', 'italic+bold+cyan'));
-	
-		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->waitPageLoad();
-		$I->seeInPageSource("lum_results_frame_grey");		// CSS for grey layout (default).
 
+		$I->waitPageLoad();
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
+		$I->seeInPageSource("lum_results_frame_grey");		// CSS for grey layout (default).
 	}
 	
 	/**

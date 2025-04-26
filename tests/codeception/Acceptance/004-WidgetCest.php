@@ -91,14 +91,14 @@ class WidgetCest {
 		
 		// Set auto title widget exclusion in a post and verify if the post doesn't contain it.
 		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
-		$I->CustomActivateCheckbox('#lumiere_autotitlewidget_perpost', 'input[id=publish]' );
+		$I->CustomActivateCheckbox('#_lum_autotitle_perpost', 'input[id=publish]' );
 		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->dontSeeInSource( 'Alfonso Cuarón' );
 
 		// Remove auto title widget exclusion in a post and verify if the post doesn't contain it.
 		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
-		$I->CustomDisableCheckbox('#lumiere_autotitlewidget_perpost', 'input[id=publish]' );
+		$I->CustomDisableCheckbox('#_lum_autotitle_perpost', 'input[id=publish]' );
 		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->scrollTo( ".lum_results_section_subtitle" );

@@ -50,8 +50,8 @@ class Settings_Person {
 	 * Internal URL pages constants
 	 * Must be public, used everywhere
 	 */
-	public const LUM_POPUP_PERSON_PATH              = 'class/frontend/popups/class-popup-person.php';
-	public const LUM_TAXO_PEOPLE_THEME              = 'class/theme/class-taxonomy-people-standard.php';
+	public const LUM_POPUP_PERSON_PATH              = 'class/Frontend/Popups/Popup_Person.php';
+	public const LUM_TAXO_PEOPLE_THEME              = 'class/Theme/Taxonomy_People_Standard.php';
 
 	/**
 	 * Default imdb fields with numbers selection and active by default

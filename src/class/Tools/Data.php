@@ -148,6 +148,7 @@ class Data {
 	 */
 	public static function mb_ucfirst( string $text ): string {
 		if ( function_exists( 'mb_ucfirst' ) === true ) {
+			// @phan-suppress-next-line PhanUndeclaredFunction (phan doesn't know this function
 			return mb_ucfirst( $text );
 		}
 		return mb_strtoupper( mb_substr( $text, 0, 1 ) ) . mb_substr( $text, 1 );

@@ -27,7 +27,7 @@ use Lumiere\Tools\Files;
 /**
  * Uninstall plugin
  * If imdbkeepsettings is set (advanced admin options), exit earlier to keep database settings
- * Metadatas (Settings::define_lum_all_type_search() and 'lumiere_autotitlewidget_perpost') are not removed, even if imdbkeepsettings is set
+ * Custom metadatas (Settings::define_lum_all_type_search() and '_lum_autotitle_perpost') are not removed, even if imdbkeepsettings is set
  *
  * @since 4.0 option properties can be null and construct is different.
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings

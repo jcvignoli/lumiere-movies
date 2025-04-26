@@ -10,7 +10,7 @@ use Tests\Support\Helper\AcceptanceSettings;
  * Class meant to test wordpress install (a WebDriver is needed for JS execution)
  * Data for person, new 4.6 addition, is tested
  */
-class CronsCest {
+class PersonCest {
 
 	public function _before(AcceptanceTester $I){
 		$I->comment('#Code _before#');
