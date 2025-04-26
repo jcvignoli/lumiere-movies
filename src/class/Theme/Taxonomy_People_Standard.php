@@ -10,7 +10,7 @@
  * @package       lumieremovies
  */
 
-namespace Lumiere;
+namespace Lumiere\Theme;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'ABSPATH' ) ) || ( ! class_exists( '\Lumiere\Config\Settings' ) ) ) {
