@@ -8,7 +8,7 @@
  * @package     lumieremovies
  */
 
-namespace Lumiere\Admin;
+namespace Lumiere\Admin\Crons;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) && ( ! class_exists( '\Lumiere\Config\Settings' ) ) ) {
@@ -171,6 +171,7 @@ class Cron {
 	 * Add or Remove WP Cron a daily cron that deletes files that are over a given limit
 	 *
 	 * @since 4.0 Merged here the two add/remove previously separated functions
+	 * @see \Lumiere\Tools\Cli_Commands::sub_update_options() Use this method to update the cron
 	 *
 	 * @return void Files exceeding provided limited are deleted
 	 */
@@ -208,6 +209,7 @@ class Cron {
 	 *
 	 * @since 4.0 Added method
 	 * @since 4.3.3 Runs twice a day instead of every two weeks, now processing the refresh by batches + added transient to know the rounds lenght
+	 * @see \Lumiere\Tools\Cli_Commands::sub_update_options() Use this method to update the cron
 	 *
 	 * @return void Files exceeding provided limited are deleted
 	 */

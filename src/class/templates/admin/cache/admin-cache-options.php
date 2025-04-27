@@ -165,16 +165,17 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					) {
 						$lumiere_next_cron_run = wp_date( get_option( 'date_format' ), intval( $lumiere_next_cron_run ) );
 						$lum_total_cron = $lum_cron_ppl_left !== false && $lum_cron_mv_left !== false ? count( $lum_cron_ppl_left ) + count( $lum_cron_mv_left ) : false;
-
+						echo '<div class="lumiere_green">';
 						if ( $lum_total_cron === false ) {
-							echo '<div class="lumiere_green">';
 							esc_html_e( 'Started refreshing cache, this message will be updated as first batch of files has been run.', 'lumiere-movies' );
+
 						} elseif ( $lumiere_next_cron_run !== false ) {
 							/* translators: %s is a number */
 							$lum_files = wp_sprintf( _n( '%s file', '%s files', intval( $lum_total_cron ), 'lumiere-movies' ), esc_html( strval( $lum_total_cron ) ) );
 							/* translators: %1s is a number + file (singular or plural), %2s is replaced with a date in numbers */
 							echo wp_sprintf( esc_html__( 'Currently refreshing the cache, %1$1s remain to be refreshed. A new full refresh will start on %2$2s.', 'lumiere-movies' ), esc_html( $lum_files ), esc_html( $lumiere_next_cron_run ) );
 						}
+						echo '</div>';
 						// no transiant available and option is set, meaning the process has started
 					} elseif (
 						$lumiere_next_cron_run === false
@@ -182,16 +183,18 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					) {
 							echo '<div class="lumiere_green">';
 							esc_html_e( 'Started refreshing cache, this message will be updated as first batch of files has been run.', 'lumiere-movies' );
+						echo '</div>';
 						// a cron is scheduled although the option is unset
 					} elseif (
 						wp_next_scheduled( 'lumiere_cron_autofreshcache' ) !== false
 						&& $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '0'
 					) {
-							echo '<div class="lumiere_red">';
-							esc_html_e( 'There is an error with your automatic cache refresh, try to activate it again.', 'lumiere-movies' );
+						echo '<div class="lumiere_red">';
+						esc_html_e( 'There is an error with your automatic cache refresh, try to activate it again.', 'lumiere-movies' );
+						echo '</div>';
 					}
 
-					?></div>
+					?>
 					</div>
 
 

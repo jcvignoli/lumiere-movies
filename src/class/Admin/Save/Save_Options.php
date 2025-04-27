@@ -25,7 +25,7 @@ use Exception;
 /**
  * Saving or resetting options when an admin form is submitted
  *
- * @since 4.0 Created by extracting all the methods from the main admin menu and its subclasses and factorized them here, added check nonces for refresh/delete individual movies, added transiants to trigger notices in {@see \Lumiere\Admin\Admin_Menu::lumiere_admin_display_messages() } and crons in {@see \Lumiere\Admin\Cron::lumiere_add_remove_crons_cache() }
+ * @since 4.0 Created by extracting all the methods from the main admin menu and its subclasses and factorized them here, added check nonces for refresh/delete individual movies, added transiants to trigger notices in {@see \Lumiere\Admin\Admin_Menu::lumiere_admin_display_messages() } and crons in {@see \Lumiere\Admin\Cron\Cron::lumiere_add_remove_crons_cache() }
  * @since 4.6 refactorized, use a parent class
  */
 class Save_Options extends Save_Helper {
@@ -295,7 +295,7 @@ class Save_Options extends Save_Helper {
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 *
-	 * @see Lumiere\Admin\Cron::lumiere_add_remove_crons_cache()
+	 * @see Lumiere\Admin\Cron\Cron::lumiere_add_remove_crons_cache()
 	 * @throws Exception if nonces are incorrect
 	 */
 	private function lumiere_cache_options_save( string|bool $get_referer ): void {

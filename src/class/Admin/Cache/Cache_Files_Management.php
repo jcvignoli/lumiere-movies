@@ -31,7 +31,7 @@ use Exception;
  * Method lumiere_create_cache() is used by many classes that need to check if cache folders exist
  *
  * @see \Lumiere\Admin\Submenu\Cache
- * @see \Lumiere\Admin\Cron
+ * @see \Lumiere\Admin\Cron\Cron
  * @since 4.0 Methods extracted from Submenu\Cache class and refactored
  *
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
@@ -186,7 +186,7 @@ class Cache_Files_Management {
 	 * 5/ A new round of refresh will happen when $days_next_start is passed
 	 * 6/ If the transients get deleted for whatever reason, it will start over
 	 *
-	 * @see \Lumiere\Admin\Cron::lumiere_cron_exec_autorefresh() Cron refreshes all cache
+	 * @see \Lumiere\Admin\Cron\Cron::lumiere_cron_exec_autorefresh() Cron refreshes all cache
 	 * @since 4.0 Method created
 	 * @since 4.3.3 Deeply reviewed, removed sleep, using batches, using transients => needs to be executed more often
 	 *

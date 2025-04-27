@@ -155,7 +155,7 @@ Full list of changes is available on [GitHub](https://github.com/jcvignoli/lumie
 
 = 4.6.1 =
 
-All gutenberg blocks are compatible with api version 3. Lumière sidebar is made of gutenberg block if using WordPress > 5.8
+All gutenberg blocks are compatible with api version 3. Lumière sidebar is made of gutenberg block if using WordPress > 5.8. No more conflicting libraries with other plugins, evey class is namespaced with Lumière.
 
 = 4.6 =
 
@@ -177,7 +177,7 @@ The base library is now IMDbGraphQL. Taxonomy deeply changed, forms in taxonomy 
 
 = 4.6.1 =
 
-Lumière widget has changed. Visit the widget page, click on "recover" the widget, and save.
+Many core library names have changed, expect a fatal error when updating. No worries nevertheless, it's for the greater good.
 
 = 4.4 =
 

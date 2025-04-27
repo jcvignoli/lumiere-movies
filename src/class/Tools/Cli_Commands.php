@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Lumiere\Tools\Files;
 use Lumiere\Admin\Copy_Templates\Copy_Theme;
+use Lumiere\Admin\Crons\Cron;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
@@ -208,11 +209,11 @@ class Cli_Commands {
 		update_option( $options_tablename, $database_options );
 
 		if ( $array_key === 'imdbcachekeepsizeunder' ) {
-			( new \Lumiere\Admin\Cron() )->cron_add_delete_oversize();
+			( new Cron() )->cron_add_delete_oversize();
 		}
 
 		if ( $array_key === 'imdbcacheautorefreshcron' ) {
-			( new \Lumiere\Admin\Cron() )->cron_add_delete_cache();
+			( new Cron() )->cron_add_delete_cache();
 		}
 
 		WP_CLI::success( 'Updated var ' . $array_key . ' with value ' . $database_options[ $array_key ] );

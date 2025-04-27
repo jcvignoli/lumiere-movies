@@ -24,7 +24,7 @@ use Lumiere\Config\Get_Options;
  * The class checks if there are template files that need to be updated
  *
  * @see Lumiere\Core::lum_setup_cron_exec_once() Set up a cron that executes on updates (manual, auto) and plugin activation
- * @see Lumiere\Admin\Cron::lumiere_exec_once_update() Executes this file
+ * @see Lumiere\Admin\Cron\Cron::lumiere_exec_once_update() Executes this file
  * @since 4.3.2
  */
 class Auto_Update_Theme extends Copy_Theme {
