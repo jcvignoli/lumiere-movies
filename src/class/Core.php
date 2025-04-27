@@ -4,7 +4,7 @@
  *
  * @copyright (c) 2022, Lost Highway
  *
- * @version       4.0
+ * @version       4.1
  * @package       lumieremovies
  */
 
@@ -30,6 +30,7 @@ use Lumiere\Tools\Files;
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @since 4.1.2 WP Cli commands compatible
+ * @since 4.6.1 Moved update-related hooks to a parent class Hooks_Updates
  * @todo Since 4.1.1 an update version check is now executed on every admin page, find a better hook
  */
 final class Core extends Hooks_Updates {

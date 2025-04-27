@@ -1,10 +1,10 @@
 <?php declare( strict_types = 1 );
 /**
- * Core Class
+ * Hooks Updates class
  *
- * @copyright (c) 2022, Lost Highway
+ * @copyright (c) 2025, Lost Highway
  *
- * @version       4.0
+ * @version       1.0
  * @package       lumieremovies
  */
 
@@ -21,15 +21,9 @@ use Lumiere\Updates;
 use FilesystemIterator;
 
 /**
- * Main WordPress actions happen here
- * Calling all actions and filters
- * Since WP 6.7, getting "Notice: Function _load_textdomain_just_in_time was called incorrectly." if Logger class is executed before init hook
- * -> removed a property that save it, each method initiates the class itself now. In order to get the log, it must be executed before the init,
- * but as a result the notice may be thrown for each method. No solution yet.
- *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
- * @since 4.1.2 WP Cli commands compatible
- * @todo Since 4.1.1 an update version check is now executed on every admin page, find a better hook
+ * All hooks for automatic or manual updates
+ * Need for update is also checked on
+ * @since 4.6.1
  */
 class Hooks_Updates {
 
@@ -56,7 +50,7 @@ class Hooks_Updates {
 	public function lum_on_plugin_manualupdate( \WP_Upgrader $upgrader_object, array $options ): void {
 
 		// Start Logger class.
-		$logger = new Logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$logger = new Logger( 'hooksUpdates', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		// If an update has taken place and the updated type is plugins and the plugins element exists.
 		if ( $options['type'] === 'plugin' && $options['action'] === 'update' && isset( $options['plugins'] ) ) {
@@ -67,15 +61,15 @@ class Hooks_Updates {
 				// It is Lumière!, so run the functions.
 				if ( $plugin === 'lumiere-movies/lumiere-movies.php' ) {
 
-					$logger->log?->debug( '[coreClass][manualupdate] Starting Lumière manual update' );
+					$logger->log?->debug( '[hooksUpdates][manualupdate] Starting Lumière manual update' );
 					$start_update_options = new Updates();
 					$start_update_options->run_update_options();
 
 					// Set up WP Cron exec once if it doesn't exist.
 					if ( $this->lum_setup_cron_exec_once( $logger, 'manualupdate' ) === false ) {
-						$logger->log?->error( '[coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+						$logger->log?->error( '[hooksUpdates][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 					}
-					$logger->log?->debug( '[coreClass][manualupdate] Lumière manual update processed.' );
+					$logger->log?->debug( '[hooksUpdates][manualupdate] Lumière manual update processed.' );
 				}
 			}
 		}
@@ -91,7 +85,7 @@ class Hooks_Updates {
 	public function lum_on_plugin_autoupdate( array $results ): void {
 
 		// Start Logger class.
-		$logger = new Logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+		$logger = new Logger( 'hooksUpdates', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
 		// Exit if not exist.
 		if ( ! isset( $results['plugin'] ) ) {
@@ -108,15 +102,15 @@ class Hooks_Updates {
 				&& $plugin->item->slug === 'lumiere-movies'
 			) {
 				// It is Lumière!, so run the functions.
-				$logger->log?->debug( '[coreClass][autoupdate] Starting Lumière automatic update' );
+				$logger->log?->debug( '[hooksUpdates][autoupdate] Starting Lumière automatic update' );
 				$start_update_options = new Updates();
 				$start_update_options->run_update_options();
 
 				// Set up WP Cron exec once if it doesn't exist
 				if ( $this->lum_setup_cron_exec_once( $logger, 'autoupdate' ) === false ) {
-					$logger->log?->error( '[coreClass][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+					$logger->log?->error( '[hooksUpdates][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 				}
-				$logger->log?->debug( '[coreClass][autoupdate] Lumière autoupdate processed.' );
+				$logger->log?->debug( '[hooksUpdates][autoupdate] Lumière autoupdate processed.' );
 			}
 
 		}
@@ -140,9 +134,9 @@ class Hooks_Updates {
 		if ( isset( $current_admin['imdbHowManyUpdates'] ) && $current_admin['imdbHowManyUpdates'] <= $nb_of_files_in_updates_folder ) {
 
 			// Start Logger class.
-			$logger = new Logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
+			$logger = new Logger( 'hooksUpdates', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-			$logger->log?->info( '[coreClass][is_plugin_updated] An update is needed, starting the update...' );
+			$logger->log?->info( '[hooksUpdates][is_plugin_updated] An update is needed, starting the update...' );
 			$start_update_options = new Updates();
 			$start_update_options->run_update_options();
 
@@ -156,6 +150,7 @@ class Hooks_Updates {
 	 * Set up WP Cron exec once if it doesn't exist
 	 * It is recommended to add this to the update processes, as adding a cron ensure the previous update is run but also the new one
 	 * @since 4.1.1
+	 * @see \Lumiere\Core::lumiere_on_activation() Use this method
 	 *
 	 * @param null|Logger $logger Class log, make sure it is active
 	 * @param string $log_string The string to append to the log
@@ -166,7 +161,7 @@ class Hooks_Updates {
 		if ( wp_next_scheduled( 'lumiere_exec_once_update' ) === false ) {
 			// Cron to run once, in 2 minutes.
 			wp_schedule_single_event( time() + 120, 'lumiere_exec_once_update' );
-			$logger?->log?->debug( '[coreClass][' . $log_string . '] Lumière cron lumiere_exec_once_update successfully set up.' );
+			$logger?->log?->debug( '[hooksUpdates][' . $log_string . '] Lumière cron lumiere_exec_once_update successfully set up.' );
 			return true;
 		}
 		return false;
