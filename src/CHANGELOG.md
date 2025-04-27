@@ -3,6 +3,7 @@
 v.4.6.1
 * [feature] Blocks translation, much work on blocks and javascripts for WP Classic edition
 * [bug] Blueprint wasn't updated to mandatory PHP8.1
+* [bug] Lumiere WP Cli wasn't adding/removing the cache crons ("keep size below" and "autorefresh cache" crons)
 * [bug] Taxonomy genre triggered fatal error if Logger class wasn't active
 * [bug] Non-gutenberg Widget (WordPress < 5.8/Classic edition) had no name by default when adding the widget
 * [technical] Created gutenberg block for post panel settings (available if WordPress > 5.8)

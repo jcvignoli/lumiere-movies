@@ -73,6 +73,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		global $wpdb;
 
 		sleep( 5 ); // Avoids the database update to fail, dunno why exactly
+		$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Updating post spans and gutenberg tags' );
 
 		// movie_id
 		$vars_movie_id = [ '"movie_id"', '"lum_movie_id"' ];
@@ -139,6 +140,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		/**
 		 * (2) Replace Lumière widget
 		 */
+		$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Updating widget, removing [lumiereWidget]' );
 		$current_option = get_option( 'widget_block' );
 		if ( is_array( $current_option ) && count( $current_option ) > 0 ) {
 			$new_option = $current_option;
@@ -165,6 +167,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		 * (3) Update metadata
 		 */
 		// lumiere_widget_movieid becomes lum_movie_id_widget
+		$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Updating metada' );
 		$args_lumiere_widget_movieid = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_widget_movieid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
@@ -262,6 +265,7 @@ class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		 * lumiere_autowidget_perpost was replaced by lumiere_autotitlewidget_perpost, but was left behind
 		 * Probably not needed, but found one in my database
 		 */
+		$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Updating metada lumiere_autowidget_perpost' );
 		$args_lumiere_autowidget_perpost = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_autowidget_perpost' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query

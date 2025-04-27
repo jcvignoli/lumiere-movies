@@ -78,7 +78,7 @@ final class Core {
 		// On updating the plugin.
 		add_action( 'automatic_updates_complete', [ $this, 'lum_on_plugin_autoupdate' ], 10, 1 );
 		add_action( 'upgrader_process_complete', [ $this, 'lum_on_plugin_manualupdate' ], 10, 2 );
-		// On any admin page, check if an update is needed. Extra opportunity for update. @todo Find a better hook
+		// On any admin page, check if an update is needed. Extra opportunity for update.
 		add_action( 'admin_init', [ $this, 'lum_update_needed' ] );
 
 		// Crons. Must be free of any conditions.
@@ -246,6 +246,7 @@ final class Core {
 	 * Check if an upate is needed on every WordPress admin page
 	 * Check Lumière! version in database against the number of files in update folder
 	 * @since 4.1.1
+	 * @todo Find a better hook than admin_init
 	 *
 	 * @return void An update is run if Lumiere! version was lagging behind a new version
 	 */
@@ -261,7 +262,7 @@ final class Core {
 			// Start Logger class.
 			$logger = new Logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-			$logger->log?->debug( '[coreClass][is_plugin_updated] An update is needed, starting the update...' );
+			$logger->log?->info( '[coreClass][is_plugin_updated] An update is needed, starting the update...' );
 			$start_update_options = new Updates();
 			$start_update_options->run_update_options();
 

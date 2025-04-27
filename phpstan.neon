@@ -24,6 +24,7 @@ parameters:
         - tests/bootstrap-testing.php
     ignoreErrors:
         - '#Variable method call on#'
+        - '#Call to internal function get_terms#' # temporary, phpstub issue
         -
             identifier: requireOnce.fileNotFound
             reportUnmatched: false

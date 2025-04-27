@@ -75,8 +75,8 @@ const Lum_Sidebar_Options = () => {
 	 * @see https://developer.wordpress.org/block-editor/reference-guides/components/with-focus-return/
 	 */
 	const FuncFreeText = withFocusReturn( () => {
-		const getSavedValue = meta._lum_form_type_query || 'lum_movie_title'; 	// The saved selection, with a default value if not saved	
-		//const getSavedValue = useSelect( ( select ) => select( 'core/editor' ).getEditedPostAttribute( 'meta' )['_lum_form_type_query'], [] ) || 'lum_movie_title'; // === meta[ savedValue ]
+		const getSavedValue = meta._lum_form_type_query || 'lum_movie_id'; 	// The saved selection, with a default value if not saved	
+		//const getSavedValue = useSelect( ( select ) => select( 'core/editor' ).getEditedPostAttribute( 'meta' )['_lum_form_type_query'], [] ) || 'lum_movie_id'; // === meta[ savedValue ]
 		const widget_key = makeWidgetRow( getSavedValue );			// => key of _lum_*_widget
 		
 		const funcOnChangeText = ( value ) => {

@@ -207,6 +207,14 @@ class Cli_Commands {
 		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ];
 		update_option( $options_tablename, $database_options );
 
+		if ( $array_key === 'imdbcachekeepsizeunder' ) {
+			( new \Lumiere\Admin\Cron() )->cron_add_delete_oversize();
+		}
+
+		if ( $array_key === 'imdbcacheautorefreshcron' ) {
+			( new \Lumiere\Admin\Cron() )->cron_add_delete_cache();
+		}
+
 		WP_CLI::success( 'Updated var ' . $array_key . ' with value ' . $database_options[ $array_key ] );
 	}
 

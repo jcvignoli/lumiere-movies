@@ -7,7 +7,7 @@
 	"attributes": {
 		"_lum_form_type_query": {
 			"type": "string",
-			"default": "lum_movie_title"
+			"default": "lum_movie_id"
 		},
 		"_lum_movie_id_widget": {
 			"type": "string",

@@ -152,12 +152,13 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 						echo $lumiere_imdb_cache_values['imdbcacheexpire'] === '0' ? '2592000' : esc_html( $lumiere_imdb_cache_values['imdbcacheexpire'] ); ?>">
 						</div>
 					</div>
-					<div class="explain"><?php esc_html_e( 'Automatically refresh the cache over a span of two weeks. Selecting this option will remove the time expiration of the cache, which will be automatically set to forever.', 'lumiere-movies' ); ?><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ) ?><div class="lumiere_green"><?php
+					<div class="explain"><?php esc_html_e( 'Automatically refresh the cache over a span of two weeks. Selecting this option will remove the time expiration of the cache, which will be automatically set to forever.', 'lumiere-movies' ); ?><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ) ?><?php
 
 					// Display next schedule if cron is activated
 					$lumiere_next_cron_run = get_transient( 'lum_cache_cron_refresh_time_started' );
 					$lum_cron_ppl_left = get_transient( 'lum_cache_cron_refresh_store_people' );
 					$lum_cron_mv_left = get_transient( 'lum_cache_cron_refresh_store_movie' );
+					// transiant and option are set, the process is running
 					if (
 						$lumiere_next_cron_run !== false
 						&& $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '1'
@@ -166,6 +167,7 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 						$lum_total_cron = $lum_cron_ppl_left !== false && $lum_cron_mv_left !== false ? count( $lum_cron_ppl_left ) + count( $lum_cron_mv_left ) : false;
 
 						if ( $lum_total_cron === false ) {
+							echo '<div class="lumiere_green">';
 							esc_html_e( 'Started refreshing cache, this message will be updated as first batch of files has been run.', 'lumiere-movies' );
 						} elseif ( $lumiere_next_cron_run !== false ) {
 							/* translators: %s is a number */
@@ -173,11 +175,20 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 							/* translators: %1s is a number + file (singular or plural), %2s is replaced with a date in numbers */
 							echo wp_sprintf( esc_html__( 'Currently refreshing the cache, %1$1s remain to be refreshed. A new full refresh will start on %2$2s.', 'lumiere-movies' ), esc_html( $lum_files ), esc_html( $lumiere_next_cron_run ) );
 						}
+						// no transiant available and option is set, meaning the process has started
 					} elseif (
 						$lumiere_next_cron_run === false
 						&& $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '1'
 					) {
+							echo '<div class="lumiere_green">';
 							esc_html_e( 'Started refreshing cache, this message will be updated as first batch of files has been run.', 'lumiere-movies' );
+						// a cron is scheduled although the option is unset
+					} elseif (
+						wp_next_scheduled( 'lumiere_cron_autofreshcache' ) !== false
+						&& $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '0'
+					) {
+							echo '<div class="lumiere_red">';
+							esc_html_e( 'There is an error with your automatic cache refresh, try to activate it again.', 'lumiere-movies' );
 					}
 
 					?></div>

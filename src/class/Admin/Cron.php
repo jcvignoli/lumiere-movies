@@ -158,12 +158,12 @@ class Cron {
 		// Set up/remove cron imdbcachekeepsizeunder
 		if ( get_transient( 'cron_settings_imdbcachekeepsizeunder_updated' ) === 'imdbcachekeepsizeunder' ) {
 			delete_transient( 'cron_settings_imdbcachekeepsizeunder_updated' );
-			$this->cron_delete_oversize();
+			$this->cron_add_delete_oversize();
 		}
 		// Set up/remove cron imdbcacheautorefreshcron
 		if ( get_transient( 'cron_settings_imdbcacheautorefreshcron_updated' ) === 'imdbcacheautorefreshcron' ) {
 			delete_transient( 'cron_settings_imdbcacheautorefreshcron_updated' );
-			$this->cron_refresh_cache();
+			$this->cron_add_delete_cache();
 		}
 	}
 
@@ -174,7 +174,7 @@ class Cron {
 	 *
 	 * @return void Files exceeding provided limited are deleted
 	 */
-	private function cron_delete_oversize(): void {
+	public function cron_add_delete_oversize(): void {
 
 		if (
 			$this->imdb_cache_values['imdbcachekeepsizeunder'] === '1'
@@ -211,7 +211,7 @@ class Cron {
 	 *
 	 * @return void Files exceeding provided limited are deleted
 	 */
-	private function cron_refresh_cache(): void {
+	public function cron_add_delete_cache(): void {
 
 		if (
 			$this->imdb_cache_values['imdbcacheautorefreshcron'] === '1'

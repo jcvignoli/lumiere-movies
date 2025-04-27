@@ -257,7 +257,7 @@ class Updates {
 			&& ( (string) $this->imdb_admin_values['imdbHowManyUpdates'] === $update_number_string )
 		) {
 
-			$this->logger->log?->debug( "[updateClass] Update $update_number_string has started" );
+			$this->logger->log?->info( "[updateClass] Update $update_number_string has started" );
 			return true;
 		}
 
