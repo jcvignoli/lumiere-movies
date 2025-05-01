@@ -14,7 +14,9 @@ if ( ! function_exists( 'lum_incompatible_plugin_text' ) ) {
 	 * @return void Notice was echoed
 	 */
 	function lum_incompatible_plugin_text(): void {
-		$incompatible_name_plugins = ucwords( str_replace( '-', ' ', implode( ',', preg_replace( '#/.*#', '', LUMIERE_INCOMPATIBLE_PLUGINS ) ) ) ) . '. ';
+		$list_incompatible_name_plugins = preg_replace( '#/.*#', '', LUMIERE_INCOMPATIBLE_PLUGINS );
+		/** @psalm-suppress PossiblyNullArgument (Never null according to PHPStan) */
+		$incompatible_name_plugins = ucwords( str_replace( '-', ' ', implode( ',', $list_incompatible_name_plugins ) ) ) . '. ';
 		printf(
 			'<div class="%1$s"><p>%2$s <strong>%5$s</strong> %3$s</p><p>%4$s</p></div>',
 			'notice notice-error is-dismissible',

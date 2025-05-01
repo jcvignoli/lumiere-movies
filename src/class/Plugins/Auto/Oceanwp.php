@@ -26,7 +26,7 @@ use Lumiere\Config\Get_Options;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
-class Oceanwp {
+final class Oceanwp {
 
 	/**
 	 * URL to css assets

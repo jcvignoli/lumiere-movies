@@ -32,7 +32,7 @@ use Lumiere\Frontend\Main;
  * @since 4.1 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_AUTO folder, and get_active_plugins() returns an array of plugins available
  * @since 4.3 Use trait Main from Frontend to detect if it's an AMP Page
  */
-class Plugins_Detect {
+final class Plugins_Detect {
 
 	/**
 	 * Traits

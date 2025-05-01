@@ -33,7 +33,7 @@ use Lumiere\Config\Get_Options;
  * @see \Lumiere\Alteration\Rewrite_Rules for URL rewriting using query_var 'popup'
  * @see Popups {@link \Lumiere\Frontend\Popups\Popup_Person}, {@link \Lumiere\Frontend\Popups\Popup_Movie} and {@link \Lumiere\Frontend\Popups\Popup_Movie_Search} using parent class Popup_Head and interface Popup_Basic
  */
-class Frontend {
+final class Frontend {
 
 	/**
 	 * Constructor

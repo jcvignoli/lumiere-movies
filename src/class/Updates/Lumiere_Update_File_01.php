@@ -27,7 +27,7 @@ use Lumiere\Config\Get_Options_Movie;
  * The logic is in the parent class, the data in the current child class
  * -> Everytime an update is processed, imdbHowManyUpdates is automatically increased by 1 (in child class)
  */
-class Lumiere_Update_File_01 extends \Lumiere\Updates {
+final class Lumiere_Update_File_01 extends \Lumiere\Updates {
 
 	/**
 	 * Version of Lumière! that can trigger the update
@@ -54,7 +54,7 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 			return;
 		}
 
-		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
 
 		// Update the number of updates already processed in Lumière options
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
@@ -67,20 +67,20 @@ class Lumiere_Update_File_01 extends \Lumiere\Updates {
 		// Deprecated: only one comment is returned by imdbphp libraries
 		if ( true === $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcommentsnumber' ) ) {
 			$text = 'Lumière option imdbwidgetcommentsnumber successfully removed.';
-			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetcommentsnumber not removed.';
-			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		// Add 'imdbintotheposttheme'
 		// New option to manage theme colors for into the post/widget
 		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbintotheposttheme', 'grey' ) ) {
 			$text = 'Lumière option imdbintotheposttheme successfully added.';
-			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbintotheposttheme not added.';
-			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		/** ------------------------- Editing part (end) --------------
 		 */

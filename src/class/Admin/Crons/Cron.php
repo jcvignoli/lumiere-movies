@@ -29,7 +29,7 @@ use Lumiere\Updates;
  *
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  */
-class Cron {
+final class Cron {
 
 	/**
 	 * Number of day before the autorefresh of cache starts a new round of cache refreshing

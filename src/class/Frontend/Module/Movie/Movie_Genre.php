@@ -23,7 +23,7 @@ use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
  *
  * @since 4.5 new class
  */
-class Movie_Genre extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Genre extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Constructor

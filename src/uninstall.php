@@ -37,7 +37,7 @@ use Lumiere\Tools\Files;
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
  * @phpstan-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
-class Uninstall {
+final class Uninstall {
 
 	/**
 	 * Traits
@@ -169,7 +169,7 @@ class Uninstall {
 
 		foreach ( Data::lumiere_array_key_exists_wildcard( $this->imdb_data_values, 'imdbtaxonomy*', 'key-value' ) as $key => $value ) {
 
-			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . $key );
+			$filter_taxonomy = str_replace( 'imdbtaxonomy', '', $this->imdb_admin_values['imdburlstringtaxo'] . (string) $key );
 
 			// Register taxonomy: must be registered in order to delete its terms.
 			register_taxonomy(

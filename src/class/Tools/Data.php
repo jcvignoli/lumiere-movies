@@ -22,7 +22,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
  * @since 4.1 Trait created
  * @since 4.3 It now is a class and all methods are static
  */
-class Data {
+final class Data {
 
 	/**
 	 * HTMLizing function

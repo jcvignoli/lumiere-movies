@@ -23,7 +23,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
  * @since 4.2.3 two conditional methods in __construct, no automatic ban function available to outside anymore (ban_bot_now() is now private)
  * @since 4.3 As we're using nonces for accessing to popups, there should be limited interest in the class, except in regards to self::maybe_ban_noreferrer()
  */
-class Ban_Bots {
+final class Ban_Bots {
 
 	/**
 	 * List of IPs not respecting the rules

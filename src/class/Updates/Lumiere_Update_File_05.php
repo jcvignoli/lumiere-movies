@@ -26,7 +26,7 @@ use Lumiere\Config\Get_Options_Movie;
  * The logic is in the parent class, the data in the current child class
  * -> Everytime an update is processed, imdbHowManyUpdates is automatically increased by 1 (in child class)
  */
-class Lumiere_Update_File_05 extends \Lumiere\Updates {
+final class Lumiere_Update_File_05 extends \Lumiere\Updates {
 
 	/**
 	 * Version of Lumière! that can trigger the update
@@ -54,7 +54,7 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 		}
 
 		// Update the number of updates already processed in Lumière options.
-		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -66,30 +66,30 @@ class Lumiere_Update_File_05 extends \Lumiere\Updates {
 		// Correct language extensions should take two letters only to include all dialects
 		if ( true === $this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'en' ) ) {
 			$text = 'Lumière option imdblanguage successfully added.';
-			$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->debug( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdblanguage could not be added.';
-			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		// Add 'imdbwidgetalsoknownumber'
 		// New option the number of akas displayed
 		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetalsoknownumber', false ) ) {
 			$text = 'Lumière option imdbwidgetalsoknownumber successfully added.';
-			$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->debug( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetalsoknownumber could not be added.';
-			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		// Add 'imdbwidgetproducernumber'
 		// New option to limit the number of producers displayed
 		if ( true === $this->lumiere_add_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetproducernumber', false ) ) {
 			$text = 'Lumière option imdbwidgetproducernumber successfully added.';
-			$this->logger->log?->debug( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->debug( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbwidgetproducernumber could not be added..';
-			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		/** ------------------------- Editing part (end) --------------
 		 */

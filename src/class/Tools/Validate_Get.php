@@ -23,7 +23,7 @@ use Lumiere\Config\Get_Options;
  *
  * @since 4.6 New method allowing the use of dynamic vars (using get_valid_list() instead of a constant)
  */
-class Validate_Get {
+final class Validate_Get {
 
 	/**
 	 * List of $_GET variable accepted in Lumière! url for popups

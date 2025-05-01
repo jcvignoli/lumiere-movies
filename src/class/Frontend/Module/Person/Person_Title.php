@@ -20,7 +20,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
  *
  * @since 4.6 new class
  */
-class Person_Title extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Title extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the title and possibly the year

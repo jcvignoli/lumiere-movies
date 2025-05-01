@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options_Person;
  *
  * @since 4.5 new class
  */
-class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the main module version
@@ -54,7 +54,7 @@ class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 			$output .= parent::get_popup_person( $item_results[ $i ]['id'], $item_results[ $i ]['title'] );
 
 			if ( isset( $item_results[ $i ]['year'] ) && $item_results[ $i ]['year'] > 0 ) {
-				$output .= ' (' . intval( $item_results[ $i ]['year'] ) . ') ';
+				$output .= ' (' . strval( $item_results[ $i ]['year'] ) . ') ';
 			}
 			// Display a "show more" after XX results, only if a next result exists.
 			if ( $i === $nb_rows_click_more ) {
@@ -87,7 +87,7 @@ class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 			$output .= parent::get_film_url( strval( $item_results[ $i ]['id'] ), $item_results[ $i ]['title'] );
 			if ( isset( $item_results[ $i ]['year'] ) && $item_results[ $i ]['year'] > 0 ) {
-				$output .= ' (' . intval( $item_results[ $i ]['year'] ) . ') ';
+				$output .= ' (' . strval( $item_results[ $i ]['year'] ) . ') ';
 			}
 		}
 		return $output;

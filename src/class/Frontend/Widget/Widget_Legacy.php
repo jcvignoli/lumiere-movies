@@ -30,7 +30,7 @@ use Lumiere\Admin\Widget_Selection;
  *
  * @psalm-suppress UndefinedClass -- it's defined above! how come it's undefined? Bug, if refreshing cache, the class is found
  */
-class Widget_Legacy extends Widget_Selection {
+final class Widget_Legacy extends Widget_Selection {
 
 	/**
 	 * Register legacy widget (pre-WP 5.8), needed after the construction

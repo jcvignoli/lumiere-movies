@@ -112,7 +112,7 @@ $lum_comments_fields = Get_Options_Person::get_items_person_details_comments();
 
 		// Reach a multiple of three for layout
 		// Include extra lines if not multiple of three
-		$lumiere_operand = ( count( $lum_perso_list ) / ( count( $lum_perso_list ) / 3 ) );
+		$lumiere_operand = ( (float) count( $lum_perso_list ) / ( (float) count( $lum_perso_list ) / (float) 3 ) );
 		for ( $lumiere_i = 1; $lumiere_i < $lumiere_operand; $lumiere_i++ ) {
 			if ( $lumiere_i % 3 !== 0 ) {
 				echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_ten lumiere_align_center"></div>';

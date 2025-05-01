@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options;
  *
  * @since 4.5 new class
  */
-class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the title and possibly the year

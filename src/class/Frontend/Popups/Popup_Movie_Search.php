@@ -31,7 +31,7 @@ use Lumiere\Config\Get_Options_Movie;
  * @since 4.3 is child class
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  */
-class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
+final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 
 	/**
 	 * Movie's title
@@ -65,6 +65,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 	 * @phpstan-param array{title: string, page: string, tagline: string, site: string} $title
 	 * @phpstan-return array{title: string, page: string, tagline: string, site: string}
 	 */
+	#[\Override]
 	public function edit_title( array $title ): array {
 
 		// Set the title.
@@ -85,6 +86,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 	 * @return string
 	 * @since 4.0 lowercase, less cache used.
 	 */
+	#[\Override]
 	public function get_title( ?string $title ): string {
 		return isset( $title ) ? str_replace( [ '\\', '+' ], [ '', ' ' ], strtolower( Data::lumiere_name_htmlize( $title ) ) ) : '';
 	}
@@ -111,6 +113,7 @@ class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function display_layout(): void {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";

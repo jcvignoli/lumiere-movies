@@ -31,7 +31,7 @@ use Lumiere\Config\Settings_Popup;
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
  * @since 4.3 is child class
  */
-class Popup_Person extends Head_Popups implements Popup_Interface {
+final class Popup_Person extends Head_Popups implements Popup_Interface {
 
 	/**
 	 * The person queried as object result
@@ -77,6 +77,7 @@ class Popup_Person extends Head_Popups implements Popup_Interface {
 	 * @phpstan-param array{title: string, page: string, tagline: string, site: string} $title
 	 * @phpstan-return array{title: string, page: string, tagline: string, site: string}
 	 */
+	#[\Override]
 	public function edit_title( array $title ): array {
 
 		$new_title = strlen( $this->page_title ) > 0
@@ -96,6 +97,7 @@ class Popup_Person extends Head_Popups implements Popup_Interface {
 	 * @return string
 	 * @since 4.0 lowercase, less cache used.
 	 */
+	#[\Override]
 	public function get_title( ?string $title ): string {
 		return isset( $title ) ? str_replace( [ '\\', '+' ], [ '', ' ' ], esc_html( $title ) ) : '';
 	}
@@ -127,6 +129,7 @@ class Popup_Person extends Head_Popups implements Popup_Interface {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function display_layout(): void {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
@@ -359,7 +362,7 @@ class Popup_Person extends Head_Popups implements Popup_Interface {
 
 				$bio = $this->link_maker->get_medaillon_bio( $this->person_class->bio() );
 
-				if ( is_string( $bio ) && strlen( $bio ) > 0 ) {
+				if ( strlen( $bio ) > 0 ) {
 					echo "\n\t\t\t\t" . '<div id="bio" class="lumiere_padding_two lumiere_align_left"><font size="-1">';
 					echo "\n\t\t\t\t" . wp_kses(
 						$bio,
@@ -406,7 +409,7 @@ class Popup_Person extends Head_Popups implements Popup_Interface {
 			// add width only if "Display only thumbnail" is unactive.
 			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
 				$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
-				$height = $width * 1.4;
+				$height = (float) $width * 1.4;
 				echo ' width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '"';
 
 				// add 100px width if "Display only thumbnail" is active.

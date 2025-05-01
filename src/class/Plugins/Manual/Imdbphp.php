@@ -35,7 +35,7 @@ use Lumiere\Vendor\Monolog\Logger;
  * @phpstan-type NAMESEARCH_RETURNSEARCH array<array-key, array{id: string, name: string, titleSearchObject: \Lumiere\Vendor\Imdb\Name}>
  *
  */
-class Imdbphp extends Imdbphp_Config {
+final class Imdbphp extends Imdbphp_Config {
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Can't change snakeCase properties defined in an external class
 
 	/**

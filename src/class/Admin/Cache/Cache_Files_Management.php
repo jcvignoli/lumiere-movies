@@ -36,7 +36,7 @@ use Exception;
  *
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  */
-class Cache_Files_Management {
+final class Cache_Files_Management {
 
 	/**
 	 * Traits.
@@ -240,7 +240,7 @@ class Cache_Files_Management {
 			$nb_remaining_rows = count( $array_all_items );
 
 			for ( $i = 0 + $last_row; $i < ( $batch_limit + $last_row ) && $i < ( $nb_remaining_rows + $last_row ); $i++ ) {
-				$this->logger->log?->debug( '[Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . count( $array_all_items ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
+				$this->logger->log?->debug( '[Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . strval( count( $array_all_items ) ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
 				// Refresh (delete and get it again) the item.
 				$this->refresh_file( $movie_or_people, $array_all_items[ $i ] );
 				// Delete the row in the array we just processed so it won't be processed again.

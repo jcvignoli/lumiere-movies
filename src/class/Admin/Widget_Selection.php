@@ -128,7 +128,7 @@ class Widget_Selection extends WP_Widget {
 	/**
 	 * Register Block Widget (>= WordPress 5.8)
 	 * @since 4.1 Using block.json, removed conditions, which are useless as it doesn't register twice anymore, added translation
-	 * @since 4.6 Added render_callback, using render.php in blocks folder
+	 * @since 4.6.1 Added render_callback, using render.php in blocks folder
 	 */
 	public function lumiere_register_widget_block(): void {
 

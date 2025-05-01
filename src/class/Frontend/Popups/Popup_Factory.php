@@ -28,7 +28,7 @@ use Exception;
  * @since 4.4 Is a class
  * @phpstan-type POPUPS_CLASSES '\Lumiere\Frontend\Popups\Popup_Movie'|'\Lumiere\Frontend\Popups\Popup_Movie_Search'|'\Lumiere\Frontend\Popups\Popup_Person'
  */
-class Popup_Factory {
+final class Popup_Factory {
 
 	/**
 	 * Find if a template exists according to the query var

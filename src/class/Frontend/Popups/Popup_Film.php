@@ -31,7 +31,7 @@ use Lumiere\Vendor\Imdb\Title;
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
  * @since 4.3 is child class
  */
-class Popup_Film extends Head_Popups implements Popup_Interface {
+final class Popup_Film extends Head_Popups implements Popup_Interface {
 
 	/**
 	 * The movie Title class instanciated with title
@@ -72,6 +72,7 @@ class Popup_Film extends Head_Popups implements Popup_Interface {
 	 * @phpstan-param array{title: string, page: string, tagline: string, site: string} $title
 	 * @phpstan-return array{title: string, page: string, tagline: string, site: string}
 	 */
+	#[\Override]
 	public function edit_title( array $title ): array {
 
 		$new_title = strlen( $this->page_title ) > 0
@@ -91,6 +92,7 @@ class Popup_Film extends Head_Popups implements Popup_Interface {
 	 * @return string
 	 * @since 4.0 lowercase, less cache used.
 	 */
+	#[\Override]
 	public function get_title( ?string $title ): string {
 		return ucfirst( $this->movie_class->title() );
 	}
@@ -155,6 +157,7 @@ class Popup_Film extends Head_Popups implements Popup_Interface {
 	 *
 	 * @return void
 	 */
+	#[\Override]
 	public function display_layout(): void {
 
 		echo "<!DOCTYPE html>\n<html>\n<head>\n";
@@ -409,7 +412,7 @@ class Popup_Film extends Head_Popups implements Popup_Interface {
 				// add width only if "Display only thumbnail" is not active.
 			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
 				$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
-				$height = $width * 1.4;
+				$height = (float) $width * 1.4;
 				echo ' width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '"';
 
 				// set width to 100px width if "Display only thumbnail" is active.

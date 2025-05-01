@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options_Person;
  *
  * @since 4.5 new class
  */
-class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the main module version

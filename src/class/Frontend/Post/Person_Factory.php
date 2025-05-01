@@ -28,7 +28,7 @@ use Lumiere\Frontend\Post\Front_Parser;
  *
  * @since 4.6 new class
  */
-class Person_Factory extends Front_Parser {
+final class Person_Factory extends Front_Parser {
 
 	/**
 	 * Build the methods to be called in class Movie_Factory

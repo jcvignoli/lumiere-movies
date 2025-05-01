@@ -20,7 +20,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
  *
  * @since 4.5 new class
  */
-class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the main module version

@@ -30,7 +30,7 @@ use WP_Query;
  *
  * @since 4.0 Returns all Lumière taxonomies that can be clicked when visiting the item template page
  */
-class Taxonomy_Items_Standard {
+final class Taxonomy_Items_Standard {
 
 	/**
 	 * Traits

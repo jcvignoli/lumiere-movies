@@ -28,7 +28,7 @@ use Lumiere\Config\Get_Options_Movie;
  * @since 4.6 Renamed to Datamovie class and splitted with new Dataperson class
  * @see \Lumiere\Admin\Admin_Menu for templates copy, if put it here the transiant is not passed to { @link \Lumiere\Admin\Copy_Templates\Copy_Theme }
  */
-class Datamovie extends Admin_Menu {
+final class Datamovie extends Admin_Menu {
 
 	/**
 	 * Display the body

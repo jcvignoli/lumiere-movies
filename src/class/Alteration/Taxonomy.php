@@ -29,7 +29,7 @@ use WP_Query;
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
-class Taxonomy {
+final class Taxonomy {
 
 	/**
 	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values

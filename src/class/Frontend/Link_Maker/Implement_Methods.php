@@ -78,7 +78,7 @@ class Implement_Methods {
 		int $with_imdb_element_rating
 	): string {
 		$find_showtimes_pic = round( $rating * 2, 0 ) / 0.2;
-		return "\n\t\t\t\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Rating', 'lumiere-movies' ) . ':</span>&nbsp;' . "\n\t\t\t\t" . '<img class="imdbelementRATING-picture" src="' . Get_Options::LUM_PICS_SHOWTIMES_URL . $find_showtimes_pic . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
+		return "\n\t\t\t\t" . '<span class="lum_results_section_subtitle">' . esc_html__( 'Rating', 'lumiere-movies' ) . ':</span>&nbsp;' . "\n\t\t\t\t" . '<img class="imdbelementRATING-picture" src="' . Get_Options::LUM_PICS_SHOWTIMES_URL . (string) ceil( $find_showtimes_pic ) . ".gif\" title=\"$votes_average_txt $rating $out_of_ten_txt\" alt=\"$votes_average_txt\" width=\"102\" height=\"12\" />" . ' (' . number_format( $votes, 0, '', "'" ) . ' ' . $votes_txt . ')';
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Implement_Methods {
 		 */
 		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
 			$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
-			$height = $width * 1.4;
+			$height = (float) $width * 1.4;
 			$output .= ' class="' . esc_attr( $img_class ) . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
 				/* Translators: %1s is a name, ie Stanley Kubrick */
 				. wp_sprintf( __( 'Photo of %1s', 'lumiere-movies' ), $title_text )

@@ -26,7 +26,7 @@ use Lumiere\Config\Get_Options_Person;
  * The logic is in the parent class, the data in the current child class
  * -> Everytime an update is processed, imdbHowManyUpdates is automatically increased by 1 (in child class)
  */
-class Lumiere_Update_File_22 extends \Lumiere\Updates {
+final class Lumiere_Update_File_22 extends \Lumiere\Updates {
 
 	/**
 	 * Version of Lumière! that can trigger the update
@@ -59,7 +59,7 @@ class Lumiere_Update_File_22 extends \Lumiere\Updates {
 		 * Update the number of updates already processed in Lumière options.
 		 * This is executed at the beggining, so if there is an issue, it's not repeated
 		 */
-		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
@@ -71,10 +71,10 @@ class Lumiere_Update_File_22 extends \Lumiere\Updates {
 		if ( $imdb_data_person_options === false ) {
 			\Lumiere\Config\Settings::create_database_options();
 			$text = 'Lumière database person options successfully updated.';
-			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière database person options already exist, no change.';
-			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/** ------------------------- Editing part (end) --------------

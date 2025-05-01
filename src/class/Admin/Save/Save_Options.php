@@ -28,7 +28,7 @@ use Exception;
  * @since 4.0 Created by extracting all the methods from the main admin menu and its subclasses and factorized them here, added check nonces for refresh/delete individual movies, added transiants to trigger notices in {@see \Lumiere\Admin\Admin_Menu::lumiere_admin_display_messages() } and crons in {@see \Lumiere\Admin\Cron\Cron::lumiere_add_remove_crons_cache() }
  * @since 4.6 refactorized, use a parent class
  */
-class Save_Options extends Save_Helper {
+final class Save_Options extends Save_Helper {
 
 	/**
 	 * Constructor
@@ -549,7 +549,8 @@ class Save_Options extends Save_Helper {
 		 * Execute only if referer page is options data taxo page
 		 * Won't execute when copying taxonomy template
 		 */
-		if ( $get_referer !== false && isset( $this->page_data_taxo ) && admin_url( 'admin.php' ) . strrchr( $get_referer, '?' ) === $this->page_data_taxo ) {
+		$last_url_piece = $get_referer !== false ? strrchr( $get_referer, '?' ) : false;
+		if ( $last_url_piece !== false && isset( $this->page_data_taxo ) && admin_url( 'admin.php' ) . $last_url_piece === $this->page_data_taxo ) {
 			flush_rewrite_rules();
 		}
 

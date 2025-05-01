@@ -26,7 +26,7 @@ use Exception;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @since 3.8
  */
-class Link_Factory {
+final class Link_Factory {
 
 	/**
 	 * Traits

@@ -30,7 +30,7 @@ use Lumiere\Tools\Validate_Get;
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from Imdbphp
  * @phpstan-import-type NAMESEARCH_RETURNSEARCH from Imdbphp
  */
-class Search_Items {
+final class Search_Items {
 
 	/**
 	 * Traits

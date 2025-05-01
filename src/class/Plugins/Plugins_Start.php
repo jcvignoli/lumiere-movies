@@ -30,7 +30,7 @@ use Lumiere\Plugins\Plugins_Detect;
  * @see \Lumiere\Plugins\Plugins_Detect Detect the plugins available should be instanciated
  * @since 4.1
  */
-class Plugins_Start {
+final class Plugins_Start {
 
 	/**
 	 * Array of active classes

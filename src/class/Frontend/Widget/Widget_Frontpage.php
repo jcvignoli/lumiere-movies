@@ -31,7 +31,7 @@ use Lumiere\Admin\Widget_Selection;
  * @see \Lumiere\Admin\Metabox_Selection Select the metadata to display, whether output auto title widget or not
  * @see \Lumiere\Frontend\Widget_Legacy Is used if the legacy widget is in use
  */
-class Widget_Frontpage {
+final class Widget_Frontpage {
 
 	/**
 	 * Traits

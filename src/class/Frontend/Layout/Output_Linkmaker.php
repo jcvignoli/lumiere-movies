@@ -24,7 +24,7 @@ use Lumiere\Frontend\Layout\Output;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @since 4.5
  */
-class Output_Linkmaker extends Output {
+final class Output_Linkmaker extends Output {
 
 	/**
 	 * @see Output_Linkmaker::bootstrap_convert_modal_size()

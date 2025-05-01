@@ -25,7 +25,7 @@ use Lumiere\Tools\Debug;
  *
  * @since 4.0 Methods moved from this class into Cache_Files_Management, using templates instead of having templates here
  */
-class Cache extends Admin_Menu {
+final class Cache extends Admin_Menu {
 
 	/**
 	 * Display the body

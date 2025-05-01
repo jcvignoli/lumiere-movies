@@ -21,4 +21,3 @@ require_once 'src/vendor/autoload.php';
 
 // Global functions
 require_once 'src/functions.php';
-

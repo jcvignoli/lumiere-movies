@@ -41,7 +41,7 @@ use \ReflectionMethod;
  * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
  */
-class Cli_Commands {
+final class Cli_Commands {
 
 	/**
 	 * Traits

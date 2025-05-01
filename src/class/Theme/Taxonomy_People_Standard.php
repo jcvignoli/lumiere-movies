@@ -41,7 +41,7 @@ use WP_Query;
  * @since 4.1 Use of plugins detection, get_medaillon_bio() returns larger number of characters for introduction, Polylang form with AMP works
  * @since 4.3 More OOP, Polylang and Imdbphp plugins fully utilised, returning the current job queried only
  */
-class Taxonomy_People_Standard {
+final class Taxonomy_People_Standard {
 
 	/**
 	 * Traits
@@ -373,7 +373,7 @@ class Taxonomy_People_Standard {
 				$the_id = get_the_ID();
 				$the_id = $the_id !== false ? $the_id : 0;
 				$output .= '<div class="postList">';
-				$output .= '<h3 id="post-' . $the_id . '">';
+				$output .= '<h3 id="post-' . (string) $the_id . '">';
 				$output .= '<a href="' . (string) get_the_permalink() . '" rel="bookmark" title="' . __( 'Open the blog ', 'lumiere-movies' ) . get_the_title( $the_id ) . '">';
 				$output .= get_the_title( $the_id ) . '&nbsp;<span class="lumiere_font_12">(' . (string) get_the_time( 'd/m/Y' ) . ')</span>';
 				$output .= '</a>';

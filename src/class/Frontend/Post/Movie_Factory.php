@@ -30,7 +30,7 @@ use Lumiere\Frontend\Post\Front_Parser;
  * @since 4.0 new class, methods were extracted from Front_Parser class
  * @since 4.5 using now modules through a factory design
  */
-class Movie_Factory extends Front_Parser {
+final class Movie_Factory extends Front_Parser {
 
 	/**
 	 * Build the methods to be called in class Movie_Factory

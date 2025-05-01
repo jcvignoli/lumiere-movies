@@ -30,7 +30,7 @@ use Lumiere\Config\Get_Options;
  * @see \Lumiere\Admin\Admin Calls this class
  * @see \Lumiere\Frontend\Widget_Frontpage Output the metabox selection: movie id/name, auto title widget if not removed on a per-post basis
  */
-class Metabox_Selection {
+final class Metabox_Selection {
 
 	/**
 	 * Traits

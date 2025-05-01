@@ -30,7 +30,7 @@ use Lumiere\Config\Get_Options_Person;
  * @psalm-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
  * @since 4.1
  */
-class Detect_New_Theme {
+final class Detect_New_Theme {
 
 	/**
 	 * Traits

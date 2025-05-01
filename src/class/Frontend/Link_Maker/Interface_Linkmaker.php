@@ -18,6 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Defines methods utilised in Link Maker classes
  * @since   3.8
+ * @phpstan-require-extends Implement_Methods
  */
 interface Interface_Linkmaker {
 
@@ -52,7 +53,7 @@ interface Interface_Linkmaker {
 	 * @param array<array<string, string>> $bio_array Array of the object _IMDBPHPCLASS_->bio()
 	 * @param int $limit_text_bio Optional, increasing the hardcoded limit of characters before displaying "click for more"
 	 */
-	public function get_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): ?string;
+	public function get_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): string;
 
 	/**
 	 * Plots data details

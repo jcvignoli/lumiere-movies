@@ -274,7 +274,8 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 					// no flex class so the browser decides how much data to display per lines
 					// table so "row-actions" WordPress class works
-					$lum_filetime_movie = is_int( filemtime( $lum_filepath_sanitized ) ) ? filemtime( $lum_filepath_sanitized ) : 0;
+					$lum_filetime_movie_var = filemtime( $lum_filepath_sanitized );
+					$lum_filetime_movie = is_int( $lum_filetime_movie_var ) ? $lum_filetime_movie_var : 0;
 					$lum_data[] = '	<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table width="100%"><tr><td>
 			<img id="pic_' . $lum_title_sanitized . '" class="lum_cache_pic_float" ' . $lum_moviepicturelink . ' width="40px">
 
@@ -396,7 +397,8 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					} else {
 						$lum_picturelink = 'src="' . esc_url( $lum_imdb_cache_values['imdbphotodir'] . 'nm' . $lum_objpiple_sanitized . '.jpg' ) . '" alt="' . $lum_name_sanitized . '"';
 					}
-					$lum_filetime_people = is_int( filemtime( $lum_filepath_sanitized ) ) === true ? filemtime( $lum_filepath_sanitized ) : 0;
+					$lum_filetime_people_var = filemtime( $lum_filepath_sanitized );
+					$lum_filetime_people = is_int( $lum_filetime_people_var ) === true ? $lum_filetime_people_var : 0;
 					$lum_datapeople[] = '	
 	<div class="lumiere_flex_container_content_thirty lumiere_breakall"><table width="100%"><tr><td>
 	<img id="pic_' . $lum_name_sanitized . '" class="lum_cache_pic_float" ' . $lum_picturelink . ' width="40px" alt="no pic">

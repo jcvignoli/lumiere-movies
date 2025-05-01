@@ -25,7 +25,7 @@ use Lumiere\Config\Get_Options;
  * Display Main options menu
  * @since 4.0 Using templates instead of having templates here
  */
-class Main extends Admin_Menu {
+final class Main extends Admin_Menu {
 
 	/**
 	 * Pages name

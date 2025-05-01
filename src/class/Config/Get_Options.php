@@ -24,7 +24,7 @@ use Lumiere\Config\Get_Options_Person;
  * Getting Settings and database options
  * Helper class meant to be called anywhere, so all methods should be static
  */
-class Get_Options extends Settings {
+final class Get_Options extends Settings {
 
 	/**
 	 * Get Admin options row name as in wp_options

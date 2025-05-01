@@ -41,9 +41,10 @@ if ( !defined( 'LUM_WP_URL' ) ) {
 
 /**
  * The WP_DEBUG_LOG is either bool or string, but is defined as only bool in stubs
- * Using random function to have bool or string defines
+ * Using random function to have two different strings defined
  * Can't override PHPStan behaviour, but with phan and psalm ok
  */
+
 if ( ! defined( 'WP_DEBUG_LOG' ) ) {
 	$rand = rand( 1, 10 );
 	if ( $rand > 5 ) {

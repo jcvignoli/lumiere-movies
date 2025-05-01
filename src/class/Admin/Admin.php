@@ -30,7 +30,7 @@ use Lumiere\Config\Open_Options;
  *
  * @see \Lumiere\Admin\Admin_Menu to display the menu
  */
-class Admin {
+final class Admin {
 
 	/**
 	 * Traits

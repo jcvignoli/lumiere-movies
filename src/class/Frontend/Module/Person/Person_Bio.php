@@ -20,7 +20,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
  *
  * @since 4.6 new class
  */
-class Person_Bio extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Bio extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the biography
@@ -33,7 +33,7 @@ class Person_Bio extends \Lumiere\Frontend\Module\Parent_Module {
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
 			return $this->get_module_popup( $bio );
 		}
-		return $this->link_maker->get_medaillon_bio( $bio, 800 ) ?? '';
+		return $this->link_maker->get_medaillon_bio( $bio, 800 );
 	}
 
 	/**
@@ -43,6 +43,6 @@ class Person_Bio extends \Lumiere\Frontend\Module\Parent_Module {
 	 * @param array<array<string, string>> $bio Biography
 	 */
 	public function get_module_popup( array $bio ): string {
-		return $this->link_maker->get_medaillon_bio( $bio, 600 ) ?? '';
+		return $this->link_maker->get_medaillon_bio( $bio, 600 );
 	}
 }

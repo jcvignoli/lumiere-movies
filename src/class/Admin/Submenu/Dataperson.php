@@ -24,7 +24,7 @@ use Lumiere\Tools\Debug;
  *
  * @since 4.6 new class
  */
-class Dataperson extends Admin_Menu {
+final class Dataperson extends Admin_Menu {
 
 	/**
 	 * Display the body

@@ -317,6 +317,7 @@ class Settings extends Settings_Helper {
 			$debug_path = WP_DEBUG_LOG;
 			/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
 		} elseif ( ! isset( $debug_path ) && defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ) {
+			/** @psalm-suppress FalseOperand (psalm can't either) */
 			$debug_path = ABSPATH . WP_DEBUG_LOG;
 		}
 

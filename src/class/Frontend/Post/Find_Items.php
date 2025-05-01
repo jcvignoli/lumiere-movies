@@ -24,7 +24,7 @@ use Lumiere\Frontend\Post\Front_Parser;
  * @since 4.6 new class, method find_movie_imdb_id() was extracted from Front_Parser class, method find_person_imdb_id() was created
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  */
-class Find_Items extends Front_Parser {
+final class Find_Items extends Front_Parser {
 
 	/**
 	 * Singleton: Make sure events are runned once in this class

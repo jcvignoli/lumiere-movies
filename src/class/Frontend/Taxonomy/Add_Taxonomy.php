@@ -23,7 +23,7 @@ use Lumiere\Plugins\Logger;
  * @since 4.4 Class created, using methods that were in Front_Parser
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
-class Add_Taxonomy {
+final class Add_Taxonomy {
 
 	public function __construct(
 		private Logger $logger = new Logger( 'Add_Taxonomy' ),

@@ -77,7 +77,7 @@ class Updates {
 		$files = new FilesystemIterator( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH, FilesystemIterator::SKIP_DOTS );
 		$nb_of_files_in_updates_folder = iterator_count( $files );
 
-		$this->logger->log?->debug( '[updateClass] Number of updates found: ' . $nb_of_files_in_updates_folder );
+		$this->logger->log?->debug( '[updateClass] Number of updates found: ' . (string) $nb_of_files_in_updates_folder );
 
 		// Iteration for each class in class/updates/
 		for ( $i = 1; $i <= $nb_of_files_in_updates_folder; $i++ ) {

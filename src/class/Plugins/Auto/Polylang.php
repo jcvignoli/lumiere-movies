@@ -35,7 +35,7 @@ use Lumiere\Tools\Validate_Get;
  * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
-class Polylang {
+final class Polylang {
 
 	/**
 	 * Array of plugins currently in use

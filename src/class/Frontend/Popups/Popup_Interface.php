@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 
 /**
  * Interface for Popups
+ * @phpstan-require-extends Head_Popups
  */
 interface Popup_Interface {
 

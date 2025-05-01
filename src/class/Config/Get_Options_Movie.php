@@ -21,7 +21,7 @@ use Lumiere\Config\Settings_Movie;
  * Getting Settings and database options
  * Helper class meant to be called anywhere, so all methods should be static and public
  */
-class Get_Options_Movie extends Settings_Movie {
+final class Get_Options_Movie extends Settings_Movie {
 
 	/**
 	 * Get Data options row name as in wp_options

@@ -22,7 +22,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
  * @since 4.1.1 More OOP, self::admin_msg_missing_taxo() and self::admin_msg_new_taxo() are called by Detect_New_Theme class, admin_notice_messages are now translated
  * @see \Lumiere\Admin\Copy_Templates\Detect_New_Theme to check if a message regarding the taxonomy should be displayed
  */
-class Admin_Notifications {
+final class Admin_Notifications {
 
 	/**
 	 * Notification messages

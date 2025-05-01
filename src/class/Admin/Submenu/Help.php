@@ -25,7 +25,7 @@ use Exception;
  *
  * @since 4.0.1 Using templates instead of having templates here
  */
-class Help extends Admin_Menu {
+final class Help extends Admin_Menu {
 
 	/**
 	 * Pages name

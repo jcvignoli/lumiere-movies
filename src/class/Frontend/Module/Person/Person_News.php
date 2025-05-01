@@ -22,7 +22,7 @@ use Lumiere\Config\Get_Options_Person;
  *
  * @since 4.5 new class
  */
-class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the main module version
@@ -63,8 +63,9 @@ class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 			$output .= isset( $item_results[ $i ] ) && isset( $item_results[ $i ]['title'] ) && isset( $item_results[ $i ]['extUrl'] ) ? parent::get_external_url( $item_results[ $i ]['title'], $item_results[ $i ]['extUrl'] ) : $item_results[ $i ]['title'] ?? '';
 
 			// Date.
-			if ( isset( $item_results[ $i ]['date'] ) && strlen( $item_results[ $i ]['date'] ) > 0 ) {
-				$output .= ' (' . (string) wp_date( get_option( 'date_format' ), strtotime( $item_results[ $i ]['date'] ) ) . ')';
+			$date_time = strtotime( $item_results[ $i ]['date'] );
+			if ( isset( $item_results[ $i ]['date'] ) && strlen( $item_results[ $i ]['date'] ) > 0 && $date_time !== false ) {
+				$output .= ' (' . (string) wp_date( get_option( 'date_format' ), $date_time ) . ')';
 			}
 
 			// Text, limited in charas.

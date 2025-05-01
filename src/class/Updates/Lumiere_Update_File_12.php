@@ -25,7 +25,7 @@ use Lumiere\Config\Get_Options;
  * The logic is in the parent class, the data in the current child class
  * -> Everytime an update is processed, imdbHowManyUpdates is automatically increased by 1 (in child class)
  */
-class Lumiere_Update_File_12 extends \Lumiere\Updates {
+final class Lumiere_Update_File_12 extends \Lumiere\Updates {
 
 	/**
 	 * Version of Lumière! that can trigger the update
@@ -53,7 +53,7 @@ class Lumiere_Update_File_12 extends \Lumiere\Updates {
 		}
 
 		// Update the number of updates already processed in Lumière options.
-		$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
@@ -67,10 +67,10 @@ class Lumiere_Update_File_12 extends \Lumiere\Updates {
 		 */
 		if ( true === $this->lumiere_add_options( Get_Options::get_cache_tablename(), 'imdbcachekeepsizeunder' ) ) {
 			$text = 'Lumière option imdbcachekeepsizeunder successfully added.';
-			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbcachekeepsizeunder could not be added.';
-			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/**
@@ -79,10 +79,10 @@ class Lumiere_Update_File_12 extends \Lumiere\Updates {
 		 */
 		if ( true === $this->lumiere_add_options( Get_Options::get_cache_tablename(), 'imdbcachekeepsizeunder_sizelimit' ) ) {
 			$text = 'Lumière option imdbcachekeepsizeunder_sizelimit successfully added.';
-			$this->logger->log?->info( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdbcachekeepsizeunder_sizelimit could not be added.';
-			$this->logger->log?->error( '[updateVersion' . self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		/** ------------------------- Editing part (end) --------------
 		 */

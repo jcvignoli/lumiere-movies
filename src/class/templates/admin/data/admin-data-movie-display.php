@@ -115,7 +115,7 @@ $lum_details_with_numbers = Get_Options_Movie::get_items_with_numbers();
 
 		// Reach a multiple of three for layout
 		// Include extra lines if not multiple of three
-		$lumiere_operand = ( count( $lum_items_people ) / ( count( $lum_items_people ) / 3 ) );
+		$lumiere_operand = ( (float) count( $lum_items_people ) / ( (float) count( $lum_items_people ) / (float) 3 ) );
 		for ( $lumiere_i = 1; $lumiere_i < $lumiere_operand; $lumiere_i++ ) {
 			if ( $lumiere_i % 3 !== 0 ) {
 				echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_ten lumiere_align_center"></div>';

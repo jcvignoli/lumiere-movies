@@ -20,7 +20,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Add policy, sponsor pages, etc
  */
-class Backoffice_Extra {
+final class Backoffice_Extra {
 
 	public function __construct() {
 
@@ -49,10 +49,10 @@ class Backoffice_Extra {
 	 *
 	 * @param string[] $plugin_meta An array of the plugin's metadata. Can be null.
 	 * @param string $plugin_file_name Path to the plugin file relative to the plugins directory.
-	 * @return array<string>|null $plugin_meta An array with the plugin's metadata.
+	 * @return array<string> $plugin_meta An array with the plugin's metadata.
 	 * @since 3.9
 	 */
-	public function lumiere_add_left_links( array $plugin_meta, string $plugin_file_name ): ?array {
+	public function lumiere_add_left_links( array $plugin_meta, string $plugin_file_name ): array {
 
 		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
 			$plugin_meta['settings'] = wp_sprintf( '<a href="%s"> %s </a>', admin_url( 'admin.php?page=lumiere_options' ), esc_html__( 'Settings', 'lumiere-movies' ) );
@@ -70,9 +70,9 @@ class Backoffice_Extra {
 	 * NOTINCLUDED @param string $status Status filter currently applied to the plugin list.
 	 *        Possible values are: 'all', 'active', 'inactive', 'recently_activated', 'upgrade', 'mustuse',
 	 *        'dropins', 'search', 'paused', 'auto-update-enabled', 'auto-update-disabled'.
-	 * @return array<string>|null $plugin_meta An array of the plugin's metadata.
+	 * @return array<string> $plugin_meta An array of the plugin's metadata.
 	 */
-	public function lumiere_add_table_links( array $plugin_meta, string $plugin_file_name ): ?array {
+	public function lumiere_add_table_links( array $plugin_meta, string $plugin_file_name ): array {
 
 		if ( 'lumiere-movies/lumiere-movies.php' === $plugin_file_name ) {
 			$plugin_meta[] = wp_sprintf(

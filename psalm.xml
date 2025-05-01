@@ -5,12 +5,14 @@
 	errorLevel="3"
 	resolveFromConfigFile="true"
 	cacheDirectory="tmp/cache/psalm"
-	findUnusedBaselineEntry="true"
 	autoloader="tests/bootstrap-testing.php"
-	findUnusedCode="false"   
+	findUnusedBaselineEntry="true"
+	findUnusedCode="false"
+	allowStringToStandInForClass="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+	forceJit="true"
 >
 	<!-- Load and analyze -->
 	<projectFiles>
@@ -38,8 +40,12 @@
 	<issueHandlers>
 		<!-- Remove the include error, since the includes for webserver are different from local -->
 		<UnresolvableInclude errorLevel="suppress" />
-		<!-- Remove the include error, since the includes for webserver are different from local -->
-		<MissingFile errorLevel="suppress" />
+		<MissingFile>
+			<errorLevel type="suppress">
+				<!-- This included file is in wp-admin  -->
+				<file name="src/class/Tools/Files.php" />
+			</errorLevel>
+		</MissingFile>
 		<!-- Remove can't concatenate with null, it's actually untrue since PHP automatically transforms null to empty -->
 		<PossiblyNullOperand errorLevel="suppress"/>
 		<!-- Lumiere is poorly written, I know -->
@@ -51,7 +57,7 @@
 				<file name="src/class/Plugins/Auto/Polylang.php" />
 			</errorLevel>
 		</InvalidDocblock>
-		<!-- Didn't find any other way to remove three MissingTemplateParam -->
+		<!-- Didn't find any other way to remove these MissingTemplateParam -->
 		<MissingTemplateParam>
 			<errorLevel type="suppress">
 				<file name="src/class/Admin/Widget_Selection.php" />

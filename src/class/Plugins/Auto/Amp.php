@@ -25,7 +25,7 @@ use Lumiere\Frontend\Main;
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
-class Amp {
+final class Amp {
 
 	/**
 	 * Traits

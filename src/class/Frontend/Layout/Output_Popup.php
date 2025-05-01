@@ -22,7 +22,7 @@ use Lumiere\Frontend\Layout\Output;
  *
  * @since 4.5
  */
-class Output_Popup extends Output {
+final class Output_Popup extends Output {
 
 	/**
 	 * Embed the elements

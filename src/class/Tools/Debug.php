@@ -19,7 +19,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
  * Class for debuging operations
  * All methods must be static
  */
-class Debug {
+final class Debug {
 
 	/**
 	 * Return the hooks currently used
@@ -40,12 +40,12 @@ class Debug {
 
 		foreach ( $array as $key => $val ) {
 			if ( is_array( $val ) ) {
-				$output .= '<li><span class="lum_color_red">' . $key . '</span><b> => </b><span class="lum_color_blue">'
+				$output .= '<li><span class="lum_color_red">' . (string) $key . '</span><b> => </b><span class="lum_color_blue">'
 					. self::color_output( $val )
 					. '</span></li>';
 				continue;
 			}
-			$output .= '<li><span class="lum_color_red">' . $key . '</span><b> => </b><span class="lum_color_blue">' . $val . '</span></li>';
+			$output .= '<li><span class="lum_color_red">' . (string) $key . '</span><b> => </b><span class="lum_color_blue">' . (string) $val . '</span></li>';
 		}
 
 		return $output . '</ul>';

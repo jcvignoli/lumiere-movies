@@ -19,7 +19,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
  * Meant to select which data display in which popup menus
  * Doesn't include any Get_Options_class as there are only constants
  */
-class Settings_Popup {
+final class Settings_Popup {
 
 	/**
 	 * The selection to display on FULL filmo page in Popup_Person

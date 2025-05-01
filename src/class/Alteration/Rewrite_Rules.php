@@ -29,7 +29,7 @@ use Lumiere\Config\Get_Options;
  *
  * @see \Lumiere\Config\Get_Options (=>Settings) Includes the constants LUM_POPUP_STRING and LUM_REWRITE_RULES
  */
-class Rewrite_Rules {
+final class Rewrite_Rules {
 
 	/**
 	 * Constructor
@@ -174,7 +174,7 @@ class Rewrite_Rules {
 		flush_rewrite_rules();
 
 		$this->logger->log?->notice(
-			'[RewriteRules] Rewrite rules for Lumière was missing, flushed *' . count( $rules_added ) . '* ' . implode( '<br>', $rules_added )
+			'[RewriteRules] Rewrite rules for Lumière was missing, flushed *' . (string) count( $rules_added ) . '* ' . implode( '<br>', $rules_added )
 		);
 	}
 }

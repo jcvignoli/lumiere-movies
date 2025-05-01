@@ -21,7 +21,7 @@ use Lumiere\Config\Settings_Person;
  * Get settings related to Persons
  * Helper class meant to be called anywhere, so all methods should be static and public
  */
-class Get_Options_Person extends Settings_Person {
+final class Get_Options_Person extends Settings_Person {
 
 	/**
 	 * Get Data options row name as in wp_options

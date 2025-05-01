@@ -27,7 +27,7 @@ use Lumiere\Config\Get_Options;
  * @see Lumiere\Admin\Cron\Cron::lumiere_exec_once_update() Executes this file
  * @since 4.3.2
  */
-class Auto_Update_Theme extends Copy_Theme {
+final class Auto_Update_Theme extends Copy_Theme {
 
 	/**
 	 * Traits.
