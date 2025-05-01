@@ -171,7 +171,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args_lumiere_widget_movieid = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_widget_movieid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => [ 'page', 'post' ],
+			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args_lumiere_widget_movieid );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
@@ -189,7 +189,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args_lumiere_widget_movietitle = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_widget_movietitle' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => [ 'page', 'post' ],
+			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args_lumiere_widget_movietitle );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
@@ -207,7 +207,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_widget_personname' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => [ 'page', 'post' ],
+			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
@@ -225,7 +225,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args_lumiere_widget_personid = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_widget_personid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => [ 'page', 'post' ],
+			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args_lumiere_widget_personid );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */
@@ -243,7 +243,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$args_lumiere_autotitlewidget_perpost = [
 			'posts_per_page' => -1,
 			'meta_query' => [ [ 'key' => 'lumiere_autotitlewidget_perpost' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-			'post_type' => [ 'page', 'post' ],
+			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args_lumiere_autotitlewidget_perpost );
 		/** @psalm-var \WP_Post $post -- due to the $args passed (not using 'fields' in get_posts()), always return \WP_Post */

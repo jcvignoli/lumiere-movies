@@ -92,7 +92,7 @@ final class Metabox_Selection {
 	public static function register_post_meta_sidebar(): void {
 		// Extra selection for the type of query, agregating all selection in Get_Options::get_lum_all_type_search_metabox(). Utilised in post/widget options.
 		register_post_meta(
-			'post',
+			'',
 			'_lum_form_type_query',
 			[
 				'show_in_rest'      => true,
@@ -107,7 +107,7 @@ final class Metabox_Selection {
 		// Option for the select, add '_widget' to the value column
 		foreach ( Get_Options::get_lum_all_type_search_metabox() as $key => $value ) {
 			register_post_meta(
-				'post',
+				'',
 				$value,
 				[
 					'show_in_rest'      => true,
@@ -124,7 +124,7 @@ final class Metabox_Selection {
 
 		// Extra selection for autotitle. Utilised in post/widget options.
 		register_post_meta(
-			'post',
+			'',
 			Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME,
 			[
 				'show_in_rest'  => true,
