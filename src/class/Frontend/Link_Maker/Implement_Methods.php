@@ -241,98 +241,6 @@ class Implement_Methods {
 	}
 
 	/**
-	 * Convert an IMDb url into an internal link for People and Movies
-	 * Meant to be used inside popups (not in posts or widgets)
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into an internal link
-	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
-	 *
-	 * @return string
-	 *
-	 * @see Implement_Link_Maker::get_medaillon_bio_details() used only there!
-	 * @deprecated No more in use, was utilised to parse things like trivia, trademarks, etc, that don't included imdb links anymore
-	 */
-	/*private function convert_imdburl_to_internalurl( string $text, int $window_type ): string {
-
-		$internal_link_person = '';
-		$internal_link_movie = '';
-
-		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['bootstrap'] ) {
-			$internal_link_person = '<a class="lum_popup_internal_link lum_add_spinner" href="' . wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-			$internal_link_movie = '<a class="lum_popup_internal_link lum_add_spinner lum_popup_link_with_movie" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=${4}' ) . '" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . '">';
-		}
-
-		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
-		// Common pattern.
-		$rule_person = '~(<a href=")(\D{21})(name\/nm)(\d{7})(\?.+?|\/?)">~';
-		$rule_movie = '~(<a href=")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)">~';
-
-		// Pattern found in soundtrack.
-		if ( strpos( $text, 'https://www.imdb.com/' ) === false ) {
-			$rule_person = '~(<a href=")(\/name\/)(nm)(\d{7})(\?.+?|\/?)">~';
-			$rule_movie = '~(<a href=")(\/title\/)(tt)(\d{7})(\?.+?|\/?)">~';
-		}
-
-		// Replace IMDb links with internal links.
-		$output_one = preg_replace( $rule_person, $internal_link_person, $text ) ?? $text;
-		$output_two = preg_replace( $rule_movie, $internal_link_movie, $output_one ) ?? $text;
-
-		return $output_two;
-
-	}*/
-
-	/**
-	 * Convert an IMDb url into a popup link for People and Movies in Taxonomy pages
-	 *
-	 * @param string $text Text that includes IMDb URL to convert into an internal link
-	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
-	 * @param string $specific_class Extra class to be added in popup building link, none by default
-	 *
-	 * @return string
-	 * @see Implement_Link_Maker::get_medaillon_bio_details() used only there!
-	 * @deprecated, medaillon text doesn't include links anymore, remove it
-	 */
-	/*private function convert_imdburl_to_taxonomy( string $text, int $window_type, string $specific_class = '' ): string {
-
-		$popup_link_person = '';
-		$popup_link_movie = '';
-
-		switch ( $window_type ) {
-			case 0: // Build modal classic window popups.
-				$popup_link_person = '<a class="lum_taxo_link lum_link_with_people ' . $specific_class . '" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
-				$popup_link_movie = '<a class="lum_taxo_link lum_link_with_movie ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
-			case 1: // Build modal highslide window popups (=classic).
-				$popup_link_person = '<a class="lum_taxo_link lum_link_with_people ' . $specific_class . '" data-modal_window_people="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
-				$popup_link_movie = '<a class="lum_taxo_link lum_link_with_movie ' . $specific_class . '" data-modal_window_filmid="${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>';
-				break;
-			case 2: // Bootstrap popups
-				$popup_link_person = '<a class="lum_taxo_link lum_link_with_people" data-modal_window_people="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-				. $this->output_linkmaker_class->bootstrap_modal( '${4}', '${6}', $this->imdb_admin_values );
-				$popup_link_movie = '<a class="lum_taxo_link lum_link_with_movie" data-modal_window_filmid="${4}" data-target="#theModal${4}" title="' . esc_html__( 'open a new window with IMDb informations', 'lumiere-movies' ) . '">${6}</a>'
-				. $this->output_linkmaker_class->bootstrap_modal( '${4}', '${6}', $this->imdb_admin_values );
-				break;
-			case 3: // No links class
-				$popup_link_person = '${6}';
-				$popup_link_movie = '${6}';
-				break;
-			case 4: // Build internal links with no popups.
-				$popup_link_person = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'person', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
-				$popup_link_movie = '<a class="lum_taxo_link" href="' . Get_Options::get_popup_url( 'film', site_url() ) . '?mid=${4}" title="' . esc_html__( 'internal link to', 'lumiere-movies' ) . ' ${6}">${6}</a>';
-				break;
-		}
-
-		// Regexes. \D{21} 21 characters for 'https://www.imdb.com/'.
-		$rule_name = '~(<a href=")(\D{21})(name\/nm)(\d{7})(\/\?.+?|\?.+?|\/?)">(.*?)<\/a>~';
-		$rule_title = '~(<a href=")(\D{21})(title\/tt)(\d{7})(\?ref.+?|\/?)">(.*?)<\/a>~';
-
-		// Replace IMDb links with popup links.
-		$output_one = preg_replace( $rule_name, $popup_link_person, $text ) ?? $text;
-		$output_two = preg_replace( $rule_title, $popup_link_movie, $output_one ) ?? $text;
-
-		return $output_two;
-	}*/
-
-	/**
 	 * Plots data details, removing all links => no links anymore, removed wp_strip_all_tags()
 	 *
 	 * @param string $plot Text of the plot
@@ -340,7 +248,6 @@ class Implement_Methods {
 	 * @return string
 	 */
 	protected function get_plot_details( string $plot, int $window_type ): string {
-		// return "\n\t\t\t\t" . wp_strip_all_tags( $plot );
 		return "\n\t\t\t\t" . $plot;
 	}
 
@@ -376,11 +283,6 @@ class Implement_Methods {
 
 		$output .= '>' . esc_html( $imdbname ) . '</a>';
 
-		// Modal bootstrap HTML part.
-		if ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
-			$output .= $this->output_linkmaker_class->bootstrap_modal( $imdbid, $imdbname, $this->imdb_admin_values );
-		}
-
 		return $output;
 	}
 
@@ -404,8 +306,7 @@ class Implement_Methods {
 			// Bootstrap modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>'
-			. $this->output_linkmaker_class->bootstrap_modal( sanitize_title( $title ), '', $this->imdb_admin_values );
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// No Link modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
@@ -440,7 +341,7 @@ class Implement_Methods {
 			// Bootstrap modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>' . $this->output_linkmaker_class->bootstrap_modal( $imdbid, '', $this->imdb_admin_values );
+			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// No Link modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {

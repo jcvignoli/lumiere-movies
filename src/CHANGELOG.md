@@ -2,7 +2,9 @@
 
 v.4.6.1
 * [feature] Blocks translation, much work on blocks and javascripts for WP Classic edition
+* [feature] Bootstrap popins are individually created by javascript (lumiere-bootstrap-links.js), on click only. This is much less code (pages are shown quickly) and faster to display
 * [bug] Blueprint wasn't updated to mandatory PHP8.1
+* [bug] Person data expanded on "click more" wasn't showing the popin
 * [bug] Lumiere WP Cli wasn't adding/removing the cache crons ("keep size below" and "autorefresh cache" crons)
 * [bug] Taxonomy genre triggered fatal error if Logger class wasn't active
 * [bug] Non-gutenberg Widget (WordPress < 5.8/Classic edition) had no name by default when adding the widget
@@ -13,6 +15,7 @@ v.4.6.1
 * [technical] Logger includes the URL in saved log and reports in local timezone.
 * [technical] Renamed custom values with template "_lum_movie/person_id/name/title", "_lum_form_type_query", "_lum_autotitle_perpost"
 * [technical] Using a new method (mozart in Composer) to avoid any vendor library collision with another plugin (found Psr/Log collision with wpforms plugin)
+* [technical] Better use of PHP8.1 with final classes and #[\Override]
 
 v.4.6
 * [feature] Major: it is now possible to add Persons details to your posts!
