@@ -300,13 +300,15 @@ final class Search_Items {
 		$output = "\n<div align=\"center\">";
 		$output .= "\n\t" . '<form action="" method="get" id="searchmovie">';
 		$output .= "\n\t" . '<h1 id="lum_search_title">' . esc_html__( 'Search an IMDb ID for', 'lumiere-movies' );
-		$output .= '<select id="select_search_type" name="select_search_type"><option label="movie" value="movie">' . esc_html__( 'movie', 'lumiere-movies' ) . '</option><option label="person" value="person">' . esc_html__( 'person', 'lumiere-movies' ) . '</option></select></h1>';
+		$output .= '<select id="select_search_type" name="select_search_type">
+			<option label="' . ucfirst( esc_html__( 'movie', 'lumiere-movies' ) ) . '" value="movie">' . esc_html( 'movie' ) . '</option>
+			<option label="' . ucfirst( esc_html__( 'person', 'lumiere-movies' ) ) . '" value="person">' . esc_html( 'person' ) . '</option></select></h1>';
 
 		$output .= "\n\t\t" . '<input type="text" id="lum_movie_input" name="' . Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING . '" value="">';
 
 		$output .= wp_nonce_field( 'lumiere_search', 'search_nonce', true, false );
 
-		$output .= "\n\t\t" . '<input type="submit" value="Search">';
+		$output .= "\n\t\t" . '<input type="submit" value="' . esc_html__( 'Search', 'lumiere-movies' ) . '">';
 		$output .= "\n\t" . '</form>';
 		$output .= "\n" . '</div>';
 		return $output;

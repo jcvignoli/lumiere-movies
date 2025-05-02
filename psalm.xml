@@ -18,7 +18,6 @@
 	<projectFiles>
 		<directory name="src"/>
 		<ignoreFiles>
-			<directory name="vendor"/>
 			<directory name="src/vendor"/>
 			<directory name="../blogpourext"/><!-- Psalm get stuck otherwise -->
 		</ignoreFiles>
