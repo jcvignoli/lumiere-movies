@@ -222,7 +222,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					}<br>
 					<br>
 					# Initialization of IMDBphp libraries<br>
-					$search = new \Imdb\TitleSearch($config_imdb );<br>
+					$search = new \Lumiere\Vendor\Imdb\TitleSearch($config_imdb );<br>
 
 					if ( (isset ($_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ])) && (!empty ($_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ])) ){<br>
 						$search_sanitized = isset($_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ]) ? sanitize_text_field( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING] ) : NULL;<br>

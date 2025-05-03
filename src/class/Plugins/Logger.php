@@ -197,7 +197,7 @@ final class Logger {
 		}
 
 		// Add the file, the line, the class, the function to the log.
-		/** @psalm-suppress InvalidArgument (psalm can resolve value-of<\Monolog\Level::VALUES>) */
+		/** @psalm-suppress InvalidArgument (psalm can resolve value-of<\Lumiere\Vendor\Monolog\Level::VALUES>) */
 		$monolog_class->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
 
 		// Change the date and output formats of the log.

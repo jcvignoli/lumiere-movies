@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bae58cd330ceb2bb672b0b0ad680e1d1",
+    "content-hash": "42e8e8f8740f4279445238691017decf",
     "packages": [],
     "packages-dev": [
         {
@@ -7823,16 +7823,16 @@
         },
         {
             "name": "skaut/wordpress-stubs",
-            "version": "2.13.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/skaut/wordpress-stubs.git",
-                "reference": "365c51ea264d9cbf1f198345aea30708dc773db9"
+                "url": "https://github.com/jcvignoli/wordpress-stubs",
+                "reference": "629d276bdb1377db67ca2afcad177267d6490b65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/skaut/wordpress-stubs/zipball/365c51ea264d9cbf1f198345aea30708dc773db9",
-                "reference": "365c51ea264d9cbf1f198345aea30708dc773db9",
+                "url": "https://api.github.com/repos/jcvignoli/wordpress-stubs/zipball/629d276bdb1377db67ca2afcad177267d6490b65",
+                "reference": "629d276bdb1377db67ca2afcad177267d6490b65",
                 "shasum": ""
             },
             "require": {
@@ -7850,8 +7850,24 @@
                 "phan/phan": "A static analyzer for PHP",
                 "phpstan/phpstan": "PHPStan - PHP Static Analysis Tool"
             },
+            "default-branch": true,
             "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "phpcs": [
+                    "phpcs"
+                ],
+                "phan": [
+                    "export PHAN_DISABLE_XDEBUG_WARN=1; phan"
+                ],
+                "phpstan": [
+                    "phpstan"
+                ],
+                "lint": [
+                    "@phpcs",
+                    "@phan",
+                    "@phpstan"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -7864,21 +7880,21 @@
             "description": "High quality stubs for WordPress functions and classes",
             "homepage": "https://github.com/skaut/wordpress-stubs",
             "keywords": [
-                "PHPStan",
+                "WordPress",
+                "WordPress plugin",
                 "WordPress stubs",
+                "WordPress theme",
                 "phan",
+                "phpstan",
                 "stub",
-                "stubs",
-                "wordpress",
-                "wordpress plugin",
-                "wordpress theme"
+                "stubs"
             ],
             "support": {
                 "issues": "https://github.com/skaut/wordpress-stubs/issues",
-                "source": "https://github.com/skaut/wordpress-stubs",
-                "wiki": "https://github.com/skaut/wordpress-stubs/wiki"
+                "wiki": "https://github.com/skaut/wordpress-stubs/wiki",
+                "source": "https://github.com/skaut/wordpress-stubs"
             },
-            "time": "2025-03-24T09:12:01+00:00"
+            "time": "2025-05-03T15:24:35+00:00"
         },
         {
             "name": "spatie/array-to-xml",
@@ -12612,7 +12628,7 @@
         "phpseclib/phpseclib": 0,
         "phpstan/phpstan": 0,
         "phpstan/phpstan-strict-rules": 0,
-        "skaut/wordpress-stubs": 0,
+        "skaut/wordpress-stubs": 20,
         "squizlabs/php_codesniffer": 0,
         "szepeviktor/phpstan-wordpress": 0,
         "vimeo/psalm": 0,

@@ -145,7 +145,7 @@ final class Get_Options extends Settings {
 	 * Retrieve selected type of search in admin
 	 *
 	 * @return string
-	 * @see \Imdb\TitleSearch For the options
+	 * @see \Lumiere\Vendor\Imdb\TitleSearch For the options
 	 */
 	public static function get_type_search(): string {
 		$imdb_admin_option = get_option( self::get_admin_tablename() );

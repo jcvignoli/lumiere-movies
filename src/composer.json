@@ -42,7 +42,6 @@
             "dep_namespace": "Lumiere\\Vendor\\",
             "dep_directory": "/vendor/",
             "classmap_directory": "/vendor/",
-            "classmap_prefix": "Lumiere\\Vendor\\",
             "packages": [
                 "monolog/monolog",
                 "duck7000/imdb-graphql-php"

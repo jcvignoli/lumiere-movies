@@ -29,7 +29,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
  * @psalm-type OPTIONS_DATA_PERSON_PSALM OPTIONS_DATA_PERSON_ORDER&&OPTIONS_DATA_PERSON_ACTIVATED&&OPTIONS_DATA_PERSON_NUMBER
  *
  * @since 4.6 class created
- * @see \Imdb\Name Function and constants here are related to data coming from there
+ * @see \Lumiere\Vendor\Imdb\Name Function and constants here are related to data coming from there
  */
 class Settings_Person {
 
@@ -91,7 +91,7 @@ class Settings_Person {
 	 * List of items that are not available as module but are available as methods in Imdb\Name
 	 * Gather extra methods to be run when refreshing cache files
 	 *
-	 * @see \Imdb\Name List of methods
+	 * @see \Lumiere\Vendor\Imdb\Name List of methods
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_people_file() use this list so doesn't call those methods in \IMDB\Name
 	 */
 	public const LUM_DATA_PERSON_EXTRA_GENERATION  = [

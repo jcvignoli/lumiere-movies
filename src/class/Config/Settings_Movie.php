@@ -27,7 +27,7 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * Is extended by Get_Options_Movie
  * If a new IMDB field is created it will automatically create new fields, be it in database and in the admin panel options
  * IMDB fields are automatically translated if plural
- * @see \Imdb\Title Function and constants here are related to data coming from there
+ * @see \Lumiere\Vendor\Imdb\Title Function and constants here are related to data coming from there
  *
  * @since 4.5 Class created, splitted from {@see \Lumiere\Config\Settings}
  *
@@ -100,7 +100,7 @@ class Settings_Movie extends Settings_Helper {
 	 * List of items that are not available as module but are available as methods in Imdb\Title
 	 * The list add methods missing in {@see Get_Options_Movie::get_list_all_items()) which are not in define_*()
 	 *
-	 * @see \Imdb\Title List of methods
+	 * @see \Lumiere\Vendor\Imdb\Title List of methods
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this list so doesn't call those methods in \IMDB\Name
 	 */
 	public const LUM_DATA_MOVIE_EXTRA_GENERATION  = [

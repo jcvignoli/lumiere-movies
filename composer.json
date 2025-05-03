@@ -7,6 +7,13 @@
         "wiki": "https://github.com/jcvignoli/lumiere-movies/wiki",
         "source": "https://github.com/jcvignoli/lumiere-movies"
     },
+    "repositories": [
+    	{
+		"type": "vcs",
+		"url": "https://github.com/jcvignoli/wordpress-stubs",
+		"no-api": true
+    	}
+    ],
     "require-dev": {
         "lucatume/wp-browser": "@stable",
         "codeception/module-asserts": "@stable",
@@ -26,7 +33,7 @@
         "automattic/phpcs-neutron-ruleset": "@stable",
         "dealerdirect/phpcodesniffer-composer-installer": "@stable",
         "phan/phan": "@stable",
-        "skaut/wordpress-stubs": "@stable",
+        "skaut/wordpress-stubs": "@dev",
         "lipemat/phpstan-wordpress": "@stable",
         "phpstan/phpstan-strict-rules": "@stable",
         "szepeviktor/phpstan-wordpress": "@stable",

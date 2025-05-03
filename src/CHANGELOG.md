@@ -17,6 +17,7 @@ v.4.6.1
 * [technical] Renamed custom values with template "_lum_movie/person_id/name/title", "_lum_form_type_query", "_lum_autotitle_perpost"
 * [technical] Using a new method (mozart in Composer) to avoid any vendor library collision with another plugin (found Psr/Log collision with wpforms plugin)
 * [technical] Better use of PHP8.1 with final classes and #[\Override] instructions
+* [technical] Class naming PSR-4 compatible, gave up on WordPress naming
 
 v.4.6
 * [feature] Major: it is now possible to add Persons details to your posts!

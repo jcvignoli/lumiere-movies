@@ -51,7 +51,7 @@ final class Imdbphp extends Imdbphp_Config {
 		 * Send Lumiere options to IMDbGraphqlPHP parent class
 		 * The values here will overwrite the properties in the parent class
 		 *
-		 * @see \Imdb\Config The parent class
+		 * @see \Lumiere\Vendor\Imdb\Config The parent class
 		 */
 		$this->throwHttpExceptions = false; // Not an option in Lumière!, prevent throwing Exceptions that stop the execution and prevent pages display
 		$this->useLocalization = true; // Not an option in Lumière!, always use localization
