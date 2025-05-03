@@ -28,20 +28,20 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 		<?php esc_html_e( 'Lumiere Movies is a plugin under intense development; this help section might be innacurate with regard to the latest functions. Main functions of the plugin are explained below, aiming to be as much user-friendly as possible.', 'lumiere-movies' ); ?>
 	</div>
 
-	<div class="lumiere_flex_nowrap_container">
+	<div class="lumiere_flex_wrap_container">
 
 		<!--------------- How to use Popups -->
 
-		<div class="postbox-container lumiere_flex_container_content_fifty">
+		<div class="lumiere_flex_container_content_fifty">
 			<div class="helpdiv">
 
-				<h4 data-show-hidden="inside_help_explain_popup" class="help_titles"><?php esc_html_e( 'Why a popup window?', 'lumiere-movies' ); ?></h4>
+				<h4 data-show-hidden="inside_help_explain_popup" class="help_titles"><?php esc_html_e( 'How to get the popups on click?', 'lumiere-movies' ); ?></h4>
 
 				<div id="inside_help_explain_popup" class="hidesection">
 
-				<br clear="both">
+				<br>
 
-				<a href="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-1.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="50%" src="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-1.jpg' ); ?>" alt="screenshot Link creator" /></a>
+				<div align="center"><a href="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-1.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img width="90%" src="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-1.jpg' ); ?>" alt="screenshot Link creator" /></a></div>
 
 				<?php esc_html_e( 'The first way to use Lumiere Movies is to add links to movie titles that opens popups with information about that very same movies. It is a usefull for posts that mention movies title; just add a link to your movie title, and let visitors knowing more about the details of the movie you mention.', 'lumiere-movies' ); ?>
 
@@ -53,33 +53,31 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				/* translators: %1$s and %2$s are HTML tags */
 				echo wp_kses( wp_sprintf( __( 'To create a link to a popup window, you only need to put the %1$smovie\'s title%2$s inside dedicated tags. Depending on the visual interface you use (modern WordPress, wysiwig old WordPress, or pure text interface), you may add these tags in different ways.', 'lumiere-movies' ), '<b>', '</b>' ), [ 'b' => [] ] ); ?>
 
-				 <br clear="both"><br>
+				 <br><br>
 
 				<?php esc_html_e( 'If you use a recent WordPress and have not activated a plugin to continue using the old editor interface, you can add a Lumière link to a popup by selecting the title of your movie, then adding the link with the dedicated contextual menu option:', 'lumiere-movies' ); ?>
 
-				<br clear="both">
+				<br>
 
 				<div align="center"><a href="<?php echo esc_url( $lumiere_pics_url . 'admin-help-addimdblink-gutenberg.png' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img width="80%" src="<?php echo esc_url( $lumiere_pics_url . 'admin-help-addimdblink-gutenberg.png' ); ?>" alt="add link in gutenberg" /></a></div>
 
-				<br clear="both">
+				<br>
 
 				<?php esc_html_e( "If you use an old WordPress version or a recent WordPress with the plugin 'classic editor' installed, you can access in the dedicated menu to 'add a popup link:", 'lumiere-movies' ); ?>
 
-				<br clear="both">
+				<br>
 
 				<div align="center"><a href="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-7.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img width="80%" src="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-7.jpg' ); ?>" alt="screenshot Link creator button added for bloggers who prefer HTML writing way" /></a></div>
 
-				<br clear="both">
+				<br>
 
 				<?php esc_html_e( "No explanation is need for those who prefer to write directly in HTML editor; it goes without saying they know how to add an HTML tag. But even in that interface a button is available for adding the code. For references, here is the HTML tag to wrap your movie's title with:", 'lumiere-movies' ); ?>
 
-				<div align="center" clear="both">
-					<pre>
+				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
 					&lt;span data-lum_movie_maker="popup"&gt;
 					movie's title
 					&lt;/span&gt;
-					</pre>
-				</div>
+				</blockquote>
 
 
 				<?php esc_html_e( "Whatever the tool you prefer, when you add such a link a small icon confirming that the link is Lumière compliant is added to your movie's title.", 'lumiere-movies' ); ?>
@@ -90,7 +88,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			<!--------------- How to use Inside posts -->
 				
 			<div class="helpdiv">
-				<h4 data-show-hidden="inside_help_explain_inside_post" class="help_titles"><?php esc_html_e( "Why display movie's data inside my post?", 'lumiere-movies' ); ?></h4>
+				<h4 data-show-hidden="inside_help_explain_inside_post" class="help_titles"><?php esc_html_e( "How to display movie's data inside my post?", 'lumiere-movies' ); ?></h4>
 
 				<div id="inside_help_explain_inside_post" class="hidesection">
 
@@ -105,9 +103,14 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<a href="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-9.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img width="90%" src="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-9.jpg' ); ?>" alt="<?php esc_html_e( 'Lumiere Movies Inside a post using gutenberg block', 'lumiere-movies' ); ?>" /></a>
 
 				<?php esc_html_e( 'You can add as many blocks as you whish; there is no limitation in the number of movies you can display per article.', 'lumiere-movies' ); ?>
+				</div>
+			</div>
 
+			<div class="helpdiv">
 
-				<h4><?php esc_html_e( 'How to display data inside my post - advanced users', 'lumiere-movies' ); ?></h4>
+				<h4 data-show-hidden="inside_help_explain_inside_post_adv" class="help_titles"><?php esc_html_e( 'How to display data inside my post - advanced users', 'lumiere-movies' ); ?></h4>
+
+				<div id="inside_help_explain_inside_post_adv" class="hidesection">
 
 				<?php
 				esc_html_e( "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use Lumière outside a post (in a customised page), it won't work. Lumière is written around filters and actions so it is easy to achieve what you want.", 'lumiere-movies' );
@@ -143,7 +146,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			<!--------------- How to use the Widget -->
 
 			<div class="helpdiv">
-				<h4 data-show-hidden="inside_help_explain_widget" class="help_titles"><?php esc_html_e( 'Why to use widget?', 'lumiere-movies' ); ?></h4>
+				<h4 data-show-hidden="inside_help_explain_widget" class="help_titles"><?php esc_html_e( 'How to use widget?', 'lumiere-movies' ); ?></h4>
 
 				<div id="inside_help_explain_widget" class="hidesection">
 
@@ -361,7 +364,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			</div>
 
 			<!--------------- How to use search options -->
-			
+		
 			<div class="helpdiv">
 
 				<h4 data-show-hidden="inside_help_explain_searchoptions" class="help_titles"><?php esc_html_e( 'Changing default IMDb search options', 'lumiere-movies' ); ?></h4>
@@ -405,7 +408,11 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				</div>
 			</div>
-
+		</div>
+		<div class="postbox-container lumiere_flex_container_content_fifty">
+			<div class="helpdiv">
+				<br>
+			</div>
 		</div>
 	</div>
 </div>

@@ -54,7 +54,7 @@ jobs:
 
       - name: "Install Composer dependencies"
         run: |
-          composer install -n --prefer-dist
+          composer install -n --prefer-dist --ignore-platform-reqs
           cd src
           composer install -n --prefer-dist
           composer update --no-dev --no-scripts --optimize-autoloader

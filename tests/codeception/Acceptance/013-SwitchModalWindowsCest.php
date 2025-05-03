@@ -76,8 +76,7 @@ class ModalWindowsCest {
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );# Check regular page
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");		
 		$I->seeInPageSource( '<a class="add_cursor lum_link_make_popup lum_link_with_people" id="link-0227759" data-modal_window_nonce="' );
-		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="Open a new window with IMDb informations for Peter Dinklage">Peter Dinklage</a>
-			<span class="modal fade" id="theModal0227759">');
+		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="Open a new window with IMDb informations for Peter Dinklage">Peter Dinklage</a>');
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");			
 		$I->seeInPageSource(' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941');	

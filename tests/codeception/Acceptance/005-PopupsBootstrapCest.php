@@ -56,7 +56,7 @@ class PopupsBootstrapCest {
 		// popup link movie interstellar
 		$element = 'a[data-modal_window_film="interstellar"]';
 		$sub_url = '/en/lumiere/film/?film=interstellar';
-		$xpath = '//html/body/div[2]/div/main/div/div/div/article/div/p/span[2]/span/span/span[2]/object'; // found with chrome tools
+		$xpath = '/html/body/span/span/span/span[2]/object'; // found with chrome tools
 
 		$I->comment('-> Check if popup movie can be open');
 		$I->amOnPage('/en/2021/test-codeception/');
@@ -83,12 +83,12 @@ class PopupsBootstrapCest {
 	 *
 	 * @before bootstrap
 	 */
-	private function checkPopupPerson( AcceptanceTester $I ) {
+	public function checkPopupPerson( AcceptanceTester $I ) {
 
 		// popup link actor Jorge Rivero
 		$element = 'a[data-modal_window_people="0729473"]';
 		$sub_url = '/en/lumiere/person/?mid=0729473';
-		$xpath = '/html/body/div[2]/div/main/div/div/div/article/div/div[1]/div/div[6]/div[1]/div[1]/span/span/span/span[2]/object'; // found with chrome tools
+		$xpath = '/html/body/span/span/span/span[2]/object'; // found with chrome tools
 
 		$I->comment('-> Check if popup person can be open');
 		$I->amOnPage('/en/2021/test-codeception/');
@@ -96,8 +96,12 @@ class PopupsBootstrapCest {
 
 		$I->wait(8);
 
-		$I->seeElement('object', [ 'dat' => $I->getCustomBaseUrl() . $sub_url ] );
+		$I->seeElement('object', [ 'name' => '0729473' ] );
 		$I->switchToFrame( $xpath );
 		$I->see( 'Pajarero');
+		
+		$I->click( 'The Popcorn Chronicles' );
+		$I->scrollTo('.lumiere_width_20_perc');
+		$I->waitForText( 'Emilio Portes', 15 ); // wait up to 15 seconds
 	}
 }

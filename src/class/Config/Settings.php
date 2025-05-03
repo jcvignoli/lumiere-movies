@@ -186,7 +186,7 @@ class Settings extends Settings_Helper {
 	 * Create database options if they don't exist
 	 *
 	 * @see \Lumiere\Core::lumiere_on_activation() On first plugin activation, create the options
-	 * @see \Lumiere\Save_Options On every reset, calling this method
+	 * @see \Lumiere\Admin\Save\Save_Options On every reset, calling this method
 	 * @see \Lumiere\Config\Open_Options::get_db_options() if options are not yet available, which may happend on first install (according to WP Plugin Check)
 	 *
 	 * @since 4.4 method updated, simplifing the process

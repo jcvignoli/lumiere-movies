@@ -115,7 +115,7 @@ class PersonCest {
 		$I->dontSee('Marques de fabrique:');
 		$I->dontSee('Nouvelles:');
 		$I->dontSee('Films biographiques:');
-		$I->dontSee('Christiane Kubrick');
+		$I->dontSee('Christiane Kubrick (April 14, 1958');
 		$I->dontSee('Stanley Kubrick was born in Manhattan, New York City,');
 		
 		// Titles are displayed even if everything is deactivated.
@@ -197,7 +197,7 @@ class PersonCest {
 		$I->see('Anecdotes:');
 		$I->see('Marques de fabrique:');
 		$I->see('Nouvelles:');
-		$I->see('Christiane Kubrick');
+		$I->see('Christiane Kubrick (April 14, 1958');
 		$I->see('Stanley Kubrick was born in Manhattan, New York City,');
 		$I->see('Stanley Kubrick');
 		$I->see( 'Chuck Palahniuk' );
