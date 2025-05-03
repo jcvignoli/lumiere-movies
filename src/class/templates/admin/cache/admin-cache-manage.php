@@ -549,7 +549,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 						wp_sprintf(
 							/* translators: %1$s is a html ahref tag, %2$s the closure of that very tag */
 							__( 'Absolute path to store cache retrieved from the IMDb website. Has to be %1$swritable%2$s by the webserver.', 'lumiere-movies' ),
-							'<a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">',
+							'<a href="https://developer.wordpress.org/advanced-administration/server/file-permissions/" title="permissions how-to on wordpress website">',
 							'</a>'
 						),
 						[
@@ -590,7 +590,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 						wp_sprintf(
 							/* translators: %1$s is a html ahref tag, %2$s the closure of that very tag */
 							__( 'Absolute path to store images retrieved from the IMDb website. Has to be %1$swritable%2$s by the webserver.', 'lumiere-movies' ),
-							'<a href="http://codex.wordpress.org/Changing_File_Permissions" title="permissions how-to on wordpress website">',
+							'<a href="https://developer.wordpress.org/advanced-administration/server/file-permissions/" title="permissions how-to on wordpress website">',
 							'</a>'
 						),
 						[
