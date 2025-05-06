@@ -21,8 +21,8 @@ const ButtonOpenSearch = ( { selectedBlock, isActive } ) => {
 	// Get data available in the form: selected search and text searched
 	const selectedType = selectedBlock.attributes['lumiere_imdblt_select'];    
 	const finalSearchType = selectedType.substring(
-	    selectedType.indexOf("_") + 1, 
-	    selectedType.lastIndexOf("_")
+		selectedType.indexOf("_") + 1, 
+		selectedType.lastIndexOf("_")
 	);
         const selectedText = selectedBlock.attributes.content;
 
