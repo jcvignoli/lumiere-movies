@@ -37,7 +37,7 @@
         "lipemat/phpstan-wordpress": "@stable",
         "phpstan/phpstan-strict-rules": "@stable",
         "szepeviktor/phpstan-wordpress": "@stable",
-        "vimeo/psalm": "@df67cd7",
+        "vimeo/psalm": "@stable",
         "wapmorgan/php-deprecation-detector": "@stable",
         "php-stubs/wp-cli-stubs": "@stable"
     },
