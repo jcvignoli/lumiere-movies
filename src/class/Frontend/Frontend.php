@@ -78,7 +78,7 @@ final class Frontend {
 	/**
 	 * @see \Lumiere\Core
 	 */
-	public static function lumiere_static_start(): void {
+	public static function start(): void {
 		$that = new self();
 	}
 

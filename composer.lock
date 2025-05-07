@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e09d7a63722656368a96499f900fc7e",
+    "content-hash": "b11c502d765653df44f8d1bd26cde3db",
     "packages": [],
     "packages-dev": [
         {
@@ -12591,7 +12591,7 @@
         "skaut/wordpress-stubs": 20,
         "squizlabs/php_codesniffer": 0,
         "szepeviktor/phpstan-wordpress": 0,
-        "vimeo/psalm": 0,
+        "vimeo/psalm": 20,
         "vlucas/phpdotenv": 0,
         "wapmorgan/php-deprecation-detector": 0,
         "wp-cli/wp-cli-bundle": 0,

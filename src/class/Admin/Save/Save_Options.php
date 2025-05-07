@@ -76,7 +76,7 @@ final class Save_Options extends Save_Helper {
 				add_action(
 					'init',
 					function() use ( $class_save, $imdburlstringtaxo ) {
-						\Lumiere\Alteration\Taxonomy::lumiere_static_start(
+						\Lumiere\Alteration\Taxonomy::start(
 							$class_save->imdb_admin_values['imdburlstringtaxo'],
 							$imdburlstringtaxo,
 							'update_old_taxo'

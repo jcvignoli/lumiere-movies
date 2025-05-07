@@ -53,34 +53,34 @@ final class Core extends Hooks_Updates {
 		 * https://developer.wordpress.org/reference/hooks/widgets_init/#comment-2643
 		 * They're not only for admin area, since they're executed in the frontpage as well
 		 */
-		add_action( 'widgets_init', [ 'Lumiere\Admin\Widget_Selection', 'lumiere_static_start' ] );
+		add_action( 'widgets_init', [ 'Lumiere\Admin\Widget_Selection', 'start' ] );
 
 		/**
 		 * Taxonomy, must be executed on the whole website
 		 */
-		add_action( 'init', [ 'Lumiere\Alteration\Taxonomy', 'lumiere_static_start' ], 10, 0 ); // @since 4.3: No need to pass args.
+		add_action( 'init', [ 'Lumiere\Alteration\Taxonomy', 'start' ], 10, 0 ); // @since 4.3: No need to pass args.
 
 		/**
 		 * Rewrite rules, must be executed on the whole website
 		 */
-		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'lumiere_static_start' ] );
+		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'start' ] );
 
 		/**
 		 * Admin
 		 */
-		add_action( 'init', [ 'Lumiere\Admin\Admin', 'init' ], 9 ); // Priority must be below 10.
+		add_action( 'init', [ 'Lumiere\Admin\Admin', 'start' ], 9 ); // Priority must be below 10.
 
 		/**
 		 * Frontpage
 		 */
-		add_action( 'init', [ 'Lumiere\Frontend\Frontend', 'lumiere_static_start' ] );
+		add_action( 'init', [ 'Lumiere\Frontend\Frontend', 'start' ] );
 
 		// Crons. Must be free of any conditions.
-		add_action( 'init', [ 'Lumiere\Admin\Crons\Cron', 'lumiere_cron_start' ] );
+		add_action( 'init', [ 'Lumiere\Admin\Crons\Cron', 'start' ] );
 
 		// WP-CLI commands, use the cli class.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			add_action( 'cli_init', [ 'Lumiere\Tools\Cli_Commands', 'lumiere_static_start' ] );
+			add_action( 'cli_init', [ 'Lumiere\Tools\Cli_Commands', 'start' ] );
 		}
 	}
 

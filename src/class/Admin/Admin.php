@@ -50,7 +50,7 @@ final class Admin {
 	 * Static start
 	 * @see \Lumiere\Core
 	 */
-	public static function init(): void {
+	public static function start(): void {
 
 		$start = new self();
 

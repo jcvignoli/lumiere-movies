@@ -60,8 +60,7 @@ final class Admin_Notifications {
 	/**
 	 * Static start, display notification if transients are found
 	 */
-	public static function lumiere_static_start(): void {
-
+	public static function start(): void {
 		$class = new self();
 		add_action( 'admin_notices', [ $class, 'admin_msg_transients' ], 11 );
 	}

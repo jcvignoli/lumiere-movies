@@ -57,7 +57,7 @@ final class Rewrite_Rules {
 	 *
 	 * @return void The class was instanciated
 	 */
-	public static function lumiere_static_start(): void {
+	public static function start(): void {
 		$rewrite_class = new self();
 	}
 

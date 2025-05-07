@@ -125,7 +125,7 @@ class Admin_Menu {
 		$is_lum_admin_menu = str_contains( $that->get_current_admin_url(), $that->page_main_base );
 		if ( $is_lum_admin_menu === true ) {
 			add_action( 'admin_notices', fn() => Detect_New_Theme::get_notif_templates( $that->page_data_movie_taxo ), 10, 1 );
-			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
+			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'start' ] );
 		}
 
 		/**

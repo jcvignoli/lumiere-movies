@@ -141,7 +141,7 @@ class Hooks_Updates {
 			$start_update_options->run_update_options();
 
 			set_transient( 'notice_lumiere_msg', 'lum_plugin_updated', 2 );
-			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'lumiere_static_start' ] );
+			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'start' ] );
 			delete_transient( 'lum_plugin_updated' );
 		}
 	}

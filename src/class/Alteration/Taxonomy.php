@@ -69,7 +69,7 @@ final class Taxonomy {
 	 * @see \Lumiere\Core class calling in ini hook (no arguments used)
 	 * @see \Lumiere\Admin\Save_Options in init hook (with arguments passed)
 	 */
-	public static function lumiere_static_start( string $old_taxonomy = '', string $new_taxonomy = '', string $action = '' ): void {
+	public static function start( string $old_taxonomy = '', string $new_taxonomy = '', string $action = '' ): void {
 		$taxonomy_class = new self( $old_taxonomy, $new_taxonomy, $action );
 	}
 

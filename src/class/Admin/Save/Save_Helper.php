@@ -2,7 +2,7 @@
 /**
  * Helper methods for admin options save.
  *
- * @copyright (c) 2024, Lost Highway
+ * @copyright (c) 2025, Lost Highway
  *
  * @version       1.0
  * @package       lumieremovies
@@ -21,7 +21,7 @@ use Lumiere\Config\Open_Options;
 /**
  * Helper methods for Save_Options
  *
- * @since 4.6 new
+ * @since 4.6
  */
 class Save_Helper {
 

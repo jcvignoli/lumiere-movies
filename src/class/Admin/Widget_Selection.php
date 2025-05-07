@@ -77,7 +77,7 @@ class Widget_Selection extends WP_Widget {
 	/**
 	 * Statically start the class
 	 */
-	public static function lumiere_static_start(): void {
+	public static function start(): void {
 		$self_class = new self();
 	}
 

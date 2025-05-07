@@ -115,7 +115,7 @@ final class Cli_Commands {
 	 * Starting static method
 	 * Will add the WP Cli main command and subcommand
 	 */
-	public static function lumiere_static_start(): void {
+	public static function start(): void {
 
 		WP_CLI::add_command(
 			'lum',

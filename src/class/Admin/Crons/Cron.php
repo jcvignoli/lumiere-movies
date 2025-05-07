@@ -75,7 +75,7 @@ final class Cron {
 	 *
 	 * @return void The class is instanciated
 	 */
-	public static function lumiere_cron_start(): void {
+	public static function start(): void {
 		$cron_class = new self();
 	}
 
