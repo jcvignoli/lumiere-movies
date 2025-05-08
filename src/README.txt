@@ -2,8 +2,8 @@
 Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor
 Requires at least: 5.6
-Tested up to: 6.8
-Stable tag: 4.6.1
+Tested up to: 6.8.1
+Stable tag: 4.6.2
 Requires PHP: 8.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html

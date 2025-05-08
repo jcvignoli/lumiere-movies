@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.6.2
+
 v.4.6.1
 * [feature] Blocks translation, much work on blocks and javascripts for WP Classic edition
 * [feature] Bootstrap popins are individually created by javascript (lumiere-bootstrap-links.js), on click only. This is much less code, so WordPress pages are smaller, so faster
