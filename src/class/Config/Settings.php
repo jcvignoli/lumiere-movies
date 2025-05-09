@@ -279,16 +279,19 @@ class Settings extends Settings_Helper {
 	 * Get FRONTEND vars for javascript
 	 * @see \Lumiere\Frontend\Frontend::frontpage_execute_assets() Include the vars
 	 * Used in wp_add_inline_script() function
+	 * @since 4.6.2 added polylang filter, that ensure the links take into accout Polylang /lang if Polylang is active
 	 *
 	 * @return string The full javascript piece to be included
 	 */
 	public static function get_scripts_frontend_vars(): string {
 		$imdb_admin_option = get_option( self::LUM_ADMIN_OPTIONS );
+		$urlpopup_film = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'film', site_url() ) );
+		$urlpopup_person = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'person', site_url() ) );
 		$scripts_vars = wp_json_encode(
 			[
 				'lum_path'            => LUM_WP_URL,
-				'urlpopup_film'       => Get_Options::get_popup_url( 'film', site_url() ),
-				'urlpopup_person'     => Get_Options::get_popup_url( 'person', site_url() ),
+				'urlpopup_film'       => $urlpopup_film,
+				'urlpopup_person'     => $urlpopup_person,
 				'popup_border_colour' => $imdb_admin_option['imdbpopuptheme'],
 				'popupLarg'           => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong'           => $imdb_admin_option['imdbpopuplong'],

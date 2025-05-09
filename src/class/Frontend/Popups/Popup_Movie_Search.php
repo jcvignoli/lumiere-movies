@@ -29,6 +29,7 @@ use Lumiere\Config\Get_Options_Movie;
  * @see \Lumiere\Popups\Popup_Select Redirect to here according to the query var 'popup' in URL
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
  * @since 4.3 is child class
+ * @since 4.6.2 Links are Polylang compatible
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  */
 final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
@@ -37,6 +38,18 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 	 * Movie's title
 	 */
 	private string $page_title;
+
+	/**
+	 * Full main URL
+	 * @since 4.6.2
+	 */
+	private string $popup_url_perso;
+
+	/**
+	 * Full URL to search URL
+	 * @since 4.6.2
+	 */
+	private string $popup_url_film;
 
 	/**
 	 * Constructor
@@ -50,6 +63,9 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 		 * Build the properties.
 		 */
 		$this->page_title = $this->get_title( Validate_Get::sanitize_url( 'film' ) );
+		// If polylang plugin is active, rewrite the URL to append the lang string
+		$this->popup_url_perso = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'person', site_url() ) );
+		$this->popup_url_film = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'film', site_url() ) );
 
 		/**
 		 * Display title
@@ -187,7 +203,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 				echo "\n\t\t" . wp_kses(
 					$this->output_popup_class->get_link(
 						'internal_with_spinner',
-						wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $res['titleSearchObject']->imdbid() ),
+						wp_nonce_url( $this->popup_url_film . '?mid=' . $res['titleSearchObject']->imdbid() ),
 						$res['titleSearchObject']->title()
 					),
 					[
@@ -210,7 +226,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 					echo "\t\t" . wp_kses(
 						$this->output_popup_class->get_link(
 							'internal_with_spinner',
-							wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $realisateur['0']['imdb'] ),
+							wp_nonce_url( $this->popup_url_perso . '?mid=' . $realisateur['0']['imdb'] ),
 							$realisateur['0']['name']
 						),
 						[

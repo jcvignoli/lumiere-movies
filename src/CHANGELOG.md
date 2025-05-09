@@ -1,6 +1,8 @@
 **Changelog**
 
 v.4.6.2
+* [feature] All popups links built in frontend now respect the lang of Polylang plugin
+* [bug] Inside the popups, the links were not including the Polylang plugin lang
 
 v.4.6.1
 * [feature] Blocks translation, much work on blocks and javascripts for WP Classic edition

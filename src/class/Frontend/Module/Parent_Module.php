@@ -50,13 +50,17 @@ class Parent_Module {
 	 * Add a nounce
 	 * Should be used in POPUPS
 	 * Caution: these links ARE NOT changed according to Linkmaker classes
+	 *
+	 * @since 4.6.2 added polylang filter, that ensure the links take into accout Polylang /lang if Polylang is active
+	 *
 	 * @param string $imdb_id The imdb id of the person
 	 * @param string $name The person's name
 	 */
 	protected function get_person_url( string $imdb_id, string $name = '' ): string {
+		$url = wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdb_id );
 		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(
 			'internal_with_spinner',
-			wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdb_id ),
+			apply_filters( 'lum_polylang_rewrite_url_with_lang', $url ), // Polylang filter, adds "/lang" to URL if active.
 			$name,
 		);
 	}
@@ -65,15 +69,18 @@ class Parent_Module {
 	 * Build internal url for movies (no popup)
 	 * Adds a nounce
 	 * Should be used in POPUPS
-	 *
 	 * Caution: these links ARE NOT changed according to Linkmaker classes
+	 *
+	 * @since 4.6.2 added polylang filter, that ensure the links take into accout Polylang /lang if Polylang is active
+	 *
 	 * @param string $imdb_id The imdb id of the movie
 	 * @param string $title The movie's title
 	 */
 	protected function get_film_url( string $imdb_id, string $title = '' ): string {
+		$url = wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $imdb_id );
 		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(
 			'internal_with_spinner',
-			wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $imdb_id ),
+			apply_filters( 'lum_polylang_rewrite_url_with_lang', $url ), // Polylang filter, adds "/lang" to URL if active.
 			$title,
 		);
 	}

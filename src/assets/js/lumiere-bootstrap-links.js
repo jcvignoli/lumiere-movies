@@ -97,11 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	/** bootstrap popup **Movie by IMDb Title**, data-modal_window_film */
 	jQuery('a[data-modal_window_film]').on('click', (event) => {
-	addSpinnerAndLoadModal(event, 'modal_window_film', lumiere_vars.urlpopup_film, 'film');
+		addSpinnerAndLoadModal(event, 'modal_window_film', lumiere_vars.urlpopup_film, 'film');
 	});
 
 	/** bootstrap popup **Movie by IMDb ID**, data-modal_window_filmid */
 	jQuery('a[data-modal_window_filmid]').on('click', (event) => {
-	addSpinnerAndLoadModal(event, 'modal_window_filmid', lumiere_vars.urlpopup_film, 'mid');
+		addSpinnerAndLoadModal(event, 'modal_window_filmid', lumiere_vars.urlpopup_film, 'mid');
 	});
 });

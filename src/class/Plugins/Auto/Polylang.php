@@ -348,13 +348,15 @@ final class Polylang {
 	 * @return string The URL with Polylang lang
 	 * @since 3.11
 	 * @since 4.3 Moved from Trait frontend Main to this Polylang class
-	 * @see Popups classes, that are not taken into charge by Polylang
+	 * @since 4.6.2 new condition to avoid putting twice the "/lang"
+	 * @see Popups (and @link \Lumiere\Frontend\Module\Parent_Module) classes, that are not taken into charge by Polylang
 	 */
 	public function rewrite_url_with_lang( string $url ): string {
-
 		// Do not replaced twice (do not add the "/lang" twice if multiple calls are made)
-		if ( ! str_contains( $url, trim( pll_home_url(), '/' ) )  ) {
-			$replace_url = str_replace( home_url(), trim( pll_home_url(), '/' ), $url );
+		/** @psalm-suppress PossiblyInvalidArgument (Argument 1 of pll_home_url expects string, but possibly different type PLL_Language|false|string provided) */
+		if ( pll_current_language() !== pll_default_language() && is_string( pll_current_language() ) && ! str_contains( $url, pll_home_url( pll_current_language() ) ) ) {
+			/** @psalm-suppress PossiblyInvalidArgument (Argument 1 of pll_home_url expects string, but possibly different type PLL_Language|false|string provided) */
+			$replace_url = str_replace( home_url(), trim( pll_home_url( pll_current_language() ), '/' ), $url );
 			return trim( $replace_url, '/' );
 		}
 		return $url;
