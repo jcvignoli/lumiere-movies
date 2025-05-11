@@ -1,5 +1,5 @@
 {
-    "landingPage": "/wp-admin/admin.php?page=lumiere_options",
+    "landingPage": "/?p=5",
     "preferredVersions": {
         "php": "8.1",
         "wp": "latest"
@@ -12,19 +12,58 @@
     },
     "steps": [
         {
-            "step": "login",
-            "username": "admin",
-            "password": "password"
-        },
-        {
             "step": "installPlugin",
-            "pluginZipFile": {
-                "resource": "url",
-                "url": "https:\/\/downloads.wordpress.org\/plugin\/lumiere-movies.4.6.zip"
-            },
-            "options": {
-                "activate": true
+            "pluginData": {
+                "resource": "wordpress.org/plugins",
+                "slug": "lumiere-movies"
             }
-        }
+        },
+	{
+		"step": "installTheme",
+		"themeData": {
+			"resource": "wordpress.org/themes",
+			"slug": "twentytwentyone"
+		}
+	},
+	{
+	    "step": "runPHP",
+	    "code": "<?php\ninclude 'wordpress/wp-load.php';\nwp_insert_post(array(\n'import_id' => 5,\n'post_title' => 'Test Lumiere',\n'post_content' => '<!-- wp:paragraph --><p>test with into the wild</p><!-- /wp:paragraph --><!-- wp:lumiere/main {\"lumiere_imdblt_select\":\"lum_movie_title\",\"content\":\"into the wild\"} -->\n<div class=\"wp-block-lumiere-main\"><span data-lum_movie_maker=\"lum_movie_title\">into the wild</span></div>\n<!-- /wp:lumiere/main -->',\n'post_status' => 'publish',\n'post_author' => 1\n));"
+	},
+	{
+		"step": "wp-cli",
+		"command": "wp lum update_options admin --imdbdebug=1"
+	},
+	{
+		"step": "wp-cli",
+		"command": "wp lum update_options admin --imdbdebuglevel=DEBUG"
+	},
+	{
+		"step": "wp-cli",
+		"command": "wp lum copy_taxo people --template=director"
+	},
+	{
+		"step": "wp-cli",
+		"command": "wp lum copy_taxo items --template=genre"
+	},
+	{
+		"step": "wp-cli",
+		"command": "wp post meta add 5 _lum_form_type_query 'lum_person_name'"
+	},
+	{
+		"step": "wp-cli",
+		"command": "wp post meta add 5 _lum_person_name_widget 'stanley kubrick'"
+	},
+	{
+		"step": "wp-cli",
+		"command": "wp post meta add 5 _lum_autotitle_perpost '1'"
+	},
+	{
+		"step": "wp-cli",
+		"command": "wp widget add block sidebar-1 1 --content='<!-- wp:lumiere/widget --><div class='wp-block-lumiere-widget'>Lumière Movies</div><!-- /wp:lumiere/widget -->'"
+	},
+	{
+		"step": "wp-cli",
+		"command": "wp lum update_options admin --imdbautopostwidget=1"
+	}
     ]
 }

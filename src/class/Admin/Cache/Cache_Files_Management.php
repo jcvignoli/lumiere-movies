@@ -479,7 +479,7 @@ final class Cache_Files_Management {
 			}
 		}
 		if ( count( $files ) > 0 ) {
-			$this->logger->log?->debug( '[Cache_Tools] Oversized Cache cron deleted the following files: ' . implode( '\n-', $files ) );
+			$this->logger->log?->debug( '[Cache_Tools] Oversized Cache cron deleted the following files: ' . implode( "\n-", $files ) );
 			return;
 		}
 		$this->logger->log?->debug( '[Cache_Tools] Oversized Cache cron did not find any file to delete' );
