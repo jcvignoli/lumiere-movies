@@ -40,6 +40,10 @@
 		<!-- Using Psr-4 filenames for composer -->
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		
+		<!-- Deprecated -->
+		<exclude name="Generic.Functions.CallTimePassByReference" />
+		<exclude name="Squiz.WhiteSpace.LanguageConstructSpacing" />
 	</rule> 
 
 	<!-- Include the WordPress-Extra standard.-->
