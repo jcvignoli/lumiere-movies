@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b11c502d765653df44f8d1bd26cde3db",
+    "content-hash": "0e09d7a63722656368a96499f900fc7e",
     "packages": [],
     "packages-dev": [
         {
@@ -3661,28 +3661,28 @@
         },
         {
             "name": "lipemat/phpstan-wordpress",
-            "version": "4.0.1",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lipemat/phpstan-wordpress.git",
-                "reference": "1976f11a1e4a93bc772628d25de79a0a55466d1f"
+                "reference": "0e63d829048add5f00d4d426b21baab3ac5a2805"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lipemat/phpstan-wordpress/zipball/1976f11a1e4a93bc772628d25de79a0a55466d1f",
-                "reference": "1976f11a1e4a93bc772628d25de79a0a55466d1f",
+                "url": "https://api.github.com/repos/lipemat/phpstan-wordpress/zipball/0e63d829048add5f00d4d426b21baab3ac5a2805",
+                "reference": "0e63d829048add5f00d4d426b21baab3ac5a2805",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
                 "php-stubs/wp-cli-stubs": "^2.11.0",
                 "phpstan/extension-installer": "^1.4.3",
-                "phpstan/phpstan": "^2.1.8",
+                "phpstan/phpstan": "^2.1.11",
                 "szepeviktor/phpstan-wordpress": "^2.0.1"
             },
             "require-dev": {
                 "phpstan/phpstan-deprecation-rules": "^2.0.1",
-                "phpstan/phpstan-strict-rules": "^2.0.3",
+                "phpstan/phpstan-strict-rules": "^2.0.4",
                 "roave/security-advisories": "dev-latest"
             },
             "type": "phpstan-extension",
@@ -3705,7 +3705,7 @@
             "description": "Phpstan extension for working with WordPress",
             "support": {
                 "issues": "https://github.com/lipemat/phpstan-wordpress/issues",
-                "source": "https://github.com/lipemat/phpstan-wordpress/tree/4.0.1"
+                "source": "https://github.com/lipemat/phpstan-wordpress/tree/4.1.0"
             },
             "funding": [
                 {
@@ -3713,7 +3713,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-21T01:47:57+00:00"
+            "time": "2025-05-08T21:14:04+00:00"
         },
         {
             "name": "lucatume/wp-browser",
@@ -12571,31 +12571,30 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "automattic/phpcs-neutron-ruleset": 0,
+        "lucatume/wp-browser": 0,
         "codeception/module-asserts": 0,
-        "codeception/module-cli": 0,
-        "codeception/module-db": 0,
-        "codeception/module-filesystem": 0,
         "codeception/module-phpbrowser": 0,
         "codeception/module-webdriver": 0,
+        "codeception/module-db": 0,
+        "codeception/module-filesystem": 0,
+        "codeception/module-cli": 0,
         "codeception/util-universalframework": 0,
-        "dealerdirect/phpcodesniffer-composer-installer": 0,
-        "lipemat/phpstan-wordpress": 0,
-        "lucatume/wp-browser": 0,
-        "phan/phan": 0,
-        "php-stubs/wp-cli-stubs": 0,
-        "phpmd/phpmd": 0,
-        "phpseclib/phpseclib": 0,
-        "phpstan/phpstan": 0,
-        "phpstan/phpstan-strict-rules": 0,
-        "skaut/wordpress-stubs": 20,
-        "squizlabs/php_codesniffer": 0,
-        "szepeviktor/phpstan-wordpress": 0,
-        "vimeo/psalm": 20,
         "vlucas/phpdotenv": 0,
-        "wapmorgan/php-deprecation-detector": 0,
         "wp-cli/wp-cli-bundle": 0,
-        "wp-coding-standards/wpcs": 0
+        "phpseclib/phpseclib": 0,
+        "squizlabs/php_codesniffer": 0,
+        "wp-coding-standards/wpcs": 0,
+        "phpmd/phpmd": 0,
+        "phpstan/phpstan": 0,
+        "automattic/phpcs-neutron-ruleset": 0,
+        "dealerdirect/phpcodesniffer-composer-installer": 0,
+        "phan/phan": 0,
+        "skaut/wordpress-stubs": 20,
+        "phpstan/phpstan-strict-rules": 0,
+        "szepeviktor/phpstan-wordpress": 0,
+        "vimeo/psalm": 0,
+        "wapmorgan/php-deprecation-detector": 0,
+        "php-stubs/wp-cli-stubs": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -12604,9 +12603,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.3"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
