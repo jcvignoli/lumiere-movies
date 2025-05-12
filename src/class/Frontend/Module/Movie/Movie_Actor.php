@@ -79,7 +79,7 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated
-	 * Array of results is sorted by column
+	 * @since 4.6.2 Click more added, since a lot of actors are displayed in popup main display
 	 *
 	 * @param 'actor' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
@@ -89,14 +89,26 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$output = $this->output_class->misc_layout( 'popup_subtitle_item', ucfirst( Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ] ) );
 
+		$nb_rows_click_more = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : $nb_total_items; /** max number of movies before breaking with "see all" */
+
 		// Sort by column name the array of results.
-		$column_item_results = array_column( $item_results, 'name' );
-		array_multisort( $column_item_results, SORT_ASC, $item_results );
+		// $column_item_results = array_column( $item_results, 'name' );
+		// array_multisort( $column_item_results, SORT_ASC, $item_results ); // Keep sorting by actor popularity
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
-			if ( $i < $nb_total_items - 1 ) {
+
+			// Display a "show more" after XX results
+			if ( $i === $nb_rows_click_more ) {
+				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
+				$output .= $isset_next === true ? $this->output_class->misc_layout( 'see_all_start' ) : '';
+			}
+			if ( $i > 0 && $i < $nb_total_items - 1 && $i !== $nb_rows_click_more ) {
 				$output .= ', ';
+			}
+			$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
+
+			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
+				$output .= $this->output_class->misc_layout( 'see_all_end' );
 			}
 		}
 		return $output;
