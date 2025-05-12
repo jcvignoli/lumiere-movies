@@ -2,16 +2,7 @@
   "name": "lumiereWordpress",
   "description": "Lumière Movies WordPress plugin",
   "private": true,
-  "keywords": [
-    "movies",
-    "taxonomy",
-    "widget",
-    "movie stars",
-    "imdb",
-    "wordpress",
-    "plugin",
-    "film"
-  ],
+  "keywords": [ "movies", "taxonomy", "widget", "movie stars", "imdb", "wordpress", "plugin", "film" ],
   "author": "JC Vignoli <dev@jcvignoli.com> (https://www.jcvignoli.com)",
   "homepage": "https://github.com/jcvignoli/lumiere-movies#README",
   "license": "GPL-3.0",
