@@ -33,39 +33,23 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 
 			<div class="lumiere_flex_one lumiere_padding_ten">
 
-				<label class="lumiere_display_block lumiere_labels" for="imdb_imdblanguage"><?php esc_html_e( 'Search language', 'lumiere-movies' ); ?></label>
-				<select id="imdb_imdblanguage" name="imdb_imdblanguage">
-					<option 
-					<?php
-					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'US' ) {
+				<label class="lumiere_display_block lumiere_labels" for="imdb_imdblanguage"><?php esc_html_e( "Movie's title language", 'lumiere-movies' ); ?></label>
+				<select id="imdb_imdblanguage" name="imdb_imdblanguage"><?php
+					$lum_lang_translations = wp_get_available_translations();   // All WordPress languages with translation.
+					$lum_languages = get_available_languages();             // Installed WordPress languages.
+				foreach ( $lum_languages as $lum_language ) {
+					$lum_lang = explode( '_', $lum_language );
+					$lum_lang = strtoupper( $lum_lang[0] );
+					echo "\n\t\t\t\t\t<option ";
+					if ( isset( $lumiere_imdb_admin_values['imdblanguage'] ) && $lumiere_imdb_admin_values['imdblanguage'] === $lum_lang ) {
 						echo 'selected="selected" ';
 					}
-					?>
-					value="US"><?php esc_html_e( 'English', 'lumiere-movies' ); ?></option>
-					<option 
-					<?php
-					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'FR' ) {
-						echo 'selected="selected"';}
-					?>
-					value="FR"><?php esc_html_e( 'French', 'lumiere-movies' ); ?></option>
-					<option 
-					<?php
-					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'DE' ) {
-						echo 'selected="selected"';}
-					?>
-					value="DE"><?php esc_html_e( 'German', 'lumiere-movies' ); ?></option>
-					<option 
-					<?php
-					if ( $lumiere_imdb_admin_values['imdblanguage'] === 'ES' ) {
-						echo 'selected="selected"';}
-					?>
-					value="ES"><?php esc_html_e( 'Spanish', 'lumiere-movies' ); ?></option>
+					echo 'value="' . esc_attr( $lum_lang ) . '">' . esc_html( $lum_lang_translations[ $lum_language ]['native_name'] ) . "</option>\n";
+				}
+				?>
 				</select>
 
-				<div class="explain"><?php esc_html_e( 'Language used for the movie search. Very usefull for a non-English blog using Lumière! as a widget.', 'lumiere-movies' ); ?>
-					<br>
-					<br>
-					<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "English"
+				<div class="explain"><?php esc_html_e( "Language used to display movie's title.", 'lumiere-movies' ); ?>
 				</div>
 			</div>
 

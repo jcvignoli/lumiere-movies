@@ -324,6 +324,10 @@ class Settings extends Settings_Helper {
 			$debug_path = ABSPATH . WP_DEBUG_LOG;
 		}
 
+		// Get the lang from installed blog lang
+		$lang = explode( '-', get_bloginfo( 'language' ) );
+		$lang = strtoupper( $lang[0] );
+
 		$imdb_admin_options = [
 			//--------------------------------------------------=[ Basic ]=--
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
@@ -343,7 +347,7 @@ class Settings extends Settings_Helper {
 			'imdbintotheposttheme'        => 'grey',
 			'imdblinkingkill'             => '0',
 			'imdbautopostwidget'          => '0',
-			'imdblanguage'                => 'US',
+			'imdblanguage'                => $lang,
 			'imdbdebug'                   => '0',                        /* Debug */
 			'imdbdebuglog'                => '0',                        /* Log debug */
 			/** @phpstan-ignore nullCoalesce.variable (PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool) */
