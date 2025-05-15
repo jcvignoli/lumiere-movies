@@ -75,7 +75,7 @@ class Updates {
 
 		// Count the number of files in class/updates/
 		$update_files = glob( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH . '/Lumiere_Update_File_*.php' );
-		$last_update_number_filename = is_array( $update_files ) && count( $update_files ) === 1 ? preg_replace( '/[^0-9]/', '', max( $update_files ) ) : 0;
+		$last_update_number_filename = is_array( $update_files ) && count( $update_files ) > 0 ? preg_replace( '/[^0-9]/', '', max( $update_files ) ) : 0;
 		$number_updates = intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) - 1;
 
 		if ( $number_updates >= $last_update_number_filename ) {

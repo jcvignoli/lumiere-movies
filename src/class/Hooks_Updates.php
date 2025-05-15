@@ -127,7 +127,7 @@ class Hooks_Updates {
 
 		$current_admin = get_option( Get_Options::get_admin_tablename() );
 		$update_files = glob( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH . '/Lumiere_Update_File_*.php' );
-		$last_update_number_filename = is_array( $update_files ) && count( $update_files ) === 1 ? preg_replace( '/[^0-9]/', '', max( $update_files ) ) : 0;
+		$last_update_number_filename = is_array( $update_files ) && count( $update_files ) > 0 ? preg_replace( '/[^0-9]/', '', max( $update_files ) ) : 0;
 
 		// Check if the number of updates in database is greater than the number of update files in updates folder
 		if ( isset( $current_admin['imdbHowManyUpdates'] ) && $current_admin['imdbHowManyUpdates'] <= $last_update_number_filename ) {
