@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Specific Class for updating : ************************ Lumière version 4.6, update 22
+ * Specific Class for updating : ************************ Lumière version 4.6.2, update 24
  * Child of Updates class
  *
  * This class updates data for a new Lumière version
@@ -20,25 +20,24 @@
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Get_Options_Person;
 
 /**
  * The logic is in the parent class, the data in the current child class
  * -> Everytime an update is processed, imdbHowManyUpdates is automatically increased by 1 (in child class)
  */
-final class Lumiere_Update_File_22 extends \Lumiere\Updates {
+final class Lumiere_Update_File_24 extends \Lumiere\Updates {
 
 	/**
 	 * Version of Lumière! that can trigger the update
 	 */
-	const LUMIERE_VERSION_UPDATE = '4.6';
+	const LUMIERE_VERSION_UPDATE = '4.6.2';
 
 	/**
 	 * Number of updates that can trigger the update
 	 * Must match both the filname and classname
 	 * Each update child class must have an unique number
 	 */
-	const LUMIERE_NUMBER_UPDATE = 22;
+	const LUMIERE_NUMBER_UPDATE = 24;
 
 	/**
 	 * Run the local update if lumiere_check_if_run_update() was successful
@@ -66,17 +65,19 @@ final class Lumiere_Update_File_22 extends \Lumiere\Updates {
 		/** ------------------------- Editing part (beginning) --------------
 		 */
 
-		/**
-		 * Create new database for person
-		 */
-		$imdb_data_person_options = get_option( Get_Options_Person::get_data_person_tablename() );
+		$imdb_admin_options = get_option( Get_Options::get_admin_tablename() );
 
-		if ( $imdb_data_person_options === false ) {
-			\Lumiere\Config\Settings::create_database_options();
-			$text = 'Lumière database person options successfully updated.';
+		/**
+		 * Change 'prodcompany' to 'prodCompany' to LUM_DATA_OPTIONS
+		 * Change the name var to match imdbphp library method names, retrieving the saved value and setting the new value with it
+		 */
+		$data_lang = $imdb_admin_options['imdblanguage'] ?? false;
+		if ( $data_lang === false || $data_lang === 'US' ) {
+			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'EN' );
+			$text = 'Lumière option imdblanguage did not exist or was set on "US", successfully updated to "EN".';
 			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-			$text = 'Lumière database person options already exist, no change.';
+			$text = 'Lumière option imdblanguage was not updated, it is already set to ' . $data_lang;
 			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
