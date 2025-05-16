@@ -56,6 +56,11 @@ final class Imdbphp extends Imdbphp_Config {
 		$this->throwHttpExceptions = false; // Not an option in Lumière!, prevent throwing Exceptions that stop the execution and prevent pages display
 		$this->useLocalization = true; // Not an option in Lumière!, always use localization
 		//$this->language = ''; // Disable language so it's not used but $this->country only.
+		/**
+		 * string country set country code
+		 * possible values:
+		 * EN (English), FR (French), ES (Spanish), etc.
+		 */
 		$this->country = $imdb_admin_values['imdblanguage'];
 		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
 		$this->photodir = $imdb_cache_values['imdbphotodir'];// ?imdbphotoroot? Bug imdbphp?
