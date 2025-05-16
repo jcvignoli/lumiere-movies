@@ -77,7 +77,7 @@ final class Lumiere_Update_File_24 extends \Lumiere\Updates {
 			$text = 'Lumière option imdblanguage did not exist or was set on "US", successfully updated to "EN".';
 			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-			$text = 'Lumière option imdblanguage was not updated, it is already set to ' . $data_lang;
+			$text = 'Lumière option imdblanguage was not updated, it is already set to *' . $data_lang . '*';
 			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
