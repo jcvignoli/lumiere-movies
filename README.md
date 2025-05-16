@@ -4,7 +4,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
 **Tested up to:** 6.8 \
-**Stable tag:** 4.6.1 \
+**Stable tag:** 4.6.2 \
 **Requires PHP:** 8.1 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -186,7 +186,7 @@ Full list of changes is available on [GitHub](https://github.com/jcvignoli/lumie
 
 ### 4.6.1
 
-All gutenberg blocks are compatible with api version 3. Lumière sidebar is made of gutenberg block if using WordPress > 5.8
+All gutenberg blocks are compatible with api version 3. Lumière sidebar is made of gutenberg block if using WordPress > 5.8. No more conflicting libraries with other plugins, evey class is namespaced with Lumière.
 
 ### 4.6
 
@@ -208,7 +208,7 @@ The base library is now IMDbGraphQL. Taxonomy deeply changed, forms in taxonomy 
 
 ### 4.6.1
 
-Lumière widget has changed. Visit the widget page, click on "recover" the widget, and save.
+Many core library names have changed, expect a fatal error when updating. No worries nevertheless, it's for the greater good.
 
 ### 4.4
 
