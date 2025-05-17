@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 
 use Lumiere\Plugins\Logger;
 use Lumiere\Config\Open_Options;
-use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Helper;
 
 /**
  * The updating rules are in this current parent class, the data to be updated are in child classes (in /updates folder)
@@ -73,22 +73,20 @@ class Updates {
 			return;
 		}
 
-		// Count the number of files in class/updates/
-		$update_files = glob( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH . '/Lumiere_Update_File_*.php' );
-		$last_update_number_filename = is_array( $update_files ) && count( $update_files ) > 0 ? preg_replace( '/[^0-9]/', '', max( $update_files ) ) : 0;
-		$number_updates = intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) - 1;
+		$file_number_plus_one = Settings_Helper::get_nb_updates();          // Latest number of file name update + 1
+		$number_updates = intval( $this->imdb_admin_values['imdbHowManyUpdates'] );     // Number of updates run + 1
 
-		if ( $number_updates >= $last_update_number_filename ) {
+		if ( $number_updates >= $file_number_plus_one ) {
 			$this->logger->log?->debug( '[updateClass] Already up-to-date, exit' );
 			return;
 		}
 
-		set_transient( 'lum_update_started', 'locked', 240 );
+		set_transient( 'lum_update_started', 'locked', 240 );               // No new update can take place during 4 min when an update started
 
-		$this->logger->log?->debug( '[updateClass] Number of updates found: ' . strval( $last_update_number_filename ) );
+		$this->logger->log?->debug( '[updateClass] Number of updates files found: ' . strval( $file_number_plus_one ) . ', but update db number: ' . strval( $number_updates ) );
 
 		// Iteration for each class in class/updates/
-		for ( $i = 1; $i <= $last_update_number_filename; $i++ ) {
+		for ( $i = 1; $i <= $file_number_plus_one; $i++ ) {
 
 			if ( $i < $number_updates ) {
 				continue;

@@ -38,18 +38,23 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 				$lum_lang_translations = wp_get_available_translations();   // All WordPress languages with translation.
 				$lum_languages = get_available_languages();                 // Installed WordPress languages.
 				foreach ( $lum_languages as $lum_language ) {
-					$lum_lang = explode( '_', $lum_language );
-					$lum_lang = strtoupper( $lum_lang[0] );
 					echo "\n\t\t\t\t\t<option ";
-					if ( isset( $lum_imdb_admin_values['imdblanguage'] ) && $lum_imdb_admin_values['imdblanguage'] === $lum_lang ) {
+					if ( isset( $lum_imdb_admin_values['imdblanguage'] ) && $lum_imdb_admin_values['imdblanguage'] === $lum_language ) {
 						echo 'selected="selected" ';
 					}
-					echo 'value="' . esc_attr( $lum_lang ) . '">' . esc_html( $lum_lang_translations[ $lum_language ]['native_name'] ) . "</option>\n";
+					echo 'value="' . esc_attr( $lum_language ) . '">' . esc_html( $lum_lang_translations[ $lum_language ]['native_name'] ) . "</option>\n";
 				}
 				?>
 				</select>
-
-				<div class="explain"><?php esc_html_e( "Language used to display movie's title.", 'lumiere-movies' ); ?>
+				<div class="explain">
+					<?php esc_html_e( "Language used to display movie's title.", 'lumiere-movies' ); ?>
+					<br>
+					<br>
+					<?php
+					esc_html_e( 'Default:', 'lumiere-movies' );
+					echo ' ';
+					$lum_current_lang = str_replace( '-', '_', get_bloginfo( 'language' ) );
+					echo esc_html( $lum_lang_translations[ $lum_current_lang ]['native_name'] ); ?>
 				</div>
 			</div>
 

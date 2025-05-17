@@ -15,7 +15,6 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use FilesystemIterator;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
@@ -40,13 +39,26 @@ class Settings_Helper {
 
 	/**
 	 * Define the number of updates on first install
-	 * Find the number of files in updates folder
+	 * Find the number of the last file number in updates folder, ie Lumiere_Update_File_24.php => 24
+	 * Adding +1 so only the next update is executed
 	 *
-	 * @return string The number of files found
+	 * @return string The last number in file number found plus one
 	 */
-	protected function get_nb_updates(): string {
-		$files = new FilesystemIterator( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH, \FilesystemIterator::SKIP_DOTS );
-		return strval( iterator_count( $files ) + 1 );
+	public static function get_nb_updates(): string {
+		$update_files = glob( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH . '/Lumiere_Update_File_*.php' );
+		// Extract the Lumiere_Update_File_"XX" number
+		$last_nb = is_array( $update_files ) && count( $update_files ) > 0 ? preg_replace( '/[^0-9]/', '', $update_files ) : [];
+		// Convert the number to three digits if it is lower than 100 => compatibility
+		/** @psalm-suppress PossiblyNullArgument (PHPStan says otherwise) */
+		$three_digits = array_map(
+			function( string $last_nb ) {
+				return sprintf( '%03s', $last_nb );
+			},
+			$last_nb
+		);
+		// Get the highest number, remove heading 0
+		$highest_number = count( $three_digits ) > 0 ? (int) ltrim( max( $three_digits ), '0' ) : 0;
+		return strval( $highest_number + 1 );
 	}
 
 	/**

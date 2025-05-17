@@ -57,11 +57,9 @@ final class Imdbphp extends Imdbphp_Config {
 		$this->useLocalization = true; // Not an option in Lumière!, always use localization
 		//$this->language = ''; // Disable language so it's not used but $this->country only.
 		/**
-		 * string country set country code
-		 * possible values:
-		 * EN (English), FR (French), ES (Spanish), etc.
+
 		 */
-		$this->country = $imdb_admin_values['imdblanguage'];
+		$this->country = $this->convert_lang( $imdb_admin_values['imdblanguage'] );
 		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
 		$this->photodir = $imdb_cache_values['imdbphotodir'];// ?imdbphotoroot? Bug imdbphp?
 		$this->cacheExpire = intval( $imdb_cache_values['imdbcacheexpire'] );
@@ -83,6 +81,19 @@ final class Imdbphp extends Imdbphp_Config {
 		$this->cacheUse = true;
 		$this->cacheStore = true;
 		$this->cacheUseZip = true;
+	}
+
+	/**
+	 * Convert the WordPress style language to IMDbphp style
+	 * @param string $language lang in WP style, ie en_GB, fr_FR, es_ES
+	 * country set country code
+	 * possible values:
+	 * EN (English), FR (French), ES (Spanish), etc.
+	 * @return string language in two positions, ie EN, FR, ES
+	 */
+	private function convert_lang( string $language ): string {
+		$lang_shortened = explode( '_', $language );
+		return strtoupper( $lang_shortened[0] );
 	}
 
 	/**

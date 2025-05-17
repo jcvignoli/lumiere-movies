@@ -68,13 +68,24 @@ final class Lumiere_Update_File_24 extends \Lumiere\Updates {
 		$imdb_admin_options = get_option( Get_Options::get_admin_tablename() );
 
 		/**
-		 * Change 'prodcompany' to 'prodCompany' to LUM_DATA_OPTIONS
-		 * Change the name var to match imdbphp library method names, retrieving the saved value and setting the new value with it
+		 * Change the language format, get rid of the "US" which is wrong
 		 */
 		$data_lang = $imdb_admin_options['imdblanguage'] ?? false;
 		if ( $data_lang === false || $data_lang === 'US' ) {
-			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'EN' );
-			$text = 'Lumière option imdblanguage did not exist or was set on "US", successfully updated to "EN".';
+			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'en_GB' );
+			$text = 'Lumière option imdblanguage did not exist or was set on "US", successfully updated to "en_GB".';
+			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} elseif ( $data_lang === 'ES' ) {
+			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'es_ES' );
+			$text = 'Lumière option imdblanguage was set on "ES", successfully updated to "es_ES".';
+			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} elseif ( $data_lang === 'FR' ) {
+			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'fr_FR' );
+			$text = 'Lumière option imdblanguage was set on "FR", successfully updated to "fr_FR".';
+			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} elseif ( $data_lang === 'DE' ) {
+			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'de_DE' );
+			$text = 'Lumière option imdblanguage was set on "DE", successfully updated to "de_DE".';
 			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdblanguage was not updated, it is already set to *' . $data_lang . '*';
