@@ -3,8 +3,9 @@
 v.4.6.2
 * [feature] All popups links built in frontend now respect the lang of Polylang plugin
 * [feature] Limiting the number of actors in the first popup page displayed (a click more link on the position defined in admin movie actors number)
-* [technical] Better explained the purposed of language in advanced options, displaying the full language
 * [bug] Inside the popups, the links did not include the Polylang plugin lang, so it wasn't translated
+* [technical] Better explained the purposed of language in advanced options, displaying the full language
+* [technical] Less files for update (removed 19 files in update folder, rewritten update process)
 
 v.4.6.1
 * [feature] Blocks translation, much work on blocks and javascripts for WP Classic edition
