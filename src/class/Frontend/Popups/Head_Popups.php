@@ -120,7 +120,7 @@ class Head_Popups {
 		remove_action( 'wp_head', 'rsd_link' ); // remove really simple discovery link
 		remove_action( 'wp_head', 'adjacent_posts_rel_link', 10 ); // remove the next and previous post links
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10 );
-		remove_action( 'wp_head', 'feed_links', 2 ); // remove rss feed links (make sure you add them in yourself if youre using feedblitz or an rss service)
+		remove_action( 'wp_head', 'feed_links', 2 ); // remove rss feed links
 		remove_action( 'wp_head', 'feed_links_extra', 3 ); // removes all extra rss feed links
 		remove_action( 'wp_head', 'wp_generator' ); // remove WordPress version
 		remove_action( 'wp_head', 'wp_site_icon', 99 ); // Prevent WordPress from inserting favicons.
