@@ -1,3 +1,5 @@
+[![CodeQL](https://github.com/jcvignoli/lumiere-movies/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/jcvignoli/lumiere-movies/actions/workflows/github-code-scanning/codeql)
+
 # Lumière Movies
 
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
