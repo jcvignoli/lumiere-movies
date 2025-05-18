@@ -12,7 +12,7 @@
  * Description:       Add movies/persons data to your blog with info from IMDb. Display it in your popups, widget and inside your post.
  * Author:            psykonevro
  * Author URI:        https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
- * Version:           4.6.2
+ * Version:           4.6.3
  * Text Domain:       lumiere-movies
  * Requires at least: 5.6
  * Requires PHP:      8.1

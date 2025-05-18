@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.6.3
+
 v.4.6.2
 * [feature] All popups links built in frontend now respect the lang of Polylang plugin
 * [feature] Limiting the number of actors in the first popup page displayed (a click more link on the position defined in admin movie actors number)
