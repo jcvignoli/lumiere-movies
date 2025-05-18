@@ -46,9 +46,11 @@ class Settings_Helper {
 	 */
 	public static function get_nb_updates(): string {
 		$update_files = glob( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH . '/Lumiere_Update_File_*.php' );
-		// Extract the Lumiere_Update_File_"XX" number
-		$last_nb = is_array( $update_files ) && count( $update_files ) > 0 ? preg_replace( '/[^0-9]/', '', $update_files ) : [];
-		// Convert the number to three digits if it is lower than 100 => compatibility
+		// Remove the path that could contains numbers.
+		$update_files = $update_files !== false ? str_replace( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH, '', $update_files ) : [];
+		// Extract the Lumiere_Update_File_"XX" number.
+		$last_nb = count( $update_files ) > 0 ? preg_replace( '/[^0-9]/', '', $update_files ) : [];
+		// Convert the number to three digits if it is lower than 100 => compatibility.
 		/** @psalm-suppress PossiblyNullArgument (PHPStan says otherwise) */
 		$three_digits = array_map(
 			function( string $last_nb ) {

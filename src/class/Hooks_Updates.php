@@ -126,6 +126,12 @@ class Hooks_Updates {
 	 */
 	public function lum_update_needed() {
 
+		// @since 4.6.3 Temporary fix, get_nb_updates() was with "protected" visibility, gives a fatal error
+		// @phpstan-ignore-next-line booleanNot.alwaysFalse
+		if ( ! is_callable( [ 'Lumiere\Config\Settings_Helper', 'get_nb_updates' ] ) ) {
+			return;
+		};
+
 		$current_admin = get_option( Get_Options::get_admin_tablename() );
 		$last_update_number_filename = Settings_Helper::get_nb_updates();
 
