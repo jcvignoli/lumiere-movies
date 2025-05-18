@@ -73,13 +73,6 @@ class Updates {
 			return;
 		}
 
-		// @since 4.6.3 Temporary fix, get_nb_updates() was with "protected" visibility, gives a fatal error
-		// @phpstan-ignore-next-line booleanNot.alwaysFalse
-		if ( ! is_callable( [ 'Lumiere\Config\Settings_Helper', 'get_nb_updates' ] ) ) {
-			$this->logger->log?->debug( '[updateClass] Temporary fix for Lumière 4.6.3, will be removed' );
-			return;
-		};
-
 		$file_number_plus_one = Settings_Helper::get_nb_updates();          // Latest number of file name update + 1
 		$number_updates = intval( $this->imdb_admin_values['imdbHowManyUpdates'] );     // Number of updates run + 1
 

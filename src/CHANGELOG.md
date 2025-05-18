@@ -1,5 +1,8 @@
 **Changelog**
 
+v.4.6.4
+* [technical] Removed temporary fixes from 4.6.3
+
 v.4.6.3
 * [bug] The new way to count the number of updates was failing (Settings_Helper::get_nb_updates() method could count extra numbers in path, not only Lumiere_Update_File_*.php)
 * [technical] Temporary fix for this stupid wordpress update process that use old files and triggers fatal errors (extra checks in Updates and Hook_Updates class to check if Settings_Helper::get_nb_updates() is callable, since in 4.6.1, it is a protected method and when called it triggers fatal error)
