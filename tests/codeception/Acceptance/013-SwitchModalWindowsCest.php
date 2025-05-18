@@ -66,7 +66,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_highslide_options-js");
 
 		$I->seeInPageSource( 'Ellen Burstyn</a>, 
-						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468' );
+						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Matthew McConaughey" href="' . $I->getCustomBaseUrl() . '/en/lumiere/person/?mid=0000190' );
 
 		// Switch To Bootstrap
 		$I->comment(Helper\Color::set('Check if Bootstrap modal window works', "italic+bold+cyan"));
@@ -85,7 +85,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_bootstrap_custom-css");			
 		$I->seeInPageSource("lumiere_bootstrap_core-js");
 		$I->seeInPageSource('Ellen Burstyn</a>, 
-					<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468' );
+					<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Matthew McConaughey" href="' . $I->getCustomBaseUrl() . '/en/lumiere/person/?mid=0000190' );
 
 		// Switch To Classic modal
 		$I->comment(Helper\Color::set('Check if Classic modal window works', "italic+bold+cyan"));
@@ -103,7 +103,7 @@ class ModalWindowsCest {
 		$I->seeInPageSource("lumiere_classic_links-js");			
 		$I->seeInPageSource("lumiere_style_main-css"); 			
 		$I->seeInPageSource('Ellen Burstyn</a>, 
-						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468');
+						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Matthew McConaughey" href="' . $I->getCustomBaseUrl() . '/en/lumiere/person/?mid=0000190');
 
 		// Check AMP
 		$I->comment(Helper\Color::set('Check if AMP class works', "italic+bold+cyan"));
@@ -120,7 +120,7 @@ class ModalWindowsCest {
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL . '&amp' );# Check popup movie
 		$I->seeInPageSource("<link rel=\"preconnect\" href=\"https://cdn.ampproject.org\">");	
 		$I->seeInPageSource('Ellen Burstyn</a>, 
-						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468');
+						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Matthew McConaughey" href="' . $I->getCustomBaseUrl() . '/en/lumiere/person/?mid=0000190');
 
 		// Check NoLinks class
 		$I->comment(Helper\Color::set('Check if No Links works', "italic+bold+cyan"));
@@ -155,7 +155,7 @@ class ModalWindowsCest {
 		$I->dontSeeInPageSource("lumiere_highslide_core-js");
 		$I->dontSeeInPageSource("lumiere_highslide_options-js");
 		$I->seeInPageSource('Ellen Burstyn</a>, 
-						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Elyes Gabel" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=1175468'); // There are links in no class popups
+						<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="internal link Matthew McConaughey" href="' . $I->getCustomBaseUrl() . '/en/lumiere/person/?mid=0000190'); // There are links in no class popups
 
 		// End, Switch back To Highslide, remove kill imdb links
 		$I->SwitchModalWindow('Highslide');

@@ -46,7 +46,7 @@ final class Save_Options extends Save_Helper {
 	 * @since 4.1 added param, I need it to restrain rewrite rules flush to data taxo pages
 	 * @see self::save_data_options() use $this->page_data_taxo
 	 */
-	public static function lumiere_static_start( ?string $page_data_taxo = null ): void {
+	public static function init( ?string $page_data_taxo = null ): void {
 		$class_save = new self( $page_data_taxo );
 	}
 
@@ -60,7 +60,7 @@ final class Save_Options extends Save_Helper {
 	 * @see Taxonomy Process
 	 * @since 4.3 Method added
 	 */
-	public static function lumiere_static_start_taxonomy( ?string $get_referer = null ): void {
+	public static function init_taxonomy( ?string $get_referer = null ): void {
 
 		$class_save = new self();
 

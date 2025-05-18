@@ -43,21 +43,24 @@ class IrpCest {
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is activated, uncheck it and then click $submit (form) */
 		$I->CustomActivateCheckbox('input[id="imdb_imdbirpdisplays_yes"]', '#lumiere_update_main_settings' );
-
+		$I->waitPageLoad();
+		
 		// Enable Always Display IRP in posts
 		$I->amOnPage( 'wp-admin/options-general.php?page=intelly-related-posts' );
 		/*	Conditional checkbox unactivation (in Support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is activated, uncheck it and then click $submit (form) */
-
-		/** Another element may be shown, couldn't catch it, use this if it happens again (wrong values for now)
+		$I->waitPageLoad();
+		
+		/** Another element may be shown, couldn't catch it, use this if it happens again (wrong values for now) */
 		if ($I->tryToSeeElement('.alert')) {
 		    $I->waitForText('Do you accept cookies?');
 		    $I->click('Yes');
-		}*/
+		}
 
 		$I->CustomActivateCheckbox('input[name="irpActive"]', '/html/body/div[1]/div[2]/div[2]/div[1]/div[2]/form/input[4]' );
-
+		$I->waitPageLoad();
+		
 		// Check if IRP can be seen in posts
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL_FR ); // In English TESTING_PAGE_BASE_URL, IRP doesn't show up
 		$I->seeInPageSource( '<!-- INLINE RELATED POSTS' );

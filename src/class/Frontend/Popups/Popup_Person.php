@@ -142,7 +142,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 	#[\Override]
 	public function display_layout(): void {
 
-		echo "<!DOCTYPE html>\n<html>\n<head>\n";
+		echo "<!DOCTYPE html>\n<html " . wp_kses( get_language_attributes(), [ 'lang' => [] ] ) . ">\n<head>\n";
 		wp_head();
 		echo "\n</head>\n<body class=\"lum_body_popup";
 		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';

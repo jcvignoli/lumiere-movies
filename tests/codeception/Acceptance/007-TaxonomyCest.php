@@ -55,15 +55,18 @@ class TaxonomyCest {
 		$I->wantTo('Activate taxonomy if disabled');
 
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->waitPageLoad();
 		$I->scrollTo('#behaviourpart');
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 
 			If $element is disabled, check it and then click $submit (form) */
 		$I->CustomActivateCheckbox('#imdb_imdbtaxonomy_yes', '#lumiere_update_main_settings' );
-
+		$I->waitPageLoad();
+		
 		// Make sure kill all links is deactivated.
 		$I->CustomDisableCheckbox('#imdb_imdblinkingkill_yes', '#lumiere_update_main_settings' );
-
+		$I->waitPageLoad();
+		
 		$I->amOnPage( AcceptanceSettings::ADMIN_PERMALINK_URL );
 	}
 
@@ -76,6 +79,7 @@ class TaxonomyCest {
 		$I->wantTo('Disable taxonomy if active');
 
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		$I->waitPageLoad();
 		$I->scrollTo('#behaviourpart');
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception 

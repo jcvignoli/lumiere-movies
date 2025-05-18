@@ -49,7 +49,7 @@ class SearchCest {
 		// Welcome page is up
 		$I->amOnPage( "/wp-admin/lumiere/search-items/" );
 		$I->fillField( '#lum_movie_input', '2001' );
-		$I->click( 'Search' );
+		$I->click( 'Recherche' );
 		$I->waitPageLoad();
 
 		// Check if search function is working
@@ -94,7 +94,7 @@ class SearchCest {
 		
 		$I->scrollTo('#lum_movie_input');
 		$I->fillField( '#lum_movie_input', '2001' );
-		$I->click( 'Search' );
+		$I->click( 'Recherche' );
 		$I->waitPageLoad();
 		$I->see( '2001: A Space Odyssey (1968)' );
 		$I->see( '0062622' );

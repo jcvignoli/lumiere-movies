@@ -54,18 +54,18 @@ class PopupsBootstrapCest {
 	public function checkPopupMovie( AcceptanceTester $I ) {
 
 		// popup link movie interstellar
-		$element = 'a[data-modal_window_film="interstellar"]';
-		$sub_url = '/en/lumiere/film/?film=interstellar';
+		$element = 'a[data-modal_window_film="' . AcceptanceSettings::TESTING_PAGE_POPUP_FILM_TITLE . '"]';
+		$sub_url = AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID;
 		$xpath = '/html/body/span/span/span/span[2]/object'; // found with chrome tools
 
 		$I->comment('-> Check if popup movie can be open');
-		$I->amOnPage('/en/2021/test-codeception/');
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->waitPageLoad();
 		
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 		$I->wait(2);
 		
-		$I->seeElement('object', ["name" => "interstellar"]);
+		$I->seeElement('object', ["name" => AcceptanceSettings::TESTING_PAGE_POPUP_FILM_TITLE ]);
 		$I->switchToFrame( $xpath );
 		$I->see( 'Mankind was born on Earth');
 		
@@ -87,21 +87,21 @@ class PopupsBootstrapCest {
 
 		// popup link actor Jorge Rivero
 		$element = 'a[data-modal_window_people="0729473"]';
-		$sub_url = '/en/lumiere/person/?mid=0729473';
+		$sub_url = AcceptanceSettings::TESTING_PAGE_POPUP_PERSON_URL;
 		$xpath = '/html/body/span/span/span/span[2]/object'; // found with chrome tools
 
 		$I->comment('-> Check if popup person can be open');
-		$I->amOnPage('/en/2021/test-codeception/');
+		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->executeJS( "return jQuery('" . $element . "').get(0).click()");
 
 		$I->wait(8);
 
 		$I->seeElement('object', [ 'name' => '0729473' ] );
 		$I->switchToFrame( $xpath );
-		$I->see( 'Pajarero');
+		$I->see( AcceptanceSettings::TESTING_PAGE_BASE_ELEMENT );
 		
-		$I->click( 'The Popcorn Chronicles' );
+		$I->click( 'The Pearl' );
 		$I->scrollTo('.lumiere_width_20_perc');
-		$I->waitForText( 'Emilio Portes', 15 ); // wait up to 15 seconds
+		$I->waitForText( 'Alfredo Zacarías', 15 ); // wait up to 15 seconds
 	}
 }

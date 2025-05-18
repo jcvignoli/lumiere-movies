@@ -84,4 +84,29 @@ class InitializeCest {
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL_FR );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL_FR_TWO );
 	}
+	
+	
+	/** 
+	 * Set Polylang language default to English
+	 * Needed to ensure that all popups and frontend are in English/French as it should be
+	 *
+	 * @before login
+
+	public function setEnglishDefaultPolylang(AcceptanceTester $I) {
+		$I->amOnPage( 'wp-admin/admin.php?page=mlang' );
+		$I->click( ['xpath'=> '//*[@id="the-list"]/tr[1]/td[4]/div/span/a']); => couldn't find a way to click on default lang ENG
+		$I->waitPageLoad();
+	}
+	 */
+	 
+	/** 
+	 * Update the WordPress translation, Lumière translations actually
+	 * Needed to ensure that all popups and frontend are in English/French as it should be
+	 *
+	 * @before login
+	 */
+	public function updateTranslation(AcceptanceTester $I) {
+		$I->amOnPage( 'wp-admin/update-core.php' );
+		$I->tryToClick( 'Update Translations' );	
+	}
 }

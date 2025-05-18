@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.11
+ * Version: 3.12
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package       lumieremovies
@@ -250,7 +250,7 @@ final class Taxonomy_People_Standard {
 	 */
 	private function lum_taxo_template_block( string $text, array $kses_esc_html ): void {
 
-		?><html><head>
+		?><html <?php echo wp_kses( get_language_attributes(), [ 'lang' => [] ] ); ?>><head>
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<?php
 		$block_content = do_blocks(

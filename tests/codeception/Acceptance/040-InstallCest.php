@@ -37,15 +37,17 @@ class InstallCest {
 
 		$I->amOnPluginsPage();
 		$I->maybeDeactivatePlugin('lumiere-movies');
-		$I->wait(2);
+		$I->waitPageLoad();
+		
 		$I->amOnPluginsPage();
 		$I->maybeActivatePlugin('lumiere-movies');
-		$I->wait(2);
+		$I->waitPageLoad();
 
 		// Check if cron has been installed
 		$I->maybeActivatePlugin('wp-crontrol');
 		$I->amOnPage( AcceptanceSettings::ADMIN_POST_CRON_MANAGE );
-		$I->wait(2);
+		$I->waitPageLoad();
+		
 		$I->see('lumiere_exec_once_update');
 	}
 
@@ -66,6 +68,8 @@ class InstallCest {
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
+		$I->waitPageLoad();
+		
 		$I->amOnPluginsPage();
 		$I->scrollTo('#deactivate-lumiere-movies');
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
@@ -85,6 +89,8 @@ class InstallCest {
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#imdbautopostwidget');
 		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
+		$I->waitPageLoad();
+		
 		$I->amOnPluginsPage();
 		$I->wait(2);
 		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");

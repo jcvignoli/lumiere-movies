@@ -90,8 +90,8 @@ class PopupsHighslideCest {
 		$I->see( AcceptanceSettings::TESTING_PAGE_BASE_ELEMENT );
 
 		// Test click to go to another popup
-		$I->click( 'The Popcorn Chronicles' );
-		$I->see( 'Emilio Portes' );
+		$I->click( 'The Pearl' );
+		$I->see( 'Alfredo Zacarías' );
 	}
 
 }

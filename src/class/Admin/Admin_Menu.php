@@ -141,8 +141,8 @@ class Admin_Menu {
 		 * @see Save_Options::process_headers()
 		 * @since 4.0
 		 */
-		add_action( 'wp_loaded', fn() => Save_Options::lumiere_static_start( $that->page_data_movie_taxo ) );
-		add_action( 'init', fn() => Save_Options::lumiere_static_start_taxonomy( $that->page_main_advanced ), 11 );
+		add_action( 'wp_loaded', fn() => Save_Options::init( $that->page_data_movie_taxo ) );
+		add_action( 'init', fn() => Save_Options::init_taxonomy( $that->page_main_advanced ), 11 );
 
 		/**
 		 * Copying taxonomy templates in Lumière! data taxonomy options

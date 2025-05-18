@@ -112,7 +112,8 @@ class StylesScriptsHighslideCest {
 
 		// Make sure Highslide is active, following tests are run with Highslide
 		$I->SwitchModalWindow('Highslide');
-
+		$I->waitPageLoad();
+		
 		$I->comment(Helper\Color::set('Checking normal page', 'italic+bold+cyan'));
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
 		$I->waitPageLoad();
@@ -153,10 +154,13 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_scripts-js-after");				# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
 		$I->click('Full filmography');
-		$I->see('The Popcorn Chronicles');
+		$I->waitPageLoad();
+		$I->see('Indio (1972)');
 		$I->click('Full biography');
+		$I->waitPageLoad();
 		$I->see('and muscular Mexican leading man');
 		$I->click('Misc');
+		$I->waitPageLoad();
 		$I->see('Rivero soon became a sex symbol and');
 
 			// Popup movie page
@@ -178,12 +182,16 @@ class StylesScriptsHighslideCest {
 		$I->seeInPageSource("lumiere_scripts-js-after");				# Lumière vars for main JS
 		$I->seeInPageSource("lumiere_hide_show-js"); 					# hide/show script
 		$I->click('Actors');
+		$I->waitPageLoad();
 		$I->see('Ellen Burstyn');
 		$I->click('Crew');
+		$I->waitPageLoad();
 		$I->see('Christopher Nolan');
 		$I->click('Plots');
+		$I->waitPageLoad();
 		$I->see('a team of researchers, to find a new planet for humans.');
 		$I->click('Misc');
+		$I->waitPageLoad();
 		$I->see('Early in pre-production, Dr. Kip Thorne laid down tw');
 	}
 

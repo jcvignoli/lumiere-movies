@@ -118,7 +118,8 @@ class EndCest {
 		
 		// Switch back To Highslide
 		$I->SwitchModalWindow('Bootstrap');
-
+		$I->waitPageLoad();
+		
 		// Disable No Links
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->scrollTo('#miscpart');

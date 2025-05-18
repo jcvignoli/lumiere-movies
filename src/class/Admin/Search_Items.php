@@ -153,7 +153,7 @@ final class Search_Items {
 	 */
 	public function page_layout(): string {
 
-		echo "<!DOCTYPE html>\n<html>\n<head>\n";
+		echo "<!DOCTYPE html>\n<html " . wp_kses( get_language_attributes(), [ 'lang' => [] ] ) . ">\n<head>\n";
 		wp_head();
 		echo "\n</head>\n<body class=\"lum_search\">";
 
@@ -224,7 +224,6 @@ final class Search_Items {
 		$results = [];
 		$first_column_header = 'title';
 		$second_column_header = 'imdbid';
-		$year = 'year';
 		if ( esc_html( $_GET['select_search_type'] ) === 'movie' ) {
 
 			/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
@@ -240,7 +239,6 @@ final class Search_Items {
 			);
 			$first_column_header = 'name';
 			$second_column_header = 'id';
-			$year = '';
 		}
 
 		$limit_search = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 5;
