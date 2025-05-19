@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.6.5
+
 v.4.6.4
 * [bug] wp_get_available_translations() is missing on some environments and triggers a fatal error (new include in admin-main-advanced.php template)
 * [technical] Removed temporary fixes from 4.6.3
