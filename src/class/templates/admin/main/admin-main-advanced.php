@@ -35,6 +35,11 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<label class="lumiere_display_block lumiere_labels" for="imdb_imdblanguage"><?php esc_html_e( "Movie's title language", 'lumiere-movies' ); ?></label>
 				<select id="imdb_imdblanguage" name="imdb_imdblanguage"><?php
+				// Depending on the environnement, wp_get_available_translations() is not available, so include it.
+				/** @psalm-suppress MissingFile */
+				if ( ! function_exists( 'wp_get_available_translations' ) ) {
+					require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+				}
 				$lum_lang_translations = wp_get_available_translations();   // All WordPress languages with translation.
 				$lum_languages = get_available_languages();                 // Installed WordPress languages.
 				foreach ( $lum_languages as $lum_language ) {
