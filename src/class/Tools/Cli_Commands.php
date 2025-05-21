@@ -85,6 +85,7 @@ final class Cli_Commands {
 	 * Those methods are those which can be called as subcommands
 	 *
 	 * @param ReflectionClass<self> $reflec Class reflection with the current class
+	 * @param-phpstan ReflectionClass<$this>
 	 * @return array<int, string>
 	 */
 	private function get_private_methods( ReflectionClass $reflec ): array {
