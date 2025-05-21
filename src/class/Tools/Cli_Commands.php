@@ -75,7 +75,7 @@ final class Cli_Commands {
 	public function __construct() {
 
 		// Build properties.
-		$this->list_subcommands = $this->get_private_methods( new ReflectionClass( $this ) );
+		$this->list_subcommands = $this->get_private_methods();
 		$this->list_subcommands_asstring = $this->get_private_methods_asstring( $this->list_subcommands );
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
 	}
@@ -84,13 +84,12 @@ final class Cli_Commands {
 	 * Build an array of private methods that start by 'sub_'
 	 * Those methods are those which can be called as subcommands
 	 *
-	 * @param ReflectionClass<self> $reflec Class reflection with the current class
-	 * @param-phpstan ReflectionClass<$this>
 	 * @return array<int, string>
 	 */
-	private function get_private_methods( ReflectionClass $reflec ): array {
+	private function get_private_methods(): array {
 
 		$list_subcommands = [];
+		$reflec = new ReflectionClass( $this );
 
 		$list_subcommands_object = $reflec->getMethods( ReflectionMethod::IS_PRIVATE );
 
