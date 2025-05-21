@@ -255,7 +255,7 @@ final class Metabox_Selection {
 			return;
 		}
 
-		/** @psalm-suppress UndefinedConstant, RedundantCondition -- Psalm can't deal with dynamic constants */
+		/** @psalm-suppress RedundantCondition */
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}

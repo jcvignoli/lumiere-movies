@@ -115,7 +115,6 @@ final class Logger {
 	 */
 	private function set_logger( array $imdb_admin_values, string $logger_name, bool $screen_output = true ): LoggerMonolog {
 
-		/** @psalm-suppress UndefinedConstant, RedundantCondition -- Psalm can't deal with dynamic constants */
 		if (
 			( current_user_can( 'manage_options' ) && isset( $imdb_admin_values['imdbdebug'] ) && $imdb_admin_values['imdbdebug'] === '1' )
 			|| ( isset( $imdb_admin_values['imdbdebug'] ) && $imdb_admin_values['imdbdebug'] === '1' && wp_doing_cron() === true )

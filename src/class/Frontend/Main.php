@@ -84,7 +84,7 @@ trait Main {
 
 		global $pagenow;
 
-		/** @psalm-suppress RedundantCondition, UndefinedConstant -- Psalm can't deal with dynamic constants */
+		/** @psalm-suppress RedundantCondition, UndefinedConstant */
 		if (
 			is_admin()
 			/**
@@ -94,6 +94,7 @@ trait Main {
 			*/
 			|| ( isset( $pagenow ) && in_array( $pagenow, [ 'wp-login.php', 'wp-signup.php', 'wp-activate.php' ], true ) )
 			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+
 			|| ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
 		) {
 			return false;

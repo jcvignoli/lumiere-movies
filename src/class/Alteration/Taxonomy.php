@@ -126,7 +126,6 @@ final class Taxonomy {
 			$terms = get_terms( [ 'taxonomy' => $full_old_taxonomy ] );
 
 			if ( ! $terms instanceof \WP_Error ) {
-				/** @psalm-suppress PossiblyInvalidIterator -- Cannot iterate over string -- this is the old WordPress way to have get_terms() return strings */
 				foreach ( $terms as $term ) {
 					$term_deleted = wp_delete_term( intval( $term->term_id ), sanitize_text_field( $full_old_taxonomy ), [ 'force_default' => true ] );
 					if ( $term_deleted === true ) {
@@ -266,7 +265,6 @@ final class Taxonomy {
 
 			// Since it's a new term, the term inserted overrides the loop's slug if it was successfully inserted
 			$get_term = ! $term_inserted instanceof \WP_Error ? get_term( $term_inserted['term_id'] ) : null;
-			/** @psalm-suppress PossiblyInvalidPropertyFetch (it's always object!) */
 			$term_final = isset( $get_term ) && ! $get_term instanceof \WP_Error ? $get_term->name : $term_post->name;
 
 			$adding_terms = wp_set_object_terms(

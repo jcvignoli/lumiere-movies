@@ -86,7 +86,6 @@ final class Movie_Factory extends Front_Parser {
 	 */
 	private function get_module_movie( Title $movie_object, string $item_name ): string {
 
-		/** @psalm-suppress RedundantFunctionCallGivenDocblockType */
 		$class_name = Get_Options_Movie::LUM_FILM_MODULE_CLASS . ucfirst( strtolower( $item_name ) ); // strtolower to avoid camelCase names.
 
 		// Return if class doesn't exist

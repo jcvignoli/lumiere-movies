@@ -8,6 +8,7 @@
 	autoloader="tests/bootstrap-testing.php"
 	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
+	findUnusedPsalmSuppress="true"
 	allowStringToStandInForClass="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"

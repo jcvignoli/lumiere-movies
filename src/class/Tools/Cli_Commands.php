@@ -184,7 +184,6 @@ final class Cli_Commands {
 			$options_tablename = Get_Options_Person::get_data_person_tablename();
 		} elseif ( $args[1] === 'admin' ) {
 			$options_tablename = Get_Options::get_admin_tablename();
-			/** @psalm-suppress RedundantConditionGivenDocblockType (so what?) */
 		} elseif ( $args[1] === 'cache' ) {
 			$options_tablename = Get_Options::get_cache_tablename();
 		}

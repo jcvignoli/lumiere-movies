@@ -412,7 +412,7 @@ final class Polylang {
 				pll_set_term_language( $term_inserted['term_id'], $lang );
 				// Since it's a new term, the term inserted overrides the loop's slug
 				$term_post = get_term( $term_inserted['term_id'] );
-				/** @psalm-suppress PossiblyInvalidPropertyFetch (it's always object!) */
+
 				$term_slug = isset( $term_post ) && ! $term_post instanceof \WP_Error ? $term_post->slug : '';
 
 				$this->logger?->log?->notice( '[Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );

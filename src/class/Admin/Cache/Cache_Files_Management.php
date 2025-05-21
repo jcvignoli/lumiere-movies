@@ -602,7 +602,6 @@ final class Cache_Files_Management {
 		) {
 
 			// the partial path
-			/** @psalm-suppress PossiblyInvalidOperand (Cannot concatenate with a array<array-key, string>|string, psalm can't dynamic const */
 			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', LUM_WP_PATH ) . 'cache/';
 
 			// Update database with the new value for cache path.

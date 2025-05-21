@@ -197,7 +197,6 @@ final class Uninstall {
 				continue;
 			}
 
-			/** @psalm-suppress PossiblyInvalidIterator -- Cannot iterate over string -- this is the old WordPress way to have get_terms() return strings */
 			foreach ( $terms as $term ) {
 
 				// Filter: Get rid of integers and strings, keep objects only.

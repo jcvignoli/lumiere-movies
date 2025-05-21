@@ -105,7 +105,6 @@ class Front_Parser {
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead to a PHP Fatal error
-		 * @psalm-suppress InvalidArrayOffset
 		 * @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse (Call to function array_key_exists() with 'amp' and array...will always evaluate to false)
 		 */
 		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
@@ -130,7 +129,6 @@ class Front_Parser {
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead to a PHP Fatal error
-		 * @psalm-suppress InvalidArrayOffset
 		 * @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse (Call to function array_key_exists() with 'amp' and array...will always evaluate to false)
 		 */
 		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {

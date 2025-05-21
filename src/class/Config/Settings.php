@@ -320,10 +320,11 @@ class Settings extends Settings_Helper {
 			$debug_path = WP_DEBUG_LOG;
 			/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
 		} elseif ( ! isset( $debug_path ) && defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ) {
-			/** @psalm-suppress FalseOperand (psalm can't either) */
+			/** @psalm-suppress FalseOperand */
 			$debug_path = ABSPATH . WP_DEBUG_LOG;
 		}
 
+		// Convert the current language to something that can be used later, from "US-EN" to "US_EN"
 		$lang = str_replace( '-', '_', get_bloginfo( 'language' ) );
 
 		$imdb_admin_options = [

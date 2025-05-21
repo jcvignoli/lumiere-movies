@@ -163,7 +163,6 @@ final class Widget_Frontpage {
 		}
 
 		// Log what widget type is in use.
-		/** @psalm-suppress UndefinedClass (mysterious error, never understood why, this class exists) */
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
 			$this->logger->log?->debug( '[Widget_Frontpage] Block-based widget found' );

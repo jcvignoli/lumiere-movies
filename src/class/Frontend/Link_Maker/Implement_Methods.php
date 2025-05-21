@@ -229,9 +229,7 @@ class Implement_Methods {
 			// If $esc_html_breaker comes after $max_length, go for it.
 			$max_length = $max_length < $esc_html_breaker ? $esc_html_breaker : $max_length;
 
-			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */
 			$str_one = substr( $bio_text, 0, $max_length );
-			/** @psalm-suppress PossiblyFalseArgument -- Argument 3 of substr cannot be false, possibly int|null value expected => Never false! */
 			$str_two = substr( $bio_text, $max_length, strlen( $bio_text ) );
 
 			$bio_text = "\n\t\t\t" . $str_one . $this->output_linkmaker_class->misc_layout( 'see_all_start' ) . "\n\t\t\t" . $str_two . $this->output_linkmaker_class->misc_layout( 'see_all_end' );
