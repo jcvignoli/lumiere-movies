@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière Movies 4.6.4\n"
+"Project-Id-Version: Lumière Movies 4.6.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-19T17:41:04+00:00\n"
+"POT-Creation-Date: 2025-05-21T23:45:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: lumiere-movies\n"
@@ -369,7 +369,7 @@ msgid "person"
 msgstr ""
 
 #: class/Admin/Search_Items.php:309
-#: class/Alteration/Taxonomy.php:177
+#: class/Alteration/Taxonomy.php:176
 #: class/templates/admin/main/admin-main-advanced.php:27
 msgid "Search"
 msgstr ""
@@ -382,8 +382,8 @@ msgstr ""
 msgid "Widget title:"
 msgstr ""
 
-#: class/Alteration/Taxonomy.php:174
-#: class/Alteration/Taxonomy.php:176
+#: class/Alteration/Taxonomy.php:173
+#: class/Alteration/Taxonomy.php:175
 msgid "Tags"
 msgstr ""
 
@@ -989,44 +989,44 @@ msgid "Biography"
 msgstr ""
 
 #. Translators: %1s is a name, ie Stanley Kubrick
-#: class/Frontend/Link_Maker/Implement_Methods.php:277
+#: class/Frontend/Link_Maker/Implement_Methods.php:275
 #, php-format
 msgctxt "person name"
 msgid "Open a new window with IMDb informations for %1s"
 msgstr ""
 
 #. Translators: %1s is a movie's title, ie Full Metal Jacket
-#: class/Frontend/Link_Maker/Implement_Methods.php:304
-#: class/Frontend/Link_Maker/Implement_Methods.php:309
-#: class/Frontend/Link_Maker/Implement_Methods.php:339
-#: class/Frontend/Link_Maker/Implement_Methods.php:344
+#: class/Frontend/Link_Maker/Implement_Methods.php:302
+#: class/Frontend/Link_Maker/Implement_Methods.php:307
+#: class/Frontend/Link_Maker/Implement_Methods.php:337
+#: class/Frontend/Link_Maker/Implement_Methods.php:342
 #, php-format
 msgctxt "movie title"
 msgid "Open a new window with IMDb informations for %1s"
 msgstr ""
 
-#: class/Frontend/Link_Maker/Implement_Methods.php:317
-#: class/Frontend/Link_Maker/Implement_Methods.php:352
+#: class/Frontend/Link_Maker/Implement_Methods.php:315
+#: class/Frontend/Link_Maker/Implement_Methods.php:350
 msgid "No Links"
 msgstr ""
 
 #. Translators: %1s is a website name, ie "New 70mm Trailer"
-#: class/Frontend/Link_Maker/Implement_Methods.php:375
+#: class/Frontend/Link_Maker/Implement_Methods.php:373
 #, php-format
 msgid "External URL %1s"
 msgstr ""
 
 #. Translators: %1s is a website name, ie "New 70mm Trailer"
-#: class/Frontend/Link_Maker/Implement_Methods.php:394
+#: class/Frontend/Link_Maker/Implement_Methods.php:392
 #, php-format
 msgid "Watch on IMBb website the trailer for %1s"
 msgstr ""
 
-#: class/Frontend/Link_Maker/Implement_Methods.php:479
+#: class/Frontend/Link_Maker/Implement_Methods.php:477
 msgid "Go to IMDb website for this movie"
 msgstr ""
 
-#: class/Frontend/Link_Maker/Implement_Methods.php:482
+#: class/Frontend/Link_Maker/Implement_Methods.php:480
 msgid "IMDb's page for this movie"
 msgstr ""
 
@@ -1328,25 +1328,25 @@ msgstr ""
 msgid "Data Management"
 msgstr ""
 
-#: class/templates/admin/admin-menu-first-part.php:54
+#: class/templates/admin/admin-menu-first-part.php:53
 msgid "Widget unactivated"
 msgstr ""
 
-#: class/templates/admin/admin-menu-first-part.php:60
+#: class/templates/admin/admin-menu-first-part.php:59
 #: class/templates/admin/data/admin-data-movie-display.php:40
 #: class/templates/admin/data/admin-data-person-display.php:38
 msgid "Taxonomy unactivated"
 msgstr ""
 
-#: class/templates/admin/admin-menu-first-part.php:68
+#: class/templates/admin/admin-menu-first-part.php:67
 msgid "Cache management"
 msgstr ""
 
-#: class/templates/admin/admin-menu-first-part.php:73
+#: class/templates/admin/admin-menu-first-part.php:72
 msgid "How to use Lumière!, check FAQs & changelog"
 msgstr ""
 
-#: class/templates/admin/admin-menu-first-part.php:74
+#: class/templates/admin/admin-menu-first-part.php:73
 msgid "help"
 msgstr ""
 
@@ -1377,7 +1377,7 @@ msgstr ""
 #: class/templates/admin/data/admin-data-movie-taxonomy.php:184
 #: class/templates/admin/data/admin-data-person-display.php:128
 #: class/templates/admin/data/admin-data-person-order.php:71
-#: class/templates/admin/main/admin-main-advanced.php:537
+#: class/templates/admin/main/admin-main-advanced.php:536
 #: class/templates/admin/main/admin-main-layout.php:201
 msgid "Reset settings"
 msgstr ""
@@ -1581,20 +1581,20 @@ msgstr ""
 #: class/templates/admin/cache/admin-cache-options.php:109
 #: class/templates/admin/cache/admin-cache-options.php:135
 #: class/templates/admin/cache/admin-cache-options.php:155
-#: class/templates/admin/main/admin-main-advanced.php:59
-#: class/templates/admin/main/admin-main-advanced.php:107
-#: class/templates/admin/main/admin-main-advanced.php:121
-#: class/templates/admin/main/admin-main-advanced.php:135
-#: class/templates/admin/main/admin-main-advanced.php:182
-#: class/templates/admin/main/admin-main-advanced.php:210
-#: class/templates/admin/main/admin-main-advanced.php:229
-#: class/templates/admin/main/admin-main-advanced.php:246
-#: class/templates/admin/main/admin-main-advanced.php:281
-#: class/templates/admin/main/admin-main-advanced.php:302
-#: class/templates/admin/main/admin-main-advanced.php:320
-#: class/templates/admin/main/admin-main-advanced.php:440
-#: class/templates/admin/main/admin-main-advanced.php:470
-#: class/templates/admin/main/admin-main-advanced.php:503
+#: class/templates/admin/main/admin-main-advanced.php:65
+#: class/templates/admin/main/admin-main-advanced.php:106
+#: class/templates/admin/main/admin-main-advanced.php:120
+#: class/templates/admin/main/admin-main-advanced.php:134
+#: class/templates/admin/main/admin-main-advanced.php:181
+#: class/templates/admin/main/admin-main-advanced.php:209
+#: class/templates/admin/main/admin-main-advanced.php:228
+#: class/templates/admin/main/admin-main-advanced.php:245
+#: class/templates/admin/main/admin-main-advanced.php:280
+#: class/templates/admin/main/admin-main-advanced.php:301
+#: class/templates/admin/main/admin-main-advanced.php:319
+#: class/templates/admin/main/admin-main-advanced.php:439
+#: class/templates/admin/main/admin-main-advanced.php:469
+#: class/templates/admin/main/admin-main-advanced.php:502
 #: class/templates/admin/main/admin-main-layout.php:73
 #: class/templates/admin/main/admin-main-layout.php:87
 #: class/templates/admin/main/admin-main-layout.php:98
@@ -1634,7 +1634,7 @@ msgstr ""
 #: class/templates/admin/data/admin-data-movie-taxonomy.php:183
 #: class/templates/admin/data/admin-data-person-display.php:127
 #: class/templates/admin/data/admin-data-person-order.php:70
-#: class/templates/admin/main/admin-main-advanced.php:536
+#: class/templates/admin/main/admin-main-advanced.php:535
 #: class/templates/admin/main/admin-main-layout.php:200
 msgid "Update settings"
 msgstr ""
@@ -1656,9 +1656,9 @@ msgid "If cache is deactived, pictures will not be displayed and it will take lo
 msgstr ""
 
 #: class/templates/admin/cache/admin-cache-options.php:47
-#: class/templates/admin/main/admin-main-advanced.php:210
-#: class/templates/admin/main/admin-main-advanced.php:302
-#: class/templates/admin/main/admin-main-advanced.php:320
+#: class/templates/admin/main/admin-main-advanced.php:209
+#: class/templates/admin/main/admin-main-advanced.php:301
+#: class/templates/admin/main/admin-main-advanced.php:319
 #: class/templates/admin/main/admin-main-layout.php:182
 msgid "Yes"
 msgstr ""
@@ -1695,10 +1695,10 @@ msgstr ""
 #: class/templates/admin/cache/admin-cache-options.php:109
 #: class/templates/admin/cache/admin-cache-options.php:135
 #: class/templates/admin/cache/admin-cache-options.php:155
-#: class/templates/admin/main/admin-main-advanced.php:182
-#: class/templates/admin/main/admin-main-advanced.php:229
-#: class/templates/admin/main/admin-main-advanced.php:246
-#: class/templates/admin/main/admin-main-advanced.php:281
+#: class/templates/admin/main/admin-main-advanced.php:181
+#: class/templates/admin/main/admin-main-advanced.php:228
+#: class/templates/admin/main/admin-main-advanced.php:245
+#: class/templates/admin/main/admin-main-advanced.php:280
 msgid "No"
 msgstr ""
 
@@ -2367,233 +2367,233 @@ msgstr ""
 msgid "Movie's title language"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:55
+#: class/templates/admin/main/admin-main-advanced.php:59
 msgid "Language used to display movie's title."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:68
+#: class/templates/admin/main/admin-main-advanced.php:77
 msgid "Search categories"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:76
+#: class/templates/admin/main/admin-main-advanced.php:83
 msgid "Movies and series"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:83
+#: class/templates/admin/main/admin-main-advanced.php:88
 msgid "Movies only"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:89
+#: class/templates/admin/main/admin-main-advanced.php:92
 msgid "Series only"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:95
+#: class/templates/admin/main/admin-main-advanced.php:96
 msgid "Video games only"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:101
+#: class/templates/admin/main/admin-main-advanced.php:100
 msgid "Podcasts only"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:104
+#: class/templates/admin/main/admin-main-advanced.php:103
 msgid "What type to use for the search, such as movies, series (for TV Shows), and videogames."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:113
+#: class/templates/admin/main/admin-main-advanced.php:112
 msgid "Limit results"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:118
+#: class/templates/admin/main/admin-main-advanced.php:117
 msgid "Limit of the number of results in a movie query. That limitation will impact the number of movies shown in the popup with movies and director search results."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:127
+#: class/templates/admin/main/admin-main-advanced.php:126
 msgid "Delay queries time"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:132
+#: class/templates/admin/main/admin-main-advanced.php:131
 msgid "Add an extra delay in seconds to avoid IMDb website throwing HTTP 504 errors (too many requests)."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:144
+#: class/templates/admin/main/admin-main-advanced.php:143
 msgid "Interaction with third-party plugins"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:154
+#: class/templates/admin/main/admin-main-advanced.php:153
 msgid "Always display Intelly Related Posts"
 msgstr ""
 
 #. translators: %1$s and %2$s are HTML A tag
-#: class/templates/admin/main/admin-main-advanced.php:170
+#: class/templates/admin/main/admin-main-advanced.php:169
 #, php-format
 msgid "By default, Lumière deactivates %1$sIntelly Related Post plugin%2$s on posts that display Lumiere movies. You can overrides this Lumière feature and always display IRP instead, even if a movie is displayed in your post."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:190
+#: class/templates/admin/main/admin-main-advanced.php:189
 msgid "Special features"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:199
+#: class/templates/admin/main/admin-main-advanced.php:198
 msgid "Use taxonomy"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:210
+#: class/templates/admin/main/admin-main-advanced.php:209
 msgid "This will add taxonomy terms found for the movie when display a page with a widget or a into a post. Taxonomy allows to group posts by a series of chosen terms, as explained in"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:210
+#: class/templates/admin/main/admin-main-advanced.php:209
 msgid "Taxonomy terms are uninstalled when removing the plugin if you selected not to keep the settings upon uninstall."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:210
+#: class/templates/admin/main/admin-main-advanced.php:209
 msgid "(Activated automatically for \"genre\" and \"director\" taxonomies upon installation)"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:216
+#: class/templates/admin/main/admin-main-advanced.php:215
 msgid "Remove all links?"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:227
+#: class/templates/admin/main/admin-main-advanced.php:226
 msgid "Remove all links added by Lumière except those for taxonomy. This option will remove every single HTML displayed in widget and into the post. Usefull for users who are not interested in popup function, but want to keep information displayed in a widget or inside the."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:235
+#: class/templates/admin/main/admin-main-advanced.php:234
 msgid "Auto title widget?"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:246
+#: class/templates/admin/main/admin-main-advanced.php:245
 msgid "Add automatically a widget according to your post title. If regular widgets have been added to post too, the auto title widget will be displayed before them. Usefull if blog a lot about movies; if a query does not bring any result with the post title, nothing is displayed."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:256
+#: class/templates/admin/main/admin-main-advanced.php:255
 msgid "Administration"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:265
+#: class/templates/admin/main/admin-main-advanced.php:264
 msgid "Left menu for Lumière options"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:281
+#: class/templates/admin/main/admin-main-advanced.php:280
 msgid "If enabled, Lumiere options are displayed in a dedicated menu on the left panel instead of being displayed in the settings menu."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:286
+#: class/templates/admin/main/admin-main-advanced.php:285
 msgid "Top menu for Lumière options"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:302
+#: class/templates/admin/main/admin-main-advanced.php:301
 msgid "If activated, Lumière options are displayed in a top menu. Not recommended if you have many plugins occupying that area already."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:309
+#: class/templates/admin/main/admin-main-advanced.php:308
 msgid "Keep settings upon uninstall"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:320
+#: class/templates/admin/main/admin-main-advanced.php:319
 msgid "Whether to keep or delete Lumière! settings upon plugin uninstall. When unticked, uninstalling this plugin will delete all taxonomy terms, Lumière databases, taxonomy templates in your theme folder, and your cache folder. For the safety of your WordPress install, metaboxes data in your posts, custom data fields in your posts and Lumière widget added will never be removed."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:326
+#: class/templates/admin/main/admin-main-advanced.php:325
 msgid "Debug Lumière!"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:345
+#: class/templates/admin/main/admin-main-advanced.php:344
 msgid "Use integrated debugging functions."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:351
+#: class/templates/admin/main/admin-main-advanced.php:350
 msgid "[Extra debugging options]"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:354
+#: class/templates/admin/main/admin-main-advanced.php:353
 msgid "Debug verbosity"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:406
+#: class/templates/admin/main/admin-main-advanced.php:405
 msgid "From lowest to highest verbosity level."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:410
+#: class/templates/admin/main/admin-main-advanced.php:409
 msgid "Display debug on screen"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:421
+#: class/templates/admin/main/admin-main-advanced.php:420
 msgid "Show the debug log on screen (for administrators only)."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:425
+#: class/templates/admin/main/admin-main-advanced.php:424
 msgid "Save logs"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:437
+#: class/templates/admin/main/admin-main-advanced.php:436
 msgid "Path"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:440
+#: class/templates/admin/main/admin-main-advanced.php:439
 msgid "WordPress default debug log"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:449
+#: class/templates/admin/main/admin-main-advanced.php:448
 msgid "Paths: url & folders"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:454
+#: class/templates/admin/main/admin-main-advanced.php:453
 msgid "Edit the following values with caution. It can have unattended effects on your WordPress installation."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:461
+#: class/templates/admin/main/admin-main-advanced.php:460
 msgid "URL for the popups"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:468
+#: class/templates/admin/main/admin-main-advanced.php:467
 msgid "The URL that will be displayed for the movies' and people's popups. Cannot be empty or limited to root \"/\"."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:473
+#: class/templates/admin/main/admin-main-advanced.php:472
 msgid "Example: the full URL utilized for the movies' popups will be:"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:478
+#: class/templates/admin/main/admin-main-advanced.php:477
 msgid "Example: the full URL utilized for the people's popup will be:"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:491
+#: class/templates/admin/main/admin-main-advanced.php:490
 msgid "URL for the taxonomy pages"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:499
+#: class/templates/admin/main/admin-main-advanced.php:498
 msgid "Update also taxonomy terms (may be resource intensive)"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:501
+#: class/templates/admin/main/admin-main-advanced.php:500
 msgid "The URL that will be displayed for the taxonomy's pages."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:501
+#: class/templates/admin/main/admin-main-advanced.php:500
 msgid "Warning! This URL cannot be identical to popup's URL above."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:501
+#: class/templates/admin/main/admin-main-advanced.php:500
 msgid "Warning again! Depending on your host and the number of taxonomies you are using, editing this URL may be extremeley resource intensive. You may need to reload the page several times."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:506
+#: class/templates/admin/main/admin-main-advanced.php:505
 msgid "The full URL utilized for the director taxonomy page will be:"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:519
+#: class/templates/admin/main/admin-main-advanced.php:518
 msgid "Lumière! path"
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:525
+#: class/templates/admin/main/admin-main-advanced.php:524
 msgid "In most cases, you should not edit it. Only advanced users should change this value."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:526
+#: class/templates/admin/main/admin-main-advanced.php:525
 msgid "The path must end with a final slash."
 msgstr ""
 
-#: class/templates/admin/main/admin-main-advanced.php:528
+#: class/templates/admin/main/admin-main-advanced.php:527
 msgid "Unless you changed your environment or use multisite WordPress, Lumière! path should be: "
 msgstr ""
 
