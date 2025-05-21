@@ -92,7 +92,7 @@ final class Imdbphp extends Imdbphp_Config {
 	 * @return string language in two positions, ie EN, FR, ES
 	 */
 	private function convert_lang( string $language ): string {
-		$lang_shortened = explode( '_', $language );
+		$lang_shortened = str_contains( $language, '_' ) ? explode( '_', $language ) : [ $language ];
 		return strtoupper( $lang_shortened[0] );
 	}
 

@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.6.5
+* [bug] Default movie's title language wasn't correct for new installs (fix in Settings class, new process in admin-main-advanced.php template, added a 25 update for fixing recent installs)
 
 v.4.6.4
 * [bug] wp_get_available_translations() is missing on some environments and triggers a fatal error (new include in admin-main-advanced.php template)

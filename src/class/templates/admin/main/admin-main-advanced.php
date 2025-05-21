@@ -36,30 +36,39 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 				<label class="lumiere_display_block lumiere_labels" for="imdb_imdblanguage"><?php esc_html_e( "Movie's title language", 'lumiere-movies' ); ?></label>
 				<select id="imdb_imdblanguage" name="imdb_imdblanguage"><?php
 				// Depending on the environnement, wp_get_available_translations() is not available, so include it.
-				/** @psalm-suppress MissingFile */
 				if ( ! function_exists( 'wp_get_available_translations' ) ) {
+					/** @psalm-suppress MissingFile */
 					require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 				}
-				$lum_lang_translations = wp_get_available_translations();   // All WordPress languages with translation.
-				$lum_languages = get_available_languages();                 // Installed WordPress languages.
+				$lum_lang_translations = wp_get_available_translations();       // All WordPress languages with translation.
+				$lum_lang_translations['en_US']['native_name'] = 'English (default)';   // en_US is not in WP function!
+				// Merge a default en_US that doesn't exists, the current imdb option, get all available lang and get unique values.
+				$lum_languages = array_unique( [ ...[ 'en_US' ], ...[ $lum_imdb_admin_values['imdblanguage'] ], ...get_available_languages() ] );
 				foreach ( $lum_languages as $lum_language ) {
-					echo "\n\t\t\t\t\t<option ";
+					echo "\n\t\t\t\t\t<option value=\"" . esc_attr( $lum_language ) . '"';
 					if ( isset( $lum_imdb_admin_values['imdblanguage'] ) && $lum_imdb_admin_values['imdblanguage'] === $lum_language ) {
-						echo 'selected="selected" ';
+						echo ' selected="selected"';
 					}
-					echo 'value="' . esc_attr( $lum_language ) . '">' . esc_html( $lum_lang_translations[ $lum_language ]['native_name'] ) . "</option>\n";
+					echo '>' . esc_html( $lum_lang_translations[ $lum_language ]['native_name'] ) . '</option>';
 				}
 				?>
+				
 				</select>
 				<div class="explain">
-					<?php esc_html_e( "Language used to display movie's title.", 'lumiere-movies' ); ?>
+					<?php
+					esc_html_e( "Language used to display movie's title.", 'lumiere-movies' );
+					?>
+					
 					<br>
 					<br>
 					<?php
 					esc_html_e( 'Default:', 'lumiere-movies' );
 					echo ' ';
 					$lum_current_lang = str_replace( '-', '_', get_bloginfo( 'language' ) );
-					echo esc_html( $lum_lang_translations[ $lum_current_lang ]['native_name'] ); ?>
+					$lum_current_lang = ! str_contains( $lum_current_lang, '_' ) ? $lum_current_lang . '_' . strtoupper( $lum_current_lang ) : $lum_current_lang;
+					$lum_final_lang = $lum_lang_translations[ $lum_current_lang ]['native_name'];
+					echo esc_html( $lum_final_lang ); ?>
+					
 				</div>
 			</div>
 
@@ -67,38 +76,28 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<label class="lumiere_display_block lumiere_labels" for="imdb_imdbseriemovies"><?php esc_html_e( 'Search categories', 'lumiere-movies' ); ?></label>
 				<select id="imdb_imdbseriemovies" name="imdb_imdbseriemovies">
-					<option 
-					<?php
+					<option <?php
 					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'movies+series' ) {
-						echo 'selected="selected"';
+						echo 'selected="selected" ';
 					}
-					?>
-					value="movies+series"><?php esc_html_e( 'Movies and series', 'lumiere-movies' ); ?></option>
-					<option 
-					<?php
+					?>value="movies+series"><?php esc_html_e( 'Movies and series', 'lumiere-movies' ); ?></option>
+					<option <?php
 					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'movies' ) {
-						echo 'selected="selected"';
+						echo 'selected="selected" ';
 					}
-					?>
-					value="movies"><?php esc_html_e( 'Movies only', 'lumiere-movies' ); ?></option>
-					<option 
-					<?php
+					?>value="movies"><?php esc_html_e( 'Movies only', 'lumiere-movies' ); ?></option>
+					<option <?php
 					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'series' ) {
-						echo 'selected="selected"';}
-					?>
-					value="series"><?php esc_html_e( 'Series only', 'lumiere-movies' ); ?></option>
-					<option 
-					<?php
+						echo 'selected="selected" ';}
+					?>value="series"><?php esc_html_e( 'Series only', 'lumiere-movies' ); ?></option>
+					<option <?php
 					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'videogames' ) {
-						echo 'selected="selected"';}
-					?>
-					value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies' ); ?></option>
-					<option 
-					<?php
+						echo 'selected="selected" ';}
+					?>value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies' ); ?></option>
+					<option <?php
 					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'podcasts' ) {
-						echo 'selected="selected"';}
-					?>
-					value="podcasts"><?php esc_html_e( 'Podcasts only', 'lumiere-movies' ); ?></option>
+						echo 'selected="selected" ';}
+					?>value="podcasts"><?php esc_html_e( 'Podcasts only', 'lumiere-movies' ); ?></option>
 				</select>
 
 				<div class="explain"><?php esc_html_e( 'What type to use for the search, such as movies, series (for TV Shows), and videogames.', 'lumiere-movies' ); ?>
