@@ -207,9 +207,9 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<?php esc_html_e( 'It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the code:', 'lumiere-movies' ); ?>
 
 				<blockquote class="lumiere_bloquote_help lum_align_left">
-					&lt;form action="" method="post" method="get" id="searchmovie" &gt<br>
+					&lt;form action="" method="post" id="searchmovie" &gt<br>
 						&lt;div&gt Search a movie: &lt;/div&gt<br>
-						&lt;input type="text" id="&lt;?php echo Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING; ?&gt;" name="&lt;?php echo Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING; ?&gt;" &gt<br>
+						&lt;input type="text" id="&lt;?php echo \Lumiere\Config\Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING; ?&gt;" name="&lt;?php echo \Lumiere\Config\Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING; ?&gt;" &gt<br>
 						&lt;input type="submit" value="Go"&gt<br>
 					&lt;/form&gt<br>
 				</blockquote>
@@ -227,13 +227,14 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					# Initialization of IMDBphp libraries<br>
 					$search = new \Lumiere\Vendor\Imdb\TitleSearch($config_imdb );<br>
 
-					if ( (isset ($_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ])) && (!empty ($_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ])) ){<br>
-						$search_sanitized = isset($_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ]) ? sanitize_text_field( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING] ) : NULL;<br>
+					if ( (isset ($_POST[ \Lumiere\Config\Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ])) && (!empty ($_POST[ \Lumiere\Config\Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ])) ){<br>
+						$search_sanitized = isset($_POST[ \Lumiere\Config\Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ]) ? sanitize_text_field( $_POST[ \Lumiere\Config\Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING] ) : NULL;<br>
 						$results = $search->search ($search_sanitized, $typeSearch );<br>
 					}<br>
 					<br>
+					$results ??= [];
 					foreach ($results as $res) {<br>
-						echo "\n\t&lt;div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'&gt".esc_html( $res->title() )." (".intval( $res->year() ).")".'&lt;/div&gt';<br>
+						echo "\n\t&lt;div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'&gt".esc_html( $res['title'] )." (".intval( $res['year'] ).")".'&lt;/div&gt';<br>
 					}<br>
 				</blockquote>
 

@@ -11,8 +11,9 @@
     "build": "wp-scripts build --progress --mode production && wp-scripts build-blocks-manifest --input=src --output=dist/assets/blocks/blocks-manifest.php",
     "wp:lint_css": "wp-scripts lint-style",
     "wp:lint_js": "wp-scripts lint-js",
-    "codeceptionRemote": "php vendor/bin/codecept run -vvv AcceptanceRemote --env wpchrome",
-    "codeceptionLocal": "php vendor/bin/codecept run -vvv Acceptance --env wpchrome",
+    "codeception:start": "php vendor/bin/codecept run -vvv tests/codeception/Acceptance/000-StartCest.php --env wpchrome",
+    "codeception:remote": "php vendor/bin/codecept run -vvv AcceptanceRemote --env wpchrome",
+    "codeception:local": "php vendor/bin/codecept run -vvv Acceptance --env wpchrome",
     "phan": "vendor/bin/phan -k phan.php --output-mode=text -p | tee tmp/logs/Results-phan.txt",
     "phpcs": "vendor/bin/phpcs | tee tmp/logs/Results-phpcs-wp.txt",
     "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) | tee tmp/logs/Results-phpdd-deprecated.txt",
@@ -22,9 +23,7 @@
     "phpstan-clean": "if [ -d \"tmp/cache/phpstan\" ];then rm -R tmp/cache/phpstan && npm run phpstan; else npm run phpstan; fi",
     "plugincheck": "wp @lumiere plugin check lumiere-movies --ignore-codes='WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing,PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage, WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary,WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace'",
     "psalm": "vendor/bin/psalm --show-info=true --report=tmp/logs/Results-psalm.txt",
-    "psalm-clean": "if [ -d \"tmp/cache/psalm\" ];then rm -R tmp/cache/psalm && npm run psalm; else npm run psalm; fi",
-    "codeception:start": "php vendor/bin/codecept run -vvv tests/codeception/Acceptance/000-StartCest.php --env wpchrome",
-    "analysis": "npm-run-all -c phpcs phpmd phpstan phan phpdd psalm plugincheck"
+    "psalm-clean": "if [ -d \"tmp/cache/psalm\" ];then rm -R tmp/cache/psalm && npm run psalm; else npm run psalm; fi"
   },
   "devDependencies": {
     "@alexrah/ssh-watch-upload-webpack-plugin": "*",
