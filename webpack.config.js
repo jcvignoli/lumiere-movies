@@ -50,7 +50,7 @@ export default {
 		// Runs only if "--watch" is passed in command-line
 		new BrowserSyncPlugin({
 			proxy: {
-				target: extCred.proxy.address_http, /* must be in http, not in https, certif error otherwise */
+				target: extCred.proxy.address, /* must be in http, not in https, certif error otherwise */
 				proxyReq: [
 					function(proxyReq) {
 						// Allows to use lumiere codeception database
