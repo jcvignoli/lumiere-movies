@@ -88,7 +88,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			<!--------------- How to use Inside posts -->
 				
 			<div class="helpdiv">
-				<h4 data-show-hidden="inside_help_explain_inside_post" class="help_titles"><?php esc_html_e( "How to display movie's data inside my post?", 'lumiere-movies' ); ?></h4>
+				<h4 data-show-hidden="inside_help_explain_inside_post" class="help_titles"><?php esc_html_e( "How to display movie's data inside my post - blocks in posts", 'lumiere-movies' ); ?></h4>
 
 				<div id="inside_help_explain_inside_post" class="hidesection">
 
@@ -113,7 +113,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 				<div id="inside_help_explain_inside_post_adv" class="hidesection">
 
 				<?php
-				esc_html_e( "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use Lumière outside a post (in a customised page), it won't work. Lumière is written around filters and actions so it is easy to achieve what you want.", 'lumiere-movies' );
+				esc_html_e( "You may not want to use the post's blocks to display movie's data. For exemple, you may want to use Lumière in a customised page. Since Lumière includes filters and actions, it's actually easy to achieve it.", 'lumiere-movies' );
 				?>
 
 				<br>
@@ -125,13 +125,13 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					echo apply_filters( 'lum_display_movies_box', $film_imdbid );
 				</blockquote>
 
-				<?php esc_html_e( 'Should you want own the IMDb ID, it is more straightforward:', 'lumiere-movies' ); ?>
+				<?php esc_html_e( 'Should you already have the movie\'s IMDb ID, it\'s even more straightforward:', 'lumiere-movies' ); ?>
 
 				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
 					echo apply_filters( 'lum_display_movies_box', [ '0435625' ] );
 				</blockquote>
 
-				<?php esc_html_e( "Since Lumière 4.6, you can also add people in addition to movies. The filers are 'lum_find_person_id' and 'lum_display_person_box':", 'lumiere-movies' ); ?>
+				<?php esc_html_e( "Starting with Lumière 4.6, you can also add people's details in addition to movie's details. The filers are 'lum_find_person_id' and 'lum_display_person_box':", 'lumiere-movies' ); ?>
 
 				<blockquote class="lumiere_bloquote_help lum_padding_left_50">
 					$film_imdbid = apply_filters( 'lum_find_person_id', [ 'stanley kubrick' ] );<br>

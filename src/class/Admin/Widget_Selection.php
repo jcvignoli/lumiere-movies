@@ -127,10 +127,26 @@ class Widget_Selection extends WP_Widget {
 
 	/**
 	 * Register Block Widget (>= WordPress 5.8)
+	 *
 	 * @since 4.1 Using block.json, removed conditions, which are useless as it doesn't register twice anymore, added translation
 	 * @since 4.6.1 Added render_callback, using render.php in blocks folder
+	 * @since 4.6.6 Return if wp_register_block_types_from_metadata_collection() exists, as it called in Lumiere\Admin\Admin::lum_enqueue_blocks(), needs WordPress 6.8
+	 *
+	 * @see \Lumiere\Admin\Admin::lum_enqueue_blocks() Widget block registered there if Get_Options::LUM_BLOCKS_MANIFEST exists
 	 */
 	public function lumiere_register_widget_block(): void {
+
+		/**
+		 * If Get_Options::LUM_BLOCKS_MANIFEST file exists, exit, already implemented
+		 * Only needed for Admin backend, in frontend we need the file so don't return
+		 */
+		if (
+			is_admin() === true
+			&& function_exists( 'wp_register_block_types_from_metadata_collection' )
+			&& file_exists( Get_Options::LUM_BLOCKS_MANIFEST )
+		) {
+			return;
+		}
 
 		$extra_render = [];
 

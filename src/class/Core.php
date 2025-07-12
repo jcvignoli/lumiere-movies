@@ -24,14 +24,11 @@ use Lumiere\Tools\Files;
 /**
  * Main WordPress actions happen here
  * Calling all actions and filters
- * Since WP 6.7, getting "Notice: Function _load_textdomain_just_in_time was called incorrectly." if Logger class is executed before init hook
- * -> removed a property that save it, each method initiates the class itself now. In order to get the log, it must be executed before the init,
- * but as a result the notice may be thrown for each method. No solution yet.
+ * Hooks for automatic and manual updates and cron_exec_once are available in Hooks_Updates class
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @since 4.1.2 WP Cli commands compatible
  * @since 4.6.1 Moved update-related hooks to a parent class Hooks_Updates
- * @todo Since 4.1.1 an update version check is now executed on every admin page, find a better hook
  */
 final class Core extends Hooks_Updates {
 

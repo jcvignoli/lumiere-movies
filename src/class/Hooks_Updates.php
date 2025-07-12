@@ -23,7 +23,9 @@ use Lumiere\Updates;
 /**
  * All hooks for automatic or manual updates
  * Need for update is also checked on
- * @since 4.6.1
+ *
+ * @since 4.6.1 Class created
+ * @todo An update version check is now executed on every admin page, find a better hook
  */
 class Hooks_Updates {
 
@@ -119,10 +121,10 @@ class Hooks_Updates {
 	/**
 	 * Check if an upate is needed on every WordPress admin page
 	 * Check Lumière! version in database against the number of files in update folder
+	 * @return void An update is run if Lumiere! version was lagging behind a new version
+	 *
 	 * @since 4.1.1
 	 * @todo Find a better hook than admin_init
-	 *
-	 * @return void An update is run if Lumiere! version was lagging behind a new version
 	 */
 	public function lum_update_needed() {
 

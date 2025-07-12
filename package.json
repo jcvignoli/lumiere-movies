@@ -7,7 +7,7 @@
   "homepage": "https://github.com/jcvignoli/lumiere-movies#README",
   "license": "GPL-3.0",
   "scripts": {
-    "watch": "wp-scripts start --progress --mode development && wp-scripts build-blocks-manifest --input=src --output=dist/assets/blocks/blocks-manifest.php",
+    "watch": "wp-scripts start --progress --mode development --blocks-manifest && mv dist/blocks-manifest.php dist/assets/blocks/blocks-manifest.php && echo 'cannot copy blocks-manifest.php'",
     "build": "wp-scripts build --progress --mode production && wp-scripts build-blocks-manifest --input=src --output=dist/assets/blocks/blocks-manifest.php",
     "wp:lint_css": "wp-scripts lint-style",
     "wp:lint_js": "wp-scripts lint-js",

@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.6.6
+* [technical] Using wp_register_block_types_from_metadata_collection() introduced in WordPress 6.8 (added in Lumiere\Admin)
 
 v.4.6.5
 * [bug] Default movie's title language wasn't correct for new installs (fix in Settings class, new process in admin-main-advanced.php template, added a 25 update for fixing recent installs)

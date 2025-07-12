@@ -75,6 +75,13 @@ class Settings extends Settings_Helper {
 	public const LUM_SEARCH_ITEMS_QUERY_STRING      = 'itemsearched'; // search string in url, such as ?moviesearched=
 
 	/**
+	 * Blocks manifest file
+	 * This file includes all blocks manifests (.json)
+	 * @since 4.6.6
+	 */
+	public const LUM_BLOCKS_MANIFEST        = LUM_WP_PATH . 'assets/blocks/blocks-manifest.php';
+
+	/**
 	 * URL Strings for popups
 	 * This helps build automatically the links to popups and checks if in the URL string a correct string was passed
 	 *
