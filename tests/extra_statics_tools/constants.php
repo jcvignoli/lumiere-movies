@@ -88,3 +88,7 @@ if ( ! defined( 'DOING_AUTOSAVE' ) ) {
 if ( ! defined( 'LUMIERE_INCOMPATIBLE_PLUGINS' ) ) {
 	define( 'LUMIERE_INCOMPATIBLE_PLUGINS', [ 'my_crapy_plugin' ] );
 }
+
+if ( ! defined( 'LUM_VENDOR_FOLDER' ) ) {
+	define( 'LUM_VENDOR_FOLDER', 'vendor/' );
+}

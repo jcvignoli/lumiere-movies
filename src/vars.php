@@ -24,3 +24,9 @@ if ( ! defined( 'LUMIERE_INCOMPATIBLE_PLUGINS' ) ) {
 	 */
 	define( 'LUMIERE_INCOMPATIBLE_PLUGINS', [ 'rss-feed-post-generator-echo/rss-feed-post-generator-echo.php' ] );
 }
+
+// Composer folder
+if ( ! defined( 'LUM_VENDOR_FOLDER' ) ) {
+	define( 'LUM_VENDOR_FOLDER', 'vendor/' );
+}
+

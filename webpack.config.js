@@ -121,11 +121,11 @@ export default {
 				},
 				to({ context, absoluteFilename }) {
 					/**
-					 * @description Remove first & last item from ${path} array.
+					 * @description Remove first item & last item from ${path} array.
 					 * @example
-					 *      Orginal Path: 'src/images/avatar/image.jpg'
-					 *      Changed To: 'images/avatar'
-					 * We don't add .min to filename
+					 *      Orginal Path: 'src/vendor/avatar/style.css'
+					 *      Changed To: 'vendor/avatar/style.css'
+					 * 	We don't add .min to filename
 					 */
 					const path = absoluteFilename.split("/").slice(7, -1).join("/");
 					return `${path}/[name][ext]`;

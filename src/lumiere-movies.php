@@ -31,8 +31,8 @@ if ( file_exists( plugin_dir_path( __FILE__ ) . 'vars.php' ) ) {
 }
 
 // Include composer bootstrap.
-if ( file_exists( LUM_WP_PATH . 'vendor/autoload.php' ) ) {
-	require_once LUM_WP_PATH . 'vendor/autoload.php';
+if ( file_exists( LUM_WP_PATH . LUM_VENDOR_FOLDER . 'autoload.php' ) ) {
+	require_once LUM_WP_PATH . LUM_VENDOR_FOLDER . 'autoload.php';
 }
 
 // Get global functions.

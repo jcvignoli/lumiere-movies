@@ -46,9 +46,9 @@ final class Bootstrap_Links extends Implement_Methods implements Interface_Linkm
 		// Styles.
 		wp_register_style(
 			'lumiere_bootstrap_core',
-			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css',
+			LUM_WP_URL . LUM_VENDOR_FOLDER . 'twbs/bootstrap/dist/css/bootstrap.min.css',
 			[ 'lumiere_style_main' ],
-			strval( filemtime( LUM_WP_PATH . 'vendor/twbs/bootstrap/dist/css/bootstrap.min.css' ) )
+			strval( filemtime( LUM_WP_PATH . LUM_VENDOR_FOLDER . 'twbs/bootstrap/dist/css/bootstrap.min.css' ) )
 		);
 		wp_register_style(
 			'lumiere_bootstrap_custom',
@@ -60,9 +60,9 @@ final class Bootstrap_Links extends Implement_Methods implements Interface_Linkm
 		// Scripts.
 		wp_register_script(
 			'lumiere_bootstrap_core',
-			$this->imdb_admin_values['imdbplugindirectory'] . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
+			LUM_WP_URL . LUM_VENDOR_FOLDER . 'twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
 			[],
-			strval( filemtime( LUM_WP_PATH . 'vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js' ) ),
+			strval( filemtime( LUM_WP_PATH . LUM_VENDOR_FOLDER . 'twbs/bootstrap/dist/js/bootstrap.bundle.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(
