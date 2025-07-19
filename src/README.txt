@@ -153,6 +153,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 Full list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
+= 4.7 =
+
+New "coming soon" WordPress filter to display upcoming movies (country and dates as options)
+
 = 4.6.1 =
 
 All gutenberg blocks are compatible with api version 3. Lumière sidebar is made of gutenberg block if using WordPress > 5.8. No more conflicting libraries with other plugins, evey class is namespaced with Lumière.
@@ -178,8 +182,4 @@ Many core library names have changed, expect a fatal error when updating. No wor
 = 4.4 =
 
 Check after a few minutes if the display order of data is the same you want. You may have to fix it.
-
-= 4.3.3 =
-
-If you automatically refresh the cache, make sure to deactivate then reactivate the option in Lumière admin.
 

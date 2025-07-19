@@ -77,9 +77,9 @@ class Settings extends Settings_Helper {
 	/**
 	 * Blocks manifest file
 	 * This file includes all blocks manifests (.json)
-	 * @since 4.6.6
+	 * @since 4.7
 	 */
-	public const LUM_BLOCKS_MANIFEST        = LUM_WP_PATH . 'assets/blocks/blocks-manifest.php';
+	public const LUM_BLOCKS_MANIFEST                = LUM_WP_PATH . 'assets/blocks/blocks-manifest.php';
 
 	/**
 	 * URL Strings for popups

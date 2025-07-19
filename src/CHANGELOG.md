@@ -1,6 +1,7 @@
 **Changelog**
 
-v.4.6.6
+v.4.7
+* [feature] Display "coming soon" movies (use of 'lum_coming_soon' filter)
 * [technical] Using wp_register_block_types_from_metadata_collection() introduced in WordPress 6.8 (added in Lumiere\Admin)
 
 v.4.6.5

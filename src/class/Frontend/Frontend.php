@@ -65,6 +65,11 @@ final class Frontend {
 		add_filter( 'lum_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
 
 		/**
+		 * Calendar's related action
+		 */
+		add_filter( 'lum_coming_soon', [ 'Lumiere\Frontend\Calendar\Coming_Soon', 'init' ], 10, 4 );
+
+		/**
 		 * Widget's related action
 		 */
 		add_action( 'init', [ $widget_front, 'start' ], 11 );
@@ -103,6 +108,14 @@ final class Frontend {
 			[ 'jquery' ],
 			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_scripts.min.js' ) ),
 			[ 'strategy' => 'async' ]
+		);
+
+		// Main style
+		wp_register_style(
+			'lum_calendar',
+			Get_Options::LUM_CSS_URL . 'lum_calendar.min.css',
+			[],
+			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lum_calendar.min.css' ) )
 		);
 
 		// Main style

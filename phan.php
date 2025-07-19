@@ -112,7 +112,7 @@ return [
 	],
 
 	// No need to analyse.
-	'exclude_file_list' => [],
+	'exclude_file_list' => [ 'src/vendor/duck7000/imdb-graphql-php/src/Imdb/Calendar.php' ],
 
 	// Remove this types of errors.
 	'suppress_issue_types' => [

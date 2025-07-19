@@ -409,10 +409,22 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				</div>
 			</div>
-		</div>
-		<div class="postbox-container lumiere_flex_container_content_fifty">
+
 			<div class="helpdiv">
-				<br>
+				<h4 data-show-hidden="inside_help_explain_comingsoon" class="help_titles"><?php esc_html_e( 'Display "coming soon" movies', 'lumiere-movies' ); ?></h4>
+				<div id="inside_help_explain_comingsoon" class="hidesection">
+					<?php esc_html_e( 'Should you want to diplay the movies to come soon, use the dedicated filter:', 'lumiere-movies' ); ?>
+					<blockquote class="lumiere_bloquote_help lum_padding_left_50">
+						echo apply_filters( 'lum_coming_soon','US', 'MOVIE', 0, 90 );
+					</blockquote>
+					<?php esc_html_e( 'The first filter option allows to change the country based on a two-letter position, and if nothing was passed "US" is default.', 'lumiere-movies' ); ?>
+					<br clear="both">
+					<?php esc_html_e( 'The second filter option is the type of search. Options can be MOVIE, TV or TV_EPISODE. MOVIE by default.', 'lumiere-movies' ); ?>
+					<br clear="both">
+					<?php esc_html_e( 'The third filter option is the starting day. 0 is today. 0 is the default starting value if no value was passed.', 'lumiere-movies' ); ?>
+					<br clear="both">
+					<?php esc_html_e( 'The fourth filter option is the ending day, with 0 as of today. If no value was passed, the default ending value used is 1 year later.', 'lumiere-movies' ); ?>
+				</div>
 			</div>
 		</div>
 	</div>

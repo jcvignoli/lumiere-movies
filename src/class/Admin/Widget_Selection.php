@@ -130,7 +130,7 @@ class Widget_Selection extends WP_Widget {
 	 *
 	 * @since 4.1 Using block.json, removed conditions, which are useless as it doesn't register twice anymore, added translation
 	 * @since 4.6.1 Added render_callback, using render.php in blocks folder
-	 * @since 4.6.6 Return if wp_register_block_types_from_metadata_collection() exists, as it called in Lumiere\Admin\Admin::lum_enqueue_blocks(), needs WordPress 6.8
+	 * @since 4.7 Return if wp_register_block_types_from_metadata_collection() exists, as it called in Lumiere\Admin\Admin::lum_enqueue_blocks(), needs WordPress 6.8
 	 *
 	 * @see \Lumiere\Admin\Admin::lum_enqueue_blocks() Widget block registered there if Get_Options::LUM_BLOCKS_MANIFEST exists
 	 */

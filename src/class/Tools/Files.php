@@ -33,7 +33,7 @@ trait Files {
 	 *
 	 * @param string $file_name Template file name
 	 * @param array<array-key, mixed> $variables The variables transfered to the include
-	 * @param string $transient_name The *maximum* time the transient is valid in seconds, 30 seconds by default
+	 * @param string $transient_name The transient name, avoids collisions
 	 * @param int $validity_time_transient The *maximum* time the transient is valid in seconds, 30 seconds by default
 	 * @void The file with vars has been included
 	 */

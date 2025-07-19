@@ -1,0 +1,54 @@
+/**
+ * Lumiere Movies CSS for calendar
+ */
+.lum_calendar_date{
+	font-size:x-large;
+	font-weight:bold;
+	margin-top:1em;
+	margin-left: 1em;
+	padding:0.5em;
+	color:white;
+	border-radius:5px 5px 0px 0px;
+	background-color:darkgrey;
+	
+}
+.lum_calendar_container{
+	display:flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	border: 1px solid darkgrey;
+	border-radius:5px 0px 5px 5px;
+ 	/* box-shadow: -1px -2px 6px 0px black;*/
+	padding: 1em;
+}
+.lum_calendar_contained{
+	width:200px;
+	padding:1em;
+	text-align:center;
+}
+.lum_calendar_pic{
+	border-radius:15px;
+}
+.lum_calendar_actors_list{
+	text-align:left;
+}
+.lum_calendar_actors{
+	display:inline;
+	padding-top:0.7em;
+}
+.lum_calendar_actors::before{
+	content: "-";
+	margin: 0 .5rem .2rem;
+	border-radius: 50%;
+	display: inline-block;
+	font-size: 1rem;
+	line-height: 1rem;
+	padding:1px;
+	vertical-align: middle;
+	background-color: currentColor;
+}
+.lum_calendar_contained_title{
+	text-align:center;
+	padding: 1em;
+	font-size:large;
+}

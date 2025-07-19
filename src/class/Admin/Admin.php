@@ -170,7 +170,7 @@ final class Admin {
 	 * Register and enqueue gutenberg blocks, must be executed on the whole website
 	 *
 	 * @since 4.1 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
-	 * @since 4.6.6 Use wp_register_block_types_from_metadata_collection() if file exists, needs WordPress 6.8
+	 * @since 4.7 Use wp_register_block_types_from_metadata_collection() if file exists, needs WordPress 6.8
 	 *
 	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() Widget block registered there, not included here
 	 */
