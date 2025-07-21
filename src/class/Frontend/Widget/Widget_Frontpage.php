@@ -91,13 +91,7 @@ final class Widget_Frontpage {
 			&& Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === false
 		) {
 			Widget_Legacy::widget_legacy_start();
-			return;
 		}
-
-		/**
-		 * Regular post-5.8 widgets.
-		 */
-		add_shortcode( self::WIDGET_SHORTCODE, [ $this, 'shortcode_parser' ] );
 	}
 
 	/**
@@ -106,30 +100,6 @@ final class Widget_Frontpage {
 	 */
 	private function is_forbidden_areas(): bool {
 		return is_home() || is_front_page() || is_404() || is_attachment() || is_archive() || is_author();
-	}
-
-	/**
-	 * Parse shortcodes, called in add_shortcode()
-	 * Only called if regular post-5.8 block widget was found
-	 *
-	 * @param array<string>|string $attributes
-	 * @param null|string $inside_tags Text inside the shortcode
-	 * @param string $tags Shortcode tag
-	 * @return string The final Widget with Title+Content, or nothing if nothing was found
-	 */
-	public function shortcode_parser( array|string $attributes, ?string $inside_tags, string $tags ): string {
-
-		// Exit it's home, frontpage, 404, attachment, etc (must allow people with custom posts to display the widget)
-		if ( $this->is_forbidden_areas() === true ) {
-			$this->logger->log?->debug( '[Widget_Frontpage] This is a forbidden area for displaying the widget, process stopped.' );
-			return '';
-		}
-
-		if ( isset( $inside_tags ) ) {
-			$this->logger->log?->debug( '[Widget_Frontpage] Shortcode [' . $tags . '] added.' );
-			return $this->lum_get_widget( $inside_tags );
-		}
-		return '';
 	}
 
 	/**

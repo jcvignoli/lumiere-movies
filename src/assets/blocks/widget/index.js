@@ -20,10 +20,5 @@ registerBlockType( jsonData.name, {
 	example: jsonData.example,
 	attributes: jsonData.attributes,
 	edit: Edit,
-	save: (props) => {
-		const blockProps = useBlockProps.save();
-		return (
-			<div {...blockProps}>{ props.attributes.lumiere_input }</div>
-		);
-	},
+	save: () => null // Dynamic block, content rendered by PHP.
 });

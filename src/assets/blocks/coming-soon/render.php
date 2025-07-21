@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Render functions that will be used on the frontend only
+ * Text that will be displayed on frontend only
  * @since 4.7 New file
  */
 namespace Lumiere;
