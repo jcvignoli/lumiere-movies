@@ -26,9 +26,10 @@ foreach ( $lum_results as $lum_date => $lum_arrays ) {
 	foreach ( $lum_arrays as $lum_row => $lum_cal_data ) {
 		$lum_nb_casts = count( $lum_cal_data['cast'] );
 		echo "\n\t\t" . '<div class="lum_calendar_contained">';
-		echo "\n\t\t\t" . '<div class="lum_calendar_pic"><img class="lum_calendar_pic" loading="lazy" src="' . esc_attr( $lum_cal_data['imgUrl'] ) . '" /></div>';
+		echo "\n\t\t\t" . '<div class="lum_calendar_pic"><a href="' . esc_attr( $lum_cal_data['imgUrl'] ) . '"><img class="lum_calendar_pic" loading="lazy" src="' . esc_attr( $lum_cal_data['imgUrl'] ) . '" /></a></div>';
 		$lum_popup_link = $lum_link_maker->get_popup_film_id( esc_html( $lum_cal_data['title'] ), esc_html( $lum_cal_data['imdbid'] ) );
-		echo "\n\t\t\t" . '<div class="lum_calendar_contained_title">' . wp_kses(
+		echo "\n\t\t\t" . '<div class="lum_calendar_contained_container">';
+		echo "\n\t\t\t\t" . '<div class="lum_calendar_contained_title">' . wp_kses(
 			$lum_popup_link,
 			[
 				'a' => [
@@ -38,12 +39,12 @@ foreach ( $lum_results as $lum_date => $lum_arrays ) {
 				],
 			]
 		) . '</div>';
-		echo $lum_nb_casts > 0 ? "\n\t\t\t" . '<div class="lum_calendar_actors_list">' . esc_html( _n( 'Actor:', 'Actors:', $lum_nb_casts, 'lumiere-movies' ) ) . ' ' : '';
+		echo $lum_nb_casts > 0 ? "\n\t\t\t\t" . '<div class="lum_calendar_actors_list">' . esc_html( _n( 'Actor:', 'Actors:', $lum_nb_casts, 'lumiere-movies' ) ) . ' ' : '';
 		foreach ( $lum_cal_data['cast'] as $lum_actor_names ) {
-			echo "\n\t\t\t\t" . '<li class="lum_calendar_actors">' . esc_html( $lum_actor_names ) . '</li>';
+			echo "\n\t\t\t\t\t" . '<li class="lum_calendar_actors">' . esc_html( $lum_actor_names ) . '</li>';
 		}
 		echo $lum_nb_casts > 0 ? '</div>' : '';
-
+		echo "\n\t\t\t" . '</div>';
 		echo "\n\t\t" . '</div>';
 	}
 	echo "\n\t" . '</div>';

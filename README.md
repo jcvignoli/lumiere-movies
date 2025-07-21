@@ -6,7 +6,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 5.6 \
 **Tested up to:** 6.8 \
-**Stable tag:** 4.6.2 \
+**Stable tag:** 4.6.6 \
 **Requires PHP:** 8.1 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -97,6 +97,10 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ![Taxonomy page for a star](https://ps.w.org/lumiere-movies/assets/screenshot-10.jpg)
 
+### 11. Upcoming movies calendar
+
+[missing image]
+
 
 ## Frequently Asked Questions
 
@@ -186,6 +190,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 Full list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
+### 4.7
+
+New "coming soon" WordPress block and filter to display upcoming movies (country and dates filters)
+
 ### 4.6.1
 
 All gutenberg blocks are compatible with api version 3. Lumière sidebar is made of gutenberg block if using WordPress > 5.8. No more conflicting libraries with other plugins, evey class is namespaced with Lumière.
@@ -198,15 +206,11 @@ Person details (in addition to movie details) are now available. New admin panel
 
 Added trivia item. Plugin is now fully OOP.
 
-### 4.4
-
-PHP >= 8.1 is now required. New item: connected movies, quotes are back. Most work has been done under the hood, to have a faster and more maintenable plugin.
-
-### 4.3
-
-The base library is now IMDbGraphQL. Taxonomy deeply changed, forms in taxonomy pages (i.e. director, genre, etc) are working in AMP and with Polylang. Lot of bugs addressed, always more OOP.
-
 ## Upgrade Notice
+
+### 4.6.3
+
+Expect a fatal error when updating. No worries nevertheless, it's for the greater good.
 
 ### 4.6.1
 
@@ -215,15 +219,3 @@ Many core library names have changed, expect a fatal error when updating. No wor
 ### 4.4
 
 Check after a few minutes if the display order of data is the same you want. You may have to fix it.
-
-### 4.3.3
-
-If you automatically refresh the cache, make sure to deactivate then reactivate the option in Lumière admin.
-
-### 4.3.2
-
-Taxonomy template in your folders (wp-content/theme/my_theme) will be automatically updated. Remove the line "* TemplateAutomaticUpdate..." in your user templates (ie, wp-content/theme/my_theme/taxonomy-lumiere-director.php) if you do not want your templates to be automatically updated.
-
-### 4.3
-
-Delete the cache, as the caching system has changed.

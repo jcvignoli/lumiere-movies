@@ -24,7 +24,16 @@
 .lum_calendar_contained{
 	width:200px;
 	padding:1em;
-	text-align:center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	text-align: center;
+}
+.lum_calendar_contained_container{
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
 }
 .lum_calendar_pic{
 	border-radius:15px;
@@ -36,16 +45,19 @@
 	display:inline;
 	padding-top:0.7em;
 }
+/** first <li> without sign */
+.lum_calendar_actors_list > :nth-child(1)::before { padding:0; margin:0 }
+/** signs before <li> */
 .lum_calendar_actors::before{
-	content: "-";
-	margin: 0 .5rem .2rem;
-	border-radius: 50%;
-	display: inline-block;
-	font-size: 1rem;
-	line-height: 1rem;
-	padding:1px;
-	vertical-align: middle;
-	background-color: currentColor;
+	content:" ";
+	margin:0 .5rem .2rem;
+	border-radius:50%;
+	display:inline-block;
+	font-size:1rem;
+	line-height:1rem;
+	padding:2px;
+	vertical-align:middle;
+	background-color:currentColor;
 }
 .lum_calendar_contained_title{
 	text-align:center;

@@ -75,6 +75,12 @@ final class Core extends Hooks_Updates {
 		// Crons. Must be free of any conditions.
 		add_action( 'init', [ 'Lumiere\Admin\Crons\Cron', 'start' ] );
 
+		/**
+		 * Gutenberg blocks, must be executed on the whole website
+		 * Using hook 'enqueue_block_assets' because 'init' doesn't allow to edit blocks in admin backoffice
+		 */
+		add_action( 'init', [ $this, 'lum_enqueue_blocks' ] );
+
 		// WP-CLI commands, use the cli class.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			add_action( 'cli_init', [ 'Lumiere\Tools\Cli_Commands', 'start' ] );
@@ -156,5 +162,55 @@ final class Core extends Hooks_Updates {
 
 		$logger->log?->info( '[coreClass][deactivation] Lumière deactivated' );
 	}
+
+	/**
+	 * Register and enqueue gutenberg blocks, must be executed on the whole website
+	 *
+	 * @since 4.1   Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
+	 * @since 4.7   Moved from Admin\Admin to Core, must be executed on the whole website
+	 *
+	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() Widget block registered there, not included here
+	 */
+	public function lum_enqueue_blocks(): void {
+
+		$block_dir = LUM_WP_PATH . 'assets/blocks/';
+
+		/**
+		 * new with WordPress 6.8, but doesn't work in Frontend
+		 * render_calleback is not injected
+		if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) && file_exists( Get_Options::LUM_BLOCKS_MANIFEST ) ) {
+			apply_filters( 'register_block_type_args', [ 'render_callback' => '\Lumiere\lum_render_block_coming_soon' ], 'lumiere/coming-soon' );
+			apply_filters( 'register_block_type_args', [ 'render_callback' => '\Lumiere\lum_render_block_widget' ], 'lumiere/widget' );
+			wp_register_block_types_from_metadata_collection(
+				$block_dir,
+				Get_Options::LUM_BLOCKS_MANIFEST
+			);
+
+		} elseif ( function_exists( 'register_block_type' ) ) { */
+		if ( function_exists( 'register_block_type' ) ) {
+			$blocks_data = file_exists( Get_Options::LUM_BLOCKS_MANIFEST ) ? require_once Get_Options::LUM_BLOCKS_MANIFEST : [ 'post', 'addlink', 'coming-soon', 'opensearch', 'widget-sidebar-options' ];
+			$nb_block_data = count( array_filter( $blocks_data, 'is_string' ) );
+			$blocks = $nb_block_data > 0 ? $blocks_data : array_keys( $blocks_data );
+			$extra_param = [];
+
+			foreach ( $blocks as $block ) {
+
+				// Include the render_callback if render.php exists
+				$file_render = $block_dir . strval( $block ) . '/render.php';
+				if ( is_file( $file_render ) ) {
+					require_once $file_render;
+					$block_name_clean = str_replace( '-', '_', strval( $block ) );
+					$extra_param = [ 'render_callback' => __NAMESPACE__ . '\lum_render_block_' . $block_name_clean ];
+				}
+
+				/**
+				 * @psalm-suppress InvalidArgument (Argument 2 of register_block_type expects array<...> but array{render_callback?: non-falsy-string} provided)
+				 * @phpstan-ignore argument.type
+				 */
+				register_block_type( $block_dir . strval( $block ), $extra_param );
+			}
+		}
+	}
+
 }
 

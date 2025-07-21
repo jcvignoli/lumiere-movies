@@ -112,14 +112,6 @@ final class Frontend {
 
 		// Main style
 		wp_register_style(
-			'lum_calendar',
-			Get_Options::LUM_CSS_URL . 'lum_calendar.min.css',
-			[],
-			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lum_calendar.min.css' ) )
-		);
-
-		// Main style
-		wp_register_style(
 			'lumiere_style_main',
 			Get_Options::LUM_CSS_URL . 'lumiere.min.css',
 			[],

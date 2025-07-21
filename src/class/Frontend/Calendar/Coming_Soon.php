@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class for displaying coming soon data.
+ * Class for displaying upcoming movies
  *
  * @copyright (c) 2025, Lost Highway
  *
@@ -21,6 +21,9 @@ use Lumiere\Tools\Files;
 
 /**
  * Coming soon
+ * Display the upcoming movies
+ * Used in add_filter() with 'lum_coming_soon' hook
+ * Used in coming-soon block
  *
  * @since 4.7 new class
  */
@@ -33,32 +36,32 @@ final class Coming_Soon {
 
 	/**
 	 * Constructor
-	 *
-	 * @param string $region Two-position country name like DE, NL, US
-	 * @param string $type Type is returned, MOVIE, TV or TV_EPISODE
-	 * @param int $start_date_override This defines the startDate override like +3 or -5 of default todays day
-	 * @param int $end_date_override This defines the endDate override like +3 or -5, default + 1 year
+	 * Frontend Style is called in block.json
 	 */
-	public function __construct( string $region, string $type, int $start_date_override, int $end_date_override ) {
+	public function __construct() {
 		$this->start_main_trait(); // In Trait Main.
 		$this->start_linkmaker(); // In Trait Main.
-		$this->display( $region, $type, $start_date_override, $end_date_override );
 	}
 
 	/**
-	 * Called in add_filter()
+	 * Static start
 	 *
 	 * @param string $region Two-position country name like DE, NL, US
 	 * @param string $type Type is returned, MOVIE, TV or TV_EPISODE
 	 * @param int $start_date_override This defines the startDate override like +3 or -5 of default todays day
 	 * @param int $end_date_override This defines the endDate override like +3 or -5, default + 1 year
+	 * @return void
 	 */
-	public static function init( string $region = 'US', string $type = 'TV', int $start_date_override = 0, int $end_date_override = 0 ): void {
+	public static function init(
+		string $region = 'US',
+		string $type = 'MOVIE',
+		int $start_date_override = 0,
+		int $end_date_override = 0
+	): void {
+		$that = new self();
 
-		$that = new self( $region, $type, $start_date_override, $end_date_override );
-
-		// Registered in Frontend, but enqueued only here.
-		wp_enqueue_style( 'lum_calendar' );
+		// Display the calendar.
+		$that->display( $region, $type, $start_date_override, $end_date_override );
 	}
 
 	/**
@@ -69,10 +72,23 @@ final class Coming_Soon {
 	 * @param string $type Type is returned, MOVIE, TV or TV_EPISODE
 	 * @param int $start_date_override This defines the startDate override like +3 or -5 of default todays day
 	 * @param int $end_date_override This defines the endDate override like +3 or -5, default + 1 year
-	 * @parameter $calendar_class Calendar class
+	 * @param Calendar $calendar_class Calendar class
+	 * @return void
 	 */
-	public function display( string $region, string $type, int $start_date_override, int $end_date_override, Calendar $calendar_class = new Calendar() ): void {
+	private function display(
+		string $region,
+		string $type,
+		int $start_date_override,
+		int $end_date_override,
+		Calendar $calendar_class = new Calendar()
+	): void {
+
+		// Get Calendar's method.
+		$this->logger->log?->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override );
 		$all_data = $calendar_class->comingSoon( $region, $type, $start_date_override, $end_date_override );
+
+		// Get template.
+		$this->logger->log?->debug( '[Coming_Soon] Displaying the template' );
 		$this->include_with_vars( // In Trait Files.
 			'calendar', // template name.
 			[ $all_data, $this->link_maker ], // data passed.

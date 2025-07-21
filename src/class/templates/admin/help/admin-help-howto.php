@@ -224,7 +224,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 						$typeSearch = \Lumiere\Config\Get_Options::get_type_search();<br>
 					}<br>
 					<br>
-					# Initialization of IMDBphp libraries<br>
+					# Initialization of IMDB libraries<br>
 					$search = new \Lumiere\Vendor\Imdb\TitleSearch($config_imdb );<br>
 
 					if ( (isset ($_POST[ \Lumiere\Config\Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ])) && (!empty ($_POST[ \Lumiere\Config\Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ])) ){<br>

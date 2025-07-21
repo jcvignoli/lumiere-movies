@@ -1,9 +1,7 @@
-import { useBlockProps } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import jsonData from './block.json';
 import Edit from './edit.js';
-import './index.css';
 
 const iconLumiere = (
   <svg width={35} height={35} viewBox="0 0 200 200">
@@ -12,18 +10,13 @@ const iconLumiere = (
 );
 
 registerBlockType( jsonData.name, {
+	title: __('Coming soon', 'lumiere-movies'),
+	description: __('Add upcoming list of movies in your post', 'lumiere-movies'),
 	icon: iconLumiere,
-	title: __('Lumière Widget', 'lumiere-movies'),
-	description: __('Add a movie/person widget in your sidebar', 'lumiere-movies'),
 	category: jsonData.category,
 	keywords: jsonData.keywords,
 	example: jsonData.example,
 	attributes: jsonData.attributes,
 	edit: Edit,
-	save: (props) => {
-		const blockProps = useBlockProps.save();
-		return (
-			<div {...blockProps}>{ props.attributes.lumiere_input }</div>
-		);
-	},
+	save: () => null // Dynamic block, content rendered by PHP.
 });

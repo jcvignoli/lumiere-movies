@@ -64,6 +64,7 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 8. Query page to find a movie IMDb ID
 9. Gutenberg block
 10. Taxonomy page for a star
+11. Upcoming movies calendar
 
 == Frequently Asked Questions ==
 
@@ -155,7 +156,7 @@ Full list of changes is available on [GitHub](https://github.com/jcvignoli/lumie
 
 = 4.7 =
 
-New "coming soon" WordPress filter to display upcoming movies (country and dates as options)
+New "coming soon" WordPress block and filter to display upcoming movies (country and dates filters)
 
 = 4.6.1 =
 

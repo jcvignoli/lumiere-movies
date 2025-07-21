@@ -96,11 +96,6 @@ final class Admin {
 			return;
 		}
 
-		/**
-		 * Gutenberg blocks, must be executed on the whole website
-		 */
-		add_action( 'enqueue_block_editor_assets', [ $start, 'lum_enqueue_blocks' ] );
-
 		// Add Polylang specific methods to admin. Static methods that executes ony if Polylang is active.
 		add_action( 'init', [ 'Lumiere\Plugins\Auto\Polylang', 'add_polylang_in_admin' ] );
 
@@ -112,7 +107,7 @@ final class Admin {
 	 */
 	public function lumiere_register_admin_assets(): void {
 
-		// Register hide/show script
+		// Register hide/show script.
 		wp_register_script(
 			'lumiere_hide_show',
 			Get_Options::LUM_JS_URL . 'lumiere_hide_show.min.js',
@@ -121,7 +116,7 @@ final class Admin {
 			true
 		);
 
-		// Register admin styles
+		// Register admin styles.
 		wp_register_style(
 			'lumiere_css_admin',
 			Get_Options::LUM_CSS_URL . 'lumiere_admin.min.css',
@@ -129,7 +124,7 @@ final class Admin {
 			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lumiere_admin.min.css' ) )
 		);
 
-		// Register admin scripts
+		// Register admin scripts.
 		wp_register_script(
 			'lumiere_scripts_admin',
 			Get_Options::LUM_JS_URL . 'lumiere_scripts_admin.min.js',
@@ -138,7 +133,7 @@ final class Admin {
 			false
 		);
 
-		// Register gutenberg admin scripts
+		// Register gutenberg admin scripts.
 		wp_register_script(
 			'lumiere_scripts_admin_gutenberg',
 			Get_Options::LUM_JS_URL . 'lumiere_scripts_admin_gutenberg.min.js',
@@ -147,7 +142,7 @@ final class Admin {
 			false
 		);
 
-		// Register confirmation script upon deactivation
+		// Register confirmation script upon deactivation.
 		wp_register_script(
 			'lumiere_deactivation_plugin_message',
 			Get_Options::LUM_JS_URL . 'lumiere_admin_deactivation_msg.min.js',
@@ -156,7 +151,7 @@ final class Admin {
 			true
 		);
 
-		// Quicktag
+		// Quicktag.
 		wp_register_script(
 			'lumiere_quicktag_addbutton',
 			Get_Options::LUM_JS_URL . 'lumiere_admin_quicktags.min.js',
@@ -164,52 +159,6 @@ final class Admin {
 			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_admin_quicktags.min.js' ) ),
 			true
 		);
-	}
-
-	/**
-	 * Register and enqueue gutenberg blocks, must be executed on the whole website
-	 *
-	 * @since 4.1 Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
-	 * @since 4.7 Use wp_register_block_types_from_metadata_collection() if file exists, needs WordPress 6.8
-	 *
-	 * @see \Lumiere\Admin\Widget_Selection::lumiere_register_widget_block() Widget block registered there, not included here
-	 */
-	public function lum_enqueue_blocks(): void {
-
-		$block_dir = LUM_WP_PATH . 'assets/blocks';
-		$blocks = [ 'post', 'addlink', 'opensearch', 'widget-sidebar-options' ];
-		$extra_render = [];
-
-		if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) && file_exists( Get_Options::LUM_BLOCKS_MANIFEST ) ) {
-			wp_register_block_types_from_metadata_collection(
-				$block_dir,
-				Get_Options::LUM_BLOCKS_MANIFEST
-			);
-		} elseif ( function_exists( 'register_block_type' ) ) {
-			foreach ( $blocks as $block ) {
-
-				// Include the render_callback if render.php exists
-				/*
-				$file_render = LUM_WP_PATH . 'assets/blocks/' . $block . '/render.php';
-				if ( is_file( $file_render ) ) {
-					require_once $file_render;
-					$callback = 'lum_render_block_' . $block;
-					$extra_render = [ 'render_callback' => $callback ];
-				}*/
-
-				register_block_type( $block_dir . '/' . $block, $extra_render );
-			}
-		}
-
-		// Javascripts functions for Gutenberg blocks.
-		wp_register_script(
-			'lumiere_scripts_admin_gutenberg',
-			LUM_WP_URL . 'assets/js/lumiere_scripts_admin_gutenberg.min.js',
-			[],
-			strval( filemtime( LUM_WP_PATH . 'assets/js/lumiere_scripts_admin_gutenberg.min.js' ) ),
-			true
-		);
-		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 	}
 
 	/**

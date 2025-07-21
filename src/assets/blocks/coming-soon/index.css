@@ -1,0 +1,25 @@
+.lum_block_calendar_container{
+	border: 1px solid darkgrey;
+	padding:15px;
+	color:#494633;
+}
+.lum_block_calendar_container_title{
+	color:grey;
+	text-align:left;
+	padding:15px 0 5px 15px;
+	width:90%;
+	font-size: 2em;
+	margin-left:10vw;
+}
+.lum_block_calendar_logo{
+	float:left;
+	height:auto;
+	vertical-align:middle;
+}
+.lum_block_calendar_container_explain{
+	clear:both;
+	text-align:center;
+	font-size:small;
+	font-family: sans-serif;
+}
+

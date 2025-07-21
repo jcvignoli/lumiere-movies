@@ -109,7 +109,7 @@ class Widget_Selection extends WP_Widget {
 		}
 
 		// Always register Block-based Widget by default.
-		add_action( 'widgets_init', [ $this, 'lumiere_register_widget_block' ], 12 );
+		add_action( 'init', [ $this, 'lumiere_register_widget_block' ], 12 );
 	}
 
 	/**
@@ -136,15 +136,8 @@ class Widget_Selection extends WP_Widget {
 	 */
 	public function lumiere_register_widget_block(): void {
 
-		/**
-		 * If Get_Options::LUM_BLOCKS_MANIFEST file exists, exit, already implemented
-		 * Only needed for Admin backend, in frontend we need the file so don't return
-		 */
-		if (
-			is_admin() === true
-			&& function_exists( 'wp_register_block_types_from_metadata_collection' )
-			&& file_exists( Get_Options::LUM_BLOCKS_MANIFEST )
-		) {
+		// If BLOCK_WIDGET_NAME widget is already registered, exit
+		if ( \WP_Block_Type_Registry::get_instance()->is_registered( self::BLOCK_WIDGET_NAME ) ) {
 			return;
 		}
 
@@ -157,7 +150,6 @@ class Widget_Selection extends WP_Widget {
 		}
 
 		register_block_type( LUM_WP_PATH . 'assets/blocks/widget/', $extra_render );
-		//wp_set_script_translations( 'lumiere-widget-editor-script', 'lumiere-movies', LUM_WP_PATH . 'languages/' ); => using block.json and "wp i8n" generation
 	}
 
 	/**

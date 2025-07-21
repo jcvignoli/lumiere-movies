@@ -1,12 +1,12 @@
 {
 	"apiVersion": 3,
 	"name": "lumiere/widget",
-	"title": "Add a movie/person data in your Widget",
-	"description": "Widget to add a movie/person data in your sidebar or display auto title widget data",
+	"title": "Lumière Widget",
+	"description": "Add a movie/person widget in your sidebar",
 	"category": "widgets",
 	"textdomain": "lumiere-movies",
 	"keywords": ["widget", "lumiere", "imdb", "movie", "film"],
-	"icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"35\" height=\"35\" viewBox=\"0 0 200 200\"><path d=\"M10 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80z M50 170 c0 -5 23 -10 50 -10 28 0 50 5 50 10 0 6 -22 10 -50 10 -27 0 -50 -4 -50 -10z M170 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80z M50 110 c0 -29 1 -30 50 -30 49 0 50 1 50 30 0 29 -1 30 -50 30 -49 0 -50 -1 -50 -30z M57 44 c-17 -17 -4 -24 44 -24 36 0 49 4 47 13 -5 13 -79 22 -91 11z\" /></svg>",
+	"icon": "",
 	"textdomain": "lumiere-movies",
 	"attributes": {
 		"lumiere_input": {

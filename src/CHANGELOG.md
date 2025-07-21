@@ -1,8 +1,8 @@
 **Changelog**
 
 v.4.7
-* [feature] Display "coming soon" movies (use of 'lum_coming_soon' filter)
-* [technical] Using wp_register_block_types_from_metadata_collection() introduced in WordPress 6.8 (added in Lumiere\Admin)
+* [feature] Display "coming soon" movies in posts (available as a block in post editing, also available as 'lum_coming_soon' filter). Upcoming movies be filtered by date, language and media type
+* [technical] Better documentation of html form search function
 
 v.4.6.5
 * [bug] Default movie's title language wasn't correct for new installs (fix in Settings class, new process in admin-main-advanced.php template, added a 25 update for fixing recent installs)
