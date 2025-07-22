@@ -87,6 +87,13 @@ final class Coming_Soon {
 		$this->logger->log?->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override );
 		$all_data = $calendar_class->comingSoon( $region, $type, $start_date_override, $end_date_override );
 
+		// Exit if no data found.
+		if ( count( $all_data ) < 1 ) {
+			$this->logger->log?->error( '[Coming_Soon] No data found' );
+			echo '<div>' . esc_html__( 'No data found.', 'lumiere-movies' ) . '</div>';
+			return;
+		}
+
 		// Get template.
 		$this->logger->log?->debug( '[Coming_Soon] Displaying the template' );
 		$this->include_with_vars( // In Trait Files.

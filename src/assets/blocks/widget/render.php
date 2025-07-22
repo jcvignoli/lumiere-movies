@@ -1,46 +1,43 @@
 <?php declare( strict_types = 1 );
 /**
  * Text that will be displayed on frontend only
+ * @since 4.7 Display the code without function (as simplified the use of register_block_type() and removed render_callback)
  */
 namespace Lumiere;
 
 use Lumiere\Frontend\Widget\Widget_Frontpage;
 
-/**
- * Callback function to render the Lumière Widget Block dynamically
- *
- * @param array<string, string|'lumiere_input'> $attributes Block attributes from the editor
- * @return string Rendered HTML for the block
- */
-function lum_render_block_widget( array $attributes ): string {
-	ob_start();
-	if ( class_exists( Widget_Frontpage::class ) ) {
-		$widget_class = new Widget_Frontpage();
-		echo wp_kses(
-			$widget_class->lum_get_widget( esc_html( $attributes['lumiere_input'] ) ),
-			[
-				'a' => [
-					'data-*' => true,
-					'id' => [],
-					'class' => [],
-					'href' => [],
-					'title' => [],
-				],
-				'div' => [
-					'id' => [],
-					'class' => [],
-				],
-				'img' => [
-					'decoding' => [],
-					'loading' => [],
-					'class' => [],
-					'alt' => [],
-					'src' => [],
-					'width' => [],
-				],
-			]
-		);
-	}
-	$end = ob_get_clean();
-	return $end !== false ? $end : '';
-}
+$lum_widget_class = new Widget_Frontpage();
+echo wp_kses(
+	$lum_widget_class->lum_get_widget( esc_html( $attributes['lumiere_input'] ?? 'Lumière Movies' ) ),
+	[
+		'a' => [
+			'data-*' => true,
+			'id' => [],
+			'class' => [],
+			'href' => [],
+			'title' => [],
+		],
+		'div' => [
+			'id' => [],
+			'class' => [],
+		],
+		'span' => [
+			'id' => [],
+			'class' => [],
+		],
+		'h4' => [
+			'id' => [],
+			'class' => [],
+		],
+		'img' => [
+			'decoding' => [],
+			'loading' => [],
+			'class' => [],
+			'alt' => [],
+			'src' => [],
+			'width' => [],
+		],
+	]
+);
+

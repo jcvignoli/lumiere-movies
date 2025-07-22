@@ -104,7 +104,7 @@ final class Widget_Frontpage {
 
 	/**
 	 * Widget output in Frontend pages
-	 * Used by current Shortcode Parser and Widget_Legacy class
+	 * Used by block-based Widget and Widget_Legacy class
 	 *
 	 * @since 3.10.2 added array_filter to clean $imdb_id_or_title
 	 * @since 4.0 added exit if no metadata and no auto title widget activated

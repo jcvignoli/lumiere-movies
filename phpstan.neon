@@ -22,9 +22,6 @@ parameters:
     ignoreErrors:
         - identifier: method.dynamicName
         -
-            identifier: requireOnce.fileNotFound
-            path: src/class/Core.php
-        -
             identifier: return.missing
             path: src/class/Frontend/Frontend.php
     dynamicConstantNames:
