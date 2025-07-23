@@ -121,7 +121,9 @@ trait Main {
 	 * Detect if the current URL is a popup
 	 *
 	 * @since 4.3
-	 * @since 4.6 added "'/' . " in str_contains()
+	 * @since 4.6 added "'/' . " in str_contains() at the begining
+	 * @since 4.7 added ". '/'" in str_contains() in the end
+	 *
 	 * @return bool True if the page is a Lumiere popup
 	 */
 	public function is_popup_page(): bool {
@@ -131,9 +133,9 @@ trait Main {
 			isset( $get_request_uri )
 			&&
 			(
-				str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['film'] )
-				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['movie_search'] )
-				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['person'] )
+				str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['film'] . '/' )
+				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['movie_search'] . '/' )
+				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['person'] . '/' )
 			)
 		) {
 			return true;

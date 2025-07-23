@@ -35,6 +35,7 @@ final class Help extends Admin_Menu {
 		'menu_submenu'       => 'help/admin-help-submenu',
 		'menu_howto'         => 'help/admin-help-howto',
 		'menu_faqs'          => 'help/admin-help-faqs',
+		'menu_filters'     => 'help/admin-help-filters',
 		'menu_changelog'     => 'help/admin-help-changelog',
 		'menu_support'       => 'help/admin-help-support',
 		'menu_compatibility' => 'help/admin-help-compatibility',
@@ -67,6 +68,7 @@ final class Help extends Admin_Menu {
 				$this->page_help,
 				$this->page_help_support,
 				$this->page_help_faqs,
+				$this->page_help_filters,
 				$this->page_help_compatibility,
 				$this->page_help_changelog,
 			],
@@ -80,6 +82,10 @@ final class Help extends Admin_Menu {
 			// Faqs section.
 		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_faqs, sanitize_text_field( wp_unslash( strval( $_GET['subsection'] ) ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
 			$this->display_faqs();
+
+			// Compatibility section.
+		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_filters, sanitize_text_field( wp_unslash( strval( $_GET['subsection'] ) ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+			$this->display_filters();
 
 			// Compatibility section.
 		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_compatibility, sanitize_text_field( wp_unslash( strval( $_GET['subsection'] ) ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
@@ -101,13 +107,26 @@ final class Help extends Admin_Menu {
 					$this->page_help,
 					$this->page_help_support,
 					$this->page_help_faqs,
+					$this->page_help_filters,
 					$this->page_help_compatibility,
 					$this->page_help_changelog,
 				],
 				self::TRANSIENT_ADMIN,
 			);
 		}
+	}
 
+	/**
+	 * Display the Compatibility list
+	 */
+	private function display_filters(): void {
+		// Send the file text to the included file.
+		$this->include_with_vars(
+			self::PAGES_NAMES['menu_filters'],
+			/** Add an array with vars to send in the template */
+			[],
+			self::TRANSIENT_ADMIN,
+		);
 	}
 
 	/**

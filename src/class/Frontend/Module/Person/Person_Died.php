@@ -67,30 +67,36 @@ final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param array<string, string|int> $death The array of death
-	 * @phpstan-param array{ day?: int, month?: string, year?: string, place?: string, cause?: string, status?: string|'DEAD' } $death
+	 * @phpstan-param array{ day?: int, month?: int, year?: int, place?: string, cause?: string, status?: string|'DEAD' } $death
 	 * @param string $item_name
 	 */
 	public function get_module_popup( array $death, string $item_name ): string {
 
-		if ( ! isset( $death['status'] ) || $death['status'] !== 'DEAD' ) {
-			return '';
-		}
+		$output = '';
 
-		$death_day = isset( $death['day'] ) && $death['day'] > 0 ? strval( $death['day'] ) . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
-		$month_tmp = strtotime( $death['month'] ?? '' );
-		$death_month = $month_tmp !== false && $month_tmp > 0 ? date_i18n( 'F', intval( wp_date( 'm', $month_tmp ) ) ) . ' ' : '(' . __( 'month unknown', 'lumiere-movies' ) . ') ';
-		$death_year = isset( $death['year'] ) && strlen( strval( $death['year'] ) ) > 0 ? strval( $death['year'] ) : '(' . __( 'year unknown', 'lumiere-movies' ) . ')';
+		if ( isset( $death['status'] ) && $death['status'] === 'DEAD' ) {
 
-		$output = $this->output_class->misc_layout( 'date_inside', '&#8224;&nbsp;' . esc_html__( 'Died on', 'lumiere-movies' ), esc_html( $death_day . $death_month . $death_year ) );
+			$output .= "\n\t\t\t\t" . '<div id="death" class="lumiere_align_center"><font size="-1">';
 
-		if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
-			/** translators: 'in' like 'Died in' */
-			$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $death['place'] );
-		}
+			$death_day = isset( $death['day'] ) ? (string) $death['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
+			$death_month = isset( $death['month'] ) ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
+			$death_year = isset( $death['year'] ) ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
 
-		if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
-			/** translators: 'cause' like 'Cause of death' */
-			$output .= ', ' . esc_html__( 'cause', 'lumiere-movies' ) . ' ' . esc_html( $death['cause'] );
+			$output .= "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
+				. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
+				. esc_html( $death_day . $death_month . $death_year );
+
+			if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
+				/** translators: 'in' like 'Died in' */
+				$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $death['place'] );
+			}
+
+			if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
+				/** translators: 'cause' like 'Cause of death' */
+				$output .= ' (' . esc_html( $death['cause'] . ')' );
+			}
+
+			$output .= "\n\t\t\t\t" . '</font></div>';
 		}
 		return $output;
 	}

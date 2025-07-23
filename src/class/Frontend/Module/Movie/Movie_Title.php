@@ -39,7 +39,7 @@ final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $title, $year_text );
+			return $this->get_module_popup( $title, $year_text, $movie->tagline() );
 		}
 
 		return $this->output_class->misc_layout(
@@ -53,12 +53,19 @@ final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 	 *
 	 * @param string $title The title
 	 * @param string $year_text The year
+	 * @param array<array-key, string> $taglines Tagline
 	 */
-	public function get_module_popup( string $title, string $year_text ): string {
+	public function get_module_popup( string $title, string $year_text, array $taglines ): string {
+
+		$tagline_final = null;
+		if ( array_key_exists( 0, $taglines ) ) {
+			$tagline_final = esc_html( $taglines[0] );
+		}
 
 		return $this->output_class->misc_layout(
-			'popup_title',
-			$title . $year_text
+			'popup_title_film',
+			$title . $year_text,
+			$tagline_final ?? ''
 		);
 	}
 }

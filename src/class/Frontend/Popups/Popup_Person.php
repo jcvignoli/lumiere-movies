@@ -55,6 +55,32 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 	 */
 	private string $popup_url;
 
+	private const ESC_HTML_POPUP_PERSON = [
+		'span' => [ 'class' => [] ],
+		'font' => [ 'size' => [] ],
+		'strong' => [],
+		'div' => [
+			'align' => [],
+			'rel' => [],
+			'class' => [],
+		],
+		'i' => [],
+		'img' => [
+			'loading' => [],
+			'alt' => [],
+			'src' => [],
+			'class' => [],
+			'width' => [],
+			'height' => [],
+		],
+		'a' => [
+			'href' => [],
+			'rel' => [],
+			'class' => [],
+			'title' => [],
+		],
+	];
+
 	/**
 	 * Constructor
 	 */
@@ -157,35 +183,23 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		// Show menu.
 		$this->display_menu();
 
-		// Show portrait.
-		$this->display_portrait();
-
 		//--------------------------------------------------------------------------- summary
 		// display only when nothing is selected from the menu.
 		$get_info_person = Validate_Get::sanitize_url( 'info_person' );
 		if (
 			$get_info_person === null || strlen( $get_info_person ) === 0
 		) {
+
+			$display_summary_intro = $this->get_items( $this->person_class, Settings_Popup::PERSON_SUMMARY_ROLES );
+			echo strlen( $display_summary_intro ) > 0 ? wp_kses(
+				$display_summary_intro,
+				self::ESC_HTML_POPUP_PERSON
+			) : '';
+
 			$display_summary = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_SUMMARY_ROLES );
 			echo strlen( $display_summary ) > 0 ? wp_kses(
 				$display_summary,
-				[
-					'span' => [ 'class' => [] ],
-					'font' => [ 'size' => [] ],
-					'strong' => [],
-					'div' => [
-						'align' => [],
-						'rel' => [],
-						'class' => [],
-					],
-					'i' => [],
-					'a' => [
-						'href' => [],
-						'rel' => [],
-						'class' => [],
-						'title' => [],
-					],
-				]
+				self::ESC_HTML_POPUP_PERSON
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No summary found ', 'lumiere-movies' ) . '</div>';
 		}
 
@@ -193,26 +207,16 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		if (
 			$get_info_person === 'filmo'
 		) {
+			$display_full_filmo_intro = $this->get_items( $this->person_class, Settings_Popup::PERSON_ALL_ROLES );
+			echo strlen( $display_full_filmo_intro ) > 0 ? wp_kses(
+				$display_full_filmo_intro,
+				self::ESC_HTML_POPUP_PERSON
+			) : '';
+
 			$display_full_filmo = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_ALL_ROLES );
 			echo strlen( $display_full_filmo ) > 0 ? wp_kses(
 				$display_full_filmo,
-				[
-					'span' => [ 'class' => [] ],
-					'font' => [ 'size' => [] ],
-					'strong' => [],
-					'div' => [
-						'align' => [],
-						'rel' => [],
-						'class' => [],
-					],
-					'i' => [],
-					'a' => [
-						'href' => [],
-						'rel' => [],
-						'class' => [],
-						'title' => [],
-					],
-				]
+				self::ESC_HTML_POPUP_PERSON
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No filmography found ', 'lumiere-movies' ) . '</div>';
 
 		}
@@ -224,23 +228,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 			$display_bio = $this->get_items( $this->person_class, Settings_Popup::PERSON_DISPLAY_ITEMS_BIO );
 			echo strlen( $display_bio ) > 0 ? wp_kses(
 				$display_bio,
-				[
-					'span' => [ 'class' => [] ],
-					'div' => [
-						'align' => [],
-						'class' => [],
-						'id' => [],
-					],
-					'a' => [
-						'href' => [],
-						'rel' => [],
-						'class' => [],
-						'title' => [],
-					],
-					'font' => [ 'size' => [] ],
-					'strong' => [],
-					'i' => [],
-				]
+				self::ESC_HTML_POPUP_PERSON
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No biography found ', 'lumiere-movies' ) . '</div>';
 		}
 
@@ -251,23 +239,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 			$display_misc = $this->get_items( $this->person_class, Settings_Popup::PERSON_DISPLAY_ITEMS_MISC );
 			echo strlen( $display_misc ) > 0 ? wp_kses(
 				$display_misc,
-				[
-					'span' => [ 'class' => [] ],
-					'div' => [
-						'align' => [],
-						'class' => [],
-						'id' => [],
-					],
-					'a' => [
-						'href' => [],
-						'rel' => [],
-						'class' => [],
-						'title' => [],
-					],
-					'font' => [ 'size' => [] ],
-					'strong' => [],
-					'i' => [],
-				]
+				self::ESC_HTML_POPUP_PERSON
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No misc info found ', 'lumiere-movies' ) . '</div>';
 		}
 
@@ -309,140 +281,10 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 	}
 
 	/**
-	 * Display portrait including the medaillon
-	 */
-	private function display_portrait(): void { ?>
-												<!-- Photo & identity -->
-		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center lum_padding_bott_2vh lum_padding_top_6vh">
-			<div class="lumiere_flex_auto lum_width_fit_cont">
-				<div class="identity"><?php echo esc_html( $this->page_title ); ?></div>
-
-				<?php
-
-				# Birth
-				$get_birthday = $this->person_class->born();
-				$birthday = $get_birthday !== null ? array_filter( $get_birthday, fn( $get_birthday ) => ( $get_birthday !== false && $get_birthday !== '' ) ) : [];
-				if ( count( $birthday ) > 0 ) {
-					echo "\n\t\t\t\t" . '<div id="birth"><font size="-1">';
-
-					$birthday_day = isset( $birthday['day'] ) ? strval( $birthday['day'] ) . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
-					$birthday_month = isset( $birthday['month'] ) && strlen( $birthday['month'] ) > 0 ? date_i18n( 'F', $birthday['month'] ) . ' ' : '(' . __( 'month unknown', 'lumiere-movies' ) . ') ';
-					$birthday_year = isset( $birthday['year'] ) ? strval( $birthday['year'] ) : '(' . __( 'year unknown', 'lumiere-movies' ) . ')';
-
-					echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
-						. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
-						. esc_html( $birthday_day . $birthday_month . $birthday_year );
-
-					if ( isset( $birthday['place'] ) && strlen( $birthday['place'] ) > 0 ) {
-						/** translators: 'in' like 'Born in' */
-						echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
-					}
-
-					echo "\n\t\t\t\t" . '</font></div>';
-				}
-
-				# Death
-				$death = $this->person_class->died();
-				if ( $death['status'] === 'DEAD' ) {
-
-					echo "\n\t\t\t\t" . '<div id="death"><font size="-1">';
-
-					$death_day = isset( $death['day'] ) && strlen( strval( $death['day'] ) ) > 0 ? (string) $death['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
-					$death_month = isset( $death['month'] ) && strlen( $death['month'] ) > 0 ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
-					$death_year = isset( $death['year'] ) && strlen( strval( $death['year'] ) ) > 0 ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
-
-					echo "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
-						. esc_html__( 'Died on', 'lumiere-movies' ) . '</span>'
-						. esc_html( $death_day . $death_month . $death_year );
-
-					if ( ( isset( $death['place'] ) ) && ( strlen( $death['place'] ) !== 0 ) ) {
-						/** translators: 'in' like 'Died in' */
-						echo ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $death['place'] );
-					}
-
-					if ( ( isset( $death['cause'] ) ) && ( strlen( $death['cause'] ) !== 0 ) ) {
-						/** translators: 'cause' like 'Cause of death' */
-						echo ' (' . esc_html( $death['cause'] . ')' );
-					}
-
-					echo "\n\t\t\t\t" . '</font></div>';
-				}
-
-				$bio = $this->link_maker->get_medaillon_bio( $this->person_class->bio() );
-
-				if ( strlen( $bio ) > 0 ) {
-					echo "\n\t\t\t\t" . '<div id="bio" class="lumiere_padding_two lumiere_align_left"><font size="-1">';
-					echo "\n\t\t\t\t" . wp_kses(
-						$bio,
-						[
-							'span' => [ 'class' => [] ],
-							'a' => [
-								'href' => [],
-								'title' => [],
-								'class' => [],
-							],
-							'strong' => [],
-							'div' => [ 'class' => [] ],
-							'br' => [],
-						]
-					) . '</font></div>';
-				}
-				?>
-
-			</div>
-
-					<!-- star photo -->
-			<div class="lumiere_width_20_perc lumiere_padding_two lum_popup_img"><?php
-
-			// Select pictures: big poster, if not small poster, if not 'no picture'.
-			$photo_url = '';
-			$photo_big = (string) $this->person_class->photoLocalurl( false );
-			$photo_thumb = (string) $this->person_class->photoLocalurl( true );
-
-			if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
-				$photo_url = strlen( $photo_big ) > 1 ? esc_url( $photo_big ) : esc_url( $photo_thumb ); // create big picture, thumbnail otherwise.
-			}
-
-			// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
-			$photo_url_href = strlen( $photo_url ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
-
-			// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-			$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
-
-			echo "\n\t\t\t\t" . '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
-			echo "\n\t\t\t\t\t" . '<img loading="lazy" src="'
-				. esc_url( $photo_url_img )
-				. '" alt="' . esc_attr( $this->page_title ) . '"';
-
-			// add width only if "Display only thumbnail" is unactive.
-			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-				$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
-				$height = (float) $width * 1.4;
-				echo ' width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '"';
-
-				// add 100px width if "Display only thumbnail" is active.
-			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
-
-				echo ' width="100" height="160"';
-
-			}
-
-			echo ' />';
-			echo "\n\t\t\t\t</a>";
-
-			?>
-
-			</div> 
-		</div> 
-							
-		<?php
-	}
-
-	/**
 	 * Return a the list of Name items using modules
 	 * @param Name $person_class
 	 * @param list<string> $items list of items to convert to modules
-	 * @phpstan-param Settings_Popup::PERSON_DISPLAY_ITEMS_BIO|Settings_Popup::PERSON_DISPLAY_ITEMS_MISC $items
+	 * @phpstan-param Settings_Popup::PERSON_DISPLAY_ITEMS_BIO|Settings_Popup::PERSON_DISPLAY_ITEMS_MISC|Settings_Popup::PERSON_ALL_ROLES|Settings_Popup::PERSON_SUMMARY_ROLES $items
 	 */
 	private function get_items( Name $person_class, array $items ): string {
 		$output = '';
@@ -450,6 +292,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
+				// @phpstan-ignore method.notFound (Call to an undefined method object::get_module())
 				$final_text = $class_module->get_module( $person_class, $module );
 				if ( strlen( $final_text ) > 0 ) {
 					$output .= $this->output_popup_class->person_element_embeded(

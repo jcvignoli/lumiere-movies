@@ -204,7 +204,7 @@ $lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<div id="inside_help_explain_addsearchform" class="hidesection">
 
-				<?php esc_html_e( 'It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the code:', 'lumiere-movies' ); ?>
+				<?php esc_html_e( 'It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the HTML code:', 'lumiere-movies' ); ?>
 
 				<blockquote class="lumiere_bloquote_help lum_align_left">
 					&lt;form action="" method="post" id="searchmovie" &gt<br>

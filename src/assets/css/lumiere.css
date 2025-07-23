@@ -38,8 +38,12 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 }
 
 .lum_popup_img { /* div for movie or people picture in popups */
-	text-align: right;
 	margin-right: 1em;
+	text-align: right;
+	padding: 5px;
+	float: right;
+	margin-top: -5%;
+	position: relative;
 }
 
 .lum_popup_menu_title, .lum_link_no_popup, .lum_popup_internal_link { /* links inside popups, internal links, title menu links, no popups in posts */
@@ -436,6 +440,8 @@ span.lum_results_section_subtitle_subcat_content::before { content: " (" counter
 .lumiere_width_15_perc{width:15%;}
 .lumiere_font_em_11{font-size:1.1em;}
 .lumiere_padding_two{padding:2px;}
+.lumiere_padding_two_em{padding:2em;}
+.lumiere_padding_one_em{padding:1em;}
 .lumiere_padding_five{padding:5px;}
 .lumiere_padding_15{padding:15px;}
 .lum_padding_bott_2vh{padding-bottom:2vh;}

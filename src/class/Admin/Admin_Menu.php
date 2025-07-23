@@ -53,6 +53,7 @@ class Admin_Menu {
 	protected string $page_main_advanced;
 	protected string $page_help;
 	protected string $page_help_support;
+	protected string $page_help_filters;
 	protected string $page_help_faqs;
 	protected string $page_help_changelog;
 	protected string $page_help_compatibility;
@@ -104,6 +105,7 @@ class Admin_Menu {
 		$page_help = 'admin.php?page=' . $this->menu_id . '_help';
 		$this->page_help = admin_url( $page_help );
 		$this->page_help_support = admin_url( $page_help . '&subsection=support' );
+		$this->page_help_filters = admin_url( $page_help . '&subsection=filters' );
 		$this->page_help_faqs = admin_url( $page_help . '&subsection=faqs' );
 		$this->page_help_compatibility = admin_url( $page_help . '&subsection=compatibility' );
 		$this->page_help_changelog = admin_url( $page_help . '&subsection=changelog' );

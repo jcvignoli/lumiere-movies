@@ -190,8 +190,6 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 
 		$this->display_menu( $this->movie_class, $this->page_title );
 
-		$this->display_portrait( $this->movie_class );
-
 		// Introduction part.
 		// Display something when nothing has been selected in the menu.
 		$get_info = Validate_Get::sanitize_url( 'info' );
@@ -378,70 +376,6 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=divers' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
-		<?php
-	}
-
-	/**
-	 * Show the portrait (title, picture)
-	 */
-	public function display_portrait( Title $movie_class ): void {
-		?>
-		<div class="lumiere_display_flex lumiere_font_em_11 lumiere_align_center lum_padding_bott_2vh lum_padding_top_6vh">
-			<div class="lumiere_flex_auto lum_width_fit_cont">
-				<div class="titrefilm">
-				<?php
-					// Get movie's title from imdbphp query, not from globals.
-					echo esc_html( $movie_class->title() );
-				?>
-				&nbsp;(<?php echo $movie_class->year() > 0 ? esc_html( $movie_class->year() ) : esc_html__( 'year unknown', 'lumiere-movies' ); ?>)</div>
-				<div class="lumiere_align_center"><font size="-1"><?php
-				$taglines = $movie_class->tagline();
-				if ( array_key_exists( 0, $taglines ) ) {
-					echo esc_html( $taglines[0] );
-				}
-				?></font></div>
-			</div> 
-												<!-- Movie's picture display -->
-			<div class="lumiere_width_20_perc lumiere_padding_two lum_popup_img">
-			<?php
-				// Select pictures: big poster, if not small poster, if not 'no picture'.
-				$photo_url = '';
-				$photo_big = (string) $movie_class->photoLocalurl( false );
-				$photo_thumb = (string) $movie_class->photoLocalurl( true );
-
-			if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
-				$photo_url = strlen( $photo_big ) > 1 ? esc_html( $photo_big ) : esc_html( $photo_thumb ); // create big picture, thumbnail otherwise.
-			}
-
-				// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
-				$photo_url_href = strlen( $photo_url ) === 0 ? Get_Options::LUM_PICS_URL . 'no_pics.gif' : $photo_url;
-
-				// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-				$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
-
-				echo '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
-				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
-				echo "\n\t\t" . '<img loading="lazy" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $movie_class->title() ) . '"';
-
-				// add width only if "Display only thumbnail" is not active.
-			if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-				$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
-				$height = (float) $width * 1.4;
-				echo ' width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '"';
-
-				// set width to 100px width if "Display only thumbnail" is active.
-			} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
-
-				echo ' height="160" width="100"';
-
-			}
-
-			echo ' />';
-			echo "\n\t\t\t\t</a>";
-			?>
-
-			</div> 
-		</div> 
 		<?php
 	}
 

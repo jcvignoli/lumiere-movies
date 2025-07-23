@@ -43,6 +43,9 @@ final class Person_Bio extends \Lumiere\Frontend\Module\Parent_Module {
 	 * @param array<array<string, string>> $bio Biography
 	 */
 	public function get_module_popup( array $bio ): string {
-		return $this->link_maker->get_medaillon_bio( $bio, 600 );
+		$output = "\n\t\t\t\t" . '<div id="bio" class="lumiere_padding_one_em lumiere_align_left"><font size="-1">';
+		$output .= $this->link_maker->get_medaillon_bio( $bio, 300 );
+		$output .= '</font></div>';
+		return $output;
 	}
 }

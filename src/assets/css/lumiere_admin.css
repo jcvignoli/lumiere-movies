@@ -191,6 +191,10 @@ table.table_ninety{margin-left:auto;margin-right:auto;width:90%;}
 .lumiere_writing_vertical{writing-mode: vertical-lr;}
 .lumiere_bloquote_help{background: lightgrey;padding: 1em;border-radius: 1em;}
 
+.lum_h4_help_filters{background-color:#faebd7;padding: 0.7em;border-radius: 1em;max-width: fit-content;}
+.lum_bloquote_help_filters{background-color:#f5f5f5;padding: 0.5em;margin-top:1em;margin-bottom:1em;max-width: fit-content;}
+span.lum_exemple{background-color:#ffefd5;padding: 5px}
+
 /* sticky */
 [class*="lumiere_sticky_"] { position: sticky; bottom: 0;  z-index: 10;}
 .lumiere_sticky_white{ background-color: white;}

@@ -55,8 +55,8 @@ final class Person_Title extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module_popup( string $perso_name, string $year_born_txt ): string {
 
 		return $this->output_class->misc_layout(
-			'popup_title',
-			$perso_name . $year_born_txt
+			'popup_title_perso',
+			esc_html( $perso_name )
 		);
 	}
 }

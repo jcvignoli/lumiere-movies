@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière Movies 4.6.5\n"
+"Project-Id-Version: Lumière Movies 4.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-21T23:45:02+00:00\n"
+"POT-Creation-Date: 2025-07-22T22:23:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: lumiere-movies\n"
@@ -39,96 +39,96 @@ msgstr ""
 msgid "https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:211
-#: class/Admin/Admin_Menu.php:264
+#: class/Admin/Admin_Menu.php:213
+#: class/Admin/Admin_Menu.php:266
 msgid "Data management for movies"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:212
-#: class/Admin/Admin_Menu.php:265
+#: class/Admin/Admin_Menu.php:214
+#: class/Admin/Admin_Menu.php:267
 msgid "Data movies"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:219
-#: class/Admin/Admin_Menu.php:272
+#: class/Admin/Admin_Menu.php:221
+#: class/Admin/Admin_Menu.php:274
 msgid "Data management for persons"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:220
-#: class/Admin/Admin_Menu.php:273
+#: class/Admin/Admin_Menu.php:222
+#: class/Admin/Admin_Menu.php:275
 msgid "Data persons"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:227
-#: class/Admin/Admin_Menu.php:280
+#: class/Admin/Admin_Menu.php:229
+#: class/Admin/Admin_Menu.php:282
 msgid "Cache management options page"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:228
-#: class/Admin/Admin_Menu.php:281
-#: class/Admin/Admin_Menu.php:353
+#: class/Admin/Admin_Menu.php:230
+#: class/Admin/Admin_Menu.php:283
+#: class/Admin/Admin_Menu.php:355
 msgid "Cache"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:235
-#: class/Admin/Admin_Menu.php:288
+#: class/Admin/Admin_Menu.php:237
+#: class/Admin/Admin_Menu.php:290
 msgid "Help page"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:236
-#: class/Admin/Admin_Menu.php:289
-#: class/Admin/Admin_Menu.php:365
+#: class/Admin/Admin_Menu.php:238
+#: class/Admin/Admin_Menu.php:291
+#: class/Admin/Admin_Menu.php:367
 msgid "Help"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:246
+#: class/Admin/Admin_Menu.php:248
 msgid "Lumière options page"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:247
+#: class/Admin/Admin_Menu.php:249
 msgid "Lumière"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:256
+#: class/Admin/Admin_Menu.php:258
 msgid "Lumière main page"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:257
-#: class/Admin/Admin_Menu.php:320
+#: class/Admin/Admin_Menu.php:259
+#: class/Admin/Admin_Menu.php:322
 msgid "Main"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:311
+#: class/Admin/Admin_Menu.php:313
 msgid "Lumière Menu"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:323
+#: class/Admin/Admin_Menu.php:325
 msgid "Main and advanced options"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:331
+#: class/Admin/Admin_Menu.php:333
 msgid "Data movie"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:334
+#: class/Admin/Admin_Menu.php:336
 msgid "Data option and taxonomy for movies"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:342
+#: class/Admin/Admin_Menu.php:344
 msgid "Data person"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:345
+#: class/Admin/Admin_Menu.php:347
 msgid "Data option and taxonomy for persons"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:356
+#: class/Admin/Admin_Menu.php:358
 #: class/templates/admin/cache/admin-cache-options.php:26
 #: class/templates/admin/cache/admin-cache-submenu.php:26
 msgid "Cache options"
 msgstr ""
 
-#: class/Admin/Admin_Menu.php:368
+#: class/Admin/Admin_Menu.php:370
 msgid "Get support and support plugin development"
 msgstr ""
 
@@ -234,6 +234,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Admin/Backoffice_Extra.php:58
+#: assets/blocks/coming-soon/edit.js:38
 msgid "Settings"
 msgstr ""
 
@@ -387,19 +388,19 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: class/Config/Settings.php:234
+#: class/Config/Settings.php:241
 msgid "By movie ID"
 msgstr ""
 
-#: class/Config/Settings.php:238
+#: class/Config/Settings.php:245
 msgid "By movie title"
 msgstr ""
 
-#: class/Config/Settings.php:242
+#: class/Config/Settings.php:249
 msgid "By person name"
 msgstr ""
 
-#: class/Config/Settings.php:246
+#: class/Config/Settings.php:253
 msgid "By person ID"
 msgstr ""
 
@@ -948,6 +949,10 @@ msgstr ""
 
 #: class/Config/Settings_Person.php:194
 msgid "Display (a number of) awards"
+msgstr ""
+
+#: class/Frontend/Calendar/Coming_Soon.php:93
+msgid "No data found."
 msgstr ""
 
 #. translators: %1s is a movie field string, such as director, actor
@@ -1903,7 +1908,7 @@ msgid "Person item selection"
 msgstr ""
 
 #: class/templates/admin/help/admin-help-changelog.php:38
-#: class/templates/admin/help/admin-help-submenu.php:33
+#: class/templates/admin/help/admin-help-submenu.php:34
 msgid "Changelog"
 msgstr ""
 
@@ -1912,8 +1917,13 @@ msgid "Plugin compatibility list"
 msgstr ""
 
 #: class/templates/admin/help/admin-help-faqs.php:45
-#: class/templates/admin/help/admin-help-submenu.php:31
+#: class/templates/admin/help/admin-help-submenu.php:32
 msgid "Frequently asked questions"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:46
+#: class/templates/admin/help/admin-help-submenu.php:36
+msgid "WordPress filters"
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:26
@@ -1936,11 +1946,11 @@ msgstr ""
 #: class/templates/admin/help/admin-help-howto.php:153
 #: class/templates/admin/help/admin-help-howto.php:178
 #: class/templates/admin/help/admin-help-howto.php:185
-#: class/templates/admin/help/admin-help-howto.php:279
-#: class/templates/admin/help/admin-help-howto.php:290
-#: class/templates/admin/help/admin-help-howto.php:302
-#: class/templates/admin/help/admin-help-howto.php:310
-#: class/templates/admin/help/admin-help-howto.php:343
+#: class/templates/admin/help/admin-help-howto.php:280
+#: class/templates/admin/help/admin-help-howto.php:291
+#: class/templates/admin/help/admin-help-howto.php:303
+#: class/templates/admin/help/admin-help-howto.php:311
+#: class/templates/admin/help/admin-help-howto.php:344
 msgid "click to get a larger picture"
 msgstr ""
 
@@ -1979,7 +1989,7 @@ msgid "Whatever the tool you prefer, when you add such a link a small icon confi
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:91
-msgid "How to display movie's data inside my post?"
+msgid "How to display movie's data inside my post - blocks in posts"
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:96
@@ -2007,7 +2017,7 @@ msgid "How to display data inside my post - advanced users"
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:116
-msgid "It could happen you don't want to use the previous solution to display movie's data. For exemple, if you wish to use Lumière outside a post (in a customised page), it won't work. Lumière is written around filters and actions so it is easy to achieve what you want."
+msgid "You may not want to use the post's blocks to display movie's data. For exemple, you may want to use Lumière in a customised page. Since Lumière includes filters and actions, it's actually easy to achieve it."
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:121
@@ -2015,11 +2025,11 @@ msgid "The first filter to use is 'lum_find_movie_id' (as you probably do not kn
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:128
-msgid "Should you want own the IMDb ID, it is more straightforward:"
+msgid "Should you already have the movie's IMDb ID, it's even more straightforward:"
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:134
-msgid "Since Lumière 4.6, you can also add people in addition to movies. The filers are 'lum_find_person_id' and 'lum_display_person_box':"
+msgid "Starting with Lumière 4.6, you can also add people's details in addition to movie's details. The filers are 'lum_find_person_id' and 'lum_display_person_box':"
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:141
@@ -2083,192 +2093,220 @@ msgid "How to add a search function for movies in my page? (advanced users)"
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:207
-msgid "It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the code:"
+msgid "It is doable. Lumière is versatile enough to handle this function. With the help of a form, you can add a query field to search for every movie on your blog. Here is the HTML code:"
 msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:217
 msgid "Then the PHP code:"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:240
+#: class/templates/admin/help/admin-help-howto.php:241
 msgid "It perfectly fits in your sidebar, for example."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:251
+#: class/templates/admin/help/admin-help-howto.php:252
 msgid "How to ensure that my css edits remain through plugin updates?"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:255
+#: class/templates/admin/help/admin-help-howto.php:256
 msgid "Are you tired of losing your carefully hand-made CSS edits at every Lumière! update? There is a solution."
 msgstr ""
 
 #. translators: %1$s and %2$s are HTML tags
-#: class/templates/admin/help/admin-help-howto.php:262
+#: class/templates/admin/help/admin-help-howto.php:263
 #, php-format
 msgid "Any modification of the stylesheet you make should be done in your template folder rather than by editing lumiere-movies/css/lumiere.css. Download %1$sunminified css%2$s from the GIT repository, and edit that very file so it suits your needs. Then copy the edited file into you template folder: that file will superseed the plugin's one. Whenever you will update, your template's file will remain untouched and your edits will make it. Just make sure you are using a child theme, otherwise your customised lumiere.css will be deleted at the next template update."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:269
+#: class/templates/admin/help/admin-help-howto.php:270
 msgid "What is WordPress' taxonomy?"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:273
+#: class/templates/admin/help/admin-help-howto.php:274
 msgid "Since WordPress 2.3, WordPress users can use taxonomy."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:275
+#: class/templates/admin/help/admin-help-howto.php:276
 msgid "Lumière Taxonomy is a feature adding it's own specific tags to WordPress. It adds new custom categories to WordPress, like the directors and the movie's genres that link all your similar posts together. For exemple, all your posts that includes movies with genre like \"Adventure\", \"Terror\" are detected and can be shown on a same taxonomy page."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:277
+#: class/templates/admin/help/admin-help-howto.php:278
 msgid "How to use taxonomy in WordPress?"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:281
+#: class/templates/admin/help/admin-help-howto.php:282
 msgid "Taxonomy is automatically generated in Lumière! and activated by default. You can however disable it by unchecking the box in 'Main options -> Advanced -> 'Use taxonomy'. A page including the movie fields to use as taxonomy (such as directors, genres, etc), are also to be found in 'Data -> Display'."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:283
+#: class/templates/admin/help/admin-help-howto.php:284
 msgid "After activating taxonomy and selecting which movie fields to use, your posts will have brand new links to page including all those details. By default, you can click on the on any director and genre on your page, it will open a new page dynamically created by Lumière."
 msgstr ""
 
 #. translators: %s is an admin URL
-#: class/templates/admin/help/admin-help-howto.php:285
+#: class/templates/admin/help/admin-help-howto.php:286
 #, php-format
 msgid "Important: should you get a page not found error (404) when visiting the dynamically created pages, just go to %1$s Permalink Settings %2$s to refresh the rewriting rules."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:286
+#: class/templates/admin/help/admin-help-howto.php:287
 msgid "You can now visit pages that include all your posts grouped by movie details. For instance, if you write a lot about the same movie director, the taxonomy page will include all your posts written about them."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:288
+#: class/templates/admin/help/admin-help-howto.php:289
 msgid "New option in 'Posts' menu"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:292
+#: class/templates/admin/help/admin-help-howto.php:293
 msgid "Once you have published your first article including a movie (both widget and inside a post trigger that function) WordPress will display the new taxonomy under 'posts' admin section. Depending on the movie details you have selected, you will find them in the menu."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:295
+#: class/templates/admin/help/admin-help-howto.php:296
 msgid "Advanced: Customize your theme for your taxonomy pages"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:297
+#: class/templates/admin/help/admin-help-howto.php:298
 msgid "To fully enjoy this taxonomy, make sure you copied the template files located in the Lumière! movies folder 'lumiere-movies/theme/' into your 'theme' folder. This can be automatized by using the options available in Lumière! taxonomy :"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:304
+#: class/templates/admin/help/admin-help-howto.php:305
 msgid "Click on 'copy template', that's it! You will be notified when a new template is available. You can customize even further the template that was copied into your template to match your specific needs. By default, the new taxonomy template will show you the person/item and the posts and pages mentioning them."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:308
+#: class/templates/admin/help/admin-help-howto.php:309
 msgid "Since Lumière version 4.3.2, the taxonomy templates you copied in your theme folder will be automatically updated whenever you update Lumière. Should a new template model be released, the latter will be automatically copied in you theme without you needing to manually update the template. However, should you want to change the behaviour, remove the 11th line starting with 'TemplateAutomaticUpdate' and your template will not be automatically updated. Instead, you'll be asked to update it manually when visiting Lumière administration pages."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:320
+#: class/templates/admin/help/admin-help-howto.php:321
 msgid "What is Lumière auto-widget?"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:324
+#: class/templates/admin/help/admin-help-howto.php:325
 msgid "It is a special type of widget. Unlike the normal Lumière widget (see widget help section in this page), Lumière auto-widget does not require you to enter any IMDb ID or movie's title manually. It automatically query the IMDb according to title you gave to your post. Beware it does so for all posts you have published."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:328
+#: class/templates/admin/help/admin-help-howto.php:329
 msgid "When should you use auto-widget?"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:330
+#: class/templates/admin/help/admin-help-howto.php:331
 msgid "Should you have hundreds of posts named after movie's title and you don't want to edit them all, manually inserting widgets or a Lumière blocks inside the post, Lumière does everything for you."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:335
+#: class/templates/admin/help/admin-help-howto.php:336
 msgid "How to use auto-widget?"
 msgstr ""
 
 #. translators: %s are HTML URL tags
-#: class/templates/admin/help/admin-help-howto.php:339
+#: class/templates/admin/help/admin-help-howto.php:340
 #, php-format
 msgid "Add a Lumières!'s %1$s widget %2$s to your sidebar, and go to \"Main Options / Advanced\" and check \"Auto title widget\" option."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:346
+#: class/templates/admin/help/admin-help-howto.php:347
 msgid "Next time you will look at your post, you will find the widget according to your post’s title."
 msgstr ""
 
 #. translators: %s are HTML URL tags
-#: class/templates/admin/help/admin-help-howto.php:351
+#: class/templates/admin/help/admin-help-howto.php:352
 #, php-format
 msgid "Notice: in order to have this feature work, you must add a widget using %1$sWidget Page%2$s option. Take a look at the \"Widget\" section of this \"how to\" page."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:356
+#: class/templates/admin/help/admin-help-howto.php:357
 msgid "Known issue: Lumière offers widgets for both old and modern type of widgets. Old widgets (aka Legacy Widgets) are available if you installed a Classic Widget plugin or any plugin that simplified the way to display your widgets and posts, or if your WordPress install is prior to WordPress 5.8. Modern Widgets (aka Block Widgets) are standard in every new WordPress install as of 5.8. Potential issues could arise should you install both types of Lumière widgets, namely Legacy and Block Widgets. In order to prevent such issues, make sure that both Block and Legacy Widgets are not activated together. Remove any Lumière Block Widget previously added if you use Lumière Legacy Widget when using the pre-5.8/Classic Editor. In the pre-5.8/Classic Widget Editor, no option to add a Block Widget is available, but you may find a Block based Widget previously added in Block Editor, which you need to remove."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:361
+#: class/templates/admin/help/admin-help-howto.php:362
 msgid "Since Lumière v.4.1, the auto-widget can be removed on a post basis. In Lumière options for your posts, you will find a checkbox to prevent auto-widget to be applied on a given post."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:370
+#: class/templates/admin/help/admin-help-howto.php:371
 msgid "Changing default IMDb search options"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:374
+#: class/templates/admin/help/admin-help-howto.php:375
 msgid "Lumière queries the IMDb for every movie or person you are looking for. You can modify the results from the IMDb displayed in your blog will tweaking the search options available in menu options 'Main / Advanced'."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:379
+#: class/templates/admin/help/admin-help-howto.php:380
 msgid "Four options are available: \"search language\", \"search categories\", \"limit the number of results\" and \"delay queries time\"."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:383
+#: class/templates/admin/help/admin-help-howto.php:384
 msgid "1. Search language allows to modify the language of the query. This is generally not the language of the output: most of the details will be returned in English by the IMDb, except the title, for exemple. This options mainly changes the language of the query; it may therefore ease to find your movies on a blog that is run in a different language than English."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:387
+#: class/templates/admin/help/admin-help-howto.php:388
 msgid "2. Search category allows to modify the type of material your searching. If your blog is about series only, select in the dropdown list 'series only'. If it is about videogames, select the option accordingly."
 msgstr ""
 
 #. translators: %1$s and %2$s are replaced with HTML tags
-#: class/templates/admin/help/admin-help-howto.php:395
+#: class/templates/admin/help/admin-help-howto.php:396
 #, php-format
 msgid "3. It is possible to limit the number of results in the queries using its dedicated option. The less results there is, the less server resources are required and the faster the output is displayed. This limit number applies to the search of movies with a similar name (menu option in movies popups) and in %1$sthe admin tool of queries to find IMDb id%2$s."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-howto.php:407
+#: class/templates/admin/help/admin-help-howto.php:408
 msgid "4. Delay queries time is the time in seconds between two queries made to IMDb. Should you have a blog that makes a lot of requests to IMDb, this can be usefull to avoid HTTP 504 errors (too many requests) thrown by IMDb."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-submenu.php:29
+#: class/templates/admin/help/admin-help-howto.php:414
+msgid "Display \"coming soon\" movies"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-howto.php:416
+msgid "Should you want to diplay the movies to come soon, use the dedicated filter:"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-howto.php:420
+msgid "The first filter option allows to change the country based on a two-letter position, and if nothing was passed \"US\" is default."
+msgstr ""
+
+#: class/templates/admin/help/admin-help-howto.php:422
+msgid "The second filter option is the type of search. Options can be MOVIE, TV or TV_EPISODE. MOVIE by default."
+msgstr ""
+
+#: class/templates/admin/help/admin-help-howto.php:424
+msgid "The third filter option is the starting day. 0 is today. 0 is the default starting value if no value was passed."
+msgstr ""
+
+#: class/templates/admin/help/admin-help-howto.php:426
+msgid "The fourth filter option is the ending day, with 0 as of today. If no value was passed, the default ending value used is 1 year later."
+msgstr ""
+
+#: class/templates/admin/help/admin-help-submenu.php:30
 msgid "How to use Lumiere Movies"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-submenu.php:29
+#: class/templates/admin/help/admin-help-submenu.php:30
 msgid "How to"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-submenu.php:31
+#: class/templates/admin/help/admin-help-submenu.php:32
 msgid "FAQs"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-submenu.php:33
+#: class/templates/admin/help/admin-help-submenu.php:34
 msgid "What's new"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-submenu.php:35
+#: class/templates/admin/help/admin-help-submenu.php:36
+msgid "Filters"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-submenu.php:38
 msgid "Plugins Lumière is compatible with"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-submenu.php:35
+#: class/templates/admin/help/admin-help-submenu.php:38
 msgid "Compatibility"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-submenu.php:37
+#: class/templates/admin/help/admin-help-submenu.php:40
 msgid "Get support and support me"
 msgstr ""
 
-#: class/templates/admin/help/admin-help-submenu.php:37
+#: class/templates/admin/help/admin-help-submenu.php:40
 msgid "Support, donate & credits"
 msgstr ""
 
@@ -2706,6 +2744,16 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
+#: class/templates/calendar.php:24
+msgid "Release date:"
+msgstr ""
+
+#: class/templates/calendar.php:42
+msgid "Actor:"
+msgid_plural "Actors:"
+msgstr[0] ""
+msgstr[1] ""
+
 #: class/Theme/Taxonomy_Items_Standard.php:152
 msgid "All Lumière taxonomies known: "
 msgstr ""
@@ -2780,6 +2828,38 @@ msgstr ""
 #: assets/blocks/addlink/index.js:30
 #: assets/blocks/addlink/index.js:46
 msgid "Add a popup link"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:31
+msgid "Lumière! Calendar upcoming movies"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:34
+msgid "Click here to change the block options"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:40
+msgid "Country"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:48
+msgid "Type of search"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:60
+msgid "Starting date (in number of days)"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:68
+msgid "Ending date (in number of days)"
+msgstr ""
+
+#: assets/blocks/coming-soon/index.js:13
+msgid "Coming soon"
+msgstr ""
+
+#: assets/blocks/coming-soon/index.js:14
+msgid "Add upcoming list of movies in your post"
 msgstr ""
 
 #: assets/blocks/opensearch/index.js:38
@@ -2866,11 +2946,11 @@ msgid "Enter widget title:"
 msgstr ""
 
 #: assets/blocks/widget/index.js:16
-msgid "Add a movie/person data in your Widget"
+msgid "Lumière Widget"
 msgstr ""
 
 #: assets/blocks/widget/index.js:17
-msgid "Widget to add a movie/person data in your sidebar or display auto title widget data"
+msgid "Add a movie/person widget in your sidebar"
 msgstr ""
 
 #: assets/blocks/addlink/block.json
@@ -2881,6 +2961,43 @@ msgstr ""
 #: assets/blocks/addlink/block.json
 msgctxt "block description"
 msgid "Add a link that opens a popup with your selected movie"
+msgstr ""
+
+#: assets/blocks/coming-soon/block.json
+msgctxt "block title"
+msgid "Coming soon movie list"
+msgstr ""
+
+#: assets/blocks/coming-soon/block.json
+msgctxt "block description"
+msgid "Add upcoming movies in your post"
+msgstr ""
+
+#: assets/blocks/coming-soon/block.json
+#: assets/blocks/post/block.json
+#: assets/blocks/widget/block.json
+msgctxt "block keyword"
+msgid "lumiere"
+msgstr ""
+
+#: assets/blocks/coming-soon/block.json
+#: assets/blocks/post/block.json
+#: assets/blocks/widget/block.json
+msgctxt "block keyword"
+msgid "imdb"
+msgstr ""
+
+#: assets/blocks/coming-soon/block.json
+#: assets/blocks/post/block.json
+msgctxt "block keyword"
+msgid "movies"
+msgstr ""
+
+#: assets/blocks/coming-soon/block.json
+#: assets/blocks/post/block.json
+#: assets/blocks/widget/block.json
+msgctxt "block keyword"
+msgid "film"
 msgstr ""
 
 #: assets/blocks/opensearch/block.json
@@ -2919,29 +3036,6 @@ msgctxt "block description"
 msgid "Add a block in your posts that displays movie/person data."
 msgstr ""
 
-#: assets/blocks/post/block.json
-#: assets/blocks/widget/block.json
-msgctxt "block keyword"
-msgid "lumiere"
-msgstr ""
-
-#: assets/blocks/post/block.json
-#: assets/blocks/widget/block.json
-msgctxt "block keyword"
-msgid "imdb"
-msgstr ""
-
-#: assets/blocks/post/block.json
-msgctxt "block keyword"
-msgid "movies"
-msgstr ""
-
-#: assets/blocks/post/block.json
-#: assets/blocks/widget/block.json
-msgctxt "block keyword"
-msgid "film"
-msgstr ""
-
 #: assets/blocks/widget-sidebar-options/block.json
 msgctxt "block title"
 msgid "Lumière Widget Options"
@@ -2954,12 +3048,12 @@ msgstr ""
 
 #: assets/blocks/widget/block.json
 msgctxt "block title"
-msgid "Add a movie/person data in your Widget"
+msgid "Lumière Widget"
 msgstr ""
 
 #: assets/blocks/widget/block.json
 msgctxt "block description"
-msgid "Widget to add a movie/person data in your sidebar or display auto title widget data"
+msgid "Add a movie/person widget in your sidebar"
 msgstr ""
 
 #: assets/blocks/widget/block.json

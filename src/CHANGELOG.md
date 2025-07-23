@@ -1,8 +1,10 @@
 **Changelog**
 
 v.4.7
-* [feature] Display "coming soon" movies in posts (available as a block in post editing, also available as 'lum_coming_soon' filter). Upcoming movies be filtered by date, language and media type
+* [feature] Major: "Coming soon" list of upcoming movies can be displayed in a post/page (available as a block in post editing, also available as 'lum_coming_soon' filter). Upcoming movies be filtered by date, language and media type
 * [technical] Better documentation of html form search function
+* [technical] Better documentation of WordPress filters
+* [technical] Use of the wp_register_block_types_from_metadata_collection() for WP > 6.8, simplified the registration of blocks, simplified the widget render
 
 v.4.6.5
 * [bug] Default movie's title language wasn't correct for new installs (fix in Settings class, new process in admin-main-advanced.php template, added a 25 update for fixing recent installs)

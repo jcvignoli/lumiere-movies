@@ -62,15 +62,28 @@ final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 	 */
 	public function get_module_popup( array $birthday, string $item_name ): string {
 
-		$birthday_day = isset( $birthday['day'] ) && $birthday['day'] > 0 ? strval( $birthday['day'] ) . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
-		$month_tmp = strtotime( $birthday['month'] ?? '' );
-		$birthday_month = $month_tmp !== false && $month_tmp > 0 ? date_i18n( 'F', intval( wp_date( 'm', $month_tmp ) ) ) . ' ' : '(' . __( 'month unknown', 'lumiere-movies' ) . ') ';
-		$birthday_year = isset( $birthday['year'] ) && $birthday['year'] > 0 ? strval( $birthday['year'] ) : '(' . __( 'year unknown', 'lumiere-movies' ) . ')';
+		$output = '';
+		$get_birthday = count( $birthday ) > 0 ? array_filter( $birthday, fn( $birthday ) => ( $birthday !== '' ) ) : [];
 
-		$output = $this->output_class->misc_layout( 'date_inside', '&#9788;&nbsp;' . esc_html__( 'Born on', 'lumiere-movies' ), esc_html( $birthday_day . $birthday_month . $birthday_year ) );
+		if ( count( $get_birthday ) > 0 ) {
+			$output .= "\n\t\t\t\t" . '<div id="birth" class="lumiere_align_center"><font size="-1">';
 
-		if ( ( isset( $birthday['place'] ) ) && ( strlen( $birthday['place'] ) !== 0 ) ) {
-			$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
+			$birthday_day = isset( $get_birthday['day'] ) ? strval( $get_birthday['day'] ) . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
+			$birthday_month = isset( $get_birthday['month'] ) ? date_i18n( 'F', intval( $get_birthday['month'] ) ) . ' ' : '(' . __( 'month unknown', 'lumiere-movies' ) . ') ';
+			$birthday_year = isset( $get_birthday['year'] ) ? strval( $get_birthday['year'] ) : '(' . __( 'year unknown', 'lumiere-movies' ) . ')';
+
+			$output .= "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'
+				. esc_html__( 'Born on', 'lumiere-movies' ) . '</span>'
+				. esc_html( $birthday_day . $birthday_month . $birthday_year );
+
+			if ( isset( $get_birthday['place'] ) ) {
+				/**
+				 * @psalm-suppress PossiblyInvalidArgument
+				 * translators: 'in' like 'Born in' */
+				$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $get_birthday['place'] );
+			}
+
+			$output .= "\n\t\t\t\t" . '</font></div>';
 		}
 		return $output;
 	}
