@@ -133,15 +133,6 @@ final class Admin {
 			false
 		);
 
-		// Register gutenberg admin scripts.
-		wp_register_script(
-			'lumiere_scripts_admin_gutenberg',
-			Get_Options::LUM_JS_URL . 'lumiere_scripts_admin_gutenberg.min.js',
-			[ 'jquery' ],
-			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_scripts_admin_gutenberg.min.js' ) ),
-			false
-		);
-
 		// Register confirmation script upon deactivation.
 		wp_register_script(
 			'lumiere_deactivation_plugin_message',
@@ -202,9 +193,6 @@ final class Admin {
 
 			// Load hide/show js.
 			wp_enqueue_script( 'lumiere_hide_show' );
-
-			// Script for click on gutenberg block link to open a popup, script is loaded but it doesn't work!
-			wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 		}
 
 		// On 'plugins.php' show a confirmation dialogue if 'imdbkeepsettings' is set on delete Lumière! options.

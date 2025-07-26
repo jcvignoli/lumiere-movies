@@ -80,6 +80,7 @@ final class Core extends Hooks_Updates {
 		 * Using hook 'enqueue_block_assets' because 'init' doesn't allow to edit blocks in admin backoffice
 		 */
 		add_action( 'init', [ $this, 'lum_enqueue_blocks' ] );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'lum_execute_blocks' ] );
 
 		// WP-CLI commands, use the cli class.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
@@ -164,7 +165,7 @@ final class Core extends Hooks_Updates {
 	}
 
 	/**
-	 * Register and enqueue gutenberg blocks, must be executed on the whole website
+	 * Register gutenberg blocks, must be executed on the whole website
 	 *
 	 * @since 4.1   Using block.json, added script translation, added lumiere_scripts_admin_gutenberg script
 	 * @since 4.7   Moved from Admin\Admin to Core, must be executed on the whole website
@@ -175,8 +176,18 @@ final class Core extends Hooks_Updates {
 	 */
 	public function lum_enqueue_blocks(): void {
 
+		// Register gutenberg admin scripts.
+		wp_register_script(
+			'lumiere_scripts_admin_gutenberg',
+			Get_Options::LUM_JS_URL . 'lumiere_scripts_admin_gutenberg.min.js',
+			[ 'jquery' ],
+			strval( filemtime( Get_Options::LUM_JS_PATH . 'lumiere_scripts_admin_gutenberg.min.js' ) ),
+			false
+		);
+
 		$block_dir = LUM_WP_PATH . 'assets/blocks/';
 
+		// Use metadata manifest to register merged block.json files, WP >= 6.8
 		if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) && file_exists( Get_Options::LUM_BLOCKS_MANIFEST ) ) {
 			wp_register_block_types_from_metadata_collection(
 				$block_dir,
@@ -192,5 +203,13 @@ final class Core extends Hooks_Updates {
 		}
 	}
 
+	/**
+	 * Enqueue gutenberg javascripts
+	 */
+	public function lum_execute_blocks(): void {
+
+			// Script for click on gutenberg block link to open a popup
+			wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
+	}
 }
 
