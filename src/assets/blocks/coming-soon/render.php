@@ -9,7 +9,7 @@ use Lumiere\Frontend\Calendar\Coming_Soon;
 
 if ( isset( $attributes['region'], $attributes['type'], $attributes['startDateOverride'], $attributes['endDateOverride'] ) ) {
 	Coming_Soon::init(
-		strtoupper( $attributes['region'] ),
+		strtoupper( $attributes['region'] ), // Countries are in lowercase in js
 		strtoupper( $attributes['type'] ),
 		intval( $attributes['startDateOverride'] ),
 		intval( $attributes['endDateOverride'] )

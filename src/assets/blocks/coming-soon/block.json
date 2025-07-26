@@ -20,7 +20,7 @@
 	"attributes": {
 		"region": {
 			"type": "string",
-			"default": "US"
+			"default": "us"
 		},
 		"type": {
 			"type": "string",

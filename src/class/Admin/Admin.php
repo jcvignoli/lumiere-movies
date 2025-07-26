@@ -164,6 +164,8 @@ final class Admin {
 	/**
 	 * Add assets of Lumière admin pages
 	 * @param string $current_page
+	 *
+	 * @since 4.7 added site-editor
 	 */
 	public function lumiere_execute_admin_assets( string $current_page ): void {
 
@@ -174,6 +176,7 @@ final class Admin {
 			|| 'post.php' === $current_page
 			|| 'post-new.php' === $current_page
 			|| 'widgets.php' === $current_page
+			|| 'site-editor.php' === $current_page
 			// All Lumière pages.
 			|| Data::array_contains_term(
 				Get_Options::get_admin_lum_pages(),
@@ -188,7 +191,6 @@ final class Admin {
 				esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) )
 			)
 		) {
-
 			// Load main css.
 			wp_enqueue_style( 'lumiere_css_admin' );
 
@@ -203,7 +205,6 @@ final class Admin {
 
 			// Script for click on gutenberg block link to open a popup, script is loaded but it doesn't work!
 			wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
-
 		}
 
 		// On 'plugins.php' show a confirmation dialogue if 'imdbkeepsettings' is set on delete Lumière! options.

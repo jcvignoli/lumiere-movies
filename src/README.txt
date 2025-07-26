@@ -1,9 +1,9 @@
 === Lumière Movies ===
 Contributors: psykonevro
 Tags: cinema, film, imdb, movie, actor
-Requires at least: 5.6
-Tested up to: 6.8
-Stable tag: 4.6.6
+Requires at least: 6.1
+Tested up to: 6.8.2
+Stable tag: 4.7
 Requires PHP: 8.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
