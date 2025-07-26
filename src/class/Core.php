@@ -72,12 +72,13 @@ final class Core extends Hooks_Updates {
 		 */
 		add_action( 'init', [ 'Lumiere\Frontend\Frontend', 'start' ] );
 
-		// Crons. Must be free of any conditions.
+		/**
+		 * Crons. Must be executed on the whole website
+		 */
 		add_action( 'init', [ 'Lumiere\Admin\Crons\Cron', 'start' ] );
 
 		/**
 		 * Gutenberg blocks, must be executed on the whole website
-		 * Using hook 'enqueue_block_assets' because 'init' doesn't allow to edit blocks in admin backoffice
 		 */
 		add_action( 'init', [ $this, 'lum_enqueue_blocks' ] );
 		add_action( 'enqueue_block_editor_assets', [ $this, 'lum_execute_blocks' ] );
