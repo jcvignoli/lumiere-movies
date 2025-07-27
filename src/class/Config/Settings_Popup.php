@@ -98,6 +98,7 @@ final class Settings_Popup {
 		'born',
 		'died',
 		'pic',
+		'bio',
 		'nickname',
 		'trivia',
 		'quotes',

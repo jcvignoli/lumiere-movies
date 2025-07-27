@@ -72,7 +72,7 @@ class PopupsBootstrapCest {
 		// Test click to go to another popup
 		$I->click( AcceptanceSettings::TESTING_PAGE_BASE_A_DIRECTOR );
 		
-		$I->scrollTo('.lumiere_width_20_perc');
+		$I->scrollTo('.lum_results_section_subtitle');
 		$I->waitForText( 'Best known for his cerebral, often nonlinea', 15 ); // wait up to 15 seconds
 	}
 
@@ -101,7 +101,7 @@ class PopupsBootstrapCest {
 		$I->see( AcceptanceSettings::TESTING_PAGE_BASE_ELEMENT );
 		
 		$I->click( 'The Pearl' );
-		$I->scrollTo('.lumiere_width_20_perc');
+		$I->scrollTo('.lum_results_section_subtitle');
 		$I->waitForText( 'Alfredo Zacarías', 15 ); // wait up to 15 seconds
 	}
 }

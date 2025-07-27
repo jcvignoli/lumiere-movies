@@ -247,7 +247,6 @@ class TaxonomyCest {
 		$iframe_find_name = $I->grabAttributeFrom('//iframe', 'name');
 		$I->switchToIframe( "$iframe_find_name" );
 		$I->see( $text_zarindast );
-
 	}
 
 

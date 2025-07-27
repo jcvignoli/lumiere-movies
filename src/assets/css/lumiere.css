@@ -144,11 +144,11 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 
 /* ---- Div */
 
-.titrefilm, .identity{text-align:center;font-size:x-large;clear: both;}
+.titrefilm, .identity{text-align:center;font-size:xx-large;padding:0.5em;}
 
-.titrefilm a:hover, .identity a:hover {color: #FFEAFD;}
+.titrefilm a:hover,.identity a:hover {color: #FFEAFD;}
 
-.soustitreidentity, .soustitrefilm {text-align:center;padding:5px;}
+.soustitreidentity,.soustitrefilm {text-align:center;padding:5px;}
 
 .TitreSousRubrique{font-size : 1.0em;border-bottom: 1px solid #333333;border-right: 1px solid #333333;text-align : right;padding: 3px 3px 3px 3px;}
 

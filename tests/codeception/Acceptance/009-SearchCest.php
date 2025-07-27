@@ -61,7 +61,6 @@ class SearchCest {
 		// Has the JS window popped up?		
 		$I->seeInPopup( 'Successfully copied 0062622' );
 		$I->acceptPopup();
-
 	}
 
 	/**

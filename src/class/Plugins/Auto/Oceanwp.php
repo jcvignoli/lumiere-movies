@@ -51,7 +51,7 @@ final class Oceanwp {
 	final public function __construct() {
 
 		// Get the values from database.
-		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
+		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
 
 		// Build the css URL.
 		$this->assets_css_url = LUM_WP_URL . 'assets/css';

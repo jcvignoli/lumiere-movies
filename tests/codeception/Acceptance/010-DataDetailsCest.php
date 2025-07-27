@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Tests\Support;
 
@@ -25,6 +23,17 @@ class DataDetailsCest {
 	 */
 	private function login(AcceptanceTester $I) {
 		$I->login_universal($I);
+	}
+
+	/** 
+	 * Select Highslide
+	 * Make sure that Highslide modal window is selected
+	 *
+	 * @before login
+	 */
+	public function highslide(AcceptanceTester $I) {
+		// Make sure Highslide is active, following tests are run with Highslide
+		$I->SwitchModalWindow('Highslide');
 	}
 
 	/**
@@ -152,36 +161,36 @@ class DataDetailsCest {
 		$I->dontSee('where yet another monolith is found');
 		$I->dontSee('Taglines');
 		$I->dontSee('Winter is coming');
-		$I->dontSee('Barry Lyndon (Egypt)');
-		$I->dontSee('Color');
-		$I->dontSee('Also known as');
-		$I->dontSee('Game of Thrones (Argentina)');
-		$I->dontSee('Composer');
-		$I->dontSee('Stanley Kubrick Tribute (A clip is shown.)'); // connected movies
+		$I->dontSee( 'Barry Lyndon (Egypt)');
+		$I->dontSee( 'Color');
+		$I->dontSee( 'Also known as');
+		$I->dontSee( 'Game of Thrones (Argentina)');
+		$I->dontSee( 'Composer');
+		$I->dontSee( 'Stanley Kubrick Tribute (A clip is shown.)'); // connected movies
 		$I->dontSee( 'uncategorized: Director Tony Zarindast used' ); // trivias
 		$I->dontSee( 'factual error: The full moon is shown occurring for' ); // goofs
-		$I->dontSee('Ramin Djawadi');
-		$I->dontSee('Soundtracks');
-		$I->dontSeeInSource('György Ligeti</a></i>, Lux aeterna <i>(1966)</i> <i>Music by 
-					<a class="add_cursor lum_link_make_popup lum_link_with_people highslide" id="link-0509893" data-modal_window_nonce="');
-		$I->dontSee('Trailers');
-		$I->dontSee('Main title (uncredited) Written and Performed by Ramin Djawadi');
-		$I->dontSee('Official websites');
-		$I->dontSee('Official Facebook, Official Instagram, Official Site');
-		$I->dontSee('Bighead Littlehead');
-		$I->dontSee('Grok! Television');
-		$I->dontSee('1 episode in 2011');
-		$I->dontSee('Jane Espenson');
-		$I->dontSee('Seven Kingdoms');
-		$I->dontSee('votes');
-		$I->dontSee('D.B. Weiss');
-		$I->dontSee('Theon Greyjoy');
-		$I->dontSee('Alfie Allen');
-		$I->dontSee('United Kingdom');
-		$I->dontSee('Matt Shakman');
-		$I->dontSee('Goofs');
-		$I->dontSee('throughout the film');
-		$I->dontSee('Barry joins the British Army to fight in the');
+		$I->dontSee( 'Ramin Djawadi' );
+		$I->dontSee( 'Soundtracks' );
+		$I->dontSeeInSource( 'György Ligeti</a>, Lux aeterna (1966) Music by' );
+		$I->dontSeeInSource( '<a class="add_cursor lum_link_make_popup lum_link_with_people highslide" id="link-0509893" data-modal_window_nonce="' );
+		$I->dontSee( 'Trailers');
+		$I->dontSee( 'Main title (uncredited) Written and Performed by Ramin Djawadi' );
+		$I->dontSee( 'Official websites' );
+		$I->dontSee( 'Official Facebook, Official Instagram, Official Site' );
+		$I->dontSee( 'Bighead Littlehead' );
+		$I->dontSee( 'Grok! Television' );
+		$I->dontSee( '1 episode in 2011' );
+		$I->dontSee( 'Jane Espenson' );
+		$I->dontSee( 'Seven Kingdoms' );
+		$I->dontSee( 'votes' );
+		$I->dontSee( 'D.B. Weiss' );
+		$I->dontSee( 'Theon Greyjoy' );
+		$I->dontSee( 'Alfie Allen' );
+		$I->dontSee( 'United Kingdom' );
+		$I->dontSee( 'Matt Shakman' );
+		$I->dontSee( 'Goofs' );
+		$I->dontSee( 'throughout the film' );
+		$I->dontSee( 'Barry joins the British Army to fight in the' );
 		
 		// Titles are displayed even if everything is deactivated.
 		$I->see( 'Werewolf' );
@@ -331,13 +340,13 @@ class DataDetailsCest {
 		$I->see('Stanley Kubrick Tribute (A clip is shown.)'); // connected movies
 		$I->see( 'uncategorized: Director Tony Zarindast used' ); // trivias
 		$I->see( 'factual error: The full moon is shown occurring for' ); // goofs
-		$I->see('Runtime');
-		$I->see('minutes');
-		$I->see('Barry Lyndon (Egypt)');
-		$I->see('Ramin Djawadi');
-		$I->see('Soundtracks');
-		$I->seeInSource('György Ligeti</a></i>, Lux aeterna <i>(1966)</i> <i>Music by 
-					<a class="add_cursor lum_link_make_popup lum_link_with_people highslide" id="link-0509893" data-modal_window_nonce="');
+		$I->see( 'Runtime' );
+		$I->see( 'minutes' );
+		$I->see( 'Barry Lyndon (Egypt)' );
+		$I->see( 'Ramin Djawadi' );
+		$I->see( 'Soundtracks' );				
+		$I->seeInSource('György Ligeti</a>, Lux aeterna (1966) Music by');
+		$I->seeInSource('<a class="add_cursor lum_link_make_popup lum_link_with_people highslide" id="link-0509893" data-modal_window_nonce="');
 		$I->see('Trailers');
 		$I->see('Main title (uncredited) Written and Performed by Ramin Djawadi');
 		$I->see('Official websites');
