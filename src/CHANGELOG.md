@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.7.1
+
 v.4.7
 * [feature] Major: "Coming soon" list of upcoming movies can be displayed in a post/page (available as a block in post editing, also available as 'lum_coming_soon' filter). Upcoming movies be filtered by date, language and media type
 * [feature] Compatible with Site Editor (block-based site building)
