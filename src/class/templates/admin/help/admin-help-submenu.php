@@ -33,7 +33,7 @@ $lumiere_admin_page_help_changelog = get_transient( 'admin_template_pass_vars' )
 
 		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_pics_url . 'menu/admin-help-changelog.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( "What's new", 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_admin_page_help_changelog ); ?>"><?php esc_html_e( 'Changelog', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_pics_url . 'menu/admin-help-filters.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'WordPress filters', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_admin_page_help_filters ); ?>"><?php esc_html_e( 'Filters', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_pics_url . 'menu/admin-help-filters.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'WordPress filters', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_admin_page_help_filters ); ?>"><?php esc_html_e( 'Hooks', 'lumiere-movies' ); ?></a></div>
 		
 		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( $lumiere_pics_url . 'menu/admin-cache-compatibility.png' ); ?>" align="absmiddle" width="16px" />&nbsp;&nbsp;<a title="<?php esc_html_e( 'Plugins Lumière is compatible with', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_admin_page_help_compatibility ); ?>"><?php esc_html_e( 'Compatibility', 'lumiere-movies' ); ?></a></div>
 

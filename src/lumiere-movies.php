@@ -14,7 +14,7 @@
  * Author URI:        https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
  * Version:           4.7.1
  * Text Domain:       lumiere-movies
- * Requires at least: 5.6
+ * Requires at least: 6.1
  * Requires PHP:      8.1
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
