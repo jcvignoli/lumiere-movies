@@ -57,6 +57,42 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 	private string $popup_url_search;
 
 	/**
+	 * For wp_kses escaping
+	 */
+	private const ESC_HTML_POPUP_FILM = [
+		'span'   => [
+			'class'   => [],
+		],
+		'font'   => [
+			'size'    => [],
+		],
+		'div'    => [
+			'align'   => [],
+			'rel'     => [],
+			'id'      => [],
+			'class'   => [],
+		],
+		'strong' => [],
+		'i'      => [],
+		'br'     => [],
+		'img'    => [
+			'title'   => [],
+			'loading' => [],
+			'alt'     => [],
+			'src'     => [],
+			'class'   => [],
+			'width'   => [],
+			'height'  => [],
+		],
+		'a'      => [
+			'href'    => [],
+			'rel'     => [],
+			'class'   => [],
+			'title'   => [],
+		],
+	];
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -196,32 +232,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 		if ( $get_info === null || strlen( $get_info ) === 0 ) {
 			echo wp_kses(
 				$this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_INTRO ),
-				[
-					'div'  => [
-						'class'  => [],
-						'align'  => [],
-						'id'     => [],
-					],
-					'span' => [
-						'class'  => [],
-					],
-					'img'  => [
-						'src'    => [],
-						'title'  => [],
-						'width'  => [],
-						'height' => [],
-						'class'  => [],
-					],
-					'a'    => [
-						'href'   => [],
-						'rel'    => [],
-						'class'  => [],
-						'title'  => [],
-					],
-					'i'              => [],
-					'br'             => [],
-					'strong'         => [],
-				]
+				self::ESC_HTML_POPUP_FILM
 			);
 		}
 
@@ -230,22 +241,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 			$actor_info = $this->get_items_two_columns( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_CASTING );
 			echo strlen( $actor_info ) > 0 ? wp_kses(
 				$actor_info,
-				[
-					'div'  => [
-						'class'  => [],
-						'align'  => [],
-					],
-					'i'    => [],
-					'span' => [
-						'class'  => [],
-					],
-					'a'    => [
-						'href'   => [],
-						'rel'    => [],
-						'class'  => [],
-						'title'  => [],
-					],
-				]
+				self::ESC_HTML_POPUP_FILM
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No actors info found ', 'lumiere-movies' ) . '</div>';
 
 		}
@@ -255,22 +251,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 			$crew_info = $this->get_items_two_columns( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_CREW );
 			echo strlen( $crew_info ) > 0 ? wp_kses(
 				$crew_info,
-				[
-					'div'  => [
-						'class'  => [],
-						'align'  => [],
-					],
-					'i'    => [],
-					'span' => [
-						'class'  => [],
-					],
-					'a'    => [
-						'href'   => [],
-						'rel'    => [],
-						'class'  => [],
-						'title'  => [],
-					],
-				]
+				self::ESC_HTML_POPUP_FILM
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No crew info found ', 'lumiere-movies' ) . '</div>';
 		}
 
@@ -279,32 +260,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 			$resume_info = $this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_PLOT );
 			echo strlen( $resume_info ) > 0 ? wp_kses(
 				$resume_info,
-				[
-					'div'  => [
-						'class'  => [],
-						'align'  => [],
-						'id'     => [],
-					],
-					'span' => [
-						'class'  => [],
-					],
-					'img'  => [
-						'src'    => [],
-						'title'  => [],
-						'width'  => [],
-						'height' => [],
-						'class'  => [],
-					],
-					'a'    => [
-						'href'   => [],
-						'rel'    => [],
-						'class'  => [],
-						'title'  => [],
-					],
-					'i'              => [],
-					'br'             => [],
-					'strong'         => [],
-				]
+				self::ESC_HTML_POPUP_FILM
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No summary info found ', 'lumiere-movies' ) . '</div>';
 		}
 
@@ -313,32 +269,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 			$misc_info = $this->get_items( $this->movie_class, Settings_Popup::FILM_DISPLAY_ITEMS_MISC );
 			echo strlen( $misc_info ) > 0 ? wp_kses(
 				$misc_info,
-				[
-					'div'  => [
-						'class'  => [],
-						'align'  => [],
-						'id'     => [],
-					],
-					'span' => [
-						'class'  => [],
-					],
-					'img'  => [
-						'src'    => [],
-						'title'  => [],
-						'width'  => [],
-						'height' => [],
-						'class'  => [],
-					],
-					'a'    => [
-						'href'   => [],
-						'rel'    => [],
-						'class'  => [],
-						'title'  => [],
-					],
-					'i'              => [],
-					'br'             => [],
-					'strong'         => [],
-				]
+				self::ESC_HTML_POPUP_FILM
 			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No misc info found ', 'lumiere-movies' ) . '</div>';
 		}
 

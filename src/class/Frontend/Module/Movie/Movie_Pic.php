@@ -47,6 +47,17 @@ final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 	}
 
 	/**
+	 * Wrapping method for Popup_Film
+	 *
+	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
+	 * @param 'pic' $item_name The name of the item
+	 * @since 4.7.1
+	 */
+	public function get_module_popup_two_columns( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+		return $this->get_module( $movie, $item_name );
+	}
+
+	/**
 	 * Display the Popup version of the module
 	 *
 	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
@@ -55,7 +66,7 @@ final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module_popup( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
 			$output = "\n\t\t\t\t\t\t\t\t\t<!-- Movie's picture display -->";
-			$output .= "\n\t\t" . '<div class="lumiere_padding_two lum_popup_img">';
+			$output .= "\n\t\t" . '<div class="lum_popup_img">';
 
 				// Select pictures: big poster, if not small poster, if not 'no picture'.
 				$photo_url = '';

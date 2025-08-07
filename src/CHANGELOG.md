@@ -1,6 +1,9 @@
 **Changelog**
 
 v.4.7.1
+* [bug] Translation of "hook" page in help admin wasn't effective
+* [bug] Pictures and Title modules weren't displayed in people popups (added the modules in Settings_Popup, improved Movie_Title and Movie_Pic)
+* [bug] Films and People Popups were not displayed on click if WordPress permalink structure didn't end with a slash (Fixed is_popup_page() in Main trait)
 
 v.4.7
 * [feature] Major: "Coming soon" list of upcoming movies can be displayed in a post/page (available as a block in post editing, also available as 'lum_coming_soon' filter). Upcoming movies be filtered by date, language and media type

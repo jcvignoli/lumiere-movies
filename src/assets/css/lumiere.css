@@ -38,14 +38,12 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 }
 
 .lum_popup_img { /* div for movie or people picture in popups */
-	margin-right: 1em;
-	text-align: right;
-	padding: 5px;
 	float: right;
-	margin-top: -5%;
-	position: relative;
+	margin: -10% 0 1em 1em;
 }
-
+#lumiere_popup_born{
+	padding:1em;
+}
 .lum_popup_menu_title, .lum_link_no_popup, .lum_popup_internal_link { /* links inside popups, internal links, title menu links, no popups in posts */
 	color: #ff0000;
 	text-decoration: none !important;

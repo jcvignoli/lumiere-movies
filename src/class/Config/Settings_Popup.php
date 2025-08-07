@@ -29,8 +29,6 @@ final class Settings_Popup {
 	 */
 	public const PERSON_ALL_ROLES           = [
 		'title',
-		'born',
-		'died',
 		'pic',
 		'director',
 		'actor',
@@ -95,10 +93,7 @@ final class Settings_Popup {
 	 */
 	public const PERSON_DISPLAY_ITEMS_MISC  = [
 		'title',
-		'born',
-		'died',
 		'pic',
-		'bio',
 		'nickname',
 		'trivia',
 		'quotes',
@@ -128,6 +123,8 @@ final class Settings_Popup {
 	 * @var list<string>
 	 */
 	public const FILM_DISPLAY_ITEMS_CASTING = [
+		'title',
+		'pic',
 		'actor',
 	];
 
@@ -137,6 +134,8 @@ final class Settings_Popup {
 	 * @var list<string>
 	 */
 	public const FILM_DISPLAY_ITEMS_CREW    = [
+		'title',
+		'pic',
 		'director',
 		'writer',
 		'producer',
@@ -148,6 +147,8 @@ final class Settings_Popup {
 	 * @var list<string>
 	 */
 	public const FILM_DISPLAY_ITEMS_PLOT    = [
+		'title',
+		'pic',
 		'plot',
 	];
 
@@ -157,6 +158,8 @@ final class Settings_Popup {
 	 * @var list<string>
 	 */
 	public const FILM_DISPLAY_ITEMS_MISC    = [
+		'title',
+		'pic',
 		'connection',
 		'trivia',
 		'soundtrack',

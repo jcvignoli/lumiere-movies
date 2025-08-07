@@ -55,29 +55,37 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 	 */
 	private string $popup_url;
 
+	/**
+	 * For wp_kses escaping
+	 */
 	private const ESC_HTML_POPUP_PERSON = [
-		'span' => [ 'class' => [] ],
-		'font' => [ 'size' => [] ],
+		'span'   => [
+			'class'   => [],
+		],
+		'font'   => [
+			'size'    => [],
+		],
+		'div'    => [
+			'align'   => [],
+			'rel'     => [],
+			'id'      => [],
+			'class'   => [],
+		],
 		'strong' => [],
-		'div' => [
-			'align' => [],
-			'rel' => [],
-			'class' => [],
-		],
-		'i' => [],
-		'img' => [
+		'i'      => [],
+		'img'    => [
 			'loading' => [],
-			'alt' => [],
-			'src' => [],
-			'class' => [],
-			'width' => [],
-			'height' => [],
+			'alt'     => [],
+			'src'     => [],
+			'class'   => [],
+			'width'   => [],
+			'height'  => [],
 		],
-		'a' => [
-			'href' => [],
-			'rel' => [],
-			'class' => [],
-			'title' => [],
+		'a'      => [
+			'href'    => [],
+			'rel'     => [],
+			'class'   => [],
+			'title'   => [],
 		],
 	];
 

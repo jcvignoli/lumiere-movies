@@ -123,19 +123,21 @@ trait Main {
 	 * @since 4.3
 	 * @since 4.6 added "'/' . " in str_contains() at the begining
 	 * @since 4.7 added ". '/'" in str_contains() in the end
+	 * @since 4.7.1 final slash is conditional according to the permalink structure, using new var $is_last_chara_slash
 	 *
 	 * @return bool True if the page is a Lumiere popup
 	 */
 	public function is_popup_page(): bool {
 
 		$get_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ) ) ) : null;
+		$is_last_chara_slash = get_option( 'permalink_structure' ) !== false && substr( get_option( 'permalink_structure' ), -1 ) === '/' ? '/' : '';
 		if (
 			isset( $get_request_uri )
 			&&
 			(
-				str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['film'] . '/' )
-				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['movie_search'] . '/' )
-				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['person'] . '/' )
+				str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['film'] . $is_last_chara_slash )
+				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['movie_search'] . $is_last_chara_slash )
+				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['person'] . $is_last_chara_slash )
 			)
 		) {
 			return true;

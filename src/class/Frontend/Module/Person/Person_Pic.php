@@ -58,7 +58,7 @@ final class Person_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module_popup( \Lumiere\Vendor\Imdb\Name $person, string $item_name ): string {
 
 		$output = "\n\t\t\t\t\t\t\t\t\t<!-- star photo -->";
-		$output .= "\n\t\t\t" . '<div class="lumiere_padding_two lum_popup_img">';
+		$output .= "\n\t\t\t" . '<div class="lum_popup_img">';
 
 		// Select pictures: big poster, if not small poster, if not 'no picture'.
 		$photo_url = '';

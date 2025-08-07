@@ -49,6 +49,17 @@ final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 	}
 
 	/**
+	 * Wrapping method for Popup_Film
+	 *
+	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
+	 * @param 'title' $item_name The name of the item
+	 * @since 4.7.1
+	 */
+	public function get_module_popup_two_columns( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+		return $this->get_module( $movie, $item_name );
+	}
+
+	/**
 	 * Display the Popup version of the module
 	 *
 	 * @param string $title The title

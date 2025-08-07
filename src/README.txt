@@ -99,7 +99,7 @@ A list of plugins that are [compatible and incompatible with Lumière](https://g
 
 = How to integrate Lumière with Polylang plugin?  =
 
-If [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as https://yourblog.com/lumiere-director/stanley-kubrick/). Just selected which to data to turn into taxonomy, it will work out of the box.
+If [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as https://yourblog.com/lumiere-director/stanley-kubrick/). Just select what data turn into taxonomy, it will work out of the box.
 
 = Is Lumière! CSP compliant? (for developpers)  =
 
