@@ -221,15 +221,15 @@ msgstr "Supprimer tous les liens ajoutés par Lumière à l’exception de ceux 
 msgid "always next to title"
 msgstr "toujours après le titre"
 
-#: class/Frontend/Popups/Popup_Film.php:310
+#: class/Frontend/Popups/Popup_Film.php:264
 msgid "No summary info found "
 msgstr "Aucune info de résumé trouvée "
 
-#: class/Frontend/Popups/Popup_Film.php:276
+#: class/Frontend/Popups/Popup_Film.php:255
 msgid "No crew info found "
 msgstr "Aucune info d’équipe trouvée "
 
-#: class/Frontend/Popups/Popup_Film.php:251
+#: class/Frontend/Popups/Popup_Film.php:245
 msgid "No actors info found "
 msgstr "Aucun info d’acteur trouvée "
 
@@ -555,24 +555,20 @@ msgid "up"
 msgstr "haut"
 
 #: class/Frontend/Module/Person/Person_Born.php:45
-#: class/Frontend/Module/Person/Person_Born.php:67
-#: class/Frontend/Module/Person/Person_Died.php:81
-#: class/Frontend/Popups/Popup_Person.php:329
+#: class/Frontend/Module/Person/Person_Born.php:72
 msgid "month unknown"
 msgstr "mois inconnu"
 
 #: class/Frontend/Module/Person/Person_Born.php:43
-#: class/Frontend/Module/Person/Person_Born.php:65
-#: class/Frontend/Module/Person/Person_Died.php:79
-#: class/Frontend/Popups/Popup_Person.php:328
+#: class/Frontend/Module/Person/Person_Born.php:71
 msgid "day unknown"
 msgstr "jour inconnu"
 
-#: class/Frontend/Popups/Popup_Person.php:128
+#: class/Frontend/Popups/Popup_Person.php:162
 msgid "Could not find any IMDb person with this query."
 msgstr "Impossible de trouve une personne IMDb avec cette requête."
 
-#: class/Frontend/Popups/Popup_Film.php:154
+#: class/Frontend/Popups/Popup_Film.php:190
 msgid "Could not find any IMDb movie with this query."
 msgstr "Impossible de trouver un film IMDb avec cette requête."
 
@@ -670,20 +666,20 @@ msgid_plural "spouses"
 msgstr[0] "conjoint"
 msgstr[1] "conjoints"
 
-#: class/Frontend/Popups/Popup_Film.php:344
-#: class/Frontend/Popups/Popup_Person.php:271
+#: class/Frontend/Popups/Popup_Film.php:273
+#: class/Frontend/Popups/Popup_Person.php:251
 msgid "No misc info found "
 msgstr "Aucune information diverse trouvée "
 
-#: class/Frontend/Popups/Popup_Person.php:244
+#: class/Frontend/Popups/Popup_Person.php:240
 msgid "No biography found "
 msgstr "Aucune biographie trouvée "
 
-#: class/Frontend/Popups/Popup_Person.php:216
+#: class/Frontend/Popups/Popup_Person.php:228
 msgid "No filmography found "
 msgstr "Aucune filmographie trouvée "
 
-#: class/Frontend/Popups/Popup_Person.php:189
+#: class/Frontend/Popups/Popup_Person.php:211
 msgid "No summary found "
 msgstr "Aucun résumé trouvé "
 
@@ -821,16 +817,13 @@ msgid "Language successfully changed."
 msgstr "Langue modifée avec succès."
 
 #: class/Frontend/Module/Person/Person_Born.php:46
-#: class/Frontend/Module/Person/Person_Born.php:68
-#: class/Frontend/Module/Person/Person_Died.php:82
-#: class/Frontend/Popups/Popup_Film.php:396
+#: class/Frontend/Module/Person/Person_Born.php:73
 #: class/Frontend/Popups/Popup_Movie_Search.php:201
-#: class/Frontend/Popups/Popup_Person.php:330
 msgid "year unknown"
 msgstr "année inconnue"
 
-#: class/Frontend/Popups/Popup_Film.php:97
-#: class/Frontend/Popups/Popup_Person.php:96
+#: class/Frontend/Popups/Popup_Film.php:133
+#: class/Frontend/Popups/Popup_Person.php:130
 msgid "Unknown - Lumière movies"
 msgstr "Inconnu - Lumière movies"
 
@@ -929,17 +922,17 @@ msgid "Modal windows are the popups that show the movie data when clicking on a 
 msgstr "Les fenêtres contextuelles affichent les données de films lorsqu’on clique sur un nom ou un titre de film. « Highslide » et « Bootstrap » sont des gestionnaires avancés de fenêtres contextuelles. « Classique » peut être bloqué par certains navigateurs"
 
 #: class/Frontend/Module/Person/Person_Died.php:50
-#: class/Frontend/Popups/Popup_Person.php:352
+#: class/Frontend/Module/Person/Person_Died.php:83
 msgid "(year unknown)"
 msgstr "(année inconnue)"
 
 #: class/Frontend/Module/Person/Person_Died.php:49
-#: class/Frontend/Popups/Popup_Person.php:351
+#: class/Frontend/Module/Person/Person_Died.php:82
 msgid "(month unknown)"
 msgstr "(mois inconnu)"
 
 #: class/Frontend/Module/Person/Person_Died.php:47
-#: class/Frontend/Popups/Popup_Person.php:350
+#: class/Frontend/Module/Person/Person_Died.php:81
 msgid "(day unknown)"
 msgstr "(jour inconnu)"
 
@@ -1191,7 +1184,7 @@ msgstr "sur 10"
 msgid "No post found with this taxonomy."
 msgstr "Aucun article trouvé pour cette taxonomie."
 
-#: class/Frontend/Layout/Output.php:71
+#: class/Frontend/Layout/Output.php:73
 msgid "internal link"
 msgstr "lien interne"
 
@@ -1639,11 +1632,11 @@ msgid_plural "Matching titles"
 msgstr[0] "Titre correspondant"
 msgstr[1] "Titres correspondant"
 
-#: class/Frontend/Popups/Popup_Film.php:363
+#: class/Frontend/Popups/Popup_Film.php:292
 msgid "Similar Titles"
 msgstr "Titres similaires"
 
-#: class/Frontend/Popups/Popup_Film.php:363
+#: class/Frontend/Popups/Popup_Film.php:292
 msgid "Search for other movies with the same title"
 msgstr "Rechercher d’autres films avec le même titre"
 
@@ -1709,11 +1702,11 @@ msgstr[1] ""
 msgid "see all"
 msgstr "voir tout"
 
-#: class/Frontend/Popups/Popup_Person.php:301
+#: class/Frontend/Popups/Popup_Person.php:281
 msgid "Full biography"
 msgstr "Biographie complète"
 
-#: class/Frontend/Popups/Popup_Person.php:298
+#: class/Frontend/Popups/Popup_Person.php:278
 msgid "Full filmography"
 msgstr "Filmographie complète"
 
@@ -1723,12 +1716,12 @@ msgstr "Filmographie complète"
 msgid "click to show more %1s"
 msgstr "cliquez pour plus de %1s"
 
-#: class/Frontend/Popups/Popup_Film.php:375
+#: class/Frontend/Popups/Popup_Film.php:304
 msgid "Plots"
 msgstr "Intrigues"
 
-#: class/Frontend/Popups/Popup_Film.php:366
-#: class/Frontend/Popups/Popup_Person.php:295
+#: class/Frontend/Popups/Popup_Film.php:295
+#: class/Frontend/Popups/Popup_Person.php:275
 msgid "Summary"
 msgstr "Résumé"
 
@@ -1748,8 +1741,8 @@ msgstr "blanc"
 msgid "grey (default)"
 msgstr "gris (d&eacute;faut)"
 
-#: class/Frontend/Layout/Output.php:157
-#: class/Frontend/Layout/Output.php:174
+#: class/Frontend/Layout/Output.php:159
+#: class/Frontend/Layout/Output.php:176
 msgid "Find similar taxonomy results"
 msgstr "Trouver des résultats de taxonomie similaires"
 
@@ -1840,8 +1833,8 @@ msgid "You are not allowed to call this page directly."
 msgstr "Vous n’êtes pas autorisé à afficher cette page directement."
 
 #. translators: %1s is a movie's title
-#: class/Frontend/Popups/Popup_Film.php:96
-#: class/Frontend/Popups/Popup_Person.php:95
+#: class/Frontend/Popups/Popup_Film.php:132
+#: class/Frontend/Popups/Popup_Person.php:129
 #, php-format
 msgid "Informations about %1s"
 msgstr "Information pour %1s"
@@ -2285,15 +2278,15 @@ msgstr "Chemins & Mise en page"
 msgid "vote average"
 msgstr "moyenne de votes"
 
-#: class/Frontend/Popups/Popup_Film.php:372
+#: class/Frontend/Popups/Popup_Film.php:301
 msgid "Crew"
 msgstr "Equipe"
 
-#: class/Frontend/Popups/Popup_Film.php:369
+#: class/Frontend/Popups/Popup_Film.php:298
 msgid "Actors"
 msgstr "Acteurs"
 
-#: class/Frontend/Popups/Popup_Film.php:366
+#: class/Frontend/Popups/Popup_Film.php:295
 msgid "Movie"
 msgstr "Film"
 
@@ -2523,33 +2516,28 @@ msgstr[0] "film biographique"
 msgstr[1] "films biographiques"
 
 #: class/Frontend/Module/Person/Person_Died.php:61
-#: class/Frontend/Module/Person/Person_Died.php:93
 msgid "cause"
 msgstr "de"
 
 #: class/Frontend/Module/Person/Person_Died.php:52
-#: class/Frontend/Module/Person/Person_Died.php:84
-#: class/Frontend/Popups/Popup_Person.php:355
+#: class/Frontend/Module/Person/Person_Died.php:86
 msgid "Died on"
 msgstr "Mort le"
 
 #: class/Frontend/Module/Person/Person_Born.php:51
-#: class/Frontend/Module/Person/Person_Born.php:73
+#: class/Frontend/Module/Person/Person_Born.php:83
 #: class/Frontend/Module/Person/Person_Died.php:56
-#: class/Frontend/Module/Person/Person_Died.php:88
-#: class/Frontend/Popups/Popup_Person.php:338
-#: class/Frontend/Popups/Popup_Person.php:360
+#: class/Frontend/Module/Person/Person_Died.php:91
 msgid "in"
 msgstr "&agrave;"
 
 #: class/Frontend/Module/Person/Person_Born.php:48
-#: class/Frontend/Module/Person/Person_Born.php:70
-#: class/Frontend/Popups/Popup_Person.php:333
+#: class/Frontend/Module/Person/Person_Born.php:76
 msgid "Born on"
 msgstr "N&eacute; le"
 
-#: class/Frontend/Popups/Popup_Film.php:378
-#: class/Frontend/Popups/Popup_Person.php:304
+#: class/Frontend/Popups/Popup_Film.php:307
+#: class/Frontend/Popups/Popup_Person.php:284
 msgid "Misc"
 msgstr "Divers"
 
@@ -2937,7 +2925,6 @@ msgstr ""
 msgid "No data found."
 msgstr ""
 
-#: class/templates/admin/help/admin-help-filters.php:46
 #: class/templates/admin/help/admin-help-submenu.php:36
 msgid "WordPress filters"
 msgstr ""
@@ -2984,10 +2971,6 @@ msgstr ""
 
 #: class/templates/admin/help/admin-help-howto.php:426
 msgid "The fourth filter option is the ending day, with 0 as of today. If no value was passed, the default ending value used is 1 year later."
-msgstr ""
-
-#: class/templates/admin/help/admin-help-submenu.php:36
-msgid "Filters"
 msgstr ""
 
 #: class/templates/calendar.php:24
@@ -3058,4 +3041,98 @@ msgstr ""
 #: assets/blocks/widget/block.json
 msgctxt "block description"
 msgid "Add a movie/person widget in your sidebar"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:21
+msgid "WordPress hooks"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:26
+msgid "Find the IMDb ID for a person"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:27
+msgid "Get the IMDb identification for a person.(return array)"
+msgstr ""
+
+#. translators: %s is an HTML tag (a code)
+#: class/templates/admin/help/admin-help-filters.php:32
+#, php-format
+msgid "The name of the person to search for (ie: %s )"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:35
+msgid "Find the Movie ID for a movie"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:36
+msgid "Get the IMDb identification for a movie. (return array)"
+msgstr ""
+
+#. translators: %s is an HTML tag (a code)
+#: class/templates/admin/help/admin-help-filters.php:41
+#, php-format
+msgid "The title of the movie to search for (ie: %s )"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:44
+msgid "Display IMDb data on a person"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:45
+msgid "Show a box of IMDb information related to a/multiple selected person/s (return array)"
+msgstr ""
+
+#. translators: %s is an HTML tag (a code)
+#: class/templates/admin/help/admin-help-filters.php:50
+#, php-format
+msgid "An array of IMDb people to display (ie: %s )"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:53
+msgid "Display IMDb data on a movie"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:54
+msgid "Show a box of IMDb information related to a/multiple selected movie/s (return array)"
+msgstr ""
+
+#. translators: %s is an HTML tag (a code)
+#: class/templates/admin/help/admin-help-filters.php:59
+#, php-format
+msgid "An array of IMDb movies to display (ie: %s )"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:62
+msgid "Display a list of upcoming movies"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:63
+msgid "Show a list of upcoming movies according to a selected country"
+msgstr ""
+
+#. translators: %1$s and %2$s are HTML tags (codes)
+#: class/templates/admin/help/admin-help-filters.php:68
+#, php-format
+msgid "The country on two positions: %1$s for USA, %2$sfor France"
+msgstr ""
+
+#: class/templates/admin/help/admin-help-filters.php:69
+msgid "What type of information is searched for. There are three options:"
+msgstr ""
+
+#. translators: %s is an HTML tag (a code)
+#: class/templates/admin/help/admin-help-filters.php:72
+#, php-format
+msgid "The number of days the movies release list date should start. If %s is selected, movies being released starting in 10 days at least will be displayed."
+msgstr ""
+
+#. translators: %s is an HTML tag (a code)
+#: class/templates/admin/help/admin-help-filters.php:75
+#, php-format
+msgid "The number of days the movies release list date should start.  If %s is selected, movies being released until 10 days will be displayed."
+msgstr ""
+
+#: class/templates/admin/help/admin-help-submenu.php:36
+msgid "Hooks"
 msgstr ""
