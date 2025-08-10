@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.7.2
+
 v.4.7.1
 * [bug] Translation of "hook" page in help admin wasn't effective
 * [bug] Pictures and Title modules weren't displayed in people popups (added the modules in Settings_Popup, improved Movie_Title and Movie_Pic)
