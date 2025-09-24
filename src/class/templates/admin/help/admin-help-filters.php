@@ -34,7 +34,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 		
 		<li class="lum_h4_help_filters"><?php esc_html_e( 'Find the Movie ID for a movie', 'lumiere-movies' ); ?></li>
 		<div><?php esc_html_e( 'Get the IMDb identification for a movie. (return array)', 'lumiere-movies' ); ?></div>
-		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lum_find_movie_id', 'title' )</blockquote>
+		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lum_find_movie_id', 'array_titles' )</blockquote>
 		<ol>
 			<li><i>array_titles</i> (array):  <?php
 			/* translators: %s is an HTML tag (a code) */

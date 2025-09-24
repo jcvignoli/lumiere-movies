@@ -110,6 +110,8 @@ final class Cron {
 
 		// Auto update templates file in user template folder.
 		( new Auto_Update_Theme() )->update_auto_dest_theme();
+
+		$this->logger->log?->debug( '[Cron] Cron run once finished at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
 	}
 
 	/**
