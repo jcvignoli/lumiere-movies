@@ -52,8 +52,7 @@ final class Person_Factory extends Front_Parser {
 
 			if (
 				// Use order to select the position of the data detail.
-				isset( $this->imdb_data_person_values['order'][ $data_detail ] )
-				&& $this->imdb_data_person_values['order'][ $data_detail ] === $order
+				$this->imdb_data_person_values['order'][ $data_detail ] === $order
 				// Is the data detail activated?
 				&& isset( $this->imdb_data_person_values['activated'][ $key_data_values ] )
 				&& $this->imdb_data_person_values['activated'][ $key_data_values ] === '1'

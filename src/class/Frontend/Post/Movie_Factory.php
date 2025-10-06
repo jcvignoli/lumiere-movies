@@ -53,10 +53,10 @@ final class Movie_Factory extends Front_Parser {
 			// Key for $this->imdb_data_values
 			$key_data_values = 'imdbwidget' . $data_detail;
 
+			/** @psalm-suppress PossiblyUndefinedArrayOffset */
 			if (
 				// Use order to select the position of the data detail.
-				isset( $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] )
-				&& $this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order
+				$this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order
 				// Is the data detail activated?
 				&& isset( $this->imdb_data_values[ $key_data_values ] )
 				&& $this->imdb_data_values[ $key_data_values ] === '1'

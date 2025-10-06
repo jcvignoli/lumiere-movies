@@ -107,7 +107,7 @@ final class Admin_Notifications {
 	/**
 	 * Display admin notice for new taxonomy templates found
 	 *
-	 * @param array<int, null|string> $new_taxo_template Name(s) of the new taxonomy templates found
+	 * @param array<int, ?string> $new_taxo_template Name(s) of the new taxonomy templates found
 	 * @param string $page_data_taxo The URL of the taxonomy page option
 	 * @return void Display notification message if relevant
 	 * @see \Lumiere\Admin\Copy_Templates\Detect_New_Theme::lumiere_static_start()
@@ -126,6 +126,7 @@ final class Admin_Notifications {
 				wp_sprintf(
 					/* translators: %1$s is one or many items like director, composer, etc., %2$s and %3$s are HTML tags */
 					_n( 'New taxonomy template file found: %2$s%1$s%3$s.', 'New taxonomy template files found: %2$s%1$s%3$s.', $nb_new, 'lumiere-movies' ),
+					/** @phan-suppress-next-line PhanTypeMismatchArgumentInternal -- Argument 2 ($pieces) is $new_taxo_template of type array<int,?string> but \implode() takes string[] */
 					implode( ', ', $new_taxo_template ),
 					'<i>',
 					'</i>'

@@ -40,8 +40,11 @@ final class Imdbphp extends Imdbphp_Config {
 
 	/**
 	 * Constructor
+	 * @param null|int $cache_expire_override Override the expiration time as saved in database @see Lumiere\Admin\Cache\Cache_Files_Management
 	 */
-	public function __construct() {
+	public function __construct(
+		?int $cache_expire_override = null,
+	) {
 
 		// Get options from database.
 		$imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
@@ -62,7 +65,7 @@ final class Imdbphp extends Imdbphp_Config {
 		$this->country = $this->convert_lang( $imdb_admin_values['imdblanguage'] );
 		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
 		$this->photodir = $imdb_cache_values['imdbphotodir'];// ?imdbphotoroot? Bug imdbphp?
-		$this->cacheExpire = intval( $imdb_cache_values['imdbcacheexpire'] );
+		$this->cacheExpire = is_int( $cache_expire_override ) === false ? intval( $imdb_cache_values['imdbcacheexpire'] ) : $cache_expire_override;
 		$this->photoroot = $imdb_cache_values['imdbphotoroot']; // ?imdbphotodir? Bug imdbphp?
 		$this->cacheUse = $imdb_cache_values['imdbusecache'] === '1' ? true : false;
 		$this->cacheStore = $this->cacheUse === false ? false : true; // Not an option in Lumière!, don't store cache if cache is not used

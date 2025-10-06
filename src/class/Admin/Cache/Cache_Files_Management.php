@@ -33,6 +33,7 @@ use Exception;
  * @see \Lumiere\Admin\Submenu\Cache
  * @see \Lumiere\Admin\Cron\Cron
  * @since 4.0 Methods extracted from Submenu\Cache class and refactored
+ * @since 4.7.2 Added 0 to new Imdbphp()
  *
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  */
@@ -50,11 +51,11 @@ final class Cache_Files_Management {
 	private array $imdb_cache_values;
 
 	/**
-	 *  Constructor
+	 * Constructor
 	 */
 	public function __construct(
 		private Logger $logger = new Logger( 'cacheFilesManagement' ),
-		private Imdbphp $imdbphp_class = new Imdbphp()
+		private Imdbphp $imdbphp_class = new Imdbphp( 0 /* make sure it is not refreshed automatically, time expire infinite here */ )
 	) {
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
 	}

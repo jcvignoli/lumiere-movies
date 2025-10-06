@@ -2,6 +2,7 @@
 
 v.4.7.2
 * [bug] Small glitch in "hook" page in help admin
+* [technical] No automatized refresh anymore when visiting admin cache "manage cache" (edited Cache_Files_Management class)
 
 v.4.7.1
 * [bug] Translation of "hook" page in help admin wasn't effective
