@@ -40,23 +40,23 @@ if ( !defined( 'LUM_WP_URL' ) ) {
 }
 
 /**
- * The WP_DEBUG_LOG is either bool or string, but is defined as only bool in stubs
- * Using random function to have two different strings defined
- * Can't override PHPStan behaviour, but with phan and psalm ok
+ * Returns randomly a string or false
  */
-
-if ( ! defined( 'WP_DEBUG_LOG' ) ) {
+function randomizer_string_or_false() {
 	$rand = rand( 1, 10 );
 	if ( $rand > 5 ) {
-		$final = ABSPATH . 'whateverthepath';
+		return 'random_string';
 	} else {
-		$final = false;
+		return false;
 	}
-	define( 'WP_DEBUG_LOG', $final );
 }
 
-if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', 'src/' );
+/**
+ * The WP_DEBUG_LOG is either bool or string, but is defined as only bool in stubs
+ * Using random function to have two different types of outputs defined
+ */
+if ( ! defined( 'WP_DEBUG_LOG' ) ) { /** for phan */
+	define( 'WP_DEBUG_LOG', randomizer_string_or_false() );
 }
 
 if ( ! defined( 'LUMIERE_INCOMPATIBLE_PLUGINS' ) ) {
