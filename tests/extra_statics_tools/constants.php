@@ -45,17 +45,14 @@ if ( !defined( 'LUM_WP_URL' ) ) {
  * Can't override PHPStan behaviour, but with phan and psalm ok
  */
 
-function randomizer_string_or_false() {
+if ( ! defined( 'WP_DEBUG_LOG' ) ) {
 	$rand = rand( 1, 10 );
 	if ( $rand > 5 ) {
-		return 'random_string';
+		$final = ABSPATH . 'whateverthepath';
 	} else {
-		return false;
+		$final = false;
 	}
-}
-
-if ( ! defined( 'WP_DEBUG_LOG' ) ) { /** for phan */
-	define( 'WP_DEBUG_LOG', randomizer_string_or_false() );
+	define( 'WP_DEBUG_LOG', $final );
 }
 
 if ( ! defined( 'ABSPATH' ) ) {
