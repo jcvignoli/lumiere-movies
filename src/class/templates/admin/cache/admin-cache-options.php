@@ -146,10 +146,11 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 							<input type="checkbox" id="imdb_imdbcacheautorefreshcron_yes" name="imdb_imdbcacheautorefreshcron" value="1" <?php
 							if ( $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '1' ) {
 								echo ' checked="checked"';
-							} ?> data-valuemodificator_advanced="yes" data-valuemodificator_field="imdb_imdbcacheexpire" data-valuemodificator_valuecurrent="0" data-valuemodificator_valuedefault="<?php
-						// If the value of 0' is in 'imdbcacheexpire' config, set up the default value of '2592000'
-						// This allows to go back to this value instead of keeping 0 when deactivating this field
-						echo $lumiere_imdb_cache_values['imdbcacheexpire'] === '0' ? '2592000' : esc_html( $lumiere_imdb_cache_values['imdbcacheexpire'] ); ?>">
+							} /* removed 2025 10 07
+							?> data-valuemodificator_advanced="yes" data-valuemodificator_field="imdb_imdbcacheexpire" data-valuemodificator_valuecurrent="0" data-valuemodificator_valuedefault="<?php
+							// If the value of 0' is in 'imdbcacheexpire' config, set up the default value of '2592000'
+							// This allows to go back to this value instead of keeping 0 when deactivating this field
+							echo $lumiere_imdb_cache_values['imdbcacheexpire'] === '0' ? '2592000' : esc_html( $lumiere_imdb_cache_values['imdbcacheexpire'] ); */ ?>">
 						</div>
 					</div>
 					<div class="explain"><?php esc_html_e( 'Automatically refresh the cache over a span of two weeks. Selecting this option will remove the time expiration of the cache, which will be automatically set to forever.', 'lumiere-movies' ); ?><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ) ?><?php

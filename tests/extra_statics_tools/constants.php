@@ -45,45 +45,22 @@ if ( !defined( 'LUM_WP_URL' ) ) {
  * Can't override PHPStan behaviour, but with phan and psalm ok
  */
 
-if ( ! defined( 'WP_DEBUG_LOG' ) ) {
+function randomizer_string_or_false() {
 	$rand = rand( 1, 10 );
 	if ( $rand > 5 ) {
-		$final = ABSPATH . 'whateverthepath';
+		return 'random_string';
 	} else {
-		$final = false;
+		return false;
 	}
-	define( 'WP_DEBUG_LOG', $final );
+}
+
+if ( ! defined( 'WP_DEBUG_LOG' ) ) { /** for phan */
+	define( 'WP_DEBUG_LOG', randomizer_string_or_false() );
 }
 
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', 'src/' );
 }
-/* Dynamic constant, declaration for Psalm -> but then brings issue with PHPStan!
-if ( ! defined( 'XMLRPC_REQUEST' ) ) {
-	define('XMLRPC_REQUEST',
-	// @var mixed $x
-	$x = false
-	);
-}
-if ( ! defined( 'DOING_CRON' ) ) {
-	define('DOING_CRON',
-	// @var mixed $x
-	$x = false
-	);
-}
-if ( ! defined( 'REST_REQUEST' ) ) {
-	define('REST_REQUEST',
-	// @var mixed $x
-	$x = false
-	);
-}
-if ( ! defined( 'DOING_AUTOSAVE' ) ) {
-	define('DOING_AUTOSAVE',
-	// @var mixed $x
-	$x = false
-	);
-}
-}*/
 
 if ( ! defined( 'LUMIERE_INCOMPATIBLE_PLUGINS' ) ) {
 	define( 'LUMIERE_INCOMPATIBLE_PLUGINS', [ 'my_crapy_plugin' ] );

@@ -189,16 +189,17 @@ final class Cli_Commands {
 		}
 
 		// $options_tablename isn't defined, something went wrong
-		/** @phpstan-ignore isset.variable (Bug PHPStan) */
 		if ( ! isset( $options_tablename ) ) {
 			WP_CLI::error( "The second argument is missing or wrong, the command must comply with:\nwp lum update_options admin|data_movie|data_person|cache --array_key=new_value" );
 		}
 
 		// Get options from DB and get the (first) array key from the passed values in $dashed_extra_args.
+		/** @phpstan-var string $options_tablename (PHPStan doesn't know that WP_CLI::error exits) */
 		$database_options = get_option( $options_tablename );
 		$array_key = array_key_first( $dashed_extra_args );
 
 		// Exit if the array key doesn't exist in Lumière! DB admin options
+		/** @phpstan-ignore argument.type (array_key_exists expects int|string, string|null given) */
 		if ( array_key_exists( $array_key, $database_options ) === false ) {
 			WP_CLI::error( 'This var does not exist, only accepted: ' . implode( ', ', array_keys( $database_options ) ) );
 		}
