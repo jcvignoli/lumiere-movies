@@ -27,7 +27,7 @@
 	},
 	{
 	    "step": "runPHP",
-	    "code": "<?php\ninclude 'wordpress/wp-load.php';\nwp_insert_post(array(\n'import_id' => 5,\n'post_title' => 'Test Lumiere',\n'post_content' => '<!-- wp:paragraph --><p>test with into the wild</p><!-- /wp:paragraph --><!-- wp:lumiere/main {\"lumiere_imdblt_select\":\"lum_movie_title\",\"content\":\"into the wild\"} -->\n<div class=\"wp-block-lumiere-main\"><span data-lum_movie_maker=\"lum_movie_title\">into the wild</span></div>\n<!-- /wp:lumiere/main -->',\n'post_status' => 'publish',\n'post_author' => 1\n));"
+	    "code": "<?php\ninclude 'wordpress/wp-load.php';\nwp_insert_post(array(\n'import_id' => 5,\n'post_title' => 'Test Lumiere',\n'post_content' => '<!-- wp:paragraph --><p>test with into the wild</p><!-- /wp:paragraph --><!-- wp:lumiere/main {\"content\":\"into the wild\"} -->\n<div class=\"wp-block-lumiere-main\"><span data-lum_movie_maker=\"lum_movie_title\">into the wild</span></div>\n<!-- /wp:lumiere/main -->',\n'post_status' => 'publish',\n'post_author' => 1\n));"
 	},
 	{
 		"step": "wp-cli",

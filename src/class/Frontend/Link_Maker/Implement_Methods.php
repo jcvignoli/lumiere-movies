@@ -21,7 +21,7 @@ use Lumiere\Frontend\Layout\Output_Linkmaker;
 use Exception;
 
 /**
- * Polyphormism using the interface
+ * Polymorphism using the interface
  * The child classes, called in the factory, use then this parent class adding only the extra LINK_OPTIONS so we know what process should be run
  * Child classes also take care of calling styles and javascripts they need
  *

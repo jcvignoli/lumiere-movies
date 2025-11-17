@@ -300,7 +300,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
 				$class_module = new $class_name();
-				// @phpstan-ignore method.notFound (Call to an undefined method object::get_module())
+				// @phpstan-ignore argument.type (Parameter #2 $item_name of method Lumiere\Frontend\Module\Person\Person_Title::get_module() expects...)
 				$final_text = $class_module->get_module( $person_class, $module );
 				if ( strlen( $final_text ) > 0 ) {
 					$output .= $this->output_popup_class->person_element_embeded(
