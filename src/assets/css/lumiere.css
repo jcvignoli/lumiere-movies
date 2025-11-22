@@ -345,7 +345,7 @@ span.lum_results_section_subtitle_subcat_content::before { content: " (" counter
 
 .lumiere-padding-lines-common-picture{padding: 20px 20px 0 10px;}
 .postsTaxonomy{margin-left:2em;}
-.lumiere-lines-common-fix{min-height:100px}
+.lumiere-lines-common-fix{min-height:20vh}
 
 .lumiere_font_12 {font-size:12px;}
 .lumiere_font_small {font-size:small;}
