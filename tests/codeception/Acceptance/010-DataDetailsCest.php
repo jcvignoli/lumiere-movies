@@ -167,7 +167,7 @@ class DataDetailsCest {
 		$I->dontSee( 'Game of Thrones (Argentina)');
 		$I->dontSee( 'Composer');
 		$I->dontSee( 'Stanley Kubrick Tribute (A clip is shown.)'); // connected movies
-		$I->dontSee( 'uncategorized: Director Tony Zarindast used' ); // trivias
+		$I->dontSee( 'uncategorized: For the car wreck, director Tony Zarindast ' ); // trivias
 		$I->dontSee( 'factual error: The full moon is shown occurring for' ); // goofs
 		$I->dontSee( 'Ramin Djawadi' );
 		$I->dontSee( 'Soundtracks' );
@@ -338,7 +338,7 @@ class DataDetailsCest {
 		$I->see('Game Of Thrones (Argentina)');
 		$I->see('Composer');
 		$I->see('Stanley Kubrick Tribute (A clip is shown.)'); // connected movies
-		$I->see( 'uncategorized: Director Tony Zarindast used' ); // trivias
+		$I->see( 'uncategorized: For the car wreck, director Tony Zarindast ' ); // trivias
 		$I->see( 'factual error: The full moon is shown occurring for' ); // goofs
 		$I->see( 'Runtime' );
 		$I->see( 'minutes' );

@@ -161,7 +161,7 @@ class StylesScriptsHighslideCest {
 		$I->see('and muscular Mexican leading man');
 		$I->click('Misc');
 		$I->waitPageLoad();
-		$I->see('Rivero soon became a sex symbol and');
+		$I->see('His mother, Carmen Rosas L');
 
 			// Popup movie page
 

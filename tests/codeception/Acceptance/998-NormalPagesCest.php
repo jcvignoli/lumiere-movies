@@ -38,9 +38,9 @@ class NormalPagesCest {
 		$I->maybeActivatePlugin('intelly-related-posts');
 		$I->amOnPage( 'wp-admin/options-general.php?page=intelly-related-posts' );
 		$I->CustomActivateCheckbox('input[name="irpActive"]', '/html/body/div[1]/div[2]/div[2]/div[1]/div[2]/form/input[4]' );
-		// Activate Lucky TOC Plugin
 		$I->amOnPluginsPage();
-		$I->maybeActivatePlugin('luckywp-table-of-contents');
+		// Activate Easy TOC Plugin
+		$I->maybeActivatePlugin('easy-table-of-contents');
 		// Activate Quotes Plugin
 		$I->maybeActivatePlugin('quotes-llama');
 		// Activate Footnotes Plugin
@@ -63,7 +63,7 @@ class NormalPagesCest {
 		// Check if Plugins can be seen in posts
 		$I->seeInPageSource( '<!-- INLINE RELATED POSTS' ); // IRP plugin
 		$I->seeInPageSource( 'class="footnote-link footnote-identifier-link"' ); // Lucky TOC plugin
-		$I->seeInPageSource( '<b class="lwptoc_title">Contents</b>' ); // Lucky TOC plugin
+		$I->seeInPageSource( '<p class="ez-toc-title ez-toc-toggle" style="cursor:pointer">Contenu</p>' ); // Lucky TOC plugin
 		$I->seeInPageSource( '<span class="quotes-llama-widget-more">' ); // Quotes plugin
 		$I->seeInPageSource( '<ol class="footnotes"><li id="footnote_0_2915" class="footnote">' ); // Footnotes plugin
 		$I->seeInPageSource( '<div class="pld-like-wrap' ); // Like/dislike plugin
