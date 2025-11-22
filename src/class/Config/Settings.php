@@ -137,6 +137,7 @@ class Settings extends Settings_Helper {
 	 * URLs for pictures and menu images
 	 */
 	public const LUM_PICS_URL                       = LUM_WP_URL . 'assets/pics/';
+	public const LUM_NOPICS_URL                     = self::LUM_PICS_URL . 'no_pics.png';
 	public const LUM_PICS_SHOWTIMES_URL             = self::LUM_PICS_URL . '/showtimes/';
 
 	/**

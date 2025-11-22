@@ -41,8 +41,8 @@ final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 			return $this->link_maker->get_picture( $movie->photoLocalurl( false ), $movie->photoLocalurl( true ), $movie->title() );
 		}
 
-		// If cache is deactivated, display no_pics.gif
-		$no_pic_url = Get_Options::LUM_PICS_URL . 'no_pics.gif';
+		// If cache is deactivated, display no_pics.png
+		$no_pic_url = Get_Options::LUM_NOPICS_URL;
 		return $this->link_maker->get_picture( $no_pic_url, $no_pic_url, $movie->title() );
 	}
 
@@ -78,10 +78,10 @@ final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 				// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
-				$photo_url_href = strlen( $photo_url ) === 0 ? Get_Options::LUM_PICS_URL . 'no_pics.gif' : $photo_url;
+				$photo_url_href = strlen( $photo_url ) === 0 ? Get_Options::LUM_NOPICS_URL : $photo_url;
 
 				// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-				$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
+				$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_NOPICS_URL ) : $photo_thumb;
 
 				$output .= '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 				// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.

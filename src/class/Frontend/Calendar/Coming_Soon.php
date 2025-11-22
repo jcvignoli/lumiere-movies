@@ -85,7 +85,7 @@ final class Coming_Soon {
 
 		// Get Calendar's method.
 		$this->logger->log?->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override );
-		$all_data = $calendar_class->comingSoon( $region, $type, $start_date_override, $end_date_override );
+		$all_data = $this->array_sort_calendar( $calendar_class->comingSoon( $region, $type, $start_date_override, $end_date_override ) );
 
 		// Exit if no data found.
 		if ( count( $all_data ) < 1 ) {
@@ -101,5 +101,21 @@ final class Coming_Soon {
 			[ $all_data, $this->link_maker ], // data passed.
 			'calendar_vars' // transient name.
 		);
+	}
+
+	/**
+	 * Sort the array from Calendar imdbgraphql class
+	 *
+	 * @param array<array-key, array<string, string>> $array Array as defined in @see(Calendar::buildDateString)
+	 * @return array<array-key, array<string, string>>
+	 */
+	private function array_sort_calendar( array $array ): array {
+
+		uksort(
+			$array,
+			fn( $a, $b ) => strtotime( $a ) <=> strtotime( $b )
+		);
+
+		return  $array;
 	}
 }

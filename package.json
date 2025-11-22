@@ -15,7 +15,7 @@
     "codeception:remote": "php vendor/bin/codecept run -vvv AcceptanceRemote --env wpchrome",
     "codeception:local": "php vendor/bin/codecept run -vvv Acceptance --env wpchrome",
     "phan": "vendor/bin/phan -k phan.php --output-mode=text -p | tee tmp/logs/Results-phan.txt",
-    "phpcs": "vendor/bin/phpcs | tee tmp/logs/Results-phpcs-wp.txt",
+    "phpcs": "vendor/bin/phpcs -s -p --report=code | tee tmp/logs/Results-phpcs-wp.txt",
     "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) | tee tmp/logs/Results-phpdd-deprecated.txt",
     "phpdoc": "phpDocumentor run",
     "phpmd": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/logs/Results-phpmd.html",

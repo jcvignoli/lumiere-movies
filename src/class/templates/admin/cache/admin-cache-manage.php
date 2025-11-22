@@ -267,7 +267,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 				} else { // display every cache movie details, longer loading
 					// get either local picture or if no local picture exists, display the default one
 					if ( false === $lum_movie_results->photoLocalurl() ) {
-						$lum_moviepicturelink = 'src="' . esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
+						$lum_moviepicturelink = 'src="' . esc_url( Get_Options::LUM_NOPICS_URL ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
 					} else {
 						$lum_moviepicturelink = 'src="' . $lum_imdb_cache_values['imdbphotodir'] . 'tt' . $lum_obj_sanitized . '.jpg" alt="' . $lum_title_sanitized . '"';
 					}
@@ -393,7 +393,7 @@ if ( ! file_exists( $lum_imdb_cache_values['imdbcachedir'] ) ) { ?>
 				} else { // display every cache people details, longer loading
 					// get either local picture or if no local picture exists, display the default one
 					if ( false === $lum_people_results->photoLocalurl() ) {
-						$lum_picturelink = 'src="' . esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
+						$lum_picturelink = 'src="' . esc_url( Get_Options::LUM_NOPICS_URL ) . '" alt="' . esc_html__( 'no picture', 'lumiere-movies' ) . '"';
 					} else {
 						$lum_picturelink = 'src="' . esc_url( $lum_imdb_cache_values['imdbphotodir'] . 'nm' . $lum_objpiple_sanitized . '.jpg' ) . '" alt="' . $lum_name_sanitized . '"';
 					}

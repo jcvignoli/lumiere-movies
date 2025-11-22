@@ -114,10 +114,10 @@ class Implement_Methods {
 		}
 
 		// Picture for a href: if 2/ big/thumbnail picture exists, use it (in 1), use no_pics otherwise
-		$photo_url_final_href = strlen( $photo_localurl ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_localurl;
+		$photo_url_final_href = strlen( $photo_localurl ) === 0 ? esc_url( Get_Options::LUM_NOPICS_URL ) : $photo_localurl;
 
 		// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-		$photo_url_final_img = is_string( $photo_thumb ) === false || strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
+		$photo_url_final_img = is_string( $photo_thumb ) === false || strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_NOPICS_URL ) : $photo_thumb;
 
 		// Highslide, classic or Bootstrap class
 		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['bootstrap'] ) {

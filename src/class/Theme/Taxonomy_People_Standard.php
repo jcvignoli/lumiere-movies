@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.12
+ * Version: 3.13
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package       lumieremovies
@@ -24,6 +24,7 @@ use Lumiere\Frontend\Module\Person\Person_Born;
 use Lumiere\Frontend\Module\Person\Person_Died;
 use Lumiere\Frontend\Layout\Output;
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options;
 use Lumiere\Plugins\Plugins_Start;
 use WP_Query;
 
@@ -448,8 +449,7 @@ final class Taxonomy_People_Standard {
 				$person_name
 			) : '';
 		} else { // no_pics otherwise
-			$no_pic = $this->imdb_admin_values['imdbplugindirectory'] . 'pics/no_pics.gif';
-			$output .= $this->link_maker->get_picture( $no_pic, $no_pic, $person_name );
+			$output .= $this->link_maker->get_picture( Get_Options::LUM_NOPICS_URL, Get_Options::LUM_NOPICS_URL, $person_name );
 		}
 
 		$born = isset( $this->person_class ) ? $this->person_born_class->get_module( $this->person_class, 'born' ) : '';

@@ -1,6 +1,9 @@
 **Changelog**
 
 v.4.7.2
+* [feature] "Coming soon" movies with no pictures previously displayed now show a "no pic" picture
+* [feature] New and fancy picture is displayed when no pictures were found for people or movie (new var LUM_NOPICS_URL in Settings class to simplify)
+* [bug] "Coming soon" movies were not correctly sorted by date (added array_sort_calendar() method in Coming_Soon class)
 * [bug] Small glitch in "hook" page in help admin
 * [bug] Unticking "Cache auto refresh" in cache admin was unticking "Cache expire" if set on "never" (removed js update in admin-cache-options template)
 * [technical] No automatized refresh anymore when visiting admin cache "manage cache" (edited Cache_Files_Management class)

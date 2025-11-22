@@ -43,8 +43,8 @@ final class Person_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 			return $this->link_maker->get_picture( $person->photoLocalurl( false ), $person->photoLocalurl( true ), $person_name );
 		}
 
-		// If cache is deactivated, display no_pics.gif
-		$no_pic_url = Get_Options::LUM_PICS_URL . 'no_pics.gif';
+		// If cache is deactivated, display no_pics.png
+		$no_pic_url = Get_Options::LUM_NOPICS_URL;
 		return $this->link_maker->get_picture( $no_pic_url, $no_pic_url, $person_name );
 	}
 
@@ -70,10 +70,10 @@ final class Person_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 		// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
-		$photo_url_href = strlen( $photo_url ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
+		$photo_url_href = strlen( $photo_url ) === 0 ? esc_url( Get_Options::LUM_NOPICS_URL ) : $photo_url; // take big/thumbnail picture if exists, no_pics otherwise.
 
 		// Picture for img: if 1/ thumbnail picture exists, use it, 2/ use no_pics otherwise
-		$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_PICS_URL . 'no_pics.gif' ) : $photo_thumb;
+		$photo_url_img = strlen( $photo_thumb ) === 0 ? esc_url( Get_Options::LUM_NOPICS_URL ) : $photo_thumb;
 
 		$output .= "\n\t\t\t\t" . '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 		$output .= "\n\t\t\t\t\t" . '<img loading="lazy" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $person->name() ?? '' ) . '"';
