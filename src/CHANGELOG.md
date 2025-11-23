@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.7.3
+
 v.4.7.2
 * [feature] "Coming soon" movies with no pictures previously displayed now show a "no pic" picture
 * [feature] New and fancy picture is displayed when no pictures were found for people or movie (new var LUM_NOPICS_URL in Settings class to simplify)
