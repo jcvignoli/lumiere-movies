@@ -85,10 +85,12 @@ final class Coming_Soon {
 
 		// Get Calendar's method.
 		$this->logger->log?->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override );
-		$all_data = $this->array_sort_calendar( $calendar_class->comingSoon( $region, $type, $start_date_override, $end_date_override ) );
+		$all_data = $calendar_class->comingSoon( $region, $type, $start_date_override, $end_date_override );
+		$sorted_data = $this->array_sort_key( $all_data );
+		$filtered_data = $this->convert_array( $sorted_data );
 
 		// Exit if no data found.
-		if ( count( $all_data ) < 1 ) {
+		if ( count( $filtered_data ) < 1 ) {
 			$this->logger->log?->error( '[Coming_Soon] No data found' );
 			echo '<div>' . esc_html__( 'No data found.', 'lumiere-movies' ) . '</div>';
 			return;
@@ -98,7 +100,7 @@ final class Coming_Soon {
 		$this->logger->log?->debug( '[Coming_Soon] Displaying the template' );
 		$this->include_with_vars( // In Trait Files.
 			'calendar', // template name.
-			[ $all_data, $this->link_maker ], // data passed.
+			[ $filtered_data, $this->link_maker ], // data passed.
 			'calendar_vars' // transient name.
 		);
 	}
@@ -109,13 +111,35 @@ final class Coming_Soon {
 	 * @param array<array-key, array<string, string>> $array Array as defined in @see(Calendar::buildDateString)
 	 * @return array<array-key, array<string, string>>
 	 */
-	private function array_sort_calendar( array $array ): array {
+	private function array_sort_key( array $array ): array {
 
 		uksort(
 			$array,
 			fn( $a, $b ) => strtotime( $a ) <=> strtotime( $b )
 		);
+		return $array;
+	}
 
-		return  $array;
+	/**
+	 * Convert date Key in array: 1/ apply WordPress date format to array key; 2/ Keep movies only from today and onwards (remove movies with old release date)
+	 *
+	 * @param array<array-key, array<string, string>> $array Array as defined in @see(Calendar::buildDateString)
+	 * @return array<array-key, array<string, string>>
+	 */
+	private function convert_array( array $array ): array {
+
+		$new_array = [];
+		foreach ( $array as $key => $val ) {
+			$date_int_movie = strtotime( $key );
+			$today_int = current_time( 'timestamp' );
+
+			// Remove movies with old release date
+			if ( $date_int_movie >= $today_int && $date_int_movie !== false ) {
+				// Convert array keys date to WordPress date
+				$new_array[ wp_date( get_option( 'date_format' ), $date_int_movie ) ] = $val;
+			}
+		}
+
+		return $new_array;
 	}
 }

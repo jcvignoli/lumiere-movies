@@ -5,8 +5,8 @@
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 6.1 \
-**Tested up to:** 6.8.2 \
-**Stable tag:** 4.7.1 \
+**Tested up to:** 6.9 \
+**Stable tag:** 4.7.3 \
 **Requires PHP:** 8.1 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -59,47 +59,47 @@ There are three ways to use Lumière!: 1/ with the popup link maker, 2/ with a w
 
 ### 1. Popup displayed when an imdb link is clicked.
 
-![Popup displayed when an imdb link is clicked.](https://ps.w.org/lumiere-movies/assets/screenshot-1.jpg)
+[missing image]
 
 ### 2. How movie's data is displayed "inside a post" 
 
-![How movie's data is displayed "inside a post" ](https://ps.w.org/lumiere-movies/assets/screenshot-2.jpg)
+[missing image]
 
 ### 3. How movie's data is displayed in a "widget" 
 
-![How movie's data is displayed in a "widget" ](https://ps.w.org/lumiere-movies/assets/screenshot-3.jpg)
+[missing image]
 
 ### 4. Admin preferences for cache
 
-![Admin preferences for cache](https://ps.w.org/lumiere-movies/assets/screenshot-4.jpg)
+[missing image]
 
 ### 5. The widget area to display a movie
 
-![The widget area to display a movie](https://ps.w.org/lumiere-movies/assets/screenshot-5.jpg)
+[missing image]
 
 ### 6. Menu in visual editor (tinyMCE) for inclusion of a movie section or popup
 
-![Menu in visual editor (tinyMCE) for inclusion of a movie section or popup](https://ps.w.org/lumiere-movies/assets/screenshot-6.jpg)
+[missing image]
 
 ### 7. Tool to insert a movie section or a popup in a post
 
-![Tool to insert a movie section or a popup in a post](https://ps.w.org/lumiere-movies/assets/screenshot-7.jpg)
+[missing image]
 
 ### 8. Query page to find a movie IMDb ID
 
-![Query page to find a movie IMDb ID](https://ps.w.org/lumiere-movies/assets/screenshot-8.jpg)
+[missing image]
 
 ### 9. Gutenberg block
 
-![Gutenberg block](https://ps.w.org/lumiere-movies/assets/screenshot-9.jpg)
+[missing image]
 
 ### 10. Taxonomy page for a star
 
-![Taxonomy page for a star](https://ps.w.org/lumiere-movies/assets/screenshot-10.jpg)
+[missing image]
 
 ### 11. Upcoming movies calendar
 
-![Upcoming movies calendar](https://ps.w.org/lumiere-movies/assets/screenshot-11.jpg)
+[missing image]
 
 
 ## Frequently Asked Questions
@@ -135,7 +135,7 @@ A list of plugins that are [compatible and incompatible with Lumière](https://g
 
 ### How to integrate Lumière with Polylang plugin?
 
-If [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as https://yourblog.com/lumiere-director/stanley-kubrick/). Just selected which to data to turn into taxonomy, it will work out of the box.
+If [Polylang](https://wordpress.org/plugins/polylang/ "Polylang WordPress plugin") is installed, new features for taxonomy are added, such as a dropdown form for selecting the languages in taxonomy pages (such as https://yourblog.com/lumiere-director/stanley-kubrick/). Just select what data turn into taxonomy, it will work out of the box.
 
 ### Is Lumière! CSP compliant? (for developpers)
 

@@ -19,10 +19,8 @@ $lum_results = get_transient( 'calendar_vars' )[0];
 $lum_link_maker = get_transient( 'calendar_vars' )[1];
 
 foreach ( $lum_results as $lum_date => $lum_arrays ) {
-	$lum_date_first = is_string( $lum_date ) ? strtotime( str_replace( '-', '/', $lum_date ) ) : false;
-	$lum_date_full = $lum_date_first !== false ? wp_date( get_option( 'date_format' ), intval( $lum_date_first ) ) : false;
 
-	echo $lum_date_full !== false ? "\n\t\t" . '<div class="lum_calendar_date">' . esc_html__( 'Release date:', 'lumiere-movies' ) . ' ' . esc_html( $lum_date_full ) . '</div>' : '';
+	echo is_string( $lum_date ) !== false ? "\n\t\t" . '<div class="lum_calendar_date">' . esc_html__( 'Release date:', 'lumiere-movies' ) . ' ' . esc_html( $lum_date ) . '</div>' : '';
 	echo "\n\t" . '<div class="lum_calendar_container">';
 	foreach ( $lum_arrays as $lum_row => $lum_cal_data ) {
 		$lum_nb_casts = count( $lum_cal_data['cast'] );
