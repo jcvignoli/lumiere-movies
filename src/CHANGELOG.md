@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.7.3
+* [bug] Compatiblity WP 6.9: If Calendar (Coming_Soon class) is called with filter 'lum_coming_soon', calendar style wasn't added. (New method maybe_load_assets() in Coming_Soon class)
 
 v.4.7.2
 * [feature] "Coming soon" movies with no pictures previously displayed now show a "no pic" picture

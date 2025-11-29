@@ -1,5 +1,7 @@
 /**
  * Lumiere Movies CSS for calendar
+ * Is included through *add_styles* classic function if loaded through lum_coming_soon filter
+ * Is included through block.json if block
  */
 .lum_calendar_date{
 	font-size:x-large;

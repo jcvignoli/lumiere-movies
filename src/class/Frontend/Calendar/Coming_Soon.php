@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Lumiere\Vendor\Imdb\Calendar;
 use Lumiere\Frontend\Main;
 use Lumiere\Tools\Files;
+use Lumiere\Config\Get_Options;
 
 /**
  * Coming soon
@@ -41,6 +42,7 @@ final class Coming_Soon {
 	public function __construct() {
 		$this->start_main_trait(); // In Trait Main.
 		$this->start_linkmaker(); // In Trait Main.
+
 	}
 
 	/**
@@ -58,10 +60,38 @@ final class Coming_Soon {
 		int $start_date_override = 0,
 		int $end_date_override = 0
 	): void {
+
 		$that = new self();
+
+		$that->maybe_load_assets();
 
 		// Display the calendar.
 		$that->display( $region, $type, $start_date_override, $end_date_override );
+	}
+
+	/**
+	 * Programmatically add the calendar stylesheet if it is not yet added
+	 * Needed if WordPress 6.9 calls the class through filter lum_coming_soon
+	 * It is included through in block.json (thus in inline script id "lumiere-coming-soon-style-inline-css")
+	 *
+	 * @return void
+	 * @since 4.7.3 added
+	 */
+	private function maybe_load_assets(): void {
+
+		// Execute in the first call of the filter only
+		if ( did_filter( 'lum_coming_soon' ) !== 1 ) {
+			return;
+		}
+
+		wp_register_style(
+			'lumiere_style_calendar',
+			Get_Options::LUM_CSS_URL . 'lum_calendar.min.css',
+			[ 'lumiere_style_main' ],
+			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lum_calendar.min.css' ) )
+		);
+
+		wp_enqueue_style( 'lumiere_style_calendar' );
 	}
 
 	/**
@@ -136,7 +166,8 @@ final class Coming_Soon {
 			// Remove movies with old release date
 			if ( $date_int_movie >= $today_int && $date_int_movie !== false ) {
 				// Convert array keys date to WordPress date
-				$new_array[ wp_date( get_option( 'date_format' ), $date_int_movie ) ] = $val;
+				$new_key = wp_date( get_option( 'date_format' ), $date_int_movie );
+				$new_array[ $new_key ] = $val;
 			}
 		}
 
