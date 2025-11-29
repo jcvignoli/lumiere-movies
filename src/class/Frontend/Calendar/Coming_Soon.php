@@ -140,6 +140,7 @@ final class Coming_Soon {
 	 *
 	 * @param array<array-key, array<string, string>> $array Array as defined in @see(Calendar::buildDateString)
 	 * @return array<array-key, array<string, string>>
+	 * @since 4.7.2 added
 	 */
 	private function array_sort_key( array $array ): array {
 
@@ -155,6 +156,7 @@ final class Coming_Soon {
 	 *
 	 * @param array<array-key, array<string, string>> $array Array as defined in @see(Calendar::buildDateString)
 	 * @return array<array-key, array<string, string>>
+	 * @since 4.7.3 added
 	 */
 	private function convert_array( array $array ): array {
 
