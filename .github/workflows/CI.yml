@@ -43,7 +43,7 @@ jobs:
 
       - name: "Cache Composer dependencies"
         id: composer-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: "~/.composer/cache"
           key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.json') }}

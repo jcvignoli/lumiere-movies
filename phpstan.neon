@@ -17,8 +17,6 @@ parameters:
     bootstrapFiles:
         # Bootstrap with constants not defined by default
         - tests/bootstrap-testing.php
-    featureToggles:
-        internalTag: false # prevent errors coming from bleeing edge related to @internal phpdoc comments (found in get_terms())
     ignoreErrors:
         - identifier: method.dynamicName
         -
