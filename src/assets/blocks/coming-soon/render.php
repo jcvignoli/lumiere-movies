@@ -5,13 +5,17 @@
  */
 namespace Lumiere;
 
-use Lumiere\Frontend\Calendar\Coming_Soon;
+use Lumiere\Frontend\Coming_Soon;
 
 if ( isset( $attributes['region'], $attributes['type'], $attributes['startDateOverride'], $attributes['endDateOverride'] ) ) {
+	$lum_date_format_override = isset( $attributes['dateFormatOverride'] ) && strlen( $attributes['dateFormatOverride'] ) > 0 && $attributes['dateFormatOverride'] !== 'WordPress format'
+		? $attributes['dateFormatOverride']
+		: null;
 	Coming_Soon::init(
 		strtoupper( $attributes['region'] ), // Countries are in lowercase in js
 		strtoupper( $attributes['type'] ),
 		intval( $attributes['startDateOverride'] ),
-		intval( $attributes['endDateOverride'] )
+		intval( $attributes['endDateOverride'] ),
+		$lum_date_format_override
 	);
 }

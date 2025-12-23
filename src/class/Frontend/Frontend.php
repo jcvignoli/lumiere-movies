@@ -67,7 +67,7 @@ final class Frontend {
 		/**
 		 * Calendar's related action
 		 */
-		add_filter( 'lum_coming_soon', [ 'Lumiere\Frontend\Calendar\Coming_Soon', 'init' ], 10, 4 );
+		add_filter( 'lum_coming_soon', [ 'Lumiere\Frontend\Coming_Soon', 'init' ], 10, 5 );
 
 		/**
 		 * Widget's related action

@@ -8,7 +8,7 @@
  * @package       lumieremovies
  */
 
-namespace Lumiere\Frontend\Calendar;
+namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
 if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
@@ -52,13 +52,15 @@ final class Coming_Soon {
 	 * @param string $type Type is returned, MOVIE, TV or TV_EPISODE
 	 * @param int $start_date_override This defines the startDate override like +3 or -5 of default todays day
 	 * @param int $end_date_override This defines the endDate override like +3 or -5, default + 1 year
+	 * @param null|string $date_format_override Override the default WordPress date format
 	 * @return void
 	 */
 	public static function init(
 		string $region = 'US',
 		string $type = 'MOVIE',
 		int $start_date_override = 0,
-		int $end_date_override = 0
+		int $end_date_override = 0,
+		?string $date_format_override = null
 	): void {
 
 		$that = new self();
@@ -66,7 +68,7 @@ final class Coming_Soon {
 		$that->maybe_load_assets();
 
 		// Display the calendar.
-		$that->display( $region, $type, $start_date_override, $end_date_override );
+		$that->display( $region, $type, $start_date_override, $end_date_override, $date_format_override );
 	}
 
 	/**
@@ -102,7 +104,8 @@ final class Coming_Soon {
 	 * @param string $type Type is returned, MOVIE, TV or TV_EPISODE
 	 * @param int $start_date_override This defines the startDate override like +3 or -5 of default todays day
 	 * @param int $end_date_override This defines the endDate override like +3 or -5, default + 1 year
-	 * @param Calendar $calendar_class Calendar class
+	 * @param string|null $date_format_override Override the default WordPress date format
+	 * @param Calendar $calendar_imdb_class Calendar class
 	 * @return void
 	 */
 	private function display(
@@ -110,14 +113,16 @@ final class Coming_Soon {
 		string $type,
 		int $start_date_override,
 		int $end_date_override,
-		Calendar $calendar_class = new Calendar()
+		?string $date_format_override,
+		Calendar $calendar_imdb_class = new Calendar()
 	): void {
 
 		// Get Calendar's method.
-		$this->logger->log?->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override );
-		$all_data = $calendar_class->comingSoon( $region, $type, $start_date_override, $end_date_override );
+		$date_format_override_comment = ! isset( $date_format_override ) ? 'null' : $date_format_override;
+		$this->logger->log?->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override . ', dateFormatOverride:' . $date_format_override_comment );
+		$all_data = $calendar_imdb_class->comingSoon( $region, $type, $start_date_override, $end_date_override );
 		$sorted_data = $this->array_sort_key( $all_data );
-		$filtered_data = $this->convert_array( $sorted_data );
+		$filtered_data = $this->convert_date( $sorted_data, $date_format_override );
 
 		// Exit if no data found.
 		if ( count( $filtered_data ) < 1 ) {
@@ -155,12 +160,14 @@ final class Coming_Soon {
 	 * Convert date Key in array: 1/ apply WordPress date format to array key; 2/ Keep movies only from today and onwards (remove movies with old release date)
 	 *
 	 * @param array<array-key, array<string, string>> $array Array as defined in @see(Calendar::buildDateString)
+	 * @param null|string $date_format_override Override the default WordPress date format
 	 * @return array<array-key, array<string, string>>
 	 * @since 4.7.3 added
 	 */
-	private function convert_array( array $array ): array {
+	private function convert_date( array $array, ?string $date_format_override ): array {
 
 		$new_array = [];
+		$date_format = isset( $date_format_override ) && strlen( $date_format_override ) > 0 ? $date_format_override : get_option( 'date_format' );
 		foreach ( $array as $key => $val ) {
 			$date_int_movie = strtotime( $key );
 			$today_int = current_time( 'timestamp' );
@@ -168,7 +175,7 @@ final class Coming_Soon {
 			// Remove movies with old release date
 			if ( $date_int_movie >= $today_int && $date_int_movie !== false ) {
 				// Convert array keys date to WordPress date
-				$new_key = wp_date( get_option( 'date_format' ), $date_int_movie );
+				$new_key = wp_date( $date_format, $date_int_movie );
 				$new_array[ $new_key ] = $val;
 			}
 		}

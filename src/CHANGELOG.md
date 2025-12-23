@@ -1,7 +1,10 @@
 **Changelog**
 
 v.4.7.3
+* [feature] Upcoming movies block includes a new option to override default WordPress date (added $dateFormatOverride in block and Coming_Soon class)
 * [bug] Compatiblity WP 6.9: If Calendar (Coming_Soon class) is called with filter 'lum_coming_soon', calendar style wasn't added. (New method maybe_load_assets() in Coming_Soon class)
+* [bug] Post and widget blocks were missing sprintf declaration (added in edit.js)
+* [technical] Moved selections of date override, starting and ending date for upcoming movies in block to the advanced block part.
 
 v.4.7.2
 * [feature] "Coming soon" movies with no pictures previously displayed now show a "no pic" picture

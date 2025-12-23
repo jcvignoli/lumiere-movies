@@ -1,6 +1,6 @@
 import './index.css';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { RawHTML, createElement } from '@wordpress/element';
 
 export default function Edit ( props ) {

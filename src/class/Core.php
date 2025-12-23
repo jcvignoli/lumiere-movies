@@ -209,8 +209,8 @@ final class Core extends Hooks_Updates {
 	 */
 	public function lum_execute_blocks(): void {
 
-			// Script for click on gutenberg block link to open a popup
-			wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
+		// Script for click on gutenberg block link to open a popup
+		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 	}
 }
 

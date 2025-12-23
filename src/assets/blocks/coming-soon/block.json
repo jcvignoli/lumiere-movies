@@ -33,6 +33,10 @@
 		"endDateOverride": {
 			"type": "integer",
 			"default": 30
+		},
+		"dateFormatOverride": {
+			"type": "string",
+			"default": "WordPress format"
 		}
         },
        	"render": "file:./render.php",
