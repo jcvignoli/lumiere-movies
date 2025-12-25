@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Lumière Movies 4.7.2\n"
+"Project-Id-Version: Lumière Movies 4.7.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-23T12:58:44+00:00\n"
+"POT-Creation-Date: 2025-12-25T18:20:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: lumiere-movies\n"
@@ -234,7 +234,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: class/Admin/Backoffice_Extra.php:58
-#: assets/blocks/coming-soon/edit.js:38
 msgid "Settings"
 msgstr ""
 
@@ -951,7 +950,7 @@ msgstr ""
 msgid "Display (a number of) awards"
 msgstr ""
 
-#: class/Frontend/Calendar/Coming_Soon.php:93
+#: class/Frontend/Coming_Soon.php:130
 msgid "No data found."
 msgstr ""
 
@@ -2821,11 +2820,11 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-#: class/templates/calendar.php:25
+#: class/templates/calendar.php:23
 msgid "Release date:"
 msgstr ""
 
-#: class/templates/calendar.php:45
+#: class/templates/calendar.php:43
 msgid "Actor:"
 msgid_plural "Actors:"
 msgstr[0] ""
@@ -2915,6 +2914,10 @@ msgstr ""
 msgid "Click here to change the block options"
 msgstr ""
 
+#: assets/blocks/coming-soon/edit.js:38
+msgid "Main settings"
+msgstr ""
+
 #: assets/blocks/coming-soon/edit.js:40
 msgid "Country"
 msgstr ""
@@ -2923,20 +2926,44 @@ msgstr ""
 msgid "Type of search"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:60
+#: assets/blocks/coming-soon/edit.js:63
+msgid "Date settings"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:67
 msgid "Starting date (in number of days)"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:68
+#: assets/blocks/coming-soon/edit.js:75
 msgid "Ending date (in number of days)"
 msgstr ""
 
+#: assets/blocks/coming-soon/edit.js:83
+msgid "Date format"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:90
+msgid "Blog default format"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:91
+msgid "Full format"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:92
+msgid "Partial format"
+msgstr ""
+
+#: assets/blocks/coming-soon/edit.js:93
+msgid "Short format"
+msgstr ""
+
 #: assets/blocks/coming-soon/index.js:13
-msgid "Coming soon"
+msgid "Coming soon movies"
 msgstr ""
 
 #: assets/blocks/coming-soon/index.js:14
-msgid "Add upcoming list of movies in your post"
+msgid "Add upcoming list of movies into your post"
 msgstr ""
 
 #: assets/blocks/opensearch/index.js:38

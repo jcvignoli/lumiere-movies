@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.7.4
+
 v.4.7.3
 * [feature] Upcoming movies block includes a new option to override default WordPress date (added $dateFormatOverride in block and Coming_Soon class)
 * [bug] Compatiblity WP 6.9: If Calendar (Coming_Soon class) is called with filter 'lum_coming_soon', calendar style wasn't added. (New method maybe_load_assets() in Coming_Soon class)
