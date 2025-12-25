@@ -10,8 +10,8 @@ const iconLumiere = (
 );
 
 registerBlockType( jsonData.name, {
-	title: __('Coming soon', 'lumiere-movies'),
-	description: __('Add upcoming list of movies in your post', 'lumiere-movies'),
+	title: __('Coming soon movies', 'lumiere-movies'),
+	description: __('Add upcoming list of movies into your post', 'lumiere-movies'),
 	icon: iconLumiere,
 	category: jsonData.category,
 	keywords: jsonData.keywords,
