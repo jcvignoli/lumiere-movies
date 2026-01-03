@@ -1,48 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 
-PROJECT=`php -r "echo dirname(dirname(dirname(realpath('$0'))));"`
-#STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=ACMR HEAD | grep \\\\.php` # 'ACMR" to add Added, Copied, Modified, Renamed
-STAGED_FILES_CMD=`git diff --cached --name-only --diff-filter=d HEAD | grep \\\\.php` # 'd' to add all but Deleted files
+PROJECT=$(php -r "echo dirname(dirname(dirname(realpath('$0'))));")
+STAGED_FILES_CMD=$(git diff --cached --name-only --diff-filter=d HEAD | grep \\\\.php) # 'd' to add all but Deleted files
 
 PHPCS_BIN=./vendor/bin/phpcs
 PHPCBF_BIN=./vendor/bin/phpcbf
 PHPSTAN_BIN=./vendor/bin/phpstan
 PHAN_BIN=./vendor/bin/phan
 PSALM_BIN=./vendor/bin/psalm
+ALL_BINS=( "$PHPCS_BIN" "$PHPCBF_BIN" "$PHPSTAN_BIN" "$PHAN_BIN" "$PSALM_BIN" )
 PHPSTAN_ACTIVATED=1
 PHAN_ACTIVATED=1
-PSALM_ACTIVATED=1
+PSALM_ACTIVATED=0 # doesn't work anymore
 
-# Check for Analytics tools installation
-if [ ! -x $PHPCS_BIN ]; then
-    echo "[Pre-commit] PHP CodeSniffer is not installed locally."
-    echo "[Pre-commit] Please run 'composer install' or check the path: $PHPCS_BIN"
-    exit 1
-fi
-
-if [ ! -x $PHPCBF_BIN ]; then
-    echo "[Pre-commit] PHP Code Beautifier and Fixer is not installed locally."
-    echo "[Pre-commit] Please run 'composer install' or check the path: $PHPCBF_BIN"
-    exit 1
-fi
-
-if [ ! -x $PHPSTAN_BIN ] && [ "$PHPSTAN_ACTIVATED" = 1 ]; then
-    echo "[Pre-commit] PHPStan is not installed locally."
-    echo "[Pre-commit] Please run 'composer install' or check the path: $PHPSTAN_BIN"
-    exit 1
-fi
-
-if [ ! -x $PHAN_BIN ] && [ "$PHAN_ACTIVATED" = 1 ]; then
-    echo "[Pre-commit] Phan is not installed locally."
-    echo "[Pre-commit] Please run 'composer install' or check the path: $PHAN_BIN"
-    exit 1
-fi
-
-if [ ! -x $PSALM_BIN ] && [ "$PSALM_ACTIVATED" = 1 ]; then
-    echo "[Pre-commit] Psalm is not installed locally."
-    echo "[Pre-commit] Please run 'composer install' or check the path: $PSALM_BIN"
-    exit 1
-fi
+# Check Analytics tools installation
+for bin in "${ALL_BINS[@]}";do
+	[ -x "$bin" ] || { echo -e "[Pre-commit] \e[01;31m✘\e[0m Please run 'composer install' or check the path: $bin"; exit 1; }
+done
 
 # Determine if a file list is passed
 if [ "$#" -eq 1 ]
@@ -55,12 +29,10 @@ then
 fi
 SFILES=${SFILES:-$STAGED_FILES_CMD}
 
-echo "[Pre-commit] Checking PHP Lint..."
-for FILE in $SFILES
-do
-    php -l -d display_errors=0 $PROJECT/$FILE
-    if [ $? != 0 ]
-    then
+echo -e "\n[Pre-commit] Checking PHP Lint..."
+for FILE in $SFILES; do
+    php -l -d display_errors=0 "$PROJECT/$FILE"
+    if [ $? != 0 ]; then
         echo "[Pre-commit] Fix the error before commit."
         exit 1
     fi
@@ -69,66 +41,64 @@ done
 
 if [ "$FILES" != "" ];then
 
-    if [ "$PHPSTAN_ACTIVATED" = 1 ]; then
+    if [[ "$PHPSTAN_ACTIVATED" == 1 ]]; then
         echo "[Pre-commit] Running PHPStan on PHP files..."
-        PHPSTAN_ANALYSE=$($PHPSTAN_BIN analyze --configuration phpstan.neon --error-format=raw)
+        PHPSTAN_ANALYSE=$($PHPSTAN_BIN analyze --error-format=raw --configuration phpstan.neon)
         if [ $? != 0 ];then
-            printf "$PHPSTAN_ANALYSE\n\n"
-            printf "\033[1m\033[31m[Pre-commit] PHPStan has errors, fix them before uploading to git.\033[0m\n"
+            echo -e "$PHPSTAN_ANALYSE\n\n"
+            echo -e "\033[1m\033[31m[Pre-commit] PHPStan has errors, fix them before uploading to git.\033[0m\n"
             exit 1
         fi 
     fi
 
-    if [ "$PSALM_ACTIVATED" = 1 ]; then
+    if [[ "$PSALM_ACTIVATED" == 1 ]]; then
         echo "[Pre-commit] Running Psalm on PHP files..."
-        PSALM_ANALYSE=$($PSALM_BIN --no-cache)
+        PSALM_ANALYSE=$($PSALM_BIN --no-cache "$FILES")
         if [ $? != 0 ];then
-            echo "\n$PSALM_ANALYSE\n"
-            printf "\033[1m\033[31m[Pre-commit] Psalm has errors, fix them before uploading to git.\033[0m\n"
+            echo -e "\n$PSALM_ANALYSE\n"
+            echo -e "\033[1m\033[31m[Pre-commit] Psalm has errors, fix them before uploading to git.\033[0m\n"
             exit 1
         fi 
     fi
     
-    if [ "$PHAN_ACTIVATED" = 1 ]; then
+    if [[ "$PHAN_ACTIVATED" == 1 ]]; then
         echo "[Pre-commit] Running Phan on PHP files..."
         PHAN_ANALYSE=$($PHAN_BIN -k phan.php --color --no-progress-bar)
         if [ $? != 0 ];then
-            echo "\n$PHAN_ANALYSE\n"
-            printf "\033[1m\033[31m[Pre-commit] Phan has errors, fix them before uploading to git.\033[0m\n"
+            echo -e "\n$PHAN_ANALYSE\n"
+            echo -e "\033[1m\033[31m[Pre-commit] Phan has errors, fix them before uploading to git.\033[0m\n"
             exit 1
         fi 
     fi
 
-    echo "[Pre-commit] Running Code Sniffer..."
-    $PHPCS_BIN -n -p $FILES
+    echo "[Pre-commit] Running PHPCS..."
+    $PHPCS_BIN -n -p "$FILES"
     
     #Errors have been found
     if [ $? != 0 ];then
     
-        printf "\033[1m\033[31m[Pre-commit] PHPCS errors found!\033[0m\n"
-        echo "[Pre-commit] Running $PHPCBF_BIN for automatic fixing..."
+        echo -e "\033[1m\033[31m[Pre-commit] PHPCS errors found!\033[0m\n"
+        echo -e "[Pre-commit] Running $PHPCBF_BIN for automatic fixing..."
 
 	# Try to fix automatically errors
-        $PHPCBF_BIN -n $FILES
+        $PHPCBF_BIN -n "$FILES"
 
         echo "[Pre-commit] Checking PHPCS again..."
 
         # Running phpcs again
-        $PHPCS_BIN -n $FILES
+        $PHPCS_BIN -n "$FILES"
         
         # Couldn't fix, exit
         if [ $? != 0 ];then
-            echo "[Pre-commit] PHP Code Beautifier and Fixer wasn't able to solve all problems."
-            printf "\033[1m\033[31m[Pre-commit] Run PHPCS $PHPCBF_BIN manually to check and fix all errors.\033[0m\n"
+            echo -e "[Pre-commit] PHP Code Beautifier and Fixer wasn't able to solve all problems."
+            echo -e "\033[1m\033[31m[Pre-commit] Run PHPCS $PHPCBF_BIN manually to check and fix all errors.\033[0m\n"
             exit 1
         fi
         
-        printf "\033[1;32m[Pre-commit] Successfully fixed phpcs errors.\033[0m"
+        echo -e "\033[32m[Pre-commit] Successfully fixed phpcs errors.\033[0m"
         
-        # Add modified files in git before commiting, otherwise would send the unmodified files -- Added sleep so the files have the time to be copied in dist
-        # sleep 6 && => removed sleep, since /dist doesn't exist anymore
-        git add $FILES
-        
+        # Add modified files in git before commiting, otherwise would send the unmodified files
+        git add "$FILES"
     fi
 fi
 

@@ -58,6 +58,7 @@
         "phanci": "vendor/bin/phan -k phan.php ",
         "static-code-analyser": ["@phpcsci", "@phpstanci"],
         "post-autoload-dump": [
+            "./scripts/copy-files",
             "./scripts/update-src-composer"
         ]
     }

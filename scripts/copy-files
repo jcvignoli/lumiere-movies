@@ -2,11 +2,11 @@
 
 # Script automatically executed when "composer (update|remove|require)" is run
 
-# Git hooks (can be deleted when doing a mirror clone) -- option u copies only if destination is different from source
+# Git hooks (can be deleted when doing a mirror clone)
 
-cp -uv ./scripts/git-hooks/pre-commit ./.git/hooks/
+[ ! -f "./.git/hooks/pre-commit" ] && ln -s "../../scripts/git-hooks/pre-commit" "./.git/hooks/"
 
-# Gitub hooks (can be deleted when doing a mirror clone)
+# Gitub hooks (can be deleted when doing a mirror clone) -- option u copies only if destination is different from source
 
 mkdir -p ./.github
 cp -uvr ./scripts/github/** ./.github/
