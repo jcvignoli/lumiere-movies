@@ -20,12 +20,12 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['8.1']
+        php-versions: ['8.2']
     env:
       php-extensions: ast
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
      
       - name: Setup PHP extension caching
         id: extcache
@@ -44,7 +44,7 @@ jobs:
 
       - name: Cache Composer dependencies
         id: composer-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: vendor
           key: composer-dependencies-${{ runner.os }}-foov4-${{ env.cache-version }}-${{ hashFiles('composer.lock') }}
@@ -61,7 +61,7 @@ jobs:
 
       - name: Cache npm dependencies
         id: cache-npm
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: cache-node-modules
         with:
@@ -80,11 +80,11 @@ jobs:
         
       - name: Prepare Lumière folder for plugin check
         run: |
-          npm run build:github
+          npm run build
           cp -R ./dist ${{ runner.temp }}/lumiere-movies
 
       - name: Run plugin check
-        uses: wordpress/plugin-check-action@v1.1.2
+        uses: wordpress/plugin-check-action@v1
         with:
           build-dir: ${{ runner.temp }}/lumiere-movies
           exclude-directories: 'vendor,.wordpress-org'
