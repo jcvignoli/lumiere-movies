@@ -80,7 +80,7 @@ jobs:
         
       - name: Prepare Lumière folder for plugin check
         run: |
-          npm run build:github
+          npm run build
           cp -R ./dist ${{ runner.temp }}/lumiere-movies
 
       - name: Run plugin check
