@@ -2,11 +2,11 @@
 
 # Script automatically executed when "composer (update|remove|require)" is run
 
-# Git hooks (can be deleted when doing a mirror clone)
+# Git hooks (can be deleted when doing a mirror clone) 
 
-[ ! -f "./.git/hooks/pre-commit" ] && ln -s "../../scripts/git-hooks/pre-commit" "./.git/hooks/"
+[ ! -f "$PWD/.git/hooks/pre-commit" ] && ln "$PWD/scripts/git-hooks/pre-commit" "$PWD/.git/hooks/" || echo -e "pre-commit already exists"
 
 # Gitub hooks (can be deleted when doing a mirror clone) -- option u copies only if destination is different from source
 
 mkdir -p ./.github
-cp -uvr ./scripts/github/** ./.github/
+cp -uvr ./scripts/github/** ./.github/ || echo -e "file already exist"

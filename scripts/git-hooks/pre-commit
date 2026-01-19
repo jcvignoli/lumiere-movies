@@ -53,7 +53,7 @@ if [ "$FILES" != "" ];then
 
     if [[ "$PSALM_ACTIVATED" == 1 ]]; then
         echo "[Pre-commit] Running Psalm on PHP files..."
-        PSALM_ANALYSE=$($PSALM_BIN --no-cache "$FILES")
+        PSALM_ANALYSE=$($PSALM_BIN --no-cache $FILES)
         if [ $? != 0 ];then
             echo -e "\n$PSALM_ANALYSE\n"
             echo -e "\033[1m\033[31m[Pre-commit] Psalm has errors, fix them before uploading to git.\033[0m\n"
@@ -72,7 +72,7 @@ if [ "$FILES" != "" ];then
     fi
 
     echo "[Pre-commit] Running PHPCS..."
-    $PHPCS_BIN -n -p "$FILES"
+    $PHPCS_BIN -n -p $FILES
     
     #Errors have been found
     if [ $? != 0 ];then
@@ -81,12 +81,12 @@ if [ "$FILES" != "" ];then
         echo -e "[Pre-commit] Running $PHPCBF_BIN for automatic fixing..."
 
 	# Try to fix automatically errors
-        $PHPCBF_BIN -n "$FILES"
+        $PHPCBF_BIN -n $FILES
 
         echo "[Pre-commit] Checking PHPCS again..."
 
         # Running phpcs again
-        $PHPCS_BIN -n "$FILES"
+        $PHPCS_BIN -n $FILES
         
         # Couldn't fix, exit
         if [ $? != 0 ];then
@@ -98,7 +98,7 @@ if [ "$FILES" != "" ];then
         echo -e "\033[32m[Pre-commit] Successfully fixed phpcs errors.\033[0m"
         
         # Add modified files in git before commiting, otherwise would send the unmodified files
-        git add "$FILES"
+        git add $FILES
     fi
 fi
 
