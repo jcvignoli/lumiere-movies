@@ -3843,16 +3843,16 @@
         },
         {
             "name": "lucatume/wp-browser",
-            "version": "4.5.10",
+            "version": "4.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lucatume/wp-browser.git",
-                "reference": "4d5cc38076d3b9eeeaeac471a120715cb396329c"
+                "reference": "ed294eebf327e5b941e49f33d25dd7bc87e005b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/4d5cc38076d3b9eeeaeac471a120715cb396329c",
-                "reference": "4d5cc38076d3b9eeeaeac471a120715cb396329c",
+                "url": "https://api.github.com/repos/lucatume/wp-browser/zipball/ed294eebf327e5b941e49f33d25dd7bc87e005b3",
+                "reference": "ed294eebf327e5b941e49f33d25dd7bc87e005b3",
                 "shasum": ""
             },
             "require": {
@@ -3878,8 +3878,10 @@
                 "vlucas/phpdotenv": "^5.0"
             },
             "require-dev": {
+                "automattic/vipwpcs": "^3.0",
                 "gumlet/php-image-resize": "^1.6",
                 "lucatume/codeception-snapshot-assertions": "^1.3.0",
+                "phpcompatibility/php-compatibility": "^10.0.0@dev",
                 "phpstan/extension-installer": "^1.3",
                 "phpstan/phpstan": "1.10.56",
                 "phpstan/phpstan-symfony": "^1.3",
@@ -3931,7 +3933,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lucatume/wp-browser/issues",
-                "source": "https://github.com/lucatume/wp-browser/tree/4.5.10"
+                "source": "https://github.com/lucatume/wp-browser/tree/4.5.11"
             },
             "funding": [
                 {
@@ -3939,7 +3941,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-21T08:48:55+00:00"
+            "time": "2026-01-20T09:51:26+00:00"
         },
         {
             "name": "marc-mabe/php-enum",
@@ -5485,11 +5487,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.33",
+            "version": "2.1.36",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9e800e6bee7d5bd02784d4c6069b48032d16224f",
-                "reference": "9e800e6bee7d5bd02784d4c6069b48032d16224f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/2132e5e2361d11d40af4c17faa16f043269a4cf3",
+                "reference": "2132e5e2361d11d40af4c17faa16f043269a4cf3",
                 "shasum": ""
             },
             "require": {
@@ -5534,7 +5536,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-12-05T10:24:31+00:00"
+            "time": "2026-01-21T13:58:26+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
@@ -12090,16 +12092,16 @@
         },
         {
             "name": "wp-cli/php-cli-tools",
-            "version": "v0.12.6",
+            "version": "v0.12.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/php-cli-tools.git",
-                "reference": "f12b650d3738e471baed6dd47982d53c5c0ab1c3"
+                "reference": "5cc6ef2e93cfcd939813eb420ae23bc116d9be2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/php-cli-tools/zipball/f12b650d3738e471baed6dd47982d53c5c0ab1c3",
-                "reference": "f12b650d3738e471baed6dd47982d53c5c0ab1c3",
+                "url": "https://api.github.com/repos/wp-cli/php-cli-tools/zipball/5cc6ef2e93cfcd939813eb420ae23bc116d9be2a",
+                "reference": "5cc6ef2e93cfcd939813eb420ae23bc116d9be2a",
                 "shasum": ""
             },
             "require": {
@@ -12112,7 +12114,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12.x-dev"
+                    "dev-main": "0.12.x-dev"
                 }
             },
             "autoload": {
@@ -12147,9 +12149,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wp-cli/php-cli-tools/issues",
-                "source": "https://github.com/wp-cli/php-cli-tools/tree/v0.12.6"
+                "source": "https://github.com/wp-cli/php-cli-tools/tree/v0.12.7"
             },
-            "time": "2025-09-11T12:43:04+00:00"
+            "time": "2026-01-20T20:31:49+00:00"
         },
         {
             "name": "wp-cli/process",

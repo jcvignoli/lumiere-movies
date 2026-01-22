@@ -23,7 +23,7 @@
     "phpstan-clean": "if [ -d \"tmp/cache/phpstan\" ];then rm -R tmp/cache/phpstan && npm run phpstan; else npm run phpstan; fi",
     "plugincheck": "wp @lumiere plugin check lumiere-movies --ignore-codes='WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing,PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage, WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary,WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace'",
     "psalm": "vendor/bin/psalm --show-info=true --report=tmp/logs/Results-psalm.txt",
-    "psalm-clean": "if [ -d \"tmp/cache/psalm\" ];then rm -R tmp/cache/psalm && npm run psalm; else npm run psalm; fi"
+    "psalm-clean": "if [ -d tmp/cache/psalm ]; then rm -R tmp/cache/psalm; fi; npm run psalm"
   },
   "devDependencies": {
     "@alexrah/ssh-watch-upload-webpack-plugin": "*",
