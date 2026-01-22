@@ -4,8 +4,7 @@
 <psalm
 	errorLevel="3"
 	resolveFromConfigFile="true"
-	cacheDirectory="tmp/cache/psalm"
-	autoloader="tests/bootstrap-testing.php"
+	noCache="true"
 	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
 	findUnusedPsalmSuppress="true"
@@ -14,35 +13,42 @@
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
+	<!-- removed 01/2026, get psalm stuck because of blogpourext/wp-includes/abilities-api/class-wp-ability-category.php
+	autoloader="src/vendor/autoload.php"
+	-->
+
 	<!-- Load and analyze -->
 	<projectFiles>
 		<directory name="src"/>
 		<ignoreFiles>
 			<directory name="src/vendor"/>
 			<directory name="../blogpourext"/><!-- Psalm get stuck otherwise -->
+			<file name="../blogpourext/wp-includes/abilities-api/class-wp-ability-category.php"/><!-- Psalm get stuck otherwise -->
 		</ignoreFiles>
 	</projectFiles>
 	<stubs>
 		<!-- <file name="tests/bootstrap-testing.php"/> => not needed -->
 		<file name="vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php"/>
-		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php" />
-		<file name="tests/extra_statics_tools/wpcli.php" />		
+		<!-- removed 01/2026, get psalm stuck, but now it doesn't find classes
+		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php"/>
+		-->
+		<file name="tests/extra_statics_tools/wpcli.php"/>		
 		<!--<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php" /> defined in wpcli.php -->
-		<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php" />
-		<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php" />
+		<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php"/>
+		<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-i18n-stubs.php"/>
 	</stubs>
 	<globals>
 		<!-- Personal Globals Psalm is not aware of -->
-		<var name="_GET" type="array{ taxotype: string, amp: string|null, wpamp: string|null, search_nonce: string, itemsearched: string, select_search_type: string, film: string|null, norecursive: string|null, info: string|null, info_person: string|null, mid: string|null, mainoption: string|null, subsection: string, helpsub: string|null, widgetoption: string|null, dothis: string, type: string, where: string, _wpnonce_linkcopytaxo: string, cacheoption: string|null, _nonce_cache_deleteindividual: string, _nonce_cache_refreshindividual: string, _wpnonce_lum_taxo_polylangform: string, tag_lang: string|null, page: string|null, _wp_http_referer: string, submit_lang: string, _wpnonce: string }" />
-		<var name="_POST" type="array{ imdb_imdburlstringtaxo: string, imdb_imdburlpopups: string, lum_widget_movieid: string,  lum_widget_movietitle: string, lum_form_type_query: string, lum_form_query_value: string, _lum_autotitle_perpost: string, lum_metabox_nonce: string, lumiere_update_main_settings: string|null, '_nonce_main_settings': string, lumiere_reset_main_settings: string|null, lumiere_update_cache_settings: string, lumiere_update_data_movie_settings: string, '_nonce_cache_settings': string, lumiere_reset_cache_settings: string, lumiere_update_data_settings: string, '_nonce_data_settings': string, lumiere_reset_data_movie_settings: string, imdbwidgetorder: string, imdbwidgetorderContainer: array{string}|null, imdb_cachedeletefor_movies: array|null, imdb_cachedeletefor_people: array|null, imdb_imdbcacheautorefreshcron: string, imdb_imdbcachekeepsizeunder: string, delete_ticked_cache: string, delete_query_cache: string, delete_all_cache: string, _nonce_cache_all_and_query_check: string, _wpnonce_lum_taxo_polylangform: string, imdbpopup_modal_window: string, imdb_imdburlstringtaxo_terms: string, imdb_imdbtaxonomy: string, refresh_ticked_cache: string, lumiere_update_data_person_settings: string, _nonce_data_person_settings: string, lumiere_reset_data_person_settings: string, person_order: string }" />
+		<var name="_GET" type="array{ taxotype: string, amp: string|null, wpamp: string|null, search_nonce: string, itemsearched: string, select_search_type: string, film: string|null, norecursive: string|null, info: string|null, info_person: string|null, mid: string|null, mainoption: string|null, subsection: string, helpsub: string|null, widgetoption: string|null, dothis: string, type: string, where: string, _wpnonce_linkcopytaxo: string, cacheoption: string|null, _nonce_cache_deleteindividual: string, _nonce_cache_refreshindividual: string, _wpnonce_lum_taxo_polylangform: string, tag_lang: string|null, page: string|null, _wp_http_referer: string, submit_lang: string, _wpnonce: string }"/>
+		<var name="_POST" type="array{ imdb_imdburlstringtaxo: string, imdb_imdburlpopups: string, lum_widget_movieid: string,  lum_widget_movietitle: string, lum_form_type_query: string, lum_form_query_value: string, _lum_autotitle_perpost: string, lum_metabox_nonce: string, lumiere_update_main_settings: string|null, '_nonce_main_settings': string, lumiere_reset_main_settings: string|null, lumiere_update_cache_settings: string, lumiere_update_data_movie_settings: string, '_nonce_cache_settings': string, lumiere_reset_cache_settings: string, lumiere_update_data_settings: string, '_nonce_data_settings': string, lumiere_reset_data_movie_settings: string, imdbwidgetorder: string, imdbwidgetorderContainer: array{string}|null, imdb_cachedeletefor_movies: array|null, imdb_cachedeletefor_people: array|null, imdb_imdbcacheautorefreshcron: string, imdb_imdbcachekeepsizeunder: string, delete_ticked_cache: string, delete_query_cache: string, delete_all_cache: string, _nonce_cache_all_and_query_check: string, _wpnonce_lum_taxo_polylangform: string, imdbpopup_modal_window: string, imdb_imdburlstringtaxo_terms: string, imdb_imdbtaxonomy: string, refresh_ticked_cache: string, lumiere_update_data_person_settings: string, _nonce_data_person_settings: string, lumiere_reset_data_person_settings: string, person_order: string }"/>
 	</globals>
 	<issueHandlers>
 		<!-- Remove the include error, since the includes for webserver are different from local -->
-		<UnresolvableInclude errorLevel="suppress" />
+		<UnresolvableInclude errorLevel="suppress"/>
 		<MissingFile>
 			<errorLevel type="suppress">
 				<!-- This included file is in wp-admin  -->
-				<file name="src/class/Tools/Files.php" />
+				<file name="src/class/Tools/Files.php"/>
 			</errorLevel>
 		</MissingFile>
 		<!-- Remove can't concatenate with null, it's actually untrue since PHP automatically transforms null to empty -->
@@ -52,15 +58,15 @@
 		<!-- Didn't find any other way to remove three invaliddocblocks -->
 		<InvalidDocblock>
 			<errorLevel type="suppress">
-				<file name="src/class/Plugins/Plugins_Start.php" />
-				<file name="src/class/Plugins/Auto/Polylang.php" />
+				<file name="src/class/Plugins/Plugins_Start.php"/>
+				<file name="src/class/Plugins/Auto/Polylang.php"/>
 			</errorLevel>
 		</InvalidDocblock>
 		<!-- Didn't find any other way to remove these MissingTemplateParam -->
 		<MissingTemplateParam>
 			<errorLevel type="suppress">
-				<file name="src/class/Admin/Widget_Selection.php" />
-				<file name="src/class/Plugins/Auto/Polylang.php" />
+				<file name="src/class/Admin/Widget_Selection.php"/>
+				<file name="src/class/Plugins/Auto/Polylang.php"/>
 			</errorLevel>
 		</MissingTemplateParam>
 	</issueHandlers>

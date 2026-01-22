@@ -45,9 +45,9 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
  *
  * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
- * @phpstan-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
+ * @psalm-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
- * @phpstan-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
+ * @psalm-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
 class Settings extends Settings_Helper {
 

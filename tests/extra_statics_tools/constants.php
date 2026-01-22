@@ -24,15 +24,10 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 }
 
 if ( !defined( 'LUM_WP_PATH' ) ) {
-	// Extra check for phpstan on github.
-	$abs_path = dirname( dirname( dirname( __DIR__ ) ) ) . '/blogpourext/';
-	if ( is_dir( $abs_path ) ) {
-		// Local dev value.
-		define( 'LUM_WP_PATH', $abs_path . 'wp-content/plugins/lumiere-movies/' );
-	} elseif ( defined( 'ABSPATH' ) ) {
+	
 		// Value that PHPStan github gets.
 		define( 'LUM_WP_PATH', './' );
-	}
+
 }
 
 if ( !defined( 'LUM_WP_URL' ) ) {
