@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROJECT=$(php -r "echo dirname(dirname(dirname(realpath('$0'))));")
-STAGED_FILES_CMD=$(git diff --cached --name-only --diff-filter=d HEAD | grep \\\\.php) # 'd' to add all but Deleted files
+STAGED_FILES_CMD=$(git diff --cached --name-only --diff-filter=d HEAD | grep \\\\.php$ ) # 'd' to add all but Deleted files
 
 PHPCS_BIN=./vendor/bin/phpcs
 PHPCBF_BIN=./vendor/bin/phpcbf
