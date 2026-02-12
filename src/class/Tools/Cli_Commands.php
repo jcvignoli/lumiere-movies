@@ -199,6 +199,7 @@ final class Cli_Commands {
 		$array_key = array_key_first( $dashed_extra_args );
 
 		// Exit if the array key doesn't exist in Lumière! DB admin options
+		/** @phpstan-ignore argument.type (array_key_exists expects int|string, string|null given) */
 		if ( array_key_exists( $array_key, $database_options ) === false ) {
 			WP_CLI::error( 'This var does not exist, only accepted: ' . implode( ', ', array_keys( $database_options ) ) );
 		}
