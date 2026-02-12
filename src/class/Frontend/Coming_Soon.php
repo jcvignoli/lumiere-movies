@@ -176,7 +176,9 @@ final class Coming_Soon {
 			if ( $date_int_movie >= $today_int && $date_int_movie !== false ) {
 				// Convert array keys date to WordPress date
 				$new_key = wp_date( $date_format, $date_int_movie );
-				$new_array[ $new_key ] = $val;
+				if ( $new_key !== false ) {
+					$new_array[ $new_key ] = $val;
+				}
 			}
 		}
 

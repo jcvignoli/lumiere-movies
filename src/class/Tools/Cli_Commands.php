@@ -199,13 +199,12 @@ final class Cli_Commands {
 		$array_key = array_key_first( $dashed_extra_args );
 
 		// Exit if the array key doesn't exist in Lumière! DB admin options
-		/** @phpstan-ignore argument.type (array_key_exists expects int|string, string|null given) */
 		if ( array_key_exists( $array_key, $database_options ) === false ) {
 			WP_CLI::error( 'This var does not exist, only accepted: ' . implode( ', ', array_keys( $database_options ) ) );
 		}
 
 		// Build new array and update database.
-		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ];
+		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ?? '' ];
 		update_option( $options_tablename, $database_options );
 
 		if ( $array_key === 'imdbcachekeepsizeunder' ) {
@@ -243,7 +242,7 @@ final class Cli_Commands {
 
 		// Get the vars passed in command-line.
 		$control = array_key_first( $dashed_extra_args );
-		$taxonomy = $dashed_extra_args[ $control ] ?? '';
+		$taxonomy = isset( $control ) ? $dashed_extra_args[ $control ] : '';
 
 		// If no extra dashed arguments passed or more than one, if not in valid array, or not using --template="", exit.
 		if ( count( $dashed_extra_args ) !== 1 || in_array( $taxonomy, $array_all[ $args[1] ], true ) === false || $control !== 'template' ) {
