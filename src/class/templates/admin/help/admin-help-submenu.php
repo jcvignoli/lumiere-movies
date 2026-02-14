@@ -10,18 +10,18 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-// Retrieve vars from calling class.
-$lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
-$lumiere_admin_page_help_base = get_transient( 'admin_template_pass_vars' )[1];
-$lumiere_admin_page_help_support = get_transient( 'admin_template_pass_vars' )[2];
-$lumiere_admin_page_help_faqs = get_transient( 'admin_template_pass_vars' )[3];
-$lumiere_admin_page_help_filters = get_transient( 'admin_template_pass_vars' )[4];
-$lumiere_admin_page_help_compatibility = get_transient( 'admin_template_pass_vars' )[5];
-$lumiere_admin_page_help_changelog = get_transient( 'admin_template_pass_vars' )[6];
+// Get vars from the calling class.
+$lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.undefined  */
+$lumiere_admin_page_help_base = $variables['page_help_base']; /** @phpstan-ignore variable.undefined  */
+$lumiere_admin_page_help_support = $variables['page_help_support']; /** @phpstan-ignore variable.undefined  */
+$lumiere_admin_page_help_faqs = $variables['page_help_faqs']; /** @phpstan-ignore variable.undefined  */
+$lumiere_admin_page_help_filters = $variables['page_help_filters']; /** @phpstan-ignore variable.undefined  */
+$lumiere_admin_page_help_compatibility = $variables['page_help_compatibility']; /** @phpstan-ignore variable.undefined  */
+$lumiere_admin_page_help_changelog = $variables['page_help_changelog']; /** @phpstan-ignore variable.undefined  */
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">

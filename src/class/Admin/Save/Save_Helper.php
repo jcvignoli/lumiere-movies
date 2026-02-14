@@ -58,28 +58,17 @@ class Save_Helper {
 	 */
 	protected function get_referer(): bool|string {
 
-		/** @psalm-suppress PossiblyNullArgument -- Argument 1 of esc_html cannot be null, possibly null value provided - I don't even understand*/
-		$gets_array = array_map( 'esc_html', $_GET ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- no escape ok!
-		// These forbidden strings are generated in Cache class in $_GET
-		$forbidden_url_strings = [ 'dothis', 'where', 'type', '_nonce_cache_deleteindividual', '_nonce_cache_refreshindividual' ];
-		$first_url_string = '';
-		$next_url_strings = '';
-		foreach ( $gets_array as $var => $value ) {
-
-			// Don't add to the URL those forbidden strings
-			if ( in_array( $var, $forbidden_url_strings, true ) ) {
-				continue;
+		if ( count( $_GET ) > 0 ) {
+			$forbidden_url_strings = [ 'dothis', 'where', 'type', '_nonce_cache_deleteindividual', '_nonce_cache_refreshindividual' ];
+			$args = [];
+			foreach ( $_GET as $key => $value ) {
+				if ( ! in_array( $key, $forbidden_url_strings, true ) ) {
+					$args[ $key ] = $value;
+				}
 			}
-			// Build the beginning of the URL on the first occurence
-			if ( $var === array_key_first( $gets_array ) ) {
-				$first_url_string = 'admin.php?' . $var . '=' . $value;
-				continue;
-			}
-
-			// Add the strings on the next lines after the first one
-			$next_url_strings .= '&' . $var . '=' . $value;
+			return add_query_arg( $args, admin_url( 'admin.php' ) );
 		}
-		return count( $gets_array ) > 0 ? admin_url( $first_url_string . $next_url_strings ) : wp_get_referer();
+		return wp_get_referer();
 	}
 
 	/**

@@ -12,7 +12,7 @@
 namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -49,8 +49,7 @@ final class Main extends Admin_Menu {
 		// First part of the menu.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_first'],
-			[ $this ], /** Add an array with vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		// Create the cache if it doesn't exists.
@@ -64,8 +63,11 @@ final class Main extends Admin_Menu {
 		// Submenu.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_submenu'],
-			[ Get_Options::LUM_PICS_URL, $this->page_main_base, $this->page_main_advanced ], /** Add an array with vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[
+				'lum_pics_url'             => Get_Options::LUM_PICS_URL,
+				'page_main_base'           => $this->page_main_base,
+				'page_main_advanced'       => $this->page_main_advanced,
+			],
 		);
 
 		// The body.
@@ -77,8 +79,8 @@ final class Main extends Admin_Menu {
 		) {
 			$this->include_with_vars(
 				self::PAGES_NAMES['main_options'],
-				[ Get_Options::LUM_PICS_URL ], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
+				[ 'lum_pics_url' => Get_Options::LUM_PICS_URL ],
+
 			);
 
 		} elseif (
@@ -89,8 +91,7 @@ final class Main extends Admin_Menu {
 		) {
 			$this->include_with_vars(
 				self::PAGES_NAMES['advanced_options'],
-				[], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
+				[],
 			);
 		}
 	}

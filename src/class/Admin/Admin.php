@@ -11,7 +11,7 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -62,7 +62,7 @@ final class Admin {
 		}
 
 		// Display search page, must be executed before the admin control
-		add_filter( 'template_redirect', [ $start, 'lum_search_movie_redirect' ] );
+		add_action( 'template_redirect', [ $start, 'lum_search_movie_redirect' ] );
 
 		// Gutenberg-style sidebar. Must be called before is_admin().
 		add_action( 'init', fn() => Metabox_Selection::register_post_meta_sidebar() );
@@ -251,19 +251,18 @@ final class Admin {
 	/**
 	 * Display search popup/page for movies in admin, but since it's called in external pages, it can't be an admin page
 	 *
-	 * @param string $template_path The path to the page of the theme currently in use - not utilised
-	 * @return Search_Items|string The Search class is displayed if successfull, template path otherwise
+	 * @return void The Search class is instantiated if successfull, which will then use 'template_include' filter
 	 */
-	public function lum_search_movie_redirect( string $template_path ): Search_Items|string {
+	public function lum_search_movie_redirect(): void {
 
 		// Display only if URL is ok and is not admin (to save time.
 		if (
 			stripos( esc_url_raw( strval( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ) ), site_url( '', 'relative' ) . Get_Options::LUM_SEARCH_ITEMS_URL_ADMIN ) !== 0
 			|| is_admin()
 		) {
-			return $template_path;
+			return;
 		}
 
-		return new Search_Items();
+		new Search_Items();
 	}
 }

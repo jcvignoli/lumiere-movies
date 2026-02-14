@@ -10,11 +10,11 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-$lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tablename() );
+$lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tablename() );
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -40,16 +40,16 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 					/** @psalm-suppress MissingFile */
 					require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 				}
-				$lum_lang_translations = wp_get_available_translations();       // All WordPress languages with translation.
-				$lum_lang_translations['en_US']['native_name'] = 'English (default)';   // en_US is not in WP function!
+				$lumiere_lang_translations = wp_get_available_translations();       // All WordPress languages with translation.
+				$lumiere_lang_translations['en_US']['native_name'] = 'English (default)';   // en_US is not in WP function!
 				// Merge a default en_US that doesn't exists, the current imdb option, get all available lang and get unique values.
-				$lum_languages = array_unique( [ ...[ 'en_US' ], ...[ $lum_imdb_admin_values['imdblanguage'] ], ...get_available_languages() ] );
-				foreach ( $lum_languages as $lum_language ) {
-					echo "\n\t\t\t\t\t<option value=\"" . esc_attr( $lum_language ) . '"';
-					if ( isset( $lum_imdb_admin_values['imdblanguage'] ) && $lum_imdb_admin_values['imdblanguage'] === $lum_language ) {
+				$lumiere_languages = array_unique( [ ...[ 'en_US' ], ...[ $lumiere_imdb_admin_values['imdblanguage'] ], ...get_available_languages() ] );
+				foreach ( $lumiere_languages as $lumiere_language ) {
+					echo "\n\t\t\t\t\t<option value=\"" . esc_attr( $lumiere_language ) . '"';
+					if ( isset( $lumiere_imdb_admin_values['imdblanguage'] ) && $lumiere_imdb_admin_values['imdblanguage'] === $lumiere_language ) {
 						echo ' selected="selected"';
 					}
-					echo '>' . esc_html( $lum_lang_translations[ $lum_language ]['native_name'] ) . '</option>';
+					echo '>' . esc_html( $lumiere_lang_translations[ $lumiere_language ]['native_name'] ) . '</option>';
 				}
 				?>
 				
@@ -64,10 +64,10 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 					<?php
 					esc_html_e( 'Default:', 'lumiere-movies' );
 					echo ' ';
-					$lum_current_lang = str_replace( '-', '_', get_bloginfo( 'language' ) );
-					$lum_current_lang = ! str_contains( $lum_current_lang, '_' ) ? $lum_current_lang . '_' . strtoupper( $lum_current_lang ) : $lum_current_lang;
-					$lum_final_lang = $lum_lang_translations[ $lum_current_lang ]['native_name'];
-					echo esc_html( $lum_final_lang ); ?>
+					$lumiere_current_lang = str_replace( '-', '_', get_bloginfo( 'language' ) );
+					$lumiere_current_lang = ! str_contains( $lumiere_current_lang, '_' ) ? $lumiere_current_lang . '_' . strtoupper( $lumiere_current_lang ) : $lumiere_current_lang;
+					$lumiere_final_lang = $lumiere_lang_translations[ $lumiere_current_lang ]['native_name'];
+					echo esc_html( $lumiere_final_lang ); ?>
 					
 				</div>
 			</div>
@@ -77,25 +77,25 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 				<label class="lumiere_display_block lumiere_labels" for="imdb_imdbseriemovies"><?php esc_html_e( 'Search categories', 'lumiere-movies' ); ?></label>
 				<select id="imdb_imdbseriemovies" name="imdb_imdbseriemovies">
 					<option <?php
-					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'movies+series' ) {
+					if ( $lumiere_imdb_admin_values['imdbseriemovies'] === 'movies+series' ) {
 						echo 'selected="selected" ';
 					}
 					?>value="movies+series"><?php esc_html_e( 'Movies and series', 'lumiere-movies' ); ?></option>
 					<option <?php
-					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'movies' ) {
+					if ( $lumiere_imdb_admin_values['imdbseriemovies'] === 'movies' ) {
 						echo 'selected="selected" ';
 					}
 					?>value="movies"><?php esc_html_e( 'Movies only', 'lumiere-movies' ); ?></option>
 					<option <?php
-					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'series' ) {
+					if ( $lumiere_imdb_admin_values['imdbseriemovies'] === 'series' ) {
 						echo 'selected="selected" ';}
 					?>value="series"><?php esc_html_e( 'Series only', 'lumiere-movies' ); ?></option>
 					<option <?php
-					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'videogames' ) {
+					if ( $lumiere_imdb_admin_values['imdbseriemovies'] === 'videogames' ) {
 						echo 'selected="selected" ';}
 					?>value="videogames"><?php esc_html_e( 'Video games only', 'lumiere-movies' ); ?></option>
 					<option <?php
-					if ( $lum_imdb_admin_values['imdbseriemovies'] === 'podcasts' ) {
+					if ( $lumiere_imdb_admin_values['imdbseriemovies'] === 'podcasts' ) {
 						echo 'selected="selected" ';}
 					?>value="podcasts"><?php esc_html_e( 'Podcasts only', 'lumiere-movies' ); ?></option>
 				</select>
@@ -111,7 +111,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<label class="lumiere_display_block lumiere_labels" for="imdb_imdbmaxresults"><?php esc_html_e( 'Limit results', 'lumiere-movies' ); ?></label>
 
-				<input type="text" name="imdb_imdbmaxresults" id="imdb_imdbmaxresults" size="5" value="<?php echo intval( $lum_imdb_admin_values['imdbmaxresults'] ); ?>" />
+				<input type="text" name="imdb_imdbmaxresults" id="imdb_imdbmaxresults" size="5" value="<?php echo intval( $lumiere_imdb_admin_values['imdbmaxresults'] ); ?>" />
 
 				<div class="explain">
 					<?php esc_html_e( 'Limit of the number of results in a movie query. That limitation will impact the number of movies shown in the popup with movies and director search results.', 'lumiere-movies' ); ?>
@@ -125,7 +125,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<label class="lumiere_display_block lumiere_labels" for="imdb_imdbdelayimdbrequest"><?php esc_html_e( 'Delay queries time', 'lumiere-movies' ); ?></label>
 
-				<input type="text" name="imdb_imdbdelayimdbrequest" id="imdb_imdbdelayimdbrequest" size="5" value="<?php echo intval( $lum_imdb_admin_values['imdbdelayimdbrequest'] ); ?>" />
+				<input type="text" name="imdb_imdbdelayimdbrequest" id="imdb_imdbdelayimdbrequest" size="5" value="<?php echo intval( $lumiere_imdb_admin_values['imdbdelayimdbrequest'] ); ?>" />
 
 				<div class="explain">
 					<?php esc_html_e( 'Add an extra delay in seconds to avoid IMDb website throwing HTTP 504 errors (too many requests).', 'lumiere-movies' ); ?>
@@ -156,7 +156,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<input type="checkbox" id="imdb_imdbirpdisplays_yes" name="imdb_imdbirpdisplay" value="1" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbirpdisplay'] === '1' ) {
+				if ( $lumiere_imdb_admin_values['imdbirpdisplay'] === '1' ) {
 					echo 'checked '; }
 				?>
 				/>
@@ -201,7 +201,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<input type="checkbox" id="imdb_imdbtaxonomy_yes" name="imdb_imdbtaxonomy" value="1" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbtaxonomy'] === '1' ) {
+				if ( $lumiere_imdb_admin_values['imdbtaxonomy'] === '1' ) {
 					echo ' checked'; }
 				?>
 				/>
@@ -218,7 +218,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<input type="checkbox" id="imdb_imdblinkingkill_yes" name="imdb_imdblinkingkill" value="1" 
 				<?php
-				if ( $lum_imdb_admin_values['imdblinkingkill'] === '1' ) {
+				if ( $lumiere_imdb_admin_values['imdblinkingkill'] === '1' ) {
 					echo 'checked'; }
 				?>
 				/>
@@ -237,7 +237,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<input type="checkbox" id="imdb_imdbautopostwidget_yes" name="imdb_imdbautopostwidget" value="1" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbautopostwidget'] === '1' ) {
+				if ( $lumiere_imdb_admin_values['imdbautopostwidget'] === '1' ) {
 					echo 'checked'; }
 				?>
 				/>
@@ -265,14 +265,14 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<input type="hidden" id="imdb_imdbwordpress_bigmenu_no" name="imdb_imdbwordpress_bigmenu" value="0" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) {
+				if ( $lumiere_imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) {
 					echo 'checked'; }
 				?>
 				/>
 
 				<input type="checkbox" id="imdb_imdbwordpress_bigmenu_yes" name="imdb_imdbwordpress_bigmenu" value="1" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbwordpress_bigmenu'] === '1' ) {
+				if ( $lumiere_imdb_admin_values['imdbwordpress_bigmenu'] === '1' ) {
 					echo 'checked'; }
 				?>
 				/>
@@ -286,14 +286,14 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<input type="hidden" id="imdb_imdbwordpress_tooladminmenu_no" name="imdb_imdbwordpress_tooladminmenu" value="0" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbwordpress_tooladminmenu'] === '0' ) {
+				if ( $lumiere_imdb_admin_values['imdbwordpress_tooladminmenu'] === '0' ) {
 					echo 'checked '; }
 				?>
 				/>
 
 				<input type="checkbox" id="imdb_imdbwordpress_tooladminmenu_yes" name="imdb_imdbwordpress_tooladminmenu" value="1" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
+				if ( $lumiere_imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
 					echo 'checked '; }
 				?>
 				/>
@@ -311,7 +311,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<input type="checkbox" id="imdb_imdbkeepsettings_yes" name="imdb_imdbkeepsettings" value="1" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbkeepsettings'] === '1' ) {
+				if ( $lumiere_imdb_admin_values['imdbkeepsettings'] === '1' ) {
 					echo 'checked '; }
 				?>
 				/>
@@ -326,14 +326,14 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 				<input type="hidden" id="imdb_imdbdebug_no" class="activatehidesectionRemove" name="imdb_imdbdebug" value="0" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbdebug'] === '0' ) {
+				if ( $lumiere_imdb_admin_values['imdbdebug'] === '0' ) {
 					echo 'checked'; }
 				?>
 				/>
 
 				<input type="checkbox" id="imdb_imdbdebug_yes" class="activatehidesectionAdd" name="imdb_imdbdebug" value="1" 
 				<?php
-				if ( $lum_imdb_admin_values['imdbdebug'] === '1' ) {
+				if ( $lumiere_imdb_admin_values['imdbdebug'] === '1' ) {
 					echo 'checked'; }
 				?>
 				/>
@@ -355,49 +355,49 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 					<select name="imdb_imdbdebuglevel">
 						<option 
 						<?php
-						if ( $lum_imdb_admin_values['imdbdebuglevel'] === 'DEBUG' ) {
+						if ( $lumiere_imdb_admin_values['imdbdebuglevel'] === 'DEBUG' ) {
 							echo ' selected="selected" ';}
 						?>
 						value="DEBUG">Debug</option>
 						<option 
 						<?php
-						if ( $lum_imdb_admin_values['imdbdebuglevel'] === 'INFO' ) {
+						if ( $lumiere_imdb_admin_values['imdbdebuglevel'] === 'INFO' ) {
 							echo ' selected="selected" ';}
 						?>
 						value="INFO">Info</option>
 						<option 
 						<?php
-						if ( $lum_imdb_admin_values['imdbdebuglevel'] === 'NOTICE' ) {
+						if ( $lumiere_imdb_admin_values['imdbdebuglevel'] === 'NOTICE' ) {
 							echo 'selected="selected"';}
 						?>
 						value="NOTICE">Notice</option>
 						<option 
 						<?php
-						if ( $lum_imdb_admin_values['imdbdebuglevel'] === 'WARNING' ) {
+						if ( $lumiere_imdb_admin_values['imdbdebuglevel'] === 'WARNING' ) {
 							echo 'selected="selected"';}
 						?>
 						value="WARNING">Warning</option>
 						<option 
 						<?php
-						if ( $lum_imdb_admin_values['imdbdebuglevel'] === 'ERROR' ) {
+						if ( $lumiere_imdb_admin_values['imdbdebuglevel'] === 'ERROR' ) {
 							echo 'selected="selected"';}
 						?>
 						value="ERROR">Error</option>
 						<option 
 						<?php
-						if ( $lum_imdb_admin_values['imdbdebuglevel'] === 'CRITICAL' ) {
+						if ( $lumiere_imdb_admin_values['imdbdebuglevel'] === 'CRITICAL' ) {
 							echo 'selected="selected"';}
 						?>
 						value="CRITICAL">Critical</option>
 						<option 
 						<?php
-						if ( $lum_imdb_admin_values['imdbdebuglevel'] === 'ALERT' ) {
+						if ( $lumiere_imdb_admin_values['imdbdebuglevel'] === 'ALERT' ) {
 							echo 'selected="selected"';}
 						?>
 						value="ALERT">Alert</option>
 						<option 
 						<?php
-						if ( $lum_imdb_admin_values['imdbdebuglevel'] === 'EMERGENCY' ) {
+						if ( $lumiere_imdb_admin_values['imdbdebuglevel'] === 'EMERGENCY' ) {
 							echo 'selected="selected"';}
 						?>
 						value="EMERGENCY">Emergency</option>
@@ -412,7 +412,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 					<input type="checkbox" id="imdb_imdbdebugscreen_yes" name="imdb_imdbdebugscreen" value="1" 
 					<?php
-					if ( $lum_imdb_admin_values['imdbdebugscreen'] === '1' ) {
+					if ( $lumiere_imdb_admin_values['imdbdebugscreen'] === '1' ) {
 						echo ' checked '; }
 					?>
 					/>
@@ -427,14 +427,14 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 
 					<input type="checkbox" id="imdb_imdbdebuglog_yes" data-checkbox_activate="imdb_imdbdebuglogpath_id" name="imdb_imdbdebuglog" value="1" 
 					<?php
-					if ( $lum_imdb_admin_values['imdbdebuglog'] === '1' ) {
+					if ( $lumiere_imdb_admin_values['imdbdebuglog'] === '1' ) {
 						echo ' checked '; }
 					?>
 					/>
 
 					<div id="imdb_imdbdebuglogpath_id" class="lumiere_padding_top_bottom_ten" >
 						<label for="imdb_imdbdebuglogpath"><?php esc_html_e( 'Path', 'lumiere-movies' ); ?></label>
-						<input class="lumiere_border_width_medium imdb_imdbdebuglogpath" type="text" id="imdb_imdbdebuglogpath" name="imdb_imdbdebuglogpath" value="<?php echo esc_attr( $lum_imdb_admin_values['imdbdebuglogpath'] ); ?>" >
+						<input class="lumiere_border_width_medium imdb_imdbdebuglogpath" type="text" id="imdb_imdbdebuglogpath" name="imdb_imdbdebuglogpath" value="<?php echo esc_attr( $lumiere_imdb_admin_values['imdbdebuglogpath'] ); ?>" >
 
 						<div class="explain"><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'WordPress default debug log', 'lumiere-movies' ); ?></div>
 					</div>
@@ -462,7 +462,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 			<div class="lumiere_flex_container_content_eighty">
 				<div class="lumiere_align_items_center">
 					<?php echo esc_url( get_site_url() ); ?>
-					<input type="text" class="lumiere_border_width_medium" id="imdb_imdburlpopups" name="imdb_imdburlpopups" value="<?php echo esc_html( $lum_imdb_admin_values['imdburlpopups'] ); ?>">
+					<input type="text" class="lumiere_border_width_medium" id="imdb_imdburlpopups" name="imdb_imdburlpopups" value="<?php echo esc_html( $lumiere_imdb_admin_values['imdburlpopups'] ); ?>">
 				</div>
 				<div class="explain"><?php esc_html_e( 'The URL that will be displayed for the movies\' and people\'s popups. Cannot be empty or limited to root "/".', 'lumiere-movies' ); ?>
 				<br>
@@ -471,12 +471,12 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 				<br>
 				<?php esc_html_e( 'Example: the full URL utilized for the movies\' popups will be:', 'lumiere-movies' ); ?>
 				<br>
-				<?php echo esc_url( get_site_url() . $lum_imdb_admin_values['imdburlpopups'] . 'film' ); ?>
+				<?php echo esc_url( get_site_url() . $lumiere_imdb_admin_values['imdburlpopups'] . 'film' ); ?>
 				<br>
 				<br>
 				<?php esc_html_e( 'Example: the full URL utilized for the people\'s popup will be:', 'lumiere-movies' ); ?>
 				<br>
-				<?php echo esc_url( get_site_url() . $lum_imdb_admin_values['imdburlpopups'] . 'person' ); ?>
+				<?php echo esc_url( get_site_url() . $lumiere_imdb_admin_values['imdburlpopups'] . 'person' ); ?>
 				</div>
 			</div>
 		</div>
@@ -492,7 +492,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 			<div class="lumiere_flex_container_content_eighty">
 				<div class="lumiere_align_items_center lumiere_padding_top_bottom_ten">
 					<?php echo esc_url( get_site_url() ); ?>/
-					<input type="text" class="lumiere_border_width_medium" id="imdb_imdburlstringtaxo" name="imdb_imdburlstringtaxo" value="<?php echo esc_html( $lum_imdb_admin_values['imdburlstringtaxo'] ); ?>">
+					<input type="text" class="lumiere_border_width_medium" id="imdb_imdburlstringtaxo" name="imdb_imdburlstringtaxo" value="<?php echo esc_html( $lumiere_imdb_admin_values['imdburlstringtaxo'] ); ?>">
 					&nbsp;&nbsp;
 					<input type="checkbox" id="imdb_imdburlstringtaxo_terms" name="imdb_imdburlstringtaxo_terms" value="1" data-confirm="Existing taxonomy will not be updated." checked>
 					<label for="imdb_imdburlstringtaxo_terms"><?php esc_html_e( 'Update also taxonomy terms (may be resource intensive)', 'lumiere-movies' ); ?></label>
@@ -504,7 +504,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 				<br>
 				<?php esc_html_e( 'The full URL utilized for the director taxonomy page will be:', 'lumiere-movies' ); ?>
 				<br>
-				<?php echo esc_url( get_site_url() . '/' . $lum_imdb_admin_values['imdburlstringtaxo'] . 'director' ); ?>
+				<?php echo esc_url( get_site_url() . '/' . $lumiere_imdb_admin_values['imdburlstringtaxo'] . 'director' ); ?>
 				</div>
 			</div>
 		</div>
@@ -519,7 +519,7 @@ $lum_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tabl
 			</div>
 			<div class="lumiere_flex_container_content_eighty">
 				<div class="lumiere_align_items_center">
-					<input class="lumiere_border_width_medium imdbpluginpath" type="text" id="imdb_imdbpluginpath" name="imdb_imdbpluginpath" value="<?php echo esc_attr( $lum_imdb_admin_values['imdbpluginpath'] ); ?>" >
+					<input class="lumiere_border_width_medium imdbpluginpath" type="text" id="imdb_imdbpluginpath" name="imdb_imdbpluginpath" value="<?php echo esc_attr( $lumiere_imdb_admin_values['imdbpluginpath'] ); ?>" >
 				</div>
 				<div class="explain"><?php esc_html_e( 'In most cases, you should not edit it. Only advanced users should change this value.', 'lumiere-movies' ); ?> <?php
 				esc_html_e( 'The path must end with a final slash.', 'lumiere-movies' );

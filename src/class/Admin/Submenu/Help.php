@@ -12,7 +12,7 @@
 namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -55,8 +55,7 @@ final class Help extends Admin_Menu {
 		// First part of the menu.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_first'],
-			[ $this ], /** Add in an array all vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[ 'lum_that' => $this ], /** Add in an array all vars to send in the template */
 		);
 
 		// Always display the submenu.
@@ -64,15 +63,15 @@ final class Help extends Admin_Menu {
 			self::PAGES_NAMES['menu_submenu'],
 			/** Add an array with vars to send in the template */
 			[
-				Get_Options::LUM_PICS_URL,
-				$this->page_help,
-				$this->page_help_support,
-				$this->page_help_faqs,
-				$this->page_help_filters,
-				$this->page_help_compatibility,
-				$this->page_help_changelog,
+
+				'lum_pics_url'             => Get_Options::LUM_PICS_URL,
+				'page_help_base'           => $this->page_help,
+				'page_help_support'        => $this->page_help_support,
+				'page_help_faqs'           => $this->page_help_faqs,
+				'page_help_filters'        => $this->page_help_filters,
+				'page_help_compatibility'   => $this->page_help_compatibility,
+				'page_help_changelog'       => $this->page_help_changelog,
 			],
-			self::TRANSIENT_ADMIN,
 		);
 
 		// Changelog section.
@@ -103,15 +102,15 @@ final class Help extends Admin_Menu {
 				self::PAGES_NAMES['menu_howto'],
 				/** Add an array with vars to send in the template */
 				[
-					Get_Options::LUM_PICS_URL,
-					$this->page_help,
-					$this->page_help_support,
-					$this->page_help_faqs,
-					$this->page_help_filters,
-					$this->page_help_compatibility,
-					$this->page_help_changelog,
+
+					'lum_pics_url'             => Get_Options::LUM_PICS_URL,
+					'page_help_base'           => $this->page_help,
+					'page_help_support'        => $this->page_help_support,
+					'page_help_faqs'           => $this->page_help_faqs,
+					'page_help_filters'        => $this->page_help_filters,
+					'page_help_compatibility'   => $this->page_help_compatibility,
+					'page_help_changelog'       => $this->page_help_changelog,
 				],
-				self::TRANSIENT_ADMIN,
 			);
 		}
 	}
@@ -123,9 +122,7 @@ final class Help extends Admin_Menu {
 		// Send the file text to the included file.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_filters'],
-			/** Add an array with vars to send in the template */
 			[],
-			self::TRANSIENT_ADMIN,
 		);
 	}
 
@@ -174,11 +171,7 @@ final class Help extends Admin_Menu {
 		// Send the file text to the included file.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_compatibility'],
-			/** Add an array with vars to send in the template */
-			[
-				$compatfile,
-			],
-			self::TRANSIENT_ADMIN,
+			[ 'compat_section' => $compatfile ],
 		);
 	}
 
@@ -230,10 +223,7 @@ final class Help extends Admin_Menu {
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_faqs'],
 			/** Add an array with vars to send in the template */
-			[
-				$faqsection_processed,
-			],
-			self::TRANSIENT_ADMIN,
+			[ 'faq_section' => $faqsection_processed ],
 		);
 	}
 
@@ -279,10 +269,7 @@ final class Help extends Admin_Menu {
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_changelog'],
 			/** Add an array with vars to send in the template */
-			[
-				$changelogprocessed,
-			],
-			self::TRANSIENT_ADMIN,
+			[ 'changelog_section' => $changelogprocessed ],
 		);
 	}
 
@@ -331,13 +318,11 @@ final class Help extends Admin_Menu {
 		// Send the file text to the included file.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_support'],
-			/** Add an array with vars to send in the template */
 			[
-				$this->page_help,
-				$this->page_help_faqs,
-				$acknowledgefile,
+				'page_help'        => $this->page_help,
+				'page_help_faqs'   => $this->page_help_faqs,
+				'acknowledge_file' => $acknowledgefile,
 			],
-			self::TRANSIENT_ADMIN,
 		);
 	}
 }

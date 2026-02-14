@@ -12,7 +12,7 @@
 namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -38,8 +38,7 @@ final class Dataperson extends Admin_Menu {
 		// First part of the menu
 		$this->include_with_vars(
 			'admin/admin-menu-first-part',
-			[ $this ], /** Add an array with vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		// Show the vars if debug is activated.
@@ -52,8 +51,7 @@ final class Dataperson extends Admin_Menu {
 		// Display submenu
 		$this->include_with_vars(
 			'data/admin-data-submenu',
-			[ $this ], /** Add an array with vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		if (
@@ -67,8 +65,7 @@ final class Dataperson extends Admin_Menu {
 			 */
 			$this->include_with_vars(
 				'data/admin-data-person-display',
-				[ $this ], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
+				[ 'lum_calling_class' => $this ], /** Add an array with vars to send in the template */
 			);
 		} elseif (
 			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
@@ -82,8 +79,7 @@ final class Dataperson extends Admin_Menu {
 			 */
 			$this->include_with_vars(
 				'data/admin-data-person-order',
-				[ $this ], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
+				[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 			);
 		}
 	}

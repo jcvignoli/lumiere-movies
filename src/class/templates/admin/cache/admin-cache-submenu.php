@@ -10,14 +10,14 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Config\Get_Options;
 
-// Retrieve the vars from calling class.
-$lumiere_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+// Get vars from the calling class.
+$lumiere_that = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">

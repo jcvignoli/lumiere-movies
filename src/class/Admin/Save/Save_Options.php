@@ -255,7 +255,7 @@ final class Save_Options extends Save_Helper {
 				continue;
 			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
 				// Sanitize
-				$key_san = sanitize_text_field( $key );
+				$key_san = sanitize_key( $key );
 				// remove "imdb_" from $key
 				$key_final = str_replace( 'imdb_', '', $key_san );
 				$val_final = sanitize_text_field( $postvalue );
@@ -315,7 +315,7 @@ final class Save_Options extends Save_Helper {
 				continue;
 			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
 				// Sanitize
-				$key_san = sanitize_text_field( $key );
+				$key_san = sanitize_key( $key );
 				// remove "imdb_" from $key
 				$key_final = str_replace( 'imdb_', '', $key_san );
 				$val_final = sanitize_text_field( $postvalue );
@@ -522,7 +522,7 @@ final class Save_Options extends Save_Helper {
 			if ( in_array( $key, $forbidden_terms, true ) ) {
 				continue;
 			} elseif ( $key === 'imdbwidgetorderContainer' && is_array( $postvalue ) ) { // build 'imdbwidgetorder' row.
-				$post_value_san = map_deep( $postvalue, 'esc_html' );
+				$post_value_san = map_deep( $postvalue, 'sanitize_text_field' );
 				$key_final = 'imdbwidgetorder';
 				$val_final = [];
 				foreach ( $post_value_san as $val_array_key => $val_array_value ) {
@@ -531,10 +531,10 @@ final class Save_Options extends Save_Helper {
 				}
 			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
 				// Sanitize
-				$key_san = esc_html( $key );
+				$key_san = sanitize_key( $key );
 				// remove "imdb_" from $key
 				$key_final = str_replace( 'imdb_', '', $key_san );
-				$val_final = esc_html( $postvalue );
+				$val_final = sanitize_text_field( $postvalue );
 			}
 
 			if ( isset( $key_final ) && isset( $val_final ) ) {
@@ -592,15 +592,15 @@ final class Save_Options extends Save_Helper {
 		$imdb_data_person_values = get_option( Get_Options_Person::get_data_person_tablename(), [] );
 		foreach ( $_POST as $key => $post_value ) {
 			if ( str_contains( $key, '_active' ) ) {
-				$key_san = esc_html( $key );
-				$val_san = is_string( $post_value ) ? esc_html( $post_value ) : '';
+				$key_san = sanitize_key( $key );
+				$val_san = is_string( $post_value ) ? sanitize_text_field( $post_value ) : '';
 				$imdb_data_person_values['activated'][ $key_san ] = $val_san;
 			} elseif ( str_contains( $key, '_number' ) ) {
-				$key_san = esc_html( $key );
-				$val_san = is_string( $post_value ) ? esc_html( $post_value ) : '';
+				$key_san = sanitize_key( $key );
+				$val_san = is_string( $post_value ) ? sanitize_text_field( $post_value ) : '';
 				$imdb_data_person_values['number'][ $key_san ] = $val_san;
 			} elseif ( $key === 'person_order' && is_array( $post_value ) ) {
-				$post_value_san = map_deep( $post_value, 'esc_html' );
+				$post_value_san = map_deep( $post_value, 'sanitize_text_field' );
 				$key_final = 'order';
 				$val_final = [];
 				foreach ( $post_value_san as $val_array_key => $val_array_value ) {

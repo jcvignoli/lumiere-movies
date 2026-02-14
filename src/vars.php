@@ -7,6 +7,11 @@
  * @package       lumieremovies
  */
 
+// Prevent any direct call.
+if ( ! defined( 'ABSPATH' ) ) {
+	wp_die( 'You are not allowed to call this page directly.' );
+}
+
 // Get the path of Lumière dir
 if ( ! defined( 'LUM_WP_PATH' ) ) {
 	define( 'LUM_WP_PATH', plugin_dir_path( __FILE__ ) );

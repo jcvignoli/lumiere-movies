@@ -10,19 +10,19 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+// Get vars from the calling class.
+$lumiere_helpage = $variables['page_help_support']; /** @phpstan-ignore variable.undefined  */
+$lumiere_current_year = wp_date( 'Y' );
 $lumiere_esc_html = [
 	'a' => [
 		'href' => [],
 	],
 	'strong' => [],
 ];
-
-// Get transients vars from the calling class.
-$lumiere_helpage = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 ?>
 
 <div class="soustitre lumiere_wrap lumiere_signature">
@@ -33,7 +33,6 @@ $lumiere_helpage = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 	<br />
 	<div>
 		&copy; 2005-<?php
-		$lum_current_year = wp_date( 'Y' );
-		echo $lum_current_year !== false ? esc_html( $lum_current_year ) : ''; ?> <a href="<?php echo esc_html( \Lumiere\Config\Get_Options::LUM_BLOG_PLUGIN_ABOUT ); ?>" target="_blank">Lost Highway</a>, <a href="<?php echo esc_html( \Lumiere\Config\Get_Options::LUM_BLOG_PLUGIN ); ?>" target="_blank">Lumière! WordPress plugin</a> version <?php echo esc_html( lum_get_version() ); ?>.
+		echo $lumiere_current_year !== false ? esc_html( $lumiere_current_year ) : ''; ?> <a href="<?php echo esc_html( \Lumiere\Config\Get_Options::LUM_BLOG_PLUGIN_ABOUT ); ?>" target="_blank">Lost Highway</a>, <a href="<?php echo esc_html( \Lumiere\Config\Get_Options::LUM_BLOG_PLUGIN ); ?>" target="_blank">Lumière! WordPress plugin</a> version <?php echo esc_html( lum_get_version() ); ?>.
 	</div>
 </div>

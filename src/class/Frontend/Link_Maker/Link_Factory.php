@@ -11,7 +11,7 @@
 namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( '\Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -37,9 +37,9 @@ final class Link_Factory {
 	 * Class for building links, i.e. Highslide
 	 * Built in class Link Factory
 	 *
-	 * @phpstan-var LINKMAKERCLASSES The factory class will determine which class to use
+	 * @var Interface_Linkmaker $link_maker The factory class will determine which class to use
 	 */
-	public object $link_maker;
+	public Interface_Linkmaker $link_maker;
 
 	/**
 	 * Select which class to use to build the HTML links.

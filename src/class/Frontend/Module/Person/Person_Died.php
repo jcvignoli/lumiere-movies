@@ -76,7 +76,7 @@ final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
 
 		if ( isset( $death['status'] ) && $death['status'] === 'DEAD' ) {
 
-			$output .= "\n\t\t\t\t" . '<div id="death" class="lumiere_align_center"><font size="-1">';
+			$output .= "\n\t\t\t\t" . '<div id="death" class="lumiere_align_center lum_minus10">';
 
 			$death_day = isset( $death['day'] ) ? (string) $death['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
 			$death_month = isset( $death['month'] ) ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
@@ -96,7 +96,7 @@ final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= ' (' . esc_html( $death['cause'] . ')' );
 			}
 
-			$output .= "\n\t\t\t\t" . '</font></div>';
+			$output .= "\n\t\t\t\t" . '</div>';
 		}
 		return $output;
 	}

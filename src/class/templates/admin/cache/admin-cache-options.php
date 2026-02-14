@@ -10,14 +10,14 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 $lumiere_imdb_cache_values = get_option( \Lumiere\Config\Get_Options::get_cache_tablename() );
 
-// Retrieve the vars from calling class.
-$lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+// Get vars from the calling class.
+$lumiere_size_cache_folder = $variables['size']; /** @phpstan-ignore variable.undefined  */
 ?>
 
 <div class="lumiere_wrap">
@@ -157,24 +157,24 @@ $lumiere_size_cache_folder = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 					// Display next schedule if cron is activated
 					$lumiere_next_cron_run = get_transient( 'lum_cache_cron_refresh_time_started' );
-					$lum_cron_ppl_left = get_transient( 'lum_cache_cron_refresh_store_people' );
-					$lum_cron_mv_left = get_transient( 'lum_cache_cron_refresh_store_movie' );
+					$lumiere_cron_ppl_left = get_transient( 'lum_cache_cron_refresh_store_people' );
+					$lumiere_cron_mv_left = get_transient( 'lum_cache_cron_refresh_store_movie' );
 					// transiant and option are set, the process is running
 					if (
 						$lumiere_next_cron_run !== false
 						&& $lumiere_imdb_cache_values['imdbcacheautorefreshcron'] === '1'
 					) {
 						$lumiere_next_cron_run = wp_date( get_option( 'date_format' ), intval( $lumiere_next_cron_run ) );
-						$lum_total_cron = $lum_cron_ppl_left !== false && $lum_cron_mv_left !== false ? count( $lum_cron_ppl_left ) + count( $lum_cron_mv_left ) : false;
+						$lumiere_total_cron = $lumiere_cron_ppl_left !== false && $lumiere_cron_mv_left !== false ? count( $lumiere_cron_ppl_left ) + count( $lumiere_cron_mv_left ) : false;
 						echo '<div class="lumiere_green">';
-						if ( $lum_total_cron === false ) {
+						if ( $lumiere_total_cron === false ) {
 							esc_html_e( 'Started refreshing cache, this message will be updated as first batch of files has been run.', 'lumiere-movies' );
 
 						} elseif ( $lumiere_next_cron_run !== false ) {
 							/* translators: %s is a number */
-							$lum_files = wp_sprintf( _n( '%s file', '%s files', intval( $lum_total_cron ), 'lumiere-movies' ), esc_html( strval( $lum_total_cron ) ) );
+							$lumiere_files = wp_sprintf( _n( '%s file', '%s files', intval( $lumiere_total_cron ), 'lumiere-movies' ), esc_html( strval( $lumiere_total_cron ) ) );
 							/* translators: %1s is a number + file (singular or plural), %2s is replaced with a date in numbers */
-							echo wp_sprintf( esc_html__( 'Currently refreshing the cache, %1$1s remain to be refreshed. A new full refresh will start on %2$2s.', 'lumiere-movies' ), esc_html( $lum_files ), esc_html( $lumiere_next_cron_run ) );
+							echo wp_sprintf( esc_html__( 'Currently refreshing the cache, %1$1s remain to be refreshed. A new full refresh will start on %2$2s.', 'lumiere-movies' ), esc_html( $lumiere_files ), esc_html( $lumiere_next_cron_run ) );
 						}
 						echo '</div>';
 						// no transiant available and option is set, meaning the process has started

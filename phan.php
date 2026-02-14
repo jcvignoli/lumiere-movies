@@ -117,6 +117,8 @@ return [
 	// Remove this types of errors.
 	'suppress_issue_types' => [
 		'PhanPluginPrintfVariableFormatString', // Phan doesn't detect correct behaviour for __(), _n(), "has a dynamic format string that could not be inferred by Phan"
+		'PhanUndeclaredGlobalVariable', // complains about global variable in templates, but it shouldn't be declared
+		'PhanCompatibleOverrideAttribute', // I'm fine with using #[Override] even with PHP8.1
 	],
 
 	// A list of plugin files to execute.

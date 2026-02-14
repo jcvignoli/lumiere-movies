@@ -11,7 +11,7 @@
 namespace Lumiere\Frontend\Layout;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -46,7 +46,7 @@ class Output {
 			'two_columns_second'             => "\n\t\t\t\t<div class=\"lumiere_align_right lumiere_flex_auto\">" . $text_one . "\n\t\t\t\t</div>\n\t\t\t</div>",
 			'frontend_title'                 => "\n\t\t\t<span id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text_one ) . '">' . $text_one . '</span>',
 			'frontend_subtitle_item'         => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . ':</span>',
-			'popup_title_film'               => "\n\t\t\t<div class=\"titrefilm\" id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text_one ) . '">' . $text_one . '</div><div class="lumiere_align_center"><font size="-1">' . $text_two . '</font></div>',
+			'popup_title_film'               => "\n\t\t\t<div class=\"titrefilm\" id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text_one ) . '">' . $text_one . '</div><div class="lumiere_align_center"><span class="lum_minus10">' . $text_two . '</span></div>',
 			'popup_title_perso'              => "\n\t\t\t<div class=\"identity\">" . $text_one . '</div>',
 			'popup_subtitle_item'            => "\n\t\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . '</span>',
 			'numbered_list'                  => "\n\t\t\t<div>\n\t\t\t\t[#" . strval( $text_one ) . '] <i>' . $text_two . '</i>&nbsp;' . $text_three . "\n\t\t\t" . '</div>',

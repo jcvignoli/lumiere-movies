@@ -12,7 +12,7 @@
 namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -39,8 +39,7 @@ final class Cache extends Admin_Menu {
 		// First part of the menu
 		$this->include_with_vars(
 			'admin-menu-first-part',
-			[ $this ], /** Add an array with vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		// Make sure cache folder exists and is writable
@@ -54,8 +53,7 @@ final class Cache extends Admin_Menu {
 		// Cache submenu.
 		$this->include_with_vars(
 			'cache/admin-cache-submenu',
-			[ $this ], /** Add an array with vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		if (
@@ -68,8 +66,7 @@ final class Cache extends Admin_Menu {
 			$size = $this->lumiere_format_bytes( $cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
 			$this->include_with_vars(
 				'cache/admin-cache-options',
-				[ $size ], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
+				[ 'size' => $size ], /** Add an array with vars to send in the template */
 			);
 
 		} elseif (
@@ -81,16 +78,15 @@ final class Cache extends Admin_Menu {
 			$this->include_with_vars(
 				'cache/admin-cache-manage',
 				[
-					$cache_mngmt_class->cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] ), // nb of cached files
-					$cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ), // cache total size
-					$cache_mngmt_class->get_imdb_object_per_cat( 'movie' ), // imdbphp objects for all cached movies
-					$cache_mngmt_class->get_imdb_object_per_cat( 'people' ), // imdbphp objects for all cached movies
-					$cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ), // picture cache size
-					$this,
-					$this->page_cache_manage,
-					$cache_mngmt_class->get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ), // array of query files info
+					'cache_file_count'          => $cache_mngmt_class->cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] ),
+					'size_cache_total'          => $cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ),
+					'list_movie_cache'          => $cache_mngmt_class->get_imdb_object_per_cat( 'movie' ),
+					'list_people_cached'        => $cache_mngmt_class->get_imdb_object_per_cat( 'people' ),
+					'size_cache_pics'           => $cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ),
+					'lum_that'                  => $this,
+					'this_cache_manage_page'    => $this->page_cache_manage,
+					'query_cache_info'          => $cache_mngmt_class->get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ),
 				], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
 			);
 		}
 	}

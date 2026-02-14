@@ -10,7 +10,7 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -35,8 +35,8 @@ $lumiere_escape_wp_kses = [
 	'br' => [],
 ];
 
-// Retrieve vars from calling class.
-$lum_compatsection_processed = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0]; // text in array from the faq section in readme
+// Get vars from the calling class.
+$lumiere_compatsection_processed = $variables['compat_section']; /** @phpstan-ignore variable.undefined  */
 
 ?>
 
@@ -48,14 +48,14 @@ $lum_compatsection_processed = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0]; 
 
 	<div class="lumiere_border_shadow helpdiv">
 		<?php
-		$lum_count_compat = count( $lum_compatsection_processed );
+		$lumiere_count_compat = count( $lumiere_compatsection_processed );
 
 		// $lumiere_i starts at one in order to skip first line with "**Changelog**"
-		for ( $lumiere_i = 1; $lumiere_i < $lum_count_compat; $lumiere_i++ ) {  ?>
+		for ( $lumiere_i = 1; $lumiere_i < $lumiere_count_compat; $lumiere_i++ ) {  ?>
 
 		<div><?php
-		$lum_compat_text = is_string( $lum_compatsection_processed[ $lumiere_i ] ) ? $lum_compatsection_processed[ $lumiere_i ] : '';
-		echo wp_kses( str_replace( "\n", '', $lum_compat_text ), $lumiere_escape_wp_kses );
+		$lumiere_compat_text = is_string( $lumiere_compatsection_processed[ $lumiere_i ] ) ? $lumiere_compatsection_processed[ $lumiere_i ] : '';
+		echo wp_kses( str_replace( "\n", '', $lumiere_compat_text ), $lumiere_escape_wp_kses );
 		?></div>
 
 			<?php

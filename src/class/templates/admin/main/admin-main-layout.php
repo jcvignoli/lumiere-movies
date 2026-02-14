@@ -10,14 +10,14 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tablename() );
 
-// Retrieve vars from calling class.
-$lumiere_pics_url = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+// Get vars from the calling class.
+$lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.undefined  */
 ?>
 <div class="lumiere_wrap">
 	<div class="lumiere_intro_title_options">

@@ -8,6 +8,11 @@
  * @copyright         2005 https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
  */
 
+// Prevent any direct call.
+if ( ! defined( 'ABSPATH' ) ) {
+	wp_die( 'You are not allowed to call this page directly.' );
+}
+
 if ( ! function_exists( 'lum_incompatible_plugin_text' ) ) {
 	/**
 	 * Notice of incompatibility with specific Plugins

@@ -11,7 +11,7 @@
 namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -135,8 +135,10 @@ final class Coming_Soon {
 		$this->logger->log?->debug( '[Coming_Soon] Displaying the template' );
 		$this->include_with_vars( // In Trait Files.
 			'calendar', // template name.
-			[ $filtered_data, $this->link_maker ], // data passed.
-			'calendar_vars' // transient name.
+			[
+				'lum_results'    => $filtered_data,
+				'lum_link_maker' => $this->link_maker,
+			],
 		);
 	}
 

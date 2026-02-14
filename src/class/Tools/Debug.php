@@ -124,10 +124,10 @@ final class Debug {
 
 		// Print the options.
 		if ( ( null !== $options ) && count( $options ) > 0 ) {
-			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><font size="-2"> ';
+			echo '<div class="lumiere_wrap"><strong>[Lumière options]</strong><span class="lum_minus20"> ';
 			$json_options = wp_json_encode( $options );
 			echo $json_options !== false ? esc_html( str_replace( [ '\\', '{"', '"}', '":"', '","' ], [ '', '["', '" ]', '" => "', '" ], [ "' ], $json_options ) ) : '';
-			echo ' </font><strong>[/Lumière options]</strong></div>';
+			echo ' </span><strong>[/Lumière options]</strong></div>';
 		}
 	}
 

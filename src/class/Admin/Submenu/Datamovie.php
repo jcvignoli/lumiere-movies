@@ -12,7 +12,7 @@
 namespace Lumiere\Admin\Submenu;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -42,8 +42,7 @@ final class Datamovie extends Admin_Menu {
 		// First part of the menu
 		$this->include_with_vars(
 			'admin/admin-menu-first-part',
-			[ $this ], /** Add an array with vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		// Show the vars if debug is activated.
@@ -56,8 +55,7 @@ final class Datamovie extends Admin_Menu {
 		// Display submenu
 		$this->include_with_vars(
 			'data/admin-data-submenu',
-			[ $this ], /** Add an array with vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		if (
@@ -73,11 +71,10 @@ final class Datamovie extends Admin_Menu {
 			$this->include_with_vars(
 				'data/admin-data-movie-display',
 				[
-					$this, // This class
-					$this->get_display_select_options()[0], // list of items and people with two extra lists.
-					$this->get_display_select_options()[1], // explaination of items and people with the two extra lists.
+					'lum_calling_class' => $this,
+					'lum_items_people'  => $this->get_display_select_options()[0],
+					'lum_comments_fields' => $this->get_display_select_options()[1],
 				], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
 			);
 
 		} elseif (
@@ -92,8 +89,7 @@ final class Datamovie extends Admin_Menu {
 			 */
 			$this->include_with_vars(
 				'data/admin-data-movie-order',
-				[ $this ], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
+				[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 			);
 
 		} elseif (
@@ -109,12 +105,11 @@ final class Datamovie extends Admin_Menu {
 			$this->include_with_vars(
 				'data/admin-data-movie-taxonomy',
 				[
-					$this,
-					$this->get_taxo_fields(),
-					( new Detect_New_Theme() )->search_new_update(),
-					$this->page_data_movie_taxo . '&taxotype=',
+					'lum_that'               => $this,
+					'lum_all_taxo_elements'  => $this->get_taxo_fields(),
+					'lum_fields_updated'     => ( new Detect_New_Theme() )->search_new_update(),
+					'lum_current_admin_page' => $this->page_data_movie_taxo . '&taxotype=',
 				], /** Add an array with vars to send in the template */
-				self::TRANSIENT_ADMIN,
 			);
 		}
 	}

@@ -446,6 +446,8 @@ span.lum_results_section_subtitle_subcat_content::before { content: " (" counter
 .lum_padding_top_6vh{padding-top:6vh;}
 .lumiere_bold{font-weight:bold;}
 .lumiere_italic{font-style:italic !important;}
+.lum_minus10{font-size: 0.9em;}
+.lum_minus20{font-size: 0.8em;}
 
 /* Debug */
 .lum_color_red{color:red;}

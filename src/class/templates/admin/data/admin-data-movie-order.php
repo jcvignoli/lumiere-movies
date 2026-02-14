@@ -10,15 +10,15 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Config\Get_Options_Movie;
 
-// Retrieve the vars from calling class.
-$lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
-$lum_items_people = Get_Options_Movie::get_all_fields();
+// Get vars from the calling class.
+$lumiere_that = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
+$lumiere_items_people = Get_Options_Movie::get_all_fields();
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -45,18 +45,18 @@ $lum_items_people = Get_Options_Movie::get_all_fields();
 			</div>
 
 			<div class="lumiere_padding_ten lum_align_last_center lumiere_flex_auto">
-				<select id="movie_order" name="imdbwidgetorderContainer[]" class="movie_order" size="<?php echo ( count( $lum_that->imdb_data_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
+				<select id="movie_order" name="imdbwidgetorderContainer[]" class="movie_order" size="<?php echo ( count( $lumiere_that->imdb_data_values['imdbwidgetorder'] ) / 2 ); ?>" multiple><?php
 
-				foreach ( $lum_that->imdb_data_values['imdbwidgetorder'] as $lum_key => $lumiere_value ) {
-					echo "\n\t\t\t\t<option value='" . esc_attr( $lum_key ) . "'";
+				foreach ( $lumiere_that->imdb_data_values['imdbwidgetorder'] as $lumiere_key => $lumiere_value ) {
+					echo "\n\t\t\t\t<option value='" . esc_attr( $lumiere_key ) . "'";
 
 					// search if "imdbwidget'title'" (ie) is activated
-					if ( $lum_key === 'year' ) {
-						echo ' label="' . esc_attr( $lum_key ) . ' (' . esc_html__( 'always next to title', 'lumiere-movies' ) . ')">' . esc_html( $lum_key );
-					} elseif ( $lum_that->imdb_data_values[ "imdbwidget$lum_key" ] !== '1' ) {
-						echo ' label="' . esc_attr( $lum_key ) . ' (' . esc_html__( 'unactivated', 'lumiere-movies' ) . ')">' . esc_html( $lum_key );
+					if ( $lumiere_key === 'year' ) {
+						echo ' label="' . esc_attr( $lumiere_key ) . ' (' . esc_html__( 'always next to title', 'lumiere-movies' ) . ')">' . esc_html( $lumiere_key );
+					} elseif ( $lumiere_that->imdb_data_values[ "imdbwidget$lumiere_key" ] !== '1' ) {
+						echo ' label="' . esc_attr( $lumiere_key ) . ' (' . esc_html__( 'unactivated', 'lumiere-movies' ) . ')">' . esc_html( $lumiere_key );
 					} else {
-						echo ' label="' . esc_attr( $lum_items_people [ $lum_key ] ) . '">' . esc_html( $lum_key );
+						echo ' label="' . esc_attr( $lumiere_items_people [ $lumiere_key ] ) . '">' . esc_html( $lumiere_key );
 					}
 					echo '</option>';
 				}

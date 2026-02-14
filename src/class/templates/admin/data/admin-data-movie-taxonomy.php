@@ -10,18 +10,18 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 
-// Retrieve the vars passed in calling class.
-$lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
-$lum_all_taxo_elements = get_transient( Admin_Menu::TRANSIENT_ADMIN )[1];
-$lum_fields_updated = get_transient( Admin_Menu::TRANSIENT_ADMIN )[2];
-$lum_current_admin_page = get_transient( Admin_Menu::TRANSIENT_ADMIN )[3];
+// Get vars from the calling class.
+$lumiere_that = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
+$lumiere_all_taxo_elements = $variables['lum_all_taxo_elements']; /** @phpstan-ignore variable.undefined  */
+$lumiere_fields_updated = $variables['lum_fields_updated']; /** @phpstan-ignore variable.undefined  */
+$lumiere_current_admin_page = $variables['lum_current_admin_page']; /** @phpstan-ignore variable.undefined  */
 
 $lumiere_escape_wp_kses = [
 	'br' => [],
@@ -56,13 +56,13 @@ $lumiere_escape_wp_kses = [
 ];
 
 // taxonomy is disabled
-if ( $lum_that->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
+if ( $lumiere_that->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 	?><br><br><div align="center" class="accesstaxo"><?php
 		echo wp_kses(
 			wp_sprintf(
 				/* translators: %1$s and %2$s are replaced with html ahref tags */
 				__( 'Please %1$sactivate taxonomy%2$s before accessing to taxonomy options.', 'lumiere-movies' ),
-				'<a href="' . esc_url( $lum_that->page_main_advanced ) . '#imdb_imdbtaxonomy_yes">',
+				'<a href="' . esc_url( $lumiere_that->page_main_advanced ) . '#imdb_imdbtaxonomy_yes">',
 				'</a>'
 			),
 			[ 'a' => [ 'href' => [] ] ]
@@ -92,79 +92,79 @@ if ( $lum_that->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 
 		<div class="lumiere_flex_container">
 			<?php
-			foreach ( $lum_all_taxo_elements as $lum_key => $lum_value ) { ?>
+			foreach ( $lumiere_all_taxo_elements as $lumiere_key => $lumiere_value ) { ?>
 
 			<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
-				<input type="hidden" id="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>_no" name="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>" value="0" />
-				<input type="checkbox" id="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>_yes" name="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>" value="1"<?php
-				if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
+				<input type="hidden" id="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>_no" name="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>" value="0" />
+				<input type="checkbox" id="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>_yes" name="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>" value="1"<?php
+				if ( $lumiere_that->imdb_data_values[ 'imdbtaxonomy' . $lumiere_key ] === '1' ) {
 					echo ' checked="checked"';
 				}
 				echo ' />';
 
 				?>
 				
-				<label for="imdb_imdbtaxonomy<?php echo esc_html( $lum_key ) ?>_yes"><?php
+				<label for="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>_yes"><?php
 
-				if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
-					if ( $lum_that->imdb_data_values[ 'imdbwidget' . $lum_key ] === '1' ) {
+				if ( $lumiere_that->imdb_data_values[ 'imdbtaxonomy' . $lumiere_key ] === '1' ) {
+					if ( $lumiere_that->imdb_data_values[ 'imdbwidget' . $lumiere_key ] === '1' ) {
 						?><span class="lumiere-option-taxo-activated"><?php
 					} else {
 						?><span class="lumiere-option-taxo-deactivated"><?php
 					}
-					echo esc_html( ucfirst( $lum_value ) );
+					echo esc_html( ucfirst( $lumiere_value ) );
 					?></span>
 
 				<?php } else {
-					echo "\t" . esc_html( ucfirst( $lum_value ) ) . '&nbsp;&nbsp;';
+					echo "\t" . esc_html( ucfirst( $lumiere_value ) ) . '&nbsp;&nbsp;';
 				}
 
 				?></label><?php
 
 
 				// If a new template is available, notify to to update.
-if ( $lum_that->imdb_data_values[ 'imdbtaxonomy' . $lum_key ] === '1' ) {
-	$lum_link_taxo_copy = add_query_arg( '_wpnonce_linkcopytaxo', wp_create_nonce( 'linkcopytaxo' ), $lum_current_admin_page . $lum_key );
-	$lum_file_in_stylesheet_path = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $lum_that->imdb_admin_values['imdburlstringtaxo'] . $lum_key . '.php';
-	$lum_translated_item = Get_Options_Movie::get_all_fields()[ $lum_key ];
+if ( $lumiere_that->imdb_data_values[ 'imdbtaxonomy' . $lumiere_key ] === '1' ) {
+	$lumiere_link_taxo_copy = add_query_arg( '_wpnonce_linkcopytaxo', wp_create_nonce( 'linkcopytaxo' ), $lumiere_current_admin_page . $lumiere_key );
+	$lumiere_file_in_stylesheet_path = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $lumiere_that->imdb_admin_values['imdburlstringtaxo'] . $lumiere_key . '.php';
+	$lumiere_translated_item = Get_Options_Movie::get_all_fields()[ $lumiere_key ];
 
 	// No field to update found and no template to be updated found, offer to copy .
-	if ( count( $lum_fields_updated ) === 0 && is_file( $lum_file_in_stylesheet_path ) === false ) {
+	if ( count( $lumiere_fields_updated ) === 0 && is_file( $lumiere_file_in_stylesheet_path ) === false ) {
 
 		?><br>
-						<div id="lumiere_copy_<?php echo esc_html( $lum_key ); ?>">
-						<a href="<?php echo esc_html( $lum_link_taxo_copy ); ?>" title="<?php esc_html_e( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' ); ?>"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ); ?>" alt="copy the taxonomy template" align="absmiddle" /><?php esc_html_e( 'Copy template', 'lumiere-movies' ); ?></a>
-						<div><font color="red"><?php
+						<div id="lumiere_copy_<?php echo esc_html( $lumiere_key ); ?>">
+						<a href="<?php echo esc_html( $lumiere_link_taxo_copy ); ?>" title="<?php esc_html_e( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' ); ?>"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ); ?>" alt="copy the taxonomy template" align="absmiddle" /><?php esc_html_e( 'Copy template', 'lumiere-movies' ); ?></a>
+						<div><span class="lum_color_red"><?php
 
 						/* translators: %s is replaced with a movie item name, ie 'director' */
-						echo wp_sprintf( esc_html__( 'No %s template found', 'lumiere-movies' ), esc_html( $lum_translated_item ) );
+						echo wp_sprintf( esc_html__( 'No %s template found', 'lumiere-movies' ), esc_html( $lumiere_translated_item ) );
 						?>
-						</font></div>
+						</span></div>
 						</div>
 					<?php
 					// Template file exists and need to be updated, notify there is a new version of the template and exit.
-	} elseif ( count( $lum_fields_updated ) > 0 && in_array( $lum_key, $lum_fields_updated, true ) && is_file( $lum_file_in_stylesheet_path ) === true ) { ?>
+	} elseif ( count( $lumiere_fields_updated ) > 0 && in_array( $lumiere_key, $lumiere_fields_updated, true ) && is_file( $lumiere_file_in_stylesheet_path ) === true ) { ?>
 
 				<br>
-				<div id="lumiere_copy__<?php echo esc_html( $lum_key ); ?>">
-				<a href="<?php echo esc_html( $lum_link_taxo_copy ); ?>" title="<?php esc_html_e( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' ); ?>"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ); ?>" alt="copy the taxonomy template" align="absmiddle"><?php esc_html_e( 'Update template', 'lumiere-movies' ); ?></a>
+				<div id="lumiere_copy__<?php echo esc_html( $lumiere_key ); ?>">
+				<a href="<?php echo esc_html( $lumiere_link_taxo_copy ); ?>" title="<?php esc_html_e( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' ); ?>"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ); ?>" alt="copy the taxonomy template" align="absmiddle"><?php esc_html_e( 'Update template', 'lumiere-movies' ); ?></a>
 				<div>
-					<font color="red"><?php
+					<span class="lum_color_red"><?php
 					/* translators: %s is replaced with a movie item name, ie 'director' */
-					echo wp_sprintf( esc_html__( 'New %s template version available', 'lumiere-movies' ), esc_html( $lum_translated_item ) ); ?>
+					echo wp_sprintf( esc_html__( 'New %s template version available', 'lumiere-movies' ), esc_html( $lumiere_translated_item ) ); ?>
 				
-					</font>
+					</span>
 				</div>
 			</div>
 					<?php
 					// No template updated, template file exists, so it is up-to-date, notify.
-	} elseif ( is_file( $lum_file_in_stylesheet_path ) === true ) {
+	} elseif ( is_file( $lumiere_file_in_stylesheet_path ) === true ) {
 		?>
 						
 				<br />
 				<div>
 					<i><?php echo /* translators: %s is replaced with a movie item name, ie 'director' */
-					wp_sprintf( esc_html__( 'Template %s up-to-date', 'lumiere-movies' ), esc_html( $lum_translated_item ) ); ?></i>
+					wp_sprintf( esc_html__( 'Template %s up-to-date', 'lumiere-movies' ), esc_html( $lumiere_translated_item ) ); ?></i>
 				</div><?php
 
 	}

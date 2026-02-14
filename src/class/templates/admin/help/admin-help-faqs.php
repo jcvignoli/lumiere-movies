@@ -10,7 +10,7 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -35,8 +35,8 @@ $lumiere_escape_wp_kses = [
 	'br' => [],
 ];
 
-// Retrieve vars from calling class.
-$lumiere_faqsection_processed = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0]; // text in array from the faq section in readme
+// Get vars from the calling class.
+$lumiere_faqsection_processed = $variables['faq_section']; /** @phpstan-ignore variable.undefined  */
 ?>
 
 <div class="lumiere_wrap">

@@ -66,7 +66,7 @@ final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 		$get_birthday = count( $birthday ) > 0 ? array_filter( $birthday, fn( $birthday ) => ( $birthday !== '' ) ) : [];
 
 		if ( count( $get_birthday ) > 0 ) {
-			$output .= "\n\t\t\t\t" . '<div id="birth" class="lumiere_align_center"><font size="-1">';
+			$output .= "\n\t\t\t\t" . '<div id="birth" class="lumiere_align_center lum_minus10">';
 
 			$birthday_day = isset( $get_birthday['day'] ) ? strval( $get_birthday['day'] ) . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
 			$birthday_month = isset( $get_birthday['month'] ) ? date_i18n( 'F', intval( $get_birthday['month'] ) ) . ' ' : '(' . __( 'month unknown', 'lumiere-movies' ) . ') ';
@@ -83,7 +83,7 @@ final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $get_birthday['place'] );
 			}
 
-			$output .= "\n\t\t\t\t" . '</font></div>';
+			$output .= "\n\t\t\t\t" . '</div>';
 		}
 		return $output;
 	}

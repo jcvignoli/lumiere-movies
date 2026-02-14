@@ -11,7 +11,7 @@
 namespace Lumiere\Frontend;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -41,10 +41,11 @@ trait Main {
 	 * Class for building links, i.e. Highslide
 	 * Built in class Link Factory
 	 *
-	 * @var \Lumiere\Frontend\Link_Maker\AMP_Links|\Lumiere\Frontend\Link_Maker\Bootstrap_Links|\Lumiere\Frontend\Link_Maker\Classic_Links|\Lumiere\Frontend\Link_Maker\Highslide_Links|\Lumiere\Frontend\Link_Maker\No_Links $link_maker The factory class will determine which class to use
 	 * @INFO: if import-type instead of putting in full the info Var, phpstan requires to add this property to all classes that use it!
+	 * @var \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker The factory class will determine which class to use
 	 */
-	public object $link_maker;
+	public \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker;
+
 
 	/**
 	 * Logging

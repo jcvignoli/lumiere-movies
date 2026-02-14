@@ -11,7 +11,7 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -86,29 +86,29 @@ class Admin_Menu {
 		$this->menu_id = $this->get_id() . '_options';
 
 		// Build pages vars.
-		$this->page_main_base = admin_url( 'admin.php?page=' . $this->menu_id );
-		$this->page_main_advanced = admin_url( 'admin.php?page=' . $this->menu_id . '&subsection=advanced' );
+		$this->page_main_base = add_query_arg( 'page', $this->menu_id, admin_url( 'admin.php' ) );
+		$this->page_main_advanced = add_query_arg( [ 'page' => $this->menu_id, 'subsection' => 'advanced' ], admin_url( 'admin.php' ) );
 
-		$page_data_movie = 'admin.php?page=' . $this->menu_id . '_data_movie';
-		$this->page_data_movie = admin_url( $page_data_movie );
-		$this->page_data_movie_order = admin_url( $page_data_movie . '&subsection=order' );
-		$this->page_data_movie_taxo = admin_url( $page_data_movie . '&subsection=taxo' );
+		$page_data_movie = $this->menu_id . '_data_movie';
+		$this->page_data_movie = add_query_arg( 'page', $page_data_movie, admin_url( 'admin.php' ) );
+		$this->page_data_movie_order = add_query_arg( [ 'page' => $page_data_movie, 'subsection' => 'order' ], admin_url( 'admin.php' ) );
+		$this->page_data_movie_taxo = add_query_arg( [ 'page' => $page_data_movie, 'subsection' => 'taxo' ], admin_url( 'admin.php' ) );
 
-		$page_data_person = 'admin.php?page=' . $this->menu_id . '_data_person';
-		$this->page_data_person = admin_url( $page_data_person );
-		$this->page_data_person_order = admin_url( $page_data_person . '&subsection=order' );
+		$page_data_person = $this->menu_id . '_data_person';
+		$this->page_data_person = add_query_arg( 'page', $page_data_person, admin_url( 'admin.php' ) );
+		$this->page_data_person_order = add_query_arg( [ 'page' => $page_data_person, 'subsection' => 'order' ], admin_url( 'admin.php' ) );
 
-		$page_cache = 'admin.php?page=' . $this->menu_id . '_cache';
-		$this->page_cache_option = admin_url( $page_cache );
-		$this->page_cache_manage = admin_url( $page_cache . '&subsection=manage' );
+		$page_cache = $this->menu_id . '_cache';
+		$this->page_cache_option = add_query_arg( 'page', $page_cache, admin_url( 'admin.php' ) );
+		$this->page_cache_manage = add_query_arg( [ 'page' => $page_cache, 'subsection' => 'manage' ], admin_url( 'admin.php' ) );
 
-		$page_help = 'admin.php?page=' . $this->menu_id . '_help';
-		$this->page_help = admin_url( $page_help );
-		$this->page_help_support = admin_url( $page_help . '&subsection=support' );
-		$this->page_help_filters = admin_url( $page_help . '&subsection=filters' );
-		$this->page_help_faqs = admin_url( $page_help . '&subsection=faqs' );
-		$this->page_help_compatibility = admin_url( $page_help . '&subsection=compatibility' );
-		$this->page_help_changelog = admin_url( $page_help . '&subsection=changelog' );
+		$page_help = $this->menu_id . '_help';
+		$this->page_help = add_query_arg( 'page', $page_help, admin_url( 'admin.php' ) );
+		$this->page_help_support = add_query_arg( [ 'page' => $page_help, 'subsection' => 'support' ], admin_url( 'admin.php' ) );
+		$this->page_help_filters = add_query_arg( [ 'page' => $page_help, 'subsection' => 'filters' ], admin_url( 'admin.php' ) );
+		$this->page_help_faqs = add_query_arg( [ 'page' => $page_help, 'subsection' => 'faqs' ], admin_url( 'admin.php' ) );
+		$this->page_help_compatibility = add_query_arg( [ 'page' => $page_help, 'subsection' => 'compatibility' ], admin_url( 'admin.php' ) );
+		$this->page_help_changelog = add_query_arg( [ 'page' => $page_help, 'subsection' => 'changelog' ], admin_url( 'admin.php' ) );
 	}
 
 	/**
@@ -406,8 +406,7 @@ class Admin_Menu {
 		// Signature.
 		$this->include_with_vars(
 			'admin-menu-signature',
-			[ $this->page_help_support ], /** Add in an array all vars to send in the template */
-			self::TRANSIENT_ADMIN,
+			[ 'page_help_support' => $this->page_help_support ],
 		);
 	}
 }

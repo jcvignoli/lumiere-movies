@@ -29,32 +29,18 @@ trait Files {
 
 	/**
 	 * Include the template if it exists and pass to it as a/many variable/s using transient
-	 * The transiant has a validity time of 30 seconds by default
 	 *
 	 * @param string $file_name Template file name
 	 * @param array<array-key, mixed> $variables The variables transfered to the include
-	 * @param string $transient_name The transient name, avoids collisions
-	 * @param int $validity_time_transient The *maximum* time the transient is valid in seconds, 30 seconds by default
 	 * @void The file with vars has been included
 	 */
 	public function include_with_vars(
 		string $file_name,
 		array $variables = [],
-		string $transient_name = 'admin_template_pass_vars',
-		int $validity_time_transient = 30,
 	): void {
-
 		$full_file_path = $this->find_template_file( $file_name );
-
 		if ( is_file( $full_file_path ) ) {
-			// Send the variables to transients so they can be retrieved in the included pages.
-			// Validity: XX seconds, but is deleted after the include.
-			set_transient( $transient_name, $variables, $validity_time_transient );
-
-			// Require with the full path built.
-			require_once $full_file_path;
-
-			delete_transient( $transient_name );
+			require $full_file_path;
 		}
 	}
 

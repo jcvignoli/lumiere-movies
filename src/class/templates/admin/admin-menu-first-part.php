@@ -10,7 +10,7 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -18,7 +18,7 @@ use Lumiere\Admin\Widget_Selection;
 use Lumiere\Config\Get_Options;
 
 // Retrieve the vars from calling class.
-$lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
+$lumiere_that = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
 ?>
 
 	<div class="lumiere_wrap">
@@ -30,7 +30,7 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<div class="lumiere_padding_five lumiere_flex_auto">
 					<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-main.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-					<a title="<?php esc_html_e( 'Main Options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_that->page_main_base ); ?>"> <?php esc_html_e( 'Main Options', 'lumiere-movies' ); ?></a>
+					<a title="<?php esc_html_e( 'Main Options', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_main_base ); ?>"> <?php esc_html_e( 'Main Options', 'lumiere-movies' ); ?></a>
 				</div>
 
 				<?php // Data subpage is relative to what is activated. ?>
@@ -39,7 +39,7 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 					<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 
 
-					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_that->page_data_movie ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>
+					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_data_movie ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>
 
 		<?php
 		/**
@@ -50,13 +50,14 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 			&& is_active_widget( false, false, Widget_Selection::WIDGET_NAME, false ) === false
 		) { ?>
 
-			- <em><font size=-2><a href="<?php echo esc_url( admin_url() . 'widgets.php' ); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies' ); ?></a></font></em>
+			- <em><span class="lum_minus20"><a href="<?php echo esc_url( admin_url() . 'widgets.php' ); ?>"><?php esc_html_e( 'Widget unactivated', 'lumiere-movies' ); ?></a></span></em>
+
 			
 			<?php
 		}
-		if ( $lum_that->imdb_admin_values['imdbtaxonomy'] === '0' ) {
+		if ( $lumiere_that->imdb_admin_values['imdbtaxonomy'] === '0' ) {
 
-			?> - <em><font size=-2><a href="<?php echo esc_url( admin_url() . $lum_that->page_main_advanced . '#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></font></em>
+			?> - <em><span class="lum_minus20"><a href="<?php echo esc_url( admin_url() . $lumiere_that->page_main_advanced . '#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></span></em>
 
 	<?php } ?>
 
@@ -64,12 +65,12 @@ $lum_that = get_transient( Admin_Menu::TRANSIENT_ADMIN )[0];
 
 				<div class="lumiere_padding_five lumiere_flex_auto">			
 					<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-cache.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-					<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_that->page_cache_option ); ?>"><?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?></a>
+					<a title="<?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_cache_option ); ?>"><?php esc_html_e( 'Cache management', 'lumiere-movies' ); ?></a>
 				</div>
 
 				<div align="right" class="lumiere_padding_five lumiere_flex_auto" >
 					<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-help.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
-					<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lum_that->page_help ); ?>">
+					<a title="<?php esc_html_e( 'How to use Lumière!, check FAQs & changelog', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_help ); ?>">
 						<i>Lumière!</i> <?php esc_html_e( 'help', 'lumiere-movies' ); ?>
 					</a>
 				</div>

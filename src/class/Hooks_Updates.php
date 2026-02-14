@@ -126,7 +126,7 @@ class Hooks_Updates {
 	 * @since 4.1.1
 	 * @todo Find a better hook than admin_init
 	 */
-	public function lum_update_needed() {
+	public function lum_update_needed(): void {
 
 		$current_admin = get_option( Get_Options::get_admin_tablename() );
 		$last_update_number_filename = Settings_Helper::get_nb_updates();

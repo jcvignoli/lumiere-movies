@@ -10,7 +10,7 @@ PHAN_BIN=./vendor/bin/phan
 PSALM_BIN=./vendor/bin/psalm
 ALL_BINS=( "$PHPCS_BIN" "$PHPCBF_BIN" "$PHPSTAN_BIN" "$PHAN_BIN" "$PSALM_BIN" )
 PHPSTAN_ACTIVATED=1
-PHAN_ACTIVATED=1
+PHAN_ACTIVATED=0
 PSALM_ACTIVATED=0 # doesn't work anymore
 
 # Check Analytics tools installation

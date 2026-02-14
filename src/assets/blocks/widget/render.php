@@ -5,11 +5,16 @@
  */
 namespace Lumiere;
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	wp_die( 'Lumière Movies: You can not call directly this page' );
+}
+
 use Lumiere\Frontend\Widget\Widget_Frontpage;
 
-$lum_widget_class = new Widget_Frontpage();
+$lumiere_widget_class = new Widget_Frontpage();
 echo wp_kses(
-	$lum_widget_class->lum_get_widget( esc_html( $attributes['lumiere_input'] ?? 'Lumière Movies' ) ),
+	$lumiere_widget_class->lum_get_widget( esc_html( $attributes['lumiere_input'] ?? 'Lumière Movies' ) ),
 	[
 		'a' => [
 			'data-*' => true,
