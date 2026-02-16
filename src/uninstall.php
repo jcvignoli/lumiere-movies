@@ -61,7 +61,6 @@ final class Uninstall {
 	 * Data options
 	 * @phpstan-var null|OPTIONS_DATA_MOVIE
 	 * @psalm-var null|OPTIONS_DATA_MOVIE_PSALM
-	 * @var null|array<string, string>
 	 */
 	private ?array $imdb_data_person_values;
 

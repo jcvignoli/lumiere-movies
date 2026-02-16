@@ -169,7 +169,6 @@ final class Logger {
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 * @param int $logger_verbosity
 	 * @phpstan-param value-of<\Lumiere\Vendor\Monolog\Level::VALUES> $logger_verbosity
-	 * @psalm-param int $logger_verbosity
 	 * @return LoggerMonolog
 	 */
 	private function save_logger( LoggerMonolog $monolog_class, array $imdb_admin_values, int $logger_verbosity ): LoggerMonolog {
@@ -218,7 +217,6 @@ final class Logger {
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 * @param int $logger_verbosity
 	 * @phpstan-param value-of<\Lumiere\Vendor\Monolog\Level::VALUES> $logger_verbosity
-	 * @psalm-param int $logger_verbosity
 	 * @param bool $screen_output Optional: whether to display the screen output.
 	 * @return LoggerMonolog
 	 */

@@ -19,7 +19,7 @@ return [
 
 	// Issue::SEVERITY_LOW(0), Issue::SEVERITY_NORMAL(5), Issue::SEVERITY_CRITICAL(10)
 	// Low is the highest level
-	'minimum_severity' => 0,
+	'minimum_severity' => Issue::SEVERITY_LOW,
 
 	// Backwards Compatibility Checking. This is slow
 	// and expensive, but you should consider running

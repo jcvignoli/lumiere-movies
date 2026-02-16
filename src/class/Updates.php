@@ -103,9 +103,7 @@ class Updates {
 			 * Execute if class and method exist.
 			 * Do not include it into a hook, since it's executed in multiple hooks
 			 */
-			// @phan-suppress-next-line PhanUndeclaredClassReference (Phan lost with class name)
 			if ( class_exists( $class_name ) === true && method_exists( $class_name, 'lumiere_run_local_update' ) === true ) {
-				// @phan-suppress-next-line PhanTypeExpectedObjectOrClassName, PhanUndeclaredClass (Phan lost with class name)
 				$child_update_class = new $class_name();
 				$child_update_class->lumiere_run_local_update();
 			}

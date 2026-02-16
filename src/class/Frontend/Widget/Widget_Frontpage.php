@@ -220,7 +220,6 @@ final class Widget_Frontpage {
 	 *
 	 * @param array<array-key, array<string, string>> $array
 	 * @phpstan-param array{0?: array{byname: string}, 1?: array{ movie?: array{bymid: string, byname: string}, person?: array{bymid: string, byname: string} }}|array{movie?: array{bymid: string, byname: string}, person?: array{bymid: string, byname: string}} $array
-	 * @psalm-param non-empty-array<int<0, max>, array<string, array<string, string>|string>> $array
 	 * @return string The movie/person data
 	 */
 	private function apply_movie_person_filter( array $array ): string {
