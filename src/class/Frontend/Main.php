@@ -46,7 +46,6 @@ trait Main {
 	 */
 	public \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker;
 
-
 	/**
 	 * Logging
 	 */

@@ -87,28 +87,88 @@ class Admin_Menu {
 
 		// Build pages vars.
 		$this->page_main_base = add_query_arg( 'page', $this->menu_id, admin_url( 'admin.php' ) );
-		$this->page_main_advanced = add_query_arg( [ 'page' => $this->menu_id, 'subsection' => 'advanced' ], admin_url( 'admin.php' ) );
+		$this->page_main_advanced = add_query_arg(
+			[
+				'page' => $this->menu_id,
+				'subsection' => 'advanced',
+			],
+			admin_url( 'admin.php' )
+		);
 
 		$page_data_movie = $this->menu_id . '_data_movie';
 		$this->page_data_movie = add_query_arg( 'page', $page_data_movie, admin_url( 'admin.php' ) );
-		$this->page_data_movie_order = add_query_arg( [ 'page' => $page_data_movie, 'subsection' => 'order' ], admin_url( 'admin.php' ) );
-		$this->page_data_movie_taxo = add_query_arg( [ 'page' => $page_data_movie, 'subsection' => 'taxo' ], admin_url( 'admin.php' ) );
+		$this->page_data_movie_order = add_query_arg(
+			[
+				'page' => $page_data_movie,
+				'subsection' => 'order',
+			],
+			admin_url( 'admin.php' )
+		);
+		$this->page_data_movie_taxo = add_query_arg(
+			[
+				'page' => $page_data_movie,
+				'subsection' => 'taxo',
+			],
+			admin_url( 'admin.php' )
+		);
 
 		$page_data_person = $this->menu_id . '_data_person';
 		$this->page_data_person = add_query_arg( 'page', $page_data_person, admin_url( 'admin.php' ) );
-		$this->page_data_person_order = add_query_arg( [ 'page' => $page_data_person, 'subsection' => 'order' ], admin_url( 'admin.php' ) );
+		$this->page_data_person_order = add_query_arg(
+			[
+				'page' => $page_data_person,
+				'subsection' => 'order',
+			],
+			admin_url( 'admin.php' )
+		);
 
 		$page_cache = $this->menu_id . '_cache';
 		$this->page_cache_option = add_query_arg( 'page', $page_cache, admin_url( 'admin.php' ) );
-		$this->page_cache_manage = add_query_arg( [ 'page' => $page_cache, 'subsection' => 'manage' ], admin_url( 'admin.php' ) );
+		$this->page_cache_manage = add_query_arg(
+			[
+				'page' => $page_cache,
+				'subsection' => 'manage',
+			],
+			admin_url( 'admin.php' )
+		);
 
 		$page_help = $this->menu_id . '_help';
 		$this->page_help = add_query_arg( 'page', $page_help, admin_url( 'admin.php' ) );
-		$this->page_help_support = add_query_arg( [ 'page' => $page_help, 'subsection' => 'support' ], admin_url( 'admin.php' ) );
-		$this->page_help_filters = add_query_arg( [ 'page' => $page_help, 'subsection' => 'filters' ], admin_url( 'admin.php' ) );
-		$this->page_help_faqs = add_query_arg( [ 'page' => $page_help, 'subsection' => 'faqs' ], admin_url( 'admin.php' ) );
-		$this->page_help_compatibility = add_query_arg( [ 'page' => $page_help, 'subsection' => 'compatibility' ], admin_url( 'admin.php' ) );
-		$this->page_help_changelog = add_query_arg( [ 'page' => $page_help, 'subsection' => 'changelog' ], admin_url( 'admin.php' ) );
+		$this->page_help_support = add_query_arg(
+			[
+				'page' => $page_help,
+				'subsection' => 'support',
+			],
+			admin_url( 'admin.php' )
+		);
+		$this->page_help_filters = add_query_arg(
+			[
+				'page' => $page_help,
+				'subsection' => 'filters',
+			],
+			admin_url( 'admin.php' )
+		);
+		$this->page_help_faqs = add_query_arg(
+			[
+				'page' => $page_help,
+				'subsection' => 'faqs',
+			],
+			admin_url( 'admin.php' )
+		);
+		$this->page_help_compatibility = add_query_arg(
+			[
+				'page' => $page_help,
+				'subsection' => 'compatibility',
+			],
+			admin_url( 'admin.php' )
+		);
+		$this->page_help_changelog = add_query_arg(
+			[
+				'page' => $page_help,
+				'subsection' => 'changelog',
+			],
+			admin_url( 'admin.php' )
+		);
 	}
 
 	/**

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROJECT=$(php -r "echo dirname(dirname(dirname(realpath('$0'))));")
-STAGED_FILES_CMD=$(git diff --cached --name-only --diff-filter=d HEAD | grep \\\\.php$ ) # 'd' to add all but Deleted files
+STAGED_FILES_CMD=$(git diff --cached --name-only --diff-filter=d HEAD | grep \\\.php$) # 'd' to add all but Deleted files
 
 PHPCS_BIN=./vendor/bin/phpcs
 PHPCBF_BIN=./vendor/bin/phpcbf
@@ -10,8 +10,8 @@ PHAN_BIN=./vendor/bin/phan
 PSALM_BIN=./vendor/bin/psalm
 ALL_BINS=( "$PHPCS_BIN" "$PHPCBF_BIN" "$PHPSTAN_BIN" "$PHAN_BIN" "$PSALM_BIN" )
 PHPSTAN_ACTIVATED=1
-PHAN_ACTIVATED=1
-PSALM_ACTIVATED=0 # doesn't work anymore
+PHAN_ACTIVATED=0 # since the update to 6.0, it's complicated
+PSALM_ACTIVATED=0 # too many errors
 
 # Check Analytics tools installation
 for bin in "${ALL_BINS[@]}";do
@@ -28,9 +28,6 @@ then
     IFS=$oIFS
 fi
 SFILES=${SFILES:-$STAGED_FILES_CMD}
-
-echo $SFILES
-exit
 
 echo -e "\n[Pre-commit] Checking PHP Lint..."
 for FILE in $SFILES; do

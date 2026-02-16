@@ -80,7 +80,6 @@ final class Main extends Admin_Menu {
 			$this->include_with_vars(
 				self::PAGES_NAMES['main_options'],
 				[ 'lum_pics_url' => Get_Options::LUM_PICS_URL ],
-
 			);
 
 		} elseif (
