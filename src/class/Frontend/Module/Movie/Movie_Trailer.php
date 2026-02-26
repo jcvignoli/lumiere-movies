@@ -38,7 +38,7 @@ final class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 		$nb_total_items = isset( $item_results ) ? count( $item_results ) : 0;
 
 		// if no results, exit.
-		if ( $nb_total_items === 0 || $item_results === null ) {
+		if ( $nb_total_items === 0 ) {
 			return '';
 		}
 

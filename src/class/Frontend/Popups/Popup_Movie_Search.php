@@ -174,7 +174,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 		</div>
 
 			<?php
-			$max_lines = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 10;
+			$max_lines = intval( $this->imdb_admin_values['imdbmaxresults'] );
 			$current_line = 0;
 			foreach ( $movie_results as $res ) {
 
