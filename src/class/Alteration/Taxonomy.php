@@ -209,7 +209,16 @@ final class Taxonomy {
 				$query->the_post();
 				$the_id = get_the_ID() !== false ? get_the_ID() : 0;
 
-				// Execute Polylang update taxonomy terms if it is active.
+				/**
+				 * Filter to update taxonomy terms for Polylang if it is active.
+				 *
+				 * @since 4.3.0
+				 *
+				 * @param int    $the_id            The post ID.
+				 * @param string $full_new_taxonomy The new taxonomy name.
+				 * @param string $full_old_taxonomy The old taxonomy name.
+				 * @param string $post_title        The post title.
+				 */
 				if (
 					apply_filters(
 						'lum_polylang_update_taxonomy_terms',

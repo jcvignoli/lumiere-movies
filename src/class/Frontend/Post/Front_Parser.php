@@ -98,7 +98,7 @@ class Front_Parser {
 	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once
 	 * @since 4.3.2 added is_amp_validating() method
 	 *
-	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title
+	 * @phpstan-param array{bymid?: string, byname?: string} $imdb_id_or_title
 	 */
 	public function display_movies( array $imdb_id_or_title ): string {
 
@@ -112,7 +112,23 @@ class Front_Parser {
 			return '';
 		}
 
+		/**
+		 * Filter to find movies by ID or title.
+		 *
+		 * @since 4.3.2
+		 *
+		 * @param array{bymid?: string, byname?: string} $imdb_id_or_title List of movie IDs or titles.
+		 */
 		$array_movies_with_imdbid = apply_filters( 'lum_find_movie_id', $imdb_id_or_title );
+
+		/**
+		 * Filter to display movies box.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array{bymid?: string, byname?: string} $array_movies_with_imdbid List of movies with IMDb IDs.
+		 * @phpstan-ignore return.type (I've not idea how to fix it)
+		 */
 		return apply_filters( 'lum_display_movies_box', $array_movies_with_imdbid );
 	}
 
@@ -122,7 +138,7 @@ class Front_Parser {
 	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once
 	 * @since 4.3.2 added is_amp_validating() method
 	 *
-	 * @phpstan-param array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title
+	 * @phpstan-param array<array{bymid?: string, byname?: string}> $imdb_id_or_title
 	 */
 	public function display_persons( array $imdb_id_or_title ): string {
 
@@ -136,7 +152,23 @@ class Front_Parser {
 			return '';
 		}
 
+		/**
+		 * Filter to find persons by ID or name.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param array<array{bymid?: string, byname?: string}> $imdb_id_or_title List of person IDs or names.
+		 */
 		$array_persons_with_imdbid = apply_filters( 'lum_find_person_id', $imdb_id_or_title );
+
+		/**
+		 * Filter to display persons box.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param array<array{bymid?: string, byname?: string}> $array_persons_with_imdbid List of persons with IMDb IDs.
+		 * @phpstan-ignore return.type (I've not idea how to fix it)
+		 */
 		return apply_filters( 'lum_display_persons_box', $array_persons_with_imdbid );
 	}
 
@@ -146,13 +178,17 @@ class Front_Parser {
 	 *
 	 * @since 4.4 method created
 	 *
-	 * @param array<array-key, string> $movies_searched
+	 * @param array<string> $movies_searched
+	 * @phpstan-param array{bymid?: string, byname?: string} $movies_searched
 	 */
 	public function lum_display_movies_box( array $movies_searched ): string {
 		$output = '';
 		foreach ( $movies_searched as $movie_found ) {
 			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$movie_found*" );
-			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, ( new Movie_Factory() )->factory_movie_items_methods( $movie_found ) );
+			$output .= $this->output_class->front_main_wrapper(
+				$this->imdb_admin_values,
+				( new Movie_Factory() )->factory_movie_items_methods( $movie_found )
+			);
 		}
 		return $output;
 	}
@@ -163,13 +199,18 @@ class Front_Parser {
 	 *
 	 * @since 4.6 method created
 	 *
-	 * @param array<array-key, string> $persons_searched
+	 * @param array<string> $persons_searched
+	 * @phpstan-param array{bymid?: string, byname?: string} $persons_searched
+	 * @return string
 	 */
 	public function lum_display_persons_box( array $persons_searched ): string {
 		$output = '';
 		foreach ( $persons_searched as $person_found ) {
 			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$person_found*" );
-			$output .= $this->output_class->front_main_wrapper( $this->imdb_admin_values, ( new Person_Factory() )->factory_person_items_methods( $person_found ) );
+			$output .= $this->output_class->front_main_wrapper(
+				$this->imdb_admin_values,
+				( new Person_Factory() )->factory_person_items_methods( $person_found )
+			);
 		}
 		return $output;
 	}
@@ -360,7 +401,7 @@ class Front_Parser {
 		if ( isset( $filmid ) && strlen( $filmid ) > 0 ) {
 			$imdb_id_or_title[]['bymid'] = esc_html( $filmid );
 		}
-		/** @psalm-var array<array-key, array{bymid?: string, byname?: string}> $imdb_id_or_title */
+
 		return $this->display_movies( $imdb_id_or_title );
 	}
 }

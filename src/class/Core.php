@@ -42,13 +42,13 @@ final class Core extends Hooks_Updates {
 	 */
 	public function __construct () {
 
-		// Get updates hooks
+		// Get updates hooks.
 		parent::__construct();
 
 		/**
-		 * Widgets fire at init hook equivalent to priority 0, so they must either be called here with 'widgets_init' or with 'init' priority 0
+		 * Widgets fire at init hook equivalent to priority 0, so they must either be called here with 'widgets_init' or with 'init' priority 0.
 		 * https://developer.wordpress.org/reference/hooks/widgets_init/#comment-2643
-		 * They're not only for admin area, since they're executed in the frontpage as well
+		 * They're not only for admin area, since they're executed in the frontpage as well.
 		 */
 		add_action( 'widgets_init', [ 'Lumiere\Admin\Widget_Selection', 'start' ] );
 
@@ -90,7 +90,8 @@ final class Core extends Hooks_Updates {
 	}
 
 	/**
-	 * Run on plugin activation
+	 * Run on plugin activation.
+	 *
 	 * @return void All activation functions have been executed
 	 */
 	public function lumiere_on_activation(): void {
@@ -99,29 +100,34 @@ final class Core extends Hooks_Updates {
 		$logger = new Logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 		$imdb_admin_values = get_option( Get_Options::get_cache_tablename() );
 
-		/* First install, create everything that is required */
+		/* First install, create everything that is required. */
 		if ( $imdb_admin_values === false ) {
 
 			// Create the options in database.
 			Get_Options::create_database_options();
 
-			// Create the debug file if WP_DEBUG and 'imdbdebug' are defined.
-			/** @psalm-var OPTIONS_ADMIN $imdb_admin_values */
+			/**
+			 * Get options.
+			 *
+			 * @psalm-var OPTIONS_ADMIN $imdb_admin_values
+			 */
 			$imdb_admin_values = get_option( Get_Options::get_cache_tablename() );
+
+			// Create the debug file if WP_DEBUG and 'imdbdebug' are defined.
 			if (
 				defined( 'WP_DEBUG' )
 				&& isset( $imdb_admin_values['imdbdebug'] )
 				&& $imdb_admin_values['imdbdebug'] === '1'
 				&& isset( $imdb_admin_values['imdbdebuglogpath'] )
 			) {
-				$this->maybe_create_log( $imdb_admin_values ); // in Files trait
+				$this->maybe_create_log( $imdb_admin_values ); // in Files trait.
 			}
 			$logger->log?->info( '[coreClass][activation] Lumière options and log successfully created.' );
 		} else {
 			$logger->log?->info( '[coreClass][activation] Lumière options already exists.' );
 		}
 
-		/* Create the cache folders */
+		/* Create the cache folders. */
 
 		// Make sure cache folder exists and is writable.
 		$cache_mngmt_class = new Cache_Files_Management();
@@ -141,7 +147,8 @@ final class Core extends Hooks_Updates {
 	}
 
 	/**
-	 * Run on plugin deactivation
+	 * Run on plugin deactivation.
+	 *
 	 * @return void All deactivation functions have been executed
 	 */
 	public function lumiere_on_deactivation(): void {
@@ -188,7 +195,7 @@ final class Core extends Hooks_Updates {
 
 		$block_dir = LUM_WP_PATH . 'assets/blocks/';
 
-		// Use metadata manifest to register merged block.json files, WP >= 6.8
+		// Use metadata manifest to register merged block.json files, WP >= 6.8.
 		if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) && file_exists( Get_Options::LUM_BLOCKS_MANIFEST ) ) {
 			wp_register_block_types_from_metadata_collection(
 				$block_dir,
@@ -197,7 +204,7 @@ final class Core extends Hooks_Updates {
 			return;
 		}
 
-		// Pre-WP 6.8, don't register widget block
+		// Pre-WP 6.8, don't register widget block.
 		$blocks = [ 'post', 'addlink', 'coming-soon', 'opensearch', 'widget-sidebar-options' ];
 		foreach ( $blocks as $block ) {
 			register_block_type( $block_dir . $block );
@@ -205,11 +212,11 @@ final class Core extends Hooks_Updates {
 	}
 
 	/**
-	 * Enqueue gutenberg javascripts
+	 * Enqueue gutenberg javascripts.
 	 */
 	public function lum_execute_blocks(): void {
 
-		// Script for click on gutenberg block link to open a popup
+		// Script for click on gutenberg block link to open a popup.
 		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 	}
 }

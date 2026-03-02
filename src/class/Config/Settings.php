@@ -18,8 +18,10 @@ use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Settings_Helper;
 
-// Needed vars for uninstall, fails otherwise.
-// Use of defined() condition for PHPStan
+/**
+ * Needed vars for uninstall, fails otherwise.
+ * Use of defined() condition for PHPStan
+ */
 if ( ! defined( 'LUM_WP_PATH' ) ) {
 	require_once plugin_dir_path( dirname( __DIR__ ) ) . 'vars.php';
 }

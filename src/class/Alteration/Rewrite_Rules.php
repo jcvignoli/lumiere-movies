@@ -116,6 +116,14 @@ final class Rewrite_Rules {
 
 		$wordpress_rewrite_rules = $wp_rewrite->rules ?? null;
 		$wordpress_rewrite_rules_db = get_option( 'rewrite_rules' );
+
+		/**
+		 * Filter the rewrite rules for Lumière popups.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array<string, string> $rewrite_rules The default rewrite rules.
+		 */
 		$my_rules_filtered = apply_filters( 'lumiere_rewrite_rules', Get_Options::LUM_REWRITE_RULES );
 
 		// Use standard way if no options were found in rewrite_rules in database, no need for flush

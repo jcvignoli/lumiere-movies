@@ -47,7 +47,7 @@ final class Find_Items extends Front_Parser {
 	 * @since 4.4 An array of movies's name without ['bymid'] can be passed
 	 *
 	 * @param array<array-key, array<string, string>|string> $films_array Th
-	 * @phpstan-param array<array-key|string, array{bymid?: string, byname?: string}|string> $films_array
+	 * @phpstan-param array<array{bymid?: string, byname?: string}|string> $films_array
 	 * @return list<string> Array of results of imdbids
 	 */
 	public function find_movie_imdb_id( array $films_array ): array {
@@ -111,7 +111,7 @@ final class Find_Items extends Front_Parser {
 	 * @since 4.6 method created
 	 *
 	 * @param array<array-key, array<string, string>|string> $persons_array Th
-	 * @phpstan-param array<array-key|string, array{bymid?: string, byname?: string}|string> $persons_array
+	 * @phpstan-param array<array{bymid?: string, byname?: string}|string> $persons_array
 	 * @return list<string> Array of results of imdbids
 	 */
 	public function find_person_imdb_id( array $persons_array ): array {

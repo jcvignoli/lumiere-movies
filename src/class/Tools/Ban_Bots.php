@@ -59,10 +59,18 @@ final class Ban_Bots {
 		add_action( 'lum_maybe_ban_bots_general', [ $this, 'maybe_ban_bots_general' ] );
 		add_action( 'lum_maybe_ban_bots_noreferrer', [ $this, 'maybe_ban_noreferrer' ] );
 
-		// Execute: conditionally ban bots from getting the page, i.e. User Agent or IP.
+		/**
+		 * Action to conditionally ban bots from getting the page based on User Agent or IP.
+		 *
+		 * @since 3.11.4
+		 */
 		do_action( 'lum_maybe_ban_bots_general' );
 
-		// Execute: ban bots if no referer.
+		/**
+		 * Action to ban bots if no HTTP referrer is present.
+		 *
+		 * @since 3.11.4
+		 */
 		do_action( 'lum_maybe_ban_bots_noreferrer' );
 	}
 
