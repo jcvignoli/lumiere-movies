@@ -47,9 +47,9 @@ final class Datamovie extends Admin_Menu {
 
 		// Show the vars if debug is activated.
 		if (
-			isset( $this->imdb_admin_values['imdbdebug'] ) && $this->imdb_admin_values['imdbdebug'] === '1'
+			$this->settings->get_admin_option( 'imdbdebug' ) !== null && $this->settings->get_admin_option( 'imdbdebug' ) === '1'
 		) {
-			Debug::display_lum_vars( $this->imdb_data_values, 'no_var_dump', null );
+			Debug::display_lum_vars( $this->settings->get_movie_options(), 'no_var_dump', null );
 		}
 
 		// Display submenu

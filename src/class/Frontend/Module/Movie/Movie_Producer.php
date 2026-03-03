@@ -43,7 +43,7 @@ final class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->$item_name();
-		$admin_total_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
+		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 		$nb_total_items = count( $item_results );
 
 		if ( $nb_total_items === 0 ) {
@@ -71,6 +71,7 @@ final class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 			$second_column = '';
 			if ( $count_jobs > 0 ) {
 				for ( $j = 0; $j < $count_jobs; $j++ ) {
+					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 					$second_column .= $item_results[ $i ]['jobs'][ $j ];
 					if ( $j < ( $count_jobs - 1 ) ) {
 						$second_column .= ', ';
@@ -156,7 +157,7 @@ final class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module_taxo( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->$item_name();
-		$admin_total_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
+		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 		$nb_total_items = count( $item_results );
 
 		if ( $nb_total_items === 0 ) {
@@ -184,7 +185,7 @@ final class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 			$taxo_options = $this->add_taxo_class->create_taxonomy_options(
 				$item_name,
 				$item_results[ $i ]['name'] ?? '',
-				$this->imdb_admin_values
+				$this->settings->get_admin_options()
 			);
 			$output .= $this->output_class->get_taxo_layout_items(
 				$movie->title(),

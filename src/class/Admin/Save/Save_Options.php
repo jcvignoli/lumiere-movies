@@ -19,6 +19,7 @@ use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Admin\Save\Save_Helper;
 use Exception;
 
@@ -33,8 +34,13 @@ final class Save_Options extends Save_Helper {
 	/**
 	 * Constructor
 	 * @param string|null $page_data_taxo Full URL to data page taxonomy subpage
+	 * @param Settings_Service $settings
 	 */
-	public function __construct( ?string $page_data_taxo = null ) {
+	public function __construct(
+		?string $page_data_taxo = null,
+		protected Settings_Service $settings = new Settings_Service()
+
+	) {
 		parent::__construct( $page_data_taxo );
 		add_action( 'admin_init', [ $this, 'process_headers' ] );
 	}
@@ -70,14 +76,14 @@ final class Save_Options extends Save_Helper {
 			if (
 				strlen( $imdburlstringtaxo ) > 0
 				&& isset( $_POST['imdb_imdburlstringtaxo_terms'] ) && sanitize_key( $_POST['imdb_imdburlstringtaxo_terms'] ) === '1' // Checkbox update terms
-				&& sanitize_key( $class_save->imdb_admin_values['imdburlstringtaxo'] ) !== $imdburlstringtaxo // DB value is equal to posted value
+				&& sanitize_key( $class_save->settings->get_admin_option( 'imdburlstringtaxo' ) ) !== $imdburlstringtaxo // DB value is equal to posted value
 			) {
 
 				add_action(
 					'init',
 					function() use ( $class_save, $imdburlstringtaxo ) {
 						\Lumiere\Alteration\Taxonomy::start(
-							$class_save->imdb_admin_values['imdburlstringtaxo'],
+							$class_save->settings->get_admin_option( 'imdburlstringtaxo' ),
 							$imdburlstringtaxo,
 							'update_old_taxo'
 						);
@@ -232,7 +238,7 @@ final class Save_Options extends Save_Helper {
 		 */
 		if (
 			isset( $_POST['imdb_imdburlstringtaxo'] ) && strlen( sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) ) > 0
-			&& sanitize_key( $this->imdb_admin_values['imdburlstringtaxo'] ) !== sanitize_key( $_POST['imdb_imdburlstringtaxo'] )
+			&& sanitize_key( $this->settings->get_admin_option( 'imdburlstringtaxo' ) ) !== sanitize_key( $_POST['imdb_imdburlstringtaxo'] )
 		) {
 			flush_rewrite_rules();
 		}
@@ -247,7 +253,7 @@ final class Save_Options extends Save_Helper {
 		}
 
 		$forbidden_terms = [ 'lumiere_update_main_settings', '_wp_http_referer', '_nonce_main_settings' ];
-		$imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
+		$imdb_admin_values = $this->settings->get_admin_options();
 
 		foreach ( $_POST as $key => $postvalue ) {
 
@@ -307,7 +313,7 @@ final class Save_Options extends Save_Helper {
 		// These $_POST values shouldn't be processed
 		$forbidden_terms = [ 'lumiere_update_cache_settings', '_wp_http_referer', '_nonce_cache_settings' ];
 
-		$imdb_cache_values = get_option( Get_Options::get_cache_tablename(), [] );
+		$imdb_cache_values = $this->settings->get_cache_options();
 
 		foreach ( $_POST as $key => $postvalue ) {
 
@@ -374,12 +380,12 @@ final class Save_Options extends Save_Helper {
 	private function lumiere_cache_delete_allfiles( string|bool $get_referer ): void {
 
 		// prevent drama
-		if ( ! isset( $this->imdb_cache_values['imdbcachedir'] ) ) {
+		if ( $this->settings->get_cache_option( 'imdbcachedir' ) === null || strlen( $this->settings->get_cache_option( 'imdbcachedir' ) ) < 1 ) {
 			wp_die( '<strong>' . esc_html__( 'No cache folder found.', 'lumiere-movies' ) . '</strong>' );
 		}
 
 		// Delete all cache
-		$this->dir_unlink_recursive( $this->imdb_cache_values['imdbcachedir'] ); // in trait Files which is in trait Admin_General.
+		$this->dir_unlink_recursive( $this->settings->get_cache_option( 'imdbcachedir' ) ); // in trait Files which is in trait Admin_General.
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
 			set_transient( 'notice_lumiere_msg', 'cache_delete_all_msg', 30 );
@@ -516,7 +522,7 @@ final class Save_Options extends Save_Helper {
 			'_nonce_data_settings',
 		];
 
-		$imdb_data_values = get_option( Get_Options_Movie::get_data_tablename(), [] );
+		$imdb_data_values = $this->settings->get_movie_options();
 		foreach ( $_POST as $key => $postvalue ) {
 
 			if ( in_array( $key, $forbidden_terms, true ) ) {
@@ -589,7 +595,7 @@ final class Save_Options extends Save_Helper {
 			throw new Exception( 'Wrong nounce' );
 		}
 
-		$imdb_data_person_values = get_option( Get_Options_Person::get_data_person_tablename(), [] );
+		$imdb_data_person_values = $this->settings->get_person_options();
 		foreach ( $_POST as $key => $post_value ) {
 			if ( str_contains( $key, '_active' ) ) {
 				$key_san = sanitize_key( $key );

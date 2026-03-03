@@ -15,8 +15,8 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Layout\Output_Linkmaker;
 use Exception;
 
@@ -29,11 +29,6 @@ use Exception;
  * @since 4.5 renamed methods to make them shorter and more meaningful, new constant LINK_OPTIONS (using it in child classes for code simplification), use of Output_linkmaker class
  */
 class Implement_Methods {
-
-	/**
-	 * Traits
-	 */
-	use Open_Options;
 
 	/**
 	 * Numbers to identify the link class used
@@ -52,10 +47,8 @@ class Implement_Methods {
 	 */
 	public function __construct(
 		private Output_Linkmaker $output_linkmaker_class = new Output_Linkmaker(),
-	) {
-		// Get global settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
-	}
+		private Settings_Service $settings = new Settings_Service()
+	) {}
 
 	/**
 	 * Image for the ratings, meant to be used by child classes for code reusing
@@ -139,8 +132,8 @@ class Implement_Methods {
 		 * If "display only thumbnail" is selected, thumb image is displayed and width is set to 100
 		 * @since 3.7
 		 */
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-			$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
+		if ( $this->settings->get_admin_option( 'imdbcoversize' ) === '0' ) {
+			$width = intval( $this->settings->get_admin_option( 'imdbcoversizewidth' ) );
 			$height = (float) $width * 1.4;
 			$output .= ' class="' . esc_attr( $img_class ) . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
 				/* Translators: %1s is a name, ie Stanley Kubrick */
@@ -148,7 +141,7 @@ class Implement_Methods {
 				. esc_attr( $title_text ) . '" width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '" />';
 
 			// set to 100 width and 160 height if "Display only thumbnail" is active
-		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
+		} elseif ( $this->settings->get_admin_option( 'imdbcoversize' ) === '1' ) {
 			$output .= ' class="' . esc_attr( $img_class ) . '" src="' . esc_url( $photo_url_final_img ) . '" alt="'
 				/* Translators: %1s is a name, ie Stanley Kubrick */
 				. wp_sprintf( __( 'Photo of %1s', 'lumiere-movies' ), $title_text ) . '" height="160" width="100" />';

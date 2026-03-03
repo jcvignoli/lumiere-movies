@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Widget\Widget_Legacy;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Widget_Selection;
@@ -32,11 +32,6 @@ use Lumiere\Admin\Widget_Selection;
  * @see \Lumiere\Frontend\Widget_Legacy Is used if the legacy widget is in use
  */
 final class Widget_Frontpage {
-
-	/**
-	 * Traits
-	 */
-	use Open_Options;
 
 	/**
 	 * Shortcode to be used by add_shortcodes, ie [lumiereWidget][/lumiereWidget]
@@ -67,10 +62,8 @@ final class Widget_Frontpage {
 	 */
 	public function __construct(
 		public Logger $logger = new Logger( 'Widget_Frontpage' ),
+		private Settings_Service $settings = new Settings_Service()
 	) {
-		// Get global settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
-
 		// Get an array of the config.
 		$this->lum_custom_post_fields = Get_Options::get_lum_all_type_search_widget();
 	}
@@ -146,7 +139,7 @@ final class Widget_Frontpage {
 		 */
 		$post_meta_autotitle_value = get_post_meta( $post_id, Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME, true );
 		if (
-			$this->imdb_admin_values['imdbautopostwidget'] === '1'
+			$this->settings->get_admin_option( 'imdbautopostwidget' ) === '1'
 			&& ( $post_meta_autotitle_value === '0' || strlen( $post_meta_autotitle_value ) === 0 )
 		) {
 			$movies_array[]['byname'] = esc_html( get_the_title( $post_id ) );
@@ -154,7 +147,7 @@ final class Widget_Frontpage {
 
 			// the post-based selection for auto title widget is turned off
 		} elseif (
-			$this->imdb_admin_values['imdbautopostwidget'] === '1'
+			$this->settings->get_admin_option( 'imdbautopostwidget' ) === '1'
 			&& $post_meta_autotitle_value === '1'
 		) {
 			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget was specifically deactivated for this post' );

@@ -56,8 +56,8 @@ final class Main extends Admin_Menu {
 		$cache_mngmt_class->lumiere_create_cache( true );
 
 		// Show the vars if debug is activated.
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
-			Debug::display_lum_vars( $this->imdb_admin_values, 'no_var_dump', null );
+		if ( $this->settings->get_admin_option( 'imdbdebug' ) !== null && $this->settings->get_admin_option( 'imdbdebug' ) === '1' ) {
+			Debug::display_lum_vars( $this->settings->get_admin_options(), 'no_var_dump', null );
 		}
 
 		// Submenu.

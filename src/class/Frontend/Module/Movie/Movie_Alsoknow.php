@@ -34,7 +34,7 @@ final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $movie->$item_name();
 		$nb_total_items = count( $item_results );
-		$admin_max_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) + 1 : 0; // Adding 1 since first array line is the title
+		$admin_max_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) + 1 : 0; // Adding 1 since first array line is the title
 
 		if ( $nb_total_items < 2 ) { // Since the first result is the original title, must be greater than 1
 			return '';

@@ -46,8 +46,8 @@ final class Cache extends Admin_Menu {
 		$cache_mngmt_class->lumiere_create_cache( true );
 
 		// Show the vars if debug is activated.
-		if ( ( isset( $this->imdb_admin_values['imdbdebug'] ) ) && ( $this->imdb_admin_values['imdbdebug'] === '1' ) ) {
-			Debug::display_lum_vars( $this->imdb_cache_values, 'var_dump', null );
+		if ( $this->settings->get_admin_option( 'imdbdebug' ) !== null && $this->settings->get_admin_option( 'imdbdebug' ) === '1' ) {
+			Debug::display_lum_vars( $this->settings->get_cache_options(), 'var_dump', null );
 		}
 
 		// Cache submenu.
@@ -63,7 +63,7 @@ final class Cache extends Admin_Menu {
 		) {
 
 			// Cache options menu.
-			$size = $this->lumiere_format_bytes( $cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ) );
+			$size = $this->lumiere_format_bytes( $cache_mngmt_class->cache_getfoldersize( $this->settings->get_cache_option( 'imdbcachedir' ) ) );
 			$this->include_with_vars(
 				'cache/admin-cache-options',
 				[ 'size' => $size ], /** Add an array with vars to send in the template */
@@ -78,14 +78,14 @@ final class Cache extends Admin_Menu {
 			$this->include_with_vars(
 				'cache/admin-cache-manage',
 				[
-					'cache_file_count'          => $cache_mngmt_class->cache_countfolderfiles( $this->imdb_cache_values['imdbcachedir'] ),
-					'size_cache_total'          => $cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbcachedir'] ),
+					'cache_file_count'          => $cache_mngmt_class->cache_countfolderfiles( $this->settings->get_cache_option( 'imdbcachedir' ) ),
+					'size_cache_total'          => $cache_mngmt_class->cache_getfoldersize( $this->settings->get_cache_option( 'imdbcachedir' ) ),
 					'list_movie_cache'          => $cache_mngmt_class->get_imdb_object_per_cat( 'movie' ),
 					'list_people_cached'        => $cache_mngmt_class->get_imdb_object_per_cat( 'people' ),
-					'size_cache_pics'           => $cache_mngmt_class->cache_getfoldersize( $this->imdb_cache_values['imdbphotoroot'] ),
+					'size_cache_pics'           => $cache_mngmt_class->cache_getfoldersize( $this->settings->get_cache_option( 'imdbphotoroot' ) ),
 					'lum_that'                  => $this,
 					'this_cache_manage_page'    => $this->page_cache_manage,
-					'query_cache_info'          => $cache_mngmt_class->get_cache_query_info( $this->imdb_cache_values['imdbcachedir'] ),
+					'query_cache_info'          => $cache_mngmt_class->get_cache_query_info( $this->settings->get_cache_option( 'imdbcachedir' ) ),
 				], /** Add an array with vars to send in the template */
 			);
 		}

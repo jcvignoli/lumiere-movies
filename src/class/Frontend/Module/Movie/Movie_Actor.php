@@ -43,7 +43,7 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->cast();
-		$admin_total_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
+		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 		$nb_total_items = count( $item_results );
 
 		if ( $nb_total_items === 0 ) {
@@ -89,7 +89,7 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$output = $this->output_class->misc_layout( 'popup_subtitle_item', ucfirst( Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ] ) );
 
-		$nb_rows_click_more = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : $nb_total_items; /** max number of movies before breaking with "see all" */
+		$nb_rows_click_more = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : $nb_total_items; /** max number of movies before breaking with "see all" */
 
 		// Sort by column name the array of results.
 		// $column_item_results = array_column( $item_results, 'name' );
@@ -151,7 +151,7 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module_taxo( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->cast();
-		$admin_total_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
+		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 		$nb_total_items = count( $item_results );
 
 		if ( $nb_total_items === 0 ) {
@@ -171,7 +171,7 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 			$taxo_options = $this->add_taxo_class->create_taxonomy_options(
 				$item_name,
 				$item_results[ $i ]['name'],
-				$this->imdb_admin_values
+				$this->settings->get_admin_options()
 			);
 			$output .= $this->output_class->get_taxo_layout_items(
 				$movie->title(),

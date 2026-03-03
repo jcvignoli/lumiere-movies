@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Open_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_General;
@@ -37,7 +37,7 @@ class Admin_Menu {
 	/**
 	 * Traits
 	 */
-	use Open_Options, Admin_General;
+	use Admin_General;
 
 	/**
 	 * Store directories, pages
@@ -78,9 +78,8 @@ class Admin_Menu {
 	 */
 	public function __construct(
 		protected Logger $logger = new Logger( 'adminClass' ),
+		protected Settings_Service $settings = new Settings_Service()
 	) {
-		// Get global settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
 
 		// Build vars.
 		$this->menu_id = $this->get_id() . '_options';
@@ -227,7 +226,7 @@ class Admin_Menu {
 		add_action( 'admin_menu', [ $that, $menu_method ] );
 
 		// Add Lumiere menu in WordPress top menu
-		if ( $that->imdb_admin_values['imdbwordpress_tooladminmenu'] === '1' ) {
+		if ( $that->settings->get_admin_option( 'imdbwordpress_tooladminmenu' ) === '1' ) {
 			$bar_menu_method = $that->get_id() . '_admin_add_top_menu';
 			// @phpstan-ignore-next-line (Parameter #2 $callback of function add_action expects callable(): mixed, array{$that(Lumiere\Admin), non-falsy-string} given)
 			add_action( 'admin_bar_menu', [ $that, $bar_menu_method ], 70 );
@@ -259,7 +258,7 @@ class Admin_Menu {
 	public function lumiere_add_left_menu(): void {
 
 		// Menu inside settings
-		if ( isset( $this->imdb_admin_values['imdbwordpress_bigmenu'] ) && $this->imdb_admin_values['imdbwordpress_bigmenu'] === '0' ) {
+		if ( $this->settings->get_admin_option( 'imdbwordpress_bigmenu' ) !== null && $this->settings->get_admin_option( 'imdbwordpress_bigmenu' ) === '0' ) {
 
 			add_options_page(
 				'Lumière Options',
@@ -302,7 +301,7 @@ class Admin_Menu {
 			);
 
 			// Left menu
-		} elseif ( isset( $this->imdb_admin_values['imdbwordpress_bigmenu'] ) && $this->imdb_admin_values['imdbwordpress_bigmenu'] === '1' ) {
+		} elseif ( $this->settings->get_admin_option( 'imdbwordpress_bigmenu' ) !== null && $this->settings->get_admin_option( 'imdbwordpress_bigmenu' ) === '1' ) {
 
 			add_menu_page(
 				esc_html__( 'Lumière options page', 'lumiere-movies' ),

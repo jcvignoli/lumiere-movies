@@ -20,6 +20,7 @@ use Lumiere\Admin\Admin_Notifications;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Config\Settings_Service;
 
 /**
  * Detect if new templates templates are available, or templates should be installed
@@ -38,25 +39,11 @@ final class Detect_New_Theme {
 	use Admin_General;
 
 	/**
-	 * Admin options vars
-	 * @phpstan-var OPTIONS_ADMIN
-	 */
-	public array $imdb_admin_values;
-
-	/**
-	 * Data options
-	 * @phpstan-var OPTIONS_DATA_MOVIE
-	 * @psalm-var OPTIONS_DATA_MOVIE_PSALM
-	 */
-	public array $imdb_data_values;
-
-	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename() );
-		$this->imdb_data_values = get_option( Get_Options_Movie::get_data_tablename() );
-	}
+	public function __construct(
+		protected Settings_Service $settings = new Settings_Service()
+	) {}
 
 	/**
 	 * Static start
@@ -98,7 +85,7 @@ final class Detect_New_Theme {
 
 		$output = [];
 
-		if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
+		if ( $this->settings->get_admin_option( 'imdbtaxonomy' ) !== '1' ) {
 			return $output;
 		}
 
@@ -135,7 +122,7 @@ final class Detect_New_Theme {
 
 		$output = [];
 
-		if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
+		if ( $this->settings->get_admin_option( 'imdbtaxonomy' ) !== '1' ) {
 			return $output;
 		}
 
@@ -149,8 +136,8 @@ final class Detect_New_Theme {
 			$taxo_key = 'imdbtaxonomy' . $item;
 
 			if (
-				isset( $this->imdb_data_values[ $taxo_key ] )
-				&& $this->imdb_data_values[ $taxo_key ] === '1'
+				$this->settings->get_movie_option( $taxo_key ) !== null
+				&& $this->settings->get_admin_option( $taxo_key ) === '1'
 				&& is_file( $templates_paths['destination'] ) === false
 			) {
 				$output[] = $item_translated;
@@ -219,7 +206,7 @@ final class Detect_New_Theme {
 			? Get_Options_Person::LUM_TAXO_PEOPLE_THEME
 			: Get_Options::LUM_TAXO_ITEMS_THEME;
 		$template_paths['origin'] = LUM_WP_PATH . $original_in_plugin;
-		$template_paths['destination'] = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->imdb_admin_values['imdburlstringtaxo'] . $item . '.php';
+		$template_paths['destination'] = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->settings->get_admin_option( 'imdburlstringtaxo' ) . $item . '.php';
 		return $template_paths;
 	}
 }

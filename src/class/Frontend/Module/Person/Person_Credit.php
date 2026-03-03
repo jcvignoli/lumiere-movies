@@ -37,7 +37,7 @@ final class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $sub_cat ): string {
 
 		$item_results = $person_class->credit();
-		$nb_rows_click_more = isset( $this->imdb_data_person_values['number'][ $sub_cat . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $sub_cat . '_number' ] ) : 9; /** max number of movies before breaking with "see all" */
+		$nb_rows_click_more = $this->settings->get_person_option( 'number' . $sub_cat . '_number' ) !== null ? intval( $this->settings->get_person_option( 'number' . $sub_cat . '_number' ) ) : 9; /** max number of movies before breaking with "see all" */
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
 			return $this->get_module_popup( $sub_cat, $item_results, 1 /* not used in get_module_popup() method */ );

@@ -37,7 +37,7 @@ final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 		// If cache is active, use the pictures from IMDBphp class.
-		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) {
+		if ( $this->settings->get_cache_option( 'imdbusecache' ) === '1' ) {
 			return $this->link_maker->get_picture( $movie->photoLocalurl( false ), $movie->photoLocalurl( true ), $movie->title() );
 		}
 
@@ -73,7 +73,7 @@ final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 				$photo_big = (string) $movie->photoLocalurl( false );
 				$photo_thumb = (string) $movie->photoLocalurl( true );
 
-		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
+		if ( $this->settings->get_cache_option( 'imdbusecache' ) === '1' ) { // use IMDBphp only if cache is active
 			$photo_url = strlen( $photo_big ) > 1 ? esc_html( $photo_big ) : esc_html( $photo_thumb ); // create big picture, thumbnail otherwise.
 		}
 
@@ -88,13 +88,13 @@ final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= "\n\t\t" . '<img loading="lazy" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $movie->title() ) . '"';
 
 				// add width only if "Display only thumbnail" is not active.
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-			$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
+		if ( $this->settings->get_admin_option( 'imdbcoversize' ) === '0' ) {
+			$width = intval( $this->settings->get_admin_option( 'imdbcoversizewidth' ) );
 			$height = (float) $width * 1.4;
 			$output .= ' width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '"';
 
 			// set width to 100px width if "Display only thumbnail" is active.
-		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
+		} elseif ( $this->settings->get_admin_option( 'imdbcoversize' ) === '1' ) {
 
 			$output .= ' height="160" width="100"';
 

@@ -117,7 +117,7 @@ final class Movie_Keyword extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items && $i < $hard_limit_items; $i++ ) {
 
-			$taxo_options = $this->add_taxo_class->create_taxonomy_options( $item_name, sanitize_text_field( $items_result[ $i ] ), $this->imdb_admin_values );
+			$taxo_options = $this->add_taxo_class->create_taxonomy_options( $item_name, sanitize_text_field( $items_result[ $i ] ), $this->settings->get_admin_options() );
 			$output .= $this->output_class->get_taxo_layout_items(
 				$movie->title(),
 				$taxo_options,

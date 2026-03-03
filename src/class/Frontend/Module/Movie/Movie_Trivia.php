@@ -34,7 +34,7 @@ final class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $movie->$item_name();
 		$nb_total_items = 0;
-		$admin_total_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
+		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 
 		foreach ( $item_results as $trivia_type => $trivia_content ) {
 			// Process only categories in settings.

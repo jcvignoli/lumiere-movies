@@ -115,8 +115,8 @@ class Head_Popups {
 		// Prevent WordPress from inserting a few things.
 		remove_action( 'wp_head', 'rel_canonical' ); // remove canonical
 		remove_action( 'wp_head', 'wp_shortlink_wp_head', 10 ); // remove shortlink
-		remove_action( 'wp_head', 'start_post_rel_link', 10 ); // remove random post link
-		remove_action( 'wp_head', 'parent_post_rel_link', 10 ); // remove parent post link
+		//remove_action( 'wp_head', 'start_post_rel_link', 10 ); // remove random post link => obsolete
+		//remove_action( 'wp_head', 'parent_post_rel_link', 10 ); // remove parent post link => obsolete
 		remove_action( 'wp_head', 'rsd_link' ); // remove really simple discovery link
 		remove_action( 'wp_head', 'adjacent_posts_rel_link', 10 ); // remove the next and previous post links
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10 );

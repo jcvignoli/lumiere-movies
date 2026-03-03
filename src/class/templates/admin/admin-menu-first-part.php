@@ -55,7 +55,7 @@ $lumiere_that = $variables['lum_that']; /** @phpstan-ignore variable.undefined  
 			
 			<?php
 		}
-		if ( $lumiere_that->imdb_admin_values['imdbtaxonomy'] === '0' ) {
+		if ( $lumiere_that->settings->get_admin_option( 'imdbtaxonomy' ) === '0' ) {
 
 			?> - <em><span class="lum_minus20"><a href="<?php echo esc_url( admin_url() . $lumiere_that->page_main_advanced . '#imdb_imdbtaxonomy_yes' ); ?>"><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></span></em>
 

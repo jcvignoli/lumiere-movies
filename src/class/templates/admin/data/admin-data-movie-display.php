@@ -23,7 +23,7 @@ $lumiere_items_people = $variables['lum_items_people']; /** @phpstan-ignore vari
 $lumiere_comments_fields = $variables['lum_comments_fields']; /** @phpstan-ignore variable.undefined  */
 
 // Build local vars.
-$lumiere_imdb_data_values = $lumiere_calling_class->imdb_data_values;
+$lumiere_imdb_data_values = $lumiere_calling_class->settings->get_movie_options();
 $lumiere_details_with_numbers = Get_Options_Movie::get_items_with_numbers();
 ?>
 <div class="lumiere_wrap">
@@ -34,7 +34,7 @@ $lumiere_details_with_numbers = Get_Options_Movie::get_items_with_numbers();
 
 		<div class="">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_movie_order ); ?>"><?php esc_html_e( 'Items order', 'lumiere-movies' ); ?></a></div>
 
-			<?php if ( $lumiere_calling_class->imdb_admin_values['imdbtaxonomy'] === '1' ) { ?>
+			<?php if ( $lumiere_calling_class->settings->get_admin_option( 'imdbtaxonomy' ) === '1' ) { ?>
 		<div class=" lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-taxonomy.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items to use as taxonomy', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_movie_taxo ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
 			<?php } else { ?>
 		<div class="lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-taxonomy.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>

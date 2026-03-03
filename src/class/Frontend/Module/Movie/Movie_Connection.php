@@ -33,7 +33,7 @@ final class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->$item_name();
-		$admin_total_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
+		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 		$nb_total_items = count( $item_results );
 
 		// count the actual results in values associative arrays

@@ -130,7 +130,7 @@ final class Movie_Color extends \Lumiere\Frontend\Module\Parent_Module {
 			$taxo_options = $this->add_taxo_class->create_taxonomy_options(
 				$item_name,
 				sanitize_text_field( $item_results[ $i ]['type'] ),
-				$this->imdb_admin_values
+				$this->settings->get_admin_options()
 			);
 			$output .= $this->output_class->get_taxo_layout_items(
 				$movie->title(),

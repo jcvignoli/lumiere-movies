@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
@@ -33,11 +33,6 @@ use Lumiere\Tools\Data;
 trait Main {
 
 	/**
-	 * Traits
-	 */
-	use Open_Options;
-
-	/**
 	 * Class for building links, i.e. Highslide
 	 * Built in class Link Factory
 	 *
@@ -45,6 +40,11 @@ trait Main {
 	 * @var \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker The factory class will determine which class to use
 	 */
 	public \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker;
+
+	/**
+	 * Settings service
+	 */
+	public Settings_Service $settings;
 
 	/**
 	 * Logging
@@ -58,7 +58,7 @@ trait Main {
 	 */
 	public function start_main_trait( ?string $logger_name = null ): void {
 		// Get global settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
+		$this->settings = new Settings_Service();
 
 		// Start Logger class, if no name was passed build it with method get_current_classname().
 		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ) );
@@ -69,7 +69,7 @@ trait Main {
 	 */
 	public function start_linkmaker(): void {
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
-		$this->link_maker = Link_Factory::select_link_type( $this->imdb_admin_values );
+		$this->link_maker = Link_Factory::select_link_type( $this->settings->get_admin_options() );
 	}
 
 	/**

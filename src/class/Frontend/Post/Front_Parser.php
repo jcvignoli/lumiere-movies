@@ -186,7 +186,7 @@ class Front_Parser {
 		foreach ( $movies_searched as $movie_found ) {
 			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$movie_found*" );
 			$output .= $this->output_class->front_main_wrapper(
-				$this->imdb_admin_values,
+				$this->settings->get_admin_options(),
 				( new Movie_Factory() )->factory_movie_items_methods( $movie_found )
 			);
 		}
@@ -208,7 +208,7 @@ class Front_Parser {
 		foreach ( $persons_searched as $person_found ) {
 			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$person_found*" );
 			$output .= $this->output_class->front_main_wrapper(
-				$this->imdb_admin_values,
+				$this->settings->get_admin_options(),
 				( new Person_Factory() )->factory_person_items_methods( $person_found )
 			);
 		}
@@ -297,7 +297,7 @@ class Front_Parser {
 
 	/**
 	 * Replace [imdblt] shortcode by the movie
-	 * @deprecated 3.5, kept for compatibility purposes
+	 * @info deprecated 3.5, kept for compatibility purposes
 	 *
 	 * @param string|array<string> $atts array of attributes
 	 * @param null|string $content shortcode content or null if not set
@@ -315,7 +315,7 @@ class Front_Parser {
 
 	/**
 	 * Replace [imdbltid] shortcode by the movie
-	 * @deprecated 3.5, kept for compatibility purposes
+	 * @info deprecated 3.5, kept for compatibility purposes
 	 *
 	 * @param string|array<string> $atts
 	 * @param null|string $content shortcode content or null if not set

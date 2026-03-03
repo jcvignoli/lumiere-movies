@@ -104,7 +104,7 @@ final class Auto_Update_Theme extends Copy_Theme {
 		$cleaned_item = [];
 
 		foreach ( $items as $item ) {
-			$cleaned_item[] = str_replace( $this->imdb_admin_values['imdburlstringtaxo'], '', $item );
+			$cleaned_item[] = str_replace( $this->settings->get_admin_option( 'imdburlstringtaxo' ), '', $item );
 		}
 		return $cleaned_item;
 

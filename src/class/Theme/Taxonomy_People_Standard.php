@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.14
+ * Version: 3.15
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package       lumieremovies
@@ -93,7 +93,7 @@ final class Taxonomy_People_Standard {
 		$this->start_linkmaker();
 
 		// Full taxonomy title.
-		$this->taxonomy_title = esc_html( $this->imdb_admin_values['imdburlstringtaxo'] ) . 'standard';
+		$this->taxonomy_title = esc_html( $this->settings->get_admin_option( 'imdburlstringtaxo' ) ) . 'standard';
 
 		// Class person, find also name of the current taxo
 		$this->person_class = $this->get_imdbphp_person_searched();
@@ -326,7 +326,7 @@ final class Taxonomy_People_Standard {
 	private function run_person_query( string $person_name ): string {
 
 		$taxonomy_name = esc_html( $this->taxonomy_title ); // Such as 'lumiere-standard'.
-		$job = str_replace( $this->imdb_admin_values['imdburlstringtaxo'], '', $taxonomy_name ); // Such as 'standard'.
+		$job = str_replace( $this->settings->get_admin_option( 'imdburlstringtaxo' ), '', $taxonomy_name ); // Such as 'standard'.
 		$job_translated = Get_Options_Movie::get_list_people_taxo()[ esc_html( $job ) ]; // Such as 'standard' in local language.
 
 		// Var to include all rows and check if it is null.
@@ -432,7 +432,7 @@ final class Taxonomy_People_Standard {
 		$output .= "\n\t\t\t" . '<div class="lumiere_flex_auto">';
 
 		$output .= "\n\t\t\t\t" . '<div class="imdbelementTITLE ';
-		$output .= ' imdbelementTITLE_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
+		$output .= ' imdbelementTITLE_' . esc_attr( $this->settings->get_admin_option( 'imdbintotheposttheme' ) );
 		$output .= '">';
 		$output .= esc_html( $person_name );
 		$output .= '</div>';
@@ -442,7 +442,7 @@ final class Taxonomy_People_Standard {
 		 * Each one has its own class passed in $link_maker,
 		 * according to which option the lumiere_select_link_maker() found in Frontend.
 		 */
-		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp pics only if cache is active
+		if ( $this->settings->get_cache_option( 'imdbusecache' ) === '1' ) { // use IMDBphp pics only if cache is active
 			$output .= isset( $this->person_class ) ? $this->link_maker->get_picture(
 				$this->person_class->photoLocalurl( false ),
 				$this->person_class->photoLocalurl( true ),
@@ -453,13 +453,13 @@ final class Taxonomy_People_Standard {
 		}
 
 		$born = isset( $this->person_class ) ? $this->person_born_class->get_module( $this->person_class, 'born' ) : '';
-		$output .= $this->output_class->misc_layout( 'date_outside', 'Birth', $this->imdb_admin_values['imdbintotheposttheme'], $born );
+		$output .= $this->output_class->misc_layout( 'date_outside', 'Birth', $this->settings->get_admin_option( 'imdbintotheposttheme' ), $born );
 		$died = isset( $this->person_class ) ? $this->person_died_class->get_module( $this->person_class, 'died' ) : '';
-		$output .= $this->output_class->misc_layout( 'date_outside', 'Death', $this->imdb_admin_values['imdbintotheposttheme'], $died );
+		$output .= $this->output_class->misc_layout( 'date_outside', 'Death', $this->settings->get_admin_option( 'imdbintotheposttheme' ), $died );
 
 		$output .= "\n\n\t\t\t\t\t\t\t\t\t\t\t" . '<!-- Biography -->';
 		$output .= "\n\t\t\t\t" . '<div id="lum_taxo_page_bio" class="lumiere-lines-common';
-		$output .= ' lumiere-lines-common_' . esc_attr( $this->imdb_admin_values['imdbintotheposttheme'] );
+		$output .= ' lumiere-lines-common_' . esc_attr( $this->settings->get_admin_option( 'imdbintotheposttheme' ) );
 		$output .= ' lumiere-lines-common-fix">';
 		$output .= '<span class="lumiere_font_small">';
 

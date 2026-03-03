@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Admin\Admin_General;
-use Lumiere\Config\Open_Options;
 
 /**
  * Helper methods for Save_Options
@@ -28,7 +27,7 @@ class Save_Helper {
 	/**
 	 * Traits
 	 */
-	use Open_Options, Admin_General;
+	use Admin_General;
 
 	/**
 	 * Allows to limit the calls to rewrite rules refresh
@@ -42,13 +41,11 @@ class Save_Helper {
 	 * Constructor
 	 * @param string|null $page_data_taxo Full URL to data page taxonomy subpage
 	 */
-	public function __construct( ?string $page_data_taxo = null ) {
-
+	public function __construct(
+		?string $page_data_taxo = null
+	) {
 		// Store page
 		$this->page_data_taxo = $page_data_taxo;
-
-		// Get options from database.
-		$this->get_db_options(); // In Open_Options trait.
 	}
 
 	/**

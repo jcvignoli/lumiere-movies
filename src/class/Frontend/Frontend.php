@@ -20,6 +20,7 @@ use Lumiere\Frontend\Post\Front_Parser;
 use Lumiere\Frontend\Post\Find_Items;
 use Lumiere\Frontend\Popups\Popup_Factory;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 
 /**
  * Start everything for frontend pages
@@ -37,12 +38,19 @@ final class Frontend {
 
 	/**
 	 * Constructor
+	 *
+	 * @param Front_Parser $front_parser
+	 * @param Find_Items $find_items
+	 * @param Widget_Frontpage $widget_front
+	 * @param Popup_Factory $popup_factory
+	 * @param Settings_Service $settings
 	 */
 	public function __construct(
 		Front_Parser $front_parser = new Front_Parser(),
 		Find_Items $find_items = new Find_Items(),
 		Widget_Frontpage $widget_front = new Widget_Frontpage(),
 		Popup_Factory $popup_factory = new Popup_Factory(),
+		private Settings_Service $settings = new Settings_Service()
 	) {
 
 		if ( is_admin() ) {
@@ -83,8 +91,9 @@ final class Frontend {
 	/**
 	 * @see \Lumiere\Core
 	 */
-	public static function start(): void {
-		$that = new self();
+	public function start(): void {
+		// Access settings to avoid PHPStan warning about unused property.
+		$this->settings->refresh();
 	}
 
 	/**

@@ -14,7 +14,7 @@ if ( ( ! defined( 'ABSPATH' ) ) ) {
 }
 
 use Lumiere\Plugins\Logger;
-use Lumiere\Config\Open_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
@@ -32,17 +32,15 @@ class Copy_Theme {
 	/**
 	 * Traits.
 	 */
-	use Open_Options, Admin_General;
+	use Admin_General;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct(
 		protected Logger $logger = new Logger( 'copyTemplateTaxonomy' ),
-	) {
-		// Get global settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
-	}
+		protected Settings_Service $settings = new Settings_Service()
+	) {}
 
 	/**
 	 * Regular static class call
@@ -82,10 +80,10 @@ class Copy_Theme {
 			throw new Exception( 'This template ' . esc_html( $lumiere_taxo_title ) . ' does not exist, aborting' );
 		}
 
-		$lumiere_taxo_file_copied = Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->imdb_admin_values['imdburlstringtaxo'] . $lumiere_taxo_title . '.php';
+		$lumiere_taxo_file_copied = Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->settings->get_admin_option( 'imdburlstringtaxo' ) . $lumiere_taxo_title . '.php';
 		$lumiere_current_theme_path = get_stylesheet_directory() . '/';
 		$lumiere_current_theme_path_file = $lumiere_current_theme_path . $lumiere_taxo_file_copied;
-		$lumiere_taxonomy_theme_path = $this->imdb_admin_values['imdbpluginpath'];
+		$lumiere_taxonomy_theme_path = $this->settings->get_admin_option( 'imdbpluginpath' );
 		$lumiere_taxonomy_theme_file = $lumiere_taxonomy_theme_path . $lumiere_taxo_file_tocopy;
 
 		// No $_GET["taxotype"] found or not in array, exit.
@@ -99,8 +97,8 @@ class Copy_Theme {
 		 * $_GET['taxotype'] exists in $imdb_data_values
 		 */
 		if (
-			$this->imdb_admin_values['imdbtaxonomy'] === '1'
-			&& $this->imdb_data_values[ 'imdbtaxonomy' . $lumiere_taxo_title ] === '1'
+			$this->settings->get_admin_option( 'imdbtaxonomy' ) === '1'
+			&& $this->settings->get_movie_option( 'imdbtaxonomy' . $lumiere_taxo_title ) === '1'
 		) {
 			if ( $this->copy_theme_template( $lumiere_taxonomy_theme_file, $lumiere_current_theme_path_file, $lumiere_taxo_title ) === true ) {
 				set_transient( 'notice_lumiere_msg', 'taxotemplatecopy_success', 1 );

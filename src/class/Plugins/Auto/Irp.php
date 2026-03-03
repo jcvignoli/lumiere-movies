@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Frontend\Post\Find_Items;
-use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 
 /**
  * Plugin to ensure Lumiere compatibility with IRP (Intelly Related Post) plugin
@@ -30,23 +30,13 @@ use Lumiere\Config\Get_Options;
 final class Irp {
 
 	/**
-	 * Lumière Admin options.
-	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
-	 * @var array<string, string>
-	 */
-	private array $imdb_admin_values;
-
-	/**
 	 * Constructor
 	 */
-	final public function __construct() {
-
-		// Get the values from database.
-		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
-
+	final public function __construct(
+		private Settings_Service $settings = new Settings_Service()
+	) {
 		// Disable IRP plugin in Lumiere pages, it breaks them
 		add_filter( 'the_content', [ $this, 'remove_irp_if_relevant' ], 11, 1 );
-
 	}
 
 	/**
@@ -63,7 +53,7 @@ final class Irp {
 	 */
 	public function remove_irp_if_relevant( ?string $content ): string {
 
-		if ( $this->imdb_admin_values['imdbirpdisplay'] === '1' ) {
+		if ( $this->settings->get_admin_option( 'imdbirpdisplay' ) === '1' ) {
 			return $content ?? '';
 		}
 

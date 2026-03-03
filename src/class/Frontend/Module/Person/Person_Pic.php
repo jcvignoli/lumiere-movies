@@ -39,7 +39,7 @@ final class Person_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 		// If cache is active, use the pictures from IMDBphp class.
-		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) {
+		if ( $this->settings->get_cache_option( 'imdbusecache' ) === '1' ) {
 			return $this->link_maker->get_picture( $person->photoLocalurl( false ), $person->photoLocalurl( true ), $person_name );
 		}
 
@@ -65,7 +65,7 @@ final class Person_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 		$photo_big = (string) $person->photoLocalurl( false );
 		$photo_thumb = (string) $person->photoLocalurl( true );
 
-		if ( $this->imdb_cache_values['imdbusecache'] === '1' ) { // use IMDBphp only if cache is active
+		if ( $this->settings->get_cache_option( 'imdbusecache' ) === '1' ) { // use IMDBphp only if cache is active
 			$photo_url = strlen( $photo_big ) > 1 ? esc_url( $photo_big ) : esc_url( $photo_thumb ); // create big picture, thumbnail otherwise.
 		}
 
@@ -79,13 +79,13 @@ final class Person_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 		$output .= "\n\t\t\t\t\t" . '<img loading="lazy" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $person->name() ?? '' ) . '"';
 
 		// add width only if "Display only thumbnail" is unactive.
-		if ( $this->imdb_admin_values['imdbcoversize'] === '0' ) {
-			$width = intval( $this->imdb_admin_values['imdbcoversizewidth'] );
+		if ( $this->settings->get_admin_option( 'imdbcoversize' ) === '0' ) {
+			$width = intval( $this->settings->get_admin_option( 'imdbcoversizewidth' ) );
 			$height = (float) $width * 1.4;
 			$output .= ' width="' . esc_attr( strval( $width ) ) . '" height="' . esc_attr( strval( $height ) ) . '"';
 
 			// add 100px width if "Display only thumbnail" is active.
-		} elseif ( $this->imdb_admin_values['imdbcoversize'] === '1' ) {
+		} elseif ( $this->settings->get_admin_option( 'imdbcoversize' ) === '1' ) {
 
 			$output .= ' width="100" height="160"';
 

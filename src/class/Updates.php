@@ -17,7 +17,7 @@ if ( ! defined( 'WPINC' ) || ! class_exists( 'Lumiere\Config\Settings' ) ) {
 }
 
 use Lumiere\Plugins\Logger;
-use Lumiere\Config\Open_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Config\Settings_Helper;
 
 /**
@@ -44,18 +44,13 @@ use Lumiere\Config\Settings_Helper;
  */
 class Updates {
 
-	// Trait including the database settings.
-	use Open_Options;
-
 	/**
 	 * Constructor
 	 */
 	public function __construct(
 		protected Logger $logger = new Logger( 'updateClass' ),
-	) {
-		// Get global settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
-	}
+		protected Settings_Service $settings = new Settings_Service()
+	) {}
 
 	/**
 	 * Main function: Run updates of options
@@ -74,7 +69,7 @@ class Updates {
 		}
 
 		$file_number_plus_one = Settings_Helper::get_nb_updates();          // Latest number of file name update + 1
-		$number_updates = intval( $this->imdb_admin_values['imdbHowManyUpdates'] );     // Number of updates run + 1
+		$number_updates = intval( $this->settings->get_admin_option( 'imdbHowManyUpdates' ) );     // Number of updates run + 1
 
 		if ( $number_updates >= $file_number_plus_one ) {
 			$this->logger->log?->debug( '[updateClass] Already up-to-date, exit' );
@@ -263,9 +258,8 @@ class Updates {
 			/**
 			 * Check if the number of updates already run (saved in database) is equal to child's class update number
 			 * The child's class update number will make sure that a sequencial update order is respected when parsing "updates/*.php" files
-			 * @phpstan-ignore-next-line -- PHPStan is correct, imdbHowManyUpdates should be string, but for some unknown reason it is not a string...
 			 */
-			&& ( (string) $this->imdb_admin_values['imdbHowManyUpdates'] === $update_number_string )
+			&& ( (string) $this->settings->get_admin_option( 'imdbHowManyUpdates' ) === $update_number_string )
 		) {
 
 			$this->logger->log?->info( "[updateClass] Update $update_number_string has started" );

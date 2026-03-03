@@ -72,11 +72,11 @@ final class Find_Items extends Front_Parser {
 				// A movie's title was provided
 			} elseif ( isset( $films_array[ $i ]['byname'] ) ) {
 				$movie_name = strtolower( $films_array[ $i ]['byname'] );
-				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
+				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" title provided: ' . esc_html( $movie_name ) );
 				// If ['byname'] is not provided, assume a movie's name was in the array (string in the loop)
 			} elseif ( is_string( $films_array[ $i ] ) ) {
 				$movie_name = strtolower( $films_array[ $i ] );
-				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" title provided: ' . esc_html( $movie_name ) );
+				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" title provided: ' . esc_html( $movie_name ) );
 			} else {
 				$this->logger->log?->debug( '[Find_Items] Invalid IMDb ID or title provided, aborting' );
 				continue;
@@ -92,7 +92,7 @@ final class Find_Items extends Front_Parser {
 
 			// No results were found in imdbphp query.
 			if ( ! isset( $results[0] ) ) {
-				$this->logger->log?->info( '[Find_Items] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . esc_html( $movie_name ) . ', aborting.' );
+				$this->logger->log?->info( '[Find_Items] No ' . ucfirst( esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . ' found for ' . esc_html( $movie_name ) . ', aborting.' );
 				continue;
 			}
 
@@ -136,11 +136,11 @@ final class Find_Items extends Front_Parser {
 				// A person's name was provided
 			} elseif ( isset( $persons_array[ $i ]['byname'] ) ) {
 				$name_nm = strtolower( $persons_array[ $i ]['byname'] );
-				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" name provided: ' . esc_html( $name_nm ) );
+				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" name provided: ' . esc_html( $name_nm ) );
 				// If ['byname'] is not provided, assume a person's name was in the array (string in the loop)
 			} elseif ( is_string( $persons_array[ $i ] ) ) {
 				$name_nm = strtolower( $persons_array[ $i ] );
-				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . '" name provided: ' . esc_html( $name_nm ) );
+				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" name provided: ' . esc_html( $name_nm ) );
 			} else {
 				$this->logger->log?->debug( '[Find_Items] Invalid IMDb ID or name provided, aborting' );
 				continue;
@@ -155,7 +155,7 @@ final class Find_Items extends Front_Parser {
 
 			// No results were found in imdbphp query.
 			if ( ! isset( $results[0] ) ) {
-				$this->logger->log?->info( '[Find_Items] No ' . ucfirst( esc_html( $this->imdb_admin_values['imdbseriemovies'] ) ) . ' found for ' . esc_html( $name_nm ) . ', aborting.' );
+				$this->logger->log?->info( '[Find_Items] No ' . ucfirst( esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . ' found for ' . esc_html( $name_nm ) . ', aborting.' );
 				continue;
 			}
 

@@ -56,7 +56,7 @@ $lumiere_escape_wp_kses = [
 ];
 
 // taxonomy is disabled
-if ( $lumiere_that->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
+if ( $lumiere_that->settings->get_admin_option( 'imdbtaxonomy' ) !== '1' ) {
 	?><br><br><div align="center" class="accesstaxo"><?php
 		echo wp_kses(
 			wp_sprintf(
@@ -97,7 +97,7 @@ if ( $lumiere_that->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 			<div class="lumiere_flex_container_content_thirty lumiere_padding_five">
 				<input type="hidden" id="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>_no" name="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>" value="0" />
 				<input type="checkbox" id="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>_yes" name="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>" value="1"<?php
-				if ( $lumiere_that->imdb_data_values[ 'imdbtaxonomy' . $lumiere_key ] === '1' ) {
+				if ( $lumiere_that->settings->get_movie_option( 'imdbtaxonomy' . $lumiere_key ) === '1' ) {
 					echo ' checked="checked"';
 				}
 				echo ' />';
@@ -106,8 +106,8 @@ if ( $lumiere_that->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 				
 				<label for="imdb_imdbtaxonomy<?php echo esc_html( $lumiere_key ) ?>_yes"><?php
 
-				if ( $lumiere_that->imdb_data_values[ 'imdbtaxonomy' . $lumiere_key ] === '1' ) {
-					if ( $lumiere_that->imdb_data_values[ 'imdbwidget' . $lumiere_key ] === '1' ) {
+				if ( $lumiere_that->settings->get_movie_option( 'imdbtaxonomy' . $lumiere_key ) === '1' ) {
+					if ( $lumiere_that->settings->get_movie_option( 'imdbwidget' . $lumiere_key ) === '1' ) {
 						?><span class="lumiere-option-taxo-activated"><?php
 					} else {
 						?><span class="lumiere-option-taxo-deactivated"><?php
@@ -121,11 +121,10 @@ if ( $lumiere_that->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 
 				?></label><?php
 
-
 				// If a new template is available, notify to to update.
-if ( $lumiere_that->imdb_data_values[ 'imdbtaxonomy' . $lumiere_key ] === '1' ) {
+if ( $lumiere_that->settings->get_movie_option( 'imdbtaxonomy' . $lumiere_key ) === '1' ) {
 	$lumiere_link_taxo_copy = add_query_arg( '_wpnonce_linkcopytaxo', wp_create_nonce( 'linkcopytaxo' ), $lumiere_current_admin_page . $lumiere_key );
-	$lumiere_file_in_stylesheet_path = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $lumiere_that->imdb_admin_values['imdburlstringtaxo'] . $lumiere_key . '.php';
+	$lumiere_file_in_stylesheet_path = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $lumiere_that->settings->get_admin_option( 'imdburlstringtaxo' ) . $lumiere_key . '.php';
 	$lumiere_translated_item = Get_Options_Movie::get_all_fields()[ $lumiere_key ];
 
 	// No field to update found and no template to be updated found, offer to copy .

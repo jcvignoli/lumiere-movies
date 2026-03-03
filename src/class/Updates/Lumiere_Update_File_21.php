@@ -60,13 +60,14 @@ final class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		 * This is executed at the beggining, so if there is an issue, it's not repeated
 		 */
 		$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
-		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
+		$nb_of_updates = ( intval( $this->settings->get_admin_option( 'imdbHowManyUpdates' ) ) + 1 );
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
 
-		$imdb_data_options = get_option( Get_Options_Movie::get_data_tablename() );
+		/** @var array<string, string> $imdb_data_options Reinitialize the var that is not certain */
+		$imdb_data_options = $this->settings->get_movie_options();
 
 		/**
 		 * Change 'prodcompany' to 'prodCompany' to LUM_DATA_OPTIONS
@@ -88,7 +89,9 @@ final class Lumiere_Update_File_21 extends \Lumiere\Updates {
 			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 		// Update imdbwidgetorder prodcompany
+		/** @var string|false $order_value Reinitialize the var that is not certain */
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
+		/** @phpstan-ignore offsetAccess.nonOffsetAccessible, isset.offset, booleanAnd.alwaysFalse */
 		$order_value['prodCompany'] = $order_value !== false && isset( $order_value['prodcompany'] ) ? $order_value['prodcompany'] : false;
 		unset( $order_value['prodcompany'] );
 		if ( $order_value['prodCompany'] !== false && true === $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
@@ -120,6 +123,7 @@ final class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		}
 		// Update imdbwidgetorder officialsites to extSites
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
+		/** @phpstan-ignore offsetAccess.nonOffsetAccessible, isset.offset, booleanAnd.alwaysFalse */
 		$order_value['extSites'] = $order_value !== false && isset( $order_value['officialsites'] ) ? $order_value['officialsites'] : false;
 		unset( $order_value['officialsites'] );
 		if ( true === $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
@@ -151,6 +155,7 @@ final class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		}
 		// Update imdbwidgetorder creator to cinematographer
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
+		/** @phpstan-ignore offsetAccess.nonOffsetAccessible, isset.offset, booleanAnd.alwaysFalse */
 		$order_value['cinematographer'] = $order_value !== false && isset( $order_value['creator'] ) ? $order_value['creator'] : '18';
 		unset( $order_value['creator'] );
 		if ( $order_value !== false && true === $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
@@ -199,6 +204,7 @@ final class Lumiere_Update_File_21 extends \Lumiere\Updates {
 		}
 		// Create imdbwidgetorder with trivia if doesn't exist (it shouldn't)
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
+		/** @phpstan-ignore offsetAccess.nonOffsetAccessible, isset.offset, booleanAnd.alwaysFalse */
 		$order_value['cinematographer'] = $order_value !== false && isset( $order_value['trivia'] ) ? $order_value['trivia'] : '27';
 		if ( $order_value !== false && true === $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
 			$text = 'Lumière option imdbwidgetorder (trivia) successfully updated.';

@@ -15,7 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Open_Options;
 use WP_Widget;
 
 /**
@@ -37,11 +36,6 @@ use WP_Widget;
 class Widget_Selection extends WP_Widget {
 
 	/**
-	 * Global Frontend trait
-	 */
-	use Open_Options;
-
-	/**
 	 *  Names of the Widgets
 	 */
 	const BLOCK_WIDGET_NAME = 'lumiere/widget'; // post-WP 5.8 widget block name.
@@ -51,9 +45,6 @@ class Widget_Selection extends WP_Widget {
 	 * Constructor. Sets up the widget name, description, etc.
 	 */
 	public function __construct() {
-
-		// Get Global Settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
 
 		parent::__construct(
 			self::WIDGET_NAME,  // Base ID.

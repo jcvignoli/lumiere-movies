@@ -419,7 +419,6 @@ class Settings extends Settings_Helper {
 	 * @see Settings_Helper::get_data_rows_imdbwidgetorder() Import 'imdbwidgetorder' array
 	 *
 	 * @phpstan-return OPTIONS_DATA_MOVIE
-	 * @psalm-return OPTIONS_DATA_MOVIE_PSALM
 	 * @return array<string, string|array<string, string>>
 	 */
 	private function get_default_data_movie_option(): array {
@@ -440,7 +439,6 @@ class Settings extends Settings_Helper {
 	 *
 	 * @return array<string, array<string, string>>
 	 * @phpstan-return OPTIONS_DATA_PERSON (use of Union)
-	 * @psalm-return OPTIONS_DATA_PERSON_PSALM (use of | )
 	 */
 	private function get_default_data_person_option(): array {
 		return [

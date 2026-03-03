@@ -19,7 +19,7 @@ use \Lumiere\Config\Get_Options;
 
 // Get vars from the calling class.
 $lumiere_calling_class = $variables['lum_calling_class']; /** @phpstan-ignore variable.undefined  */
-$lumiere_imdb_data_values = $lumiere_calling_class->imdb_data_person_values;
+$lumiere_imdb_data_values = $lumiere_calling_class->settings->get_person_options();
 $lumiere_perso_list = Get_Options_Person::get_all_person_fields();
 asort( $lumiere_perso_list );
 $lumiere_comments_fields = Get_Options_Person::get_items_person_details_comments();
@@ -32,7 +32,7 @@ $lumiere_comments_fields = Get_Options_Person::get_items_person_details_comments
 
 		<div class="">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_person_order ); ?>"><?php esc_html_e( 'Items order', 'lumiere-movies' ); ?></a></div>
 <!-- not yet active 
-			<?php if ( $lumiere_calling_class->imdb_admin_values['imdbtaxonomy'] === '1' ) { ?>
+			<?php if ( $lumiere_calling_class->settings->get_admin_option( 'imdbtaxonomy' ) === '1' ) { ?>
 		<div class=" lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-taxonomy.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items to use as taxonomy', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_movie_taxo ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
 			<?php } else { ?>
 		<div class="lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-taxonomy.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>

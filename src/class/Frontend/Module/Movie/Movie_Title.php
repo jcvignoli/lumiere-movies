@@ -34,7 +34,7 @@ final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 		$title = $movie->$item_name();
 
 		$year_text = '';
-		if ( strlen( strval( $year ) ) > 0 && isset( $this->imdb_data_values['imdbwidgetyear'] ) && $this->imdb_data_values['imdbwidgetyear'] === '1' ) {
+		if ( strlen( strval( $year ) ) > 0 && $this->settings->get_movie_option( 'imdbwidgetyear' ) !== null && $this->settings->get_movie_option( 'imdbwidgetyear' ) === '1' ) {
 			$year_text = ' (' . strval( $year ) . ')';
 		}
 

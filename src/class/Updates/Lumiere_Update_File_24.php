@@ -59,13 +59,14 @@ final class Lumiere_Update_File_24 extends \Lumiere\Updates {
 		 * This is executed at the beggining, so if there is an issue, it's not repeated
 		 */
 		$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
-		$nb_of_updates = ( intval( $this->imdb_admin_values['imdbHowManyUpdates'] ) + 1 );
+		$nb_of_updates = ( intval( $this->settings->get_admin_option( 'imdbHowManyUpdates' ) ) + 1 );
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		/** ------------------------- Editing part (beginning) --------------
 		 */
 
-		$imdb_admin_options = get_option( Get_Options::get_admin_tablename() );
+		/** @var array<string, string> $imdb_admin_options Reinitialize the var that is not certain */
+		$imdb_admin_options = $this->settings->get_admin_options();
 
 		/**
 		 * Change the language format, get rid of the "US" which is wrong

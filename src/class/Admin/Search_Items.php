@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Open_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Tools\Validate_Get;
@@ -33,11 +33,6 @@ use Lumiere\Tools\Validate_Get;
 final class Search_Items {
 
 	/**
-	 * Traits
-	 */
-	use Open_Options;
-
-	/**
 	 * Name of the movie/person queried
 	 */
 	private ?string $item_searched;
@@ -48,13 +43,13 @@ final class Search_Items {
 	public function __construct(
 		private Logger $logger = new Logger( 'admin search' ),
 		private Imdbphp $imdbphp_class = new Imdbphp(),
+		private Settings_Service $settings = new Settings_Service()
 	) {
 
 		// By default, it returns a 404, change that.
 		status_header( 200 );
 
-		// Get global settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
+		// GET_[]
 		$this->item_searched = Validate_Get::sanitize_url( Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING );
 
 		// Register admin scripts.
@@ -241,7 +236,7 @@ final class Search_Items {
 			$second_column_header = 'id';
 		}
 
-		$limit_search = isset( $this->imdb_admin_values['imdbmaxresults'] ) ? intval( $this->imdb_admin_values['imdbmaxresults'] ) : 5;
+		$limit_search = $this->settings->get_admin_option( 'imdbmaxresults' ) !== null ? intval( $this->settings->get_admin_option( 'imdbmaxresults' ) ) : 5;
 		$iterator = 1;
 		?>
 		

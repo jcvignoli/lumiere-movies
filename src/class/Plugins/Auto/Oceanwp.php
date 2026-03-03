@@ -15,7 +15,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 
 /**
  * Plugin to ensure Lumiere compatibility with OceanWP plugin
@@ -23,7 +23,6 @@ use Lumiere\Config\Get_Options;
  * Can method get_active_plugins() to get an extra property $active_plugins, as available in {@link Plugins_Start::activate_plugins()}
  * Executed in Frontend only
  *
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
 final class Oceanwp {
@@ -39,19 +38,11 @@ final class Oceanwp {
 	private string $assets_css_path;
 
 	/**
-	 * Lumière Admin options.
-	 * @phpstan-var OPTIONS_ADMIN $imdb_admin_values
-	 * @var array<string, string>
-	 */
-	private array $imdb_admin_values;
-
-	/**
 	 * Constructor
 	 */
-	final public function __construct() {
-
-		// Get the values from database.
-		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
+	final public function __construct(
+		private Settings_Service $settings = new Settings_Service()
+	) {
 
 		// Build the css URL.
 		$this->assets_css_url = LUM_WP_URL . 'assets/css';
@@ -76,7 +67,7 @@ final class Oceanwp {
 		$scripts_deregister = [];
 
 		// If Highslide modal window is active, remove competing scripts and stylesheets.
-		if ( $this->imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
+		if ( $this->settings->get_admin_option( 'imdbpopup_modal_window' ) === 'highslide' ) {
 
 			$styles_deregister = [
 				'magnific-popup',
@@ -85,7 +76,6 @@ final class Oceanwp {
 			$scripts_deregister = [
 				'magnific-popup',
 				'oceanwp-lightbox',
-				'ow-magnific-popup',
 			];
 		}
 

@@ -48,18 +48,18 @@ final class Movie_Factory extends Front_Parser {
 			$this->logger->log,
 		);
 
-		foreach ( $this->imdb_data_values['imdbwidgetorder'] as $data_detail => $order ) {
+		foreach ( $this->settings->get_movie_option( 'imdbwidgetorder' ) as $data_detail => $order ) {
 
-			// Key for $this->imdb_data_values
+			// Key for $this->settings->get_movie_option()
 			$key_data_values = 'imdbwidget' . $data_detail;
 
 			/** @psalm-suppress PossiblyUndefinedArrayOffset */
 			if (
 				// Use order to select the position of the data detail.
-				$this->imdb_data_values['imdbwidgetorder'][ $data_detail ] === $order
+				$this->settings->get_movie_option( 'imdbwidgetorder' )[ $data_detail ] === $order
 				// Is the data detail activated?
-				&& isset( $this->imdb_data_values[ $key_data_values ] )
-				&& $this->imdb_data_values[ $key_data_values ] === '1'
+				&& $this->settings->get_movie_option( $key_data_values ) !== null
+				&& $this->settings->get_movie_option( $key_data_values ) === '1'
 			) {
 
 				// Get module.
@@ -71,7 +71,7 @@ final class Movie_Factory extends Front_Parser {
 				$outputfinal .= $this->output_class->front_item_wrapper(
 					$text,
 					$data_detail,
-					$this->imdb_admin_values
+					$this->settings->get_admin_options()
 				);
 			}
 		}
@@ -96,7 +96,7 @@ final class Movie_Factory extends Front_Parser {
 		$module = new $class_name();
 
 		// Taxonomy is active.
-		if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+		if ( $this->settings->get_admin_option( 'imdbtaxonomy' ) === '1' && $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) !== null && $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) === '1' ) {
 			/** @phpstan-ignore method.notFound */
 			return $module->get_module_taxo( $movie_object, $item_name );
 		}

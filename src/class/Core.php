@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Hooks_Updates;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Files;
@@ -40,7 +41,9 @@ final class Core extends Hooks_Updates {
 	/**
 	 * Constructor
 	 */
-	public function __construct () {
+	public function __construct(
+		private Settings_Service $settings = new Settings_Service()
+	) {
 
 		// Get updates hooks.
 		parent::__construct();
@@ -65,12 +68,12 @@ final class Core extends Hooks_Updates {
 		/**
 		 * Admin
 		 */
-		add_action( 'init', [ 'Lumiere\Admin\Admin', 'start' ], 9 ); // Priority must be below 10.
+		add_action( 'init', fn() => ( new \Lumiere\Admin\Admin() )->start(), 9 ); // Priority must be below 10.
 
 		/**
 		 * Frontpage
 		 */
-		add_action( 'init', [ 'Lumiere\Frontend\Frontend', 'start' ] );
+		add_action( 'init', fn() => ( new \Lumiere\Frontend\Frontend() )->start() );
 
 		/**
 		 * Crons. Must be executed on the whole website
@@ -98,20 +101,20 @@ final class Core extends Hooks_Updates {
 
 		// Start Logger class.
 		$logger = new Logger( 'coreClass', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
-		$imdb_admin_values = get_option( Get_Options::get_cache_tablename() );
 
 		/* First install, create everything that is required. */
-		if ( $imdb_admin_values === false ) {
+		if ( $this->settings->is_installed() === false ) {
 
 			// Create the options in database.
 			Get_Options::create_database_options();
+			$this->settings->refresh();
 
 			/**
 			 * Get options.
 			 *
 			 * @psalm-var OPTIONS_ADMIN $imdb_admin_values
 			 */
-			$imdb_admin_values = get_option( Get_Options::get_cache_tablename() );
+			$imdb_admin_values = $this->settings->get_admin_options();
 
 			// Create the debug file if WP_DEBUG and 'imdbdebug' are defined.
 			if (
@@ -164,10 +167,10 @@ final class Core extends Hooks_Updates {
 		}
 
 		// Reset options related to crons, since we removed them.
-		$current_admin = get_option( Get_Options::get_cache_tablename() );
+		$current_admin = $this->settings->get_admin_options();
 		$current_admin['imdbcacheautorefreshcron'] = '0';
 		$current_admin['imdbcachekeepsizeunder'] = '0';
-		update_option( Get_Options::get_cache_tablename(), $current_admin );
+		$this->settings->update_admin_options( $current_admin );
 
 		$logger->log?->info( '[coreClass][deactivation] Lumière deactivated' );
 	}

@@ -55,7 +55,7 @@ final class Person_Award extends \Lumiere\Frontend\Module\Parent_Module {
 			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
-		$nb_rows_display_clickmore = isset( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) ? intval( $this->imdb_data_person_values['number'][ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
+		$nb_rows_display_clickmore = $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] !== null ? intval( $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
 
 		$item_may_plural = Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ];
 		$title = $this->output_class->misc_layout(

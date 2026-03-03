@@ -43,7 +43,7 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->$item_name();
-		$admin_max_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
+		$admin_max_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 		$nb_total_items = count( $item_results );
 
 		// if no result, exit.
@@ -72,6 +72,7 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 
 			$second_column = '';
 			for ( $j = 0; $j < $count_jobs; $j++ ) {
+				// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 				$second_column .= sanitize_text_field( $item_results[ $i ]['jobs'][ $j ] );
 				if ( $j < ( $count_jobs - 1 ) ) {
 					$second_column .= ', ';
@@ -79,17 +80,19 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 			}
 
 			// Add number of episode and year they worked in.
-			// @phan-suppress-next-line PhanTypeInvalidDimOffset */
+			// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 			if ( $item_results[ $i ]['episode'] !== null && count( $item_results[ $i ]['episode'] ) > 0 && isset( $item_results[ $i ]['episode']['total'] ) && $item_results[ $i ]['episode']['total'] !== 0 ) {
+				// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 				$total = isset( $item_results[ $i ]['episode']['total'] ) ? $item_results[ $i ]['episode']['total'] . ' ' . _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) : '';
 				$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] )
 					/* translators: "from" like in "from 2025" */
 					? _x( 'from', 'year', 'lumiere-movies' )
 					/* translators: "In" like in "in 2025" */
 					: _x( 'in', 'year', 'lumiere-movies' );
+				// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 				$year = isset( $item_results[ $i ]['episode']['year'] ) ? ' ' . $year_from_or_in . ' ' . $item_results[ $i ]['episode']['year'] : '';
 				/* translators: "To" like in "to 2025" */
-				$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . _x( 'to', 'year', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['episode']['endYear'] : '';
+				$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . _x( 'to', 'year', 'lumiere-movies' ) . ' ' . $item_results[ $i ]['episode']['endYear'] : ''; // @phan-suppress-current-line PhanTypeArraySuspiciousNullable
 				$second_column .= ' (<i>' . $total . $year . $end_year . '</i>)';
 			}
 
@@ -166,7 +169,7 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $movie->$item_name();
 		$nb_total_items = count( $item_results );
-		$admin_max_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
+		$admin_max_items = $this->settings->get_admin_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_admin_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 
 		// if no result, exit.
 		if ( $nb_total_items === 0 ) {
@@ -188,8 +191,9 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 
 				// Add number of episode and year they worked in.
 				$dates_episodes = '';
-				// @phan-suppress-next-line PhanTypeInvalidDimOffset */
+				// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 				if ( $item_results[ $i ]['episode'] !== null && count( $item_results[ $i ]['episode'] ) > 0 && isset( $item_results[ $i ]['episode']['total'] ) && $item_results[ $i ]['episode']['total'] !== 0 ) {
+					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 					$total = $item_results[ $i ]['episode']['total'] > 0 ? $item_results[ $i ]['episode']['total'] . ' ' . _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) : '';
 					$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] )
 						/* translators: "from" like in "from 2025" */
@@ -201,10 +205,13 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 						? _x( 'to', 'year', 'lumiere-movies' )
 						/* translators: "In" like in "in 2025" */
 						: _x( 'in', 'year', 'lumiere-movies' );
+					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 					$year = isset( $item_results[ $i ]['episode']['year'] ) ? ' ' . $year_from_or_in . ' ' . $item_results[ $i ]['episode']['year'] : '';
+					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 					$end_year = isset( $item_results[ $i ]['episode']['endYear'] ) ? ' ' . $year_to_or_in . ' ' . $item_results[ $i ]['episode']['endYear'] : '';
 					$dates_episodes = strlen( $total . $year . $end_year ) > 0 ? ' (<i>' . $total . $year . $end_year . '</i>)' : '';
 				}
+				// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 				$jobs .= isset( $item_results[ $i ]['jobs'][ $j ] ) && strlen( $item_results[ $i ]['jobs'][ $j ] ) > 0 ? $item_results[ $i ]['jobs'][ $j ] . $dates_episodes : '';
 				if ( $j < ( $count_jobs - 1 ) ) {
 					$jobs .= ', ';
@@ -215,7 +222,7 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 			$taxo_options = $this->add_taxo_class->create_taxonomy_options(
 				$item_name,
 				$item_results[ $i ]['name'] ?? '',
-				$this->imdb_admin_values
+				$this->settings->get_admin_options()
 			);
 			$output .= $this->output_class->get_taxo_layout_items(
 				$movie->title(),

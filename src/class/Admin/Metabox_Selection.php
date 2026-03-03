@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Open_Options;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 
 /**
  * Add a metabox in admin post editing interface
@@ -33,11 +33,6 @@ use Lumiere\Config\Get_Options;
 final class Metabox_Selection {
 
 	/**
-	 * Traits
-	 */
-	use Open_Options;
-
-	/**
 	 * Store the custom meta post values
 	 * @var array<string, string>
 	 */
@@ -46,10 +41,9 @@ final class Metabox_Selection {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		// Get global settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
-
+	public function __construct(
+		private Settings_Service $settings = new Settings_Service()
+	) {
 		// Option for the select, starts with '_' and ends with '_widget'
 		$this->custom_meta_selection = Get_Options::get_lum_all_type_search_metabox(); // ie: _lum_person_id_widget.
 	}
@@ -202,7 +196,7 @@ final class Metabox_Selection {
 			); ?> 
 		</div>
 		
-		<?php if ( $this->imdb_admin_values['imdbautopostwidget'] === '1' ) { ?>
+		<?php if ( $this->settings->get_admin_option( 'imdbautopostwidget' ) === '1' ) { ?>
 
 		<div class="lum_metabox_subtitle"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'lumiere-ico-noir80x80.png' ); ?>" width="20px" valign="middle" />&nbsp;<?php esc_html_e( 'Extra options', 'lumiere-movies' ); ?></div>
 		

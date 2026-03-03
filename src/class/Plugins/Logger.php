@@ -18,7 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 // use Lumiere library.
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Files;
-use Lumiere\Config\Open_Options;
+use Lumiere\Config\Settings_Service;
 
 // use Monolog library in /vendor/.
 use Lumiere\Vendor\Monolog\Logger as LoggerMonolog;
@@ -34,8 +34,10 @@ use Lumiere\Vendor\Monolog\Processor\WebProcessor;
  */
 final class Logger {
 
-	// Trait including the database settings.
-	use Open_Options, Files;
+	/**
+	 * Traits
+	 */
+	use Files;
 
 	/**
 	 * Won't be executed on these pages
@@ -52,13 +54,14 @@ final class Logger {
 	 *
 	 * @param string $logger_name Title of Monolog logger
 	 * @param bool $screen_output whether to output Monolog on screen or not
+	 * @param Settings_Service $settings
 	 */
-	public function __construct( string $logger_name = 'unknownOrigin', bool $screen_output = true ) {
-
-		// Get global settings class properties.
-		$this->get_db_options(); // In Open_Options trait.
-
-		$this->log = $this->set_logger( $this->imdb_admin_values, $logger_name, $screen_output );
+	public function __construct(
+		string $logger_name = 'unknownOrigin',
+		bool $screen_output = true,
+		private Settings_Service $settings = new Settings_Service()
+	) {
+		$this->log = $this->set_logger( $logger_name, $screen_output );
 	}
 
 	/**
@@ -106,14 +109,15 @@ final class Logger {
 	/**
 	 * Start and select which Logger to use
 	 *
-	 * @param array<string, string> $imdb_admin_values Options in database
-	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
 	 * @param string $logger_name: title applied to the logger in the logs under origin
 	 * @param bool $screen_output Optional: whether to display the screen output.
 	 *
 	 * @return LoggerMonolog the logger in set in $monolog_class
 	 */
-	private function set_logger( array $imdb_admin_values, string $logger_name, bool $screen_output = true ): LoggerMonolog {
+	private function set_logger( string $logger_name, bool $screen_output = true ): LoggerMonolog {
+
+		/** @phpstan-param OPTIONS_ADMIN $imdb_admin_values */
+		$imdb_admin_values = $this->settings->get_admin_options();
 
 		if (
 			( current_user_can( 'manage_options' ) && isset( $imdb_admin_values['imdbdebug'] ) && $imdb_admin_values['imdbdebug'] === '1' )

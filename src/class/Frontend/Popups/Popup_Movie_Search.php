@@ -135,7 +135,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 		echo "<!DOCTYPE html>\n<html " . wp_kses( get_language_attributes(), [ 'lang' => [] ] ) . ">\n<head>\n";
 		wp_head();
 		echo "\n</head>\n<body class=\"lum_body_popup_search lum_body_popup";
-		echo isset( $this->imdb_admin_values['imdbpopuptheme'] ) ? ' lum_body_popup_' . esc_attr( $this->imdb_admin_values['imdbpopuptheme'] ) . '">' : '">';
+		echo $this->settings->get_admin_option( 'imdbpopuptheme' ) !== null ? ' lum_body_popup_' . esc_attr( $this->settings->get_admin_option( 'imdbpopuptheme' ) ) . '">' : '">';
 
 		// Get an array of results according to a film name using IMDB class.
 		$movie_results = $this->get_result( $this->page_title );
@@ -174,7 +174,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 		</div>
 
 			<?php
-			$max_lines = intval( $this->imdb_admin_values['imdbmaxresults'] );
+			$max_lines = intval( $this->settings->get_admin_option( 'imdbmaxresults' ) );
 			$current_line = 0;
 			foreach ( $movie_results as $res ) {
 

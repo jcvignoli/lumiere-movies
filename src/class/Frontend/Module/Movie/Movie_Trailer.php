@@ -34,7 +34,7 @@ final class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$item_results = $movie->video(); // Title::video() works faster than Title::trailer()
 		$item_results = $item_results['Trailer'] ?? null; // Two rows available: Clip and Trailer
-		$admin_max_items = isset( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) ? intval( $this->imdb_data_values[ 'imdbwidget' . $item_name . 'number' ] ) : 0;
+		$admin_max_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 		$nb_total_items = isset( $item_results ) ? count( $item_results ) : 0;
 
 		// if no results, exit.

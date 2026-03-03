@@ -46,16 +46,16 @@ final class Person_Factory extends Front_Parser {
 			$this->logger->log,
 		);
 
-		foreach ( $this->imdb_data_person_values['order'] as $data_detail => $order ) {
+		foreach ( $this->settings->get_person_option( 'order' ) as $data_detail => $order ) {
 
 			$key_data_values = $data_detail . '_active';
 
 			if (
 				// Use order to select the position of the data detail.
-				$this->imdb_data_person_values['order'][ $data_detail ] === $order
+				$this->settings->get_person_option( 'order' )[ $data_detail ] === $order
 				// Is the data detail activated?
-				&& isset( $this->imdb_data_person_values['activated'][ $key_data_values ] )
-				&& $this->imdb_data_person_values['activated'][ $key_data_values ] === '1'
+				&& isset( $this->settings->get_person_option( 'activated' )[ $key_data_values ] )
+				&& $this->settings->get_person_option( 'activated' )[ $key_data_values ] === '1'
 			) {
 				// Get module.
 				$text = $this->get_module_person( $name_object, $data_detail );
@@ -66,7 +66,7 @@ final class Person_Factory extends Front_Parser {
 				$outputfinal .= $this->output_class->front_item_wrapper(
 					$text,
 					$data_detail,
-					$this->imdb_admin_values
+					$this->settings->get_admin_options()
 				);
 			}
 		}
@@ -92,7 +92,7 @@ final class Person_Factory extends Front_Parser {
 
 		// Taxonomy is active.
 		// Not yet in use
-		/*if ( $this->imdb_admin_values['imdbtaxonomy'] === '1' && isset( $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] ) && $this->imdb_data_values[ 'imdbtaxonomy' . $item_name ] === '1' ) {
+		/*if ( $this->settings->get_admin_option( 'imdbtaxonomy' ) === '1' && isset( $this->settings->get_admin_option( 'imdbtaxonomy' . $item_name ) ) && $this->settings->get_admin_option( 'imdbtaxonomy' . $item_name ) === '1' ) {
 			return $module->get_module_taxo( $movie_object, $item_name );
 		}*/
 

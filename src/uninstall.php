@@ -33,9 +33,7 @@ use Lumiere\Tools\Files;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_CACHE from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
- * @psalm-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
- * @psalm-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
 final class Uninstall {
 
@@ -53,14 +51,14 @@ final class Uninstall {
 	/**
 	 * Data movie options
 	 * @phpstan-var null|OPTIONS_DATA_MOVIE
-	 * @psalm-var null|OPTIONS_DATA_MOVIE_PSALM
+
 	 */
 	private ?array $imdb_data_values;
 
 	/**
 	 * Data options
 	 * @phpstan-var null|OPTIONS_DATA_MOVIE
-	 * @psalm-var null|OPTIONS_DATA_MOVIE_PSALM
+
 	 */
 	private ?array $imdb_data_person_values;
 

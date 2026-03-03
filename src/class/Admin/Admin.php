@@ -21,7 +21,7 @@ use Lumiere\Admin\Metabox_Selection;
 use Lumiere\Admin\Search_Items;
 use Lumiere\Tools\Data;
 use Lumiere\Config\Get_Options;
-use Lumiere\Config\Open_Options;
+use Lumiere\Config\Settings_Service;
 
 /**
  * All Admin-related functions
@@ -33,26 +33,19 @@ use Lumiere\Config\Open_Options;
 final class Admin {
 
 	/**
-	 * Traits
-	 */
-	use Open_Options;
-
-	/**
 	 * Constructor
 	 */
-	public function __construct() {
-
-		// Get Global Settings class properties.
-		$this->get_db_options();
-	}
+	public function __construct(
+		private Settings_Service $settings = new Settings_Service()
+	) {}
 
 	/**
-	 * Static start
+	 * Start Admin tools
 	 * @see \Lumiere\Core
 	 */
-	public static function start(): void {
+	public function start(): void {
 
-		$start = new self();
+		$start = $this;
 
 		/**
 		 * (1) Don't bother doing stuff if the current user lacks permissions
@@ -160,6 +153,8 @@ final class Admin {
 	 */
 	public function lumiere_execute_admin_assets( string $current_page ): void {
 
+		$imdb_admin_values = $this->settings->get_admin_options();
+
 		// Load assets only on Lumière admin pages.
 		// + WordPress edition pages + Lumière own pages (ie gutenberg search).
 		if (
@@ -197,8 +192,7 @@ final class Admin {
 
 		// On 'plugins.php' show a confirmation dialogue if 'imdbkeepsettings' is set on delete Lumière! options.
 		if (
-			( ! isset( $this->imdb_admin_values['imdbkeepsettings'] ) || $this->imdb_admin_values['imdbkeepsettings'] === '0' )
-			&& $current_page === 'plugins.php'
+			$imdb_admin_values['imdbkeepsettings'] === '0' && $current_page === 'plugins.php'
 		) {
 			wp_enqueue_script( 'lumiere_deactivation_plugin_message' );
 		}
@@ -263,6 +257,6 @@ final class Admin {
 			return;
 		}
 
-		new Search_Items();
+		$search = new Search_Items();
 	}
 }
