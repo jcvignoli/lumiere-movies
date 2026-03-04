@@ -1,0 +1,5 @@
+# Extra PHPStan config file to include specific values for github CI
+parameters:
+    # Ignored errors should be specifically address an issue in a specific file
+    ignoreErrors:
+        - '#Error: No error to ignore is reported on line#'

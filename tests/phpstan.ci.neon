@@ -2,6 +2,7 @@
 includes:
     # base config
     - ../phpstan.neon
+    - tests/phpstan.conditional.php
 parameters:
     # Ignored errors should be specifically address an issue in a specific file
     ignoreErrors:
@@ -9,4 +10,3 @@ parameters:
             identifier: requireOnce.fileNotFound
             reportUnmatched: false
             path: ../src/class/Admin/Widget_Selection.php
-        - '#Error: No error to ignore is reported on line#'
