@@ -19,6 +19,7 @@ use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Layout\Output_Popup;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Plugins\Plugins_Start;
 
 /**
@@ -52,13 +53,14 @@ class Head_Popups {
 	 * Constructor
 	 */
 	public function __construct(
+		protected Settings_Service $settings,
 		protected Output_Popup $output_popup_class = new Output_Popup(),
 	) {
 
 		/**
 		 * Get the properties.
 		 */
-		$this->start_main_trait(); // In Trait Main.
+		$this->start_logger(); // In Trait Main.
 		$this->start_linkmaker();
 
 		// Is a popup or exit.

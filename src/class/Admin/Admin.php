@@ -36,16 +36,15 @@ final class Admin {
 	 * Constructor
 	 */
 	public function __construct(
-		private Settings_Service $settings = new Settings_Service()
+		private readonly Settings_Service $settings,
+		private readonly Admin_Menu $admin_menu = new Admin_Menu()
 	) {}
 
 	/**
-	 * Start Admin tools
+	 * Register admin hooks
 	 * @see \Lumiere\Core
 	 */
-	public function start(): void {
-
-		$start = $this;
+	public function register(): void {
 
 		/**
 		 * (1) Don't bother doing stuff if the current user lacks permissions
@@ -55,7 +54,7 @@ final class Admin {
 		}
 
 		// Display search page, must be executed before the admin control
-		add_action( 'template_redirect', [ $start, 'lum_search_movie_redirect' ] );
+		add_action( 'template_redirect', [ $this, 'lum_search_movie_redirect' ] );
 
 		// Gutenberg-style sidebar. Must be called before is_admin().
 		add_action( 'init', fn() => Metabox_Selection::register_post_meta_sidebar() );
@@ -74,13 +73,13 @@ final class Admin {
 		add_action( 'admin_init', fn() => Metabox_Selection::init() );
 
 		// Register admin scripts.
-		add_action( 'admin_enqueue_scripts', [ $start, 'lumiere_register_admin_assets' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_register_admin_assets' ] );
 
 		// Add admin header.
-		add_action( 'admin_enqueue_scripts', [ $start, 'lumiere_execute_admin_assets' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_admin_assets' ] );
 
 		// Add admin tinymce button for wysiwig editor.
-		add_action( 'admin_enqueue_scripts', [ $start, 'lumiere_execute_tinymce' ], 2 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'lumiere_execute_tinymce' ], 2 );
 
 		/**
 		 * (3) Admin menu is only for those who can manage options
@@ -93,7 +92,7 @@ final class Admin {
 		add_action( 'init', [ 'Lumiere\Plugins\Auto\Polylang', 'add_polylang_in_admin' ] );
 
 		// Add admin menu.
-		add_action( 'init', fn() => Admin_Menu::lumiere_static_start() );
+		add_action( 'init', [ $this->admin_menu, 'register' ] );
 	}
 	/**
 	 * Register admin scripts and styles

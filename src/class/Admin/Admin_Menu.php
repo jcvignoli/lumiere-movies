@@ -77,8 +77,8 @@ class Admin_Menu {
 	 * Constructor
 	 */
 	public function __construct(
-		protected Logger $logger = new Logger( 'adminClass' ),
-		protected Settings_Service $settings = new Settings_Service()
+		protected readonly Logger $logger = new Logger( 'adminClass' ),
+		protected readonly Settings_Service $settings = new Settings_Service()
 	) {
 
 		// Build vars.
@@ -171,11 +171,10 @@ class Admin_Menu {
 	}
 
 	/**
-	 * Add the admin menu
+	 * Register hooks
 	 * @see \Lumiere\Admin
 	 */
-	public static function lumiere_static_start(): void {
-		$that = new self();
+	public function register(): void {
 
 		/**
 		 * Display notices based on
@@ -183,9 +182,9 @@ class Admin_Menu {
 		 * (2) template checking in Detect_New_Theme class
 		 * (3) any 'notice_lumiere_msg' transient is found in Admin_Notifications class
 		 */
-		$is_lum_admin_menu = str_contains( $that->get_current_admin_url(), $that->page_main_base );
+		$is_lum_admin_menu = str_contains( $this->get_current_admin_url(), $this->page_main_base );
 		if ( $is_lum_admin_menu === true ) {
-			add_action( 'admin_notices', fn() => Detect_New_Theme::get_notif_templates( $that->page_data_movie_taxo ), 10, 1 );
+			add_action( 'admin_notices', fn() => Detect_New_Theme::get_notif_templates( $this->page_data_movie_taxo ), 10, 1 );
 			add_action( 'admin_notices', [ '\Lumiere\Admin\Admin_Notifications', 'start' ] );
 		}
 
@@ -202,8 +201,8 @@ class Admin_Menu {
 		 * @see Save_Options::process_headers()
 		 * @since 4.0
 		 */
-		add_action( 'wp_loaded', fn() => Save_Options::init( $that->page_data_movie_taxo ) );
-		add_action( 'init', fn() => Save_Options::init_taxonomy( $that->page_main_advanced ), 11 );
+		add_action( 'wp_loaded', fn() => Save_Options::init( $this->page_data_movie_taxo ) );
+		add_action( 'init', fn() => Save_Options::init_taxonomy( $this->page_main_advanced ), 11 );
 
 		/**
 		 * Copying taxonomy templates in Lumière! data taxonomy options
@@ -213,7 +212,7 @@ class Admin_Menu {
 			&& isset( $_GET['_wpnonce_linkcopytaxo'] )
 			&& wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
 		) {
-			add_action( 'admin_init', fn() => Copy_Templates\Copy_Theme::start_copy_theme( $that->page_data_movie_taxo ) );
+			add_action( 'admin_init', fn() => Copy_Templates\Copy_Theme::start_copy_theme( $this->page_data_movie_taxo ) );
 		}
 
 		/**
@@ -221,15 +220,15 @@ class Admin_Menu {
 		 * (a) on the left, can be the WP standard (inside settings) or a bigger one if that option was selected in the admin options
 		 * (b) on the top, option selected by default but can be removed in admin options
 		 */
-		$menu_method = $that->get_id() . '_add_left_menu';
-		// @phpstan-ignore-next-line (Parameter #2 $callback of function add_action expects callable(): mixed, array{$that(Lumiere\Admin), non-falsy-string} given)
-		add_action( 'admin_menu', [ $that, $menu_method ] );
+		$menu_method = $this->get_id() . '_add_left_menu';
+		// @phpstan-ignore-next-line (Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given)
+		add_action( 'admin_menu', [ $this, $menu_method ] );
 
 		// Add Lumiere menu in WordPress top menu
-		if ( $that->settings->get_admin_option( 'imdbwordpress_tooladminmenu' ) === '1' ) {
-			$bar_menu_method = $that->get_id() . '_admin_add_top_menu';
-			// @phpstan-ignore-next-line (Parameter #2 $callback of function add_action expects callable(): mixed, array{$that(Lumiere\Admin), non-falsy-string} given)
-			add_action( 'admin_bar_menu', [ $that, $bar_menu_method ], 70 );
+		if ( $this->settings->get_admin_option( 'imdbwordpress_tooladminmenu' ) === '1' ) {
+			$bar_menu_method = $this->get_id() . '_admin_add_top_menu';
+			// @phpstan-ignore-next-line (Parameter #2 $callback of function add_action expects callable(): mixed, array{$this(Lumiere\Admin), non-falsy-string} given)
+			add_action( 'admin_bar_menu', [ $this, $bar_menu_method ], 70 );
 		}
 	}
 

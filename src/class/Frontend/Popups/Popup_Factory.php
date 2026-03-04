@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Enums\Popup_Type;
 use Exception;
 
@@ -30,6 +31,13 @@ use Exception;
  * @phpstan-type POPUPS_CLASSES '\Lumiere\Frontend\Popups\Popup_Movie'|'\Lumiere\Frontend\Popups\Popup_Movie_Search'|'\Lumiere\Frontend\Popups\Popup_Person'
  */
 final class Popup_Factory {
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(
+		protected Settings_Service $settings,
+	) {}
 
 	/**
 	 * Find if a template exists according to the query var
@@ -50,7 +58,7 @@ final class Popup_Factory {
 		/** @phpstan-var POPUPS_CLASSES $class_name */
 		$class_name = $this->build_class_name( $query_popup );
 		if ( class_exists( $class_name ) ) {
-			( new $class_name() )->display_layout();
+			( new $class_name( settings: $this->settings ) )->display_layout();
 			// Fake return string since it is inside an add_filter()
 			return '';
 		}

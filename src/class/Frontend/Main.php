@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Settings_Service;
+use Lumiere\Config\Get_Options;
 use Lumiere\Enums\Popup_Type;
 use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Plugins\Logger;
@@ -42,24 +42,16 @@ trait Main {
 	public \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker;
 
 	/**
-	 * Settings service
-	 */
-	public Settings_Service $settings;
-
-	/**
 	 * Logging
 	 */
 	public Logger $logger;
 
 	/**
-	 * Main Options
+	 * Start logger
 	 *
 	 * @param null|string $logger_name Title for the logger output
 	 */
-	public function start_main_trait( ?string $logger_name = null ): void {
-		// Get global settings class properties.
-		$this->settings = new Settings_Service();
-
+	public function start_logger( ?string $logger_name = null ): void {
 		// Start Logger class, if no name was passed build it with method get_current_classname().
 		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ) );
 	}
@@ -69,7 +61,8 @@ trait Main {
 	 */
 	public function start_linkmaker(): void {
 		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
-		$this->link_maker = Link_Factory::select_link_type( $this->settings->get_admin_options() );
+		$options = get_option( Get_Options::get_admin_tablename(), [] );
+		$this->link_maker = Link_Factory::select_link_type( $options );
 	}
 
 	/**

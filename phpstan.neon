@@ -1,5 +1,6 @@
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    # - tests/phpstan.81.neon
 parameters:
     level: 8 # set 'max' or '9' to check mixed values
     scanDirectories:

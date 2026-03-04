@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Post\Front_Parser;
 
 /**
@@ -25,6 +26,15 @@ use Lumiere\Frontend\Post\Front_Parser;
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  */
 final class Find_Items extends Front_Parser {
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(
+		protected Settings_Service $settings,
+	) {
+		parent::__construct( settings: $this->settings );
+	}
 
 	/**
 	 * Singleton: Make sure events are runned once in this class

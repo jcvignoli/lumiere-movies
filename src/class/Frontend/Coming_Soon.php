@@ -40,9 +40,8 @@ final class Coming_Soon {
 	 * Frontend Style is called in block.json
 	 */
 	public function __construct() {
-		$this->start_main_trait(); // In Trait Main.
+		$this->start_logger(); // In Trait Main.
 		$this->start_linkmaker(); // In Trait Main.
-
 	}
 
 	/**
@@ -55,20 +54,17 @@ final class Coming_Soon {
 	 * @param null|string $date_format_override Override the default WordPress date format
 	 * @return void
 	 */
-	public static function init(
+	public function init(
 		string $region = 'US',
 		string $type = 'MOVIE',
 		int $start_date_override = 0,
 		int $end_date_override = 0,
 		?string $date_format_override = null
 	): void {
-
-		$that = new self();
-
-		$that->maybe_load_assets();
+		$this->maybe_load_assets();
 
 		// Display the calendar.
-		$that->display( $region, $type, $start_date_override, $end_date_override, $date_format_override );
+		$this->display( $region, $type, $start_date_override, $end_date_override, $date_format_override );
 	}
 
 	/**

@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Post\Person_Factory;
 use Lumiere\Frontend\Post\Movie_Factory;
 use Lumiere\Frontend\Layout\Output;
@@ -55,11 +56,12 @@ class Front_Parser {
 	 * Constructor
 	 */
 	public function __construct(
-		protected Plugins_Start $plugins = new Plugins_Start( [ 'imdbphp' ] ),
-		protected Output $output_class = new Output(),
+		protected Settings_Service $settings,
+		protected readonly Plugins_Start $plugins = new Plugins_Start( [ 'imdbphp' ] ),
+		protected readonly Output $output_class = new Output(),
 	) {
 		// Construct Frontend Main trait with options and links.
-		$this->start_main_trait();
+		$this->start_logger();
 		$this->start_linkmaker();
 
 		/**
@@ -70,12 +72,12 @@ class Front_Parser {
 	}
 
 	/**
-	 * Run the movies
+	 * Register hooks
 	 *
-	 * @return void Build the class
+	 * @return void Hooks registered
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
 	 */
-	public function start(): void {
+	public function register(): void {
 
 		// Transform spans into movies.
 		add_filter( 'the_content', [ $this, 'parse_spans' ] );
@@ -187,7 +189,7 @@ class Front_Parser {
 			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$movie_found*" );
 			$output .= $this->output_class->front_main_wrapper(
 				$this->settings->get_admin_options(),
-				( new Movie_Factory() )->factory_movie_items_methods( $movie_found )
+				( new Movie_Factory( settings: $this->settings ) )->factory_movie_items_methods( $movie_found )
 			);
 		}
 		return $output;
@@ -209,7 +211,7 @@ class Front_Parser {
 			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$person_found*" );
 			$output .= $this->output_class->front_main_wrapper(
 				$this->settings->get_admin_options(),
-				( new Person_Factory() )->factory_person_items_methods( $person_found )
+				( new Person_Factory( settings: $this->settings ) )->factory_person_items_methods( $person_found )
 			);
 		}
 		return $output;

@@ -258,7 +258,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 				$lumiere_title_sanitized = esc_html( $lumiere_movie_results->title() ); // search title related to movie id
 				$lumiere_obj_sanitized = esc_html( $lumiere_movie_results->imdbid() );
-				$lumiere_cache_file = glob( $lumiere_that->imdb_cache_values['imdbcachedir'] . 'gql.TitleYear.{.id...tt' . $lumiere_obj_sanitized . '*' );
+				$lumiere_cache_file = glob( $lumiere_that->settings->get_cache_option( 'imdbcachedir' ) . 'gql.TitleYear.{.id...tt' . $lumiere_obj_sanitized . '*' );
 				$lumiere_filepath_sanitized = $lumiere_cache_file !== false ? esc_html( $lumiere_cache_file[0] ) : ''; // using 'gql.TitleYear.{.id...tt' since all movies should have such a caching file
 
 				if ( $lumiere_imdb_cache_values['imdbcachedetailsshort'] === '1' ) { // display only cache movies' names, quicker loading
@@ -383,7 +383,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 				$lumiere_name_sanitized = esc_html( $lumiere_people_results->name() ); // search title related to movie id
 				$lumiere_objpiple_sanitized = esc_html( $lumiere_people_results->imdbid() );
-				$lumiere_cache_file = glob( $lumiere_that->imdb_cache_values['imdbcachedir'] . 'gql.Name.{.id...nm' . $lumiere_objpiple_sanitized . '*' );
+				$lumiere_cache_file = glob( $lumiere_that->settings->get_cache_option( 'imdbcachedir' ) . 'gql.Name.{.id...nm' . $lumiere_objpiple_sanitized . '*' );
 				$lumiere_filepath_sanitized = $lumiere_cache_file !== false ? esc_html( $lumiere_cache_file[0] ) : ''; // using 'gql.TitleYear.{.id...tt' since all movies should have such a caching file
 
 

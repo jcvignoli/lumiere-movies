@@ -16,6 +16,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
 
 /**
@@ -29,9 +30,10 @@ final class Movie_Country extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Constructor
 	 */
 	public function __construct(
+		protected Settings_Service $settings,
 		protected Add_Taxonomy $add_taxo_class = new Add_Taxonomy()
 	) {
-		parent::__construct();
+		parent::__construct( settings: $this->settings );
 	}
 
 	/**

@@ -25,6 +25,7 @@ use Lumiere\Frontend\Module\Person\Person_Died;
 use Lumiere\Frontend\Layout\Output;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Plugins\Plugins_Start;
 use WP_Query;
 
@@ -74,22 +75,32 @@ final class Taxonomy_People_Standard {
 	private string $taxonomy_title;
 
 	/**
+	 * Module classes
+	 */
+	private readonly Person_Born $person_born_class;
+	private readonly Person_Died $person_died_class;
+	private readonly Person_Bio $person_bio_class;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(
-		private Plugins_Start $plugins_start,
-		private Output $output_class = new Output(),
-		private Person_Born $person_born_class = new Person_Born(),
-		private Person_Died $person_died_class = new Person_Died(),
-		private Person_Bio $person_bio_class = new Person_Bio(),
+		private readonly Plugins_Start $plugins_start,
+		private readonly Output $output_class = new Output(),
+		private readonly Settings_Service $settings = new Settings_Service()
 	) {
 		// Run on taxonomy pages only.
 		if ( is_tax() === false ) {
 			return;
 		}
 
+		// Instanciate classes.
+		$this->person_born_class = new Person_Born( settings: $this->settings );
+		$this->person_died_class = new Person_Died( settings: $this->settings );
+		$this->person_bio_class = new Person_Bio( settings: $this->settings );
+
 		// Get options, settings, links from Frontend trait.
-		$this->start_main_trait();
+		$this->start_logger();
 		$this->start_linkmaker();
 
 		// Full taxonomy title.

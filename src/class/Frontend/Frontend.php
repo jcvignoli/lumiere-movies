@@ -15,10 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Widget\Widget_Frontpage;
+use Lumiere\Frontend\Coming_Soon;
 use Lumiere\Frontend\Post\Front_Parser;
 use Lumiere\Frontend\Post\Find_Items;
 use Lumiere\Frontend\Popups\Popup_Factory;
+use Lumiere\Frontend\Widget\Widget_Frontpage;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
 
@@ -39,18 +40,12 @@ final class Frontend {
 	/**
 	 * Constructor
 	 *
-	 * @param Front_Parser $front_parser
-	 * @param Find_Items $find_items
-	 * @param Widget_Frontpage $widget_front
-	 * @param Popup_Factory $popup_factory
 	 * @param Settings_Service $settings
+	 * @param Widget_Frontpage $widget_front
 	 */
 	public function __construct(
-		private readonly Front_Parser $front_parser = new Front_Parser(),
-		private readonly Find_Items $find_items = new Find_Items(),
+		private readonly Settings_Service $settings,
 		private readonly Widget_Frontpage $widget_front = new Widget_Frontpage(),
-		private readonly Popup_Factory $popup_factory = new Popup_Factory(),
-		private readonly Settings_Service $settings = new Settings_Service()
 	) {
 		// avoid not used by static analysis.
 		$tmp = $this->settings->get_admin_options();
@@ -72,18 +67,21 @@ final class Frontend {
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_execute_assets' ] );
 
 		/**
-		 * Movie's related actions and filters
+		 * Movie's actions and filters
 		 */
-		add_action( 'init', [ $this->front_parser, 'start' ], 11 );
-		add_filter( 'lum_display_movies_box', [ $this->front_parser, 'lum_display_movies_box' ], 10, 1 );
-		add_filter( 'lum_display_persons_box', [ $this->front_parser, 'lum_display_persons_box' ], 10, 1 );
-		add_filter( 'lum_find_movie_id', [ $this->find_items, 'find_movie_imdb_id' ], 10, 1 );
-		add_filter( 'lum_find_person_id', [ $this->find_items, 'find_person_imdb_id' ], 10, 1 );
+		$front_parser = new Front_Parser( settings: $this->settings );
+		add_action( 'init', [ $front_parser, 'register' ], 11 );
+		add_filter( 'lum_display_movies_box', [ $front_parser, 'lum_display_movies_box' ], 10, 1 );
+		add_filter( 'lum_display_persons_box', [ $front_parser, 'lum_display_persons_box' ], 10, 1 );
+		$find_items = new Find_Items( settings: $this->settings );
+		add_filter( 'lum_find_movie_id', [ $find_items, 'find_movie_imdb_id' ], 10, 1 );
+		add_filter( 'lum_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
 
 		/**
 		 * Calendar's related action
 		 */
-		add_filter( 'lum_coming_soon', [ 'Lumiere\Frontend\Coming_Soon', 'init' ], 10, 5 );
+		$coming_soon = new Coming_Soon();
+		add_filter( 'lum_coming_soon', [ $coming_soon, 'init' ], 10, 5 );
 
 		/**
 		 * Widget's related action
@@ -93,7 +91,8 @@ final class Frontend {
 		/**
 		 * Add filter for Popups
 		 */
-		add_filter( 'template_include', [ $this->popup_factory, 'maybe_find_template' ] );
+		$popup_factory = new Popup_Factory( settings: $this->settings );
+		add_filter( 'template_include', [ $popup_factory, 'maybe_find_template' ] );
 	}
 
 	/**

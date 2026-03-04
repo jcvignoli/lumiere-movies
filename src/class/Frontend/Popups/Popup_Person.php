@@ -22,12 +22,13 @@ use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Settings_Popup;
+use Lumiere\Config\Settings_Service;
 
 /**
  * Display star information in a popup
  * Bots are banned before getting popups
  *
- * @see \Lumiere\Popups\Popup_Select Redirect to here according to the query var 'popup' in URL
+ * @see \Lumiere\Frontend\Popups\Popup_Factory Redirect to here according to the query var 'popup' in URL
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
  * @since 4.3 is child class
  * @since 4.6.2 Links are Polylang compatible
@@ -92,10 +93,11 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-
+	public function __construct(
+		protected Settings_Service $settings,
+	) {
 		// Edit metas tags in popups and various checks in Parent class.
-		parent::__construct();
+		parent::__construct( settings: $this->settings );
 
 		/**
 		 * Build the properties.
@@ -299,7 +301,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		foreach ( $items as $module ) {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name();
+				$class_module = new $class_name( settings: $this->settings );
 				// @phpstan-ignore argument.type (Parameter #2 $item_name of method Lumiere\Frontend\Module\Person\Person_Title::get_module() expects...)
 				$final_text = $class_module->get_module( $person_class, $module );
 				if ( strlen( $final_text ) > 0 ) {
@@ -325,7 +327,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		foreach ( $list_roles as $module ) {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . 'Credit';
 			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name();
+				$class_module = new $class_name( settings: $this->settings );
 				$final_text = $class_module->get_module( $person_class, $module );
 				if ( strlen( $final_text ) > 0 ) {
 					$output .= $this->output_popup_class->person_element_embeded(

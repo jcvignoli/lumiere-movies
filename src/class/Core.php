@@ -68,12 +68,12 @@ final class Core extends Hooks_Updates {
 		/**
 		 * Admin
 		 */
-		add_action( 'init', fn() => ( new \Lumiere\Admin\Admin() )->start(), 9 ); // Priority must be below 10.
+		add_action( 'init', fn() => ( new \Lumiere\Admin\Admin( settings: $this->settings ) )->register(), 9 ); // Priority must be below 10.
 
 		/**
 		 * Frontpage
 		 */
-		add_action( 'init', fn() => ( new \Lumiere\Frontend\Frontend() )->register() );
+		add_action( 'init', fn() => ( new \Lumiere\Frontend\Frontend( settings: $this->settings ) )->register() );
 
 		/**
 		 * Crons. Must be executed on the whole website

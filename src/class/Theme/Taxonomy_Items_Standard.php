@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Main;
 use Lumiere\Plugins\Plugins_Start;
 use WP_Query;
@@ -63,7 +64,8 @@ final class Taxonomy_Items_Standard {
 	 * @since 4.0 Ban bots from display the page.
 	 */
 	public function __construct(
-		private Plugins_Start $plugins_start,
+		private readonly Plugins_Start $plugins_start,
+		private readonly Settings_Service $settings = new Settings_Service(),
 	) {
 		// Run on taxonomy pages only.
 		if ( is_tax() === false ) {
@@ -71,7 +73,7 @@ final class Taxonomy_Items_Standard {
 		}
 
 		// Construct Frontend trait.
-		$this->start_main_trait();
+		$this->start_logger();
 
 		// Build the taxonomy name.
 		$this->taxonomy = esc_html( $this->settings->get_admin_option( 'imdburlstringtaxo' ) . 'standard' );

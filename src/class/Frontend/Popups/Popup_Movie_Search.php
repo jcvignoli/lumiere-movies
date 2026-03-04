@@ -21,12 +21,13 @@ use Lumiere\Tools\Data;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Settings_Service;
 
 /**
  * Displays movie search results in a popup
  * Bots are banned before getting popups
  *
- * @see \Lumiere\Popups\Popup_Select Redirect to here according to the query var 'popup' in URL
+ * @see \Lumiere\Frontend\Popups\Popup_Factory Redirect to here according to the query var 'popup' in URL
  * @see \Lumiere\Frontend\Popups\Head_Popups Modify the popup header, Parent class, Bot banishement
  * @since 4.3 is child class
  * @since 4.6.2 Links are Polylang compatible
@@ -54,10 +55,11 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-
+	public function __construct(
+		protected Settings_Service $settings,
+	) {
 		// Edit metas tags in popups and various checks in Parent class.
-		parent::__construct();
+		parent::__construct( settings: $this->settings );
 
 		/**
 		 * Build the properties.

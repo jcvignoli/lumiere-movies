@@ -16,7 +16,8 @@ if ( isset( $attributes['region'], $attributes['type'], $attributes['startDateOv
 	$lumiere_date_format_override = isset( $attributes['dateFormatOverride'] ) && strlen( $attributes['dateFormatOverride'] ) > 0 && $attributes['dateFormatOverride'] !== 'WordPress format'
 		? $attributes['dateFormatOverride']
 		: null;
-	Coming_Soon::init(
+	$lumiere_coming_soon = new Coming_Soon();
+	$lumiere_coming_soon->init(
 		strtoupper( $attributes['region'] ), // Countries are in lowercase in js
 		strtoupper( $attributes['type'] ),
 		intval( $attributes['startDateOverride'] ),

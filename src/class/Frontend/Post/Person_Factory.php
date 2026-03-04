@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Vendor\Imdb\Name;
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Post\Front_Parser;
 
 /**
@@ -29,6 +30,15 @@ use Lumiere\Frontend\Post\Front_Parser;
  * @since 4.6 new class
  */
 final class Person_Factory extends Front_Parser {
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(
+		protected Settings_Service $settings,
+	) {
+		parent::__construct( settings: $this->settings );
+	}
 
 	/**
 	 * Build the methods to be called in class Movie_Factory
@@ -88,7 +98,7 @@ final class Person_Factory extends Front_Parser {
 			return '';
 		}
 
-		$module = new $class_name();
+		$module = new $class_name( settings: $this->settings );
 
 		// Taxonomy is active.
 		// Not yet in use

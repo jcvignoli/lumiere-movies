@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Vendor\Imdb\Title;
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Post\Front_Parser;
 
 /**
@@ -31,6 +32,15 @@ use Lumiere\Frontend\Post\Front_Parser;
  * @since 4.5 using now modules through a factory design
  */
 final class Movie_Factory extends Front_Parser {
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(
+		protected Settings_Service $settings,
+	) {
+		parent::__construct( settings: $this->settings );
+	}
 
 	/**
 	 * Build the methods to be called in class Movie_Factory
@@ -93,7 +103,7 @@ final class Movie_Factory extends Front_Parser {
 			return '';
 		}
 
-		$module = new $class_name();
+		$module = new $class_name( settings: $this->settings );
 
 		// Taxonomy is active.
 		if ( $this->settings->get_admin_option( 'imdbtaxonomy' ) === '1' && $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) !== null && $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) === '1' ) {
