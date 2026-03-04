@@ -7,7 +7,8 @@
  */
 
 $includes = [];
-if (PHP_VERSION_ID < 82000) {
+/** add this if smaller than PHP8.2 */
+if (PHP_VERSION_ID < 80200) {
 	$includes[] = __DIR__ . '/phpstan.ci.81.neon';
 } 
 

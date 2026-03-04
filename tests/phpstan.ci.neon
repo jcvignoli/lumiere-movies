@@ -2,7 +2,7 @@
 includes:
     # base config
     - ../phpstan.neon
-    - tests/phpstan.conditional.php
+    - phpstan.conditional.php
 parameters:
     # Ignored errors should be specifically address an issue in a specific file
     ignoreErrors:
