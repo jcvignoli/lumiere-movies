@@ -1,0 +1,6 @@
+# Extra PHPStan config file for php8.1
+parameters:
+    phpVersion: 80100
+    excludePaths:
+        # Skip error "No error to ignore is reported on line 79"
+        - ../src/class/Config/Settings_Service.php

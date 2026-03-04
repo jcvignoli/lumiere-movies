@@ -1,10 +1,11 @@
-# PHPStan config file to include specific values for github CI
+# PHPStan config file to include paramaters for github CI
 includes:
     # base config
     - ../phpstan.neon
-    - phpstan.conditional.php
+    # extra config for php8.1
+    - phpstan.81.neon
 parameters:
-    # Ignored errors should be specifically address an issue in a specific file
+    # Ignored errors that should be specifically address an issue in a specific file
     ignoreErrors:
         -
             identifier: requireOnce.fileNotFound
