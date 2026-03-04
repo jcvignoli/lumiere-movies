@@ -43,6 +43,7 @@ class Settings_Helper {
 	 * Adding +1 so only the next update is executed
 	 *
 	 * @return string The last number in file number found plus one
+	 * @phpstan-return numeric-string
 	 */
 	public static function get_nb_updates(): string {
 		$update_files = glob( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH . '/Lumiere_Update_File_*.php' );

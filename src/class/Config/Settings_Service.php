@@ -31,21 +31,25 @@ final class Settings_Service {
 
 	/**
 	 * @var array<string, mixed>
+	 * @phpstan-var OPTIONS_ADMIN
 	 */
 	private array $admin_options;
 
 	/**
 	 * @var array<string, mixed>
+	 * @phpstan-var OPTIONS_CACHE
 	 */
 	private array $cache_options;
 
 	/**
 	 * @var array<string, mixed>
+	 * @phpstan-var OPTIONS_DATA_MOVIE
 	 */
 	private array $movie_options;
 
 	/**
 	 * @var array<string, mixed>
+	 * @phpstan-var OPTIONS_DATA_PERSON
 	 */
 	private array $person_options;
 
@@ -60,10 +64,10 @@ final class Settings_Service {
 	 * Refresh options from database.
 	 */
 	public function refresh(): void {
-		$this->admin_options  = (array) get_option( Get_Options::get_admin_tablename(), [] );
-		$this->cache_options  = (array) get_option( Get_Options::get_cache_tablename(), [] );
-		$this->movie_options  = (array) get_option( Get_Options_Movie::get_data_tablename(), [] );
-		$this->person_options = (array) get_option( Get_Options_Person::get_data_person_tablename(), [] );
+		$this->admin_options  = get_option( Get_Options::get_admin_tablename(), [] );
+		$this->cache_options  = get_option( Get_Options::get_cache_tablename(), [] );
+		$this->movie_options  = get_option( Get_Options_Movie::get_data_tablename(), [] );
+		$this->person_options = get_option( Get_Options_Person::get_data_person_tablename(), [] );
 	}
 
 	/**
@@ -71,7 +75,9 @@ final class Settings_Service {
 	 *
 	 * @return bool
 	 */
+	/** @phpstan-ignore-next-line return.tooWideBool */
 	public function is_installed(): bool {
+		/** @phpstan-ignore-next-line notIdentical.alwaysTrue */
 		return $this->admin_options !== [];
 	}
 
@@ -82,7 +88,6 @@ final class Settings_Service {
 	 * @return array<string, mixed>
 	 */
 	public function get_admin_options(): array {
-		/** @phpstan-ignore-next-line */
 		return $this->admin_options;
 	}
 
@@ -104,7 +109,6 @@ final class Settings_Service {
 	 * @return array<string, mixed>
 	 */
 	public function get_cache_options(): array {
-		/** @phpstan-ignore-next-line */
 		return $this->cache_options;
 	}
 
@@ -126,7 +130,6 @@ final class Settings_Service {
 	 * @return array<string, mixed>
 	 */
 	public function get_movie_options(): array {
-		/** @phpstan-ignore-next-line */
 		return $this->movie_options;
 	}
 
@@ -148,7 +151,6 @@ final class Settings_Service {
 	 * @return array<string, mixed>
 	 */
 	public function get_person_options(): array {
-		/** @phpstan-ignore-next-line */
 		return $this->person_options;
 	}
 
@@ -167,6 +169,7 @@ final class Settings_Service {
 	 * Update admin options.
 	 *
 	 * @param array<string, mixed> $options
+	 * @phpstan-param OPTIONS_ADMIN $options
 	 */
 	public function update_admin_options( array $options ): void {
 		update_option( Get_Options::get_admin_tablename(), $options );

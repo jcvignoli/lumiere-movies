@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Enums\Popup_Type;
 use Exception;
 
 /**
@@ -60,7 +61,7 @@ final class Popup_Factory {
 
 	/**
 	 * Create the name of the class
-	 * Check if the query is included in Settings::LUM_URL_BIT_POPUPS keys in {@see \Lumiere\Config\Settings}
+	 * Check if the query is included in enum Popup_Type in {@see \Lumiere\Config\Settings}
 	 *
 	 * @param string $query_popup
 	 * @return string
@@ -68,7 +69,7 @@ final class Popup_Factory {
 	 */
 	private function build_class_name( string $query_popup ): string {
 
-		$const_key_val = array_flip( Get_Options::LUM_URL_BIT_POPUPS ) [ $query_popup ];
+		$const_key_val = Popup_Type::from_key( $query_popup )->value;
 
 		/**
 		 * Wrong URL string passed. Don't know why static tools believe it's always set.

@@ -42,14 +42,12 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * @see \Lumiere\Config\Settings_Person complement this class
  * @see \Lumiere\Config\Settings_Popup complement this class
  *
- * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: string, imdbdebug?: '0'|'1'|string, imdbdebuglevel: 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY', imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: '0'|'1'|string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: string, imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
+ * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: numeric-string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: numeric-string, imdbdebug?: '0'|'1'|string, imdbdebuglevel: 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY', imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: '0'|'1'|string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: string, imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
  *
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
  *
  * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
- * @psalm-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
- * @psalm-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
 class Settings extends Settings_Helper {
 
@@ -82,38 +80,6 @@ class Settings extends Settings_Helper {
 	 * @since 4.7
 	 */
 	public const LUM_BLOCKS_MANIFEST                = LUM_WP_PATH . 'assets/blocks/blocks-manifest.php';
-
-	/**
-	 * URL Strings for popups
-	 * This helps build automatically the links to popups and checks if in the URL string a correct string was passed
-	 *
-	 * @see \Lumiere\Config\Get_Options::get_popup_url() Build a URL including those bits
-	 * @see \Lumiere\Frontend\Popups\Popup_Select::build_class_name() Use to call the relevant popup class
-	 * @see \Lumiere\Frontend\Main::is_popup_page detect if popup
-	 *
-	 * @var array<string, string> First column should never change, the second is the final URL string that will be used to build the links
-	 */
-	public const LUM_URL_BIT_POPUPS                 = [
-		'film'                => 'film',
-		'person'              => 'person',
-		'movie_search'        => 'movie_search',
-	];
-
-	/**
-	 * Internal search categories for IMDb search
-	 *
-	 * @see \Lumiere\Config\Get_Options::get_type_search() Build a URL including those bits
-	 *
-	 * @var array<string, string> First column is Lumière category, second column IMDBPHP's
-	 */
-	protected const LUM_IMDB_SEARCH_CATEGORY        = [
-		'movies'        => 'MOVIE',
-		'movies+series' => 'MOVIE,TV',
-		'series'        => 'TV',
-		'videogames'    => 'VIDEO_GAME',
-		'podcasts'      => 'PODCAST_EPISODE',
-		'default'       => 'MOVIE,TV',
-	];
 
 	/**
 	 * Name of the var to look for in URL

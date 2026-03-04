@@ -19,6 +19,8 @@ use Lumiere\Tools\Data;
 use Lumiere\Config\Settings;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Enums\Popup_Type;
+use Lumiere\Enums\Search_Category;
 
 /**
  * Getting Settings and database options
@@ -144,12 +146,15 @@ final class Get_Options extends Settings {
 	/**
 	 * Retrieve selected type of search in admin
 	 *
+	 * @since 4.7.4 using enum instead of parent constant
+	 *
 	 * @return string
 	 * @see \Lumiere\Vendor\Imdb\TitleSearch For the options
 	 */
 	public static function get_type_search(): string {
-		$imdb_admin_option = get_option( self::get_admin_tablename() );
-		return parent::LUM_IMDB_SEARCH_CATEGORY[ $imdb_admin_option['imdbseriemovies'] ];
+		$category_key = get_option( self::get_admin_tablename() );
+		$search_cat = Search_Category::from_key( $category_key['imdbseriemovies'] );
+		return $search_cat->value;
 	}
 
 	/**
@@ -163,8 +168,9 @@ final class Get_Options extends Settings {
 	 * @return string
 	 */
 	public static function get_popup_url( string $type_url, string $domain_url = '' ): string {
-		$imdb_admin_option = get_option( self::get_admin_tablename() );
-		return $domain_url . $imdb_admin_option['imdburlpopups'] . parent::LUM_URL_BIT_POPUPS[ $type_url ] . '/';
+		$popup_slug = get_option( self::get_admin_tablename() );
+		$popup_type = Popup_Type::from_key( $type_url );
+		return $domain_url . $popup_slug['imdburlpopups'] . $popup_type->value . '/';
 	}
 }
 

@@ -42,7 +42,7 @@ final class Core extends Hooks_Updates {
 	 * Constructor
 	 */
 	public function __construct(
-		private Settings_Service $settings = new Settings_Service()
+		private readonly Settings_Service $settings = new Settings_Service()
 	) {
 
 		// Get updates hooks.
@@ -73,7 +73,7 @@ final class Core extends Hooks_Updates {
 		/**
 		 * Frontpage
 		 */
-		add_action( 'init', fn() => ( new \Lumiere\Frontend\Frontend() )->start() );
+		add_action( 'init', fn() => ( new \Lumiere\Frontend\Frontend() )->register() );
 
 		/**
 		 * Crons. Must be executed on the whole website

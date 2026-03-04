@@ -35,7 +35,7 @@ class Output {
 	public function misc_layout( string $selector, string $text_one = '', string $text_two = '', string $text_three = '' ): string {
 		$container = [
 			/* translators: %1s is a movie field string, such as director, actor */
-			'click_more_start'               => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><strong>(' . wp_sprintf( __( 'click to show more %1s', 'lumiere-movies' ), $text_one ) . ')</strong></div>' . "\n\t\t\t<div class=\"hidesection\">",
+			'click_more_start'               => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><span class="lumiere_bold">(' . wp_sprintf( __( 'click to show more %1s', 'lumiere-movies' ), $text_one ) . ')</span></div>' . "\n\t\t\t<div class=\"hidesection\">",
 			'click_more_end'                 => "\n\t\t\t</div>\n\t\t\t<!-- end hidesection -->",
 			'see_all_start'                  => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '&nbsp;<span class="activatehidesection lumiere_font_small"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ")</strong></span>\n\t\t\t<span class=\"hidesection\">",
 			'see_all_end'                    => "\n\t\t\t</span>\n\t\t\t<!-- end hidesection -->",

@@ -46,12 +46,20 @@ final class Frontend {
 	 * @param Settings_Service $settings
 	 */
 	public function __construct(
-		Front_Parser $front_parser = new Front_Parser(),
-		Find_Items $find_items = new Find_Items(),
-		Widget_Frontpage $widget_front = new Widget_Frontpage(),
-		Popup_Factory $popup_factory = new Popup_Factory(),
-		private Settings_Service $settings = new Settings_Service()
+		private readonly Front_Parser $front_parser = new Front_Parser(),
+		private readonly Find_Items $find_items = new Find_Items(),
+		private readonly Widget_Frontpage $widget_front = new Widget_Frontpage(),
+		private readonly Popup_Factory $popup_factory = new Popup_Factory(),
+		private readonly Settings_Service $settings = new Settings_Service()
 	) {
+		// avoid not used by static analysis.
+		$tmp = $this->settings->get_admin_options();
+	}
+
+	/**
+	 * Register Frontend hooks.
+	 */
+	public function register(): void {
 
 		if ( is_admin() ) {
 			return;
@@ -66,11 +74,11 @@ final class Frontend {
 		/**
 		 * Movie's related actions and filters
 		 */
-		add_action( 'init', [ $front_parser, 'start' ], 11 );
-		add_filter( 'lum_display_movies_box', [ $front_parser, 'lum_display_movies_box' ], 10, 1 );
-		add_filter( 'lum_display_persons_box', [ $front_parser, 'lum_display_persons_box' ], 10, 1 );
-		add_filter( 'lum_find_movie_id', [ $find_items, 'find_movie_imdb_id' ], 10, 1 );
-		add_filter( 'lum_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
+		add_action( 'init', [ $this->front_parser, 'start' ], 11 );
+		add_filter( 'lum_display_movies_box', [ $this->front_parser, 'lum_display_movies_box' ], 10, 1 );
+		add_filter( 'lum_display_persons_box', [ $this->front_parser, 'lum_display_persons_box' ], 10, 1 );
+		add_filter( 'lum_find_movie_id', [ $this->find_items, 'find_movie_imdb_id' ], 10, 1 );
+		add_filter( 'lum_find_person_id', [ $this->find_items, 'find_person_imdb_id' ], 10, 1 );
 
 		/**
 		 * Calendar's related action
@@ -80,20 +88,12 @@ final class Frontend {
 		/**
 		 * Widget's related action
 		 */
-		add_action( 'init', [ $widget_front, 'start' ], 11 );
+		add_action( 'init', [ $this->widget_front, 'start' ], 11 );
 
 		/**
 		 * Add filter for Popups
 		 */
-		add_filter( 'template_include', [ $popup_factory, 'maybe_find_template' ] );
-	}
-
-	/**
-	 * @see \Lumiere\Core
-	 */
-	public function start(): void {
-		// Access settings to avoid PHPStan warning about unused property.
-		$this->settings->refresh();
+		add_filter( 'template_include', [ $this->popup_factory, 'maybe_find_template' ] );
 	}
 
 	/**

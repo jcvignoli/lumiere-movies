@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
+use Lumiere\Enums\Popup_Type;
 use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
@@ -124,6 +124,7 @@ trait Main {
 	 * @since 4.6 added "'/' . " in str_contains() at the begining
 	 * @since 4.7 added ". '/'" in str_contains() in the end
 	 * @since 4.7.1 final slash is conditional according to the permalink structure, using new var $is_last_chara_slash
+	 * @since 4.7.4 Use of Popup_Type enum instead of hardcoded Settings constant
 	 *
 	 * @return bool True if the page is a Lumiere popup
 	 */
@@ -135,9 +136,9 @@ trait Main {
 			isset( $get_request_uri )
 			&&
 			(
-				str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['film'] . $is_last_chara_slash )
-				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['movie_search'] . $is_last_chara_slash )
-				|| str_contains( $get_request_uri, '/' . Get_Options::LUM_URL_BIT_POPUPS['person'] . $is_last_chara_slash )
+				str_contains( $get_request_uri, '/' . Popup_Type::from_key( 'film' )->value . $is_last_chara_slash )
+				|| str_contains( $get_request_uri, '/' . Popup_Type::from_key( 'movie_search' )->value . $is_last_chara_slash )
+				|| str_contains( $get_request_uri, '/' . Popup_Type::from_key( 'person' )->value . $is_last_chara_slash )
 			)
 		) {
 			return true;

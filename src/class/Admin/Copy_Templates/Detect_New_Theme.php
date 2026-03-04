@@ -28,7 +28,6 @@ use Lumiere\Config\Settings_Service;
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
- * @psalm-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
  * @since 4.1
  */
 final class Detect_New_Theme {
