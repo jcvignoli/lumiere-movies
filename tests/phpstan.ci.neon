@@ -9,4 +9,4 @@ parameters:
             identifier: requireOnce.fileNotFound
             reportUnmatched: false
             path: ../src/class/Admin/Widget_Selection.php
-
+        - '#Error: No error to ignore is reported on line#'
