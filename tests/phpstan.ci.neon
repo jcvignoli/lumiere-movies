@@ -1,4 +1,4 @@
-# Extra PHPStan config file to include specific values for github CI
+# PHPStan config file to include specific values for github CI
 includes:
     # base config
     - ../phpstan.neon
