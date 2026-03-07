@@ -207,9 +207,8 @@ final class Core extends Hooks_Updates {
 			return;
 		}
 
-		// Pre-WP 6.8, don't register widget block.
-		$blocks = [ 'post', 'addlink', 'coming-soon', 'opensearch', 'widget-sidebar-options' ];
-		foreach ( $blocks as $block ) {
+		// Pre-WP 6.8, each register widget block.
+		foreach ( Get_Options::LUM_BLOCKS_LIST as $block ) {
 			register_block_type( $block_dir . $block );
 		}
 	}

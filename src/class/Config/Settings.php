@@ -76,10 +76,21 @@ class Settings extends Settings_Helper {
 
 	/**
 	 * Blocks manifest file
-	 * This file includes all blocks manifests (.json)
+	 * This file includes all blocks manifest (.json), WP >= 6.8
+	 *
+	 * @see \Lumiere\Core
 	 * @since 4.7
 	 */
 	public const LUM_BLOCKS_MANIFEST                = LUM_WP_PATH . 'assets/blocks/blocks-manifest.php';
+
+	/**
+	 * List of active blocks
+	 * Used if block manifest doesn't exist, compatibility WP < 6.8
+	 *
+	 * @see \Lumiere\Core
+	 * @since 4.7.4
+	 */
+	public const LUM_BLOCKS_LIST                    = [ 'post', 'addlink', 'coming-soon', 'opensearch', 'widget-sidebar-options' ];
 
 	/**
 	 * Name of the var to look for in URL

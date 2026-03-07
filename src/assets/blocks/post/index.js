@@ -28,11 +28,10 @@ registerBlockType( jsonData.name, {
 		},
 	},
 	edit: Edit,
-	save: ( props ) => {
-		const blockPropsSave = useBlockProps.save();
+	save:  ( { attributes } ) => {
 		return (
-			<div {...blockPropsSave}>
-				<span data-lum_movie_maker={ props.attributes.lumiere_imdblt_select }>{ props.attributes.content }</span>
+			<div { ...useBlockProps.save() }>
+				<span data-lum_movie_maker={ attributes.lumiere_imdblt_select }>{ attributes.content }</span>
 			</div>
 		);
 	},

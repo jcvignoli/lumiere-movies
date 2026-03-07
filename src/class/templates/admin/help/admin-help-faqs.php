@@ -7,7 +7,6 @@
  * @version       1.0
  * @package       lumieremovies
  */
-namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {

@@ -7,15 +7,12 @@
  * @version       1.0
  * @package       lumieremovies
  */
-namespace Lumiere\Admin;
-
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use \Lumiere\Config\Get_Options_Person;
-use \Lumiere\Config\Get_Options;
 
 // Get vars from the calling class.
 $lumiere_calling_class = $variables['lum_calling_class']; /** @phpstan-ignore variable.undefined  */
@@ -27,17 +24,13 @@ $lumiere_comments_fields = Get_Options_Person::get_items_person_details_comments
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 
-	<div class="lumiere_title_options lumiere_border_shadow lumiere_flex_container lum_flex_space_evenly">
-		<h3 id="person_display" name="person_display" class=""><?php esc_html_e( 'Persons items to display', 'lumiere-movies' ); ?></h3>
+	<?php
+	// Common menu for data
+	require_once __DIR__ . '/admin-data-person-first-menu.php';
+	?>
 
-		<div class="">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-order.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items order', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_person_order ); ?>"><?php esc_html_e( 'Items order', 'lumiere-movies' ); ?></a></div>
-<!-- not yet active 
-			<?php if ( $lumiere_calling_class->settings->get_admin_option( 'imdbtaxonomy' ) === '1' ) { ?>
-		<div class=" lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-taxonomy.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items to use as taxonomy', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_movie_taxo ); ?>"><?php esc_html_e( 'Taxonomy', 'lumiere-movies' ); ?></a></div>
-			<?php } else { ?>
-		<div class="lumiere_align_center">&nbsp;&nbsp;<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-taxonomy.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<i><?php esc_html_e( 'Taxonomy unactivated', 'lumiere-movies' ); ?></i></div>
-			<?php } ?>
--->
+	<div class="lumiere_title_options lumiere_border_shadow">
+		<h3 id="taxodisplay" name="taxodisplay"><?php esc_html_e( 'Selection of person data', 'lumiere-movies' ); ?></h3>
 	</div>
 
 	<div class="lumiere_border_shadow">

@@ -7,8 +7,6 @@
  * @version       1.0
  * @package       lumieremovies
  */
-namespace Lumiere\Admin;
-
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
@@ -17,11 +15,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 use \Lumiere\Config\Get_Options_Person;
 
 // Get vars from the calling class.
-$lumiere_that = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
+$lumiere_calling_class = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
 $lumiere_perso_list = Get_Options_Person::get_all_person_fields();
 ?>
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+	
+	<?php
+	// Common menu for data
+	require_once __DIR__ . '/admin-data-person-first-menu.php';
+	?>
 	
 	<div class="lumiere_title_options lumiere_border_shadow">
 		<h3 id="taxoorder" name="taxoorder"><?php esc_html_e( 'Position of person data', 'lumiere-movies' ); ?></h3>
@@ -42,16 +45,16 @@ $lumiere_perso_list = Get_Options_Person::get_all_person_fields();
 			</div>
 
 			<div class="lumiere_padding_ten lum_align_last_center lumiere_flex_auto">
-				<select id="person_order" name="person_order[]" class="person_order" size="<?php echo ( count( $lumiere_that->settings->get_person_option( 'order' ) ) / 2 ); ?>" multiple><?php
+				<select id="person_order" name="person_order[]" class="person_order" size="<?php echo ( count( $lumiere_calling_class->settings->get_person_option( 'order' ) ) / 2 ); ?>" multiple><?php
 
-				foreach ( $lumiere_that->settings->get_person_option( 'order' ) as $lumiere_key => $lumiere_value ) {
+				foreach ( $lumiere_calling_class->settings->get_person_option( 'order' ) as $lumiere_key => $lumiere_value ) {
 					// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules.
 					if ( in_array( $lumiere_key, Get_Options_Person::LUM_DATA_PERSON_NO_METHOD, true ) ) {
 						continue;
 					}
 					echo "\n\t\t\t\t<option value='" . esc_attr( $lumiere_key ) . "'";
 
-					if ( $lumiere_that->settings->get_person_option( 'activated' )[ $lumiere_key . '_active' ] !== '1' ) {
+					if ( $lumiere_calling_class->settings->get_person_option( 'activated' )[ $lumiere_key . '_active' ] !== '1' ) {
 						echo ' label="' . esc_attr( $lumiere_key ) . ' (' . esc_html__( 'unactivated', 'lumiere-movies' ) . ')">' . esc_html( $lumiere_key );
 					} else {
 						echo ' label="' . esc_attr( $lumiere_perso_list [ $lumiere_key ] ) . '">' . esc_html( $lumiere_key );

@@ -15,6 +15,8 @@
 >
 	<!-- removed 01/2026, get psalm stuck because of blogpourext/wp-includes/abilities-api/class-wp-ability-category.php
 	autoloader="src/vendor/autoload.php"
+	also tried
+	autoloader="tests/bootstrap-testing.php"
 	-->
 
 	<!-- Load and analyze -->
@@ -23,15 +25,11 @@
 		<ignoreFiles>
 			<directory name="src/vendor"/>
 			<directory name="../blogpourext"/><!-- Psalm get stuck otherwise -->
-			<file name="../blogpourext/wp-includes/abilities-api/class-wp-ability-category.php"/><!-- Psalm get stuck otherwise -->
 		</ignoreFiles>
 	</projectFiles>
 	<stubs>
-		<!-- <file name="tests/bootstrap-testing.php"/> => not needed -->
 		<file name="vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php"/>
-		<!-- removed 01/2026, get psalm stuck, but now it doesn't find classes
 		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php"/>
-		-->
 		<file name="tests/extra_statics_tools/wpcli.php"/>		
 		<!--<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php" /> defined in wpcli.php -->
 		<file name="vendor/php-stubs/wp-cli-stubs/wp-cli-commands-stubs.php"/>

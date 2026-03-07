@@ -46,25 +46,18 @@ final class Frontend {
 	public function __construct(
 		private readonly Settings_Service $settings,
 		private readonly Widget_Frontpage $widget_front = new Widget_Frontpage(),
-	) {
-		// avoid not used by static analysis.
-		$tmp = $this->settings->get_admin_options();
-	}
+	) {}
 
 	/**
 	 * Register Frontend hooks.
 	 */
 	public function register(): void {
 
-		if ( is_admin() ) {
-			return;
+		// Display only frontend, must come before the filters so they can use it.
+		if ( ! is_admin() ) {
+			add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_register_assets' ] );
+			add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_execute_assets' ] );
 		}
-
-		// Registers javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_register_assets' ] );
-
-		// Execute javascripts and styles.
-		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_execute_assets' ] );
 
 		/**
 		 * Movie's actions and filters
@@ -76,6 +69,11 @@ final class Frontend {
 		$find_items = new Find_Items( settings: $this->settings );
 		add_filter( 'lum_find_movie_id', [ $find_items, 'find_movie_imdb_id' ], 10, 1 );
 		add_filter( 'lum_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
+
+		// The following will never be accessed in admin area.
+		if ( is_admin() ) {
+			return;
+		}
 
 		/**
 		 * Calendar's related action
