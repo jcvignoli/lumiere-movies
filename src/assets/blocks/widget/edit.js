@@ -1,4 +1,5 @@
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import { RawHTML } from '@wordpress/element';
 
@@ -13,20 +14,26 @@ export default function Edit ( { attributes, setAttributes } ) {
 
 	return (
 		<div {...blockProps}>
-			<img class="lumiere_block_widget_image" src={lumiere_admin_vars.ico80} alt={ __( 'Lumière Icon', 'lumiere-movies') } />
-			<div class="lumiere_block_widget_title">Lumière! Widget</div>
-			<div class="lumiere_block_widget_explanation">{ htmlToElem( textExplanation ) }</div>
-			<div class="lumiere_block_widget_container">
-				<div class="lumiere_block_widget_entertitle">{ __('Enter widget title:', 'lumiere-movies') }</div>
-				<div class="lumiere_block_widget_enterinput">
-					<input
+			<InspectorControls>
+				<PanelBody title={ __( 'Settings', 'lumiere-movies' ) }>
+					<TextControl
+						label={ __( 'Widget Title', 'lumiere-movies' ) }
 						value={ lumiere_input }
-						class="lumiere_block_widget_input"
-						onChange={
-							( value ) => setAttributes( { lumiere_input: value.target.value } )
-						}
+						onChange={ ( lumiere_input ) => setAttributes( { lumiere_input } ) }
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
-				</div>
+				</PanelBody>
+			</InspectorControls>
+			<div className="lumiere_block_widget_preview">
+				<img className="lumiere_block_widget_image" src={lumiere_admin_vars.ico80} alt={ __( 'Lumière Icon', 'lumiere-movies') } />
+				<div className="lumiere_block_widget_title">Lumière! Widget</div>
+				{ lumiere_input && (
+					<div className="lumiere_block_widget_title-display">
+						<strong>{ __( 'Final Widget Title:', 'lumiere-movies' ) }</strong><span className="finalTitle">{ lumiere_input }</span>
+					</div>
+				) }
+				<div className="lumiere_block_widget_explanation">{ htmlToElem( textExplanation ) }</div>
 			</div>
 		</div>
 	);

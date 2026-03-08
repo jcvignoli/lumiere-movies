@@ -20,14 +20,15 @@ use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Post\Person_Factory;
 use Lumiere\Frontend\Post\Movie_Factory;
 use Lumiere\Frontend\Layout\Output;
+use Lumiere\Frontend\Link_Maker\Link_Factory;
+use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Plugins_Start;
-use Lumiere\Frontend\Main;
 
 /**
- * Main class display items (Movie actor, movie source, etc) -- displayed on pages and posts only {@see self::movies_autorized_areas()}
+ * Main class display items (Movie actor, movie source, etc)
  * It is compatible with Polylang WP plugin
  * It uses ImdbPHP Classes to display movies/people items
- * Plugins are loaded with imdbphp
+ * Plugins are loaded along with imdbphp
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
@@ -40,9 +41,13 @@ use Lumiere\Frontend\Main;
 class Front_Parser {
 
 	/**
-	 * Traits
+	 * Class for building links, i.e. Highslide
+	 * Built in class Link Factory
+	 *
+	 * @INFO: if import-type instead of putting in full the info Var, phpstan requires to add this property to all classes that use it!
+	 * @var \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker The factory class will determine which class to use
 	 */
-	use Main;
+	public readonly \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker;
 
 	/**
 	 * Lumière plugins started
@@ -50,7 +55,7 @@ class Front_Parser {
 	 * @var array<string, object>
 	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS?: PLUGINS_AUTO_CLASSES}
 	 */
-	protected array $plugins_classes_active;
+	protected readonly array $plugins_classes_active;
 
 	/**
 	 * Constructor
@@ -59,10 +64,10 @@ class Front_Parser {
 		protected Settings_Service $settings,
 		protected readonly Plugins_Start $plugins = new Plugins_Start( [ 'imdbphp' ] ),
 		protected readonly Output $output_class = new Output(),
+		protected Logger $logger = new Logger( __CLASS__ ),
 	) {
-		// Construct Frontend Main trait with options and links.
-		$this->start_logger();
-		$this->start_linkmaker();
+		// Get links property.
+		$this->link_maker = Link_Factory::select_link_type( $this->settings->get_admin_options() );
 
 		/**
 		 * @psalm-suppress InvalidPropertyAssignmentValue
@@ -76,11 +81,15 @@ class Front_Parser {
 	 *
 	 * @return void Hooks registered
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
+	 * @since 4.74 removed add_filter('parse_spans') since using render.php in gutenberg block, which uses
 	 */
 	public function register(): void {
 
-		// Transform spans into movies.
-		add_filter( 'the_content', [ $this, 'parse_spans' ] );
+		/**
+		 * Transform spans into movies.
+		 * @since 4.7.4, the content is not parsed anymore, using the proper block mechanism in render.php
+		 */
+		//add_filter( 'the_content', [ $this, 'parse_spans' ] );
 
 		// Transform spans into links to popups.
 		add_filter( 'the_content', [ $this, 'link_popup_maker' ] );
@@ -99,15 +108,16 @@ class Front_Parser {
 	 *
 	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once
 	 * @since 4.3.2 added is_amp_validating() method
+	 * @since 4.7.4 obsolete: using render.php in gutenberg block
+	 * @info deprecated since 4.7.4, using render.php in gutenberg block
 	 *
 	 * @phpstan-param array{bymid?: string, byname?: string} $imdb_id_or_title
 	 */
-	public function display_movies( array $imdb_id_or_title ): string {
+	private function display_movies( array $imdb_id_or_title ): string {
 
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead to a PHP Fatal error
-		 * @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse (Call to function array_key_exists() with 'amp' and array...will always evaluate to false)
 		 */
 		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
 			$this->logger->log?->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
@@ -139,15 +149,16 @@ class Front_Parser {
 	 *
 	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once
 	 * @since 4.3.2 added is_amp_validating() method
+	 * @since 4.7.4 obsolete: using render.php in gutenberg block
+	 * @info deprecated since 4.7.4, using render.php in gutenberg block
 	 *
 	 * @phpstan-param array<array{bymid?: string, byname?: string}> $imdb_id_or_title
 	 */
-	public function display_persons( array $imdb_id_or_title ): string {
+	private function display_persons( array $imdb_id_or_title ): string {
 
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead to a PHP Fatal error
-		 * @phpstan-ignore function.impossibleType, booleanAnd.alwaysFalse (Call to function array_key_exists() with 'amp' and array...will always evaluate to false)
 		 */
 		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
 			$this->logger->log?->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
@@ -176,9 +187,10 @@ class Front_Parser {
 
 	/**
 	 * Display the movies in the box
-	 * Is a hook declared in {@see \Lumiere\Frontend\Frontend::__construct()}
+	 * It is a hook add_filter() declared in {@see \Lumiere\Frontend\Frontend::register()}
 	 *
 	 * @since 4.4 method created
+	 * @see used in {@see Front_Parser::display_persons()} and render.php in post block
 	 *
 	 * @param array<string> $movies_searched
 	 * @phpstan-param array{bymid?: string, byname?: string} $movies_searched
@@ -197,9 +209,10 @@ class Front_Parser {
 
 	/**
 	 * Display the persons in the box
-	 * Is a hook declared in {@see \Lumiere\Frontend\Frontend::__construct()}
+	 * It is a hook add_filter() declared in {@see \Lumiere\Frontend\Frontend::register()}
 	 *
 	 * @since 4.6 method created
+	 * @see used in {@see Front_Parser::display_persons()} and render.php in post block
 	 *
 	 * @param array<string> $persons_searched
 	 * @phpstan-param array{bymid?: string, byname?: string} $persons_searched
@@ -234,6 +247,8 @@ class Front_Parser {
 	 * @since 3.10.2 The function always returns string, no null accepted -- PHP8.2 compatibility
 	 * @since 4.2.3 The function will return with the content if not executed in autorized area
 	 * @since 4.6.1 Use preg_replace_callback() instead of preg_replace_callback_array(), foreach loop, use {@see Get_Options::get_lum_all_type_search()}
+	 * @since 4.7.4 obsolete: using render.php in gutenberg block
+	 * @deprecated since 4.7.4
 	 *
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string The spans have been replaced with movies/persons boxes
@@ -272,6 +287,7 @@ class Front_Parser {
 	 * It applies method {@see Front_Parser::display_movies()} on the text found
 	 *
 	 * @see Front_Parser::parse_spans() use this method
+	 * @deprecated since 4.7.4, using render.php in gutenberg block
 	 *
 	 * @param string $text_found Text found inside <span></span>
 	 * @param 'byname'|'bymid' $search_type Searching type of the movie
@@ -287,6 +303,8 @@ class Front_Parser {
 	 * It applies method {@see Front_Parser::display_persons()} on the text found
 	 *
 	 * @see Front_Parser::parse_spans() use this method
+	 * @since 4.7.4 obsolete: using render.php in gutenberg block
+	 * @deprecated since 4.7.4
 	 *
 	 * @param string $text_found Text found inside <span></span>
 	 * @param 'byname'|'bymid' $search_type Searching type of the person

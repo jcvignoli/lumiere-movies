@@ -4,6 +4,7 @@ import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import jsonData from './block.json';
+import './index.css';
 
 const iconLumiere = (
   <svg width={20} height={20} viewBox="0 0 350 350">

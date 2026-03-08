@@ -537,7 +537,7 @@ final class Save_Options extends Save_Helper {
 				}
 			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
 				// Sanitize
-				$key_san = sanitize_key( $key );
+				$key_san = sanitize_text_field( $key ); /** @info don't use sanitize_key() since it lower all letters: data_movies have caps+small letters mixed */
 				// remove "imdb_" from $key
 				$key_final = str_replace( 'imdb_', '', $key_san );
 				$val_final = sanitize_text_field( $postvalue );

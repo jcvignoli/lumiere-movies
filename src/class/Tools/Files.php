@@ -71,10 +71,10 @@ trait Files {
 	 * Format a given file size to bytes
 	 * The size in bits would need to replace '1000' by '1024'
 	 *
-	 * @param int $size the unformatted number of the size
+	 * @param float $size the unformatted number of the size
 	 * @param int $precision how many numbers after comma, two by default
 	 */
-	public function lumiere_format_bytes( int $size, int $precision = 2 ): string {
+	public function lumiere_format_bytes( float $size, int $precision = 2 ): string {
 
 		$units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ];
 		$power = $size > 0 ? (int) floor( log( $size, 1000 ) ) : 0;

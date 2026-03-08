@@ -6,4 +6,4 @@
  *
  * @package lumieremovies
  */
-return [ 'dependencies' => [ 'wp-blocks', 'wp-block-editor', 'wp-element', 'wp-components', 'wp-data', 'wp-i18n' ] ];
+return [ 'dependencies' => [ 'wp-blocks', 'wp-block-editor', 'wp-element', 'wp-components', 'wp-data', 'wp-i18n', 'wp-server-side-render' ] ];

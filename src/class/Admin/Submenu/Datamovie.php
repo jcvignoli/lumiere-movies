@@ -54,7 +54,7 @@ final class Datamovie extends Admin_Menu {
 
 		// Display submenu
 		$this->include_with_vars(
-			'data/admin-data-submenu',
+			'data/admin-data-allmenu',
 			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
@@ -72,7 +72,7 @@ final class Datamovie extends Admin_Menu {
 				'data/admin-data-movie-display',
 				[
 					'lum_calling_class' => $this,
-					'lum_items_people'  => $this->get_display_select_options()[0],
+					'lum_items_movie'  => $this->get_display_select_options()[0],
 					'lum_comments_fields' => $this->get_display_select_options()[1],
 				], /** Add an array with vars to send in the template */
 			);

@@ -85,13 +85,13 @@ class AMPCest {
 		// Check if AMP is functional and remove links -- Splitted up, since the nonce can't be detected
 		$I->amOnPage( $I->getCustomBaseUrl() . AcceptanceSettings::TESTING_PAGE_BASE_URL . '?amp' );
 		$I->wait(2);
-		$I->seeInPageSource('<a class="add_cursor lum_link_no_popup" id="link-0227759" data-modal_window_nonce="');		
+		$I->seeInPageSource('<a class="lum_link add_cursor lum_link_no_popup" id="link-0227759" data-modal_window_nonce="');		
 		$I->seeInPageSource('data-modal_window_people="0227759" data-target="#theModal0227759" title="Open a new window with IMDb informations for Peter Dinklage" href="' . $I->getCustomBaseUrl() . '/lumiere/person/?mid=0227759&amp;');
 		$I->seeInPageSource( '&amp;amp">Peter Dinklage</a>');
 
 		// Check if without AMP it is functional
 		$I->amOnPage( $I->getCustomBaseUrl() . AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->seeInPageSource( '<a class="add_cursor lum_link_make_popup lum_link_with_people" id="link-0227759"' );
+		$I->seeInPageSource( '<a class="lum_link add_cursor lum_link_make_popup lum_link_with_people" id="link-0227759"' );
 		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="Open a new window with IMDb informations for Peter Dinklage">Peter Dinklage</a>' );
 	}
 

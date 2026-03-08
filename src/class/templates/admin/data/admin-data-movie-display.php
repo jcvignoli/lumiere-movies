@@ -16,7 +16,7 @@ use \Lumiere\Config\Get_Options_Movie;
 
 // Get vars from the calling class.
 $lumiere_calling_class = $variables['lum_calling_class']; /** @phpstan-ignore variable.undefined  */
-$lumiere_items_people = $variables['lum_items_people']; /** @phpstan-ignore variable.undefined  */
+$lumiere_items_movie = $variables['lum_items_movie']; /** @phpstan-ignore variable.undefined  */
 $lumiere_comments_fields = $variables['lum_comments_fields']; /** @phpstan-ignore variable.undefined  */
 
 // Build local vars.
@@ -28,7 +28,7 @@ $lumiere_details_with_numbers = Get_Options_Movie::get_items_with_numbers();
 
 	<?php
 	// Common menu for data
-	require_once __DIR__ . '/admin-data-movie-first-menu.php';
+	require_once __DIR__ . '/admin-data-movie-submenu.php';
 	?>
 
 	<div class="lumiere_title_options lumiere_border_shadow">
@@ -40,7 +40,7 @@ $lumiere_details_with_numbers = Get_Options_Movie::get_items_with_numbers();
 		<div class="lumiere_flex_container lumiere_align_center">
 		
 		<?php
-		foreach ( $lumiere_items_people as $lumiere_item => $lumiere_item_translated ) {
+		foreach ( $lumiere_items_movie as $lumiere_item => $lumiere_item_translated ) {
 
 			// Do not display in the selection neither title nor pic
 			if ( $lumiere_item === 'title' || $lumiere_item === 'pic' ) {
@@ -108,7 +108,7 @@ $lumiere_details_with_numbers = Get_Options_Movie::get_items_with_numbers();
 
 		// Reach a multiple of three for layout
 		// Include extra lines if not multiple of three
-		$lumiere_operand = ( (float) count( $lumiere_items_people ) / ( (float) count( $lumiere_items_people ) / (float) 3 ) );
+		$lumiere_operand = ( (float) count( $lumiere_items_movie ) / ( (float) count( $lumiere_items_movie ) / (float) 3 ) );
 		for ( $lumiere_i = 1; $lumiere_i < $lumiere_operand; $lumiere_i++ ) {
 			if ( $lumiere_i % 3 !== 0 ) {
 				echo "\n\t\t\t\t" . '<div class="lumiere_flex_container_content_thirty lumiere_padding_ten lumiere_align_center"></div>';

@@ -50,7 +50,7 @@ final class Dataperson extends Admin_Menu {
 
 		// Display submenu
 		$this->include_with_vars(
-			'data/admin-data-submenu',
+			'data/admin-data-allmenu',
 			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 

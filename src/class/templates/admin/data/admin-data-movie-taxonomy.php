@@ -75,7 +75,7 @@ if ( $lumiere_calling_class->settings->get_admin_option( 'imdbtaxonomy' ) !== '1
 	
 	<?php
 	// Common menu for data
-	require_once __DIR__ . '/admin-data-movie-first-menu.php';
+	require_once __DIR__ . '/admin-data-movie-submenu.php';
 	?>
 	
 	<div class="lumiere_title_options lumiere_border_shadow">

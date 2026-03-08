@@ -21,5 +21,6 @@
 	},
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
+	"style": "file:../../css/lumiere.min.css",
 	"render": "file:./render.php"
 }

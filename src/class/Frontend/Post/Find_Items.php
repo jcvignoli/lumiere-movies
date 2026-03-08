@@ -28,15 +28,6 @@ use Lumiere\Frontend\Post\Front_Parser;
 final class Find_Items extends Front_Parser {
 
 	/**
-	 * Constructor
-	 */
-	public function __construct(
-		protected Settings_Service $settings,
-	) {
-		parent::__construct( settings: $this->settings );
-	}
-
-	/**
 	 * Singleton: Make sure events are runned once in this class
 	 *
 	 * @var bool $movie_run_once
@@ -48,6 +39,15 @@ final class Find_Items extends Front_Parser {
 	 * Static public property meant to be called from another class
 	 */
 	public static int $nb_of_movies = 0;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(
+		protected Settings_Service $settings,
+	) {
+		parent::__construct( settings: $this->settings );
+	}
 
 	/**
 	 * Search movies: if title is provied, search its imdbid; use directly imdbid otherwise

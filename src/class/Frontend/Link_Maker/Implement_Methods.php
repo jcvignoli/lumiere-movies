@@ -259,7 +259,7 @@ class Implement_Methods {
 		}
 
 		// Building link.
-		$output = "\n\t\t\t\t\t" . '<a class="add_cursor ' . esc_attr( $a_class ) . '"' . " id=\"link-$imdbid\""
+		$output = "\n\t\t\t\t\t" . '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '"' . " id=\"link-$imdbid\""
 		. ' data-modal_window_nonce="' . wp_create_nonce() . '"'
 		. ' data-modal_window_people="' . esc_attr( $imdbid ) . '"'
 		// Data target is utilised by bootstrap only, but should be safe to keep it.
@@ -292,12 +292,12 @@ class Implement_Methods {
 		// Highslide & Classic modal.
 		if ( $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['highslide'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// Bootstrap modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// No Link modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
@@ -305,7 +305,7 @@ class Implement_Methods {
 
 			// AMP modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['amp'] ) {
-			return '<a class="add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . sanitize_title( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . sanitize_title( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
 		}
 
 		throw new Exception( 'No window_type found' );
@@ -327,12 +327,12 @@ class Implement_Methods {
 		// Highslide & Classic modal
 		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// Bootstrap modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// No Link modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
@@ -340,7 +340,7 @@ class Implement_Methods {
 
 			// AMP modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['amp'] ) {
-			return '<a class="add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
 
 		}
 
@@ -363,7 +363,7 @@ class Implement_Methods {
 			return "\n\t\t\t" . esc_html( $website_title );
 		}
 		/* Translators: %1s is a website name, ie "New 70mm Trailer" */
-		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html( wp_sprintf( __( 'External URL %1s', 'lumiere-movies' ), $website_title ) ) . "'>" . esc_html( $website_title ) . '</a>';
+		return "\n\t\t\t<a class=\"lum_link\" href='" . esc_url( $url ) . "' title='" . esc_html( wp_sprintf( __( 'External URL %1s', 'lumiere-movies' ), $website_title ) ) . "'>" . esc_html( $website_title ) . '</a>';
 
 	}
 
@@ -382,7 +382,7 @@ class Implement_Methods {
 			return "\n\t\t\t" . esc_html( $website_title );
 		}
 		/* Translators: %1s is a website name, ie "New 70mm Trailer" */
-		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_html( wp_sprintf( __( 'Watch on IMBb website the trailer for %1s', 'lumiere-movies' ), $website_title ) ) . "'>" . esc_html( $website_title ) . '</a>';
+		return "\n\t\t\t<a class=\"lum_link\" href='" . esc_url( $url ) . "' title='" . esc_html( wp_sprintf( __( 'Watch on IMBb website the trailer for %1s', 'lumiere-movies' ), $website_title ) ) . "'>" . esc_html( $website_title ) . '</a>';
 
 	}
 
@@ -403,7 +403,7 @@ class Implement_Methods {
 
 		$output = "\n\t\t\t" . '<div align="center" class="lumiere_container">'
 			. "\n\t\t\t\t" . '<div class="lumiere_align_left lumiere_flex_auto">'
-			. "\n\t\t\t\t\t<a href='" . esc_url( 'https://www.imdb.com/search/title/?companies=co' . $comp_id ) . "' title='" . esc_html( $name ) . "'>"
+			. "\n\t\t\t\t\t<a class=\"lum_link\" href='" . esc_url( 'https://www.imdb.com/search/title/?companies=co' . $comp_id ) . "' title='" . esc_html( $name ) . "'>"
 			. esc_html( $name )
 			. '</a>'
 			. "\n\t\t\t\t</div>"
@@ -433,7 +433,7 @@ class Implement_Methods {
 		if ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
 			return "\n\t\t\t" . sanitize_text_field( $name );
 		}
-		return "\n\t\t\t<a href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>" . esc_html( $name ) . '</a>';
+		return "\n\t\t\t<a class=\"lum_link\" href='" . esc_url( $url ) . "' title='" . esc_attr( $name ) . "'>" . esc_html( $name ) . '</a>';
 	}
 
 	/**
@@ -466,7 +466,7 @@ class Implement_Methods {
 
 		$output .= ' alt="link to imdb" width="33" height="15" src="'
 			. esc_url( Get_Options::LUM_PICS_URL . '/imdb-link.png' ) . '" />'
-			. '<a class="lum_link_sourceimdb" title="'
+			. '<a class="lum_link lum_link_sourceimdb" title="'
 			. esc_html__( 'Go to IMDb website for this movie', 'lumiere-movies' ) . '" href="'
 			. esc_url( 'https://www.imdb.com/title/tt' . $mid ) . '" >'
 			. '&nbsp;&nbsp;'

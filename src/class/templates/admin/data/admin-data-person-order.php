@@ -23,7 +23,7 @@ $lumiere_perso_list = Get_Options_Person::get_all_person_fields();
 	
 	<?php
 	// Common menu for data
-	require_once __DIR__ . '/admin-data-person-first-menu.php';
+	require_once __DIR__ . '/admin-data-person-submenu.php';
 	?>
 	
 	<div class="lumiere_title_options lumiere_border_shadow">

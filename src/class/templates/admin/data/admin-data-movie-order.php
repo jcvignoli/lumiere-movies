@@ -24,7 +24,7 @@ $lumiere_items_people = Get_Options_Movie::get_all_fields();
 	
 	<?php
 	// Common menu for data
-	require_once __DIR__ . '/admin-data-movie-first-menu.php';
+	require_once __DIR__ . '/admin-data-movie-submenu.php';
 	?>
 	
 	<div class="lumiere_title_options lumiere_border_shadow">

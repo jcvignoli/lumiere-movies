@@ -172,7 +172,7 @@ class DataDetailsCest {
 		$I->dontSee( 'Ramin Djawadi' );
 		$I->dontSee( 'Soundtracks' );
 		$I->dontSeeInSource( 'György Ligeti</a>, Lux aeterna (1966) Music by' );
-		$I->dontSeeInSource( '<a class="add_cursor lum_link_make_popup lum_link_with_people highslide" id="link-0509893" data-modal_window_nonce="' );
+		$I->dontSeeInSource( '<a class="lum_link add_cursor lum_link_make_popup lum_link_with_people highslide" id="link-0509893" data-modal_window_nonce="' );
 		$I->dontSee( 'Trailers');
 		$I->dontSee( 'Main title (uncredited) Written and Performed by Ramin Djawadi' );
 		$I->dontSee( 'Official websites' );
@@ -346,7 +346,7 @@ class DataDetailsCest {
 		$I->see( 'Ramin Djawadi' );
 		$I->see( 'Soundtracks' );				
 		$I->seeInSource('György Ligeti</a>, Lux aeterna (1966) Music by');
-		$I->seeInSource('<a class="add_cursor lum_link_make_popup lum_link_with_people highslide" id="link-0509893" data-modal_window_nonce="');
+		$I->seeInSource('<a class="lum_link add_cursor lum_link_make_popup lum_link_with_people highslide" id="link-0509893" data-modal_window_nonce="');
 		$I->see('Trailers');
 		$I->see('Main title (uncredited) Written and Performed by Ramin Djawadi');
 		$I->see('Official websites');

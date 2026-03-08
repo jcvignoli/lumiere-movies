@@ -1,6 +1,6 @@
 <?php declare( strict_types = 1 );
 /**
- * Class extanding Monolog Logger.
+ * Class extending Monolog Logger.
  *
  * @copyright (c) 2021, Lost Highway
  *
@@ -80,16 +80,16 @@ final class Logger {
 	 * Detect if the current page is a classic or block editor page
 	 * @return bool True if it is a block editor page
 	 */
-	private function lumiere_is_screen_editor(): bool {
+	private function is_screen_editor(): bool {
 
 		/**
 		 * If the page called is post or post-new, set $is_editor_page on true.
 		 * This is useful when displaying a post.
 		 */
-		if ( isset( $GLOBALS['hook_suffix'] )
+		if ( isset( $GLOBALS['pagenow'] )
 			&& (
-				$GLOBALS['hook_suffix'] === 'post.php'
-				|| $GLOBALS['hook_suffix'] === 'post-new.php'
+				$GLOBALS['pagenow'] === 'post.php'
+				|| $GLOBALS['pagenow'] === 'post-new.php'
 			)
 		) {
 			return true;
@@ -103,6 +103,17 @@ final class Logger {
 		if ( Data::array_contains_term( self::PAGES_PROHIBITED, $referer ) ) {
 			return true;
 		}
+
+		/**
+		 * test with WP_Screen class
+		 */
+		if ( function_exists( 'get_current_screen' ) ) {
+			$current_screen = get_current_screen();
+			if ( $current_screen !== null ) {
+				return $current_screen->is_block_editor();
+			}
+		}
+
 		return false;
 	}
 
@@ -227,23 +238,26 @@ final class Logger {
 	private function display_logger( LoggerMonolog $monolog_class, array $imdb_admin_values, int $logger_verbosity, bool $screen_output ): LoggerMonolog {
 		if (
 			// IF: option 'debug on screen' is activated.
-			$imdb_admin_values['imdbdebugscreen'] === '1'
+			$imdb_admin_values['imdbdebugscreen'] !== '1'
 			// IF: variable 'output on screen' is selected.
-			&& $screen_output === true
+			|| $screen_output === false
 			// IF: the page is not block editor (gutenberg).
-			&& $this->lumiere_is_screen_editor() === false
+			|| $this->is_screen_editor() === true
 		) {
-			// Change the format. @since 4.0.1 added class lumiere_wrap that is only in admin.
-			$output = "<div class=\"lumiere_wrap\">[%level_name%][Lumiere]%message%</div>\n";
-			$formater_class = new LineFormatter( $output );
-
-			// Change the handler, php://output is the only working (on my machine)
-			$stream_class = new StreamHandler( 'php://output', $logger_verbosity );
-			$stream_class->setFormatter( $formater_class );
-
-			// Utilise the new handler and format
-			$monolog_class->pushHandler( $stream_class );
+			return $this->log_null();
 		}
+
+		// Change the format. @since 4.7.4 using lum_debug class that is only in admin.
+		$output = "<div class=\"lum_debug\">[%level_name%][Lumiere]%message%</div>\n";
+		$formater_class = new LineFormatter( $output );
+
+		// Change the handler, php://output is the only working (on my machine)
+		$stream_class = new StreamHandler( 'php://output', $logger_verbosity );
+		$stream_class->setFormatter( $formater_class );
+
+		// Utilise the new handler and format
+		$monolog_class->pushHandler( $stream_class );
+
 		return $monolog_class;
 	}
 }

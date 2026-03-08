@@ -1,6 +1,11 @@
 **Changelog**
 
 v.4.7.4
+* [feature] See live the movie or person selected in block edition
+* [bug] "Click more" on widget wasn't bold
+* [technical] Cleaning, more OOP with Settings_Services class
+* [technical] Not using transiants to display menus (includes are enough)
+* [technical] Use only WP blocks to display movies+people+widget. Using ServerSideRender to live and render.php.
 
 v.4.7.3
 * [feature] Upcoming movies block includes a new option to override default WordPress date (added $dateFormatOverride in block and Coming_Soon class)

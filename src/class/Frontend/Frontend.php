@@ -53,11 +53,14 @@ final class Frontend {
 	 */
 	public function register(): void {
 
-		// Display only frontend, must come before the filters so they can use it.
-		if ( ! is_admin() ) {
-			add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_register_assets' ] );
-			add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_execute_assets' ] );
+		// The following will never be accessed in admin area.
+		if ( is_admin() ) {
+			return;
 		}
+
+		// Display only frontend, must come before the filters so they can use it.
+		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_register_assets' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_execute_assets' ] );
 
 		/**
 		 * Movie's actions and filters
@@ -69,11 +72,6 @@ final class Frontend {
 		$find_items = new Find_Items( settings: $this->settings );
 		add_filter( 'lum_find_movie_id', [ $find_items, 'find_movie_imdb_id' ], 10, 1 );
 		add_filter( 'lum_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
-
-		// The following will never be accessed in admin area.
-		if ( is_admin() ) {
-			return;
-		}
 
 		/**
 		 * Calendar's related action
@@ -116,26 +114,24 @@ final class Frontend {
 			[ 'strategy' => 'async' ]
 		);
 
-		// Main style
-		wp_register_style(
-			'lumiere_style_main',
-			Get_Options::LUM_CSS_URL . 'lumiere.min.css',
-			[],
-			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lumiere.min.css' ) )
-		);
-
-		// Customized style: register instead of the main style a customised main style located in active theme directory
+		// Customized style: register customised main style located in active theme directory and exit.
 		if ( file_exists( get_stylesheet_directory() . '/lumiere.css' ) ) {
-
-			wp_deregister_style( 'lumiere_style_main' ); // remove standard style
-
 			wp_register_style(
 				'lumiere_style_main',
 				get_stylesheet_directory() . '/lumiere.css',
 				[],
 				strval( filemtime( get_stylesheet_directory() . '/lumiere.css' ) )
 			);
+			return;
 		}
+
+		// Main style to register, if no customized style exists.
+		wp_register_style(
+			'lumiere_style_main',
+			Get_Options::LUM_CSS_URL . 'lumiere.min.css',
+			[],
+			strval( filemtime( Get_Options::LUM_CSS_PATH . 'lumiere.min.css' ) )
+		);
 	}
 
 	/**
