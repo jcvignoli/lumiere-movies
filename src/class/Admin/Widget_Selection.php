@@ -55,7 +55,10 @@ class Widget_Selection extends WP_Widget {
 			]
 		);
 
-		add_action( 'widgets_init', [ $this, 'lum_select_widget' ], 11 ); // called in class Core with default priority 10
+		add_action( 'widgets_init', [ $this, 'lum_select_widget' ], 11 ); // called in class Core with default priority 10.
+
+		// Hide the widget block from the inserter if it's not the widget editor.
+		add_filter( 'register_block_type_args', [ $this, 'lum_hide_block_from_inserter' ], 10, 2 );
 
 		/**
 		 * Hide the widget in legacy widgets menu
@@ -70,6 +73,24 @@ class Widget_Selection extends WP_Widget {
 	 */
 	public static function start(): void {
 		$self_class = new self();
+	}
+
+	/**
+	 * Hide the widget block if it's not the widget editor
+	 * @since 4.7.4
+	 *
+	 * @param array<string, array<string, bool>> $args Arguments for registering a block type.
+	 * @param string $name Block name.
+	 * @return array<string, array<string, bool>> Modified arguments.
+	 */
+	public function lum_hide_block_from_inserter( array $args, string $name ): array {
+		if ( self::BLOCK_WIDGET_NAME === $name ) {
+			global $pagenow;
+			if ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
+				$args['supports']['inserter'] = false;
+			}
+		}
+		return $args;
 	}
 
 	/**

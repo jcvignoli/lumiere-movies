@@ -17,18 +17,9 @@ registerBlockType( jsonData.name, {
 	category: jsonData.category,
 	keywords: jsonData.keywords,
 	example: jsonData.example,
-	attributes: {
-		lumiere_imdblt_select: {
-			type: 'string',
-			default: 'lum_movie_title'
-		},
-		content: {
-			type: 'string',
-			default: __('Enter the name or the IMDb ID movie', 'lumiere-movies')
-		},
-	},
+	attributes: jsonData.attributes,
 	edit: Edit,
-	save:  ( { attributes } ) => {
+	save: ( { attributes } ) => {
 		return (
 			<div { ...useBlockProps.save() }>
 				<span data-lum_movie_maker={ attributes.lumiere_imdblt_select }>{ attributes.content }</span>

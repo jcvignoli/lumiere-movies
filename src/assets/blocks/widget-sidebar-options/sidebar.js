@@ -15,22 +15,45 @@ const htmlToElem = ( htmlText ) => RawHTML( { children: htmlText } ); /* type of
 
 const Lum_Sidebar_Options = () => {
 
-	const postType = useSelect( ( select ) => select( 'core/editor' ).getCurrentPostType() );
+	const { postType, meta, editPost } = useSelect( ( select ) => {
+		const editor = select( 'core/editor' );
+		return {
+			postType: editor.getCurrentPostType(),
+			meta: editor.getEditedPostAttribute( 'meta' ),
+			editPost: editor.editPost,
+		};
+	}, [] );
 
-	// Render component for post type 'post' only
-	if (! ('post' === postType || 'page' === postType ) ) return null;
+	// Render component for post type 'post' or 'page' only
+	if ( ! ( 'post' === postType || 'page' === postType ) ) { return null; }
 
-	const [ meta, setMeta ] = useEntityProp( 'postType', postType, 'meta' );
-
-	/**
-	 * Filter vars starting with "_lum*" in meta
-	 * Not in use
-	const metaLum = Object.keys(meta).filter(function(k) {
-		return k.indexOf('_lum') == 0;
-	}).reduce(function(newData, k) {
-		newData[k] = meta[k];
-		return newData;
-	}, {});*/
+	// If Lumière Widget is not present, display special text and exit
+	if ( ! lumiere_admin_vars.is_widget_active ) {
+		return (
+			<PluginDocumentSettingPanel
+				title={ __( 'Lumière widget settings', 'lumiere-movies' ) }
+				className="lum_widget_options_title"
+				icon={ iconLumiere }
+				initialOpen={ false }
+				name="lumiere-widget-sidebar-options"
+			>
+				<PanelRow>
+					<div className="lum_widget_options_subtitle">
+						{ htmlToElem(
+							sprintf(
+								__(
+									'Lumière Widget options are not avaible, you must add a Lumière Widget in %1$swidget options page%2$s.',
+									'lumiere-movies'
+								),
+								'<a href="' + lumiere_admin_vars.wordpress_path + '/wp-admin/widgets.php" target="_blank">',
+								'</a>'
+							)
+						) }
+					</div>
+				</PanelRow>
+			</PluginDocumentSettingPanel>
+		);
+	}
 
 	/**
 	 * Set a row _lum_*_widget to blank
@@ -53,8 +76,8 @@ const Lum_Sidebar_Options = () => {
 	 */
 	const FuncSelector = () => {
 		const funcOnChangeSelect = ( value ) => {
-			setMeta( { _lum_form_type_query: value } )
-		}
+			editPost( { meta: { ...meta, _lum_form_type_query: value } } );
+		};
 		return (
 			<SelectControl
 				label={ __( 'Display items in widget', 'lumiere-movies' ) }
@@ -80,9 +103,14 @@ const Lum_Sidebar_Options = () => {
 		const widget_key = makeWidgetRow( getSavedValue );			// => key of _lum_*_widget
 		
 		const funcOnChangeText = ( value ) => {
-			lumiere_admin_vars.select_type_search.forEach(cleanOptions); 	// Clean all _lum_*_widget rows on change
-			setMeta( { [ widget_key ]: value } ); 			// Set the curent value to _lum_*_widget row
-		}
+			const newMeta = { ...meta };
+			lumiere_admin_vars.select_type_search.forEach( ( items ) => {
+				const column = makeWidgetRow( items.value );
+				newMeta[ column ] = '';
+			} );
+			newMeta[ widget_key ] = value;
+			editPost( { meta: newMeta } );
+		};
 		return(
 			<TextControl
 				label="Tite/name/IMDb ID"
@@ -115,7 +143,7 @@ const Lum_Sidebar_Options = () => {
 				/* Translators: %1$s and %2$s are html tags */
 				help={ htmlToElem( sprintf( __( 'Will prevent %1$sAuto Title Widget%2$s to be displayed on this post', 'lumiere-movies' ), '<a id="link_to_imdbautopostwidget" href="' + lumiere_admin_vars.wordpress_path + '/wp-admin/admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget">', '</a>' ) ) }
 				value={ meta[ autoTitleFieldName ] } // e.g: value = 'a'
-				onChange={ ( boolSelected ) => setMeta( { [ autoTitleFieldName ]: boolSelected } ) }
+				onChange={ ( boolSelected ) => editPost( { meta: { ...meta, [ autoTitleFieldName ]: boolSelected }, } ) }
 				checked={ meta[ autoTitleFieldName ] }
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize

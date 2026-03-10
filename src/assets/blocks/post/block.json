@@ -21,7 +21,7 @@
 		},
 		"content": {
 			"type": "string",
-			"default": "Enter the name or the IMDb ID movie"
+			"default": ""
 		}
 	},
 	"supports": {

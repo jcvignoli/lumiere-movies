@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Setti
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Settings_Helper;
+use Lumiere\Admin\Widget_Selection;
 
 /**
  * Needed vars for uninstall, fails otherwise.
@@ -238,8 +239,10 @@ class Settings extends Settings_Helper {
 
 	/**
 	 * Get ADMIN vars for javascript
-	 * @see \Lumiere\Admin\Admin::lumiere_execute_admin_assets() Include the vars
 	 * Used in wp_add_inline_script() function
+	 *
+	 * @see \Lumiere\Admin\Admin::lumiere_execute_admin_assets() Include the vars
+	 * @since 4.7.4 added is_widget_active which detects if Lumière widget is added (used in sidebar block)
 	 *
 	 * @return string The full javascript piece to be included
 	 */
@@ -257,6 +260,7 @@ class Settings extends Settings_Helper {
 				'select_type_search'          => Get_Options::get_lum_all_type_search(),
 				'auto_title_field_name'       => self::LUM_AUTOTITLE_METADATA_FIELD_NAME,
 				'auto_title_activated'        => $imdb_admin_option['imdbautopostwidget'],
+				'is_widget_active'            => Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ),
 			]
 		);
 		return $scripts_admin_vars !== false ? 'const lumiere_admin_vars = ' . $scripts_admin_vars : '';

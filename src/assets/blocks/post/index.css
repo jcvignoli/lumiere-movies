@@ -1,10 +1,10 @@
-.lumiere_block_intothepost{border: 1px solid darkgrey;padding:15px;color:#494633;}
+.lumiere_block_intothepost{border: 1px solid darkgrey;padding: 1em;color:#494633;}
 
-.lumiere_block_intothepost-title {color:grey;text-align:left;padding:15px 0 5px 15px;width:90%;font-size: 2em;margin-left:10vw;}
+.lumiere_block_intothepost-title {color:grey;font-size: 2em;}
 
 .lumiere_block_intothepost-image {float:left;height:auto;vertical-align:middle;}
 
-.lumiere_block_intothepost-explanation {clear:both;padding-bottom:10px;padding-left:2em;font-size:small;font-family: sans-serif;}
+.lumiere_block_intothepost-explanation {clear:both;padding-left:2em;font-size:small;font-family: sans-serif;}
 .lumiere_block_intothepost-explanation a {color: initial;}
 
 .lumiere_block_intothepost-container {display:flex;flex-wrap:nowrap;text-align:center; align-items: center;}
@@ -14,9 +14,9 @@
 
 .lumiere_block_intothepost-content {padding:0.6em;font-size:initial;font-weight:bold;justify-content: space-between;text-align:center;background-color:darkgrey;color:white;flex:70%;}
 
-.lumiere_block_intothepost-placeholder {padding: 20px;text-align: center;}
+.lumiere_block_intothepost-placeholder {text-align: center;}
 .lumiere_block_intothepost-placeholder .lumiere_block_intothepost-image {float: none; margin: 0 auto 10px;display: block;}
-.lumiere_block_intothepost-placeholder .lumiere_block_intothepost-title {margin-left: 0;text-align: center;padding: 10px 0;}
+.lumiere_block_intothepost-placeholder .lumiere_block_intothepost-title {text-align: center;}
 
 /* overwrite default WP block editor color for links */
 .editor-styles-wrapper .block-editor-block-list__layout a.lum_link {color: gold;}
