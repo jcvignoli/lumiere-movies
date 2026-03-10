@@ -86,7 +86,7 @@ final class Auto_Update_Theme extends Copy_Theme {
 		$content_destination = $wp_filesystem->get_contents( $destination_file );
 
 		// If 'TemplateAutomaticUpdate' is found, auto update
-		if ( is_string( $content_destination ) && preg_match( '~TemplateAutomaticUpdate~i', $content_destination ) > 0 ) {
+		if ( $this->detect_new_theme->is_update_on( $origin_file ) === false ) {
 			parent::copy_theme_template( $origin_file, $destination_file, $item );
 			$this->logger->log?->debug( '[Auto_update_Theme] Template file ' . $destination_file . ' has been updated to the latest version' );
 			return;

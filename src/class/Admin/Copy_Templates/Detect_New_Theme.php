@@ -136,7 +136,7 @@ final class Detect_New_Theme {
 
 			if (
 				$this->settings->get_movie_option( $taxo_key ) !== null
-				&& $this->settings->get_admin_option( $taxo_key ) === '1'
+				&& $this->settings->get_movie_option( $taxo_key ) === '1'
 				&& is_file( $templates_paths['destination'] ) === false
 			) {
 				$output[] = $item_translated;
@@ -167,7 +167,7 @@ final class Detect_New_Theme {
 		// Make sure we have the credentials to read the files
 		$this->wp_filesystem_cred( $templates_paths['destination'] ); // Function in trait Admin_General.
 
-		if ( $wp_filesystem === null || ! is_file( $templates_paths['destination'] ) ) {
+		if ( $wp_filesystem === null || $this->is_update_on( $templates_paths['destination'] ) === false || ! is_file( $templates_paths['destination'] ) ) {
 			return null;
 		}
 
@@ -207,5 +207,30 @@ final class Detect_New_Theme {
 		$template_paths['origin'] = LUM_WP_PATH . $original_in_plugin;
 		$template_paths['destination'] = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->settings->get_admin_option( 'imdburlstringtaxo' ) . $item . '.php';
 		return $template_paths;
+	}
+
+	/**
+	 * Check if update is deactivated
+	 * Search for TemplateAutomaticUpdate in the template file
+	 *
+	 * @since 4.7.4 created
+	 *
+	 * @param string $file_path
+	 * @return bool True if found
+	 */
+	public function is_update_on( string $file_path ): bool {
+		if ( is_file( $file_path ) === false ) {
+			return false;
+		}
+
+		global $wp_filesystem;
+
+		// Make sure we have the credentials to read the files.
+		$this->wp_filesystem_cred( $file_path ); // Function in trait Admin_General.
+
+		// Lumiere's taxonomy file in user theme folder.
+		$content = $wp_filesystem->get_contents( $file_path );
+
+		return preg_match( '~TemplateAutomaticUpdate~i', $content ) === 1;
 	}
 }
