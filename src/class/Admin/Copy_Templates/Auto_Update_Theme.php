@@ -72,12 +72,12 @@ final class Auto_Update_Theme extends Copy_Theme {
 	 */
 	private function update_new_templates( string $item, ?string $origin_file, ?string $destination_file ): void {
 
-		global $wp_filesystem;
-
 		if ( ! isset( $destination_file ) || ! isset( $origin_file ) ) {
 			$this->logger->log?->error( '[Auto_update_Theme] Missing origin or destination file, aborting' );
 			return;
 		}
+
+		global $wp_filesystem;
 
 		// Make sure we have the credentials to read the files.
 		$this->wp_filesystem_cred( $origin_file ); // Function in trait Admin_General.
@@ -86,7 +86,7 @@ final class Auto_Update_Theme extends Copy_Theme {
 		$content_destination = $wp_filesystem->get_contents( $destination_file );
 
 		// If 'TemplateAutomaticUpdate' is found, auto update
-		if ( $this->detect_new_theme->is_update_on( $origin_file ) === false ) {
+		if ( $this->detect_new_theme->is_update_on( $origin_file ) === true ) {
 			parent::copy_theme_template( $origin_file, $destination_file, $item );
 			$this->logger->log?->debug( '[Auto_update_Theme] Template file ' . $destination_file . ' has been updated to the latest version' );
 			return;

@@ -15,7 +15,10 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-if ( isset( $attributes['lumiere_imdblt_select'], $attributes['content'] ) ) {
+/**
+ * Display text only if main attributes are available, and also if 'lum_display_movies_box' filter is available
+ */
+if ( isset( $attributes['lumiere_imdblt_select'], $attributes['content'] ) && has_filter( 'lum_display_movies_box' ) === true   ) {
 
 	$lumiere_value_array = explode( '_', $attributes['lumiere_imdblt_select'] );
 	$lumiere_movie_or_person = $lumiere_value_array[1] ?? 'movie'; // Either movie or person.
@@ -31,6 +34,12 @@ if ( isset( $attributes['lumiere_imdblt_select'], $attributes['content'] ) ) {
 		$lumiere_array = apply_filters( 'lum_find_person_id', $lumiere_imdbid_or_title );
 	}
 	echo wp_kses(
+		/**
+		 * Filter to display movie and person box.
+		 *
+		 *
+		 * @var array<array{bymid?: string, byname?: string}> $lumiere_array List of movies/persons with IMDb IDs.
+		 */
 		apply_filters( "lum_display_{$lumiere_movie_or_person}s_box", $lumiere_array ),
 		[
 			'a' => [

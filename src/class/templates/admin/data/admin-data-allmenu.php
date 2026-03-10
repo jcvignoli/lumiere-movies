@@ -23,9 +23,9 @@ $lumiere_calling_class = $variables['lum_that']; /** @phpstan-ignore variable.un
 <div id="tabswrap" class="lumiere_wrap">
 	<div class="lumiere_flex_container lumiere_padding_five">
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items selection', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_movie ); ?>"><?php esc_html_e( 'Movie items selection', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-data-inside-movie-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Movie items selection', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_movie ); ?>"><?php esc_html_e( 'Movie items selection', 'lumiere-movies' ); ?></a></div>
 
-		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-person-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Person item selection', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_person ); ?>"><?php esc_html_e( 'Person item selection', 'lumiere-movies' ); ?></a></div>
+		<div class="lumiere_flex_auto lumiere_align_center"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-data-inside-person-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;<a title="<?php esc_html_e( 'Person item selection', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_calling_class->page_data_person ); ?>"><?php esc_html_e( 'Person item selection', 'lumiere-movies' ); ?></a></div>
 
 	</div>
 </div>

@@ -388,7 +388,7 @@ class Admin_Menu {
 			[
 				'parent' => $id,
 				'id' => $id . '_data_movie',
-				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-widget-inside-movie-items.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data movie', 'lumiere-movies' ),
+				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-data-inside-movie-items.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data movie', 'lumiere-movies' ),
 				'href' => $this->page_data_movie,
 				'meta' => [
 					'title' => esc_html__( 'Data option and taxonomy for movies', 'lumiere-movies' ),
@@ -399,7 +399,7 @@ class Admin_Menu {
 			[
 				'parent' => $id,
 				'id' => $id . '_data_person',
-				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-widget-inside-person-items.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data person', 'lumiere-movies' ),
+				'title' => "<img src='" . Get_Options::LUM_PICS_URL . "menu/admin-data-inside-person-items.png' width='16px' />&nbsp;&nbsp;" . esc_html__( 'Data person', 'lumiere-movies' ),
 				'href' => $this->page_data_person,
 				'meta' => [
 					'title' => esc_html__( 'Data option and taxonomy for persons', 'lumiere-movies' ),

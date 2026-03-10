@@ -104,15 +104,15 @@ export default {
 			},
 			/****** Render files in block folders */
 			{
-				from: resolve( './src/assets/blocks/**/render.php' ),
+				from: resolve( './src/assets/blocks/*/render.php' ),
 				to({ context, absoluteFilename }) {
-					const path = absoluteFilename.split("/").slice(7, -1).join("/");
-					return `${path}/[name][ext]`;
+					const relativePath = relative(resolve('./src'), absoluteFilename);
+					return relativePath;
 				},
 			},
 			/****** Bootstrap */
 			{
-				from: resolve( './src/vendor/twbs/bootstrap/dist/**/*.(css|js)' ),
+				from: resolve( './src/vendor/twbs/bootstrap/dist/**/*' ),
 				globOptions: {
 					concurrency: 100,
 					ignore: [
@@ -127,8 +127,8 @@ export default {
 					 *      Changed To: 'vendor/avatar/style.css'
 					 * 	We don't add .min to filename
 					 */
-					const path = absoluteFilename.split("/").slice(7, -1).join("/");
-					return `${path}/[name][ext]`;
+					const relativePath = relative(resolve('./src'), absoluteFilename);
+					return relativePath;
 				},
 			},
 			/****** CSS */
@@ -149,9 +149,9 @@ export default {
 					concurrency: 100,
 				},
 				to({ context, absoluteFilename }) {
-					const path = absoluteFilename.split("/").slice(7, -1).join("/");
+					const relativePath = relative(resolve('./src'), absoluteFilename);
 					/** add .min to filename */
-					return `${path}/[name].min.css`;
+					return relativePath.replace('.scss', '.min.css');	
 				},
 				noErrorOnMissing: true,
 				// compile scss into css
@@ -183,8 +183,8 @@ export default {
 					 *      Orginal Path: 'src/images/avatar/image.jpg'
 					 *      Changed To: 'images/avatar'
 					 */
-					const path = absoluteFilename.split("/").slice(7, -1).join("/");
-					return `${path}/[name][ext]`;
+					const relativePath = relative(resolve('./src'), absoluteFilename);
+					return relativePath;
 				},
 			},
 			/****** Pics */
@@ -200,8 +200,8 @@ export default {
 					 *      Orginal Path: 'src/images/avatar/image.jpg'
 					 *      Changed To: 'images/avatar'
 					 */
-					const path = absoluteFilename.split("/").slice(7, -1).join("/");
-					return `${path}/[name][ext]`;
+					const relativePath = relative(resolve('./src'), absoluteFilename);
+					return relativePath;
 				},	
 			},
 			]

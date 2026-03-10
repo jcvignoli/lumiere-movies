@@ -35,7 +35,7 @@ $lumiere_that = $variables['lum_that']; /** @phpstan-ignore variable.undefined  
 				<?php // Data subpage is relative to what is activated. ?>
 
 				<div class="lumiere_padding_five lumiere_flex_auto">
-					<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-inside-movie-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
+					<img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-data-inside-movie-items.png' ); ?>" align="absmiddle" width="16px" />&nbsp;
 
 
 					<a title="<?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?>" href="<?php echo esc_url( $lumiere_that->page_data_movie ); ?>"><?php esc_html_e( 'Data Management', 'lumiere-movies' ); ?></a>

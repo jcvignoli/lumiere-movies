@@ -1,4 +1,3 @@
-import { useBlockProps } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import jsonData from './block.json';

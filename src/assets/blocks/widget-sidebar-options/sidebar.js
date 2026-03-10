@@ -1,8 +1,13 @@
+/**
+ * We avoid importing from @wordpress/edit-post or @wordpress/editor
+ * to prevent them from being added to the compiled asset dependencies.
+ * This prevents the error
+ * Notice: Function wp_enqueue_script() was called incorrectly. "wp-editor" script should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets). Please see Debugging in WordPress for more information. (This message was added in version 5.8.0.) in wp-includes/functions.php on line 6131
+ */
 import { __ , sprintf  } from '@wordpress/i18n';
 import { compose } from '@wordpress/compose';
 import { useSelect } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
-import { PluginDocumentSettingPanel } from '@wordpress/editor';
 import { ToggleControl, TextControl, PanelRow, SelectControl, withFocusReturn } from '@wordpress/components';
 import { RawHTML } from '@wordpress/element';
 import { registerPlugin } from '@wordpress/plugins'; 
@@ -14,6 +19,15 @@ const iconLumiere = (
 const htmlToElem = ( htmlText ) => RawHTML( { children: htmlText } ); /* type of block that can include html */
 
 const Lum_Sidebar_Options = () => {
+
+	// Access PluginDocumentSettingPanel from window.wp to avoid hard dependency in .asset.php, see initial phpdoc comment 
+	const PluginDocumentSettingPanel = ( window.wp && window.wp.editPost ) 
+		? window.wp.editPost.PluginDocumentSettingPanel 
+		: ( ( window.wp && window.wp.editor ) ? window.wp.editor.PluginDocumentSettingPanel : null );
+
+	if ( ! PluginDocumentSettingPanel ) {
+		return null;
+	}
 
 	const { postType, meta, editPost } = useSelect( ( select ) => {
 		const editor = select( 'core/editor' );
@@ -27,8 +41,11 @@ const Lum_Sidebar_Options = () => {
 	// Render component for post type 'post' or 'page' only
 	if ( ! ( 'post' === postType || 'page' === postType ) ) { return null; }
 
-	// If Lumière Widget is not present, display special text and exit
-	if ( ! lumiere_admin_vars.is_widget_active ) {
+	/**
+	 * If Lumière Widget is not present, display special text and exit
+	 * lumiere_admin_vars.is_widget_block_active is set in Settings class, detecting if block widget is active
+	 */
+	if ( ! lumiere_admin_vars.is_widget_block_active ) {
 		return (
 			<PluginDocumentSettingPanel
 				title={ __( 'Lumière widget settings', 'lumiere-movies' ) }
@@ -42,6 +59,7 @@ const Lum_Sidebar_Options = () => {
 						{ htmlToElem(
 							sprintf(
 								__(
+									/* Translators: %1$s and %2$s are html tags */
 									'Lumière Widget options are not avaible, you must add a Lumière Widget in %1$swidget options page%2$s.',
 									'lumiere-movies'
 								),
@@ -113,9 +131,10 @@ const Lum_Sidebar_Options = () => {
 		};
 		return(
 			<TextControl
-				label="Tite/name/IMDb ID"
+				label={ __( 'Tite/name/IMDb ID', 'lumiere-movies' ) }
 				value={ meta[ widget_key ] }
 				className="lum_widget_text"
+				/* Translators: %1$s and %2$s are html tags */
 				help={ htmlToElem( sprintf( __( 'You can get the IMDb ID number by %1$ssearching in the popup%2$s and then copy the ID found here.', 'lumiere-movies' ), '<a data-lumiere_admin_search_popup="noInfoNeeded" class="link-imdblt-highslidepeople" target="_blank">', '</a>' ) ) }
 				onChange= { funcOnChangeText }
 				autoFocus={ true }

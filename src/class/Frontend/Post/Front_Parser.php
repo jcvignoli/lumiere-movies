@@ -129,7 +129,7 @@ class Front_Parser {
 		 *
 		 * @since 4.3.2
 		 *
-		 * @param array{bymid?: string, byname?: string} $imdb_id_or_title List of movie IDs or titles.
+		 * @var array{bymid?: string, byname?: string} $imdb_id_or_title List of movie IDs or titles.
 		 */
 		$array_movies_with_imdbid = apply_filters( 'lum_find_movie_id', $imdb_id_or_title );
 
@@ -138,8 +138,7 @@ class Front_Parser {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array{bymid?: string, byname?: string} $array_movies_with_imdbid List of movies with IMDb IDs.
-		 * @phpstan-ignore return.type (I've not idea how to fix it)
+		 * @var array{bymid?: string, byname?: string} $array_movies_with_imdbid List of movies with IMDb IDs.
 		 */
 		return apply_filters( 'lum_display_movies_box', $array_movies_with_imdbid );
 	}
@@ -170,7 +169,7 @@ class Front_Parser {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param array<array{bymid?: string, byname?: string}> $imdb_id_or_title List of person IDs or names.
+		 * @var array<array{bymid?: string, byname?: string}> $imdb_id_or_title List of person IDs or names.
 		 */
 		$array_persons_with_imdbid = apply_filters( 'lum_find_person_id', $imdb_id_or_title );
 
@@ -179,8 +178,7 @@ class Front_Parser {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param array<array{bymid?: string, byname?: string}> $array_persons_with_imdbid List of persons with IMDb IDs.
-		 * @phpstan-ignore return.type (I've not idea how to fix it)
+		 * @var array<array{bymid?: string, byname?: string}> $array_persons_with_imdbid List of persons with IMDb IDs.
 		 */
 		return apply_filters( 'lum_display_persons_box', $array_persons_with_imdbid );
 	}
