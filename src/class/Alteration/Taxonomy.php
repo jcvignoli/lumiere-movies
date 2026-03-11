@@ -113,10 +113,10 @@ final class Taxonomy {
 					'post_status' => 'publish',
 					'fields' => 'ids',
 					'showposts' => -1,
-					'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+					'tax_query' => [
 						[
-						'taxonomy' => $full_old_taxonomy,
-						'operator' => 'EXISTS',
+							'taxonomy' => $full_old_taxonomy,
+							'operator' => 'EXISTS',
 						],
 					],
 				]

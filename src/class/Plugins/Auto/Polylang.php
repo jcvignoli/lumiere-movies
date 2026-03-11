@@ -310,7 +310,7 @@ final class Polylang {
 			'nopaging' => true,
 			'lang' => $lang,
 			'fields' => 'ids',
-			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			'tax_query' => [
 				[
 					'taxonomy' => esc_html( $args['taxonomy'] ),
 					'field' => 'term_id',

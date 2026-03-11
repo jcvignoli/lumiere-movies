@@ -351,11 +351,11 @@ final class Taxonomy_People_Standard {
 			'post_status' => 'publish',
 			'showposts' => -1,
 			'fields' => 'ids',
-			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			'tax_query' => [
 				[
-				'taxonomy' => sanitize_text_field( $taxonomy_name ),
-				'field' => 'name',
-				'terms' => sanitize_text_field( $person_name ),
+					'taxonomy' => sanitize_text_field( $taxonomy_name ),
+					'field' => 'name',
+					'terms' => sanitize_text_field( $person_name ),
 				],
 			],
 		];

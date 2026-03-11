@@ -44,6 +44,9 @@
 		<!-- Deprecated -->
 		<exclude name="Generic.Functions.CallTimePassByReference" />
 		<exclude name="Squiz.WhiteSpace.LanguageConstructSpacing" />
+		
+		<!-- quite useless, can't use 'meta_query', 'tax_query' in queries -->
+		<exculde name="WordPress.DB.SlowDBQuery.slow_db_query_tax_query" />
 	</rule> 
 
 	<!-- Include the WordPress-Extra standard.-->

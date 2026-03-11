@@ -170,7 +170,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$this->logger->log?->debug( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Updating metada' );
 		$args_lumiere_widget_movieid = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_widget_movieid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_widget_movieid' ] ],
 			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args_lumiere_widget_movieid );
@@ -188,7 +188,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		// page
 		$args_lumiere_widget_movieid_page = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_widget_movieid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_widget_movieid' ] ],
 			'post_type' => 'page',
 		]; // Select all relevant pages.
 		$posts_array = get_posts( $args_lumiere_widget_movieid_page );
@@ -207,7 +207,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		// lumiere_widget_movietitle becomes lum_movie_title_widget
 		$args_lumiere_widget_movietitle = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_widget_movietitle' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_widget_movietitle' ] ],
 			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args_lumiere_widget_movietitle );
@@ -225,7 +225,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		// page
 		$args_lumiere_widget_movietitle_page = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_widget_movietitle' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_widget_movietitle' ] ],
 			'post_type' => 'page',
 		]; // Select all relevant pages.
 		$posts_array = get_posts( $args_lumiere_widget_movietitle_page );
@@ -244,7 +244,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		// lumiere_widget_personname becomes lum_person_name_widget
 		$args = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_widget_personname' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_widget_personname' ] ],
 			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args );
@@ -262,7 +262,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		// page
 		$args_lumiere_widget_personname_page = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_widget_personname' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_widget_personname' ] ],
 			'post_type' => 'page',
 		]; // Select all relevant pages.
 		$posts_array = get_posts( $args_lumiere_widget_personname_page );
@@ -281,7 +281,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		// lumiere_widget_personid becomes lum_person_id_widget
 		$args_lumiere_widget_personid = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_widget_personid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_widget_personid' ] ],
 			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args_lumiere_widget_personid );
@@ -299,7 +299,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		// page
 		$args_lumiere_widget_personid_page = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_widget_personid' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_widget_personid' ] ],
 			'post_type' => 'page',
 		]; // Select all relevant pages.
 		$posts_array = get_posts( $args_lumiere_widget_personid_page );
@@ -318,7 +318,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		// lumiere_autotitlewidget_perpost becomes _lum_autotitle_perpost and the value changes to boolean
 		$args_lumiere_autotitlewidget_perpost = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_autotitlewidget_perpost' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_autotitlewidget_perpost' ] ],
 			'post_type' => 'post',
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args_lumiere_autotitlewidget_perpost );
@@ -338,7 +338,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		//page
 		$args_lumiere_autotitlewidget_perpost_page = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_autotitlewidget_perpost' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_autotitlewidget_perpost' ] ],
 			'post_type' => 'page',
 		]; // Select all relevant pages.
 		$posts_array = get_posts( $args_lumiere_autotitlewidget_perpost_page );
@@ -364,7 +364,7 @@ final class Lumiere_Update_File_23 extends \Lumiere\Updates {
 		$this->logger->log?->debug( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Updating metada lumiere_autowidget_perpost' );
 		$args_lumiere_autowidget_perpost = [
 			'posts_per_page' => -1,
-			'meta_query' => [ [ 'key' => 'lumiere_autowidget_perpost' ] ], // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			'meta_query' => [ [ 'key' => 'lumiere_autowidget_perpost' ] ],
 			'post_type' => [ 'post' ],
 		]; // Select all relevant posts.
 		$posts_array = get_posts( $args_lumiere_autowidget_perpost );

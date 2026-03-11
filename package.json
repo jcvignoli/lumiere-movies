@@ -8,7 +8,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "watch": "wp-scripts start --progress --mode development --blocks-manifest && mv dist/blocks-manifest.php dist/assets/blocks/blocks-manifest.php && echo 'cannot copy blocks-manifest.php'",
-    "build": "wp-scripts build --progress --mode production && wp-scripts build-blocks-manifest --input=src --output=dist/assets/blocks/blocks-manifest.php",
+    "build": "if [ -d dist ] && [ -s dist ]; then rm -R dist; fi; wp-scripts build --progress --mode production && wp-scripts build-blocks-manifest --input=src --output=dist/assets/blocks/blocks-manifest.php",
     "wp:lint_css": "wp-scripts lint-style",
     "wp:lint_js": "wp-scripts lint-js",
     "codeception:start": "php vendor/bin/codecept run --env wpchrome -vvv tests/codeception/Acceptance/000-StartCest.php",
@@ -21,7 +21,7 @@
     "phpmd": "vendor/bin/phpmd src html ./phpmd.xml.dist > tmp/logs/Results-phpmd.html",
     "phpstan": "vendor/bin/phpstan -v | tee tmp/logs/Results-phpstan.txt",
     "phpstan-clean": "if [ -d \"tmp/cache/phpstan\" ];then rm -R tmp/cache/phpstan && npm run phpstan; else npm run phpstan; fi",
-    "plugincheck": "wp @lumiere plugin check lumiere-movies --ignore-codes='WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing,PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage, WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary,WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace'",
+    "plugincheck": "wp @lumiere plugin check lumiere-movies --ignore-codes='WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing,PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage, WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary,WordPress.DB.SlowDBQuery.slow_db_query_tax_query, WordPress.DB.SlowDBQuery.slow_db_query_meta_query,WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace'",
     "psalm": "vendor/bin/psalm --show-info=true --report=tmp/logs/Results-psalm.txt",
     "psalm-clean": "if [ -d tmp/cache/psalm ]; then rm -R tmp/cache/psalm; fi; npm run psalm"
   },

@@ -160,7 +160,7 @@ final class Taxonomy_Items_Standard {
 			'post_status' => 'publish',
 			'showposts' => -1,
 			'fields' => 'ids',
-			'tax_query' => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			'tax_query' => [
 				[
 					'taxonomy' => sanitize_text_field( $this->taxonomy ),
 					'field' => 'slug',

@@ -196,7 +196,7 @@ class Settings_Helper {
 	 *
 	 * @see Settings::get_default_data_person_option() Meant to be used there
 	 *
-	 * @return array<'order', array<string, string>>
+	 * @return array<array-key, array<string, string>>
 	 * @phpstan-return OPTIONS_DATA_PERSON_ORDER
 	 */
 	protected function get_data_person_order(): array {
@@ -219,7 +219,7 @@ class Settings_Helper {
 	 *
 	 * @see Settings::get_default_data_person_option() Meant to be used there
 	 *
-	 * @return array<'activated', array<string, string>>
+	 * @return array<array-key, array<string, string>>
 	 * @phpstan-return OPTIONS_DATA_PERSON_ACTIVATED
 	 */
 	protected function get_data_person_activated(): array {
@@ -241,7 +241,7 @@ class Settings_Helper {
 	 *
 	 * @see Settings::get_default_data_person_option() Meant to be used there
 	 *
-	 * @return array<'number', array<string, string>>
+	 * @return array<array-key, array<string, string>>
 	 * @phpstan-return OPTIONS_DATA_PERSON_NUMBER
 	 */
 	protected function get_data_person_number(): array {

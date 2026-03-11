@@ -77,8 +77,8 @@ class Settings_Person {
 	 * The list removes methods from {@see Settings_Person::define_list_items_person()}
 	 *
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_people_file() use this list so doesn't call those methods in \IMDB\Name
-	 * @see class/templates/admin/data/admin-data-person-display.php use this list to not display those methods (always selected or never selected)
-	 * @see class/templates/admin/data/admin-data-person-order.php use this list to not display those methods in ordering list
+	 * @info templates/admin/data/admin-data-person-display.php use this list to not display those methods (always selected or never selected)
+	 * @info templates/admin/data/admin-data-person-order.php use this list to not display those methods in ordering list
 	 */
 	public const LUM_DATA_PERSON_NO_METHOD          = [
 		'pic',          /* Never exists in Name (but it does as module), must always stay here */
