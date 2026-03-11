@@ -907,7 +907,6 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: class/Admin/Backoffice_Extra.php:58
-#: assets/blocks/post/edit.js:17
 #: assets/blocks/widget/edit.js:18
 msgid "Settings"
 msgstr ""
@@ -1027,7 +1026,7 @@ msgstr ""
 msgid "Add automatically movie details to your pages with Lumière! Legacy version. As of WordPress 5.8, you rather should use block-based widgets."
 msgstr ""
 
-#: class/Admin/Widget_Selection.php:163
+#: class/Admin/Widget_Selection.php:191
 msgid "Widget title:"
 msgstr ""
 
@@ -1583,19 +1582,19 @@ msgstr ""
 msgid "Display (a number of) awards"
 msgstr ""
 
-#: class/Config/Settings.php:221
+#: class/Config/Settings.php:222
 msgid "By movie ID"
 msgstr ""
 
-#: class/Config/Settings.php:225
+#: class/Config/Settings.php:226
 msgid "By movie title"
 msgstr ""
 
-#: class/Config/Settings.php:229
+#: class/Config/Settings.php:230
 msgid "By person name"
 msgstr ""
 
-#: class/Config/Settings.php:233
+#: class/Config/Settings.php:234
 msgid "By person ID"
 msgstr ""
 
@@ -2905,9 +2904,9 @@ msgstr ""
 msgid "Open a new window to find the IMDb id for selected movie or person"
 msgstr ""
 
-#. translators: %1$s and %2$s are html tags
-#: assets/blocks/post/edit.js:31
-#: assets/blocks/widget-sidebar-options/sidebar.js:91
+#. Translators: %1$s and %2$s are html tags
+#: assets/blocks/post/edit.js:38
+#: assets/blocks/widget-sidebar-options/sidebar.js:138
 #, js-format
 msgid "You can get the IMDb ID number by %1$ssearching in the popup%2$s and then copy the ID found here."
 msgstr ""
@@ -2920,37 +2919,34 @@ msgstr ""
 msgid "Add a block in your posts that displays movie/person data."
 msgstr ""
 
-#: assets/blocks/post/index.js:27
-msgid "Enter the name or the IMDb ID movie"
-msgstr ""
-
-#: assets/blocks/widget-sidebar-options/sidebar.js:60
+#: assets/blocks/widget-sidebar-options/sidebar.js:101
 msgid "Display items in widget"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:107
+#: assets/blocks/widget-sidebar-options/sidebar.js:154
 #, js-format
 msgid "%1$sAuto title widget%2$s is unactive, related options are hidden"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:114
+#: assets/blocks/widget-sidebar-options/sidebar.js:161
 msgid "Deactivate Auto Title Widget for this post"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:116
+#: assets/blocks/widget-sidebar-options/sidebar.js:163
 #, js-format
 msgid "Will prevent %1$sAuto Title Widget%2$s to be displayed on this post"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:127
+#: assets/blocks/widget-sidebar-options/sidebar.js:174
 #, js-format
 msgid "Theses features are functional only if you added a %1$sLumiere widget%2$s"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:132
+#: assets/blocks/widget-sidebar-options/sidebar.js:51
+#: assets/blocks/widget-sidebar-options/sidebar.js:179
 msgid "Lumière widget settings"
 msgstr ""
 
@@ -3059,11 +3055,11 @@ msgstr ""
 msgid "Ending date (in number of days)"
 msgstr ""
 
-#: assets/blocks/widget/index.js:16
+#: assets/blocks/widget/index.js:15
 msgid "Lumière Widget"
 msgstr ""
 
-#: assets/blocks/widget/index.js:17
+#: assets/blocks/widget/index.js:16
 msgid "Add a movie/person widget in your sidebar"
 msgstr ""
 
@@ -3257,12 +3253,8 @@ msgstr ""
 msgid "Search Type"
 msgstr ""
 
-#: assets/blocks/post/edit.js:27
+#: assets/blocks/post/edit.js:29
 msgid "Title / Name / IMDb ID"
-msgstr ""
-
-#: assets/blocks/post/edit.js:47
-msgid "Enter a movie title or IMDb ID in the sidebar to see the preview."
 msgstr ""
 
 #: assets/blocks/widget/edit.js:20
@@ -3275,4 +3267,22 @@ msgstr ""
 
 #: class/templates/admin/data/admin-data-allmenu.php:28
 msgid "Person item selection"
+msgstr ""
+
+#: assets/blocks/post/edit.js:17
+msgid "Movie/Person post"
+msgstr ""
+
+#: assets/blocks/post/edit.js:64
+msgid "Enter a Title/Name/IMDb ID in the sidebar"
+msgstr ""
+
+#. Translators: %1$s and %2$s are html tags
+#: assets/blocks/widget-sidebar-options/sidebar.js:61
+#, js-format
+msgid "Lumière Widget options are not avaible, you must add a Lumière Widget in %1$swidget options page%2$s."
+msgstr ""
+
+#: assets/blocks/widget-sidebar-options/sidebar.js:134
+msgid "Tite/name/IMDb ID"
 msgstr ""
