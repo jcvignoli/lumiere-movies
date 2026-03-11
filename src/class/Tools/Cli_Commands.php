@@ -155,14 +155,14 @@ final class Cli_Commands {
 	 * Pass the var like that:
 	 *  --array_key=new_value
 	 *  Ex:  --imdbdebug=0
+	 *  Ex:  --activated='{"born_active":"1"}'
+	 *  Ex:  --activated[born_active]=1
 	 *
 	 * Pass the database to update admin|data_movie|data_person|cache
 	 * wp lum update_options admin|data_movie|data_person|cache
 	 *
-	 * @todo can't pass arrays as argument vars, such as wp @wptest lum update_options data_person --activated="[\"born_active\"=>\"1\"],"
-	 *
 	 * @param array<int, string> $args The first argument only is used to detect which subcommand run, such as "wp lum update_options "
-	 * @param array<string, string> $dashed_extra_args The list of arguments passed as in --array_key=new_value, [] if empty.
+	 * @param array<string, mixed> $dashed_extra_args The list of arguments passed as in --array_key=new_value, [] if empty.
 	 * @param-phpstan array<OPTIONS_ADMIN|OPTIONS_CACHE|OPTIONS_DATA_MOVIE|OPTIONS_DATA_PERSON> $dashed_extra_args
 	 */
 	private function sub_update_options( array $args, array $dashed_extra_args ): void {
@@ -172,13 +172,12 @@ final class Cli_Commands {
 			WP_CLI::error( "The second argument is missing or wrong, the command must comply with:\nwp lum update_options admin|data_movie|data_person|cache --array_key=new_value" );
 		}
 
-		// If no extra dashed arguments passed or more than one, exit.
-		if ( count( $dashed_extra_args ) !== 1 ) {
-			WP_CLI::error( "Use one extra argument as follows:\nwp lum update_options admin|data|cache --array_key=new_value" );
+		// If no extra dashed arguments passed, exit.
+		if ( count( $dashed_extra_args ) < 1 ) {
+			WP_CLI::error( "Use at least one extra argument as follows:\nwp lum update_options admin|data_movie|data_person|cache --array_key=new_value" );
 		}
 
 		// Build the constant to call in Get_Options - can be admin, cache or data
-		//$settings_name = 'get_' . strtolower( $args[1] ) . '_tablename';
 		$options_tablename = null;
 		if ( $args[1] === 'data_movie' ) { // If this is get_data_tablename, we need Get_Options_Movie helper class.
 			$options_tablename = Get_Options_Movie::get_data_tablename();
@@ -195,30 +194,68 @@ final class Cli_Commands {
 			WP_CLI::error( "The second argument is missing or wrong, the command must comply with:\nwp lum update_options admin|data_movie|data_person|cache --array_key=new_value" );
 		}
 
-		// Get options from DB and get the (first) array key from the passed values in $dashed_extra_args.
+		// Get options from DB .
 		/** @phpstan-var string $options_tablename (PHPStan doesn't know that WP_CLI::error exits) */
 		$database_options = get_option( $options_tablename );
-		$array_key = array_key_first( $dashed_extra_args );
 
-		// Exit if the array key doesn't exist in Lumière! DB admin options
-		/** @phpstan-ignore argument.type (array_key_exists expects int|string, string|null given) */
-		if ( array_key_exists( $array_key, $database_options ) === false ) {
-			WP_CLI::error( 'This var does not exist, only accepted: ' . implode( ', ', array_keys( $database_options ) ) );
+		if ( ! is_array( $database_options ) ) {
+			WP_CLI::error( "The options for $args[1] are not yet initialized in the database." );
 		}
 
-		// Build new array and update database.
-		$database_options[ $array_key ] = $dashed_extra_args[ $array_key ?? '' ];
+		foreach ( $dashed_extra_args as $raw_key => $value ) {
+
+			$array_key = $raw_key;
+			$subkey = null;
+
+			// Handle bracket syntax if not already parsed by WP-CLI (e.g. --activated[born_active]=1).
+			if ( preg_match( '/^([^\[]+)\[([^\]]+)\]$/', $array_key, $matches ) === 1 ) {
+				$array_key = $matches[1];
+				$subkey = $matches[2];
+			}
+
+			// Exit if the array key doesn't exist in Lumière! DB options.
+			if ( ! array_key_exists( $array_key, $database_options ) ) {
+				WP_CLI::error( 'The var "' . $array_key . '" does not exist, only accepted: ' . implode( ', ', array_keys( $database_options ) ) );
+			}
+
+			// Handle JSON values or arrays.
+			$new_value = $value;
+			if ( is_string( $value ) ) {
+				$decoded = json_decode( $value, true );
+				if ( json_last_error() === JSON_ERROR_NONE && is_array( $decoded ) ) {
+					$new_value = $decoded;
+				}
+			}
+
+			// Apply the update.
+			if ( $subkey !== null ) {
+				if ( ! is_array( $database_options[ $array_key ] ) ) {
+					$database_options[ $array_key ] = [];
+				}
+				$database_options[ $array_key ][ $subkey ] = $new_value;
+			} elseif ( is_array( $new_value ) && is_array( $database_options[ $array_key ] ) ) {
+				$database_options[ $array_key ] = array_replace( $database_options[ $array_key ], $new_value );
+			} else {
+				$database_options[ $array_key ] = $new_value;
+			}
+
+			$display_value = is_array( $database_options[ $array_key ] ) ? wp_json_encode( $database_options[ $array_key ] ) : (string) $database_options[ $array_key ];
+			WP_CLI::log( "Updated var $array_key with value $display_value" );
+		}
+
+		// Update database.
 		update_option( $options_tablename, $database_options );
 
-		if ( $array_key === 'imdbcachekeepsizeunder' ) {
+		// Side effects after update.
+		if ( array_key_exists( 'imdbcachekeepsizeunder', $dashed_extra_args ) ) {
 			( new Cron() )->cron_add_delete_oversize();
 		}
 
-		if ( $array_key === 'imdbcacheautorefreshcron' ) {
+		if ( array_key_exists( 'imdbcacheautorefreshcron', $dashed_extra_args ) ) {
 			( new Cron() )->cron_add_delete_cache();
 		}
 
-		WP_CLI::success( 'Updated var ' . $array_key . ' with value ' . $database_options[ $array_key ] );
+		WP_CLI::success( 'Lumière options updated successfully' );
 	}
 
 	/**

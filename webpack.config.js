@@ -78,7 +78,7 @@ export default {
 		}),
 		// Runs only if "--mode development" is passed in command line
 		new SSHWatchUploadWebpackPlugin({
-			mode: getCmdArgs.mode==='development' ? 'development' : 'production',
+			mode: getCmdArgs.mode==='development' ? 'development' : 'production',		// in npm run build, do not use ssh
 			host: extCred.mainserver.hostname,
 			port: extCred.mainserver.port,
 			username: extCred.mainserver.username,
