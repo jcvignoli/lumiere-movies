@@ -159,6 +159,8 @@ final class Cli_Commands {
 	 * Pass the database to update admin|data_movie|data_person|cache
 	 * wp lum update_options admin|data_movie|data_person|cache
 	 *
+	 * @todo can't pass arrays as argument vars, such as wp @wptest lum update_options data_person --activated="[\"born_active\"=>\"1\"],"
+	 *
 	 * @param array<int, string> $args The first argument only is used to detect which subcommand run, such as "wp lum update_options "
 	 * @param array<string, string> $dashed_extra_args The list of arguments passed as in --array_key=new_value, [] if empty.
 	 * @param-phpstan array<OPTIONS_ADMIN|OPTIONS_CACHE|OPTIONS_DATA_MOVIE|OPTIONS_DATA_PERSON> $dashed_extra_args

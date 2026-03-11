@@ -20,7 +20,7 @@ body.lum_body_popup_lightgrey {color: black;background: lightgrey;}
 .lum_popup_titlemenu a:hover {color: #A8A8A8;text-decoration: none;}
 
 .hidesection{display:none;}
-.activatehidesection {cursor:help;}
+.activatehidesection {cursor:help;font-weight:bold;}
 
 #lum_popup_search{ /*link to the "similiar titles" in a popup movie */
 	background: url(../pics/search.png) no-repeat left;

@@ -22,6 +22,7 @@ import * as sassTransform  from 'sass';
 
 // Utilities
 import { resolve, relative, dirname, join, parse } from 'path';
+import blocksManifestPlugin from './scripts/blocks-manifest/index.js';			/* create and move the block-manifest.php file */
 import getCmdArgs from './scripts/cmd-line-args/index.js';				/* extract arguments from command-line */
 
 // Constants
@@ -46,6 +47,9 @@ export default {
 		new RemoveEmptyScriptsPlugin({
 			stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
 		}),
+		
+		// Move block-manifest.php file
+		new blocksManifestPlugin(),
 		
 		// Runs only if "--watch" is passed in command-line
 		new BrowserSyncPlugin({

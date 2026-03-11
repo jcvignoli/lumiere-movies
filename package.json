@@ -7,8 +7,8 @@
   "homepage": "https://github.com/jcvignoli/lumiere-movies#README",
   "license": "GPL-3.0",
   "scripts": {
-    "watch": "wp-scripts start --progress --mode development --blocks-manifest && mv dist/blocks-manifest.php dist/assets/blocks/blocks-manifest.php && echo 'cannot copy blocks-manifest.php'",
-    "build": "if [ -d dist ] && [ -s dist ]; then rm -R dist; fi; wp-scripts build --progress --mode production && wp-scripts build-blocks-manifest --input=src --output=dist/assets/blocks/blocks-manifest.php",
+    "watch": "wp-scripts start --progress --mode development --blocks-manifest",
+    "build": "if [ -d dist ] && [ -s dist ]; then rm -R dist; fi; wp-scripts build --progress --mode production --blocks-manifest",  
     "wp:lint_css": "wp-scripts lint-style",
     "wp:lint_js": "wp-scripts lint-js",
     "codeception:start": "php vendor/bin/codecept run --env wpchrome -vvv tests/codeception/Acceptance/000-StartCest.php",
