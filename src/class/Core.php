@@ -90,6 +90,11 @@ final class Core extends Hooks_Updates {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			add_action( 'cli_init', [ 'Lumiere\Tools\Cli_Commands', 'start' ] );
 		}
+
+		/**
+		 * Plugin check, remove some checks
+		 */
+		add_filter( 'wp_plugin_check_checks', [ $this, 'lum_remove_plugincheck' ] );
 	}
 
 	/**
@@ -221,5 +226,18 @@ final class Core extends Hooks_Updates {
 		// Script for click on gutenberg block link to open a popup.
 		wp_enqueue_script( 'lumiere_scripts_admin_gutenberg' );
 	}
-}
 
+	/**
+	 * Remove from plugin check
+	 * @see https://github.com/WordPress/plugin-check/blob/trunk/includes/Checker/Default_Check_Repository.php
+	 *
+	 * @param array<string, string> $checks
+	 * @return array<string, string>
+	 */
+	public function lum_remove_plugincheck( array $checks ): array {
+		unset( $checks['performant_wp_query_params'] ); // Slow database.
+		unset( $checks['file_type'] ); // check if using Changelog.md, Support.md, etc.
+		// unset( $checks['setting_sanitization'] ); // have to keep them
+		return $checks;
+	}
+}

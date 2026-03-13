@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50564c80334b5c699bfbda4643baddc9",
+    "content-hash": "1fd49e4b811f0d126528fbe6fc485dc4",
     "packages": [
         {
             "name": "duck7000/imdb-graphql-php",
@@ -304,16 +304,16 @@
     "packages-dev": [
         {
             "name": "coenjacobs/mozart",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/coenjacobs/mozart.git",
-                "reference": "0c69d123cb4b12948ecd959a801bbc459726cd56"
+                "reference": "a2d9e3e344efba736a0268e52ea4ee43ab45fcac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/0c69d123cb4b12948ecd959a801bbc459726cd56",
-                "reference": "0c69d123cb4b12948ecd959a801bbc459726cd56",
+                "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/a2d9e3e344efba736a0268e52ea4ee43ab45fcac",
+                "reference": "a2d9e3e344efba736a0268e52ea4ee43ab45fcac",
                 "shasum": ""
             },
             "require": {
@@ -366,7 +366,7 @@
             "description": "Composes all dependencies as a package inside a WordPress plugin",
             "support": {
                 "issues": "https://github.com/coenjacobs/mozart/issues",
-                "source": "https://github.com/coenjacobs/mozart/tree/1.1.3"
+                "source": "https://github.com/coenjacobs/mozart/tree/1.1.4"
             },
             "funding": [
                 {
@@ -374,7 +374,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-04T08:57:17+00:00"
+            "time": "2026-03-12T09:13:19+00:00"
         },
         {
             "name": "league/flysystem",

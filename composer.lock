@@ -3270,16 +3270,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "21dc724a0583619cd1652f673303492272778051"
+                "reference": "7d0ed42f28e42d61352a7a79de682e5e67fec884"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/21dc724a0583619cd1652f673303492272778051",
-                "reference": "21dc724a0583619cd1652f673303492272778051",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/7d0ed42f28e42d61352a7a79de682e5e67fec884",
+                "reference": "7d0ed42f28e42d61352a7a79de682e5e67fec884",
                 "shasum": ""
             },
             "require": {
@@ -3295,6 +3295,7 @@
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "http-interop/http-factory-tests": "0.9.0",
+                "jshttp/mime-db": "1.54.0.1",
                 "phpunit/phpunit": "^8.5.44 || ^9.6.25"
             },
             "suggest": {
@@ -3366,7 +3367,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.8.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.9.0"
             },
             "funding": [
                 {
@@ -3382,7 +3383,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-23T21:21:41+00:00"
+            "time": "2026-03-10T16:41:02+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -7933,12 +7934,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jcvignoli/wordpress-stubs",
-                "reference": "087332afdeffd492fe3a744e56c9ced0fec29382"
+                "reference": "c95b1af1a265750fd54efd2f5ccef6e4d28e8f8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jcvignoli/wordpress-stubs/zipball/087332afdeffd492fe3a744e56c9ced0fec29382",
-                "reference": "087332afdeffd492fe3a744e56c9ced0fec29382",
+                "url": "https://api.github.com/repos/jcvignoli/wordpress-stubs/zipball/c95b1af1a265750fd54efd2f5ccef6e4d28e8f8d",
+                "reference": "c95b1af1a265750fd54efd2f5ccef6e4d28e8f8d",
                 "shasum": ""
             },
             "require": {
@@ -7946,7 +7947,7 @@
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-                "phan/phan": "^5.0",
+                "phan/phan": "^6.0",
                 "phpstan/phpstan": "^2.1",
                 "slevomat/coding-standard": "^8.14",
                 "squizlabs/php_codesniffer": "^3.0",
@@ -8000,7 +8001,7 @@
                 "wiki": "https://github.com/skaut/wordpress-stubs/wiki",
                 "source": "https://github.com/skaut/wordpress-stubs"
             },
-            "time": "2026-03-08T09:09:08+00:00"
+            "time": "2026-03-10T09:19:42+00:00"
         },
         {
             "name": "spatie/array-to-xml",
@@ -11902,16 +11903,16 @@
         },
         {
             "name": "wp-cli/mustangostang-spyc",
-            "version": "0.6.3",
+            "version": "0.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/spyc.git",
-                "reference": "6aa0b4da69ce9e9a2c8402dab8d43cf32c581cc7"
+                "reference": "752b7bf37989214bf4b3344cb8bc4c581f820a5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/spyc/zipball/6aa0b4da69ce9e9a2c8402dab8d43cf32c581cc7",
-                "reference": "6aa0b4da69ce9e9a2c8402dab8d43cf32c581cc7",
+                "url": "https://api.github.com/repos/wp-cli/spyc/zipball/752b7bf37989214bf4b3344cb8bc4c581f820a5b",
+                "reference": "752b7bf37989214bf4b3344cb8bc4c581f820a5b",
                 "shasum": ""
             },
             "require": {
@@ -11947,9 +11948,9 @@
             "description": "A simple YAML loader/dumper class for PHP (WP-CLI fork)",
             "homepage": "https://github.com/mustangostang/spyc/",
             "support": {
-                "source": "https://github.com/wp-cli/spyc/tree/autoload"
+                "source": "https://github.com/wp-cli/spyc/tree/0.6.4"
             },
-            "time": "2017-04-25T11:26:20+00:00"
+            "time": "2026-03-10T17:15:34+00:00"
         },
         {
             "name": "wp-cli/package-command",
