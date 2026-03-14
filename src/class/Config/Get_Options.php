@@ -146,7 +146,7 @@ final class Get_Options extends Settings {
 	/**
 	 * Retrieve selected type of search in admin
 	 *
-	 * @since 4.7.4 using enum instead of parent constant
+	 * @since 4.8 using enum instead of parent constant
 	 *
 	 * @return string
 	 * @see \Lumiere\Vendor\Imdb\TitleSearch For the options

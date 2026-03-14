@@ -247,7 +247,7 @@ final class Logger {
 			return $this->log_null();
 		}
 
-		// Change the format. @since 4.7.4 using lum_debug class that is only in admin.
+		// Change the format. @since 4.8 using lum_debug class that is only available in admin.
 		$output = "<div class=\"lum_debug\">[%level_name%][Lumiere]%message%</div>\n";
 		$formater_class = new LineFormatter( $output );
 

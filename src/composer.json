@@ -1,6 +1,6 @@
 {
     "name": "jcvignoli/lumiere-movies",
-    "version": "4.7.4",
+    "version": "4.8",
     "description": "WordPress plugin for retrieving film and people information from IMDb",
     "license": "GPL-3.0-or-later",
     "support": {
@@ -20,7 +20,7 @@
         }
     },
     "require-dev": {
-        "coenjacobs/mozart": "1.1.4"
+        "coenjacobs/mozart": "@stable"
     },
     "require": {
         "php": ">=8.1",

@@ -78,7 +78,7 @@ class Widget_Selection extends WP_Widget {
 	/**
 	 * Hide the widget block if it's not the widget editor
 	 * Executed even if block-manifest.php exists, since this function can't be put in that file
-	 * @since 4.7.4
+	 * @since 4.8
 	 *
 	 * @param array<string, array<string, bool>> $args Arguments for registering a block type.
 	 * @param string $name Block name.
@@ -104,7 +104,7 @@ class Widget_Selection extends WP_Widget {
 	 *
 	 * @since 4.0 using __CLASS__ instead of get_class() in register_widget()
 	 * @since 4.1 replaced __CLASS__ with "Widget_Legacy" in register_widget(), changed the logic of registering the block widget
-	 * @since 4.7.4 exit if LUM_BLOCKS_MANIFEST exists
+	 * @since 4.8 exit if LUM_BLOCKS_MANIFEST exists
 	 */
 	public function lum_select_widget(): void {
 

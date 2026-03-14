@@ -89,7 +89,7 @@ class Settings extends Settings_Helper {
 	 * Used if block manifest doesn't exist, compatibility WP < 6.8
 	 *
 	 * @see \Lumiere\Core
-	 * @since 4.7.4
+	 * @since 4.8
 	 */
 	public const LUM_BLOCKS_LIST                    = [ 'post', 'addlink', 'coming-soon', 'opensearch', 'widget-sidebar-options' ];
 
@@ -242,7 +242,7 @@ class Settings extends Settings_Helper {
 	 * Used in wp_add_inline_script() function
 	 *
 	 * @see \Lumiere\Admin\Admin::lumiere_execute_admin_assets() Include the vars
-	 * @since 4.7.4 added is_widget_block_active which detects if Lumière block widget is added (used in sidebar.js block)
+	 * @since 4.8 added is_widget_block_active which detects if Lumière block widget is added (used in sidebar.js block)
 	 *
 	 * @return string The full javascript piece to be included
 	 */

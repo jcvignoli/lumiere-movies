@@ -117,7 +117,7 @@ trait Main {
 	 * @since 4.6 added "'/' . " in str_contains() at the begining
 	 * @since 4.7 added ". '/'" in str_contains() in the end
 	 * @since 4.7.1 final slash is conditional according to the permalink structure, using new var $is_last_chara_slash
-	 * @since 4.7.4 Use of Popup_Type enum instead of hardcoded Settings constant
+	 * @since 4.8 Use of Popup_Type enum instead of hardcoded Settings constant
 	 *
 	 * @return bool True if the page is a Lumiere popup
 	 */

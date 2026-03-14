@@ -213,7 +213,7 @@ final class Detect_New_Theme {
 	 * Check if update is deactivated
 	 * Search for TemplateAutomaticUpdate in the template file
 	 *
-	 * @since 4.7.4 created
+	 * @since 4.8 created
 	 *
 	 * @param string $file_path
 	 * @return bool True if found

@@ -87,7 +87,7 @@ class Front_Parser {
 
 		/**
 		 * Transform spans into movies.
-		 * @since 4.7.4, the content is not parsed anymore, using the proper block mechanism in render.php
+		 * @since 4.8, the content is not parsed anymore, using the proper block mechanism in render.php
 		 */
 		//add_filter( 'the_content', [ $this, 'parse_spans' ] );
 
@@ -108,8 +108,8 @@ class Front_Parser {
 	 *
 	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once
 	 * @since 4.3.2 added is_amp_validating() method
-	 * @since 4.7.4 obsolete: using render.php in gutenberg block
-	 * @info deprecated since 4.7.4, using render.php in gutenberg block
+	 * @since 4.8 obsolete: using render.php in gutenberg block
+	 * @info deprecated since 4.8, using render.php in gutenberg block
 	 *
 	 * @phpstan-param array{bymid?: string, byname?: string} $imdb_id_or_title
 	 */
@@ -148,8 +148,8 @@ class Front_Parser {
 	 *
 	 * @since 3.8 Extra logs are shown once only using singleton $this->movie_run_once
 	 * @since 4.3.2 added is_amp_validating() method
-	 * @since 4.7.4 obsolete: using render.php in gutenberg block
-	 * @info deprecated since 4.7.4, using render.php in gutenberg block
+	 * @since 4.8 obsolete: using render.php in gutenberg block
+	 * @info deprecated since 4.8, using render.php in gutenberg block
 	 *
 	 * @phpstan-param array<array{bymid?: string, byname?: string}> $imdb_id_or_title
 	 */
@@ -245,8 +245,8 @@ class Front_Parser {
 	 * @since 3.10.2 The function always returns string, no null accepted -- PHP8.2 compatibility
 	 * @since 4.2.3 The function will return with the content if not executed in autorized area
 	 * @since 4.6.1 Use preg_replace_callback() instead of preg_replace_callback_array(), foreach loop, use {@see Get_Options::get_lum_all_type_search()}
-	 * @since 4.7.4 obsolete: using render.php in gutenberg block
-	 * @deprecated since 4.7.4
+	 * @since 4.8 obsolete: using render.php in gutenberg block
+	 * @deprecated since 4.8
 	 *
 	 * @param null|string $content HTML span tags + text inside
 	 * @return string The spans have been replaced with movies/persons boxes
@@ -285,7 +285,7 @@ class Front_Parser {
 	 * It applies method {@see Front_Parser::display_movies()} on the text found
 	 *
 	 * @see Front_Parser::parse_spans() use this method
-	 * @deprecated since 4.7.4, using render.php in gutenberg block
+	 * @deprecated since 4.8, using render.php in gutenberg block
 	 *
 	 * @param string $text_found Text found inside <span></span>
 	 * @param 'byname'|'bymid' $search_type Searching type of the movie
@@ -301,8 +301,8 @@ class Front_Parser {
 	 * It applies method {@see Front_Parser::display_persons()} on the text found
 	 *
 	 * @see Front_Parser::parse_spans() use this method
-	 * @since 4.7.4 obsolete: using render.php in gutenberg block
-	 * @deprecated since 4.7.4
+	 * @since 4.8 obsolete: using render.php in gutenberg block
+	 * @deprecated since 4.8
 	 *
 	 * @param string $text_found Text found inside <span></span>
 	 * @param 'byname'|'bymid' $search_type Searching type of the person

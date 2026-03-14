@@ -6,7 +6,7 @@
  *
  * @version       1.0
  * @package       lumieremovies
- * @since         4.7.4 New file
+ * @since         4.8 New file
  */
 namespace Lumiere;
 
