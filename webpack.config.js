@@ -24,8 +24,6 @@ import * as sassTransform  from 'sass';
 import { resolve, relative, dirname, join, parse } from 'path';
 import blocksManifestPlugin from './scripts/blocks-manifest/index.js';			/* create and move the block-manifest.php file */
 import getCmdArgs from './scripts/cmd-line-args/index.js';				/* extract arguments from command-line */
-
-// Constants
 const __dirname = process.cwd();
 
 // Starting message

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fd49e4b811f0d126528fbe6fc485dc4",
+    "content-hash": "1eeab596411a0415e9c59f41234fd63c",
     "packages": [
         {
             "name": "duck7000/imdb-graphql-php",
@@ -1474,6 +1474,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "coenjacobs/mozart": 0,
         "duck7000/imdb-graphql-php": 20,
         "monolog/monolog": 0,
         "twbs/bootstrap": 0

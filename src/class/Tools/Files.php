@@ -28,7 +28,7 @@ use Exception;
 trait Files {
 
 	/**
-	 * Include the template if it exists and pass to it as a/many variable/s using transient
+	 * Include the template if it exists and pass variables
 	 *
 	 * @param string $file_name Template file name
 	 * @param array<array-key, mixed> $variables The variables transfered to the include
@@ -40,6 +40,7 @@ trait Files {
 	): void {
 		$full_file_path = $this->find_template_file( $file_name );
 		if ( is_file( $full_file_path ) ) {
+			// $variables is automatically included.
 			require $full_file_path;
 		}
 	}
