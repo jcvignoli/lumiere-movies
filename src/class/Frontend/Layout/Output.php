@@ -33,15 +33,6 @@ class Output {
 	 * @return string
 	 */
 	public function misc_layout( string $selector, string $text_one = '', string $text_two = '', string $text_three = '' ): string {
-		$allowed_two_columns_first = [
-			'a' => [
-				'class' => [],
-				'id' => [],
-				'href' => [],
-				'data-*' => [],
-				'title' => [],
-			],
-		];
 		$container = [
 			/* translators: %1s is a movie field string, such as director, actor */
 			'click_more_start'               => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><span class="lumiere_bold">(' . wp_sprintf( esc_html__( 'click to show more %1s', 'lumiere-movies' ), esc_html( $text_one ) ) . ')</span></div>' . "\n\t\t\t<div class=\"hidesection\">",

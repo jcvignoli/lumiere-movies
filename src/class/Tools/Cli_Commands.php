@@ -232,11 +232,52 @@ final class Cli_Commands {
 				if ( ! is_array( $database_options[ $array_key ] ) ) {
 					$database_options[ $array_key ] = [];
 				}
-				$database_options[ $array_key ][ $subkey ] = $new_value;
+
+				// Sanitization for subkeys.
+				if ( in_array( $array_key, [ 'order', 'imdbwidgetorder', 'number' ], true ) ) {
+					$database_options[ $array_key ][ $subkey ] = strval( absint( $new_value ) );
+				} elseif ( $array_key === 'activated' ) {
+					$database_options[ $array_key ][ $subkey ] = $new_value === '1' ? '1' : '0';
+				} else {
+					$database_options[ $array_key ][ $subkey ] = is_string( $new_value ) ? sanitize_text_field( $new_value ) : $new_value;
+				}
+
 			} elseif ( is_array( $new_value ) && is_array( $database_options[ $array_key ] ) ) {
-				$database_options[ $array_key ] = array_replace( $database_options[ $array_key ], $new_value );
+
+				// Sanitization for arrays.
+				$sanitized_new_value = [];
+				foreach ( $new_value as $nv_key => $nv_val ) {
+					if ( in_array( $array_key, [ 'order', 'imdbwidgetorder', 'number' ], true ) ) {
+						$sanitized_new_value[ $nv_key ] = strval( absint( $nv_val ) );
+					} elseif ( $array_key === 'activated' ) {
+						$sanitized_new_value[ $nv_key ] = $nv_val === '1' ? '1' : '0';
+					} else {
+						$sanitized_new_value[ $nv_key ] = is_string( $nv_val ) ? sanitize_text_field( $nv_val ) : $nv_val;
+					}
+				}
+				$database_options[ $array_key ] = array_replace( $database_options[ $array_key ], $sanitized_new_value );
+
 			} else {
-				$database_options[ $array_key ] = $new_value;
+
+				// Sanitization for single values.
+				if ( in_array( $array_key, [ 'imdburlpopups', 'imdbplugindirectory', 'imdbplugindirectory_partial' ], true ) ) {
+					$database_options[ $array_key ] = esc_url_raw( strval( $new_value ) );
+				} elseif (
+					str_ends_with( $array_key, 'larg' )
+					|| str_ends_with( $array_key, 'long' )
+					|| str_ends_with( $array_key, 'width' )
+					|| str_ends_with( $array_key, 'results' )
+					|| str_ends_with( $array_key, 'request' )
+					|| str_ends_with( $array_key, 'Updates' )
+					|| str_ends_with( $array_key, 'expire' )
+					|| str_ends_with( $array_key, 'limit' )
+					|| str_ends_with( $array_key, 'number' )
+				) {
+					$database_options[ $array_key ] = strval( absint( $new_value ) );
+				} else {
+					$database_options[ $array_key ] = is_string( $new_value ) ? sanitize_text_field( $new_value ) : $new_value;
+				}
+
 			}
 
 			$display_value = is_array( $database_options[ $array_key ] ) ? wp_json_encode( $database_options[ $array_key ] ) : (string) $database_options[ $array_key ];

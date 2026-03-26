@@ -4,6 +4,7 @@ v.4.8
 * [feature] See live the movie or person selected in block edition
 * [bug] "Click more" on widget wasn't bold
 * [technical] Cleaning, more OOP with Settings_Services class, blocks standardized
+* [technical] More accurate use of WP escaping functions, using it only when needed, using dedicated function
 * [technical] Not using transiants to display menus (includes are enough)
 * [technical] Use only WP blocks to display movies+people+widget. Using ServerSideRender to live and render.php.
 * [technical] If a Template was marked for no update (taking out TemplateAutomaticUpdate) the regular update was warning the user. Changed the behaviour, never warn the user.

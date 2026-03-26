@@ -53,7 +53,7 @@ final class Core extends Hooks_Updates {
 		 * https://developer.wordpress.org/reference/hooks/widgets_init/#comment-2643
 		 * They're not only for admin area, since they're executed in the frontpage as well.
 		 */
-		add_action( 'widgets_init', [ 'Lumiere\Admin\Widget_Selection', 'start' ] );
+		add_action( 'widgets_init', fn() => ( new \Lumiere\Admin\Widget_Selection() )->register() );
 
 		/**
 		 * Taxonomy, must be executed on the whole website

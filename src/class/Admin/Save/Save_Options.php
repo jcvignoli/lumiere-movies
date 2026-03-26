@@ -50,7 +50,7 @@ final class Save_Options extends Save_Helper {
 	 * @param string|null $page_data_taxo Full URL to data page taxonomy subpage
 	 *
 	 * @since 4.1 added param, I need it to restrain rewrite rules flush to data taxo pages
-	 * @see self::save_data_options() use $this->page_data_taxo
+	 * @see self::save_movie_options() use $this->page_data_taxo
 	 */
 	public static function init( ?string $page_data_taxo = null ): void {
 		$class_save = new self( $page_data_taxo );
@@ -136,13 +136,13 @@ final class Save_Options extends Save_Helper {
 	private function handle_cache_options( $referer ): void {
 		if ( parent::is_valid_nonce( 'lumiere_nonce_cache_settings', '_nonce_cache_settings' ) ) {
 			if ( isset( $_POST['lumiere_update_cache_settings'] ) ) {
-				$this->lumiere_cache_options_save( $referer );
+				$this->cache_options_save( $referer );
 			} elseif ( isset( $_POST['lumiere_reset_cache_settings'] ) ) {
-				$this->lumiere_cache_options_reset( $referer );
+				$this->cache_options_reset( $referer );
 			} elseif ( isset( $_POST['delete_all_cache'] ) ) {
-				$this->lumiere_cache_delete_allfiles( $referer );
+				$this->cache_delete_allfiles( $referer );
 			} elseif ( isset( $_POST['delete_query_cache'] ) ) {
-				$this->lumiere_cache_delete_query( $referer, new Cache_Files_Management() );
+				$this->cache_delete_query( $referer, new Cache_Files_Management() );
 			} elseif ( isset( $_POST['refresh_ticked_cache'] ) ) {
 				$this->cache_refresh_ticked_files( $referer, new Cache_Files_Management(), $_POST['imdb_cachedeletefor_movies'] ?? null, $_POST['imdb_cachedeletefor_people'] ?? null );
 			} elseif ( isset( $_POST['delete_ticked_cache'] ) ) {
@@ -176,7 +176,7 @@ final class Save_Options extends Save_Helper {
 	private function handle_data_options( $referer ): void {
 		if ( parent::is_valid_nonce( 'lumiere_nonce_data_settings', '_nonce_data_settings' ) ) {
 			if ( isset( $_POST['lumiere_update_data_movie_settings'] ) ) {
-				$this->save_data_options( $referer );
+				$this->save_movie_options( $referer );
 			} elseif ( isset( $_POST['lumiere_reset_data_movie_settings'] ) ) {
 				$this->lumiere_data_options_reset( $referer );
 			}
@@ -259,15 +259,31 @@ final class Save_Options extends Save_Helper {
 
 			if ( in_array( $key, $forbidden_terms, true ) ) {
 				continue;
-			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
-				// Sanitize
-				$key_san = sanitize_key( $key );
-				// remove "imdb_" from $key
-				$key_final = str_replace( 'imdb_', '', $key_san );
-				$val_final = sanitize_text_field( $postvalue );
 			}
 
-			if ( isset( $key_final ) && isset( $val_final ) ) {
+			if ( is_string( $postvalue ) ) {
+				// Sanitize key.
+				$key_san = sanitize_key( $key );
+				// remove "imdb_" from $key.
+				$key_final = str_replace( 'imdb_', '', $key_san );
+				$val_final = sanitize_text_field( $postvalue );
+
+				// Context-aware sanitization for values.
+				if ( in_array( $key_final, [ 'imdburlpopups', 'imdbplugindirectory', 'imdbplugindirectory_partial' ], true ) ) {
+					$val_final = esc_url_raw( $postvalue );
+				} elseif (
+					str_ends_with( $key_final, 'larg' )
+					|| str_ends_with( $key_final, 'long' )
+					|| str_ends_with( $key_final, 'width' )
+					|| str_ends_with( $key_final, 'results' )
+					|| str_ends_with( $key_final, 'request' )
+					|| str_ends_with( $key_final, 'Updates' )
+				) {
+					$val_final = strval( absint( $postvalue ) );
+				} else {
+					$val_final = sanitize_text_field( $postvalue );
+				}
+
 				$imdb_admin_values[ $key_final ] = $val_final;
 			}
 		}
@@ -304,7 +320,7 @@ final class Save_Options extends Save_Helper {
 	 * @see Lumiere\Admin\Cron\Cron::lumiere_add_remove_crons_cache()
 	 * @throws Exception if nonces are incorrect
 	 */
-	private function lumiere_cache_options_save( string|bool $get_referer ): void {
+	private function cache_options_save( string|bool $get_referer ): void {
 
 		if ( ! parent::is_valid_nonce( 'lumiere_nonce_cache_settings', '_nonce_cache_settings' ) ) {
 			throw new Exception( esc_html__( 'Nounce error', 'lumiere-movies' ) );
@@ -319,21 +335,31 @@ final class Save_Options extends Save_Helper {
 
 			if ( in_array( $key, $forbidden_terms, true ) ) {
 				continue;
-			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
-				// Sanitize
+			}
+
+			if ( is_string( $postvalue ) ) {
+				// Sanitize key.
 				$key_san = sanitize_key( $key );
-				// remove "imdb_" from $key
+				// remove "imdb_" from $key.
 				$key_final = str_replace( 'imdb_', '', $key_san );
 				$val_final = sanitize_text_field( $postvalue );
+
+				// Context-aware sanitization for values.
+				if ( str_ends_with( $key_final, 'dir' ) || str_ends_with( $key_final, 'dir_partial' ) || str_ends_with( $key_final, 'root' ) ) {
+					$val_final = sanitize_text_field( $postvalue ); // Paths are not always valid URLs.
+				} elseif ( str_ends_with( $key_final, 'expire' ) || str_ends_with( $key_final, 'limit' ) ) {
+					$val_final = strval( absint( $postvalue ) );
+				} else {
+					$val_final = sanitize_text_field( $postvalue );
+				}
+
 				// Dirty code that should be in Settings: Relative cache paths to be updated if 'imdbcachedir_partial' is updated.
 				if ( $key_final === 'imdbcachedir_partial' ) {
 					$imdb_cache_values['imdbcachedir']  = WP_CONTENT_DIR . $val_final;
 					$imdb_cache_values['imdbphotoroot'] = WP_CONTENT_DIR . $val_final . 'images/';
 					$imdb_cache_values['imdbphotodir']  = content_url() . $val_final . 'images/';
 				}
-			}
 
-			if ( isset( $key_final ) && isset( $val_final ) ) {
 				$imdb_cache_values[ $key_final ] = $val_final;
 			}
 		}
@@ -362,7 +388,7 @@ final class Save_Options extends Save_Helper {
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 */
-	private function lumiere_cache_options_reset( string|bool $get_referer ): void {
+	private function cache_options_reset( string|bool $get_referer ): void {
 		delete_option( Get_Options::get_cache_tablename() );
 		Get_Options::create_database_options();
 
@@ -377,7 +403,7 @@ final class Save_Options extends Save_Helper {
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
-	private function lumiere_cache_delete_allfiles( string|bool $get_referer ): void {
+	private function cache_delete_allfiles( string|bool $get_referer ): void {
 
 		// prevent drama
 		if ( $this->settings->get_cache_option( 'imdbcachedir' ) === null || strlen( $this->settings->get_cache_option( 'imdbcachedir' ) ) < 1 ) {
@@ -397,7 +423,7 @@ final class Save_Options extends Save_Helper {
 	 * Delete all Query files
 	 * @param false|string $get_referer The URL string from {@see Save_Options::get_referer()}
 	 */
-	private function lumiere_cache_delete_query( string|bool $get_referer, Cache_Files_Management $cache_mngmt_class ): void {
+	private function cache_delete_query( string|bool $get_referer, Cache_Files_Management $cache_mngmt_class ): void {
 		$cache_mngmt_class->delete_query_cache_files();
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
@@ -506,7 +532,7 @@ final class Save_Options extends Save_Helper {
 	 * @since 4.1 added flush_rewrite_rules()
 	 * @since 4.4 refactorized
 	 */
-	private function save_data_options( string|bool $get_referer, ): void {
+	private function save_movie_options( string|bool $get_referer, ): void {
 
 		if ( ! parent::is_valid_nonce( 'lumiere_nonce_data_settings', '_nonce_data_settings' ) ) {
 			throw new Exception( 'Wrong nounce' );
@@ -527,20 +553,27 @@ final class Save_Options extends Save_Helper {
 
 			if ( in_array( $key, $forbidden_terms, true ) ) {
 				continue;
-			} elseif ( $key === 'imdbwidgetorderContainer' && is_array( $postvalue ) ) { // build 'imdbwidgetorder' row.
-				$post_value_san = map_deep( $postvalue, 'sanitize_text_field' );
+			}
+
+			if ( $key === 'imdbwidgetorderContainer' && is_array( $postvalue ) ) { // build 'imdbwidgetorder' row.
+				$post_value_san = map_deep( $postvalue, 'sanitize_key' );
 				$key_final = 'imdbwidgetorder';
 				$val_final = [];
 				foreach ( $post_value_san as $val_array_key => $val_array_value ) {
 					// use the row number as value; add one since it's supposed to start at 1 in Settings.
 					$val_final[ $val_array_value ] = strval( $val_array_key + 1 );
 				}
-			} elseif ( isset( $_POST[ $key ] ) && is_string( $postvalue ) ) {
-				// Sanitize
+			} elseif ( is_string( $postvalue ) ) {
+				// Sanitize.
 				$key_san = sanitize_text_field( $key ); /** @info don't use sanitize_key() since it lower all letters: data_movies have caps+small letters mixed */
-				// remove "imdb_" from $key
+				// remove "imdb_" from $key.
 				$key_final = str_replace( 'imdb_', '', $key_san );
-				$val_final = sanitize_text_field( $postvalue );
+
+				if ( str_ends_with( $key_final, 'number' ) ) {
+					$val_final = strval( absint( $postvalue ) );
+				} else {
+					$val_final = sanitize_text_field( $postvalue );
+				}
 			}
 
 			if ( isset( $key_final ) && isset( $val_final ) ) {
@@ -599,14 +632,14 @@ final class Save_Options extends Save_Helper {
 		foreach ( $_POST as $key => $post_value ) {
 			if ( str_contains( $key, '_active' ) ) {
 				$key_san = sanitize_key( $key );
-				$val_san = is_string( $post_value ) ? sanitize_text_field( $post_value ) : '';
+				$val_san = is_string( $post_value ) ? strval( absint( $post_value ) ) : '';
 				$imdb_data_person_values['activated'][ $key_san ] = $val_san;
 			} elseif ( str_contains( $key, '_number' ) ) {
 				$key_san = sanitize_key( $key );
 				$val_san = is_string( $post_value ) ? sanitize_text_field( $post_value ) : '';
 				$imdb_data_person_values['number'][ $key_san ] = $val_san;
 			} elseif ( $key === 'person_order' && is_array( $post_value ) ) {
-				$post_value_san = map_deep( $post_value, 'sanitize_text_field' );
+				$post_value_san = map_deep( $post_value, 'sanitize_key' );
 				$key_final = 'order';
 				$val_final = [];
 				foreach ( $post_value_san as $val_array_key => $val_array_value ) {

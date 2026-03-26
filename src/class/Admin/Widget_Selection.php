@@ -54,25 +54,19 @@ class Widget_Selection extends WP_Widget {
 				'show_instance_in_rest' => true, /** use WP REST API */
 			]
 		);
-
-		add_action( 'widgets_init', [ $this, 'lum_select_widget' ], 11 ); // called in class Core with default priority 10.
-
-		// Hide the widget block from the inserter if it's not the widget editor.
-		add_filter( 'register_block_type_args', [ $this, 'lum_hide_block_from_inserter' ], 10, 2 );
-
-		/**
-		 * Hide the widget in legacy widgets menu
-		 * If legacy widget is hidden, when switching from classic to block, legacy widget can't be removed
-		 */
-		// add_action( 'widget_types_to_hide_from_legacy_widget_block', [ $this, 'lumiere_hide_widget' ] );
-
 	}
 
 	/**
-	 * Statically start the class
+	 * Register filters and actions
 	 */
-	public static function start(): void {
-		$self_class = new self();
+	public function register(): void {
+
+		add_action( 'widgets_init', [ $this, 'lum_select_widget' ], 11 ); // called in class Core with default priority 10.
+
+		/**
+		 * Hide the widget block from the inserter if it's not the widget editor.
+		 */
+		add_filter( 'register_block_type_args', [ $this, 'lum_hide_block_from_inserter' ], 10, 2 );
 	}
 
 	/**
@@ -108,13 +102,13 @@ class Widget_Selection extends WP_Widget {
 	 */
 	public function lum_select_widget(): void {
 
-		// If LUM_BLOCKS_MANIFEST file exists, don't register anything and exit, everything is made in that file.
-		if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) && file_exists( Get_Options::LUM_BLOCKS_MANIFEST ) ) {
-			return;
-		}
-
 		// Can't use is_widget_active in widgets_init hook, so home-made check
 		$is_classic_active = in_array( 'classic-widgets/classic-widgets.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ); // @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+
+		// If LUM_BLOCKS_MANIFEST file exists, don't register anything and exit, everything is made in that file.
+		if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) && file_exists( Get_Options::LUM_BLOCKS_MANIFEST ) && $is_classic_active === false ) {
+			return;
+		}
 
 		// Register legacy widget if the Classic widget plugin is active, prevents it from appearing in block-based interface, where it's invisible.
 		if ( $is_classic_active === true ) {
@@ -127,7 +121,7 @@ class Widget_Selection extends WP_Widget {
 			);
 		}
 
-		// Always register Block-based Widget by default.
+		// Register Block-based Widget by default.
 		add_action( 'init', [ $this, 'lumiere_register_widget_block' ], 12 );
 	}
 

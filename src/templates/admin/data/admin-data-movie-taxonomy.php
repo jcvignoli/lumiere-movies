@@ -135,7 +135,7 @@ if ( $lumiere_calling_class->settings->get_movie_option( 'imdbtaxonomy' . $lumie
 
 		?><br>
 						<div id="lumiere_copy_<?php echo esc_attr( $lumiere_key ); ?>">
-						<a href="<?php echo esc_url( $lumiere_link_taxo_copy ); ?>" title="<?php esc_attr_e( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' ); ?>"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ); ?>" alt="<?php esc_attr_e( 'copy the taxonomy template', 'lumiere-movies' ); ?>" align="absmiddle" /><?php esc_html_e( 'Copy template', 'lumiere-movies' ); ?></a>
+						<a href="<?php echo esc_url( $lumiere_link_taxo_copy ); ?>" title="<?php esc_attr_e( 'Create a taxonomy template into your theme folder.', 'lumiere-movies' ); ?>"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-data-copy-theme.png' ); ?>" alt="<?php esc_attr_e( 'copy the taxonomy template', 'lumiere-movies' ); ?>" align="absmiddle" /><?php esc_html_e( 'Copy template', 'lumiere-movies' ); ?></a>
 						<div><span class="lum_color_red"><?php
 
 						/* translators: %s is replaced with a movie item name, ie 'director' */
@@ -149,7 +149,7 @@ if ( $lumiere_calling_class->settings->get_movie_option( 'imdbtaxonomy' . $lumie
 
 				<br>
 				<div id="lumiere_copy__<?php echo esc_attr( $lumiere_key ); ?>">
-				<a href="<?php echo esc_url( $lumiere_link_taxo_copy ); ?>" title="<?php esc_attr_e( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' ); ?>"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-widget-copy-theme.png' ); ?>" alt="<?php esc_attr_e( 'copy the taxonomy template', 'lumiere-movies' ); ?>" align="absmiddle"><?php esc_html_e( 'Update template', 'lumiere-movies' ); ?></a>
+				<a href="<?php echo esc_url( $lumiere_link_taxo_copy ); ?>" title="<?php esc_attr_e( 'Update your taxonomy template in your theme folder.', 'lumiere-movies' ); ?>"><img src="<?php echo esc_url( Get_Options::LUM_PICS_URL . 'menu/admin-data-copy-theme.png' ); ?>" alt="<?php esc_attr_e( 'copy the taxonomy template', 'lumiere-movies' ); ?>" align="absmiddle"><?php esc_html_e( 'Update template', 'lumiere-movies' ); ?></a>
 				<div>
 					<span class="lum_color_red"><?php
 					/* translators: %s is replaced with a movie item name, ie 'director' */
