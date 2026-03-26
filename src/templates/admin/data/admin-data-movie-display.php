@@ -82,7 +82,7 @@ $lumiere_details_with_numbers = Get_Options_Movie::get_items_with_numbers();
 				. wp_sprintf( esc_html__( 'Enter the maximum number of %s you want to display', 'lumiere-movies' ), esc_html( $lumiere_items_trans_plural ) ) . '<br /></div>';
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
-				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_html( $lumiere_item ) . 'number" id="imdb_imdbwidget' . esc_html( $lumiere_item ) . 'number" size="3"';
+				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_attr( $lumiere_item ) . 'number" id="imdb_imdbwidget' . esc_attr( $lumiere_item ) . 'number" size="3"';
 				$lumiere_imdb_data_item = $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item . 'number' ];
 				echo is_string( $lumiere_imdb_data_item ) ? ' value="' . esc_attr( $lumiere_imdb_data_item ) . '" ' : ' value="" ';
 				if ( $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === 0 ) {

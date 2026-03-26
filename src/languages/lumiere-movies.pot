@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-14T08:14:55+00:00\n"
+"POT-Creation-Date: 2026-03-20T17:15:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: lumiere-movies\n"
@@ -1367,11 +1367,11 @@ msgstr ""
 msgid "Back home"
 msgstr ""
 
-#: class/Tools/Files.php:67
+#: class/Tools/Files.php:68
 msgid "No template file found"
 msgstr ""
 
-#: class/Tools/Files.php:105
+#: class/Tools/Files.php:106
 msgid "Credentials are required to edit this file: "
 msgstr ""
 

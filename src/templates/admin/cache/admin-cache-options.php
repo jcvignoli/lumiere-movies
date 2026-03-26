@@ -52,7 +52,7 @@ $lumiere_size_cache_folder = $variables['size']; /** @phpstan-ignore variable.un
 					<div class="lumiere_flex_container">
 
 						<div>
-							<input type="text" id="imdb_imdbcacheexpire" name="imdb_imdbcacheexpire" size="7" value="<?php echo esc_html( $lumiere_imdb_cache_values['imdbcacheexpire'] ); ?>" />
+							<input type="text" id="imdb_imdbcacheexpire" name="imdb_imdbcacheexpire" size="7" value="<?php echo esc_attr( $lumiere_imdb_cache_values['imdbcacheexpire'] ); ?>" />
 						</div>
 
 						<div class="lumiere_padding_ten">

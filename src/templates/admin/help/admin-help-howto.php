@@ -233,7 +233,7 @@ $lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.und
 					<br>
 					$results ??= [];
 					foreach ($results as $res) {<br>
-						echo "\n\t&lt;div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'&gt".esc_html( $res['title'] )." (".intval( $res['year'] ).")".'&lt;/div&gt';<br>
+						echo "\n\t&lt;div class='lumiere_container_flex50 lumiere_italic lumiere_gutenberg_results'&gt".esc_html( $res['title'] ?? '' )." (".intval( $res['year'] ?? 0 ).")".'&lt;/div&gt';<br>
 					}<br>
 				</blockquote>
 

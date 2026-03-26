@@ -33,26 +33,39 @@ class Output {
 	 * @return string
 	 */
 	public function misc_layout( string $selector, string $text_one = '', string $text_two = '', string $text_three = '' ): string {
+		$allowed_two_columns_first = [
+			'a' => [
+				'class' => [],
+				'id' => [],
+				'href' => [],
+				'data-*' => [],
+				'title' => [],
+			],
+		];
 		$container = [
 			/* translators: %1s is a movie field string, such as director, actor */
-			'click_more_start'               => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><span class="lumiere_bold">(' . wp_sprintf( __( 'click to show more %1s', 'lumiere-movies' ), $text_one ) . ')</span></div>' . "\n\t\t\t<div class=\"hidesection\">",
+			'click_more_start'               => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '<div class="activatehidesection lumiere_align_center"><span class="lumiere_bold">(' . wp_sprintf( esc_html__( 'click to show more %1s', 'lumiere-movies' ), esc_html( $text_one ) ) . ')</span></div>' . "\n\t\t\t<div class=\"hidesection\">",
 			'click_more_end'                 => "\n\t\t\t</div>\n\t\t\t<!-- end hidesection -->",
 			'see_all_start'                  => "\n\t\t\t<!-- start hidesection -->\n\t\t\t" . '&nbsp;<span class="activatehidesection lumiere_font_small"><strong>(' . esc_html__( 'see all', 'lumiere-movies' ) . ")</strong></span>\n\t\t\t<span class=\"hidesection\">",
 			'see_all_end'                    => "\n\t\t\t</span>\n\t\t\t<!-- end hidesection -->",
-			'frontend_items_sub_cat_parent'  => "\n\t\t\t\t<br>\n\t\t\t\t<span class=\"lum_results_section_subtitle_parent\">\n\t\t\t\t\t<span class=\"lum_results_section_subtitle_subcat\">" . $text_one . '</span>: ',
-			'frontend_items_sub_cat_content' => "\n\t\t\t\t\t<span class=\"lum_results_section_subtitle_subcat_content\">" . $text_one . "</span>\n\t\t\t\t</span>",
+			'frontend_items_sub_cat_parent'  => "\n\t\t\t\t<br>\n\t\t\t\t<span class=\"lum_results_section_subtitle_parent\">\n\t\t\t\t\t<span class=\"lum_results_section_subtitle_subcat\">" . esc_html( $text_one ) . '</span>: ',
+			// $text_one contains HTML, using wp_kses_post()
+			'frontend_items_sub_cat_content' => "\n\t\t\t\t\t<span class=\"lum_results_section_subtitle_subcat_content\">" . wp_kses_post( $text_one ) . "</span>\n\t\t\t\t</span>",
 			'items_sub_cat_parent_close'     => "\n\t\t\t\t\t</span>\n\t\t\t\t</span>",
-			'two_columns_first'              => "\n\t\t\t<div class=\"lumiere_align_center lumiere_container\">\n\t\t\t\t<div class=\"lumiere_align_left lumiere_flex_auto\">" . $text_one . "\n\t\t\t\t</div>",
+			// $text_one contains HTML, using wp_kses_post()
+			'two_columns_first'              => "\n\t\t\t<div class=\"lumiere_align_center lumiere_container\">\n\t\t\t\t<div class=\"lumiere_align_left lumiere_flex_auto\">" . wp_kses_post( $text_one ) . "\n\t\t\t\t</div>", // $text_one contains HTML from get_link() or similar
 			'two_columns_second'             => "\n\t\t\t\t<div class=\"lumiere_align_right lumiere_flex_auto\">" . $text_one . "\n\t\t\t\t</div>\n\t\t\t</div>",
-			'frontend_title'                 => "\n\t\t\t<span id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text_one ) . '">' . $text_one . '</span>',
-			'frontend_subtitle_item'         => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . ':</span>',
-			'popup_title_film'               => "\n\t\t\t<div class=\"titrefilm\" id=\"title_" . preg_replace( '/[^A-Za-z0-9\-]/', '', $text_one ) . '">' . $text_one . '</div><div class="lumiere_align_center"><span class="lum_minus10">' . $text_two . '</span></div>',
-			'popup_title_perso'              => "\n\t\t\t<div class=\"identity\">" . $text_one . '</div>',
-			'popup_subtitle_item'            => "\n\t\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . '</span>',
-			'numbered_list'                  => "\n\t\t\t<div>\n\t\t\t\t[#" . strval( $text_one ) . '] <i>' . $text_two . '</i>&nbsp;' . $text_three . "\n\t\t\t" . '</div>',
-			'frontend_no_results'            => "\n\t\t\t<span class=\"lumiere_font_small\">" . $text_one . '</span>',
-			'date_outside'                   => "\n\n\t\t\t\t\t\t\t\t\t\t\t<!-- " . $text_one . " -->\n\t\t\t\t<div class=\"lumiere-lines-common lumiere-lines-common_" . $text_two . "\">\n\t\t\t\t\t<span class=\"lumiere_font_small\">" . $text_three . "\n\t\t\t\t\t</span>\n\t\t\t\t</div>",
-			'date_inside'                    => "\n\t\t\t\t\t\t<span class=\"lum_results_section_subtitle\">" . $text_one . '</span>' . $text_two,
+			'frontend_title'                 => "\n\t\t\t<span id=\"title_" . esc_attr( preg_replace( '/[^A-Za-z0-9\-]/', '', $text_one ) ?? '' ) . '">' . esc_html( $text_one ) . '</span>',
+			'frontend_subtitle_item'         => "\n\t\t\t<span class=\"lum_results_section_subtitle\">" . esc_html( $text_one ) . ':</span>',
+			'popup_title_film'               => "\n\t\t\t<div class=\"titrefilm\" id=\"title_" . esc_attr( preg_replace( '/[^A-Za-z0-9\-]/', '', $text_one ) ?? '' ) . '">' . esc_html( $text_one ) . '</div><div class="lumiere_align_center"><span class="lum_minus10">' . esc_html( $text_two ) . '</span></div>',
+			'popup_title_perso'              => "\n\t\t\t<div class=\"identity\">" . esc_html( $text_one ) . '</div>',
+			'popup_subtitle_item'            => "\n\t\t\t\t<span class=\"lum_results_section_subtitle\">" . esc_html( $text_one ) . '</span>',
+			// $text_three contains HTML, using wp_kses_post()
+			'numbered_list'                  => "\n\t\t\t<div>\n\t\t\t\t[#" . esc_html( strval( $text_one ) ) . '] <i>' . esc_html( $text_two ) . '</i>&nbsp;' . wp_kses_post( $text_three ) . "\n\t\t\t" . '</div>',
+			'frontend_no_results'            => "\n\t\t\t<span class=\"lumiere_font_small\">" . esc_html( $text_one ) . '</span>',
+			// $text_three contains HTML, using wp_kses_post()
+			'date_outside'                   => "\n\n\t\t\t\t\t\t\t\t\t\t\t<!-- " . esc_html( $text_one ) . " -->\n\t\t\t\t<div class=\"lumiere-lines-common lumiere-lines-common_" . esc_attr( $text_two ) . "\">\n\t\t\t\t\t<span class=\"lumiere_font_small\">" . wp_kses_post( $text_three ) . "\n\t\t\t\t\t</span>\n\t\t\t\t</div>",
+			'date_inside'                    => "\n\t\t\t\t\t\t<span class=\"lum_results_section_subtitle\">" . esc_html( $text_one ) . '</span>' . esc_html( $text_two ),
 		];
 		return $container[ $selector ];
 	}
@@ -70,7 +83,7 @@ class Output {
 	public function get_link( string $selector, string $text_one = '', string $text_two = '', string $text_three = '', string $text_four = '' ): string {
 		$container = [
 			'taxonomy'              => "\n\t\t\t" . '<a id="' . esc_attr( $text_one ) . '" class="lum_link_taxo_page" href="' . esc_url( $text_two ) . '" title="' . esc_attr( $text_three ) . '">' . esc_html( $text_four ) . '</a>',
-			'internal_with_spinner' => '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="' . __( 'internal link', 'lumiere-movies' ) . ' ' . $text_two . '" href="' . esc_url( $text_one ) . '">' . esc_html( $text_two ) . '</a>',
+			'internal_with_spinner' => '<a rel="nofollow" class="lum_popup_internal_link lum_add_spinner" title="' . esc_attr( __( 'internal link', 'lumiere-movies' ) . ' ' . $text_two ) . '" href="' . esc_url( $text_one ) . '">' . esc_html( $text_two ) . '</a>',
 		];
 		return $container[ $selector ];
 	}
@@ -91,7 +104,7 @@ class Output {
 		$item = sanitize_text_field( $item );
 		$item_caps = strtoupper( $item );
 
-		$output = "\n\t\t\t\t\t\t\t" . '<!-- ' . $item . ' -->';
+		$output = "\n\t\t\t\t\t\t\t" . '<!-- ' . esc_html( $item ) . ' -->';
 		$output .= "\n\t\t" . '<div class="';
 
 		// title doesn't take item 'lumiere-lines-common' but a dedicated class instead.
@@ -99,9 +112,9 @@ class Output {
 			$output .= 'lumiere-lines-common ';
 		}
 
-		$output .= 'lumiere-lines-common_' . $imdb_admin_values['imdbintotheposttheme'] . ' imdbelement' . $item_caps . '_' . $imdb_admin_values['imdbintotheposttheme'];
+		$output .= 'lumiere-lines-common_' . esc_attr( $imdb_admin_values['imdbintotheposttheme'] ) . ' imdbelement' . esc_attr( $item_caps ) . '_' . esc_attr( $imdb_admin_values['imdbintotheposttheme'] );
 		$output .= '">';
-		$output .= $text;
+		$output .= wp_kses_post( $text );
 		$output .= "\n\t\t" . '</div>';
 
 		return $output;
@@ -118,7 +131,7 @@ class Output {
 	 * @return string
 	 */
 	public function front_main_wrapper( array $imdb_admin_values, string $text ): string {
-		return "\n\t\t\t\t\t\t\t\t\t<!-- Lumière! movies plugin -->\n\t<div class=\"lum_results_frame lum_results_frame_" . $imdb_admin_values['imdbintotheposttheme'] . '">' . $text . "\n\t</div>\n\t\t\t\t\t\t\t\t\t<!-- /Lumière! movies plugin -->";
+		return "\n\t\t\t\t\t\t\t\t\t<!-- Lumière! movies plugin -->\n\t<div class=\"lum_results_frame lum_results_frame_" . esc_attr( $imdb_admin_values['imdbintotheposttheme'] ) . '">' . wp_kses_post( $text ) . "\n\t</div>\n\t\t\t\t\t\t\t\t\t<!-- /Lumière! movies plugin -->";
 	}
 
 	/**
@@ -144,7 +157,7 @@ class Output {
 		$output = '';
 
 		// Build the id for the link <a id="$link_id">
-		$link_id = esc_html( $movie_title ) . '_' . esc_html( $lang_term ) . '_' . esc_html( $taxo_options['custom_taxonomy_fullname'] ) . '_' . esc_html( $taxo_options['taxonomy_term'] );
+		$link_id = $movie_title . '_' . $lang_term . '_' . $taxo_options['custom_taxonomy_fullname'] . '_' . $taxo_options['taxonomy_term'];
 		$link_id_cleaned = preg_replace( "/^'|[^A-Za-z0-9\'-]|'|\-$/", '_', $link_id ) ?? '';
 		$link_id_final = 'link_taxo_' . strtolower( str_replace( '-', '_', $link_id_cleaned ) );
 

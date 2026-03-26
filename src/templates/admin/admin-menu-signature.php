@@ -32,6 +32,6 @@ $lumiere_esc_html = [
 	<br />
 	<div>
 		&copy; 2005-<?php
-		echo $lumiere_current_year !== false ? esc_html( $lumiere_current_year ) : ''; ?> <a href="<?php echo esc_html( \Lumiere\Config\Get_Options::LUM_BLOG_PLUGIN_ABOUT ); ?>" target="_blank">Lost Highway</a>, <a href="<?php echo esc_html( \Lumiere\Config\Get_Options::LUM_BLOG_PLUGIN ); ?>" target="_blank">Lumière! WordPress plugin</a> version <?php echo esc_html( lum_get_version() ); ?>.
+		echo $lumiere_current_year !== false ? esc_html( $lumiere_current_year ) : ''; ?> <a href="<?php echo esc_url( \Lumiere\Config\Get_Options::LUM_BLOG_PLUGIN_ABOUT ); ?>" target="_blank">Lost Highway</a>, <a href="<?php echo esc_url( \Lumiere\Config\Get_Options::LUM_BLOG_PLUGIN ); ?>" target="_blank">Lumière! WordPress plugin</a> version <?php echo esc_html( lum_get_version() ); ?>.
 	</div>
 </div>

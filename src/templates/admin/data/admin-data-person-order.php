@@ -57,7 +57,7 @@ $lumiere_perso_list = Get_Options_Person::get_all_person_fields();
 					if ( $lumiere_calling_class->settings->get_person_option( 'activated' )[ $lumiere_key . '_active' ] !== '1' ) {
 						echo ' label="' . esc_attr( $lumiere_key ) . ' (' . esc_html__( 'unactivated', 'lumiere-movies' ) . ')">' . esc_html( $lumiere_key );
 					} else {
-						echo ' label="' . esc_attr( $lumiere_perso_list [ $lumiere_key ] ) . '">' . esc_html( $lumiere_key );
+						echo ' label="' . esc_attr( $lumiere_perso_list [ $lumiere_key ] ?? '' ) . '">' . esc_html( $lumiere_key );
 					}
 					echo '</option>';
 				}

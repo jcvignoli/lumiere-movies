@@ -81,7 +81,7 @@ $lumiere_comments_fields = Get_Options_Person::get_items_person_details_comments
 				. wp_sprintf( esc_html__( 'Enter the maximum number of %s you want to display', 'lumiere-movies' ), esc_html( $lumiere_items_trans_plural ) ) . '<br /></div>';
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
-				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="' . esc_html( $lumiere_item ) . '_number" id="' . esc_html( $lumiere_item ) . '_number" size="3"';
+				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="' . esc_attr( $lumiere_item ) . '_number" id="' . esc_attr( $lumiere_item ) . '_number" size="3"';
 				$lumiere_imdb_data_item = $lumiere_imdb_data_values['number'][ $lumiere_item . '_number' ];
 				echo is_string( $lumiere_imdb_data_item ) ? ' value="' . esc_attr( $lumiere_imdb_data_item ) . '" ' : ' value="" ';
 				if ( $lumiere_imdb_data_values['number'][ $lumiere_item . '_number' ] === 0 ) {

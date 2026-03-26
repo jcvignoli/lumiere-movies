@@ -121,9 +121,9 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			echo esc_html(
 				wp_sprintf(
 					/* translators: %1$1s is replaced with a number of files, %2$2s the size in MB of a folder */
-					_n( '%1$1s file using %2$2s', '%1$1s files using %2$2s', $lumiere_cache_file_count, 'lumiere-movies' ),
-					number_format_i18n( $lumiere_cache_file_count ),
-					$lumiere_that->lumiere_format_bytes( $lumiere_size_cache_total )
+					_n( '%1$1s file using %2$2s', '%1$1s files using %2$2s', intval( $lumiere_cache_file_count ), 'lumiere-movies' ),
+					number_format_i18n( intval( $lumiere_cache_file_count ) ),
+					$lumiere_that->lumiere_format_bytes( floatval( $lumiere_size_cache_total ) )
 				)
 			);
 			?></strong>
@@ -178,8 +178,8 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 			echo esc_html(
 				wp_sprintf(
 					/* translators: first %1$s is replaced with a number of files, %2$s the size in MB of a folder */
-					_n( '%1$s file using %2$s', '%1$s files using %2$s', $lumiere_query_number_files, 'lumiere-movies' ),
-					$lumiere_query_number_files,
+					_n( '%1$s file using %2$s', '%1$s files using %2$s', intval( $lumiere_query_number_files ), 'lumiere-movies' ),
+					intval( $lumiere_query_number_files ),
 					$lumiere_that->lumiere_format_bytes( intval( $lumiere_query_cache_size ) )
 				)
 			);

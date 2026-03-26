@@ -304,16 +304,16 @@
     "packages-dev": [
         {
             "name": "coenjacobs/mozart",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/coenjacobs/mozart.git",
-                "reference": "a2d9e3e344efba736a0268e52ea4ee43ab45fcac"
+                "reference": "33cc767366a1bcc85f944b5401d513d7b4c7e047"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/a2d9e3e344efba736a0268e52ea4ee43ab45fcac",
-                "reference": "a2d9e3e344efba736a0268e52ea4ee43ab45fcac",
+                "url": "https://api.github.com/repos/coenjacobs/mozart/zipball/33cc767366a1bcc85f944b5401d513d7b4c7e047",
+                "reference": "33cc767366a1bcc85f944b5401d513d7b4c7e047",
                 "shasum": ""
             },
             "require": {
@@ -366,7 +366,7 @@
             "description": "Composes all dependencies as a package inside a WordPress plugin",
             "support": {
                 "issues": "https://github.com/coenjacobs/mozart/issues",
-                "source": "https://github.com/coenjacobs/mozart/tree/1.1.4"
+                "source": "https://github.com/coenjacobs/mozart/tree/1.1.5"
             },
             "funding": [
                 {
@@ -374,7 +374,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-12T09:13:19+00:00"
+            "time": "2026-03-19T14:49:04+00:00"
         },
         {
             "name": "league/flysystem",

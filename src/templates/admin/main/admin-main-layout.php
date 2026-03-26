@@ -81,7 +81,7 @@ $lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.und
 				<label for="imdb_imdbpopuplarg_input"><?php esc_html_e( 'Width', 'lumiere-movies' ); ?></label>
 				<br>
 				<br>
-				<input type="text" id="imdb_imdbpopuplarg_input" name="imdb_imdbpopuplarg" size="5" value="<?php echo esc_html( $lumiere_imdb_admin_values['imdbpopuplarg'] ); ?>" >
+				<input type="text" id="imdb_imdbpopuplarg_input" name="imdb_imdbpopuplarg" size="5" value="<?php echo esc_attr( $lumiere_imdb_admin_values['imdbpopuplarg'] ); ?>" >
 
 				<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies' ); ?> <br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"800"</div>
 			</div>
@@ -91,7 +91,7 @@ $lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.und
 				<label for="imdb_imdbpopuplong_input"><?php esc_html_e( 'Height', 'lumiere-movies' ); ?></label>
 				<br>
 				<br>
-				<input type="text" id="imdb_imdbpopuplong_input" name="imdb_imdbpopuplong" size="5" value="<?php echo intval( $lumiere_imdb_admin_values['imdbpopuplong'] ); ?>" >
+				<input type="text" id="imdb_imdbpopuplong_input" name="imdb_imdbpopuplong" size="5" value="<?php echo esc_attr( strval( intval( $lumiere_imdb_admin_values['imdbpopuplong'] ) ) ); ?>" >
 
 				<br>
 				<div class="explain"><?php esc_html_e( 'Popup height, in pixels', 'lumiere-movies' ); ?> <?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"500"</div>
@@ -185,7 +185,7 @@ $lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.und
 
 				<label for="imdb_imdbcoversizewidth"><?php esc_html_e( 'Size', 'lumiere-movies' ); ?></label><br><br>
 
-				<input type="text" name="imdb_imdbcoversizewidth" id="imdb_imdbcoversizewidth" size="5" value="<?php echo intval( $lumiere_imdb_admin_values['imdbcoversizewidth'] ); ?>" />
+				<input type="text" name="imdb_imdbcoversizewidth" id="imdb_imdbcoversizewidth" size="5" value="<?php echo esc_attr( strval( intval( $lumiere_imdb_admin_values['imdbcoversizewidth'] ) ) ); ?>" />
 
 				<div class="explain"><?php esc_html_e( 'Size of the imdb cover picture. The value will correspond to the width in pixels. Delete any value to get maximum width.', 'lumiere-movies' ); ?> <br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "100"</div>
 

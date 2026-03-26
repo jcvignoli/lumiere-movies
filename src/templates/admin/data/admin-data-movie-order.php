@@ -60,7 +60,7 @@ $lumiere_items_people = Get_Options_Movie::get_all_fields();
 					} elseif ( $lumiere_calling_class->settings->get_movie_option( "imdbwidget$lumiere_key" ) !== '1' ) {
 						echo ' label="' . esc_attr( $lumiere_key ) . ' (' . esc_html__( 'unactivated', 'lumiere-movies' ) . ')">' . esc_html( $lumiere_key );
 					} else {
-						echo ' label="' . esc_attr( $lumiere_items_people [ $lumiere_key ] ) . '">' . esc_html( $lumiere_key );
+						echo ' label="' . esc_attr( $lumiere_items_people [ $lumiere_key ] ?? '' ) . '">' . esc_html( $lumiere_key );
 					}
 					echo '</option>';
 				}
