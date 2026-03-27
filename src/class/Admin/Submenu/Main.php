@@ -70,12 +70,19 @@ final class Main extends Admin_Menu {
 			],
 		);
 
+		if ( false === wp_verify_nonce( $nonce, 'check_display_page' ) ) {
+			return;
+		}
+
+		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( strval( $_GET['page'] ) ) : '';
+		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( strval( $_GET['subsection'] ) ) : '';
+
 		// The body.
 		if (
 			// Main options.
-			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_main_base, sanitize_text_field( wp_unslash( strval( $_GET['page'] ) ) ) ) === true
-			&& ! isset( $_GET['subsection'] )
+			strlen( $current_page ) > 0 && str_contains( $this->page_main_base, $current_page ) === true
+			&& strlen( $subsection ) === 0
+
 		) {
 			$this->include_with_vars(
 				self::PAGES_NAMES['main_options'],
@@ -84,9 +91,8 @@ final class Main extends Admin_Menu {
 
 		} elseif (
 			// Advanced options.
-			isset( $_GET['page'] ) && str_contains( $this->page_main_advanced, sanitize_text_field( wp_unslash( strval( $_GET['page'] ) ) ) ) === true
-			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'advanced'
-			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
+			strlen( $current_page ) > 0 && str_contains( $this->page_main_advanced, $current_page ) === true
+			&& $subsection === 'advanced'
 		) {
 			$this->include_with_vars(
 				self::PAGES_NAMES['advanced_options'],

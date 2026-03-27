@@ -35,7 +35,7 @@ final class Help extends Admin_Menu {
 		'menu_submenu'       => 'help/admin-help-submenu',
 		'menu_howto'         => 'help/admin-help-howto',
 		'menu_faqs'          => 'help/admin-help-faqs',
-		'menu_filters'     => 'help/admin-help-filters',
+		'menu_filters'       => 'help/admin-help-filters',
 		'menu_changelog'     => 'help/admin-help-changelog',
 		'menu_support'       => 'help/admin-help-support',
 		'menu_compatibility' => 'help/admin-help-compatibility',
@@ -74,28 +74,34 @@ final class Help extends Admin_Menu {
 			],
 		);
 
+		if ( false === wp_verify_nonce( $nonce, 'check_display_page' ) ) {
+			return;
+		}
+
+		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( strval( $_GET['subsection'] ) ) : '';
+
 		// Changelog section.
-		if ( wp_verify_nonce( $nonce, 'check_display_page' ) > 0 && isset( $_GET['subsection'] ) && str_contains( $this->page_help_changelog, sanitize_text_field( wp_unslash( strval( $_GET['subsection'] ) ) ) ) === true ) {
+		if ( strlen( $subsection ) > 0 && str_contains( $this->page_help_changelog, $subsection ) === true ) {
 			$this->display_changelog();
 
 			// Faqs section.
-		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_faqs, sanitize_text_field( wp_unslash( strval( $_GET['subsection'] ) ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+		} elseif ( strlen( $subsection ) > 0 && str_contains( $this->page_help_faqs, $subsection ) === true ) {
 			$this->display_faqs();
 
-			// Compatibility section.
-		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_filters, sanitize_text_field( wp_unslash( strval( $_GET['subsection'] ) ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+			// Filters section.
+		} elseif ( strlen( $subsection ) > 0 && str_contains( $this->page_help_filters, $subsection ) === true ) {
 			$this->display_filters();
 
 			// Compatibility section.
-		} elseif ( isset( $_GET['subsection'] ) && str_contains( $this->page_help_compatibility, sanitize_text_field( wp_unslash( strval( $_GET['subsection'] ) ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+		} elseif ( strlen( $subsection ) > 0 && str_contains( $this->page_help_compatibility, $subsection ) === true ) {
 			$this->display_compat();
 
 			// Support section.
-		} elseif ( ( isset( $_GET['subsection'] ) ) && str_contains( $this->page_help_support, sanitize_text_field( wp_unslash( strval( $_GET['subsection'] ) ) ) ) === true && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+		} elseif ( strlen( $subsection ) > 0 && str_contains( $this->page_help_support, $subsection ) === true ) {
 			$this->display_support();
 
 			// How to section, default.
-		} elseif ( ( isset( $_GET['subsection'] ) && str_contains( $this->page_help, sanitize_text_field( wp_unslash( strval( $_GET['subsection'] ) ) ) ) === true ) || ! isset( $_GET['subsection'] ) && wp_verify_nonce( $nonce, 'check_display_page' ) > 0 ) {
+		} elseif ( strlen( $subsection ) === 0 || str_contains( $this->page_help, $subsection ) === true ) {
 
 			// Default.
 			$this->include_with_vars(
@@ -108,8 +114,8 @@ final class Help extends Admin_Menu {
 					'page_help_support'        => $this->page_help_support,
 					'page_help_faqs'           => $this->page_help_faqs,
 					'page_help_filters'        => $this->page_help_filters,
-					'page_help_compatibility'   => $this->page_help_compatibility,
-					'page_help_changelog'       => $this->page_help_changelog,
+					'page_help_compatibility'  => $this->page_help_compatibility,
+					'page_help_changelog'      => $this->page_help_changelog,
 				],
 			);
 		}

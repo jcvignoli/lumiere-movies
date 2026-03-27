@@ -118,11 +118,9 @@ class Copy_Theme {
 	 * @return string|null
 	 */
 	private function get_taxotype_url(): ?string {
-		if (
-			isset( $_GET['taxotype'] )
-			&& isset( $_GET['_wpnonce_linkcopytaxo'] )
-			&& wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
-		) {
+		if ( isset( $_GET['taxotype'] ) && isset( $_GET['_wpnonce_linkcopytaxo'] ) ) {
+			check_admin_referer( 'linkcopytaxo', '_wpnonce_linkcopytaxo' );
+
 			return sanitize_key( $_GET['taxotype'] );
 		}
 		return null;

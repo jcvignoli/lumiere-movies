@@ -167,16 +167,19 @@ final class Search_Items {
 	 */
 	private function maybe_results_page(): void {
 
+		$search_query = isset( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ? sanitize_text_field( strval( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ) : '';
+		$search_nonce = isset( $_GET['search_nonce'] ) ? sanitize_key( strval( $_GET['search_nonce'] ) ) : '';
+
 		if (
 			(
-				! isset( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ], $_GET['search_nonce'] )
-				|| ( wp_verify_nonce( sanitize_key( $_GET['search_nonce'] ), 'lumiere_search' ) > 0 ) === false
-				|| strlen( sanitize_key( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ) === 0
+				strlen( $search_nonce ) === 0
+				|| wp_verify_nonce( $search_nonce, 'lumiere_search' ) === false
+				|| strlen( $search_query ) === 0
 			)
 			&&
 			(
 				// If there is no nonce to verify, make sure it comes from editing post
-				! isset( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) || strlen( sanitize_key( strval( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ) ) === 0
+				strlen( $search_query ) === 0
 				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( esc_url_raw( wp_unslash( strval( $_SERVER['HTTP_REFERER'] ) ) ), 'post.php?post=' ) === false
 			)
 		) {

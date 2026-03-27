@@ -44,7 +44,7 @@ trait Main {
 	/**
 	 * Logging
 	 */
-	public Logger $logger;
+	public ?Logger $logger;
 
 	/**
 	 * Start logger
@@ -137,6 +137,42 @@ trait Main {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Check the nonce using wp_verify_nonce()
+	 * Always valid if admin is connected
+	 *
+	 * @param string $nonce_name by default '_wpnonce'
+	 * @param int|string $nonce_action by default -1, which means no action name at all
+	 * @return bool
+	 */
+	public function check_nonce( string $nonce_name = '_wpnonce', int|string $nonce_action = -1 ): bool {
+
+		$nonce = isset( $_REQUEST[ $nonce_name ] ) ? sanitize_key( strval( $_REQUEST[ $nonce_name ] ) ) : '';
+
+		// Nonce is always valid if admin is connected.
+		$nonce_valid = ( strlen( $nonce ) > 0 && wp_verify_nonce( $nonce, $nonce_action ) !== false ) || is_user_logged_in() === true;
+
+		// If nonce is invalid or no title was provided, exit.
+		if ( $nonce_valid === false ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Check the nonce if invalid, die()
+	 * Always valid if admin is connected
+	 *
+	 * @param string $nonce_name by default '_wpnonce'
+	 * @param int|string $nonce_action by default -1, which means no action name at all
+	 * @return void Die if invalid nonce
+	 */
+	public function check_nonce_die( string $nonce_name = '_wpnonce', int|string $nonce_action = -1 ): void {
+		if ( $this->check_nonce( $nonce_name, $nonce_action ) === false ) {
+			wp_die( esc_html__( 'Invalid or missing nonce.', 'lumiere-movies' ), 'Lumière Movies', [ 'response' => 403 ] );
+		}
 	}
 }
 

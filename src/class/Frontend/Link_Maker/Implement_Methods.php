@@ -260,7 +260,7 @@ class Implement_Methods {
 
 		// Building link.
 		$output = "\n\t\t\t\t\t" . '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '"' . " id=\"link-$imdbid\""
-		. ' data-modal_window_nonce="' . wp_create_nonce() . '"'
+		. ' data-modal_window_nonce="' . wp_create_nonce( 'popup_nonce' ) . '"'
 		. ' data-modal_window_people="' . esc_attr( $imdbid ) . '"'
 		// Data target is utilised by bootstrap only, but should be safe to keep it.
 		. ' data-target="#theModal' . esc_attr( $imdbid ) . '"'
@@ -269,7 +269,7 @@ class Implement_Methods {
 
 		// AMP, build a HREF.
 		if ( $window_type === self::LINK_OPTIONS['amp'] ) {
-			$output .= ' href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdbid ) ) . '"';
+			$output .= ' href="' . esc_url( wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdbid, 'popup_nonce' ) ) . '"';
 		}
 
 		$output .= '>' . esc_html( $imdbname ) . '</a>';
@@ -292,12 +292,12 @@ class Implement_Methods {
 		// Highslide & Classic modal.
 		if ( $window_type === self::LINK_OPTIONS['classic'] || $window_type === self::LINK_OPTIONS['highslide'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce( 'popup_nonce' ) . '" data-modal_window_film="' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// Bootstrap modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce( 'popup_nonce' ) . '" data-modal_window_film="' . sanitize_title( $title ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// No Link modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
@@ -305,7 +305,7 @@ class Implement_Methods {
 
 			// AMP modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['amp'] ) {
-			return '<a class="lum_link add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . sanitize_title( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . sanitize_title( $title ), 'popup_nonce' ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
 		}
 
 		throw new Exception( 'No window_type found' );
@@ -327,12 +327,12 @@ class Implement_Methods {
 		// Highslide & Classic modal
 		if ( $window_type === self::LINK_OPTIONS['highslide'] || $window_type === self::LINK_OPTIONS['classic'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce( 'popup_nonce' ) . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// Bootstrap modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['bootstrap'] ) {
 			/* Translators: %1s is a movie's title, ie Full Metal Jacket */
-			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce() . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor ' . esc_attr( $a_class ) . '" data-modal_window_nonce="' . wp_create_nonce( 'popup_nonce' ) . '" data-modal_window_filmid="' . esc_attr( $imdbid ) . '" data-target="#theModal' . sanitize_title( $title ) . '" title="' . esc_attr( wp_sprintf( _x( 'Open a new window with IMDb informations for %1s', 'movie title', 'lumiere-movies' ), ucfirst( $title ) ) ) . '">' . esc_html( $title ) . '</a>';
 
 			// No Link modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['nolinks'] ) {
@@ -340,7 +340,7 @@ class Implement_Methods {
 
 			// AMP modal.
 		} elseif ( $window_type === self::LINK_OPTIONS['amp'] ) {
-			return '<a class="lum_link add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . esc_html( $title ) ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
+			return '<a class="lum_link add_cursor lum_link_make_popup ' . esc_attr( $a_class ) . '" href="' . wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?film=' . esc_html( $title ), 'popup_nonce' ) . '" title="' . esc_html__( 'No Links', 'lumiere-movies' ) . '">' . esc_html( $title ) . '</a>';
 
 		}
 

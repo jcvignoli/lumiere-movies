@@ -58,10 +58,16 @@ final class Datamovie extends Admin_Menu {
 			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
+		if ( false === wp_verify_nonce( $nonce, 'check_display_page' ) ) {
+			return;
+		}
+
+		$current_page = isset( $_GET['page'] ) ? sanitize_key( strval( $_GET['page'] ) ) : '';
+		$subsection = isset( $_GET['subsection'] ) ? sanitize_key( strval( $_GET['subsection'] ) ) : '';
+
 		if (
-			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_data_movie, sanitize_key( $_GET['page'] ) ) === true
-			&& ! isset( $_GET['subsection'] )
+			strlen( $current_page ) > 0 && str_contains( $this->page_data_movie, $current_page ) === true
+			&& strlen( $subsection ) === 0
 		) {
 
 			/**
@@ -78,9 +84,8 @@ final class Datamovie extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_data_movie_order, sanitize_key( $_GET['page'] ) ) === true
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_movie_order, sanitize_key( $_GET['subsection'] ) )
-			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
+			strlen( $current_page ) > 0 && str_contains( $this->page_data_movie_order, $current_page ) === true
+			&& strlen( $subsection ) > 0 && str_contains( $this->page_data_movie_order, $subsection )
 		) {
 
 			/**
@@ -93,9 +98,8 @@ final class Datamovie extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_data_movie_taxo, sanitize_key( $_GET['page'] ) ) === true
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_movie_taxo, sanitize_key( $_GET['subsection'] ) )
-			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
+			strlen( $current_page ) > 0 && str_contains( $this->page_data_movie_taxo, $current_page ) === true
+			&& strlen( $subsection ) > 0 && str_contains( $this->page_data_movie_taxo, $subsection )
 		) {
 
 			/**

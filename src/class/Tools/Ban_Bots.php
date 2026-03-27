@@ -156,7 +156,7 @@ final class Ban_Bots {
 	 */
 	private function ban_bot_now(): void {
 
-		$text_ban = '<h1>Prevented a bad request</h1>';
+		$text_ban = '<h1>Lumière plugin prevented a bad request</h1>';
 
 		$text_ban .= '<p>If you think it\'s a mistake, please contact the administrator via a proxy server.</p>';
 

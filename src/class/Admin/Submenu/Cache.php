@@ -56,12 +56,17 @@ final class Cache extends Admin_Menu {
 			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
-		if (
-			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_cache_option, sanitize_text_field( wp_unslash( strval( $_GET['page'] ) ) ) ) === true
-			&& ! isset( $_GET['subsection'] )
-		) {
+		if ( false === wp_verify_nonce( $nonce, 'check_display_page' ) ) {
+			return;
+		}
 
+		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( strval( $_GET['page'] ) ) : '';
+		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( strval( $_GET['subsection'] ) ) : '';
+
+		if (
+			strlen( $current_page ) > 0 && str_contains( $this->page_cache_option, $current_page ) === true
+			&& strlen( $subsection ) === 0
+		) {
 			// Cache options menu.
 			$size = $this->lumiere_format_bytes( $cache_mngmt_class->cache_getfoldersize( $this->settings->get_cache_option( 'imdbcachedir' ) ) );
 			$this->include_with_vars(
@@ -70,9 +75,8 @@ final class Cache extends Admin_Menu {
 			);
 
 		} elseif (
-			isset( $_GET['page'] ) && str_contains( $this->page_cache_option, sanitize_text_field( wp_unslash( strval( $_GET['page'] ) ) ) ) === true
-			&& isset( $_GET['subsection'] ) && $_GET['subsection'] === 'manage'
-			&& wp_verify_nonce( $nonce, 'check_display_page' ) > 0
+			strlen( $current_page ) > 0 && str_contains( $this->page_cache_option, $current_page ) === true
+			&& $subsection === 'manage'
 		) {
 			// Cache managment menu.
 			$this->include_with_vars(

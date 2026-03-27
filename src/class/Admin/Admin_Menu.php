@@ -201,17 +201,21 @@ class Admin_Menu {
 		 * @see Save_Options::process_headers()
 		 * @since 4.0
 		 */
-		add_action( 'wp_loaded', fn() => Save_Options::init( $this->page_data_movie_taxo ) );
-		add_action( 'init', fn() => Save_Options::init_taxonomy( $this->page_main_advanced ), 11 );
+		add_action( 'wp_loaded', fn() => ( new Save_Options( $this->page_data_movie_taxo )->register() ) );
+		// if new taxo was entered and checkbox update terms is selected, run special taxo process.
+		if (
+			isset( $_POST['imdb_imdburlstringtaxo'] ) && strlen( sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) ) > 0
+			&& isset( $_POST['imdb_imdburlstringtaxo_terms'] ) && sanitize_key( $_POST['imdb_imdburlstringtaxo_terms'] ) === '1'
+		) {
+			add_action( 'init', fn() => ( new Save_Options( $this->page_main_advanced )->init_taxonomy() ), 11 );
+		}
 
 		/**
 		 * Copying taxonomy templates in Lumière! data taxonomy options
 		 */
-		if (
-			isset( $_GET['taxotype'] )
-			&& isset( $_GET['_wpnonce_linkcopytaxo'] )
-			&& wp_verify_nonce( sanitize_key( $_GET['_wpnonce_linkcopytaxo'] ), 'linkcopytaxo' ) > 0
-		) {
+		if ( isset( $_GET['taxotype'] ) && isset( $_GET['_wpnonce_linkcopytaxo'] ) ) {
+			check_admin_referer( 'linkcopytaxo', '_wpnonce_linkcopytaxo' );
+
 			add_action( 'admin_init', fn() => Copy_Templates\Copy_Theme::start_copy_theme( $this->page_data_movie_taxo ) );
 		}
 
@@ -264,7 +268,7 @@ class Admin_Menu {
 				'<img src="' . Get_Options::LUM_PICS_URL . 'lumiere-ico13x13.png" align="absmiddle"> Lumière',
 				'manage_options',
 				$this->menu_id,
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -272,7 +276,7 @@ class Admin_Menu {
 				esc_html__( 'Data movies', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_data_movie',
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -280,7 +284,7 @@ class Admin_Menu {
 				esc_html__( 'Data persons', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_data_person',
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -288,7 +292,7 @@ class Admin_Menu {
 				esc_html__( 'Cache', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_cache',
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -296,7 +300,7 @@ class Admin_Menu {
 				esc_html__( 'Help', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_help',
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 
 			// Left menu
@@ -307,7 +311,7 @@ class Admin_Menu {
 				esc_html__( 'Lumière', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id,
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 				Get_Options::LUM_PICS_URL . 'lumiere-ico13x13.png',
 				65
 			);
@@ -317,7 +321,7 @@ class Admin_Menu {
 				esc_html__( 'Main', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id,
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -325,7 +329,7 @@ class Admin_Menu {
 				esc_html__( 'Data movies', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_data_movie',
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -333,7 +337,7 @@ class Admin_Menu {
 				esc_html__( 'Data persons', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_data_person',
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -341,7 +345,7 @@ class Admin_Menu {
 				esc_html__( 'Cache', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_cache',
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 			add_submenu_page(
 				$this->menu_id,
@@ -349,7 +353,7 @@ class Admin_Menu {
 				esc_html__( 'Help', 'lumiere-movies' ),
 				'manage_options',
 				$this->menu_id . '_help',
-				[ $this, 'call_admin_subclass' ],
+				[ $this, 'get_admin_submenu' ],
 			);
 		}
 	}
@@ -436,9 +440,9 @@ class Admin_Menu {
 	 * Get admin subclass according to the current view
 	 * Classes listed in $class_need_cache need to start a cache class
 	 *
-	 * @return void The private method to call
+	 * @return void
 	 */
-	public function call_admin_subclass(): void {
+	public function get_admin_submenu(): void {
 
 		$class_name_from_page = strlen( $this->get_current_page() ) > 0 ? $this->get_current_page() : '_main';
 		$class_name_cleaned = ucfirst( str_replace( '_', '', $class_name_from_page ) );
@@ -452,19 +456,11 @@ class Admin_Menu {
 				$instance->lum_submenu_start( new Cache_Files_Management(), wp_create_nonce( 'check_display_page' ) );
 			}
 
-			$this->lumiere_add_signature_menus();
+			// Signature.
+			$this->include_with_vars(
+				'admin-menu-signature',
+				[ 'page_help_support' => $this->page_help_support ],
+			);
 		}
-	}
-
-	/**
-	 * Display the end of page signature for Lumiere
-	 * All pages have it
-	 */
-	private function lumiere_add_signature_menus(): void {
-		// Signature.
-		$this->include_with_vars(
-			'admin-menu-signature',
-			[ 'page_help_support' => $this->page_help_support ],
-		);
 	}
 }

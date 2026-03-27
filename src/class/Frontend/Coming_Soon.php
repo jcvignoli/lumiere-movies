@@ -115,20 +115,20 @@ final class Coming_Soon {
 
 		// Get Calendar's method.
 		$date_format_override_comment = ! isset( $date_format_override ) ? 'null' : $date_format_override;
-		$this->logger->log?->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override . ', dateFormatOverride:' . $date_format_override_comment );
+		$this->logger?->log?->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override . ', dateFormatOverride:' . $date_format_override_comment );
 		$all_data = $calendar_imdb_class->comingSoon( $region, $type, $start_date_override, $end_date_override );
 		$sorted_data = $this->array_sort_key( $all_data );
 		$filtered_data = $this->convert_date( $sorted_data, $date_format_override );
 
 		// Exit if no data found.
 		if ( count( $filtered_data ) < 1 ) {
-			$this->logger->log?->error( '[Coming_Soon] No data found' );
+			$this->logger?->log?->error( '[Coming_Soon] No data found' );
 			echo '<div>' . esc_html__( 'No data found.', 'lumiere-movies' ) . '</div>';
 			return;
 		}
 
 		// Get template.
-		$this->logger->log?->debug( '[Coming_Soon] Displaying the template' );
+		$this->logger?->log?->debug( '[Coming_Soon] Displaying the template' );
 		$this->include_with_vars( // In Trait Files.
 			'calendar', // template name.
 			[

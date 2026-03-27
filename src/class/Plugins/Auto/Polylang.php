@@ -15,9 +15,9 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Plugins\Logger;
 use Lumiere\Config\Get_Options;
 use Lumiere\Tools\Validate_Get;
+use Lumiere\Frontend\Main;
 
 /**
  * Plugin for Polylang WordPress plugin
@@ -32,10 +32,15 @@ use Lumiere\Tools\Validate_Get;
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  * @link Polylang reference hooks https://polylang.pro/doc/filter-reference/
  *
- * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 final class Polylang {
+
+	/**
+	 * Traits
+	 */
+	use Main;
 
 	/**
 	 * Array of plugins currently in use
@@ -48,9 +53,11 @@ final class Polylang {
 	/**
 	 * Constructor
 	 */
-	final public function __construct(
-		private ?Logger $logger = new Logger( 'Polylang' ), // Can be null for certain functions that execute early.
-	) {
+	final public function __construct() {
+
+		// In Main trait.
+		$this->start_logger( 'Polylang' );
+
 		// Return URLs with Polylang lang extension in domain name.
 		add_filter( 'lum_polylang_rewrite_url_with_lang', [ $this, 'rewrite_url_with_lang' ], 10, 1 );
 
@@ -132,21 +139,20 @@ final class Polylang {
 	 */
 	public function form_taxonomy_people_lang(): string {
 
+		$valid_nonce = $this->check_nonce( '_wpnonce_lum_taxo_polylangform', 'lum_taxo_polylangform' );
+
 		// Language selected: $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
-		$selected_lang =
-			Validate_Get::sanitize_url( 'tag_lang' ) !== null
-			&& isset( $_GET['_wpnonce_lum_taxo_polylangform'] )
-			&& ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0 )
-			? Validate_Get::sanitize_url( 'tag_lang' )
-			: null;
+		$tag_lang = Validate_Get::sanitize_url( 'tag_lang' );
+		$selected_lang = isset( $tag_lang ) && strlen( $tag_lang ) > 0 && $valid_nonce === true ? $tag_lang : null;
 
 		// Combine in a single array two different Polylang fields, ie [ 'en' => 'English' ].
 		$all_lang_array = array_combine( pll_languages_list( [ 'fields' => 'slug' ] ), pll_languages_list( [ 'fields' => 'name' ] ) );
 
 		/**
 		 * Use AMP form if AMP plugin is active
+		 * @phpstan-ignore function.impossibleType, identical.alwaysFalse (due to Plugin array shape not well fully understood by phpstan)
 		 */
-		if ( in_array( 'amp', $this->active_plugins, true ) === true ) {
+		if ( array_key_exists( 'Amp', $this->active_plugins ) === true ) {
 			return $this->amp_form_polylang_selection( $all_lang_array, $selected_lang );
 		}
 
@@ -175,7 +181,7 @@ final class Polylang {
 	}
 
 	/**
-	 * Special form for compatiblity with AMP
+	 * Special form for AMP compatiblity
 	 * @param array<string, string> $all_lang_array List of Polylang languages in use
 	 * @param string|null $selected_lang Optional: Slug of the selected language
 	 * @return string The AMP form is returned
@@ -187,22 +193,20 @@ final class Polylang {
 	private function amp_form_polylang_selection( array $all_lang_array, ?string $selected_lang = null ): string {
 
 		$output = "\n\t\t\t" . '<div align="center">';
-		$output .= "\n\t\t\t\t" . '<form method="get" id="lang_form" name="lang_form" action="?amp" target="_top">';
+		$output .= "\n\t\t\t\t" . '<form method="get" id="lang_form" name="lang_form" action="?amp" target="_top">'; // if I remove action ?amp, amp is removed on form submission
 		$output .= "\n\t\t\t\t\t" . '<select name="tag_lang" id="tag_lang">';
 		$output .= "\n\t\t\t\t\t\t" . '<option value="">' . esc_html__( 'All', 'lumiere-movies' ) . '</option>';
 
 		// Build an option html tag for every language.
 		foreach ( $all_lang_array as $slug => $lang ) {
 			$output .= "\n\t\t\t\t\t\t" . '<option value="' . esc_attr( $slug ) . '"';
-			if ( $selected_lang === $slug ) {
-				$output .= ' selected="selected"';
-			}
+			$output .= $selected_lang === $slug ? ' selected="selected"' : '';
 			$output .= '>' . ucfirst( esc_html( $lang ) ) . '</option>';
 		}
 
 		$output .= "\n\t\t\t\t\t" . '</select>';
 		$output .= "\n\t\t\t\t\t" . wp_nonce_field( 'lum_taxo_polylangform', '_wpnonce_lum_taxo_polylangform', true, false );
-		$output .= "\n\t\t\t\t\t" . '<button type="submit" name="submit_lang" id="submit_lang" class="button-primary" aria-live="assertive" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">&nbsp;&nbsp;&nbsp;' . __( 'Filter language', 'lumiere-movies' ) . '</button>';
+		$output .= "\n\t\t\t\t\t" . '<button type="submit" name="submit_lang" id="submit_lang" class="button-primary" aria-live="assertive" value="' . esc_html__( 'Filter language', 'lumiere-movies' ) . '">' . esc_html__( 'Filter language', 'lumiere-movies' ) . '</button>';
 		$output .= "\n\t\t\t\t" . '</form>';
 		$output .= "\n\t\t\t" . '</div>';
 		return $output;
@@ -211,7 +215,7 @@ final class Polylang {
 	/**
 	 * Use specific headers if it is an AMP submission
 	 * Meant to allow a $_GET insted of a $_POST form submission, thus using Ajax, not in use
-	 * Not in use ( amp_form should be on post)
+	 * @obsolete Not in use ( amp_form should be on post)
 	 *
 	 * @see self::amp_form_polylang_selection() Switch 'form method="get"' to 'post' to get it active
 	 * @see \Lumiere\Taxonomy_People_Standard Implements it
@@ -220,8 +224,7 @@ final class Polylang {
 
 		if (
 			Validate_Get::sanitize_url( 'submit_lang' ) !== null && Validate_Get::sanitize_url( 'tag_lang' ) !== null
-			&& isset( $_POST['_wpnonce_lum_taxo_polylangform'] )
-			&& wp_verify_nonce( sanitize_key( $_POST['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0
+			&& $this->check_nonce( '_wpnonce_lum_taxo_polylangform', 'lum_taxo_polylangform' ) === true
 		) {
 
 			/** @psalm-suppress PossiblyNullArgument (It can't! checked above!) */
@@ -295,7 +298,7 @@ final class Polylang {
 
 		if (
 			( isset( $tag_lang ) && ! isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) )
-			|| ( isset( $tag_lang ) && ! ( wp_verify_nonce( sanitize_key( $_GET['_wpnonce_lum_taxo_polylangform'] ), 'lum_taxo_polylangform' ) > 0 ) )
+			|| ( isset( $tag_lang ) && $this->check_nonce( '_wpnonce_lum_taxo_polylangform', 'lum_taxo_polylangform' ) === false )
 		) {
 			return $query;
 		}

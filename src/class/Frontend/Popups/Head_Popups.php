@@ -68,8 +68,8 @@ class Head_Popups {
 			wp_die( esc_html__( 'Lumière Movies: This should not have happened.', 'lumiere-movies' ) );
 		}
 
-		// Check nonce or exit.
-		$this->check_nonce();
+		// Check nonce or exit. Nonce created in Implement_Methods class. Method in Trait Main.
+		$this->check_nonce_die( nonce_action: 'popup_nonce' );
 
 		/**
 		 * Get an array with all objects plugins
@@ -89,21 +89,6 @@ class Head_Popups {
 
 		// Add Lumière <head> data in popups
 		add_action( 'wp_head', [ $this, 'add_metas_popups' ], 7 ); // must be priority 7
-	}
-
-	/**
-	 * Check the nonce
-	 * @return void Die if nonce is invalide
-	 */
-	private function check_nonce(): void {
-
-		// Nonce. Always valid if admin is connected.
-		$nonce_valid = ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_key( $_GET['_wpnonce'] ) ) > 0 ) || is_user_logged_in() === true ? true : false; // Created in Abstract_Link_Maker class.
-
-		// If nonce is invalid or no title was provided, exit.
-		if ( $nonce_valid === false ) {
-			wp_die( esc_html__( 'Invalid or missing nonce.', 'lumiere-movies' ), 'Lumière Movies', [ 'response' => 400 ] );
-		}
 	}
 
 	/**
@@ -191,7 +176,7 @@ class Head_Popups {
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
-			$person = $this->plugins_classes_active['imdbphp']->get_name_class( $sanitized_mid, $this->logger->log );
+			$person = $this->plugins_classes_active['imdbphp']->get_name_class( $sanitized_mid, $this->logger?->log );
 			$name = $person->name();
 			if ( $name !== null && strlen( $name ) > 0 ) {
 				echo "\n" . '<meta property="article:tag" content="' . esc_attr( $name ) . '" />';
@@ -200,7 +185,7 @@ class Head_Popups {
 
 		echo "\n\t\t" . '<!-- /Lumière! Movies -->' . "\n";
 
-		$this->logger->log?->debug( '[Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger?->log?->debug( '[Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 	}
 
 }

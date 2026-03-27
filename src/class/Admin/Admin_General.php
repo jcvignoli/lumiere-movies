@@ -39,5 +39,29 @@ trait Admin_General {
 		$current_url = esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) );
 		return admin_url( str_replace( site_url( '', 'relative' ) . '/wp-admin', '', $current_url ) );
 	}
+
+	/**
+	 * Validate nonce for Admin.
+	 *
+	 * @param string $nonce_name by default '_wpnonce'
+	 * @param int|string $nonce_action by default -1, which means no action name at all
+	 * @return bool True if nonce is valid (either 1 or 2 on success)
+	 */
+	public function is_valid_nonce( string $nonce_name = '_wpnonce', int|string $nonce_action = -1 ): bool {
+		return check_admin_referer( $nonce_action, $nonce_name ) > 0;
+	}
+
+	/**
+	 * Validate the nonce for Admin. If invalid, die()
+	 *
+	 * @param string $nonce_name by default '_wpnonce'
+	 * @param int|string $nonce_action by default -1, which means no action name at all
+	 * @return void Die if invalid nonce
+	 */
+	public function is_valid_nonce_die( string $nonce_name = '_wpnonce', int|string $nonce_action = -1 ): void {
+		if ( $this->is_valid_nonce( $nonce_name, $nonce_action ) === false ) {
+			wp_die( esc_html__( 'Invalid or missing nonce.', 'lumiere-movies' ), 'Lumière Movies', [ 'response' => 403 ] );
+		}
+	}
 }
 

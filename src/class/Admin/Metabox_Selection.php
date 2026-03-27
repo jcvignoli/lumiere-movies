@@ -241,9 +241,11 @@ final class Metabox_Selection {
 	 */
 	public function save_custom_meta_box( int $post_id, \WP_Post $post ): void {
 
-		if ( ! isset( $_POST['lum_metabox_nonce'] ) || wp_verify_nonce( sanitize_key( $_POST['lum_metabox_nonce'] ), basename( __FILE__ ) ) === false ) {
+		if ( ! isset( $_POST['lum_metabox_nonce'] ) ) {
 			return;
 		}
+
+		check_admin_referer( basename( __FILE__ ), 'lum_metabox_nonce' );
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;

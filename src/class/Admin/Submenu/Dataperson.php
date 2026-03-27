@@ -54,10 +54,16 @@ final class Dataperson extends Admin_Menu {
 			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
+		if ( false === wp_verify_nonce( $nonce, 'check_display_page' ) ) {
+			return;
+		}
+
+		$current_page = isset( $_GET['page'] ) ? sanitize_key( strval( $_GET['page'] ) ) : '';
+		$subsection = isset( $_GET['subsection'] ) ? sanitize_key( strval( $_GET['subsection'] ) ) : '';
+
 		if (
-			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_data_person, sanitize_key( $_GET['page'] ) ) === true
-			&& ! isset( $_GET['subsection'] )
+			strlen( $current_page ) > 0 && str_contains( $this->page_data_person, $current_page ) === true
+			&& strlen( $subsection ) === 0
 		) {
 			/**
 			 * Data person template
@@ -68,9 +74,8 @@ final class Dataperson extends Admin_Menu {
 				[ 'lum_calling_class' => $this ], /** Add an array with vars to send in the template */
 			);
 		} elseif (
-			wp_verify_nonce( $nonce, 'check_display_page' ) > 0
-			&& isset( $_GET['page'] ) && str_contains( $this->page_data_person, sanitize_key( $_GET['page'] ) ) === true
-			&& isset( $_GET['subsection'] ) && str_contains( $this->page_data_person_order, sanitize_key( $_GET['subsection'] ) )
+			strlen( $current_page ) > 0 && str_contains( $this->page_data_person, $current_page ) === true
+			&& strlen( $subsection ) > 0 && str_contains( $this->page_data_person_order, $subsection )
 		) {
 
 			/**
