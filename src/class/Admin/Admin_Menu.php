@@ -201,13 +201,13 @@ class Admin_Menu {
 		 * @see Save_Options::process_headers()
 		 * @since 4.0
 		 */
-		add_action( 'wp_loaded', fn() => ( new Save_Options( $this->page_data_movie_taxo )->register() ) ); // phpcs:ignore Generic.PHP.Syntax.PHPSyntax
+		add_action( 'wp_loaded', fn() => ( new Save_Options( $this->page_data_movie_taxo ) )->register() );
 		// if new taxo was entered and checkbox update terms is selected, run special taxo process.
 		if (
 			isset( $_POST['imdb_imdburlstringtaxo'] ) && strlen( sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) ) > 0
 			&& isset( $_POST['imdb_imdburlstringtaxo_terms'] ) && sanitize_key( $_POST['imdb_imdburlstringtaxo_terms'] ) === '1'
 		) {
-			add_action( 'init', fn() => ( new Save_Options( $this->page_main_advanced )->init_taxonomy() ), 11 );
+			add_action( 'init', fn() => ( new Save_Options( $this->page_main_advanced ) )->init_taxonomy(), 11 );
 		}
 
 		/**
