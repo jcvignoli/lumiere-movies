@@ -201,7 +201,7 @@ class Admin_Menu {
 		 * @see Save_Options::process_headers()
 		 * @since 4.0
 		 */
-		add_action( 'wp_loaded', fn() => ( new Save_Options( $this->page_data_movie_taxo )->register() ) );
+		add_action( 'wp_loaded', fn() => ( new Save_Options( $this->page_data_movie_taxo )->register() ) ); // phpcs:ignore Generic.PHP.Syntax.PHPSyntax
 		// if new taxo was entered and checkbox update terms is selected, run special taxo process.
 		if (
 			isset( $_POST['imdb_imdburlstringtaxo'] ) && strlen( sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) ) > 0

@@ -5,7 +5,6 @@
 	<description>Lumière WordPress Plugin PHP Code Sniffer configuration file.</description>
 
 	<file>src</file>
-	<file>phan.php</file>
 
 	<arg name="basepath" value="./"/>
 	<!--<arg name="colors"/>-->
@@ -13,15 +12,10 @@
 	<arg name="extensions" value="php"/>
 	<arg name="parallel" value="8"/>
 	<arg name="warning-severity" value="0"/>
-	<arg name="parallel" value="8"/>
-	<arg name="report" value="code"/>
 
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>*/assets/js/*</exclude-pattern>
 	<exclude-pattern>*/assets/css/*</exclude-pattern>
-	<exclude-pattern>tests/*</exclude-pattern>
-	<exclude-pattern>dist/*</exclude-pattern>
-	<exclude-pattern>.phan/*</exclude-pattern>
 
 	<!-- Add PHP Post-5.6 ruleset, not supported by WordPress core, but perfect for plugins. -->
 	<rule ref="NeutronStandard">
@@ -82,7 +76,7 @@
 	Let's play with WP Coding standards and fit Lumiere needs
 	https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties
 	-->
-	<config name="minimum_supported_wp_version" value="5.6"/>
+	<config name="minimum_supported_wp_version" value="6.1"/>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
@@ -105,6 +99,9 @@
 		<properties>
 			<property name="customNonceVerificationFunctions" type="array">
 				<element value="is_valid_nonce"/>
+				<element value="is_valid_nonce_die"/>
+				<element value="check_nonce"/>
+				<element value="check_nonce_die"/>
 			</property>
 		</properties>
 	</rule>
