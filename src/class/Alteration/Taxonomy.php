@@ -40,16 +40,21 @@ final class Taxonomy {
 	 * Constructor
 	 */
 	public function __construct(
-		string $old_taxonomy = '',
-		string $new_taxonomy = '',
-		string $action = '',
+		private string $old_taxonomy = '',
+		private string $new_taxonomy = '',
+		private string $action = '',
 		private ?Logger $logger = new Logger( 'Taxonomy' ), // Can be null for certain functions that execute early.
 	) {
-
 		$this->imdb_admin_values = get_option( Get_Options::get_admin_tablename(), [] );
+	}
+
+	/**
+	 * Register hooks
+	 */
+	private function register_hooks(): void {
 
 		// If taxonomy is not activated, exit.
-		if ( ! isset( $this->imdb_admin_values['imdbtaxonomy'] ) || $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
+		if ( $this->imdb_admin_values['imdbtaxonomy'] !== '1' ) {
 			return;
 		}
 
@@ -57,8 +62,8 @@ final class Taxonomy {
 		add_action( 'init', [ $this, 'create_custom_taxonomy' ], 11 );
 
 		// Must be registered before in order to delete its terms.
-		if ( $action === 'update_old_taxo' ) {
-			add_action( 'init', fn() => $this->update_custom_terms( $old_taxonomy, $new_taxonomy ), 13 );
+		if ( $this->action === 'update_old_taxo' ) {
+			add_action( 'init', fn() => $this->update_custom_terms( $this->old_taxonomy, $this->new_taxonomy ), 13 );
 		}
 	}
 
@@ -71,6 +76,7 @@ final class Taxonomy {
 	 */
 	public static function start( string $old_taxonomy = '', string $new_taxonomy = '', string $action = '' ): void {
 		$taxonomy_class = new self( $old_taxonomy, $new_taxonomy, $action );
+		$taxonomy_class->register_hooks();
 	}
 
 	/**

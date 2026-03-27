@@ -32,8 +32,16 @@ final class Highslide_Links extends Implement_Methods implements Interface_Linkm
 	 * Constructor
 	 */
 	public function __construct() {
-
 		parent::__construct();
+	}
+
+	/**
+	 * Register hooks
+	 *
+	 * @inheritdoc
+	 */
+	#[\Override]
+	public function register_hooks(): void {
 
 		// Registers javascripts and styles, they need to be registered after the Frontend ones.
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_extra_assets' ] ); // if not defered, must be after Frontend class call

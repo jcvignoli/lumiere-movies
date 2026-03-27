@@ -33,6 +33,15 @@ final class Classic_Links extends Implement_Methods implements Interface_Linkmak
 	public function __construct() {
 
 		parent::__construct();
+	}
+
+	/**
+	 * Register hooks
+	 *
+	 * @inheritdoc
+	 */
+	#[\Override]
+	public function register_hooks(): void {
 
 		// Registers javascripts and styles.
 		add_action( 'wp_enqueue_scripts', [ $this, 'lumiere_classic_register_assets' ] );
@@ -42,7 +51,7 @@ final class Classic_Links extends Implement_Methods implements Interface_Linkmak
 	}
 
 	/**
-	 *  Register frontpage scripts and styles
+	 * Register frontpage scripts and styles
 	 */
 	public function lumiere_classic_register_assets(): void {
 		wp_register_script(

@@ -59,7 +59,7 @@ class Widget_Selection extends WP_Widget {
 	/**
 	 * Register filters and actions
 	 */
-	public function register(): void {
+	public function register_hooks(): void {
 
 		add_action( 'widgets_init', [ $this, 'lum_select_widget' ], 11 ); // called in class Core with default priority 10.
 

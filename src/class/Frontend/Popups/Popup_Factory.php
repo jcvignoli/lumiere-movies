@@ -41,7 +41,7 @@ final class Popup_Factory {
 
 	/**
 	 * Find if a template exists according to the query var
-	 * @see \Lumiere\Frontend\Frontend that include this method into an add_filter()
+	 * @see \Lumiere\Frontend\Frontend that include this method into an add_filter() hook 'template_include'
 	 *
 	 * @param string $template_path The path to the page of the theme currently in use
 	 * @return string The template path if no popup was found, the popup otherwise

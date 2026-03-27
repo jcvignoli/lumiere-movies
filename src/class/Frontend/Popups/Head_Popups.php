@@ -82,7 +82,7 @@ class Head_Popups {
 		/**
 		 * Ban bots
 		 */
-		add_action( 'wp_head', [ 'Lumiere\Tools\Ban_Bots', 'lumiere_static_start' ], 11 );
+		add_action( 'wp_head', fn() => ( new \Lumiere\Tools\Ban_Bots() )->register_hooks(), 11 );
 
 		// Remove useless or unwanted filters and actions
 		$this->remove_filters_and_actions();

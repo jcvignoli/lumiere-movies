@@ -47,7 +47,7 @@ final class Save_Options extends Save_Helper {
 	 * @since 4.1 added param, I need it to restrain rewrite rules flush to data taxo pages
 	 * @see self::save_movie_options() use $this->page_data_taxo
 	 */
-	public function register(): void {
+	public function register_hooks(): void {
 		add_action( 'admin_init', [ $this, 'process_headers' ] );
 	}
 

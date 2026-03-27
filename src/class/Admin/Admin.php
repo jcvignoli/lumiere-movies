@@ -44,7 +44,7 @@ final class Admin {
 	 * Register admin hooks
 	 * @see \Lumiere\Core
 	 */
-	public function register(): void {
+	public function register_hooks(): void {
 
 		/**
 		 * (1) Don't bother doing stuff if the current user lacks permissions
@@ -92,7 +92,7 @@ final class Admin {
 		add_action( 'init', [ 'Lumiere\Plugins\Auto\Polylang', 'add_polylang_in_admin' ] );
 
 		// Add admin menu.
-		add_action( 'init', [ $this->admin_menu, 'register' ] );
+		add_action( 'init', [ $this->admin_menu, 'register_hooks' ] );
 	}
 	/**
 	 * Register admin scripts and styles

@@ -23,6 +23,13 @@ if ( ! defined( 'WPINC' ) ) {
 interface Interface_Linkmaker {
 
 	/**
+	 * Register hooks for the link maker
+	 *
+	 * @since 4.8
+	 */
+	public function register_hooks(): void;
+
+	/**
 	 * Source the rating picture
 	 *
 	 * @param int $rating The movie's score

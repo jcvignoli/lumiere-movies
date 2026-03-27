@@ -83,7 +83,7 @@ class Front_Parser {
 	 * @see \Lumiere\Frontend\Frontend::lumiere_static_start() Call this method
 	 * @since 4.74 removed add_filter('parse_spans') since using render.php in gutenberg block, which uses
 	 */
-	public function register(): void {
+	public function register_hooks(): void {
 
 		/**
 		 * Transform spans into movies.

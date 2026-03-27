@@ -52,6 +52,12 @@ final class Cron {
 	) {
 
 		$this->imdb_cache_values = get_option( Get_Options::get_cache_tablename() );
+	}
+
+	/**
+	 * Register hooks
+	 */
+	public function register_hooks(): void {
 
 		// When 'lumiere_exec_once_update' cron is scheduled, execute the following.
 		add_action( 'lumiere_exec_once_update', [ $this, 'exec_once_update' ] );
@@ -67,16 +73,6 @@ final class Cron {
 
 		// Add new schedules in cron recurrences.
 		add_filter( 'cron_schedules', [ $this, 'add_custom_job_recurrence' ] );
-	}
-
-	/**
-	 * Static instanciation of the class
-	 * Needed to be called in add_actions()
-	 *
-	 * @return void The class is instanciated
-	 */
-	public static function start(): void {
-		$cron_class = new self();
 	}
 
 	/**

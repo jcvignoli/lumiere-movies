@@ -26,6 +26,16 @@ if ( ! defined( 'WPINC' ) ) {
 final class No_Links extends Implement_Methods implements Interface_Linkmaker {
 
 	/**
+	 * Register hooks for the link maker
+	 *
+	 * @inheritdoc
+	 */
+	#[\Override]
+	public function register_hooks(): void {
+		// No_Links Link Maker currently does not require custom hook registration.
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	#[\Override]

@@ -25,6 +25,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 
 	/**
+	 * Register hooks for the link maker
+	 *
+	 * @inheritdoc
+	 */
+	#[\Override]
+	public function register_hooks(): void {
+		// AMP Link Maker currently does not require custom hook registration.
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	#[\Override]

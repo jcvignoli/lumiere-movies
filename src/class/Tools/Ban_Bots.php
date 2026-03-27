@@ -51,10 +51,15 @@ final class Ban_Bots {
 
 	/**
 	 * Constructor
+	 */
+	public function __construct() {}
+
+	/**
+	 * Register hooks and run ban checks
 	 * Add types of conditional banning here, no automatic ban available, make a conditional function instead
 	 * Actions must be executed here, popups can't since they're executed in template filter
 	 */
-	public function __construct() {
+	public function register_hooks(): void {
 
 		add_action( 'lum_maybe_ban_bots_general', [ $this, 'maybe_ban_bots_general' ] );
 		add_action( 'lum_maybe_ban_bots_noreferrer', [ $this, 'maybe_ban_noreferrer' ] );
@@ -72,16 +77,6 @@ final class Ban_Bots {
 		 * @since 3.11.4
 		 */
 		do_action( 'lum_maybe_ban_bots_noreferrer' );
-	}
-
-	/**
-	 * Static instanciation of the class
-	 * Needed to be called in add_actions()
-	 *
-	 * @return void The class was instanciated
-	 */
-	public static function lumiere_static_start(): void {
-		$static_start = new self();
 	}
 
 	/**

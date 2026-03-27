@@ -16,9 +16,10 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Admin\Cache\Cache_Files_Management;
+use Lumiere\Alteration\Rewrite_Rules;
+use Lumiere\Alteration\Taxonomy;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
-use Lumiere\Hooks_Updates;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Files;
 
@@ -31,7 +32,7 @@ use Lumiere\Tools\Files;
  * @since 4.1.2 WP Cli commands compatible
  * @since 4.6.1 Moved update-related hooks to a parent class Hooks_Updates
  */
-final class Core extends Hooks_Updates {
+final class Core extends \Lumiere\Hooks_Updates {
 
 	/**
 	 * Traits
@@ -40,45 +41,55 @@ final class Core extends Hooks_Updates {
 
 	/**
 	 * Constructor
+	 * @info Logger class is not started in __construct() to keep the option to select no screen output
 	 */
 	public function __construct(
 		private readonly Settings_Service $settings = new Settings_Service()
 	) {
-
 		// Get updates hooks.
 		parent::__construct();
+		parent::register_update_hooks();
+
+		// Current class hooks.
+		$this->register_core_hooks();
+	}
+
+	/**
+	 * Register main hooks
+	 */
+	private function register_core_hooks(): void {
 
 		/**
 		 * Widgets fire at init hook equivalent to priority 0, so they must either be called here with 'widgets_init' or with 'init' priority 0.
 		 * https://developer.wordpress.org/reference/hooks/widgets_init/#comment-2643
 		 * They're not only for admin area, since they're executed in the frontpage as well.
 		 */
-		add_action( 'widgets_init', fn() => ( new \Lumiere\Admin\Widget_Selection() )->register() );
+		add_action( 'widgets_init', fn() => ( new \Lumiere\Admin\Widget_Selection() )->register_hooks() );
 
 		/**
 		 * Taxonomy, must be executed on the whole website
 		 */
-		add_action( 'init', [ 'Lumiere\Alteration\Taxonomy', 'start' ], 10, 0 ); // @since 4.3: No need to pass args.
+		add_action( 'init', [ Taxonomy::class, 'start' ], 10, 0 ); // @since 4.3: No need to pass args.
 
 		/**
 		 * Rewrite rules, must be executed on the whole website
 		 */
-		add_action( 'init', [ 'Lumiere\Alteration\Rewrite_Rules', 'start' ] );
+		add_action( 'init', [ Rewrite_Rules::class, 'start' ] );
 
 		/**
 		 * Admin
 		 */
-		add_action( 'init', fn() => ( new \Lumiere\Admin\Admin( settings: $this->settings ) )->register(), 9 ); // Priority must be below 10.
+		add_action( 'init', fn() => ( new \Lumiere\Admin\Admin( settings: $this->settings ) )->register_hooks(), 9 ); // Priority must be below 10.
 
 		/**
 		 * Frontpage
 		 */
-		add_action( 'init', fn() => ( new \Lumiere\Frontend\Frontend( settings: $this->settings ) )->register() );
+		add_action( 'init', fn() => ( new \Lumiere\Frontend\Frontend( settings: $this->settings ) )->register_hooks() );
 
 		/**
 		 * Crons. Must be executed on the whole website
 		 */
-		add_action( 'init', [ 'Lumiere\Admin\Crons\Cron', 'start' ] );
+		add_action( 'init', fn() => ( new \Lumiere\Admin\Crons\Cron() )->register_hooks() );
 
 		/**
 		 * Gutenberg blocks, must be executed on the whole website

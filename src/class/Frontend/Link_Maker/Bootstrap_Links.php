@@ -28,8 +28,16 @@ final class Bootstrap_Links extends Implement_Methods implements Interface_Linkm
 	 * Constructor
 	 */
 	public function __construct() {
-
 		parent::__construct();
+	}
+
+	/**
+	 * Register hooks
+	 *
+	 * @inheritdoc
+	 */
+	#[\Override]
+	public function register_hooks(): void {
 
 		// Registers javascripts and styles, they need to be registered before the Frontend ones.
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_extra_assets' ], 9 ); // must be priority < 10, 1 less than class frontend.
@@ -39,7 +47,7 @@ final class Bootstrap_Links extends Implement_Methods implements Interface_Linkm
 	}
 
 	/**
-	 *  Register frontpage scripts and styles
+	 * Register frontpage scripts and styles
 	 */
 	public function register_extra_assets(): void {
 

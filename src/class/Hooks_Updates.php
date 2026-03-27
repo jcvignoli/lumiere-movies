@@ -32,8 +32,12 @@ class Hooks_Updates {
 	/**
 	 * Constructor
 	 */
-	public function __construct () {
+	public function __construct() {}
 
+	/**
+	 * Register hooks
+	 */
+	protected function register_update_hooks(): void {
 		// On updating the plugin.
 		add_action( 'automatic_updates_complete', [ $this, 'lum_on_plugin_autoupdate' ], 10, 1 );
 		add_action( 'upgrader_process_complete', [ $this, 'lum_on_plugin_manualupdate' ], 10, 2 );

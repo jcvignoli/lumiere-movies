@@ -36,7 +36,12 @@ final class Rewrite_Rules {
 	 */
 	public function __construct(
 		private Logger $logger = new Logger( 'RewriteRules', false /* deactivate the screen logging as it is executed early */ ),
-	) {
+	) {}
+
+	/**
+	 * Register hooks
+	 */
+	private function register_hooks(): void {
 		// Add an extra query var for use in URLs.
 		add_filter( 'query_vars', [ $this, 'lum_add_query_vars' ] );
 
@@ -59,6 +64,7 @@ final class Rewrite_Rules {
 	 */
 	public static function start(): void {
 		$rewrite_class = new self();
+		$rewrite_class->register_hooks();
 	}
 
 	/**

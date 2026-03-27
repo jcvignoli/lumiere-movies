@@ -52,28 +52,36 @@ final class Link_Factory {
 	 */
 	public function select_link_maker( $imdb_admin_values ): Interface_Linkmaker {
 
+		$link_maker = null;
+
 		// Checks if the current page is AMP
 		if ( $this->is_amp_page() === true ) { // Method in Main trait.
-			return new AMP_Links();
+			$link_maker = new AMP_Links();
 
 			// No display Lumière! links is selected in admin options
 		} elseif ( $imdb_admin_values['imdblinkingkill'] === '1' ) {
-			return new No_Links();
+			$link_maker = new No_Links();
 
 			// Bootstrap is selected in admin options
 		} elseif ( $imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ) {
-			return new Bootstrap_Links();
+			$link_maker = new Bootstrap_Links();
 
 			// Highslide is selected in admin options
 		} elseif ( $imdb_admin_values['imdbpopup_modal_window'] === 'highslide' ) {
-			return new Highslide_Links();
+			$link_maker = new Highslide_Links();
 
 			// Classic is selected in admin options
 		} elseif ( $imdb_admin_values['imdbpopup_modal_window'] === 'classic' ) {
-			return new Classic_Links();
+			$link_maker = new Classic_Links();
 		}
 
-		throw new Exception( 'No Link Lumière class found, aborting!' );
+		if ( null === $link_maker ) {
+			throw new Exception( 'No Link Lumière class found, aborting!' );
+		}
+
+		$link_maker->register_hooks();
+
+		return $link_maker;
 	}
 
 	/**
@@ -87,3 +95,4 @@ final class Link_Factory {
 		return ( new self() )->select_link_maker( $imdb_admin_values );
 	}
 }
+

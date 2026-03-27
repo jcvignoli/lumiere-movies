@@ -51,7 +51,7 @@ final class Frontend {
 	/**
 	 * Register Frontend hooks.
 	 */
-	public function register(): void {
+	public function register_hooks(): void {
 
 		// The following will never be accessed in admin area.
 		if ( is_admin() ) {
@@ -66,7 +66,7 @@ final class Frontend {
 		 * Movie's actions and filters
 		 */
 		$front_parser = new Front_Parser( settings: $this->settings );
-		add_action( 'init', [ $front_parser, 'register' ], 11 );
+		add_action( 'init', [ $front_parser, 'register_hooks' ], 11 );
 		add_filter( 'lum_display_movies_box', [ $front_parser, 'lum_display_movies_box' ], 10, 1 );
 		add_filter( 'lum_display_persons_box', [ $front_parser, 'lum_display_persons_box' ], 10, 1 );
 		$find_items = new Find_Items( settings: $this->settings );
@@ -76,8 +76,7 @@ final class Frontend {
 		/**
 		 * Calendar's related action
 		 */
-		$coming_soon = new Coming_Soon();
-		add_filter( 'lum_coming_soon', [ $coming_soon, 'init' ], 10, 5 );
+		add_filter( 'lum_coming_soon', fn() => ( new Coming_Soon() )->init(), 10, 5 );
 
 		/**
 		 * Widget's related action
