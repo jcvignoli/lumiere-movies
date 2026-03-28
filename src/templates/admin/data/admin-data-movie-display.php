@@ -79,15 +79,13 @@ $lumiere_details_with_numbers = Get_Options_Movie::get_items_with_numbers();
 				$lumiere_items_trans_plural = $lumiere_isset_items_trans_plural[ $lumiere_item ] ?? '';
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten_proportional lum_align_right">'
 				/* translators: %s is a movie items like 'directors' or 'colors' => always plural */
-				. wp_sprintf( esc_html__( 'Enter the maximum number of %s you want to display', 'lumiere-movies' ), esc_html( $lumiere_items_trans_plural ) ) . '<br /></div>';
+				. esc_html( wp_sprintf( __( 'Enter the maximum number of %s you want to display', 'lumiere-movies' ), $lumiere_items_trans_plural ) ) . '<br /></div>';
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
 				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="imdb_imdbwidget' . esc_attr( $lumiere_item ) . 'number" id="imdb_imdbwidget' . esc_attr( $lumiere_item ) . 'number" size="3"';
 				$lumiere_imdb_data_item = $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item . 'number' ];
 				echo is_string( $lumiere_imdb_data_item ) ? ' value="' . esc_attr( $lumiere_imdb_data_item ) . '" ' : ' value="" ';
-				if ( $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === 0 ) {
-					echo 'disabled="disabled"';
-				};
+				echo $lumiere_imdb_data_values[ 'imdbwidget' . $lumiere_item ] === 0 ? ' disabled="disabled"' : '';
 
 				echo ' />';
 				echo "\n\t\t\t\t\t\t" . '</div>';

@@ -61,8 +61,8 @@ final class Cache extends Admin_Menu {
 			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
-		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( strval( $_GET['page'] ) ) : '';
-		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( strval( $_GET['subsection'] ) ) : '';
+		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['page'] ) ) : '';
+		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['subsection'] ) ) : '';
 
 		if (
 			strlen( $current_page ) > 0 && str_contains( $this->page_cache_option, $current_page ) === true

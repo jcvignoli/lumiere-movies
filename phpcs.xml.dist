@@ -61,11 +61,12 @@
 		<exclude name="NeutronStandard.Constants.DisallowDefine.Define"/>
 	</rule> 
 
-	<!-- Let's also check that everything is properly documented.
+	<!-- Let's also check that everything is properly documented. Allow modern class naming (PSR-4)
 	<rule ref="WordPress-Docs">
-		<exclude-pattern>src/**/*</exclude-pattern>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
 	</rule>
-	 -->
+	-->
 
 	<!-- Add in some extra rules from other standards. -->
 	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
@@ -92,6 +93,18 @@
 			<property name="prefixes" type="array">
 				<element value="lumiere"/>
 				<element value="lum"/>
+			</property>
+		</properties>
+	</rule>
+	
+	<rule ref="WordPress.Security.ValidatedSanitizedInput">
+		<properties>
+			<property name="customSanitizingFunctions" type="array">
+				<element value="absint"/>
+				<element value="map_deep"/>
+				<element value="esc_url_raw"/>
+				<element value="sanitize_text_field"/>
+				<element value="sanitize_key"/>
 			</property>
 		</properties>
 	</rule>

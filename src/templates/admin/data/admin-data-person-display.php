@@ -78,15 +78,13 @@ $lumiere_comments_fields = Get_Options_Person::get_items_person_details_comments
 				$lumiere_items_trans_plural = $lumiere_isset_items_trans_plural[ $lumiere_item ] ?? '';
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_seventy lumiere_font_ten_proportional lum_align_right">'
 				/* translators: %s is a movie items like 'directors' or 'colors' => always plural */
-				. wp_sprintf( esc_html__( 'Enter the maximum number of %s you want to display', 'lumiere-movies' ), esc_html( $lumiere_items_trans_plural ) ) . '<br /></div>';
+				. esc_html( wp_sprintf( __( 'Enter the maximum number of %s you want to display', 'lumiere-movies' ), $lumiere_items_trans_plural ) ) . '<br /></div>';
 
 				echo "\n\t\t\t\t\t\t" . '<div class="lumiere_flex_container_content_twenty">';
 				echo "\n\t\t\t\t\t\t\t" . '<input type="text" class="lumiere_width_two_em" name="' . esc_attr( $lumiere_item ) . '_number" id="' . esc_attr( $lumiere_item ) . '_number" size="3"';
 				$lumiere_imdb_data_item = $lumiere_imdb_data_values['number'][ $lumiere_item . '_number' ];
 				echo is_string( $lumiere_imdb_data_item ) ? ' value="' . esc_attr( $lumiere_imdb_data_item ) . '" ' : ' value="" ';
-				if ( $lumiere_imdb_data_values['number'][ $lumiere_item . '_number' ] === 0 ) {
-					echo 'disabled="disabled"';
-				};
+				echo $lumiere_imdb_data_values['number'][ $lumiere_item . '_number' ] === 0 ? ' disabled="disabled"' : '';
 
 				echo ' />';
 				echo "\n\t\t\t\t\t\t" . '</div>';
@@ -117,8 +115,8 @@ $lumiere_comments_fields = Get_Options_Person::get_items_person_details_comments
 
 	<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
 		<?php wp_nonce_field( 'lumiere_nonce_data_person_settings', '_nonce_data_person_settings' ); ?>
-		<input type="submit" class="button-primary" id="lumiere_update_data_person_settings" name="lumiere_update_data_person_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
-		<input type="submit" class="button-primary" id="lumiere_reset_data_person_settings" name="lumiere_reset_data_person_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
+		<input type="submit" class="button-primary" id="lumiere_update_data_person_settings" name="lumiere_update_data_person_settings" value="<?php esc_attr_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+		<input type="submit" class="button-primary" id="lumiere_reset_data_person_settings" name="lumiere_reset_data_person_settings" value="<?php esc_attr_e( 'Reset settings', 'lumiere-movies' ); ?>" />
 	</div>
 	
 	</form>	

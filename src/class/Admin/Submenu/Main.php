@@ -75,8 +75,8 @@ final class Main extends Admin_Menu {
 			],
 		);
 
-		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( strval( $_GET['page'] ) ) : '';
-		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( strval( $_GET['subsection'] ) ) : '';
+		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['page'] ) ) : '';
+		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['subsection'] ) ) : '';
 
 		// The body.
 		if (

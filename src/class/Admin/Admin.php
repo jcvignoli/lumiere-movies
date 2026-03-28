@@ -163,17 +163,19 @@ final class Admin {
 			|| 'widgets.php' === $current_page
 			|| 'site-editor.php' === $current_page
 			// All Lumière pages.
-			|| Data::array_contains_term(
+			|| ( isset( $_SERVER['REQUEST_URI'] ) && Data::array_contains_term(
 				Get_Options::get_admin_lum_pages(),
-				esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) )
+				esc_url_raw( wp_unslash( (string) $_SERVER['REQUEST_URI'] ) )
+			)
 			)
 			// Extra WP Admin pages.
-			|| Data::array_contains_term(
+			|| ( isset( $_SERVER['REQUEST_URI'] ) && Data::array_contains_term(
 				[
 					'admin.php?page=lumiere_options',
 					'options-general.php?page=lumiere_options',
 				],
-				esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) )
+				esc_url_raw( wp_unslash( (string) $_SERVER['REQUEST_URI'] ) )
+			)
 			)
 		) {
 			// Load main css.
@@ -244,13 +246,14 @@ final class Admin {
 	/**
 	 * Display search popup/page for movies in admin, but since it's called in external pages, it can't be an admin page
 	 *
-	 * @return void The Search class is instantiated if successfull, which will then use 'template_include' filter
+	 * @return void The Search class is instantiated if successful, which will then use 'template_include' filter
 	 */
 	public function lum_search_movie_redirect(): void {
 
 		// Display only if URL is ok and is not admin (to save time.
 		if (
-			stripos( esc_url_raw( strval( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ) ), site_url( '', 'relative' ) . Get_Options::LUM_SEARCH_ITEMS_URL_ADMIN ) !== 0
+			( isset( $_SERVER['REQUEST_URI'] )
+			&& stripos( esc_url_raw( wp_unslash( (string) $_SERVER['REQUEST_URI'] ) ), site_url( '', 'relative' ) . Get_Options::LUM_SEARCH_ITEMS_URL_ADMIN ) !== 0 )
 			|| is_admin()
 		) {
 			return;

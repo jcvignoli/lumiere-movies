@@ -70,8 +70,8 @@ $lumiere_perso_list = Get_Options_Person::get_all_person_fields();
 	
 	<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
 		<?php wp_nonce_field( 'lumiere_nonce_data_person_settings', '_nonce_data_person_settings' ); ?>
-		<input type="submit" class="button-primary" id="lumiere_update_data_person_settings" name="lumiere_update_data_person_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
-		<input type="submit" class="button-primary" id="lumiere_reset_data_person_settings" name="lumiere_reset_data_person_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
+		<input type="submit" class="button-primary" id="lumiere_update_data_person_settings" name="lumiere_update_data_person_settings" value="<?php esc_attr_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+		<input type="submit" class="button-primary" id="lumiere_reset_data_person_settings" name="lumiere_reset_data_person_settings" value="<?php esc_attr_e( 'Reset settings', 'lumiere-movies' ); ?>" />
 	</div>
 
 	</form>	

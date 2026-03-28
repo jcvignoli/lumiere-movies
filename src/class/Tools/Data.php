@@ -29,6 +29,7 @@ final class Data {
 	 * transforms movie's name in a way to be able to be searchable (ie "ô" becomes "&ocirc;")
 	 *
 	 * @since 3.11.4 Added Limit the number of characters step
+	 * @since 4.8 added sanitize_file_name()
 	 *
 	 * @param string $link The string to be converted
 	 */
@@ -44,7 +45,7 @@ final class Data {
 		$lienhtmlize = str_replace( ' ', '+', $lienhtmlize );
 
 		// d. Limit the number of characters, as the cache file path can't exceed the limit of 255 characters
-		$lienhtmlize = substr( $lienhtmlize, 0, 100 );
+		$lienhtmlize = sanitize_file_name( substr( $lienhtmlize, 0, 100 ) );
 
 		return $lienhtmlize;
 	}

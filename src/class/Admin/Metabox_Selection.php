@@ -261,10 +261,10 @@ final class Metabox_Selection {
 			return;
 		}*/
 
-		$lum_form_type_query = isset( $_POST['lum_form_type_query'] ) ? sanitize_key( $_POST['lum_form_type_query'] ) : null;
-		$lum_form_query_value = isset( $_POST['lum_form_query_value'] ) ? sanitize_text_field( $_POST['lum_form_query_value'] ) : null;
+		$lum_form_type_query = isset( $_POST['lum_form_type_query'] ) ? sanitize_key( wp_unslash( (string) $_POST['lum_form_type_query'] ) ) : null;
+		$lum_form_query_value = isset( $_POST['lum_form_query_value'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['lum_form_query_value'] ) ) : null;
 		/** @psalm-var '_lumiere_autotitlewidget_perpost'|string @lumiere_autotitlewidget_perpost */
-		$lumiere_autotitlewidget_perpost = isset( $_POST[ Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME ] ) ? sanitize_text_field( $_POST[ Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME ] ) : false;
+		$lumiere_autotitlewidget_perpost = isset( $_POST[ Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME ] ) ? sanitize_text_field( wp_unslash( (string) $_POST[ Get_Options::LUM_AUTOTITLE_METADATA_FIELD_NAME ] ) ) : false;
 
 		// Create or update the metas.
 		if ( isset( $lum_form_query_value ) && isset( $lum_form_type_query ) && in_array( $lum_form_type_query, $this->custom_meta_selection, true ) ) {

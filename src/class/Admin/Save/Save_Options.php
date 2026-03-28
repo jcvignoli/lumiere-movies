@@ -123,11 +123,11 @@ final class Save_Options extends Save_Helper {
 	 * @param false|string $referer Current referer URL
 	 */
 	private function handle_main_options( bool|string $referer ): void {
-		if ( isset( $_POST['lumiere_update_main_settings'] ) ) {
+		if ( isset( $_POST['lumiere_update_main_settings'], $_POST['imdb_imdburlstringtaxo'], $_POST['imdb_imdburlpopups'] ) ) {
 			$this->lumiere_main_options_save(
 				$referer,
-				sanitize_text_field( wp_unslash( strval( $_POST['imdb_imdburlstringtaxo'] ?? '' ) ) ),
-				sanitize_text_field( wp_unslash( strval( $_POST['imdb_imdburlpopups'] ?? '' ) ) )
+				sanitize_text_field( wp_unslash( (string) $_POST['imdb_imdburlstringtaxo'] ) ),
+				sanitize_text_field( wp_unslash( (string) $_POST['imdb_imdburlpopups'] ) )
 			);
 		} elseif ( isset( $_POST['lumiere_reset_main_settings'] ) ) {
 			$this->lumiere_main_options_reset( $referer );
@@ -148,9 +148,13 @@ final class Save_Options extends Save_Helper {
 		} elseif ( isset( $_POST['delete_query_cache'] ) ) {
 			$this->cache_delete_query( $referer, new Cache_Files_Management() );
 		} elseif ( isset( $_POST['refresh_ticked_cache'] ) ) {
-			$this->cache_refresh_ticked_files( $referer, new Cache_Files_Management(), $_POST['imdb_cachedeletefor_movies'] ?? null, $_POST['imdb_cachedeletefor_people'] ?? null );
+			$cachedeletefor_movies = isset( $_POST['imdb_cachedeletefor_movies'] ) ? map_deep( $_POST['imdb_cachedeletefor_movies'], 'sanitize_key' ) : null;
+			$cachedeletefor_people = isset( $_POST['imdb_cachedeletefor_people'] ) ? map_deep( $_POST['imdb_cachedeletefor_people'], 'sanitize_key' ) : null;
+			$this->cache_refresh_ticked_files( $referer, new Cache_Files_Management(), $cachedeletefor_movies, $cachedeletefor_people );
 		} elseif ( isset( $_POST['delete_ticked_cache'] ) ) {
-			$this->cache_delete_ticked_files( $referer, new Cache_Files_Management(), $_POST['imdb_cachedeletefor_movies'] ?? null, $_POST['imdb_cachedeletefor_people'] ?? null );
+			$cachedeletefor_movies = isset( $_POST['imdb_cachedeletefor_movies'] ) ? map_deep( $_POST['imdb_cachedeletefor_movies'], 'sanitize_key' ) : null;
+			$cachedeletefor_people = isset( $_POST['imdb_cachedeletefor_people'] ) ? map_deep( $_POST['imdb_cachedeletefor_people'], 'sanitize_key' ) : null;
+			$this->cache_delete_ticked_files( $referer, new Cache_Files_Management(), $cachedeletefor_movies, $cachedeletefor_people );
 		}
 	}
 
@@ -161,8 +165,8 @@ final class Save_Options extends Save_Helper {
 	private function handle_individual_cache_files( bool|string $referer ): void {
 		if ( isset( $_GET['dothis'] ) ) {
 			$cache_mngmt_class = new Cache_Files_Management();
-			$type = sanitize_text_field( wp_unslash( strval( $_GET['type'] ) ) );
-			$where = sanitize_text_field( wp_unslash( strval( $_GET['where'] ) ) );
+			$type = isset( $_GET['type'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['type'] ) ) : '';
+			$where = isset( $_GET['where'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['where'] ) ) : '';
 
 			if ( $_GET['dothis'] === 'delete' && $this->is_valid_nonce( '_nonce_cache_deleteindividual', 'deleteindividual' ) ) { // in Admin_General trait.
 				$this->do_delete_cache_linked_file( $referer, $cache_mngmt_class, $type, $where );

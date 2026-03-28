@@ -77,7 +77,7 @@ final class Help extends Admin_Menu {
 			],
 		);
 
-		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( strval( $_GET['subsection'] ) ) : '';
+		$subsection = isset( $_GET['subsection'] ) ? sanitize_key( wp_unslash( (string) $_GET['subsection'] ) ) : '';
 
 		// Changelog section.
 		if ( strlen( $subsection ) > 0 && str_contains( $this->page_help_changelog, $subsection ) === true ) {

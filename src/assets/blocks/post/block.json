@@ -11,7 +11,8 @@
 	"keywords": ["lumiere", "imdb", "movies", "film"],
 	"example": {
 		"attributes": {
-			"message": "This is a test"
+			"lumiere_imdblt_select": "lum_movie_title",
+			"content": "2001: A Space Odyssey"
 		}
 	},
 	"attributes": {

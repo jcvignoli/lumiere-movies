@@ -167,8 +167,8 @@ final class Search_Items {
 	 */
 	private function maybe_results_page(): void {
 
-		$search_query = isset( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ? sanitize_text_field( strval( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ) : '';
-		$search_nonce = isset( $_GET['search_nonce'] ) ? sanitize_key( strval( $_GET['search_nonce'] ) ) : '';
+		$search_query = isset( $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ? sanitize_text_field( wp_unslash( (string) $_GET[ Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING ] ) ) : '';
+		$search_nonce = isset( $_GET['search_nonce'] ) ? sanitize_key( wp_unslash( (string) $_GET['search_nonce'] ) ) : '';
 
 		if (
 			(
@@ -180,7 +180,7 @@ final class Search_Items {
 			(
 				// If there is no nonce to verify, make sure it comes from editing post
 				strlen( $search_query ) === 0
-				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( esc_url_raw( wp_unslash( strval( $_SERVER['HTTP_REFERER'] ) ) ), 'post.php?post=' ) === false
+				|| ! isset( $_SERVER['HTTP_REFERER'] ) || str_contains( esc_url_raw( wp_unslash( (string) $_SERVER['HTTP_REFERER'] ) ), 'post.php?post=' ) === false
 			)
 		) {
 			echo wp_kses(
@@ -217,19 +217,20 @@ final class Search_Items {
 			exit;
 		}
 
-		$this->logger->log?->debug( "[admin search] Querying *$this->item_searched* of type " . $_GET['select_search_type'] );
+		$select_search_type = isset( $_GET['select_search_type'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['select_search_type'] ) ) : '';
+		$this->logger->log?->debug( "[admin search] Querying *$this->item_searched* of type " . $select_search_type );
 
 		$results = [];
 		$first_column_header = 'title';
 		$second_column_header = 'imdbid';
-		if ( esc_html( $_GET['select_search_type'] ) === 'movie' ) {
+		if ( $select_search_type === 'movie' ) {
 
 			/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
 			$results = $this->imdbphp_class->search_movie_title(
 				$this->item_searched ?? '',
 				$this->logger->log,
 			);
-		} elseif ( esc_html( $_GET['select_search_type'] ) === 'person' ) {
+		} elseif ( $select_search_type === 'person' ) {
 			/** @phpstan-var NAMESEARCH_RETURNSEARCH $results */
 			$results = $this->imdbphp_class->search_person_name(
 				$this->item_searched ?? '',

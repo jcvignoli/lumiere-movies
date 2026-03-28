@@ -63,8 +63,8 @@ final class Datamovie extends Admin_Menu {
 			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
-		$current_page = isset( $_GET['page'] ) ? sanitize_key( strval( $_GET['page'] ) ) : '';
-		$subsection = isset( $_GET['subsection'] ) ? sanitize_key( strval( $_GET['subsection'] ) ) : '';
+		$current_page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( (string) $_GET['page'] ) ) : '';
+		$subsection = isset( $_GET['subsection'] ) ? sanitize_key( wp_unslash( (string) $_GET['subsection'] ) ) : '';
 
 		if (
 			strlen( $current_page ) > 0 && str_contains( $this->page_data_movie, $current_page ) === true

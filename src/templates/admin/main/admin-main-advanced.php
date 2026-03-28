@@ -110,7 +110,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 
 				<label class="lumiere_display_block lumiere_labels" for="imdb_imdbmaxresults"><?php esc_html_e( 'Limit results', 'lumiere-movies' ); ?></label>
 
-				<input type="text" name="imdb_imdbmaxresults" id="imdb_imdbmaxresults" size="5" value="<?php echo esc_attr( strval( intval( $lumiere_imdb_admin_values['imdbmaxresults'] ) ) ); ?>" />
+				<input type="text" name="imdb_imdbmaxresults" id="imdb_imdbmaxresults" size="5" value="<?php echo esc_attr( strval( absint( $lumiere_imdb_admin_values['imdbmaxresults'] ) ) ); ?>" />
 
 				<div class="explain">
 					<?php esc_html_e( 'Limit of the number of results in a movie query. That limitation will impact the number of movies shown in the popup with movies and director search results.', 'lumiere-movies' ); ?>
@@ -124,7 +124,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 
 				<label class="lumiere_display_block lumiere_labels" for="imdb_imdbdelayimdbrequest"><?php esc_html_e( 'Delay queries time', 'lumiere-movies' ); ?></label>
 
-				<input type="text" name="imdb_imdbdelayimdbrequest" id="imdb_imdbdelayimdbrequest" size="5" value="<?php echo esc_attr( strval( intval( $lumiere_imdb_admin_values['imdbdelayimdbrequest'] ) ) ); ?>" />
+				<input type="text" name="imdb_imdbdelayimdbrequest" id="imdb_imdbdelayimdbrequest" size="5" value="<?php echo esc_attr( strval( absint( $lumiere_imdb_admin_values['imdbdelayimdbrequest'] ) ) ); ?>" />
 
 				<div class="explain">
 					<?php esc_html_e( 'Add an extra delay in seconds to avoid IMDb website throwing HTTP 504 errors (too many requests).', 'lumiere-movies' ); ?>
@@ -531,8 +531,8 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 	
 	<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
 		<?php wp_nonce_field( 'lumiere_nonce_main_settings', '_nonce_main_settings' ); ?>
-		<input type="submit"  id="lumiere_update_main_settings" class="button-primary" name="lumiere_update_main_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
-		<input type="submit" id="lumiere_reset_main_settings" class="button-primary" name="lumiere_reset_main_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
+		<input type="submit"  id="lumiere_update_main_settings" class="button-primary" name="lumiere_update_main_settings" value="<?php esc_attr_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
+		<input type="submit" id="lumiere_reset_main_settings" class="button-primary" name="lumiere_reset_main_settings" value="<?php esc_attr_e( 'Reset settings', 'lumiere-movies' ); ?>" />
 	</div>
 
 	</form>

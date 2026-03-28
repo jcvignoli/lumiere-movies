@@ -11,7 +11,9 @@
 	"keywords": ["lumiere", "imdb", "movies", "film"],
 	"example": {
 		"attributes": {
-			"message": "Upcoming movies"
+			"region": "us",
+			"type": "MOVIE",
+			"endDateOverride": 5
 		}
 	},
 	"supports": {

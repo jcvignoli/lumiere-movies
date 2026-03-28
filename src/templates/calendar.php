@@ -26,7 +26,7 @@ foreach ( $lumiere_results as $lumiere_date => $lumiere_arrays ) {
 		$lumiere_img_url = strlen( $lumiere_cal_data['imgUrl'] ?? '' ) > 0 ? $lumiere_cal_data['imgUrl'] : \Lumiere\Config\Get_Options::LUM_NOPICS_URL;
 
 		echo "\n\t\t" . '<div class="lum_calendar_contained">';
-		echo "\n\t\t\t" . '<div class="lum_calendar_pic"><a href="' . esc_url( $lumiere_cal_data['imgUrl'] ) . '"><img class="lum_calendar_pic" loading="lazy" src="' . esc_url( $lumiere_img_url ) . '" /></a></div>';
+		echo "\n\t\t\t" . '<div class="lum_calendar_pic"><a href="' . esc_url( $lumiere_cal_data['imgUrl'] ) . '"><img class="lum_calendar_pic" loading="lazy" src="' . esc_url( $lumiere_img_url ) . '" alt="' . esc_attr( $lumiere_cal_data['title'] ) . '" /></a></div>';
 		$lumiere_popup_link = $lumiere_link_maker->get_popup_film_id( $lumiere_cal_data['title'], $lumiere_cal_data['imdbid'] );
 		echo "\n\t\t\t" . '<div class="lum_calendar_contained_container">';
 		echo "\n\t\t\t\t" . '<div class="lum_calendar_contained_title">' . wp_kses(

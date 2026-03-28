@@ -80,7 +80,7 @@ trait Main {
 
 		// If url contains ?amp and AMP__VERSION constant found, it is a frontpage AMP page
 		if (
-		( str_contains( sanitize_text_field( wp_unslash( strval( $_SERVER['REQUEST_URI'] ?? '' ) ) ), '?amp' ) && defined( 'AMP__VERSION' ) )
+		( isset( $_SERVER['REQUEST_URI'] ) && str_contains( sanitize_text_field( wp_unslash( (string) $_SERVER['REQUEST_URI'] ) ), '?amp' ) && defined( 'AMP__VERSION' ) )
 		|| ( isset( $_GET ['wpamp'] ) && defined( 'AMP__VERSION' ) ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
 		|| ( isset( $_GET ['amp'] ) && defined( 'AMP__VERSION' ) ) // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- it's detection, not submission!
 		) {
@@ -103,7 +103,7 @@ trait Main {
 	 */
 	public function is_popup_page(): bool {
 
-		$get_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( strval( $_SERVER['REQUEST_URI'] ) ) ) : null;
+		$get_request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( (string) $_SERVER['REQUEST_URI'] ) ) : null;
 		$is_last_chara_slash = get_option( 'permalink_structure' ) !== false && substr( get_option( 'permalink_structure' ), -1 ) === '/' ? '/' : '';
 		if (
 			isset( $get_request_uri )
@@ -129,7 +129,7 @@ trait Main {
 	 */
 	public function check_nonce( string $nonce_name = '_wpnonce', int|string $nonce_action = -1 ): bool {
 
-		$nonce = isset( $_REQUEST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( strval( $_REQUEST[ $nonce_name ] ) ) ) : '';
+		$nonce = isset( $_REQUEST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( (string) $_REQUEST[ $nonce_name ] ) ) : '';
 		// Nonce is always valid if admin is connected.
 		$nonce_valid = ( strlen( $nonce ) > 0 && wp_verify_nonce( $nonce, $nonce_action ) !== false ) || is_user_logged_in() === true;
 

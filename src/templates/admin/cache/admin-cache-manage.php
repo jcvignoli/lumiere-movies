@@ -139,7 +139,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		
 		<div class="submit" align="center">
 
-			<input type="submit" class="button-primary" name="delete_all_cache" data-confirm="<?php esc_html_e( 'Delete all cache? Really?', 'lumiere-movies' ); ?>" value="<?php esc_html_e( 'Delete all cache', 'lumiere-movies' ); ?>" /> 
+			<input type="submit" class="button-primary" name="delete_all_cache" data-confirm="<?php esc_attr_e( 'Delete all cache? Really?', 'lumiere-movies' ); ?>" value="<?php esc_attr_e( 'Delete all cache', 'lumiere-movies' ); ?>" /> 
 
 			<br>
 			<br>
@@ -199,7 +199,7 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		
 		<div class="submit" align="center">
 
-			<input type="submit" class="button-primary" name="delete_query_cache" data-confirm="<?php esc_html_e( 'Delete query cache?', 'lumiere-movies' ); ?>" value="<?php esc_html_e( 'Delete query cache', 'lumiere-movies' ); ?>" /> 
+			<input type="submit" class="button-primary" name="delete_query_cache" data-confirm="<?php esc_attr_e( 'Delete query cache?', 'lumiere-movies' ); ?>" value="<?php esc_attr_e( 'Delete query cache', 'lumiere-movies' ); ?>" /> 
 
 		</div>
 		
