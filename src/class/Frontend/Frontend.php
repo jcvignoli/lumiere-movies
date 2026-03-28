@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Frontend\Coming_Soon;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
+use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Frontend\Post\Front_Parser;
 use Lumiere\Frontend\Post\Find_Items;
 use Lumiere\Frontend\Popups\Popup_Factory;
@@ -38,6 +40,12 @@ use Lumiere\Config\Settings_Service;
 final class Frontend {
 
 	/**
+	 * Class for building links
+	 * @var Interface_Linkmaker
+	 */
+	private readonly Interface_Linkmaker $link_maker;
+
+	/**
 	 * Constructor
 	 *
 	 * @param Settings_Service $settings
@@ -46,7 +54,9 @@ final class Frontend {
 	public function __construct(
 		private readonly Settings_Service $settings,
 		private readonly Widget_Frontpage $widget_front = new Widget_Frontpage(),
-	) {}
+	) {
+		$this->link_maker = ( new Link_Factory( $this->settings ) )->select_link_maker();
+	}
 
 	/**
 	 * Register Frontend hooks.
@@ -76,7 +86,7 @@ final class Frontend {
 		/**
 		 * Calendar's related action
 		 */
-		add_filter( 'lum_coming_soon', fn() => ( new Coming_Soon() )->init(), 10, 5 );
+		add_filter( 'lum_coming_soon', fn() => ( new Coming_Soon( link_maker: $this->link_maker ) )->init(), 10, 5 );
 
 		/**
 		 * Widget's related action
@@ -86,7 +96,7 @@ final class Frontend {
 		/**
 		 * Add filter for Popups
 		 */
-		$popup_factory = new Popup_Factory( settings: $this->settings );
+		$popup_factory = new Popup_Factory( settings: $this->settings, link_maker: $this->link_maker );
 		add_filter( 'template_include', [ $popup_factory, 'maybe_find_template' ] );
 	}
 

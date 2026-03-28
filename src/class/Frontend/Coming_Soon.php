@@ -4,7 +4,7 @@
  *
  * @copyright (c) 2025, Lost Highway
  *
- * @version       1.0
+ * @version       1.1
  * @package       lumieremovies
  */
 
@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Vendor\Imdb\Calendar;
 use Lumiere\Frontend\Main;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Tools\Files;
 use Lumiere\Config\Get_Options;
 
@@ -39,9 +40,10 @@ final class Coming_Soon {
 	 * Constructor
 	 * Frontend Style is called in block.json
 	 */
-	public function __construct() {
+	public function __construct(
+		private Interface_Linkmaker $link_maker
+	) {
 		$this->start_logger(); // In Trait Main.
-		$this->start_linkmaker(); // In Trait Main.
 	}
 
 	/**
@@ -183,3 +185,4 @@ final class Coming_Soon {
 		return $new_array;
 	}
 }
+

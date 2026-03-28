@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Vendor\Imdb\Name;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Interface;
 use Lumiere\Tools\Validate_Get;
@@ -95,9 +96,10 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 	 */
 	public function __construct(
 		protected Settings_Service $settings,
+		protected Interface_Linkmaker $link_maker,
 	) {
 		// Edit metas tags in popups and various checks in Parent class.
-		parent::__construct( settings: $this->settings );
+		parent::__construct( settings: $this->settings, link_maker: $this->link_maker );
 
 		/**
 		 * Build the properties.
@@ -301,7 +303,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		foreach ( $items as $module ) {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name( settings: $this->settings );
+				$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
 				// @phpstan-ignore argument.type (Parameter #2 $item_name of method Lumiere\Frontend\Module\Person\Person_Title::get_module() expects...)
 				$final_text = $class_module->get_module( $person_class, $module );
 				if ( strlen( $final_text ) > 0 ) {
@@ -327,7 +329,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		foreach ( $list_roles as $module ) {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . 'Credit';
 			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name( settings: $this->settings );
+				$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
 				$final_text = $class_module->get_module( $person_class, $module );
 				if ( strlen( $final_text ) > 0 ) {
 					$output .= $this->output_popup_class->person_element_embeded(

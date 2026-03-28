@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Interface;
 use Lumiere\Tools\Validate_Get;
@@ -98,9 +99,10 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 	 */
 	public function __construct(
 		protected Settings_Service $settings,
+		protected Interface_Linkmaker $link_maker,
 	) {
 		// Edit metas tags in popups and various checks in Parent class.
-		parent::__construct( settings: $this->settings );
+		parent::__construct( settings: $this->settings, link_maker: $link_maker );
 
 		/**
 		 * Build the properties.
@@ -324,7 +326,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 		foreach ( $items as $module ) {
 			$class_name = Get_Options_Movie::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name( settings: $this->settings );
+				$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
 				$final_text = $class_module->get_module( $movie_class, $module );
 				if ( strlen( $final_text ) > 0 ) {
 					$output .= $this->output_popup_class->movie_element_embeded(
@@ -350,7 +352,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 		foreach ( $items as $module ) {
 			$class_name = Get_Options_Movie::LUM_FILM_MODULE_CLASS . ucfirst( $module );
 			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name( settings: $this->settings );
+				$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
 				$final_text = $class_module->get_module_popup_two_columns( $movie_class, $module );
 				if ( strlen( $final_text ) > 0 ) {
 					$output .= $this->output_popup_class->movie_element_embeded(

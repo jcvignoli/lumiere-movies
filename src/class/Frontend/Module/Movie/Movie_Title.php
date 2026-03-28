@@ -15,12 +15,25 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Config\Settings_Service;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
+
 /**
  * Method to display title for movies
  *
  * @since 4.5 new class
  */
 final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(
+		protected Settings_Service $settings,
+		protected Interface_Linkmaker $link_maker
+	) {
+		parent::__construct( settings: $this->settings, link_maker: $this->link_maker );
+	}
 
 	/**
 	 * Display the title and possibly the year
@@ -80,3 +93,4 @@ final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 	}
 }
+

@@ -23,6 +23,8 @@ use Lumiere\Frontend\Module\Person\Person_Bio;
 use Lumiere\Frontend\Module\Person\Person_Born;
 use Lumiere\Frontend\Module\Person\Person_Died;
 use Lumiere\Frontend\Layout\Output;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
+use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
@@ -31,14 +33,15 @@ use WP_Query;
 
 /**
  * This template retrieves automaticaly all post related to a person taxonomy
- * It is a WordPress virtual page created according to the taxonomy saved in database
+ * It is a WordPress class called according to the taxonomy saved in database
  * If used along with Polylang WordPress plugin, a form is displayed to filter the posts by language
  * How it works:
  * 1/ The taxonomy is built in Taxonomy class
  * 2/ wp-blog-header.php:19 calls template-loader.php:106 which call current taxonomy, as set in Taxonomy
+ * 3/ The class is run at the end of the current page
  *
  * @see \Lumiere\Alteration\Taxonomy Build the taxonomy system and taxonomy pages
- * @see \Lumiere\Main Trait to get $this->link_maker var (builds the links, AMP being the most relevant), the config class, the options
+ * @see \Lumiere\Main Trait to get $this->start_logger var
  *
  * @since 4.1 Use of plugins detection, get_medaillon_bio() returns larger number of characters for introduction, Polylang form with AMP works
  * @since 4.3 More OOP, Polylang and Imdbphp plugins fully utilised, returning the current job queried only
@@ -51,6 +54,11 @@ final class Taxonomy_People_Standard {
 	use Main;
 
 	/**
+	 * Class for building links
+	 */
+	private readonly Interface_Linkmaker $link_maker;
+
+	/**
 	 * Set to true to activate the sidebar
 	 */
 	private bool $activate_sidebar = false;
@@ -58,21 +66,21 @@ final class Taxonomy_People_Standard {
 	/**
 	 * Class \Imdb\Name instanciated
 	 */
-	private ?Name $person_class;
+	private readonly ?Name $person_class;
 
 	/**
 	 * Name of the person sanitized
 	 *
 	 * @var string|null $person_name
 	 */
-	private ?string $person_name;
+	private readonly ?string $person_name;
 
 	/**
 	 * Taxonomy category
 	 *
 	 * @var string $taxonomy_title
 	 */
-	private string $taxonomy_title;
+	private readonly string $taxonomy_title;
 
 	/**
 	 * Module classes
@@ -85,7 +93,7 @@ final class Taxonomy_People_Standard {
 	 * Constructor
 	 */
 	public function __construct(
-		private readonly Plugins_Start $plugins_start,
+		private readonly Plugins_Start $plugins_start = new Plugins_Start( [ 'imdbphp' ] ),
 		private readonly Output $output_class = new Output(),
 		private readonly Settings_Service $settings = new Settings_Service()
 	) {
@@ -94,14 +102,14 @@ final class Taxonomy_People_Standard {
 			return;
 		}
 
-		// Instanciate classes.
-		$this->person_born_class = new Person_Born( settings: $this->settings );
-		$this->person_died_class = new Person_Died( settings: $this->settings );
-		$this->person_bio_class = new Person_Bio( settings: $this->settings );
+		// Instanciate classes for properties.
+		$this->link_maker = ( new Link_Factory( $this->settings ) )->select_link_maker();
+		$this->person_born_class = new Person_Born( settings: $this->settings, link_maker: $this->link_maker );
+		$this->person_died_class = new Person_Died( settings: $this->settings, link_maker: $this->link_maker );
+		$this->person_bio_class = new Person_Bio( settings: $this->settings, link_maker: $this->link_maker );
 
-		// Get options, settings, links from Frontend trait.
+		// Start logger in Frontend trait.
 		$this->start_logger();
-		$this->start_linkmaker();
 
 		// Full taxonomy title.
 		$this->taxonomy_title = esc_html( $this->settings->get_admin_option( 'imdburlstringtaxo' ) ) . 'standard';
@@ -489,6 +497,6 @@ final class Taxonomy_People_Standard {
 	}
 }
 
-$lumiere_people_standard_class = new Taxonomy_People_Standard( new Plugins_Start( [ 'imdbphp' ] ) ); // always start imdbphp.
+$lumiere_people_standard_class = new Taxonomy_People_Standard(); // always start imdbphp.
 // Display the page. Must not be included into an add_action(), as should be displayed directly, since it's a template.
 $lumiere_people_standard_class->lum_select_layout();

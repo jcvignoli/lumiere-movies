@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Frontend\Popups\Head_Popups;
 use Lumiere\Frontend\Popups\Popup_Interface;
 use Lumiere\Tools\Data;
@@ -57,9 +58,10 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 	 */
 	public function __construct(
 		protected Settings_Service $settings,
+		protected Interface_Linkmaker $link_maker,
 	) {
 		// Edit metas tags in popups and various checks in Parent class.
-		parent::__construct( settings: $this->settings );
+		parent::__construct( settings: $this->settings, link_maker: $this->link_maker );
 
 		/**
 		 * Build the properties.

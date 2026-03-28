@@ -67,7 +67,7 @@ class Front_Parser {
 		protected Logger $logger = new Logger( __CLASS__ ),
 	) {
 		// Get links property.
-		$this->link_maker = Link_Factory::select_link_type( $this->settings->get_admin_options() );
+		$this->link_maker = ( new Link_Factory( $this->settings ) )->select_link_maker();
 
 		/**
 		 * @psalm-suppress InvalidPropertyAssignmentValue

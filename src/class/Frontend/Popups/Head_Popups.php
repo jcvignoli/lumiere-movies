@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Layout\Output_Popup;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
@@ -54,14 +55,12 @@ class Head_Popups {
 	 */
 	public function __construct(
 		protected Settings_Service $settings,
+		protected Interface_Linkmaker $link_maker,
 		protected Output_Popup $output_popup_class = new Output_Popup(),
 	) {
 
-		/**
-		 * Get the properties.
-		 */
-		$this->start_logger(); // In Trait Main.
-		$this->start_linkmaker();
+		// In Trait Main.
+		$this->start_logger();
 
 		// Is a popup or exit.
 		if ( $this->is_popup_page() === false ) { // In Trait Main.

@@ -18,6 +18,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Layout\Output;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Frontend\Main;
 
 /**
@@ -38,13 +39,11 @@ class Parent_Module {
 	 */
 	public function __construct(
 		protected Settings_Service $settings,
+		protected Interface_Linkmaker $link_maker,
 		protected Output $output_class = new Output(),
 	) {
-		/**
-		 * Get the properties and the linkmakers.
-		 */
-		$this->start_logger(); // In Trait Main.
-		$this->start_linkmaker();
+		// In Trait Main.
+		$this->start_logger();
 	}
 
 	/**

@@ -103,10 +103,14 @@ final class Movie_Factory extends Front_Parser {
 			return '';
 		}
 
-		$module = new $class_name( settings: $this->settings );
+		$module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
 
 		// Taxonomy is active.
-		if ( $this->settings->get_admin_option( 'imdbtaxonomy' ) === '1' && $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) !== null && $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) === '1' ) {
+		if (
+			$this->settings->get_admin_option( 'imdbtaxonomy' ) === '1'
+			&& $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) !== null
+			&& $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) === '1'
+		) {
 			/** @phpstan-ignore method.notFound */
 			return $module->get_module_taxo( $movie_object, $item_name );
 		}

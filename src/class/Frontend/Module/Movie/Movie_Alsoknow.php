@@ -16,7 +16,6 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 }
 
 use Lumiere\Config\Get_Options_Movie;
-use Lumiere\Config\Settings_Service;
 
 /**
  * Method to display Alsoknow for movies
@@ -24,15 +23,6 @@ use Lumiere\Config\Settings_Service;
  * @since 4.5 new class
  */
 final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
-
-	/**
-	 * Constructor
-	 */
-	public function __construct(
-		protected Settings_Service $settings,
-	) {
-		parent::__construct( settings: $this->settings );
-	}
 
 	/**
 	 * Display the main module version
@@ -123,3 +113,4 @@ final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
 		return $output;
 	}
 }
+

@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Settings_Service;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
 
 /**
@@ -31,9 +32,10 @@ final class Movie_Composer extends \Lumiere\Frontend\Module\Parent_Module {
 	 */
 	public function __construct(
 		protected Settings_Service $settings,
+		protected Interface_Linkmaker $link_maker,
 		protected Add_Taxonomy $add_taxo_class = new Add_Taxonomy()
 	) {
-		parent::__construct( settings: $this->settings );
+		parent::__construct( settings: $this->settings, link_maker: $this->link_maker );
 	}
 
 	/**
@@ -162,3 +164,4 @@ final class Movie_Composer extends \Lumiere\Frontend\Module\Parent_Module {
 		return $output;
 	}
 }
+

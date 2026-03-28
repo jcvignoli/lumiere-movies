@@ -98,7 +98,7 @@ final class Person_Factory extends Front_Parser {
 			return '';
 		}
 
-		$module = new $class_name( settings: $this->settings );
+		$module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
 
 		// Taxonomy is active.
 		// Not yet in use

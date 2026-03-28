@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
 use Lumiere\Enums\Popup_Type;
+use Lumiere\Frontend\Link_Maker\Link_Factory;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Exception;
 
 /**
@@ -28,7 +30,7 @@ use Exception;
  * 3. If it the URL contains the get_query_var(), build a class name that includes it
  *
  * @since 4.4 Is a class
- * @phpstan-type POPUPS_CLASSES '\Lumiere\Frontend\Popups\Popup_Movie'|'\Lumiere\Frontend\Popups\Popup_Movie_Search'|'\Lumiere\Frontend\Popups\Popup_Person'
+ * @phpstan-type POPUPS_CLASSES '\Lumiere\Frontend\Popups\Popup_Film'|'\Lumiere\Frontend\Popups\Popup_Movie_Search'|'\Lumiere\Frontend\Popups\Popup_Person'
  */
 final class Popup_Factory {
 
@@ -37,14 +39,17 @@ final class Popup_Factory {
 	 */
 	public function __construct(
 		protected Settings_Service $settings,
-	) {}
+		protected Interface_Linkmaker $link_maker
+	) {
+		$this->link_maker = ( new Link_Factory( $this->settings ) )->select_link_maker();
+	}
 
 	/**
 	 * Find if a template exists according to the query var
 	 * @see \Lumiere\Frontend\Frontend that include this method into an add_filter() hook 'template_include'
 	 *
 	 * @param string $template_path The path to the page of the theme currently in use
-	 * @return string The template path if no popup was found, the popup otherwise
+	 * @return string $template_path if no popup was found, the popup otherwise
 	 */
 	public function maybe_find_template( string $template_path ): string {
 
@@ -58,7 +63,7 @@ final class Popup_Factory {
 		/** @phpstan-var POPUPS_CLASSES $class_name */
 		$class_name = $this->build_class_name( $query_popup );
 		if ( class_exists( $class_name ) ) {
-			( new $class_name( settings: $this->settings ) )->display_layout();
+			( new $class_name( settings: $this->settings, link_maker: $this->link_maker ) )->display_layout();
 			// Fake return string since it is inside an add_filter()
 			return '';
 		}
@@ -95,7 +100,10 @@ final class Popup_Factory {
 			$const_key_val = join( '_', $words_caps );
 		}
 
+		// Map 'Film' to 'Film' and 'Movie_Search' to 'Movie_Search'. 'Film' popup class is Popup_Film.
+		$class_name_part = ucwords( $const_key_val );
+
 		/** @phpstan-return POPUPS_CLASSES  */
-		return __NAMESPACE__ . '\\Popup_' . ucwords( $const_key_val );
+		return __NAMESPACE__ . '\\Popup_' . $class_name_part;
 	}
 }

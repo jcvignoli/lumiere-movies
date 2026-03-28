@@ -15,9 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Config\Get_Options;
 use Lumiere\Enums\Popup_Type;
-use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Tools\Data;
 
@@ -33,15 +31,6 @@ use Lumiere\Tools\Data;
 trait Main {
 
 	/**
-	 * Class for building links, i.e. Highslide
-	 * Built in class Link Factory
-	 *
-	 * @INFO: if import-type instead of putting in full the info Var, phpstan requires to add this property to all classes that use it!
-	 * @var \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker The factory class will determine which class to use
-	 */
-	public \Lumiere\Frontend\Link_Maker\Interface_Linkmaker $link_maker;
-
-	/**
 	 * Logging
 	 */
 	public ?Logger $logger;
@@ -54,15 +43,6 @@ trait Main {
 	public function start_logger( ?string $logger_name = null ): void {
 		// Start Logger class, if no name was passed build it with method get_current_classname().
 		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ) );
-	}
-
-	/**
-	 * Start the Link_Maker through Link_Factory, send everything to a property
-	 */
-	public function start_linkmaker(): void {
-		// Instanciate link maker classes (\Lumiere\Link_Maker\Link_Factory)
-		$options = get_option( Get_Options::get_admin_tablename(), [] );
-		$this->link_maker = Link_Factory::select_link_type( $options );
 	}
 
 	/**
