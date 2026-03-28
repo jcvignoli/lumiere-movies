@@ -142,6 +142,7 @@ final class Data {
 
 	/**
 	 * Compatibility with mb_ucfirst(), which is usually not installed on webservers
+	 * Needs also PHP 8.4
 	 *
 	 * @since 4.5 created
 	 */

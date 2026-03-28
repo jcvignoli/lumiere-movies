@@ -133,27 +133,27 @@ msgstr "films de portrait"
 msgid "biography"
 msgstr "biographie"
 
-#: class/Admin/Search_Items.php:298
+#: class/Admin/Search_Items.php:301
 msgid "person"
 msgstr "personne"
 
-#: class/Admin/Search_Items.php:297
+#: class/Admin/Search_Items.php:300
 msgid "movie"
 msgstr "film"
 
-#: class/Admin/Search_Items.php:295
+#: class/Admin/Search_Items.php:298
 msgid "Search an IMDb ID for"
 msgstr "Rechercher une identification IMDb pour"
 
-#: class/Admin/Search_Items.php:273
+#: class/Admin/Search_Items.php:276
 msgid "no IMDb ID found"
 msgstr "aucune identification IMDb trouvée"
 
-#: class/Admin/Search_Items.php:267
+#: class/Admin/Search_Items.php:270
 msgid "no year found"
 msgstr "aucune année trouvée"
 
-#: class/Admin/Search_Items.php:245
+#: class/Admin/Search_Items.php:248
 msgid "Items results"
 msgstr "Résultats des objets"
 
@@ -165,39 +165,39 @@ msgstr "Ouvrir une fenêtre contextuelle pour rechercher l’identifiant d’un 
 msgid "Title/Name or ID:"
 msgstr "Titre/Nom ou identifiant :"
 
-#: class/Admin/Admin_Menu.php:405
+#: class/Admin/Admin_Menu.php:410
 msgid "Data option and taxonomy for persons"
 msgstr "Options des données et de taxonomie pour personnes"
 
-#: class/Admin/Admin_Menu.php:402
+#: class/Admin/Admin_Menu.php:407
 msgid "Data person"
 msgstr "Données personne"
 
-#: class/Admin/Admin_Menu.php:394
+#: class/Admin/Admin_Menu.php:399
 msgid "Data option and taxonomy for movies"
 msgstr "Options des données et de taxonomie pour films"
 
-#: class/Admin/Admin_Menu.php:391
+#: class/Admin/Admin_Menu.php:396
 msgid "Data movie"
 msgstr "Données film"
 
-#: class/Admin/Admin_Menu.php:280
-#: class/Admin/Admin_Menu.php:333
+#: class/Admin/Admin_Menu.php:285
+#: class/Admin/Admin_Menu.php:338
 msgid "Data persons"
 msgstr "Données des personnes"
 
-#: class/Admin/Admin_Menu.php:279
-#: class/Admin/Admin_Menu.php:332
+#: class/Admin/Admin_Menu.php:284
+#: class/Admin/Admin_Menu.php:337
 msgid "Data management for persons"
 msgstr "Gestion des données pour les personnes"
 
-#: class/Admin/Admin_Menu.php:272
-#: class/Admin/Admin_Menu.php:325
+#: class/Admin/Admin_Menu.php:277
+#: class/Admin/Admin_Menu.php:330
 msgid "Data movies"
 msgstr "Données des films"
 
-#: class/Admin/Admin_Menu.php:271
-#: class/Admin/Admin_Menu.php:324
+#: class/Admin/Admin_Menu.php:276
+#: class/Admin/Admin_Menu.php:329
 msgid "Data management for movies"
 msgstr "Gestion des données pour les films"
 
@@ -354,7 +354,7 @@ msgstr "La taxonomie Lumière est une fonctionnalité qui ajoute ses propres ét
 msgid "The first filter to use is 'lum_find_movie_id' (as you probably do not know the movie's IMDb ID). It will return an array with the movie's imdb id, that you can use in a second filter 'lum_display_movies_box':"
 msgstr "Le premier filtre à utiliser est « lum_find_movie_id » (car vous ne connaissez probablement pas l’identifiant IMDb du film). Il retourne un tableau avec l’identifiant IMDB du film, que vous pourrez utiliser dans un second filtre « lum_display_movies_box » :"
 
-#: templates/admin/cache/admin-cache-manage.php:498
+#: templates/admin/cache/admin-cache-manage.php:499
 msgid "(including images)"
 msgstr "(incluant les images)"
 
@@ -454,7 +454,7 @@ msgstr "L’actualisation du cache a commencé, ce message sera mis à jour lors
 msgid "Currently refreshing the cache, %1$1s remain to be refreshed. A new full refresh will start on %2$2s."
 msgstr "Actualisation en cours du cache, %1$1s restent à mettre à jour. Une nouvelle actualisation complète débutera le %2$2s."
 
-#: class/Admin/Search_Items.php:252
+#: class/Admin/Search_Items.php:255
 #: class/Frontend/Popups/Popup_Movie_Search.php:161
 msgid "No results found."
 msgstr "Aucun résultat trouvé."
@@ -488,7 +488,7 @@ msgstr "Options Principales"
 msgid "Taxonomy templates in your theme folder have been automatically updated."
 msgstr "Les modèles de taxonomie dans le dossier de votre thème ont été automatiquement mis à jour."
 
-#: class/Admin/Admin_Menu.php:316
+#: class/Admin/Admin_Menu.php:321
 msgid "Lumière main page"
 msgstr "Page principale Lumière"
 
@@ -498,7 +498,12 @@ msgstr "Page principale Lumière"
 msgid "This button will %1$1sdelete%2$2s all files stored in the following folder:"
 msgstr "Ce bouton %1$1seffacera%2$2s tous les fichiers sauvegardés dans le dossier suivant :"
 
-#: class/Frontend/Popups/Head_Popups.php:105
+#: class/Admin/Submenu/Cache.php:41
+#: class/Admin/Submenu/Datamovie.php:44
+#: class/Admin/Submenu/Dataperson.php:40
+#: class/Admin/Submenu/Help.php:55
+#: class/Admin/Submenu/Main.php:51
+#: class/Frontend/Main.php:172
 msgid "Invalid or missing nonce."
 msgstr "Nonce invalide ou manquant."
 
@@ -578,8 +583,8 @@ msgid_plural "episodes"
 msgstr[0] "épisode"
 msgstr[1] "épisodes"
 
-#: class/Alteration/Taxonomy.php:173
-#: class/Alteration/Taxonomy.php:175
+#: class/Alteration/Taxonomy.php:179
+#: class/Alteration/Taxonomy.php:181
 msgid "Tags"
 msgstr "Étiquettes"
 
@@ -796,11 +801,11 @@ msgstr "Les fichiers sélectionnés ont été effacés."
 msgid "No post written about %1$s"
 msgstr "Aucun article écrit au sujet de %1$s"
 
-#: class/Plugins/Auto/Polylang.php:241
+#: class/Plugins/Auto/Polylang.php:244
 msgid "No data passed"
 msgstr "Aucune donnée transmise"
 
-#: class/Plugins/Auto/Polylang.php:230
+#: class/Plugins/Auto/Polylang.php:233
 msgid "Language successfully changed."
 msgstr "Langue modifée avec succès."
 
@@ -819,7 +824,7 @@ msgstr "Inconnu - Lumière movies"
 msgid "Add automatically movie details to your pages with Lumière! Legacy version. As of WordPress 5.8, you rather should use block-based widgets."
 msgstr "Ajoutez les détails de films à vos pages avec Lumière! ancienne version. Depuis la version WordPress 5.8, vous devriez préférer le widget basés sur les blocs."
 
-#: class/Admin/Search_Items.php:281
+#: class/Admin/Search_Items.php:284
 msgid "Do a new query"
 msgstr "Lancer une nouvelle recherche"
 
@@ -875,15 +880,15 @@ msgid_plural "Taxonomy template is activated, but the following templates are mi
 msgstr[0] "La taxonomie est activée, mais le modèle suivant est manquant : %2$s%1$s%3$s."
 msgstr[1] "La taxonomie est activée, mais les modèles suivants sont manquants : %2$s%1$s%3$s."
 
-#: class/Tools/Files.php:67
+#: class/Tools/Files.php:68
 msgid "No template file found"
 msgstr "Aucun fichier de modèle trouvé"
 
-#: class/Tools/Ban_Bots.php:176
+#: class/Tools/Ban_Bots.php:171
 msgid "Back home"
 msgstr "Revenir à l’accueil"
 
-#: class/Tools/Ban_Bots.php:172
+#: class/Tools/Ban_Bots.php:167
 msgid "Lumière Popups Access Error"
 msgstr "Erreur d’accès fenêtre surgissante Lumière"
 
@@ -924,7 +929,7 @@ msgstr "(mois inconnu)"
 msgid "(day unknown)"
 msgstr "(jour inconnu)"
 
-#: class/Tools/Files.php:105
+#: class/Tools/Files.php:92
 msgid "Credentials are required to edit this file: "
 msgstr "Des informations d’identification sont nécessaires pour modifier ce fichier : "
 
@@ -983,7 +988,7 @@ msgid "Absolute path to store images retrieved from the IMDb website. Has to be 
 msgstr "Chemin absolu pour stocker les images récupérérées sur le site internet de l’IMDb. Doit être %1$saccessible en écriture%2$s par le serveur internet."
 
 #. translators: %1$s is a html ahref tag, %2$s the closure of that very tag
-#: templates/admin/cache/admin-cache-manage.php:549
+#: templates/admin/cache/admin-cache-manage.php:550
 #, php-format
 msgid "Absolute path to store cache retrieved from the IMDb website. Has to be %1$swritable%2$s by the webserver."
 msgstr "Chemin absolu pour stocker le cache récupéré sur le site internet de l’IMDb. Doit être %1$saccessible en écriture%2$s par le serveur internet."
@@ -1016,20 +1021,16 @@ msgstr "%1$sInformations sur les licences : %2$s Sous licence GPL, basé sur pl
 msgid "Please %1$sactivate taxonomy%2$s before accessing to taxonomy options."
 msgstr "Veuillez %1$sactiver la taxonomie%2$s avant d’accéder aux options de taxonomie."
 
-#: class/Admin/Save/Save_Options.php:310
-msgid "Nounce error"
-msgstr "Erreur de nonce"
-
-#: class/Admin/Crons/Cron.php:92
+#: class/Admin/Crons/Cron.php:88
 msgid "Every two weeks"
 msgstr "Toutes les 2 semaines"
 
-#: class/Admin/Copy_Templates/Copy_Theme.php:166
+#: class/Admin/Copy_Templates/Copy_Theme.php:164
 msgid "Could not get the credentials wp_filesystem for copying"
 msgstr "Impossible d’obtenir les informations d’identification wp_filesystem pour la copie"
 
-#: class/Admin/Admin_Menu.php:317
-#: class/Admin/Admin_Menu.php:380
+#: class/Admin/Admin_Menu.php:322
+#: class/Admin/Admin_Menu.php:385
 msgid "Main"
 msgstr "Principal"
 
@@ -1133,7 +1134,7 @@ msgstr "Qu’est-ce que Lumière! auto-widget ?"
 msgid "Lumière is incompatible with the following plugins: "
 msgstr "Lumière est incompatible avec les extensions suivantes : "
 
-#: class/Admin/Search_Items.php:259
+#: class/Admin/Search_Items.php:262
 msgid "Maximum number of results reached. You can increase this limit in the admin options."
 msgstr "Nombre maximum de résultats atteint. Vous pouvez augmenter ce nombre dans les options d’administration."
 
@@ -1168,7 +1169,7 @@ msgstr "sur 10"
 msgid "No post found with this taxonomy."
 msgstr "Aucun article trouvé pour cette taxonomie."
 
-#: class/Frontend/Layout/Output.php:73
+#: class/Frontend/Layout/Output.php:77
 msgid "internal link"
 msgstr "lien interne"
 
@@ -1191,13 +1192,13 @@ msgstr "Toute modification de la feuille de style que vous effectuez doit être 
 msgid "(Activated automatically for \"genre\" and \"director\" taxonomies upon installation)"
 msgstr "(Activé automatiquement pour les taxonomies « genre » et « réalisateur » lors de l’installation)"
 
-#: class/Plugins/Auto/Polylang.php:170
-#: class/Plugins/Auto/Polylang.php:205
+#: class/Plugins/Auto/Polylang.php:176
+#: class/Plugins/Auto/Polylang.php:209
 msgid "Filter language"
 msgstr "Filtrer la langue"
 
-#: class/Plugins/Auto/Polylang.php:156
-#: class/Plugins/Auto/Polylang.php:192
+#: class/Plugins/Auto/Polylang.php:162
+#: class/Plugins/Auto/Polylang.php:198
 msgid "All"
 msgstr "Tous"
 
@@ -1405,16 +1406,6 @@ msgstr "Comme dans de nombreuses autres sections de l’extension Lumière, vous
 msgid "Lumière metabox to add a movie in a widget"
 msgstr "Metabox Lumière pour ajouter un film dans un widget"
 
-#: templates/admin/help/admin-help-howto.php:175
-msgid "<strong>Second</strong>, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected."
-msgstr "<strong>Deuxièmement</strong>, modifiez votre article et ajoutez le nom du film dans la case de la barre latérale sur votre droite. Lumière Films affichera automatiquement le film sélectionné dans le widget."
-
-#. translators: %1$s to %6$s are HTML tags
-#: templates/admin/help/admin-help-howto.php:163
-#, php-format
-msgid "%3$sFirst%4$s, prior to WordPress 5.8, go to %5$swidget%6$s administration (%1$sappearance%2$s tab), drag %1$sLumière widget%2$s (from %1$sinactive widgets%2$s) to a sidebar, and modify the box's title (in case you don't want to have the default name). As of WordPress 5.8, widgets are blocks selected by the user, and adding them is very intuitive."
-msgstr "%3$sTout d’abord%4$s, avant WordPress 5.8, accédez à l’administration du %5$swidget%6$s (onglet %1$sapparence%2$s), faites glisser le %1$swidget Lumière%2$s  (à partir des %1$swidgets inactifs%2$s) vers une colonne latérale et modifiez le titre de la boîte (au cas où vous ne voudriez pas que la boîte n’ait le nom par défaut). Depuis WordPress 5.8, les widgets sont des blocs sélectionnés par l’utilisateur/utilisatrice, mais le processus est identique, et les ajouter est très facile."
-
 #: templates/admin/help/admin-help-howto.php:158
 msgid "How to use the widget"
 msgstr "Comment utiliser le widget"
@@ -1548,17 +1539,17 @@ msgid_plural "actors"
 msgstr[0] "acteur"
 msgstr[1] "acteurs"
 
-#: class/Admin/Admin_Menu.php:428
+#: class/Admin/Admin_Menu.php:433
 msgid "Get support and support plugin development"
 msgstr "Obtenir de l’aide et fournir de l’aide pour le développement de l’extension"
 
-#: class/Admin/Admin_Menu.php:383
+#: class/Admin/Admin_Menu.php:388
 msgid "Main and advanced options"
 msgstr "Options principales et avancées"
 
-#: class/Admin/Admin_Menu.php:288
-#: class/Admin/Admin_Menu.php:341
-#: class/Admin/Admin_Menu.php:413
+#: class/Admin/Admin_Menu.php:293
+#: class/Admin/Admin_Menu.php:346
+#: class/Admin/Admin_Menu.php:418
 msgid "Cache"
 msgstr "Cache"
 
@@ -1725,8 +1716,8 @@ msgstr "blanc"
 msgid "grey (default)"
 msgstr "gris (d&eacute;faut)"
 
-#: class/Frontend/Layout/Output.php:159
-#: class/Frontend/Layout/Output.php:176
+#: class/Frontend/Layout/Output.php:163
+#: class/Frontend/Layout/Output.php:180
 msgid "Find similar taxonomy results"
 msgstr "Trouver des résultats de taxonomie similaires"
 
@@ -1776,7 +1767,7 @@ msgstr "gris léger"
 msgid "Wrong values. You can not select the same URL string for taxonomy pages and popups."
 msgstr "Mauvaises valeurs. Vous ne pouvez pas sélectionner le même morceau d’URL pour les pages de taxonomie et les fenêtres contextuelles."
 
-#: class/Admin/Widget_Selection.php:191
+#: class/Admin/Widget_Selection.php:185
 msgid "Widget title:"
 msgstr "Titre du widget :"
 
@@ -1806,7 +1797,7 @@ msgstr "Thème Lumière"
 msgid "Current:"
 msgstr "Actuel :"
 
-#: templates/admin/cache/admin-cache-manage.php:569
+#: templates/admin/cache/admin-cache-manage.php:570
 msgid "Photo path (relative to the cache path)"
 msgstr "Chemin de photo (relatif au chemin du cache)"
 
@@ -1924,25 +1915,25 @@ msgstr "Le cache est crucial pour le fonctionnement de Lumière! Comme les premi
 msgid "All cache files deleted."
 msgstr "Tous les fichiers de cache ont été effacés."
 
-#: class/Admin/Save/Save_Options.php:384
+#: class/Admin/Save/Save_Options.php:397
 msgid "No cache folder found."
 msgstr "Pas de dossier de cache trouvé."
 
-#: class/Admin/Search_Items.php:304
-#: class/Alteration/Taxonomy.php:176
+#: class/Admin/Search_Items.php:307
+#: class/Alteration/Taxonomy.php:182
 #: templates/admin/main/admin-main-advanced.php:26
 msgid "Search"
 msgstr "Recherche"
 
-#: class/Admin/Search_Items.php:271
+#: class/Admin/Search_Items.php:274
 msgid "IMDb ID:"
 msgstr "Identification IMDb :"
 
-#: class/Admin/Search_Items.php:246
+#: class/Admin/Search_Items.php:249
 msgid "IMDb Identification number"
 msgstr "Numéro d’identification IMDB"
 
-#: class/Admin/Search_Items.php:243
+#: class/Admin/Search_Items.php:246
 msgid "Results related to your query:"
 msgstr "Résultats correspondants à votre requête :"
 
@@ -2394,7 +2385,7 @@ msgstr "Non"
 msgid "Yes"
 msgstr "Oui"
 
-#: templates/admin/cache/admin-cache-manage.php:563
+#: templates/admin/cache/admin-cache-manage.php:564
 #: templates/admin/cache/admin-cache-options.php:46
 #: templates/admin/cache/admin-cache-options.php:70
 #: templates/admin/cache/admin-cache-options.php:92
@@ -2429,35 +2420,35 @@ msgstr "Par défaut :"
 msgid "Image cache is empty."
 msgstr "Le cache image est vide."
 
-#: templates/admin/cache/admin-cache-manage.php:577
+#: templates/admin/cache/admin-cache-manage.php:578
 msgid "Images cache is using"
 msgstr "Le cache image utilise"
 
-#: templates/admin/cache/admin-cache-manage.php:537
+#: templates/admin/cache/admin-cache-manage.php:538
 #: templates/admin/cache/admin-cache-manage.php:633
 msgid "Check folder permissions!"
 msgstr "Vérifiez les permissions du dossier !"
 
-#: templates/admin/cache/admin-cache-manage.php:532
+#: templates/admin/cache/admin-cache-manage.php:533
 #: templates/admin/cache/admin-cache-manage.php:628
 msgid "Permissions OK."
 msgstr "Permissions OK."
 
-#: templates/admin/cache/admin-cache-manage.php:524
+#: templates/admin/cache/admin-cache-manage.php:525
 #: templates/admin/cache/admin-cache-manage.php:620
 msgid "Folder doesn't exist!"
 msgstr "Le dossier n’existe pas !"
 
-#: templates/admin/cache/admin-cache-manage.php:519
+#: templates/admin/cache/admin-cache-manage.php:520
 #: templates/admin/cache/admin-cache-manage.php:615
 msgid "Folder exists."
 msgstr "Le répertoire existe."
 
-#: templates/admin/cache/admin-cache-manage.php:500
+#: templates/admin/cache/admin-cache-manage.php:501
 msgid "Movies' cache is empty."
 msgstr "Le cache des films est vide."
 
-#: templates/admin/cache/admin-cache-manage.php:498
+#: templates/admin/cache/admin-cache-manage.php:499
 msgid "Movies' cache is using"
 msgstr "Le cache des films utilise"
 
@@ -2573,33 +2564,33 @@ msgstr "Ouvrir le blog "
 msgid "Taxonomy"
 msgstr "Taxonomie"
 
-#: class/Admin/Admin_Menu.php:416
+#: class/Admin/Admin_Menu.php:421
 #: templates/admin/cache/admin-cache-options.php:25
 #: templates/admin/cache/admin-cache-submenu.php:25
 msgid "Cache options"
 msgstr "Options de cache"
 
-#: class/Admin/Admin_Menu.php:371
+#: class/Admin/Admin_Menu.php:376
 msgid "Lumière Menu"
 msgstr "Menu Lumière"
 
-#: class/Admin/Admin_Menu.php:296
-#: class/Admin/Admin_Menu.php:349
-#: class/Admin/Admin_Menu.php:425
+#: class/Admin/Admin_Menu.php:301
+#: class/Admin/Admin_Menu.php:354
+#: class/Admin/Admin_Menu.php:430
 msgid "Help"
 msgstr "Aide"
 
-#: class/Admin/Admin_Menu.php:295
-#: class/Admin/Admin_Menu.php:348
+#: class/Admin/Admin_Menu.php:300
+#: class/Admin/Admin_Menu.php:353
 msgid "Help page"
 msgstr "Page d’aide"
 
-#: class/Admin/Admin_Menu.php:287
-#: class/Admin/Admin_Menu.php:340
+#: class/Admin/Admin_Menu.php:292
+#: class/Admin/Admin_Menu.php:345
 msgid "Cache management options page"
 msgstr "Options de la gestion du cache"
 
-#: class/Admin/Admin_Menu.php:306
+#: class/Admin/Admin_Menu.php:311
 msgid "Lumière options page"
 msgstr "Page d’option Lumière!"
 
@@ -2642,7 +2633,7 @@ msgstr "psykonevro"
 msgid "https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin"
 msgstr "https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin"
 
-#: class/Admin/Admin_Menu.php:307
+#: class/Admin/Admin_Menu.php:312
 msgid "Lumière"
 msgstr "Lumière"
 
@@ -3196,4 +3187,21 @@ msgstr ""
 
 #: assets/blocks/widget-sidebar-options/sidebar.js:134
 msgid "Tite/name/IMDb ID"
+msgstr ""
+
+#: templates/admin/data/admin-data-movie-taxonomy.php:138
+#: templates/admin/data/admin-data-movie-taxonomy.php:152
+msgid "copy the taxonomy template"
+msgstr ""
+
+#. translators: %1$s to %6$s are HTML tags
+#: templates/admin/help/admin-help-howto.php:163
+#, php-format
+msgid "%1$sFirst%2$s, prior to WordPress 5.8, go to %3$swidget%4$s administration (%5$sappearance%6$s tab), drag %1$sLumière widget%2$s (from %1$sinactive widgets%2$s) to a sidebar, and modify the box's title (in case you don't want to have the default name). As of WordPress 5.8, widgets are blocks selected by the user, and adding them is very intuitive."
+msgstr ""
+
+#. translators: %1$s and %2$s are HTML tags
+#: templates/admin/help/admin-help-howto.php:175
+#, php-format
+msgid "%1$sSecond%2$s, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected."
 msgstr ""

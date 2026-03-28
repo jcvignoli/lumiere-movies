@@ -160,7 +160,7 @@ $lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.und
 				<?php
 				echo wp_kses(
 					/* translators: %1$s to %6$s are HTML tags */
-					sprintf( __( '%3$sFirst%4$s, prior to WordPress 5.8, go to %5$swidget%6$s administration (%1$sappearance%2$s tab), drag %1$sLumière widget%2$s (from %1$sinactive widgets%2$s) to a sidebar, and modify the box\'s title (in case you don\'t want to have the default name). As of WordPress 5.8, widgets are blocks selected by the user, and adding them is very intuitive.', 'lumiere-movies' ), '<i>', '</i>', '<strong>', '</strong>', '<a href="widgets.php">', '</a>' ),
+					wp_sprintf( __( '%1$sFirst%2$s, prior to WordPress 5.8, go to %3$swidget%4$s administration (%5$sappearance%6$s tab), drag %1$sLumière widget%2$s (from %1$sinactive widgets%2$s) to a sidebar, and modify the box\'s title (in case you don\'t want to have the default name). As of WordPress 5.8, widgets are blocks selected by the user, and adding them is very intuitive.', 'lumiere-movies' ), '<strong>', '</strong>', '<a href="widgets.php">', '</a>', '<i>', '</i>' ),
 					[
 						'i' => [],
 						'strong' => [],
@@ -171,8 +171,8 @@ $lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.und
 				<br>
 				<br>
 				<?php
-				/** translators: %1$s and %2$s are HTML tags */
-				echo wp_kses( wp_sprintf( __( '<strong>Second</strong>, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected.', 'lumiere-movies' ), '<strong>', '</strong>' ), [ 'strong' => [] ] ); ?>
+				/* translators: %1$s and %2$s are HTML tags */
+				echo wp_kses( wp_sprintf( __( '%1$sSecond%2$s, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected.', 'lumiere-movies' ), '<strong>', '</strong>' ), [ 'strong' => [] ] ); ?>
 
 				<a href="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-5.jpg' ); ?>" title="<?php esc_html_e( 'click to get a larger picture', 'lumiere-movies' ); ?>"><img align="right" width="50%" src="<?php echo esc_url( Get_Options::LUM_WORDPRESS_IMAGES_URL . '/screenshot-5.jpg' ); ?>" alt="<?php esc_html_e( 'Lumière metabox to add a movie in a widget', 'lumiere-movies' ); ?>" /></a>
 

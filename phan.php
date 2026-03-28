@@ -7,7 +7,7 @@
  * default configuration. Command line arguments will be applied
  * after this file is read.
  */
-return [
+$phan_config = [
 
 	// Supported values: `'5.6'`, `'7.0'`, `'7.1'`, `'7.2'`, `'7.3'`, `'7.4'`,
 	// '8.0', '8.1', '8.2', '8.3' `null`.
@@ -15,7 +15,7 @@ return [
 	// then Phan assumes the PHP version which is closest to the minor version
 	// of the php executable used to execute Phan.
 	// @info: never got this to work
-	'target_php_version' => '8.1',
+	'target_php_version' => null,
 
 	// Issue::SEVERITY_LOW(0), Issue::SEVERITY_NORMAL(5), Issue::SEVERITY_CRITICAL(10)
 	// Low is the highest level
@@ -118,7 +118,6 @@ return [
 	'suppress_issue_types' => [
 		'PhanPluginPrintfVariableFormatString', // Phan doesn't detect correct behaviour for __(), _n(), "has a dynamic format string that could not be inferred by Phan"
 		'PhanUndeclaredGlobalVariable', // complains about global variable in templates, but it shouldn't be declared
-		'PhanCompatibleOverrideAttribute', // I'm fine with using #[Override] even with PHP8.1
 	],
 
 	// A list of plugin files to execute.
@@ -152,3 +151,13 @@ return [
 		'LoopVariableReusePlugin',
 	],
 ];
+
+if ( version_compare( PHP_VERSION, '8.3.0', '<' ) ) {
+	$phan_config['suppress_issue_types'][] = 'PhanCompatibleOverrideAttribute'; // I'm fine with using #[Override] even with PHP8.1
+	$phan_config['suppress_issue_types'][] = 'PhanUndeclaredClassAttribute'; // I'm fine with using #[Override] even with PHP8.1
+
+}
+if ( version_compare( PHP_VERSION, '8.4.0', '<' ) ) {
+	$phan_config['suppress_issue_types'][] = 'PhanUndeclaredFunction'; // Call to undeclared function \mb_ucfirst() in Data::mb_ucfirst()
+}
+return $phan_config;
