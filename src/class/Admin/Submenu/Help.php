@@ -45,12 +45,15 @@ final class Help extends Admin_Menu {
 	 * Display the layout
 	 *
 	 * @param \Lumiere\Admin\Cache\Cache_Files_Management $cache_mngmt_class Not utilised in this class, but needed in some other Submenu classes
-	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
+	 * @param string $nonce_token nonce created in Admin_Menu::get_admin_submenu()
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	public function lum_submenu_start( \Lumiere\Admin\Cache\Cache_Files_Management $cache_mngmt_class, string $nonce ): void {
+	public function lum_submenu_start( \Lumiere\Admin\Cache\Cache_Files_Management $cache_mngmt_class, string $nonce_token ): void {
 
-		do_action( 'lumiere_add_meta_boxes_help' );
+		// Check the nonce, die() otherwise. In Admin_General trait.
+		if ( $this->is_valid_nonce( nonce_token: $nonce_token, nonce_action: 'check_display_page' ) === false ) {
+			wp_die( esc_html__( 'Invalid or missing nonce.', 'lumiere-movies' ), 'Lumière Movies', [ 'response' => 403 ] );
+		}
 
 		// First part of the menu.
 		$this->include_with_vars(
@@ -73,10 +76,6 @@ final class Help extends Admin_Menu {
 				'page_help_changelog'       => $this->page_help_changelog,
 			],
 		);
-
-		if ( false === wp_verify_nonce( $nonce, 'check_display_page' ) ) {
-			return;
-		}
 
 		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( strval( $_GET['subsection'] ) ) : '';
 

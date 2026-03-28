@@ -69,20 +69,6 @@ trait Files {
 	}
 
 	/**
-	 * Format a given file size to bytes
-	 * The size in bits would need to replace '1000' by '1024'
-	 *
-	 * @param float $size the unformatted number of the size
-	 * @param int $precision how many numbers after comma, two by default
-	 */
-	public function lumiere_format_bytes( float $size, int $precision = 2 ): string {
-
-		$units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' ];
-		$power = $size > 0 ? (int) floor( log( $size, 1000 ) ) : 0;
-		return number_format( $size / pow( 1000, $power ), $precision, '.', ',' ) . ' ' . $units[ $power ];
-	}
-
-	/**
 	 * Request WP_Filesystem credentials if file doesn't have it.
 	 * @param string $file The file with full path to ask the credentials form
 	 *

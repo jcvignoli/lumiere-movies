@@ -149,12 +149,10 @@ trait Main {
 	 */
 	public function check_nonce( string $nonce_name = '_wpnonce', int|string $nonce_action = -1 ): bool {
 
-		$nonce = isset( $_REQUEST[ $nonce_name ] ) ? sanitize_key( strval( $_REQUEST[ $nonce_name ] ) ) : '';
-
+		$nonce = isset( $_REQUEST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( strval( $_REQUEST[ $nonce_name ] ) ) ) : '';
 		// Nonce is always valid if admin is connected.
 		$nonce_valid = ( strlen( $nonce ) > 0 && wp_verify_nonce( $nonce, $nonce_action ) !== false ) || is_user_logged_in() === true;
 
-		// If nonce is invalid or no title was provided, exit.
 		if ( $nonce_valid === false ) {
 			return false;
 		}

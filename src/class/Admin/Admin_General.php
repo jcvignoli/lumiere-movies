@@ -42,26 +42,39 @@ trait Admin_General {
 
 	/**
 	 * Validate nonce for Admin.
+	 * Can work with Nonce Name or Nonce Token, but one is mandatory.
 	 *
-	 * @param string $nonce_name by default '_wpnonce'
-	 * @param int|string $nonce_action by default -1, which means no action name at all
+	 * @param string $nonce_name Optional: because by default '_wpnonce'
+	 * @param int|string $nonce_action Optional: by default -1 that means no action name
+	 * @param string $nonce_token Optional: token nonce, ie 'a244uv223', by default ''
 	 * @return bool True if nonce is valid (either 1 or 2 on success)
 	 */
-	public function is_valid_nonce( string $nonce_name = '_wpnonce', int|string $nonce_action = -1 ): bool {
-		return check_admin_referer( $nonce_action, $nonce_name ) > 0;
+	public function is_valid_nonce( string $nonce_name = '_wpnonce', int|string $nonce_action = -1, string $nonce_token = '' ): bool {
+
+		// a $nonce_token was provided, use it as it is
+		if ( strlen( $nonce_token ) > 0 && wp_verify_nonce( sanitize_text_field( wp_unslash( $nonce_token ) ), $nonce_action ) !== false ) {
+			return true;
+		}
+
+		$nonce_token = isset( $_REQUEST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( strval( $_REQUEST[ $nonce_name ] ) ) ) : '';
+		$nonce_token_valid = strlen( $nonce_token ) > 0 && wp_verify_nonce( $nonce_token, $nonce_action ) !== false;
+
+		if ( $nonce_token_valid === false ) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
 	 * Validate the nonce for Admin. If invalid, die()
+	 * Works only with Nonce Name (no token)
 	 *
-	 * @param string $nonce_name by default '_wpnonce'
-	 * @param int|string $nonce_action by default -1, which means no action name at all
+	 * @param string $nonce_name Optional: because by default '_wpnonce'
+	 * @param int|string $nonce_action Optional: by default -1, which means no action name at all
 	 * @return void Die if invalid nonce
 	 */
 	public function is_valid_nonce_die( string $nonce_name = '_wpnonce', int|string $nonce_action = -1 ): void {
-		if ( $this->is_valid_nonce( $nonce_name, $nonce_action ) === false ) {
-			wp_die( esc_html__( 'Invalid or missing nonce.', 'lumiere-movies' ), 'Lumière Movies', [ 'response' => 403 ] );
-		}
+		check_admin_referer( $nonce_action, $nonce_name );
 	}
 }
 

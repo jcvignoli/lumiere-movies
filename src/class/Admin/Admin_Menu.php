@@ -206,6 +206,7 @@ class Admin_Menu {
 		if (
 			isset( $_POST['imdb_imdburlstringtaxo'] ) && strlen( sanitize_key( $_POST['imdb_imdburlstringtaxo'] ) ) > 0
 			&& isset( $_POST['imdb_imdburlstringtaxo_terms'] ) && sanitize_key( $_POST['imdb_imdburlstringtaxo_terms'] ) === '1'
+			&& $this->is_valid_nonce( '_nonce_main_settings', 'lumiere_nonce_main_settings' )
 		) {
 			add_action( 'init', fn() => ( new Save_Options( $this->page_main_advanced ) )->init_taxonomy(), 11 );
 		}

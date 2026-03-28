@@ -50,9 +50,10 @@ export default {
 		new blocksManifestPlugin(),
 		
 		// Runs only if "--watch" is passed in command-line
+		/**
 		new BrowserSyncPlugin({
 			proxy: {
-				target: extCred.proxy.address, /* must be in http, not in https, certif error otherwise */
+				target: extCred.proxy.address, // must be in http, not in https, certif error otherwise
 				proxyReq: [
 					function(proxyReq) {
 						// Allows to use lumiere codeception database
@@ -74,6 +75,7 @@ export default {
 			// Will not attempt to determine your network status, assumes you're OFFLINE
 			online: false,
 		}),
+		*/
 		// Runs only if "--mode development" is passed in command line
 		new SSHWatchUploadWebpackPlugin({
 			mode: getCmdArgs.mode==='development' ? 'development' : 'production',		// in npm run build, do not use ssh

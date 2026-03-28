@@ -53,7 +53,7 @@ final class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			// Display a "show more" after XX results
+			// Display a "show more" after XX results.
 			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_may_plural ) : '';
@@ -68,12 +68,12 @@ final class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= ' (' . (string) wp_date( get_option( 'date_format' ), $date_time ) . ')';
 			}
 
-			// Text, limited in charas.
+			// Text, limited in words.
 			if ( isset( $item_results[ $i ]['textText'] ) && strlen( $item_results[ $i ]['textText'] ) > 0 ) {
-				$output .= ' ' . substr( $item_results[ $i ]['textText'], 0, 300 ) . ' [...]';
+				$output .= ' ' . wp_trim_words( $item_results[ $i ]['textText'], 50, ' [...]' );
 			}
 
-			// End of "click to show more"
+			// End of "click to show more".
 			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_class->misc_layout( 'click_more_end' );
 			}
@@ -107,7 +107,7 @@ final class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 
-			// Display a "show more" after XX results
+			// Display a "show more" after XX results.
 			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_may_plural ) : '';
@@ -122,12 +122,12 @@ final class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= $date !== false ? ' (' . (string) wp_date( get_option( 'date_format' ), $date ) . ')' : '';
 			}
 
-			// Text, limited in charas.
+			// Text, limited in words.
 			if ( isset( $item_results[ $i ]['textText'] ) && strlen( $item_results[ $i ]['textText'] ) > 0 ) {
-				$output .= ' ' . substr( $item_results[ $i ]['textText'], 0, 200 ) . ' [...]';
+				$output .= ' ' . wp_trim_words( $item_results[ $i ]['textText'], 50, ' [...]' );
 			}
 
-			// Display a "show more" after XX results
+			// Display a "show more" after XX results.
 			if ( $i === $nb_rows_click_more ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $item_name ) : '';
@@ -138,7 +138,7 @@ final class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= '<br>';
 			}
 
-			// End of "click to show more"
+			// End of "click to show more".
 			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_class->misc_layout( 'click_more_end' );
 			}

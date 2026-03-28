@@ -117,13 +117,13 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		<div class="detailedcacheexplaination lum_padding_bottom_ten lumiere_align_center">
 
 			<strong><?php esc_html_e( 'Total cache size:', 'lumiere-movies' ); ?>&nbsp;<?php
-
+			$lumiere_total_size_formatted = size_format( $lumiere_size_cache_total, 2 );
 			echo esc_html(
 				wp_sprintf(
 					/* translators: %1$1s is replaced with a number of files, %2$2s the size in MB of a folder */
 					_n( '%1$1s file using %2$2s', '%1$1s files using %2$2s', intval( $lumiere_cache_file_count ), 'lumiere-movies' ),
 					number_format_i18n( intval( $lumiere_cache_file_count ) ),
-					$lumiere_that->lumiere_format_bytes( floatval( $lumiere_size_cache_total ) )
+					$lumiere_total_size_formatted !== false ? esc_html( $lumiere_total_size_formatted ) : ''
 				)
 			);
 			?></strong>
@@ -174,13 +174,13 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 		<div class="detailedcacheexplaination lum_padding_bottom_ten lumiere_align_center">
 
 			<strong><?php esc_html_e( 'Total query cache size:', 'lumiere-movies' ); ?>&nbsp;<?php
-
+			$lumiere_query_cache_size = size_format( $lumiere_query_cache_size, 2 );
 			echo esc_html(
 				wp_sprintf(
 					/* translators: first %1$s is replaced with a number of files, %2$s the size in MB of a folder */
 					_n( '%1$s file using %2$s', '%1$s files using %2$s', intval( $lumiere_query_number_files ), 'lumiere-movies' ),
 					intval( $lumiere_query_number_files ),
-					$lumiere_that->lumiere_format_bytes( intval( $lumiere_query_cache_size ) )
+					$lumiere_query_cache_size !== false ? esc_html( $lumiere_query_cache_size ) : ''
 				)
 			);
 			?></strong>
@@ -495,7 +495,8 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					<?php
 					// display cache folder size.
 					if ( $lumiere_cache_file_count > 0 ) {
-						echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . esc_html( $lumiere_that->lumiere_format_bytes( $lumiere_size_cache_total ) ) . ' ' . esc_html__( '(including images)', 'lumiere-movies' ) . "\n";
+						$lumiere_cache_size = size_format( $lumiere_size_cache_total, 2 );
+						echo esc_html__( 'Movies\' cache is using', 'lumiere-movies' ) . ' ' . esc_html( $lumiere_cache_size !== false ? $lumiere_cache_size : '' ) . ' ' . esc_html__( '(including images)', 'lumiere-movies' ) . "\n";
 					} else {
 						esc_html_e( 'Movies\' cache is empty.', 'lumiere-movies' );
 					}
@@ -573,9 +574,8 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 					<?php
 					// display cache folder size
 					if ( $lumiere_size_cache_pics > 0 ) {
-
-						echo esc_html__( 'Images cache is using', 'lumiere-movies' ) . ' ' . esc_html( $lumiere_that->lumiere_format_bytes( $lumiere_size_cache_pics ) ) . "\n";
-
+						$lumiere_size_pics = size_format( $lumiere_size_cache_pics, 2 );
+						echo esc_html__( 'Images cache is using', 'lumiere-movies' ) . ' ' . esc_html( $lumiere_size_pics !== false ? $lumiere_size_pics : '' ) . "\n";
 					} else {
 
 						echo esc_html__( 'Image cache is empty.', 'lumiere-movies' ) . "\n";

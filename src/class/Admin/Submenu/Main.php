@@ -41,10 +41,15 @@ final class Main extends Admin_Menu {
 	 * Display the options
 	 *
 	 * @param Cache_Files_Management $cache_mngmt_class To create cache folder if it doesn't exists
-	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
+	 * @param string $nonce_token nonce created in Admin_Menu::get_admin_submenu()
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function lum_submenu_start( Cache_Files_Management $cache_mngmt_class, string $nonce ): void {
+	protected function lum_submenu_start( Cache_Files_Management $cache_mngmt_class, string $nonce_token ): void {
+
+		// Check the nonce, die() otherwise. In Admin_General trait.
+		if ( $this->is_valid_nonce( nonce_token: $nonce_token, nonce_action: 'check_display_page' ) === false ) {
+			wp_die( esc_html__( 'Invalid or missing nonce.', 'lumiere-movies' ), 'Lumière Movies', [ 'response' => 403 ] );
+		}
 
 		// First part of the menu.
 		$this->include_with_vars(
@@ -69,10 +74,6 @@ final class Main extends Admin_Menu {
 				'page_main_advanced'       => $this->page_main_advanced,
 			],
 		);
-
-		if ( false === wp_verify_nonce( $nonce, 'check_display_page' ) ) {
-			return;
-		}
 
 		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( strval( $_GET['page'] ) ) : '';
 		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( strval( $_GET['subsection'] ) ) : '';

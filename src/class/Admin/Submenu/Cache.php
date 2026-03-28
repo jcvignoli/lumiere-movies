@@ -31,10 +31,15 @@ final class Cache extends Admin_Menu {
 	 * Display the body
 	 *
 	 * @param Cache_Files_Management $cache_mngmt_class To create cache folder if it doesn't exists
-	 * @param string $nonce nonce from Admin_Menu to be checked when doing $_GET checks
+	 * @param string $nonce_token nonce created in Admin_Menu::get_admin_submenu()
 	 * @see \Lumiere\Admin\Admin_Menu::call_admin_subclass() Calls this method
 	 */
-	protected function lum_submenu_start( Cache_Files_Management $cache_mngmt_class, string $nonce ): void {
+	protected function lum_submenu_start( Cache_Files_Management $cache_mngmt_class, string $nonce_token ): void {
+
+		// Check the nonce, die() otherwise. In Admin_General trait.
+		if ( $this->is_valid_nonce( nonce_token: $nonce_token, nonce_action: 'check_display_page' ) === false ) {
+			wp_die( esc_html__( 'Invalid or missing nonce.', 'lumiere-movies' ), 'Lumière Movies', [ 'response' => 403 ] );
+		}
 
 		// First part of the menu
 		$this->include_with_vars(
@@ -56,10 +61,6 @@ final class Cache extends Admin_Menu {
 			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
-		if ( false === wp_verify_nonce( $nonce, 'check_display_page' ) ) {
-			return;
-		}
-
 		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( strval( $_GET['page'] ) ) : '';
 		$subsection = isset( $_GET['subsection'] ) ? sanitize_text_field( strval( $_GET['subsection'] ) ) : '';
 
@@ -68,7 +69,7 @@ final class Cache extends Admin_Menu {
 			&& strlen( $subsection ) === 0
 		) {
 			// Cache options menu.
-			$size = $this->lumiere_format_bytes( $cache_mngmt_class->cache_getfoldersize( $this->settings->get_cache_option( 'imdbcachedir' ) ) );
+			$size = size_format( $cache_mngmt_class->cache_getfoldersize( $this->settings->get_cache_option( 'imdbcachedir' ) ), 2 );
 			$this->include_with_vars(
 				'cache/admin-cache-options',
 				[ 'size' => $size ], /** Add an array with vars to send in the template */
