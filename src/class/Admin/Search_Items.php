@@ -122,10 +122,10 @@ final class Search_Items {
 
 		// Scripts.
 		wp_deregister_script( 'lumiere_hide_show' );
-		wp_deregister_script( 'lumiere_scripts' );
-		wp_deregister_script( 'lumiere_highslide_core' );
-		wp_deregister_script( 'lumiere_bootstrap_core' );
-		wp_deregister_script( 'lumiere_bootstrap_scripts' );
+		// wp_deregister_script( 'lumiere_scripts' );
+		// wp_deregister_script( 'lumiere_highslide_core' );
+		// wp_deregister_script( 'lumiere_bootstrap_core' );
+		// wp_deregister_script( 'lumiere_bootstrap_scripts' );
 		// Styles.
 		wp_deregister_style( 'lumiere_style_oceanwpfixes_general' );
 		wp_deregister_style( 'lumiere_highslide_core' );

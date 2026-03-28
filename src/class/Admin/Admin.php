@@ -197,7 +197,7 @@ final class Admin {
 		}
 
 		//  Add Quicktag.
-		if ( ( 'post.php' === $current_page || 'post-new.php' === $current_page ) && wp_script_is( 'quicktags' ) ) {
+		if ( ( 'post.php' === $current_page || 'post-new.php' === $current_page ) && wp_script_is( 'quicktags', 'registered' ) ) {
 			wp_enqueue_script( 'lumiere_quicktag_addbutton' );
 		}
 	}
