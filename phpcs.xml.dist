@@ -13,9 +13,10 @@
 	<arg name="parallel" value="8"/>
 	<arg name="warning-severity" value="0"/>
 
-	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>*/assets/js/*</exclude-pattern>
 	<exclude-pattern>*/assets/css/*</exclude-pattern>
+	<exclude-pattern>*/tests/codeception/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>phan.php</exclude-pattern>
 
 	<!-- Add PHP Post-5.6 ruleset, not supported by WordPress core, but perfect for plugins. -->

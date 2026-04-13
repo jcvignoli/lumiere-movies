@@ -19,6 +19,7 @@ modules:
         - lucatume\WPBrowser\Module\WPWebDriver
         - lucatume\WPBrowser\Module\WPFilesystem
         - lucatume\WPBrowser\Module\WPLoader
+        - Cli
     config:
         lucatume\WPBrowser\Module\WPFilesystem:
             wpRootFolder: '%WP_ROOT_REMOTE_FOLDER%'

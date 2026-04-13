@@ -14,15 +14,15 @@ define( 'ADMIN_POST_ID_TESTS', '/wp-admin/post.php?post=4740&action=edit' ); // 
 // For AutoTitle widget post
 define( 'ADMIN_POST_AUTOTITLEWIDGET_ID', '/wp-admin/post.php?post=4767&action=edit' ); // Different in remote
 // For ban bots and nonce
-define( 'BAN_BOTS_MSG', 'Prevented a bad request.' ); // Always English.
+define( 'BAN_BOTS_MSG', 'prevented a bad request.' ); // Always English.
 define( 'BAN_NONCE_MSG', 'Invalid or missing nonce.' ); // English, usually found.
 define( 'BAN_NONCE_MSG_FR', 'Nonce invalide ou manquant.' ); // French, because sometimes it switches to.
 
 /**
  * Methods are available with $I->method_name()
  */
-class AcceptanceLocal extends \Codeception\Module
-{
+class AcceptanceLocal extends \Codeception\Module {
+
 	/**
 	 * Wheter it local or remote
 	 * @var REMOTE_OR_LOCAL either 'local' or 'remote'
@@ -33,27 +33,27 @@ class AcceptanceLocal extends \Codeception\Module
 	/**
 	 * Stock the base remote URL
 	 */
-	public string $baseUrl = "";
+	public string $baseUrl = '';
 
 	/* Stock the root remote path
 	 *
 	 */
-	public string $basePath = "";
+	public string $basePath = '';
 
 	function __construct() {
 		// Build properties
 		$this->baseUrl = $_ENV[ 'TEST_' . strtoupper( self::REMOTE_OR_LOCAL ) . '_WP_URL' ];
 		$this->basePath = $_ENV[ 'WP_ROOT_' . strtoupper( self::REMOTE_OR_LOCAL ) . '_FOLDER' ];
 	}
-	
+
 	public function getCustomBaseUrl(): string {
 		return $this->baseUrl;
 	}
-	
+
 	public function getCustomBasePath(): string {
 		return $this->basePath;
 	}
-	
+
 	public function getRemoteOrLocal(): string {
 		return self::REMOTE_OR_LOCAL;
 	}

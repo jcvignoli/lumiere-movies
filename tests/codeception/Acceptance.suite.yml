@@ -28,6 +28,7 @@ modules:
             populate: false
             cleanup: false
             createIfNotExists: false
+        - Cli
     config:
         lucatume\WPBrowser\Module\WPWebDriver:
             url: '%TEST_LOCAL_WP_URL%'

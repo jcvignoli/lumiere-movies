@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace Tests\Support;
 
@@ -10,20 +10,20 @@ use Tests\Support\Helper\AcceptanceSettings;
 
 class CacheCest {
 
-	public function _before(AcceptanceTester $I){
-		$I->comment('#Code _before#');
+	public function _before( AcceptanceTester $I ) {
+		$I->comment( '#Code _before#' );
 	}
 
-	public function _after(AcceptanceTester $I){
-		$I->comment('#Code _after#');
+	public function _after( AcceptanceTester $I ) {
+		$I->comment( '#Code _after#' );
 	}
 
 	/**
 	 * Login to Wordpress
 	 * Trait function to keep the cookie active
 	 */
-	private function login(AcceptanceTester $I) {
-		$I->login_universal($I);
+	private function login( AcceptanceTester $I ) {
+		$I->login_universal( $I );
 	}
 
 	/**
@@ -33,21 +33,21 @@ class CacheCest {
 	 * @example ["Werewolf", "gql.TitleYear.{.id...tt0118137.}"]
 	 * @example ["Barry_Lyndon", "gql.TitleYear.{.id...tt0072684.}"]
 	 */
-	public function checkCacheIsCreatedForMovies(AcceptanceTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell) {
+	public function checkCacheIsCreatedForMovies( AcceptanceTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell ) {
 
 		/* Vars */
-		$js_element_delete = 'a[data-confirm="Delete *'.str_replace('_', ' ', $example[0]).'* from cache?"]';
+		$js_element_delete = 'a[data-confirm="Delete *' . str_replace( '_', ' ', $example[0] ) . '* from cache?"]';
 		$file_current = $I->customFindFileWildcard( $I->getCustomBasePath() . '/wp-content/cache/lumiere/' . $example[1] . '*' );
 
 		$I->comment( '-> Check that cache is created for ' . $example[0] );
 
 		// Make sure Highslide is active, following tests are run with Highslide
-		$I->SwitchModalWindow('Highslide');
-		
+		$I->SwitchModalWindow( 'Highslide' );
+
 		// Make sure cache folders are properly created by visiting any admin page
 		$I->amOnPage( AcceptanceSettings::LUMIERE_MAIN_OPTIONS_URL );
 		$I->see( 'Layout' );
-		$I->wait(2);
+		$I->wait( 2 );
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 
 		// Make local connexion
@@ -62,7 +62,7 @@ class CacheCest {
 
 		// Make sure cache is created
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->wait(3);
+		$I->wait( 3 );
 		$I->seeFileFound( $file_current );
 
 		// Delete cache file using interface
@@ -70,7 +70,7 @@ class CacheCest {
 
 		// Make sure cache is created
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_BASE_URL );
-		$I->wait(2);
+		$I->wait( 2 );
 		$I->seeFileFound( $file_current );
 	}
 
@@ -78,13 +78,13 @@ class CacheCest {
 	 * Check if cache is created for people
 	 *
 	 * @before login
-	 * @example ["Jorge_Rivero", "gql.Name.{.id...nm0729473.}", "0729473", "Distrito Federal, Mexico"]
+	 * @example ["Jorge_Rivero", "gql.Name.{.id...nm0729473.}", "0729473", "Guadalajara, Jalisco, Mexico"]
 	 * @example ["Stanley_Kubrick", "gql.Name.{.id...nm0000040.}", "0000040", "Hertfordshire, England" ]
 	 */
-	public function checkCacheIsCreatedForPeople(AcceptanceTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell) {
+	public function checkCacheIsCreatedForPeople( AcceptanceTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell ) {
 
 		/* Vars */
-		$js_element_delete = 'a[data-confirm="You are about to delete *'.str_replace('_', ' ', $example[0]).'* from cache. Click Cancel to stop or OK to continue."]';
+		$js_element_delete = 'a[data-confirm="You are about to delete *' . str_replace( '_', ' ', $example[0] ) . '* from cache. Click Cancel to stop or OK to continue."]';
 		$file_current = $I->customFindFileWildcard( $I->getCustomBasePath() . '/wp-content/cache/lumiere/' . $example[1] . '*' );
 
 		$I->comment( '-> Check that cache is created for ' . $example[0] );
@@ -101,14 +101,14 @@ class CacheCest {
 		$I->deleteFile( $file_current );
 
 		// Make sure cache is created
-		$I->amOnPage( "/lumiere/person/?mid=" . $example[2] );
-		$I->waitForText( $example[3], 15); // wait up to 15 seconds
+		$I->amOnPage( '/lumiere/person/?mid=' . $example[2] );
+		$I->waitForText( $example[3], 15 ); // wait up to 15 seconds
 		$I->seeFileFound( $file_current );
 
 		$this->customDeleteCache( $I, $js_element_delete, '#imdb_cachedeletefor_people_' . $example[0] );
 
 		// Make sure cache is created
-		$I->amOnPage("/lumiere/person/?mid=".$example[2]);
+		$I->amOnPage( '/lumiere/person/?mid=' . $example[2] );
 		$I->waitForText( $example[3], 15 ); // wait up to 15 seconds
 		$I->seeFileFound( $file_current );
 
@@ -124,7 +124,7 @@ class CacheCest {
 		// Delete cache file using interface
 		$I->amOnPage( AcceptanceSettings::LUMIERE_CACHE_OPTIONS_MANAGE_URL );
 		$I->scrollTo( $name_id );
-		$I->executeJS( "return jQuery('" . $element_to_delete . "').get(0).click()");
+		$I->executeJS( "return jQuery('" . $element_to_delete . "').get(0).click()" );
 		$I->acceptPopup();
 	}
 }
