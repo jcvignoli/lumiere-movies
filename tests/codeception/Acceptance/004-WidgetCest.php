@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace Tests\Support;
 
@@ -10,20 +10,20 @@ use Tests\Support\Helper\AcceptanceSettings;
 
 class WidgetCest {
 
-	public function _before(AcceptanceTester $I){
-		$I->comment('#Code _before#');
+	public function _before( AcceptanceTester $I ) {
+		$I->comment( '#Code _before#' );
 	}
 
-	public function _after(AcceptanceTester $I){
-		$I->comment('#Code _after#');
+	public function _after( AcceptanceTester $I ) {
+		$I->comment( '#Code _after#' );
 	}
 
 	/**
 	 * Login to Wordpress
 	 * Trait function to keep the cookie active
 	 */
-	private function login(AcceptanceTester $I) {
-		$I->login_universal($I);
+	private function login( AcceptanceTester $I ) {
+		$I->login_universal( $I );
 	}
 
 	/**
@@ -32,9 +32,9 @@ class WidgetCest {
 	 */
 	public function prepare( AcceptanceTester $I ) {
 		// Title needs to be activated for finding the titles
-		$I->amOnPage(AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL);
-		$I->scrollTo('#imdb_imdbwidgettagline_yes');
-		$I->CustomActivateCheckbox('#imdb_imdbwidgetyear_yes', '#lumiere_update_data_movie_settings' );	
+		$I->amOnPage( AcceptanceSettings::LUMIERE_DATA_OPTIONS_DATA_MOVIE_URL );
+		$I->scrollTo( '#imdb_imdbwidgettagline_yes' );
+		$I->CustomActivateCheckbox( '#imdb_imdbwidgetyear_yes', '#lumiere_update_data_movie_settings' );
 	}
 
 	/**
@@ -43,27 +43,27 @@ class WidgetCest {
 	 * @before login
 	 */
 	public function checkAutoTitleWidget( AcceptanceTester $I ) {
-		$I->wantTo('check auto title widget option');
-	
+		$I->wantTo( 'check auto title widget option' );
+
 		// Activate Auto Title Widget
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->scrollTo('#imdblinkingkill');
+		$I->scrollTo( '#imdblinkingkill' );
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
-			Avoid throwing error if untrue, normal behaviour of codeception 
+			Avoid throwing error if untrue, normal behaviour of codeception
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
+		$I->CustomActivateCheckbox( '#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
 		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE ); // I see the title that needs auto widget
 		$I->seeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_NOAUTOTITLE ); // I see the title that doesn't need auto widget
-		
+
 		// Disable Auto Title Widget
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->scrollTo('#imdblinkingkill');
+		$I->scrollTo( '#imdblinkingkill' );
 		/*	Conditional checkbox unactivation (in _support/AcceptanceTrait.php)
-			Avoid throwing error if untrue, normal behaviour of codeception 
+			Avoid throwing error if untrue, normal behaviour of codeception
 			If $element is disabled, check it and then click $submit (form) */
-		$I->CustomDisableCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
+		$I->CustomDisableCheckbox( '#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
 		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->dontSeeInSource( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_TITLE ); // I don't see the title that needs auto widget
@@ -77,34 +77,34 @@ class WidgetCest {
 	 */
 	public function autotitlewidgetPostExclusion( AcceptanceTester $I ) {
 
-		$I->wantTo('Test auto title widget exclusion option');
+		$I->wantTo( 'Test auto title widget exclusion option' );
 
 		// Activate classic editor so we can easily access to options.
 		$I->amOnPluginsPage();
-		$I->maybeActivatePlugin('classic-editor');
+		$I->maybeActivatePlugin( 'classic-editor' );
 
 		// Activate Auto Title Widget
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->scrollTo('#imdblinkingkill');
-		$I->CustomActivateCheckbox('#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
+		$I->scrollTo( '#imdblinkingkill' );
+		$I->CustomActivateCheckbox( '#imdb_imdbautopostwidget_yes', '#lumiere_update_main_settings' );
 		$I->waitPageLoad();
-		
+
 		// Set auto title widget exclusion in a post and verify if the post doesn't contain it.
 		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
-		$I->CustomActivateCheckbox('#_lum_autotitle_perpost', 'input[id=publish]' );
+		$I->CustomActivateCheckbox( '#_lum_autotitle_perpost', 'input[id=publish]' );
 		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
 		$I->dontSeeInSource( 'Alfonso Cuarón' );
 
 		// Remove auto title widget exclusion in a post and verify if the post doesn't contain it.
 		$I->amOnPage( ADMIN_POST_AUTOTITLEWIDGET_ID /* in _bootstrap */ );
-		$I->CustomDisableCheckbox('#_lum_autotitle_perpost', 'input[id=publish]' );
+		$I->CustomDisableCheckbox( '#_lum_autotitle_perpost', 'input[id=publish]' );
 		$I->waitPageLoad();
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_AUTOTITLEWIDGET_URL );
-		$I->scrollTo( ".lum_results_section_subtitle" );
+		$I->scrollTo( '.lum_results_section_subtitle' );
 		$I->SeeInSource( 'Alfonso Cuarón' );
 	}
-	
+
 	/**
 	 * Check if removing auto title widget from a post works
 	 *
@@ -112,27 +112,27 @@ class WidgetCest {
 	 */
 	public function classicWidget( AcceptanceTester $I ) {
 
-		$I->wantTo('Test the styles if classic widget is in use');
+		$I->wantTo( 'Test the styles if classic widget is in use' );
 
 		// Activate classic widgets
 		$I->amOnPluginsPage();
-		$I->maybeActivatePlugin('classic-widgets');
+		$I->maybeActivatePlugin( 'classic-widgets' );
 		$I->amOnPage( '/wp-admin/widgets.php' );
 		$I->dontSeeInSource( 'lumiere-widget-editor-style-css' );
 		$I->dontSeeInSource( 'lumiere-widget-editor-script-js' );
 		$I->seeInSource( 'lumiere_css_admin-css' );
 		$I->seeInSource( 'lum_legacy_widget_label' );
-		
+
 		// Dectivate classic widgets
 		$I->amOnPluginsPage();
-		$I->maybeDeactivatePlugin('classic-widgets');
+		$I->maybeDeactivatePlugin( 'classic-widgets' );
 		$I->amOnPage( '/wp-admin/widgets.php' );
 		$I->seeInSource( 'lumiere-widget-editor-style-css' );
 		$I->seeInSource( 'lumiere-widget-editor-script-js' );
 		$I->seeInSource( 'lumiere_css_admin-css' );
 		$I->dontSeeInSource( 'lum_legacy_widget_label' );
 	}
-	
+
 	/**
 	 * Revert back what was changed
 	 *
@@ -140,6 +140,6 @@ class WidgetCest {
 	 */
 	public function cleanTools( AcceptanceTester $I ) {
 		$I->amOnPluginsPage();
-		$I->maybeDeactivatePlugin('classic-widgets');
+		$I->maybeDeactivatePlugin( 'classic-widgets' );
 	}
 }

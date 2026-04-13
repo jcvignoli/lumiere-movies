@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare( strict_types=1 );
 
 namespace Tests\Support;
 
@@ -11,19 +11,19 @@ use Tests\Support\Helper\AcceptanceSettings;
  */
 class InstallCest {
 
-	public function _before(AcceptanceTester $I){
-		$I->comment('#Code _before#');
+	public function _before( AcceptanceTester $I ) {
+		$I->comment( '#Code _before#' );
 	}
 
-	public function _after(AcceptanceTester $I){
-		$I->comment('#Code _after#');
+	public function _after( AcceptanceTester $I ) {
+		$I->comment( '#Code _after#' );
 	}
 
 	/** Login to Wordpress
 	 *  Trait function to keep the cookie active
 	 */
-	private function login(AcceptanceTester $I) {
-		$I->login_universal($I);
+	private function login( AcceptanceTester $I ) {
+		$I->login_universal( $I );
 	}
 
 	/**
@@ -31,80 +31,77 @@ class InstallCest {
 	 *
 	 * @before login
 	 */
-	public function checkInstallSetupCron(AcceptanceTester $I) {
+	public function checkInstallSetupCron( AcceptanceTester $I ) {
 
-		$I->comment('Check if Lumière plugin set up crons');
+		$I->comment( 'Check if Lumière plugin set up crons' );
 
 		$I->amOnPluginsPage();
-		$I->maybeDeactivatePlugin('lumiere-movies');
+		$I->maybeDeactivatePlugin( 'lumiere-movies' );
 		$I->waitPageLoad();
-		
+
 		$I->amOnPluginsPage();
-		$I->maybeActivatePlugin('lumiere-movies');
+		$I->maybeActivatePlugin( 'lumiere-movies' );
 		$I->waitPageLoad();
 
 		// Check if cron has been installed
-		$I->maybeActivatePlugin('wp-crontrol');
+		$I->maybeActivatePlugin( 'wp-crontrol' );
 		$I->amOnPage( AcceptanceSettings::ADMIN_POST_CRON_MANAGE );
 		$I->waitPageLoad();
-		
-		$I->see('lumiere_exec_once_update');
-	}
 
+		$I->see( 'lumiere_exec_once_update' );
+	}
 
 	/**
 	 * Check if popup when keep settings are unselected is displayed upon plugin deactivation
 	 *
 	 * @before login
 	 */
-	public function checkKeepsettingsPopupDeactivation(AcceptanceTester $I) {
+	public function checkKeepsettingsPopupDeactivation( AcceptanceTester $I ) {
 
-		$I->comment('Check if keep settings option is followed on deactivation');
+		$I->comment( 'Check if keep settings option is followed on deactivation' );
 
 		$I->amOnPluginsPage();
-		$I->maybeActivatePlugin('lumiere-movies');
+		$I->maybeActivatePlugin( 'lumiere-movies' );
 
 		// Disable keep settings option, so get a confirmation popup
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomDisableCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
+		$I->scrollTo( '#imdbautopostwidget' );
+		$I->CustomDisableCheckbox( '#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings' );
 		$I->waitPageLoad();
-		
-		$I->amOnPluginsPage();
-		$I->scrollTo('#deactivate-lumiere-movies');
-		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
-		$I->wait(2);
-		$I->seeInPopup('You have selected to not keep your settings upon uninstall');
-		$I->acceptPopup();
-		$I->wait(2);
 
 		$I->amOnPluginsPage();
-		$I->wait(2);
-		$I->scrollTo('#activate-lumiere-movies');
-		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
-		$I->wait(2);
-		$I->seePluginActivated('lumiere-movies');
+		$I->scrollTo( '#deactivate-lumiere-movies' );
+		$I->executeJS( "return jQuery('#deactivate-lumiere-movies').get(0).click()" );
+		$I->wait( 2 );
+		$I->seeInPopup( 'You have selected to not keep your settings upon uninstall' );
+		$I->acceptPopup();
+		$I->wait( 2 );
+
+		$I->amOnPluginsPage();
+		$I->wait( 2 );
+		$I->scrollTo( '#activate-lumiere-movies' );
+		$I->executeJS( "return jQuery('#activate-lumiere-movies').get(0).click()" );
+		$I->wait( 2 );
+		$I->seePluginActivated( 'lumiere-movies' );
 
 		// Enable keep settings option, so no popup
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
-		$I->scrollTo('#imdbautopostwidget');
-		$I->CustomActivateCheckbox('#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings');
+		$I->scrollTo( '#imdbautopostwidget' );
+		$I->CustomActivateCheckbox( '#imdb_imdbkeepsettings_yes', 'lumiere_update_main_settings' );
 		$I->waitPageLoad();
-		
+
 		$I->amOnPluginsPage();
-		$I->wait(2);
-		$I->executeJS("return jQuery('#deactivate-lumiere-movies').get(0).click()");
-		$I->wait(5);
-		$I->seePluginDeactivated('lumiere-movies');
-		$I->wait(2);
+		$I->wait( 2 );
+		$I->executeJS( "return jQuery('#deactivate-lumiere-movies').get(0).click()" );
+		$I->wait( 5 );
+		$I->seePluginDeactivated( 'lumiere-movies' );
+		$I->wait( 2 );
 		$I->amOnPluginsPage();
-		$I->wait(2);
-		$I->scrollTo('#activate-lumiere-movies');
-		$I->executeJS("return jQuery('#activate-lumiere-movies').get(0).click()");
-		$I->wait(5);
-		$I->seePluginActivated('lumiere-movies');
+		$I->wait( 2 );
+		$I->scrollTo( '#activate-lumiere-movies' );
+		$I->executeJS( "return jQuery('#activate-lumiere-movies').get(0).click()" );
+		$I->wait( 5 );
+		$I->seePluginActivated( 'lumiere-movies' );
 	}
 }
-
-
 
