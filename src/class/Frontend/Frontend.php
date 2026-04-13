@@ -63,6 +63,17 @@ final class Frontend {
 	 */
 	public function register_hooks(): void {
 
+		/**
+		 * Movie's related actions and filters
+		 * Registered everywhere
+		 */
+		$front_parser = new Front_Parser( settings: $this->settings );
+		add_filter( 'lum_display_movies_box', [ $front_parser, 'lum_display_movies_box' ], 10, 1 );
+		add_filter( 'lum_display_persons_box', [ $front_parser, 'lum_display_persons_box' ], 10, 1 );
+		$find_items = new Find_Items( settings: $this->settings );
+		add_filter( 'lum_find_movie_id', [ $find_items, 'find_movie_imdb_id' ], 10, 1 );
+		add_filter( 'lum_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
+
 		// The following will never be accessed in admin area.
 		if ( is_admin() ) {
 			return;
@@ -72,16 +83,8 @@ final class Frontend {
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_register_assets' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontpage_execute_assets' ] );
 
-		/**
-		 * Movie's actions and filters
-		 */
-		$front_parser = new Front_Parser( settings: $this->settings );
+		// Parser for front only.
 		add_action( 'init', [ $front_parser, 'register_hooks' ], 11 );
-		add_filter( 'lum_display_movies_box', [ $front_parser, 'lum_display_movies_box' ], 10, 1 );
-		add_filter( 'lum_display_persons_box', [ $front_parser, 'lum_display_persons_box' ], 10, 1 );
-		$find_items = new Find_Items( settings: $this->settings );
-		add_filter( 'lum_find_movie_id', [ $find_items, 'find_movie_imdb_id' ], 10, 1 );
-		add_filter( 'lum_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
 
 		/**
 		 * Calendar's related action

@@ -210,6 +210,7 @@ final class Widget_Frontpage {
 	 *
 	 * @since 4.4 using filters declared in {@see \Lumiere\Frontend\Frontend::__construct()}
 	 * @since 4.6 is now a method, so it can discriminates which filter use (person or movie)
+	 * @since 4.8 $movies_box, $persons_box, $movies_box, https://wordpress.org/support/topic/critical-bug-missing-imdb-data-images-causing-php-fatal-errors-and-100-cpu/
 	 *
 	 * @param array<array-key, array<string, string>> $array
 	 * @phpstan-param array{0?: array{byname: string}, 1?: array{ movie?: array{bymid: string, byname: string}, person?: array{bymid: string, byname: string} }}|array{movie?: array{bymid: string, byname: string}, person?: array{bymid: string, byname: string}} $array
@@ -222,13 +223,16 @@ final class Widget_Frontpage {
 			$values = array_values( $movie_person );
 			if ( $key === 'movie' ) {                       // Movie.
 				$get_array_imdbid = apply_filters( 'lum_find_movie_id', $values );
-				$output .= apply_filters( 'lum_display_movies_box', $get_array_imdbid );
+				$movies_box = apply_filters( 'lum_display_movies_box', $get_array_imdbid );
+				$output .= is_string( $movies_box ) ? $movies_box : '';
 			} elseif ( $key === 'person' ) {                        // Person.
 				$get_array_imdbid = apply_filters( 'lum_find_person_id', $values );
-				$output .= apply_filters( 'lum_display_persons_box', $get_array_imdbid );
+				$persons_box = apply_filters( 'lum_display_persons_box', $get_array_imdbid );
+				$output .= is_string( $persons_box ) ? $persons_box : '';
 			} elseif ( $key === 'byname' ) {                        // automatic title, always movie, always byname.
 				$get_array_imdbid = apply_filters( 'lum_find_movie_id', $values );
-				$output .= apply_filters( 'lum_display_movies_box', $get_array_imdbid );
+				$movies_box = apply_filters( 'lum_display_movies_box', $get_array_imdbid );
+				$output .= is_string( $movies_box ) ? $movies_box : '';
 			}
 		}
 		return $output;

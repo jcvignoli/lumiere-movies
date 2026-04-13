@@ -77,25 +77,28 @@ class Implement_Methods {
 	/**
 	 * Build picture of the movie into the post, widget and taxonomy pages
 	 *
-	 * @param string|bool $photo_big_cover The picture of big size
-	 * @param string|bool $photo_thumb The picture of small size
-	 * @param string $title_text Title of the movie/Name of the person
-	 * @param int $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
-	 * @param string $a_class Extra class to be added in the building link, none by default
-	 * @param string $img_class Extra class to be added in the building link, none by default
+	 * @param string|bool|null $photo_big_cover The picture of big size
+	 * @param string|bool|null $photo_thumb The picture of small size
+	 * @param string|null      $title_text Title of the movie/Name of the person
+	 * @param int              $window_type Define the window_type: 0 for highslide, 1 classic links, 2 bootstrap popups, 3 for no links, 4 for AMP
+	 * @param string           $a_class Extra class to be added in the building link, none by default
+	 * @param string           $img_class Extra class to be added in the building link, none by default
 	 *
 	 * @return string
 	 */
 	protected function get_picture_details(
-		string|bool $photo_big_cover,
-		string|bool $photo_thumb,
-		string $title_text,
+		string|bool|null $photo_big_cover,
+		string|bool|null $photo_thumb,
+		?string $title_text,
 		int $window_type,
 		string $a_class = '',
 		string $img_class = '',
 	): string {
 
 		$output = '';
+
+		// Make sure $title_text is a string
+		$title_text ??= '';
 
 		// Make sure $photo_thumb is a string so we can use esc_html() function
 		$photo_localurl = is_string( $photo_thumb ) ? esc_html( $photo_thumb ) : '';

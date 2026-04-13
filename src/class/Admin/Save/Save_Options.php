@@ -123,11 +123,12 @@ final class Save_Options extends Save_Helper {
 	 * @param false|string $referer Current referer URL
 	 */
 	private function handle_main_options( bool|string $referer ): void {
-		if ( isset( $_POST['lumiere_update_main_settings'], $_POST['imdb_imdburlstringtaxo'], $_POST['imdb_imdburlpopups'] ) ) {
+
+		if ( isset( $_POST['lumiere_update_main_settings'] ) ) {
 			$this->lumiere_main_options_save(
 				$referer,
-				sanitize_text_field( wp_unslash( (string) $_POST['imdb_imdburlstringtaxo'] ) ),
-				sanitize_text_field( wp_unslash( (string) $_POST['imdb_imdburlpopups'] ) )
+				isset( $_POST['imdb_imdburlstringtaxo'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['imdb_imdburlstringtaxo'] ) ) : '',
+				isset( $_POST['imdb_imdburlpopups'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['imdb_imdburlpopups'] ) ) : ''
 			);
 		} elseif ( isset( $_POST['lumiere_reset_main_settings'] ) ) {
 			$this->lumiere_main_options_reset( $referer );

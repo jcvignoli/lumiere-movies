@@ -43,12 +43,12 @@ interface Interface_Linkmaker {
 	/**
 	 * Build picture of the movie
 	 *
-	 * @param string|bool $photo_localurl_false The picture of big size
-	 * @param string|bool $photo_localurl_true The picture of small size
-	 * @param string $movie_title Title of the movie
+	 * @param string|bool|null $photo_localurl_false The picture of big size
+	 * @param string|bool|null $photo_localurl_true The picture of small size
+	 * @param string|null      $movie_title Title of the movie
 	 * @return string
 	 */
-	public function get_picture( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string;
+	public function get_picture( string|bool|null $photo_localurl_false, string|bool|null $photo_localurl_true, ?string $movie_title ): string;
 
 	/**
 	 * Display mini biographical text, not all people have one

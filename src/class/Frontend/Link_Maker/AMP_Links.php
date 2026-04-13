@@ -48,7 +48,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function get_picture( string|bool $photo_localurl_false, string|bool $photo_localurl_true, string $movie_title ): string {
+	public function get_picture( string|bool|null $photo_localurl_false, string|bool|null $photo_localurl_true, ?string $movie_title ): string {
 		// Function in parent class, 2 before last param defines the output, before last param specific A class, last param specific IMG class.
 		return parent::get_picture_details( $photo_localurl_false, $photo_localurl_true, $movie_title, parent::LINK_OPTIONS['amp'], '', 'imdbelementPICimg' );
 	}
