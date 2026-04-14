@@ -257,6 +257,6 @@ export default {
 	},
 	
 	performance: {
-		maxAssetSize: 512000,
+		maxAssetSize: 700000,
 	},
 };

@@ -34,6 +34,11 @@
         "wapmorgan/php-deprecation-detector": "@stable",
         "php-stubs/wp-cli-stubs": "@stable"
     },
+    "autoload": {
+        "psr-4": {
+            "Lumiere\\": "src/class/"
+        }
+    },
     "require": {
         "ext-curl": "*",
         "ext-json": "*"
