@@ -8,3 +8,4 @@ src/*vendor*
 .env.codeception
 .env.ssh.js
 .todo
+package-lock.json
