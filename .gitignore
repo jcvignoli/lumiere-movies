@@ -9,3 +9,4 @@ src/*vendor*
 .env.ssh.js
 .todo
 package-lock.json
+composer.lock
