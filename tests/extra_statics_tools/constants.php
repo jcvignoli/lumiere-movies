@@ -13,24 +13,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	}
 }
 if ( ! defined( 'WP_CONTENT_DIR' ) ) {
-	define('WP_CONTENT_DIR', 'wp-content' );
+	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 }
 if ( ! defined( 'WPINC' ) ) {
-	define( 'WPINC', 'wp-includes');
+	define( 'WPINC', ABSPATH . 'wp-includes' );
 }
 
 if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
-	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-includes/plugins/lumiere-movies/');
+	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-includes/plugins/lumiere-movies/' );
 }
 
-if ( !defined( 'LUM_WP_PATH' ) ) {
-	
+if ( ! defined( 'LUM_WP_PATH' ) ) {
+
 		// Value that PHPStan github gets.
 		define( 'LUM_WP_PATH', './' );
 
 }
 
-if ( !defined( 'LUM_WP_URL' ) ) {
+if ( ! defined( 'LUM_WP_URL' ) ) {
 	define( 'LUM_WP_URL', 'https://whatver.com/wp-content/plugins/lumiere-movies/' );
 }
 

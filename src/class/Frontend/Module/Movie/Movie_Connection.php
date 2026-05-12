@@ -55,6 +55,11 @@ final class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 
 		foreach ( Get_Options_Movie::get_list_connect_cat() as $category => $data_explain ) {
 
+			// @since 4.8: some cats in get_list_connect_cat() may actually not exists, should be updated
+			if ( ! isset( $item_results[ $category ] ) ) {
+				continue;
+			}
+
 			// Total items for this category.
 			$nb_items_cat = count( $item_results[ $category ] );
 
@@ -96,6 +101,11 @@ final class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		foreach ( Get_Options_Movie::get_list_connect_cat() as $category => $data_explain ) {
+
+			// @since 4.8: some cats in get_list_connect_cat() may actually not exists, should be updated
+			if ( ! isset( $item_results[ $category ] ) ) {
+				continue;
+			}
 
 			// Total items for this category.
 			$nb_items_cat = count( $item_results[ $category ] );

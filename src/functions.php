@@ -8,11 +8,6 @@
  * @copyright         2005 https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
  */
 
-// Prevent any direct call.
-if ( ! defined( 'ABSPATH' ) ) {
-	wp_die( 'You are not allowed to call this page directly.' );
-}
-
 if ( ! function_exists( 'lum_incompatible_plugin_text' ) ) {
 	/**
 	 * Notice of incompatibility with specific Plugins
@@ -73,5 +68,19 @@ if ( ! function_exists( 'lum_get_version' ) ) {
 		}
 		$plugin_data = get_file_data( LUM_WP_PATH . '/lumiere-movies.php', [ 'Version' => 'Version' ] );
 		return $plugin_data['Version'];
+	}
+}
+
+if ( ! function_exists( 'lum_protect_direct_call' ) ) {
+	/**
+	 * Die if constant is not defined, WPINC by default
+	 * @return void
+	 * @since 4.8
+	 */
+	function lum_protect_direct_call( string $const = 'WPINC' ): void {
+		// If this file is called directly, abort.
+		if ( ! defined( $const ) ) { // Don't check for Settings class since it's Settings class.
+			wp_die( 'Lumière Movies: You can not call directly this page' );
+		}
 	}
 }

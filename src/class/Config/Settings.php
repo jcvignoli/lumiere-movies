@@ -10,9 +10,7 @@
 namespace Lumiere\Config;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) { // Don't check for Settings class since it's Settings class.
-	wp_die( 'Lumière Movies: You can not call directly this page' );
-}
+lum_protect_direct_call();
 
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;

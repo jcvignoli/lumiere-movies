@@ -11,9 +11,7 @@
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
-if ( ! defined( 'ABSPATH' ) ) {
-	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
-}
+lum_protect_direct_call();
 
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;

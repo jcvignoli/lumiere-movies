@@ -2,6 +2,7 @@
 	<!-- checkForThrowsDocblock="true" -->
 	<!-- errorLevel: 1 is the most strict, usually use 3 -->
 <psalm
+	autoloader="tests/bootstrap-testing.php"
 	errorLevel="3"
 	resolveFromConfigFile="true"
 	noCache="true"

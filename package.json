@@ -7,7 +7,7 @@
   "homepage": "https://github.com/jcvignoli/lumiere-movies#README",
   "license": "GPL-3.0",
   "scripts": {
-    "watch": "wp-scripts start --progress --mode development --blocks-manifest",
+    "start": "wp-scripts start --progress --mode development --blocks-manifest",
     "build": "if [ -d dist ] && [ -s dist ]; then rm -R dist; fi; wp-scripts build --progress --mode production --blocks-manifest",  
     "wp:lint_css": "wp-scripts lint-style",
     "wp:lint_js": "wp-scripts lint-js",
@@ -23,6 +23,7 @@
     "phpstan": "vendor/bin/phpstan -v | tee tmp/logs/Results-phpstan.txt",
     "phpstan-clean": "if [ -d \"tmp/cache/phpstan\" ];then rm -R tmp/cache/phpstan && npm run phpstan; else npm run phpstan; fi",
     "plugincheck": "wp @lumiere plugin check lumiere-movies --ignore-codes='WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing,WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary, WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace'",
+    "test": "npm run plugincheck",
     "psalm": "vendor/bin/psalm --show-info=true --report=tmp/logs/Results-psalm.txt",
     "psalm-clean": "if [ -d tmp/cache/psalm ]; then rm -R tmp/cache/psalm; fi; npm run psalm"
   },

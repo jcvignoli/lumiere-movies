@@ -11,9 +11,7 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	wp_die( 'Lumière Movies: You can not call directly this page' );
-}
+lum_protect_direct_call();
 
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Helper;
