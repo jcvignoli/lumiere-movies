@@ -207,14 +207,15 @@ final class Cache_Files_Management {
 
 			// Transient didn't exist, so create an array of all movies/people in the cache and put it in a transient.
 			if ( $array_all_items === false && $lumiere_next_cron_run !== false ) {
+
+				$refresh_ids[ $movie_or_people ] = [];
 				foreach ( $this->get_imdb_object_per_cat( $movie_or_people ) as $movie_title_object ) { // Build array of movies to refresh.
 					$refresh_ids[ $movie_or_people ][] = $movie_title_object->imdbid();
 				}
-				if ( isset( $refresh_ids[ $movie_or_people ] ) ) {
-					$array_all_items = $refresh_ids[ $movie_or_people ];
-					set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items, $days_next_start );
-					$this->logger->log?->info( '[Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
-				}
+
+				$array_all_items = $refresh_ids[ $movie_or_people ];
+				set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items, $days_next_start );
+				$this->logger->log?->info( '[Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
 
 				// No 'lum_cache_cron_refresh_time_started' transiant exists but array items does, so remove movie and people transiants.
 			} elseif ( ! isset( $lumiere_next_cron_run ) || $lumiere_next_cron_run === false ) {

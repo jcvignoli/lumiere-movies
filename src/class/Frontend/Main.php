@@ -128,15 +128,11 @@ trait Main {
 	 * @return bool
 	 */
 	public function check_nonce( string $nonce_name = '_wpnonce', int|string $nonce_action = -1 ): bool {
-
-		$nonce = isset( $_REQUEST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( (string) $_REQUEST[ $nonce_name ] ) ) : '';
-		// Nonce is always valid if admin is connected.
-		$nonce_valid = ( strlen( $nonce ) > 0 && wp_verify_nonce( $nonce, $nonce_action ) !== false ) || is_user_logged_in() === true;
-
-		if ( $nonce_valid === false ) {
-			return false;
+		if ( is_user_logged_in() === true ) {
+			return true;
 		}
-		return true;
+		$nonce = isset( $_REQUEST[ $nonce_name ] ) ? sanitize_text_field( wp_unslash( (string) $_REQUEST[ $nonce_name ] ) ) : '';
+		return $nonce !== '' && wp_verify_nonce( $nonce, $nonce_action ) !== false;
 	}
 
 	/**

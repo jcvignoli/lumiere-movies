@@ -415,6 +415,10 @@ if ( ! function_exists( 'wp_die' ) ) {
 	}
 }
 
+if ( ! function_exists( 'lum_protect_direct_call' ) ) {
+	function lum_protect_direct_call( string $const = 'WPINC' ): void {}
+}
+
 if ( ! function_exists( 'esc_html__' ) ) {
 	function esc_html__( $text, $domain ) {
 		return $text;

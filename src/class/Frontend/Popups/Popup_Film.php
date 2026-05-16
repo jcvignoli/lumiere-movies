@@ -293,22 +293,22 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 
 		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" id="searchaka" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url_search . '?film=' . $film_title ) ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" id="searchaka" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url_search . '?film=' . $film_title, 'popup_nonce' ) ); ?>" title="<?php esc_html_e( 'Search for other movies with the same title', 'lumiere-movies' ); ?>"><?php esc_html_e( 'Similar Titles', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=', 'popup_nonce' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Movie', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Summary', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=actors' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=actors', 'popup_nonce' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Actors', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Actors', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=crew' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=crew', 'popup_nonce' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Crew', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Crew', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=resume' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=resume', 'popup_nonce' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Plots', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Plots', 'lumiere-movies' ); ?></a>
 			</div>
 			<div class="lumiere_flex_auto">
-				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=divers' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
+				&nbsp;<a rel="nofollow" class="lum_popup_menu_title lum_add_spinner" href="<?php echo esc_url( wp_nonce_url( $this->popup_url . '?mid=' . $movie_class->imdbid() . '&film=' . $film_title . '&info=divers', 'popup_nonce' ) ); ?>" title='<?php echo esc_attr( $movie_class->title() ) . ': ' . esc_html__( 'Misc', 'lumiere-movies' ); ?>'><?php esc_html_e( 'Misc', 'lumiere-movies' ); ?></a>
 			</div>
 		</div>
 		<?php

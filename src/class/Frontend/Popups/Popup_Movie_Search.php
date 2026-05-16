@@ -212,7 +212,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 				echo "\n\t\t" . wp_kses(
 					$this->output_popup_class->get_link(
 						'internal_with_spinner',
-						wp_nonce_url( $this->popup_url_film . '?mid=' . $res['titleSearchObject']->imdbid() ),
+						wp_nonce_url( $this->popup_url_film . '?mid=' . $res['titleSearchObject']->imdbid(), 'popup_nonce' ),
 						$res['titleSearchObject']->title()
 					),
 					[
@@ -235,7 +235,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 					echo "\t\t" . wp_kses(
 						$this->output_popup_class->get_link(
 							'internal_with_spinner',
-							wp_nonce_url( $this->popup_url_perso . '?mid=' . $realisateur['0']['imdb'] ),
+							wp_nonce_url( $this->popup_url_perso . '?mid=' . $realisateur['0']['imdb'], 'popup_nonce' ),
 							$realisateur['0']['name']
 						),
 						[
