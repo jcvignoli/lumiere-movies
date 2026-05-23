@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Frontend\Main;
 use Lumiere\Config\Settings_Service;
+use Lumiere\Enums\Modal_Type;
 use Exception;
 
 /**
@@ -64,21 +65,16 @@ final class Link_Factory {
 		} elseif ( $this->settings->get_admin_option( 'imdblinkingkill' ) === '1' ) {
 			$link_maker = new No_Links();
 
-			// Bootstrap is selected in admin options
-		} elseif ( $this->settings->get_admin_option( 'imdbpopup_modal_window' ) === 'bootstrap' ) {
-			$link_maker = new Bootstrap_Links();
+		} else {
+			$modal_type = Modal_Type::from_string( $this->settings->get_admin_option( 'imdbpopup_modal_window' ) );
 
-			// Highslide is selected in admin options
-		} elseif ( $this->settings->get_admin_option( 'imdbpopup_modal_window' ) === 'highslide' ) {
-			$link_maker = new Highslide_Links();
-
-			// Classic is selected in admin options
-		} elseif ( $this->settings->get_admin_option( 'imdbpopup_modal_window' ) === 'classic' ) {
-			$link_maker = new Classic_Links();
-		}
-
-		if ( null === $link_maker ) {
-			throw new Exception( 'No Link Lumière class found, aborting!' );
+			$link_maker = match ( $modal_type ) {
+				Modal_Type::BOOTSTRAP => new Bootstrap_Links(),
+				Modal_Type::HIGHSLIDE => new Highslide_Links(),
+				Modal_Type::CLASSIC   => new Classic_Links(),
+				Modal_Type::NO_LINKS  => new No_Links(),
+				Modal_Type::AMP       => new AMP_Links(),
+			};
 		}
 
 		$link_maker->register_hooks();
@@ -86,4 +82,3 @@ final class Link_Factory {
 		return $link_maker;
 	}
 }
-

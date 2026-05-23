@@ -21,6 +21,7 @@ use Lumiere\Admin\Admin_General;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Enums\Item_Type;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
@@ -64,16 +65,18 @@ final class Cache_Files_Management {
 	 * Find all files in relation of an IMDBID and a type of data (movie or people)
 	 *
 	 * @param string $imdb_id the people's or movie's IMDb ID
-	 * @param 'movie'|'people'|string $movie_or_people Define the type of data to delete
+	 * @param Item_Type|'movie'|'people'|string $movie_or_people Define the type of data to delete
 	 * @return list<string>|null Null on error or files not found, array of files found otherwise
 	 */
-	private function find_files( string $imdb_id, string $movie_or_people ): ?array {
+	private function find_files( string $imdb_id, string|Item_Type $movie_or_people ): ?array {
 		$id_sanitized = esc_html( $imdb_id );
+		$movie_or_people_val = $movie_or_people instanceof Item_Type ? $movie_or_people->value : Item_Type::from_string( $movie_or_people )->value;
+
 		$pattern_glob = [
-			'movie' => '*tt' . $id_sanitized . '*',
-			'people' => '*nm' . $id_sanitized . '*',
+			Item_Type::MOVIE->value  => '*tt' . $id_sanitized . '*',
+			Item_Type::PERSON->value => '*nm' . $id_sanitized . '*',
 		];
-		$files_found = glob( $this->imdb_cache_values['imdbcachedir'] . $pattern_glob[ $movie_or_people ] );
+		$files_found = glob( $this->imdb_cache_values['imdbcachedir'] . $pattern_glob[ $movie_or_people_val ] );
 		return $files_found !== false && count( $files_found ) > 0 ? $files_found : null;
 	}
 
@@ -82,11 +85,11 @@ final class Cache_Files_Management {
 	 *
 	 * @see \Lumiere\Admin\Save_Options::do_delete_cache_linked_file()
 	 *
-	 * @param 'movie'|'people'|string $movie_or_people Define the type of data to delete
+	 * @param 'movie'|'people'|string|Item_Type $movie_or_people Define the type of data to delete
 	 * @param string $imdb_id the people's or movie's IMDb ID
 	 * @return bool True if a file was deleted
 	 */
-	public function delete_file( string $movie_or_people, string $imdb_id ): bool {
+	public function delete_file( string|Item_Type $movie_or_people, string $imdb_id ): bool {
 
 		$this->wp_filesystem_cred( $this->imdb_cache_values['imdbcachedir'] ); // from Files trait.
 
@@ -98,8 +101,9 @@ final class Cache_Files_Management {
 		}
 
 		$id_sanitized = esc_html( $imdb_id );
+		$movie_or_people_enum = $movie_or_people instanceof Item_Type ? $movie_or_people : Item_Type::from_string( $movie_or_people );
 
-		$list_items = $this->find_files( sanitize_key( $id_sanitized ), sanitize_key( $movie_or_people ) );
+		$list_items = $this->find_files( sanitize_key( $id_sanitized ), $movie_or_people_enum );
 
 		// Check if the file exist.
 		if ( $list_items === null ) {
@@ -108,13 +112,13 @@ final class Cache_Files_Management {
 		}
 
 		$pattern_pictures = [
-			'movie' => [
+			Item_Type::MOVIE->value  => [
 				'small' => 'tt' . $id_sanitized . '.jpg',
-				'big' => 'tt' . $id_sanitized . '_big.jpg',
+				'big'   => 'tt' . $id_sanitized . '_big.jpg',
 			],
-			'people' => [
+			Item_Type::PERSON->value => [
 				'small' => 'nm' . $id_sanitized . '.jpg',
-				'big' => 'nm' . $id_sanitized . '_big.jpg',
+				'big'   => 'nm' . $id_sanitized . '_big.jpg',
 			],
 		];
 
@@ -123,8 +127,8 @@ final class Cache_Files_Management {
 		}
 
 		// Delete pictures, small and big.
-		$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $pattern_pictures[ $movie_or_people ]['small'];
-		$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $pattern_pictures[ $movie_or_people ]['big'];
+		$pic_small_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $pattern_pictures[ $movie_or_people_enum->value ]['small'];
+		$pic_big_sanitized = $this->imdb_cache_values['imdbphotoroot'] . $pattern_pictures[ $movie_or_people_enum->value ]['big'];
 		if ( file_exists( $pic_small_sanitized ) ) {
 			wp_delete_file( $pic_small_sanitized );
 		}
@@ -137,16 +141,19 @@ final class Cache_Files_Management {
 	/**
 	 * Refresh a unique file
 	 *
-	 * @param 'movie'|'people'|string $movie_or_people Define either 'people' or 'movie'
+	 * @param Item_Type|'movie'|'people'|string $movie_or_people Define either 'people' or 'movie'
 	 * @param string $imdb_id the people's or movie's IMDb ID
 	 * @return void File was refreshed (deleted and got back)
 	 */
-	public function refresh_file( string $movie_or_people, string $imdb_id ): void {
+	public function refresh_file( string|Item_Type $movie_or_people, string $imdb_id ): void {
+
+		$movie_or_people_enum = $movie_or_people instanceof Item_Type ? $movie_or_people : Item_Type::from_string( $movie_or_people );
 
 		// Delete the specific item.
-		if ( $this->delete_file( sanitize_key( $movie_or_people ), sanitize_key( $imdb_id ) ) === true ) {
+		if ( $this->delete_file( $movie_or_people_enum, sanitize_key( $imdb_id ) ) === true ) {
 			// Get again the item.
-			$function_movie_or_people = 'create_' . $movie_or_people . '_file'; // Methods create_movie_file() or create_people_file()
+			$suffix = $movie_or_people_enum === Item_Type::PERSON ? 'people' : $movie_or_people_enum->value;
+			$function_movie_or_people = 'create_' . $suffix . '_file'; // Methods create_movie_file() or create_people_file()
 			$this->$function_movie_or_people( esc_html( $imdb_id ) );
 		}
 	}
@@ -155,13 +162,13 @@ final class Cache_Files_Management {
 	 * Refresh multiple files
 	 *
 	 * @param array<string> $ids_array The list of ids of movies/people to refresh
-	 * @param 'movie'|'people'|string $movie_or_people The kind of data passed
+	 * @param Item_Type|string $movie_or_people The kind of data passed
 	 *
 	 * @since 4.3.3 Method created
 	 */
-	public function refresh_multiple_files( array $ids_array, string $movie_or_people ): void {
+	public function refresh_multiple_files( array $ids_array, string|Item_Type $movie_or_people ): void {
 		foreach ( $ids_array as $id_found ) {
-			$this->refresh_file( esc_html( $movie_or_people ), esc_html( $id_found ) );
+			$this->refresh_file( $movie_or_people, esc_html( $id_found ) );
 		}
 	}
 
@@ -169,11 +176,11 @@ final class Cache_Files_Management {
 	 * Delete multiple files
 	 *
 	 * @param array<string> $ids_array The list of ids of movies/people to delete
-	 * @param 'movie'|'people'|string $movie_or_people The kind of data passed
+	 * @param 'movie'|'people'|string|Item_Type $movie_or_people The kind of data passed
 	 */
-	public function delete_multiple_files( array $ids_array, string $movie_or_people ): void {
+	public function delete_multiple_files( array $ids_array, string|Item_Type $movie_or_people ): void {
 		foreach ( $ids_array as $id_found ) {
-			$this->delete_file( esc_html( $movie_or_people ), esc_html( $id_found ) );
+			$this->delete_file( $movie_or_people, esc_html( $id_found ) );
 		}
 	}
 
@@ -198,9 +205,10 @@ final class Cache_Files_Management {
 	public function cron_all_cache_refresh( int $batch_limit, int $days_next_start ): void {
 
 		$refresh_ids = [];
-		$types = [ 'movie', 'people' ];
+		$types = [ Item_Type::MOVIE, Item_Type::PERSON ];
 
-		foreach ( $types as $movie_or_people ) {
+		foreach ( $types as $movie_or_people_enum ) {
+			$movie_or_people = $movie_or_people_enum === Item_Type::PERSON ? 'people' : $movie_or_people_enum->value;
 
 			$array_all_items = get_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people );
 			$lumiere_next_cron_run = get_transient( 'lum_cache_cron_refresh_time_started' );
@@ -209,7 +217,7 @@ final class Cache_Files_Management {
 			if ( $array_all_items === false && $lumiere_next_cron_run !== false ) {
 
 				$refresh_ids[ $movie_or_people ] = [];
-				foreach ( $this->get_imdb_object_per_cat( $movie_or_people ) as $movie_title_object ) { // Build array of movies to refresh.
+				foreach ( $this->get_imdb_object_per_cat( $movie_or_people_enum ) as $movie_title_object ) { // Build array of movies to refresh.
 					$refresh_ids[ $movie_or_people ][] = $movie_title_object->imdbid();
 				}
 
@@ -493,20 +501,21 @@ final class Cache_Files_Management {
 	 * @see \Lumiere\Admin\Submenu\Cache Use this method to display the categories
 	 * @see self::all_cache_refresh() Use this method to refresh all cache
 	 *
-	 * @param 'movie'|'people'|string $movie_or_people Define either 'people' or 'movie'
+	 * @param Item_Type|'movie'|'people'|string $movie_or_people Define either 'people' or 'movie'
 	 * @return array<int, \Lumiere\Vendor\Imdb\Title|\Lumiere\Vendor\Imdb\Name>
 	 */
-	public function get_imdb_object_per_cat( string $movie_or_people ): array {
+	public function get_imdb_object_per_cat( string|Item_Type $movie_or_people ): array {
 
 		$results = [];
+		$movie_or_people_enum = $movie_or_people instanceof Item_Type ? $movie_or_people : Item_Type::from_string( $movie_or_people );
 
 		$patterns = [
-			'movie' => [
+			Item_Type::MOVIE->value => [
 				'glob'          => 'gql.TitleYear.{.id...tt*',
 				'preg'          => '!gql\.TitleYear\.\{\.id\.\.\.tt(\d{7,8})\.!i',
 				'imdbphpmethod' => 'get_title_class', // method in \Lumiere\Plugins\Manual\Imdbphp.
 			],
-			'people' => [
+			Item_Type::PERSON->value => [
 				'glob'          => 'gql.Name.{.id...nm*',
 				'preg'          => '!gql\.Name\.\{\.id\.\.\.nm(\d{7,8})\.!i',
 				'imdbphpmethod' => 'get_name_class', // method in \Lumiere\Plugins\Manual\Imdbphp.
@@ -514,7 +523,7 @@ final class Cache_Files_Management {
 		];
 
 		// Find related files
-		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . $patterns[ $movie_or_people ]['glob'] );
+		$cache_files = glob( $this->imdb_cache_values['imdbcachedir'] . $patterns[ $movie_or_people_enum->value ]['glob'] );
 
 		if ( $cache_files === false || count( $cache_files ) === 0 ) {
 			return $results;
@@ -523,9 +532,9 @@ final class Cache_Files_Management {
 		foreach ( $cache_files as $file ) {
 
 			// Retrieve imdb id in file.
-			if ( preg_match( $patterns[ $movie_or_people ]['preg'], basename( $file ), $match ) === 1 ) {
+			if ( preg_match( $patterns[ $movie_or_people_enum->value ]['preg'], basename( $file ), $match ) === 1 ) {
 				// Do a query using imdb id but the method will depend on the category.
-				$method = $patterns[ $movie_or_people ]['imdbphpmethod'];
+				$method = $patterns[ $movie_or_people_enum->value ]['imdbphpmethod'];
 				$results[] = $this->imdbphp_class->$method( $match[1], $this->logger->log_null() /* keep it quiet, no logger */ );
 			}
 		}
@@ -620,4 +629,3 @@ final class Cache_Files_Management {
 		return false;
 	}
 }
-

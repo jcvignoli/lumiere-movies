@@ -16,6 +16,7 @@ use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Settings_Helper;
 use Lumiere\Admin\Widget_Selection;
+use Lumiere\Enums\Modal_Type;
 
 /**
  * Needed vars for uninstall, fails otherwise.
@@ -41,7 +42,7 @@ if ( ! defined( 'LUM_WP_PATH' ) ) {
  * @see \Lumiere\Config\Settings_Person complement this class
  * @see \Lumiere\Config\Settings_Popup complement this class
  *
- * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: numeric-string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: numeric-string, imdbdebug?: '0'|'1'|string, imdbdebuglevel: 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY', imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: '0'|'1'|string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: string, imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
+ * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: numeric-string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: numeric-string, imdbdebug?: '0'|'1'|string, imdbdebuglevel: 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY', imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: '0'|'1'|string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: 'bootstrap'|'highslide'|'classic', imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
  *
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
  *
@@ -345,7 +346,7 @@ class Settings extends Settings_Helper {
 			'imdbdebugscreen'             => '1',                        /* Show debug on screen */
 			'imdbwordpress_bigmenu'       => '0',                        /* Left menu */
 			'imdbwordpress_tooladminmenu' => '1',                        /* Top menu */
-			'imdbpopup_modal_window'      => 'bootstrap',
+			'imdbpopup_modal_window'      => Modal_Type::BOOTSTRAP->value,
 			'imdbtaxonomy'                => '1',
 			'imdbHowManyUpdates'          => parent::get_nb_updates(),    /* define the number of updates. */
 			'imdbseriemovies'             => 'movies+series',             /* options: movies, series, movies+series, videogames */
@@ -427,4 +428,3 @@ class Settings extends Settings_Helper {
 		];
 	}
 }
-

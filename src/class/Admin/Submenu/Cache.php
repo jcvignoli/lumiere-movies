@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Admin\Admin_Menu;
+use Lumiere\Enums\Item_Type;
 use Lumiere\Tools\Debug;
 
 /**
@@ -85,8 +86,8 @@ final class Cache extends Admin_Menu {
 				[
 					'cache_file_count'          => $cache_mngmt_class->cache_countfolderfiles( $this->settings->get_cache_option( 'imdbcachedir' ) ),
 					'size_cache_total'          => $cache_mngmt_class->cache_getfoldersize( $this->settings->get_cache_option( 'imdbcachedir' ) ),
-					'list_movie_cache'          => $cache_mngmt_class->get_imdb_object_per_cat( 'movie' ),
-					'list_people_cached'        => $cache_mngmt_class->get_imdb_object_per_cat( 'people' ),
+					'list_movie_cache'          => $cache_mngmt_class->get_imdb_object_per_cat( Item_Type::MOVIE ),
+					'list_people_cached'        => $cache_mngmt_class->get_imdb_object_per_cat( Item_Type::PERSON ),
 					'size_cache_pics'           => $cache_mngmt_class->cache_getfoldersize( $this->settings->get_cache_option( 'imdbphotoroot' ) ),
 					'lum_that'                  => $this,
 					'this_cache_manage_page'    => $this->page_cache_manage,
@@ -96,4 +97,3 @@ final class Cache extends Admin_Menu {
 		}
 	}
 }
-

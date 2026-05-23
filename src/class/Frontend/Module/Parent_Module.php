@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
+use Lumiere\Enums\Item_Type;
 use Lumiere\Frontend\Layout\Output;
 use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Frontend\Main;
@@ -58,7 +59,7 @@ class Parent_Module {
 	 * @param string $name The person's name
 	 */
 	protected function get_person_url( string $imdb_id, string $name = '' ): string {
-		$url = wp_nonce_url( Get_Options::get_popup_url( 'person', site_url() ) . '?mid=' . $imdb_id );
+		$url = wp_nonce_url( Get_Options::get_popup_url( Item_Type::PERSON, site_url() ) . '?mid=' . $imdb_id );
 		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(
 			'internal_with_spinner',
 			apply_filters( 'lum_polylang_rewrite_url_with_lang', $url ), // Polylang filter, adds "/lang" to URL if active.
@@ -78,7 +79,7 @@ class Parent_Module {
 	 * @param string $title The movie's title
 	 */
 	protected function get_film_url( string $imdb_id, string $title = '' ): string {
-		$url = wp_nonce_url( Get_Options::get_popup_url( 'film', site_url() ) . '?mid=' . $imdb_id );
+		$url = wp_nonce_url( Get_Options::get_popup_url( Item_Type::MOVIE, site_url() ) . '?mid=' . $imdb_id );
 		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(
 			'internal_with_spinner',
 			apply_filters( 'lum_polylang_rewrite_url_with_lang', $url ), // Polylang filter, adds "/lang" to URL if active.

@@ -109,9 +109,9 @@ trait Main {
 			isset( $get_request_uri )
 			&&
 			(
-				str_contains( $get_request_uri, '/' . Popup_Type::from_key( 'film' )->value . $is_last_chara_slash )
-				|| str_contains( $get_request_uri, '/' . Popup_Type::from_key( 'movie_search' )->value . $is_last_chara_slash )
-				|| str_contains( $get_request_uri, '/' . Popup_Type::from_key( 'person' )->value . $is_last_chara_slash )
+				str_contains( $get_request_uri, '/' . Popup_Type::FILM->value . $is_last_chara_slash )
+				|| str_contains( $get_request_uri, '/' . Popup_Type::MOVIE_SEARCH->value . $is_last_chara_slash )
+				|| str_contains( $get_request_uri, '/' . Popup_Type::PERSON->value . $is_last_chara_slash )
 			)
 		) {
 			return true;
@@ -149,4 +149,3 @@ trait Main {
 		}
 	}
 }
-

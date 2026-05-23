@@ -20,6 +20,7 @@ use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Settings_Service;
+use Lumiere\Enums\Item_Type;
 use Lumiere\Admin\Save\Save_Helper;
 use Exception;
 
@@ -440,9 +441,9 @@ final class Save_Options extends Save_Helper {
 	): void {
 
 		if ( isset( $refresh_movies ) ) {
-			$cache_mngmt_class->refresh_multiple_files( $refresh_movies, 'movie' );
+			$cache_mngmt_class->refresh_multiple_files( $refresh_movies, Item_Type::MOVIE );
 		} elseif ( isset( $refresh_people ) ) {
-			$cache_mngmt_class->refresh_multiple_files( $refresh_people, 'people' );
+			$cache_mngmt_class->refresh_multiple_files( $refresh_people, Item_Type::PERSON );
 		}
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
@@ -467,9 +468,9 @@ final class Save_Options extends Save_Helper {
 	): void {
 
 		if ( isset( $delete_movies ) ) {
-			$cache_mngmt_class->delete_multiple_files( $delete_movies, 'movie' );
+			$cache_mngmt_class->delete_multiple_files( $delete_movies, Item_Type::MOVIE );
 		} elseif ( isset( $delete_people ) ) {
-			$cache_mngmt_class->delete_multiple_files( $delete_people, 'people' );
+			$cache_mngmt_class->delete_multiple_files( $delete_people, Item_Type::PERSON );
 		}
 
 		if ( $get_referer !== false && wp_safe_redirect( $get_referer ) ) {
@@ -482,10 +483,10 @@ final class Save_Options extends Save_Helper {
 	 * Delete specific People/Movie files (based on html links)
 	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
-	 * @param 'movie'|'people'|string $type result of $_GET['type'] to define either people or movie
+	 * @param Item_Type|string $type result of $_GET['type'] to define either people or movie
 	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
 	 */
-	private function do_delete_cache_linked_file( bool|string $get_referer, Cache_Files_Management $cache_mngmt_class, string $type, string $where ): void {
+	private function do_delete_cache_linked_file( bool|string $get_referer, Cache_Files_Management $cache_mngmt_class, string|Item_Type $type, string $where ): void {
 
 		$cache_mngmt_class->delete_file( $type, $where );
 
@@ -500,10 +501,10 @@ final class Save_Options extends Save_Helper {
 	 *
 	 * @param false|string $get_referer The URL string from {@see Save_Helper::get_referer()}
 	 * @param Cache_Files_Management $cache_mngmt_class object with the methods needed
-	 * @param 'movie'|'people'|string $type result of $_GET['type'] to define either people or movie
+	 * @param 'movie'|'people'|string|Item_Type $type result of $_GET['type'] to define either people or movie
 	 * @param string $where result of $_GET['where'] the people or movie IMDb ID
 	 */
-	private function do_refresh_cache_linked_file( bool|string $get_referer, Cache_Files_Management $cache_mngmt_class, string $type, string $where ): void {
+	private function do_refresh_cache_linked_file( bool|string $get_referer, Cache_Files_Management $cache_mngmt_class, string|Item_Type $type, string $where ): void {
 
 		$cache_mngmt_class->refresh_file( $type, $where );
 
@@ -657,4 +658,3 @@ final class Save_Options extends Save_Helper {
 		}
 	}
 }
-

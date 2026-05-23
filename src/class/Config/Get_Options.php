@@ -19,6 +19,7 @@ use Lumiere\Tools\Data;
 use Lumiere\Config\Settings;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Enums\Item_Type;
 use Lumiere\Enums\Popup_Type;
 use Lumiere\Enums\Search_Category;
 
@@ -120,7 +121,7 @@ final class Get_Options extends Settings {
 		$array = [];
 		foreach ( parent::define_lum_all_type_search() as $key => $value ) {
 			$value_array = explode( '_', $value['value'] );
-			$col1 = $value_array[1] ?? ''; // Either movie or person.
+			$col1 = isset( $value_array[1] ) ? Item_Type::from_string( $value_array[1] )->value : ''; // Either movie or person.
 			$col2 = isset( $value_array[2] ) && str_contains( $value_array[2], 'id' ) ? 'bymid' : 'byname';
 			$array[ '_' . $value['value'] . '_widget' ] = [ $col1, $col2 ];
 		}
@@ -162,15 +163,20 @@ final class Get_Options extends Settings {
 	 *
 	 * @since 4.4 method added
 	 *
-	 * @param string $type_url
-	 * @phpstan-param string $type_url Type of URL we want to get
+	 * @param string|Popup_Type|Item_Type $type_url
+	 * @phpstan-param string|Popup_Type|Item_Type $type_url Type of URL we want to get
 	 * @param string $domain_url OPTIONAL: Full URL of the domain, usually passed with site_url()
 	 * @return string
 	 */
-	public static function get_popup_url( string $type_url, string $domain_url = '' ): string {
+	public static function get_popup_url( string|Popup_Type|Item_Type $type_url, string $domain_url = '' ): string {
 		$popup_slug = get_option( self::get_admin_tablename() );
-		$popup_type = Popup_Type::from_key( $type_url );
-		return $domain_url . $popup_slug['imdburlpopups'] . $popup_type->value . '/';
+		if ( $type_url instanceof Popup_Type ) {
+			$popup_type_val = $type_url->value;
+		} elseif ( $type_url instanceof Item_Type ) {
+			$popup_type_val = $type_url === Item_Type::MOVIE ? Popup_Type::FILM->value : Popup_Type::PERSON->value;
+		} else {
+			$popup_type_val = Popup_Type::from_key( $type_url )->value;
+		}
+		return $domain_url . $popup_slug['imdburlpopups'] . $popup_type_val . '/';
 	}
 }
-

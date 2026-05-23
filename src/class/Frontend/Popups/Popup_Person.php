@@ -22,6 +22,7 @@ use Lumiere\Frontend\Popups\Popup_Interface;
 use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Enums\Item_Type;
 use Lumiere\Config\Settings_Popup;
 use Lumiere\Config\Settings_Service;
 
@@ -109,7 +110,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		$this->page_title = $this->get_title( $this->person_class->name() );
 
 		// If polylang plugin is active, rewrite the URL to append the lang string
-		$this->popup_url = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'person', site_url() ) );
+		$this->popup_url = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Item_Type::PERSON, site_url() ) );
 
 		/**
 		 * Display title
@@ -342,4 +343,3 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		return $output;
 	}
 }
-

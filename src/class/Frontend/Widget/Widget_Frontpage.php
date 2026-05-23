@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
+use Lumiere\Enums\Item_Type;
 use Lumiere\Frontend\Widget\Widget_Legacy;
 use Lumiere\Plugins\Logger;
 use Lumiere\Admin\Widget_Selection;
@@ -221,11 +222,11 @@ final class Widget_Frontpage {
 		foreach ( $array as $movie_person ) {
 			$key = array_keys( $movie_person )[0] ?? '';
 			$values = array_values( $movie_person );
-			if ( $key === 'movie' ) {                       // Movie.
+			if ( $key === Item_Type::MOVIE->value ) {                       // Movie.
 				$get_array_imdbid = apply_filters( 'lum_find_movie_id', $values );
 				$movies_box = apply_filters( 'lum_display_movies_box', $get_array_imdbid );
 				$output .= is_string( $movies_box ) ? $movies_box : '';
-			} elseif ( $key === 'person' ) {                        // Person.
+			} elseif ( $key === Item_Type::PERSON->value ) {                        // Person.
 				$get_array_imdbid = apply_filters( 'lum_find_person_id', $values );
 				$persons_box = apply_filters( 'lum_display_persons_box', $get_array_imdbid );
 				$output .= is_string( $persons_box ) ? $persons_box : '';

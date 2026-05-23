@@ -15,6 +15,7 @@ lum_protect_direct_call();
 
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
+use Lumiere\Enums\Item_Type;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Tools\Validate_Get;
@@ -215,20 +216,22 @@ final class Search_Items {
 			exit;
 		}
 
-		$select_search_type = isset( $_GET['select_search_type'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['select_search_type'] ) ) : '';
-		$this->logger->log?->debug( "[admin search] Querying *$this->item_searched* of type " . $select_search_type );
+		$select_search_type = isset( $_GET['select_search_type'] )
+			? Item_Type::from_string( sanitize_text_field( wp_unslash( (string) $_GET['select_search_type'] ) ) )
+			: Item_Type::MOVIE;
+		$this->logger->log?->debug( "[admin search] Querying *$this->item_searched* of type " . $select_search_type->value );
 
 		$results = [];
 		$first_column_header = 'title';
 		$second_column_header = 'imdbid';
-		if ( $select_search_type === 'movie' ) {
+		if ( $select_search_type === Item_Type::MOVIE ) {
 
 			/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
 			$results = $this->imdbphp_class->search_movie_title(
 				$this->item_searched ?? '',
 				$this->logger->log,
 			);
-		} elseif ( $select_search_type === 'person' ) {
+		} elseif ( $select_search_type === Item_Type::PERSON ) {
 			/** @phpstan-var NAMESEARCH_RETURNSEARCH $results */
 			$results = $this->imdbphp_class->search_person_name(
 				$this->item_searched ?? '',
@@ -296,8 +299,8 @@ final class Search_Items {
 		$output .= "\n\t" . '<form action="" method="get" id="searchmovie">';
 		$output .= "\n\t" . '<h1 id="lum_search_title">' . esc_html__( 'Search an IMDb ID for', 'lumiere-movies' );
 		$output .= '<select id="select_search_type" name="select_search_type">
-			<option label="' . ucfirst( esc_html__( 'movie', 'lumiere-movies' ) ) . '" value="movie">' . esc_html( 'movie' ) . '</option>
-			<option label="' . ucfirst( esc_html__( 'person', 'lumiere-movies' ) ) . '" value="person">' . esc_html( 'person' ) . '</option></select></h1>';
+			<option label="' . ucfirst( esc_html__( 'movie', 'lumiere-movies' ) ) . '" value="' . Item_Type::MOVIE->value . '">' . esc_html( 'movie' ) . '</option>
+			<option label="' . ucfirst( esc_html__( 'person', 'lumiere-movies' ) ) . '" value="' . Item_Type::PERSON->value . '">' . esc_html( 'person' ) . '</option></select></h1>';
 
 		$output .= "\n\t\t" . '<input type="text" id="lum_movie_input" name="' . Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING . '" value="">';
 

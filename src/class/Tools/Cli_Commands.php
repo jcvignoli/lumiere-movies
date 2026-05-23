@@ -17,6 +17,7 @@ if ( ( ! defined( 'WPINC' ) ) || ( ! class_exists( 'Lumiere\Config\Settings' ) )
 use Lumiere\Tools\Files;
 use Lumiere\Admin\Copy_Templates\Copy_Theme;
 use Lumiere\Admin\Crons\Cron;
+use Lumiere\Enums\Item_Type;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Get_Options_Person;
@@ -313,20 +314,23 @@ final class Cli_Commands {
 	private function sub_copy_taxo( array $args, array $dashed_extra_args ): void {
 
 		// Build the principal vars.
-		$template_types = [ 'items', 'people' ];
+		$movies_val = Item_Type::MOVIE->value . 's'; // 'movies'.
+		$people_val = 'people';
+		$template_types = [ $movies_val, $people_val ];
 		$items = Get_Options_Movie::get_list_items_taxo();
 		$people = Get_Options_Movie::get_list_people_taxo();
 		$all = array_merge( $items, $people );
-		$array_items = [ $template_types[0] => $items ];
-		$array_people = [ $template_types[1] => $people ];
-		$array_all = array_merge( $array_items, $array_people );
+		$array_all = [
+			$movies_val => $items,
+			$people_val => $people,
+		];
 
 		// Get the vars passed in command-line.
 		$control = array_key_first( $dashed_extra_args );
 		$taxonomy = isset( $control ) ? $dashed_extra_args[ $control ] : '';
 
 		// If no extra dashed arguments passed or more than one, if not in valid array, or not using --template="", exit.
-		if ( count( $dashed_extra_args ) !== 1 || in_array( $taxonomy, $array_all[ $args[1] ], true ) === false || $control !== 'template' ) {
+		if ( count( $dashed_extra_args ) !== 1 || ! isset( $args[1] ) || ! isset( $array_all[ $args[1] ] ) || in_array( $taxonomy, $array_all[ $args[1] ], true ) === false || $control !== 'template' ) {
 			WP_CLI::error( "Selected options are wrong, must comply with:\nwp lum copy_taxo " . implode( '|', $template_types ) . ' --template=' . implode( '|', $all ) );
 		}
 
@@ -335,4 +339,3 @@ final class Cli_Commands {
 		WP_CLI::success( 'The template *' . $this->imdb_admin_values['imdburlstringtaxo'] . $taxonomy . '* has been successfuly copied' );
 	}
 }
-

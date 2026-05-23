@@ -15,6 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Enums\Modal_Type;
+
 /**
  * This class is used for AMP pages
  * Is called by the Link Factory class, implements abstract Link Maker class
@@ -50,7 +52,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	#[\Override]
 	public function get_picture( string|bool|null $photo_localurl_false, string|bool|null $photo_localurl_true, ?string $movie_title ): string {
 		// Function in parent class, 2 before last param defines the output, before last param specific A class, last param specific IMG class.
-		return parent::get_picture_details( $photo_localurl_false, $photo_localurl_true, $movie_title, parent::LINK_OPTIONS['amp'], '', 'imdbelementPICimg' );
+		return parent::get_picture_details( $photo_localurl_false, $photo_localurl_true, $movie_title, Modal_Type::AMP, '', 'imdbelementPICimg' );
 	}
 
 	/**
@@ -59,7 +61,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	#[\Override]
 	public function get_medaillon_bio( array $bio_array, int $limit_text_bio = 0 ): string {
 		// Function in parent class, last param cut the links.
-		return parent::get_medaillon_bio_details( $bio_array, parent::LINK_OPTIONS['amp'], $limit_text_bio );
+		return parent::get_medaillon_bio_details( $bio_array, Modal_Type::AMP, $limit_text_bio );
 	}
 
 	/**
@@ -67,7 +69,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	 */
 	#[\Override]
 	public function get_plot( string $plot ): string {
-		return parent::get_plot_details( $plot, parent::LINK_OPTIONS['amp'] );
+		return parent::get_plot_details( $plot, Modal_Type::AMP );
 	}
 
 	/**
@@ -76,7 +78,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	#[\Override]
 	public function get_popup_people( string $imdb_id, string $name ): string {
 		// Function in parent class, before last param defines the output, last param specific <A> class.
-		return parent::get_popup_people_details( $imdb_id, $name, parent::LINK_OPTIONS['amp'], 'lum_link_no_popup' );
+		return parent::get_popup_people_details( $imdb_id, $name, Modal_Type::AMP, 'lum_link_no_popup' );
 	}
 
 	/**
@@ -84,7 +86,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	 */
 	#[\Override]
 	public function get_popup_film_title( string $title, string $a_class = '' ): string {
-		return parent::get_popup_film_title_details( $title, parent::LINK_OPTIONS['amp'], $a_class );
+		return parent::get_popup_film_title_details( $title, Modal_Type::AMP, $a_class );
 	}
 
 	/**
@@ -92,7 +94,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	 */
 	#[\Override]
 	public function get_external_url( string $title, string $url, string $a_class = '' ): string {
-		return parent::get_external_url_details( $title, $url, parent::LINK_OPTIONS['amp'], $a_class );
+		return parent::get_external_url_details( $title, $url, Modal_Type::AMP, $a_class );
 	}
 
 	/**
@@ -100,7 +102,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	 */
 	#[\Override]
 	public function get_popup_film_id( string $title, string $imdbid, string $a_class = '' ): string {
-		return parent::get_popup_film_id_details( $title, $imdbid, parent::LINK_OPTIONS['amp'], $a_class );
+		return parent::get_popup_film_id_details( $title, $imdbid, Modal_Type::AMP, $a_class );
 	}
 
 	/**
@@ -108,7 +110,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	 */
 	#[\Override]
 	public function get_trailer( string $url, string $website_title ): string {
-		return parent::get_trailer_details( $url, $website_title, parent::LINK_OPTIONS['amp'] );
+		return parent::get_trailer_details( $url, $website_title, Modal_Type::AMP );
 	}
 
 	/**
@@ -116,7 +118,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	 */
 	#[\Override]
 	public function get_prodcompany( string $name, string $comp_id = '', string $notes = '' ): string {
-		return parent::get_prodcompany_details( $name, '', '', parent::LINK_OPTIONS['amp'] );
+		return parent::get_prodcompany_details( $name, '', '', Modal_Type::AMP );
 	}
 
 	/**
@@ -124,7 +126,7 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	 */
 	#[\Override]
 	public function get_officialsites( string $url, string $name ): string {
-		return parent::get_officialsites_details( $url, $name, parent::LINK_OPTIONS['amp'] );
+		return parent::get_officialsites_details( $url, $name, Modal_Type::AMP );
 	}
 
 	/**
@@ -133,6 +135,6 @@ final class AMP_Links extends Implement_Methods implements Interface_Linkmaker {
 	#[\Override]
 	public function get_source( string $mid ): string {
 		// Function in parent class, third param to avoid imdbelementSOURCE-picture class which breaks AMP.
-		return parent::get_source_details( $mid, parent::LINK_OPTIONS['amp'], '' );
+		return parent::get_source_details( $mid, Modal_Type::AMP, '' );
 	}
 }
