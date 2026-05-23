@@ -100,7 +100,6 @@ class Hooks_Updates {
 		foreach ( $results['plugin'] as $plugin ) {
 
 			if (
-				// @phpstan-ignore-next-line Access to an undefined property object::$item
 				isset( $plugin->item->slug )
 				&& strlen( $plugin->item->slug ) > 0
 				&& $plugin->item->slug === 'lumiere-movies'
