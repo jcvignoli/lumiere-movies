@@ -52,8 +52,11 @@ final class Movie_Factory extends Front_Parser {
 
 		$outputfinal = '';
 
+		/** @var \Lumiere\Plugins\Manual\Imdbphp $imdb_plugin */
+		$imdb_plugin = $this->plugins_classes_active['imdbphp'];
+
 		// Find the Title based on $mid_premier_resultat.
-		$movie_object = $this->plugins_classes_active['imdbphp']->get_title_class(
+		$movie_object = $imdb_plugin->get_title_class(
 			esc_html( $mid_premier_resultat ),
 			$this->logger->log,
 		);

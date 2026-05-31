@@ -46,7 +46,7 @@ final class Polylang {
 	 * Array of plugins currently in use
 	 *
 	 * @var array<string, class-string>
-	 * @phpstan-var array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>}
+	 * @phpstan-var array<PLUGINS_ALL_KEYS, class-string<PLUGINS_ALL_CLASSES>>
 	 */
 	private array $active_plugins;
 
@@ -75,7 +75,7 @@ final class Polylang {
 	 * Get for extra params not to be run in self::__construct. Automatically executed from Plugins_Start
 	 *
 	 * @param array<string, class-string> $active_plugins
-	 * @phpstan-param array{PLUGINS_ALL_KEYS: class-string<PLUGINS_ALL_CLASSES>} $active_plugins
+	 * @phpstan-param array<PLUGINS_ALL_KEYS, class-string<PLUGINS_ALL_CLASSES>> $active_plugins
 	 */
 	public function get_active_plugins( array $active_plugins ): void {
 		// Get the list of active plugins.
@@ -150,7 +150,6 @@ final class Polylang {
 
 		/**
 		 * Use AMP form if AMP plugin is active
-		 * @phpstan-ignore function.impossibleType, identical.alwaysFalse (due to Plugin array shape not well fully understood by phpstan)
 		 */
 		if ( array_key_exists( 'Amp', $this->active_plugins ) === true ) {
 			return $this->amp_form_polylang_selection( $all_lang_array, $selected_lang );

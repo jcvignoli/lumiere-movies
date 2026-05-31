@@ -181,10 +181,10 @@ final class Core extends \Lumiere\Hooks_Updates {
 		}
 
 		// Reset options related to crons, since we removed them.
-		$current_admin = $this->settings->get_admin_options();
-		$current_admin['imdbcacheautorefreshcron'] = '0';
-		$current_admin['imdbcachekeepsizeunder'] = '0';
-		$this->settings->update_admin_options( $current_admin );
+		$current_cache = $this->settings->get_cache_options();
+		$current_cache['imdbcacheautorefreshcron'] = '0';
+		$current_cache['imdbcachekeepsizeunder'] = '0';
+		$this->settings->update_cache_options( $current_cache );
 
 		$logger->log?->info( '[coreClass][deactivation] Lumière deactivated' );
 	}

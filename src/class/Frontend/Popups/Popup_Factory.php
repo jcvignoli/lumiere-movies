@@ -18,9 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Settings_Service;
 use Lumiere\Enums\Popup_Type;
-use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
-use Exception;
 
 /**
  * Popups redirection, return a new text replacing the normal expected text
@@ -30,7 +28,7 @@ use Exception;
  * 3. If it the URL contains the get_query_var(), build a class name that includes it
  *
  * @since 4.4 Is a class
- * @phpstan-type POPUPS_CLASSES '\Lumiere\Frontend\Popups\Popup_Film'|'\Lumiere\Frontend\Popups\Popup_Movie_Search'|'\Lumiere\Frontend\Popups\Popup_Person'
+ * @since 4.8 Simplified, using Enum
  */
 final class Popup_Factory {
 
@@ -38,11 +36,9 @@ final class Popup_Factory {
 	 * Constructor
 	 */
 	public function __construct(
-		protected Settings_Service $settings,
-		protected Interface_Linkmaker $link_maker
-	) {
-		$this->link_maker = ( new Link_Factory( $this->settings ) )->select_link_maker();
-	}
+		protected readonly Settings_Service $settings,
+		protected readonly Interface_Linkmaker $link_maker
+	) {}
 
 	/**
 	 * Find if a template exists according to the query var
@@ -60,10 +56,13 @@ final class Popup_Factory {
 			return $template_path;
 		}
 
-		/** @phpstan-var POPUPS_CLASSES $class_name */
-		$class_name = $this->build_class_name( $query_popup );
-		if ( class_exists( $class_name ) ) {
-			( new $class_name( settings: $this->settings, link_maker: $this->link_maker ) )->display_layout();
+		$class_name = $this->resolve_popup_class( $query_popup );
+
+		if ( isset( $class_name ) && class_exists( $class_name ) ) {
+			/** @var \Lumiere\Frontend\Popups\Popup_Interface $popup_instance */
+			$popup_instance = new $class_name( $this->settings, $this->link_maker );
+			$popup_instance->display_layout();
+
 			// Fake return string since it is inside an add_filter()
 			return '';
 		}
@@ -73,37 +72,25 @@ final class Popup_Factory {
 	}
 
 	/**
-	 * Create the name of the class
-	 * Check if the query is included in enum Popup_Type in {@see \Lumiere\Config\Settings}
+	 * Resolve the class name using PHP 8.1 match expressions.
+	 * This is type-safe and avoids fragile string manipulation.
+	 * @since 4.8
 	 *
-	 * @param string $query_popup
-	 * @return string
-	 * @throws Exception if wrong URL bit is provided
+	 * @param string $query_val
+	 * @return null|string
 	 */
-	private function build_class_name( string $query_popup ): string {
+	private function resolve_popup_class( string $query_val ): ?string {
 
-		$const_key_val = Popup_Type::from_key( $query_popup )->value;
+		$type = Popup_Type::tryFrom( $query_val );
 
-		/**
-		 * Wrong URL string passed. Don't know why static tools believe it's always set.
-		 * @psalm-suppress DocblockTypeContradiction
-		 * @phpstan-ignore isset.variable (Variable $const_key_val in isset() always exists and is not nullable)
-		 */
-		if ( ! isset( $const_key_val )  ) {
-			throw new Exception( 'Lumiere: *' . esc_html( $query_popup ) . '* is a wrong URL path' );
+		if ( $type === null ) {
+			return null;
 		}
 
-		// If the constant value contains an underscore, capitalize every word to build the Popup class, ie 'movie_search' => 'Movie_Search'.
-		if ( str_contains( $const_key_val, '_' ) ) {
-			$words_array = explode( '_', $const_key_val );
-			$words_caps = array_map( 'ucfirst', $words_array );
-			$const_key_val = join( '_', $words_caps );
-		}
-
-		// Map 'Film' to 'Film' and 'Movie_Search' to 'Movie_Search'. 'Film' popup class is Popup_Film.
-		$class_name_part = ucwords( $const_key_val );
-
-		/** @phpstan-return POPUPS_CLASSES  */
-		return __NAMESPACE__ . '\\Popup_' . $class_name_part;
+		return match ( $type ) {
+			Popup_Type::FILM         => Popup_Film::class,
+			Popup_Type::MOVIE_SEARCH => Popup_Movie_Search::class,
+			Popup_Type::PERSON       => Popup_Person::class,
+		};
 	}
 }

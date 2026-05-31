@@ -9,7 +9,7 @@
 }
 /** width of modal window */
 .modal {
-	/*--bs-modal-width:70vw !important; @since 4.0.1 removed value*/
+	overscroll-behavior: contain;
 }
 /** Automatic scrollbar */
 .modal-body {

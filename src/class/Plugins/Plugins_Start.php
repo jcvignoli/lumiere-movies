@@ -37,7 +37,7 @@ final class Plugins_Start {
 	 * The active class can be used when they exist and called with this property
 	 *
 	 * @var array<string, object>
-	 * @phpstan-var array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES}
+	 * @phpstan-var array<PLUGINS_ALL_KEYS, PLUGINS_ALL_CLASSES>
 	 */
 	public array $plugins_classes_active;
 
@@ -64,8 +64,8 @@ final class Plugins_Start {
 	 * Classes are located in Plugins_Detect::SUBFOLDER_PLUGINS_BIT
 	 *
 	 * @param array<string, class-string> $active_plugins
-	 * @phpstan-param array{PLUGINS_ALL_KEYS?: class-string<PLUGINS_ALL_CLASSES>} $active_plugins
-	 * @phpstan-return array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES}
+	 * @phpstan-param array<PLUGINS_ALL_KEYS, class-string<PLUGINS_ALL_CLASSES>> $active_plugins
+	 * @phpstan-return array<PLUGINS_ALL_KEYS, PLUGINS_ALL_CLASSES>
 	 */
 	private function activate_plugins( array $active_plugins ): array {
 
@@ -80,7 +80,7 @@ final class Plugins_Start {
 				//add_action( 'init', fn() => $current_plugin_activated->get_active_plugins( $active_plugins ), 20 ); // 20 so make sure it's always executed.
 			}
 		}
-		/** @psalm-var array{PLUGINS_ALL_KEYS?: PLUGINS_ALL_CLASSES} $all_plugins_activated (No idea why Psalm needs this) */
+		/** @var array<PLUGINS_ALL_KEYS, PLUGINS_ALL_CLASSES> $all_plugins_activated */
 		return $all_plugins_activated;
 	}
 
@@ -91,7 +91,7 @@ final class Plugins_Start {
 	 * @param array<string> $extra_classes Extra classes to add, ie [ 'imdbphp' ]
 	 * @phpstan-param non-empty-array<PLUGINS_MANUAL_KEYS> $extra_classes
 	 * @return array<string, class-string>
-	 * @phpstan-return array{PLUGINS_MANUAL_KEYS?: class-string<PLUGINS_MANUAL_CLASSES>}
+	 * @phpstan-return array<PLUGINS_MANUAL_KEYS, class-string<PLUGINS_MANUAL_CLASSES>>
 	 */
 	private function find_manual_plugins( array $extra_classes ): array {
 

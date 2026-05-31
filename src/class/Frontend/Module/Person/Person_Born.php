@@ -32,7 +32,7 @@ final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$birthday = $person_class->$item_name();
 
-		if ( ! isset( $birthday ) || count( $birthday ) === 0 ) {
+		if ( ! isset( $birthday ) || $birthday === [] ) {
 			return '';
 		}
 
@@ -57,7 +57,7 @@ final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param array<string, string> $birthday The array of birthday
-	 * @phpstan-param array{ day?: int, month?: string, year?: int, place?: string } $birthday
+	 * @phpstan-param array{ day?: int, month?: string, year?: int, place?: string, ... } $birthday
 	 * @param string $item_name
 	 */
 	public function get_module_popup( array $birthday, string $item_name ): string {

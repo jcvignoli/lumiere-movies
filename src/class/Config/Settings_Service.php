@@ -166,6 +166,17 @@ final class Settings_Service {
 	}
 
 	/**
+	 * Update cache options.
+	 *
+	 * @param array<string, mixed> $options
+	 * @phpstan-param OPTIONS_CACHE $options
+	 */
+	public function update_cache_options( array $options ): void {
+		update_option( Get_Options::get_cache_tablename(), $options );
+		$this->cache_options = $options;
+	}
+
+	/**
 	 * Update admin options.
 	 *
 	 * @param array<string, mixed> $options

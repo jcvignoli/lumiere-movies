@@ -213,8 +213,7 @@ final class Widget_Frontpage {
 	 * @since 4.6 is now a method, so it can discriminates which filter use (person or movie)
 	 * @since 4.8 $movies_box, $persons_box, $movies_box, https://wordpress.org/support/topic/critical-bug-missing-imdb-data-images-causing-php-fatal-errors-and-100-cpu/
 	 *
-	 * @param array<array-key, array<string, string>> $array
-	 * @phpstan-param array{0?: array{byname: string}, 1?: array{ movie?: array{bymid: string, byname: string}, person?: array{bymid: string, byname: string} }}|array{movie?: array{bymid: string, byname: string}, person?: array{bymid: string, byname: string}} $array
+	 * @param array<int, array<string, string|array<string, string>>> $array
 	 * @return string The movie/person data
 	 */
 	private function apply_movie_person_filter( array $array ): string {

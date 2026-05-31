@@ -94,8 +94,9 @@ final class Find_Items extends Front_Parser {
 
 			$this->logger->log?->debug( '[Find_Items] Searching ' . esc_html( $movie_name ) );
 
-			/** @phpstan-var TITLESEARCH_RETURNSEARCH|null $results */
-			$results = strlen( $movie_name ) > 0 ? $this->plugins_classes_active['imdbphp']->search_movie_title(
+			/** @var \Lumiere\Plugins\Manual\Imdbphp $imdb_plugin */
+			$imdb_plugin = $this->plugins_classes_active['imdbphp'];
+			$results = strlen( $movie_name ) > 0 ? $imdb_plugin->search_movie_title(
 				$movie_name,
 				$this->logger->log,
 			) : null;
@@ -158,7 +159,9 @@ final class Find_Items extends Front_Parser {
 
 			$this->logger->log?->debug( '[Find_Items] Searching ' . esc_html( $name_nm ) );
 
-			$results = strlen( $name_nm ) > 0 ? $this->plugins_classes_active['imdbphp']->search_person_name(
+			/** @var \Lumiere\Plugins\Manual\Imdbphp $imdb_plugin */
+			$imdb_plugin = $this->plugins_classes_active['imdbphp'];
+			$results = strlen( $name_nm ) > 0 ? $imdb_plugin->search_person_name(
 				$name_nm,
 				$this->logger->log,
 			) : null;

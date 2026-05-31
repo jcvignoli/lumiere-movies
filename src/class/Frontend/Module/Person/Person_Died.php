@@ -32,7 +32,7 @@ final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$death = $person_class->$item_name();
 
-		if ( count( $death ) === 0 ) {
+		if ( $death === [] ) {
 			return '';
 		}
 
@@ -67,7 +67,7 @@ final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param array<string, string|int> $death The array of death
-	 * @phpstan-param array{ day?: int, month?: int, year?: int, place?: string, cause?: string, status?: string|'DEAD' } $death
+	 * @phpstan-param non-empty-array{ day?: int, month?: int, year?: int, place?: string, cause?: string, status?: string|'DEAD', ... } $death
 	 * @param string $item_name
 	 */
 	public function get_module_popup( array $death, string $item_name ): string {

@@ -37,6 +37,7 @@ use Lumiere\Plugins\Plugins_Start;
  * @phpstan-import-type PLUGINS_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
+ * @phpstan-type MOVIE_QUERY array{bymid?: string, byname?: string}
  */
 class Front_Parser {
 
@@ -53,7 +54,7 @@ class Front_Parser {
 	 * Lumière plugins started
 	 *
 	 * @var array<string, object>
-	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS?: PLUGINS_AUTO_CLASSES}
+	 * @phpstan-var array<PLUGINS_ALL_KEYS, PLUGINS_ALL_CLASSES>
 	 */
 	protected readonly array $plugins_classes_active;
 
@@ -69,10 +70,6 @@ class Front_Parser {
 		// Get links property.
 		$this->link_maker = ( new Link_Factory( $this->settings ) )->select_link_maker();
 
-		/**
-		 * @psalm-suppress InvalidPropertyAssignmentValue
-		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp' => find better notation)
-		 */
 		$this->plugins_classes_active = $this->plugins->plugins_classes_active;
 	}
 
@@ -111,15 +108,18 @@ class Front_Parser {
 	 * @since 4.8 obsolete: using render.php in gutenberg block
 	 * @info deprecated since 4.8, using render.php in gutenberg block
 	 *
-	 * @phpstan-param array{bymid?: string, byname?: string} $imdb_id_or_title
+	 * @phpstan-param list<MOVIE_QUERY> $imdb_id_or_title
 	 */
 	private function display_movies( array $imdb_id_or_title ): string {
 
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead to a PHP Fatal error
+		 * @var \Lumiere\Plugins\Auto\Amp $imdb_plugin
 		 */
-		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
+		$imdb_plugin = $this->plugins_classes_active['amp'];
+
+		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $imdb_plugin->is_amp_validating() === true ) {
 			$this->logger->log?->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
@@ -129,7 +129,7 @@ class Front_Parser {
 		 *
 		 * @since 4.3.2
 		 *
-		 * @var array{bymid?: string, byname?: string} $imdb_id_or_title List of movie IDs or titles.
+		 * @var list<MOVIE_QUERY> $imdb_id_or_title List of movie IDs or titles.
 		 */
 		$array_movies_with_imdbid = apply_filters( 'lum_find_movie_id', $imdb_id_or_title );
 
@@ -138,7 +138,7 @@ class Front_Parser {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @var array{bymid?: string, byname?: string} $array_movies_with_imdbid List of movies with IMDb IDs.
+		 * @var list<MOVIE_QUERY> $array_movies_with_imdbid List of movies with IMDb IDs.
 		 */
 		return apply_filters( 'lum_display_movies_box', $array_movies_with_imdbid );
 	}
@@ -151,15 +151,17 @@ class Front_Parser {
 	 * @since 4.8 obsolete: using render.php in gutenberg block
 	 * @info deprecated since 4.8, using render.php in gutenberg block
 	 *
-	 * @phpstan-param array<array{bymid?: string, byname?: string}> $imdb_id_or_title
+	 * @phpstan-param list<MOVIE_QUERY> $imdb_id_or_title
 	 */
 	private function display_persons( array $imdb_id_or_title ): string {
 
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead to a PHP Fatal error
+		 * @var \Lumiere\Plugins\Auto\Amp $imdb_plugin
 		 */
-		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $this->plugins_classes_active['amp']->is_amp_validating() === true ) {
+		$imdb_plugin = $this->plugins_classes_active['amp'];
+		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $imdb_plugin->is_amp_validating() === true ) {
 			$this->logger->log?->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
@@ -169,7 +171,7 @@ class Front_Parser {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @var array<array{bymid?: string, byname?: string}> $imdb_id_or_title List of person IDs or names.
+		 * @var list<MOVIE_QUERY> $imdb_id_or_title List of person IDs or names.
 		 */
 		$array_persons_with_imdbid = apply_filters( 'lum_find_person_id', $imdb_id_or_title );
 
@@ -178,7 +180,7 @@ class Front_Parser {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @var array<array{bymid?: string, byname?: string}> $array_persons_with_imdbid List of persons with IMDb IDs.
+		 * @var list<MOVIE_QUERY> $array_persons_with_imdbid List of persons with IMDb IDs.
 		 */
 		return apply_filters( 'lum_display_persons_box', $array_persons_with_imdbid );
 	}
@@ -190,8 +192,8 @@ class Front_Parser {
 	 * @since 4.4 method created
 	 * @see used in {@see Front_Parser::display_persons()} and render.php in post block
 	 *
-	 * @param array<string> $movies_searched
-	 * @phpstan-param array{bymid?: string, byname?: string} $movies_searched
+	 * @param list<string> $movies_searched
+	 * @phpstan-param MOVIE_QUERY $movies_searched
 	 */
 	public function lum_display_movies_box( array $movies_searched ): string {
 		$output = '';
@@ -212,9 +214,8 @@ class Front_Parser {
 	 * @since 4.6 method created
 	 * @see used in {@see Front_Parser::display_persons()} and render.php in post block
 	 *
-	 * @param array<string> $persons_searched
-	 * @phpstan-param array{bymid?: string, byname?: string} $persons_searched
-	 * @return string
+	 * @param list<string> $persons_searched
+	 * @phpstan-param MOVIE_QUERY $persons_searched
 	 */
 	public function lum_display_persons_box( array $persons_searched ): string {
 		$output = '';
@@ -271,6 +272,7 @@ class Front_Parser {
 			$content = preg_replace_callback(
 				'~<span data-lum_movie_maker="' . $value['value'] . '">(.+?)<\/span>~',
 				function( $match ) use( $col2, $callback_name ): string {
+					/** @var 'bymid'|'byname' $col2 */
 					return $this->{$callback_name}( $match[1], $col2 );
 				},
 				$content
@@ -291,8 +293,10 @@ class Front_Parser {
 	 * @param 'byname'|'bymid' $search_type Searching type of the movie
 	 */
 	private function replace_movie_spans( string $text_found, string $search_type ): string {
-		$imdb_id_or_title = [];
-		$imdb_id_or_title[][ $search_type ] = esc_html( $text_found );
+		/** @var list<MOVIE_QUERY> $imdb_id_or_title */
+		$imdb_id_or_title = [
+			[ $search_type => esc_html( $text_found ) ],
+		];
 		return $this->display_movies( $imdb_id_or_title );
 	}
 
@@ -308,8 +312,10 @@ class Front_Parser {
 	 * @param 'byname'|'bymid' $search_type Searching type of the person
 	 */
 	private function replace_person_spans( string $text_found, string $search_type ): string {
-		$imdb_id_or_title = [];
-		$imdb_id_or_title[][ $search_type ] = esc_html( $text_found );
+		/** @var list<MOVIE_QUERY> $imdb_id_or_title */
+		$imdb_id_or_title = [
+			[ $search_type => esc_html( $text_found ) ],
+		];
 		return $this->display_persons( $imdb_id_or_title );
 	}
 
@@ -407,7 +413,7 @@ class Front_Parser {
 	 * @param string|null $filmid
 	 */
 	public function lumiere_external_call( ?string $moviename, ?string $filmid ): string {
-
+		/** @var list<MOVIE_QUERY> $imdb_id_or_title */
 		$imdb_id_or_title = [];
 
 		//  Call with the parameter - imdb movie name (imdblt)

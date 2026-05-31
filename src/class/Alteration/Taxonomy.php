@@ -115,11 +115,11 @@ final class Taxonomy {
 				$full_new_taxonomy,
 				// Retrieve all posts with the old taxonomy.
 				[
-					'post_type' => [ 'post', 'page' ],
-					'post_status' => 'publish',
-					'fields' => 'ids',
-					'showposts' => -1,
-					'tax_query' => [
+					'post_type'      => [ 'post', 'page' ],
+					'post_status'    => 'publish',
+					'fields'         => 'ids',
+					'posts_per_page' => -1,
+					'tax_query'      => [
 						[
 							'taxonomy' => $full_old_taxonomy,
 							'operator' => 'EXISTS',
@@ -180,7 +180,7 @@ final class Taxonomy {
 						'singular_name'     => ucfirst( $taxonomy_item ) . ' name',
 						'menu_name'         => __( 'Tags', 'lumiere-movies' ) . ' Lumière ' . $taxonomy_item,
 						'search_items'      => __( 'Search', 'lumiere-movies' ) . ' ' . $taxonomy_item . 's',
-						/* 'add_new_item'      => __( 'Add new', 'lumiere-movies' ) . ' ' . ucfirst( $taxonomy_item ),*/ // edit_terms false
+						/* 'add_new_item'   => __( 'Add new', 'lumiere-movies' ) . ' ' . ucfirst( $taxonomy_item ),*/ // edit_terms false
 					],
 					'capabilities'              => [
 						'edit_terms'        => 'none',          /* Whether to allow editing terms in UI (Fake option value) */
@@ -200,8 +200,8 @@ final class Taxonomy {
 	 *
 	 * @param string $full_old_taxonomy the taxonomy to be replaced
 	 * @param string $full_new_taxonomy the new taxonomy
-	 * @param array{post_type:array<string>, post_status:'publish', showposts:-1, fields: string, tax_query: array{0:array{taxonomy:string,operator:'EXISTS'}}} $args The arguments for the WP_Query
-	 * @phpstan-param array{post_type: array<string>, post_status: string, showposts: int, fields:string, tax_query: array{array{taxonomy: string, operator: 'EXISTS'}}} $args
+	 * @param array{post_type:array<string>, post_status:'publish', posts_per_page:-1, fields: string, tax_query: array{0:array{taxonomy:string,operator:'EXISTS'}}} $args The arguments for the WP_Query
+	 * @phpstan-param array{post_type: array<string>, post_status: string, posts_per_page: int, fields:string, tax_query: array{array{taxonomy: string, operator: 'EXISTS'}}} $args
 	 * @return void
 	 * @see WP_Query
 	 */
@@ -247,6 +247,7 @@ final class Taxonomy {
 			}
 		}
 	}
+
 	/**
 	 * Import the taxonomy terms
 	 * Do a loop of all terms found related to the current post but former taxonomy, then set the terms in the post with the new taxonomy
