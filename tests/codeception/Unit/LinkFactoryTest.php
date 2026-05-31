@@ -82,7 +82,7 @@ class LinkFactoryTest extends \Codeception\Test\Unit {
 		$this->assertInstanceOf( Classic_Links::class, $link_maker );
 	}
 
-	public function test_select_link_maker_throws_exception_on_invalid_setting(): void {
+	public function test_select_link_maker_throws_value_error_on_invalid_setting(): void {
 		$GLOBALS['wp_options']['lumiere_admin_options'] = [ 
 			'imdblinkingkill' => '0',
 			'imdbpopup_modal_window' => 'invalid'
@@ -91,7 +91,7 @@ class LinkFactoryTest extends \Codeception\Test\Unit {
 		$settings = new Settings_Service();
 		$factory = new Link_Factory( $settings );
 		
-		$this->tester->expectThrowable( Exception::class, function() use ($factory) {
+		$this->tester->expectThrowable( \ValueError::class, function() use ($factory) {
 			$factory->select_link_maker();
 		});
 	}

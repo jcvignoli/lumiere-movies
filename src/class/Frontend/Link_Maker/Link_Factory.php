@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Frontend\Main;
 use Lumiere\Config\Settings_Service;
 use Lumiere\Enums\Modal_Type;
-use Exception;
 
 /**
  * The class select the "link makers" according to the current settings and plugins used
@@ -51,7 +50,7 @@ final class Link_Factory {
 	 * @phpstan-return LINKMAKERCLASSES Class to build the links with.
 	 *
 	 * @see \Lumiere\Frontend\Main::is_amp_page() Detects if AMP is active and current
-	 * @throws Exception if no link class was found
+	 * @throws \ValueError If no link class was found or the configured modal type is invalid.
 	 */
 	public function select_link_maker(): Interface_Linkmaker {
 

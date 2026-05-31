@@ -78,7 +78,7 @@ class CacheCest {
 	 * Check if cache is created for people
 	 *
 	 * @before login
-	 * @example ["Jorge_Rivero", "gql.Name.{.id...nm0729473.}", "0729473", "Guadalajara, Jalisco, Mexico"]
+	 * @example ["Jorge_Rivero", "gql.Name.{.id...nm0729473.}", "0729473", "Mexico City, Distrito Federal, Mexico"]
 	 * @example ["Stanley_Kubrick", "gql.Name.{.id...nm0000040.}", "0000040", "Hertfordshire, England" ]
 	 */
 	public function checkCacheIsCreatedForPeople( AcceptanceTester $I, \Codeception\Example $example, \Codeception\Module\Cli $shell ) {

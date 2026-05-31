@@ -4,6 +4,7 @@
 /tmp
 /vendor*
 src/*vendor*
+.antigravitycli
 *.vscode*
 .env.codeception
 .env.ssh.js

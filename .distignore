@@ -5,12 +5,13 @@
 /tests
 /tmp
 /vendor
+.antigravitycli
 .git
-.wordpress-org
 .env.codeception
 .env.ssh.js
 .gitignore
 .todo
+.wordpress-org
 composer.json
 composer.lock
 package.json

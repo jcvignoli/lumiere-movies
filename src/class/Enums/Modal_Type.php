@@ -28,8 +28,11 @@ enum Modal_Type: string {
 	/**
 	 * Get the enum case from a string.
 	 *
-	 * @param string $value
-	 * @return self
+	 * @param string $value The modal type value string.
+	 *
+	 * @return self The corresponding Modal_Type instance.
+	 *
+	 * @see \Lumiere\Frontend\Link_Maker\Link_Factory::select_link_maker() For how modal types are converted into link maker classes.
 	 */
 	public static function from_string( string $value ): self {
 		return match ( $value ) {
@@ -39,5 +42,6 @@ enum Modal_Type: string {
 			default     => throw new \ValueError( 'Lumière Movies: Unknown modal type ' . $value ),
 		};
 	}
+
 }
 
