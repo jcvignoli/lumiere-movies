@@ -55,6 +55,13 @@ if ( ! function_exists( 'wp_verify_nonce' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wp_nonce_url' ) ) {
+	function wp_nonce_url( $url, $action = -1, $name = '_wpnonce' ) {
+		$GLOBALS['last_nonce_action'] = $action;
+		return $url . '&' . $name . '=nonce';
+	}
+}
+
 if ( ! function_exists( 'is_user_logged_in' ) ) {
 	function is_user_logged_in() {
 		return $GLOBALS['is_user_logged_in'] ?? false;
@@ -128,6 +135,18 @@ if ( ! function_exists( 'get_the_title' ) ) {
 if ( ! function_exists( 'esc_html' ) ) {
 	function esc_html( $text ) {
 		return $text;
+	}
+}
+
+if ( ! function_exists( 'esc_attr' ) ) {
+	function esc_attr( $text ) {
+		return $text;
+	}
+}
+
+if ( ! function_exists( 'esc_url' ) ) {
+	function esc_url( $url ) {
+		return $url;
 	}
 }
 
