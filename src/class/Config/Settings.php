@@ -19,6 +19,7 @@ use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Settings_Helper;
 use Lumiere\Admin\Widget_Selection;
 use Lumiere\Enums\Modal_Type;
+use Lumiere\Enums\Popup_Type;
 
 /**
  * Needed vars for uninstall, fails otherwise.
@@ -277,8 +278,8 @@ class Settings extends Settings_Helper {
 	 */
 	public static function get_scripts_frontend_vars(): string {
 		$imdb_admin_option = get_option( self::LUM_ADMIN_OPTIONS );
-		$urlpopup_film = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'film', site_url() ) );
-		$urlpopup_person = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'person', site_url() ) );
+		$urlpopup_film = apply_filters( 'lumiere_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Popup_Type::FILM, site_url() ) );
+		$urlpopup_person = apply_filters( 'lumiere_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Popup_Type::PERSON, site_url() ) );
 		$scripts_vars = wp_json_encode(
 			[
 				'lum_path'            => LUM_WP_URL,

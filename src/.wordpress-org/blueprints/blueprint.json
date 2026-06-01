@@ -43,7 +43,7 @@
 	},
 	{
 		"step": "wp-cli",
-		"command": "wp lum copy_taxo items --template=genre"
+		"command": "wp lum copy_taxo movies --template=genre"
 	},
 	{
 		"step": "wp-cli",

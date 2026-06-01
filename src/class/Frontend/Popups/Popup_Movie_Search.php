@@ -69,8 +69,8 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 		 */
 		$this->page_title = $this->get_title( Validate_Get::sanitize_url( 'film' ) );
 		// If polylang plugin is active, rewrite the URL to append the lang string
-		$this->popup_url_perso = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Item_Type::PERSON, site_url() ) );
-		$this->popup_url_film = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Item_Type::MOVIE, site_url() ) );
+		$this->popup_url_perso = apply_filters( 'lumiere_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Item_Type::PERSON, site_url() ) );
+		$this->popup_url_film = apply_filters( 'lumiere_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Item_Type::MOVIE, site_url() ) );
 
 		/**
 		 * Display title

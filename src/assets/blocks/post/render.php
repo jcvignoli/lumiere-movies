@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Display text only if main attributes are available, and also if 'lum_display_movies_box' filter is available
  */
-if ( isset( $attributes['lumiere_imdblt_select'], $attributes['content'] ) && has_filter( 'lum_display_movies_box' ) === true   ) {
+if ( isset( $attributes['lumiere_imdblt_select'], $attributes['content'] ) && has_filter( 'lumiere_display_movies_box' ) === true   ) {
 
 	$lumiere_value_array = explode( '_', $attributes['lumiere_imdblt_select'] );
 	$lumiere_movie_or_person = $lumiere_value_array[1] ?? 'movie'; // Either movie or person.
@@ -29,9 +29,9 @@ if ( isset( $attributes['lumiere_imdblt_select'], $attributes['content'] ) && ha
 
 	$lumiere_array = [];
 	if ( $lumiere_movie_or_person === 'movie' ) {
-		$lumiere_array = apply_filters( 'lum_find_movie_id', $lumiere_imdbid_or_title );
+		$lumiere_array = apply_filters( 'lumiere_find_movie_id', $lumiere_imdbid_or_title );
 	} elseif ( $lumiere_movie_or_person === 'person' ) {
-		$lumiere_array = apply_filters( 'lum_find_person_id', $lumiere_imdbid_or_title );
+		$lumiere_array = apply_filters( 'lumiere_find_person_id', $lumiere_imdbid_or_title );
 	}
 	echo wp_kses(
 		/**
@@ -40,7 +40,7 @@ if ( isset( $attributes['lumiere_imdblt_select'], $attributes['content'] ) && ha
 		 *
 		 * @var array<array{bymid?: string, byname?: string}> $lumiere_array List of movies/persons with IMDb IDs.
 		 */
-		apply_filters( "lum_display_{$lumiere_movie_or_person}s_box", $lumiere_array ),
+		apply_filters( "lumiere_display_{$lumiere_movie_or_person}s_box", $lumiere_array ),
 		[
 			'a' => [
 				'data-*' => true,

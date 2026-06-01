@@ -59,7 +59,7 @@ final class Classic_Links extends Implement_Methods implements Interface_Linkmak
 			'lumiere_classic_links',
 			Get_Options::LUM_JS_URL . 'lumiere_classic_links.min.js',
 			[],
-			lum_get_version(),
+			lumiere_get_version(),
 			true
 		);
 	}

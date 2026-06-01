@@ -62,7 +62,7 @@ class Parent_Module {
 		$url = wp_nonce_url( Get_Options::get_popup_url( Item_Type::PERSON, site_url() ) . '?mid=' . $imdb_id );
 		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(
 			'internal_with_spinner',
-			apply_filters( 'lum_polylang_rewrite_url_with_lang', $url ), // Polylang filter, adds "/lang" to URL if active.
+			apply_filters( 'lumiere_polylang_rewrite_url_with_lang', $url ), // Polylang filter, adds "/lang" to URL if active.
 			$name,
 		);
 	}
@@ -82,7 +82,7 @@ class Parent_Module {
 		$url = wp_nonce_url( Get_Options::get_popup_url( Item_Type::MOVIE, site_url() ) . '?mid=' . $imdb_id );
 		return "\n\t\t\t\t\t\t" . $this->output_class->get_link(
 			'internal_with_spinner',
-			apply_filters( 'lum_polylang_rewrite_url_with_lang', $url ), // Polylang filter, adds "/lang" to URL if active.
+			apply_filters( 'lumiere_polylang_rewrite_url_with_lang', $url ), // Polylang filter, adds "/lang" to URL if active.
 			$title,
 		);
 	}

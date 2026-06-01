@@ -22,6 +22,7 @@ use Lumiere\Tools\Validate_Get;
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Enums\Item_Type;
+use Lumiere\Enums\Popup_Type;
 use Lumiere\Config\Settings_Popup;
 use Lumiere\Config\Settings_Service;
 use Lumiere\Vendor\Imdb\Title;
@@ -112,8 +113,8 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 		$this->movie_class = $this->get_title_class( $movie_id );
 		$this->page_title = $this->get_title( null /** must pass something due to interface, but will with Movie class the title */ );
 		// If polylang plugin is active, rewrite the URL to append the lang string
-		$this->popup_url = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Item_Type::MOVIE, site_url() ) );
-		$this->popup_url_search = apply_filters( 'lum_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( 'movie_search', site_url() ) );
+		$this->popup_url = apply_filters( 'lumiere_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Item_Type::MOVIE, site_url() ) );
+		$this->popup_url_search = apply_filters( 'lumiere_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Popup_Type::MOVIE_SEARCH, site_url() ) );
 
 		/**
 		 * Display title

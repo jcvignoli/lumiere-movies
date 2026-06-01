@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	
 		<li class="lum_h4_help_filters"><?php esc_html_e( 'Find the IMDb ID for a person', 'lumiere-movies' ); ?></li>
 		<div><?php esc_html_e( 'Get the IMDb identification for a person.(return array)', 'lumiere-movies' ); ?></div>
-		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lum_find_person_id', 'person_name' )</blockquote>
+		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lumiere_find_person_id', 'person_name' )</blockquote>
 		<ol>
 			<li><i>person_name</i> (array): <?php
 			/* translators: %s is an HTML tag (a code) */
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		
 		<li class="lum_h4_help_filters"><?php esc_html_e( 'Find the Movie ID for a movie', 'lumiere-movies' ); ?></li>
 		<div><?php esc_html_e( 'Get the IMDb identification for a movie. (return array)', 'lumiere-movies' ); ?></div>
-		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lum_find_movie_id', 'array_titles' )</blockquote>
+		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lumiere_find_movie_id', 'array_titles' )</blockquote>
 		<ol>
 			<li><i>array_titles</i> (array):  <?php
 			/* translators: %s is an HTML tag (a code) */
@@ -42,7 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		
 		<li class="lum_h4_help_filters"><?php esc_html_e( 'Display IMDb data on a person', 'lumiere-movies' ); ?></li>
 		<div><?php esc_html_e( 'Show a box of IMDb information related to a/multiple selected person/s (return array)', 'lumiere-movies' ); ?></div>
-		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lum_display_persons_box', 'array_persons_with_imdbid' )</blockquote>
+		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lumiere_display_persons_box', 'array_persons_with_imdbid' )</blockquote>
 		<ol>
 			<li><i>array_persons_with_imdbid</i> (array): <?php
 			/* translators: %s is an HTML tag (a code) */
@@ -51,7 +51,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		
 		<li class="lum_h4_help_filters"><?php esc_html_e( 'Display IMDb data on a movie', 'lumiere-movies' ); ?></li>
 		<div><?php esc_html_e( 'Show a box of IMDb information related to a/multiple selected movie/s (return array)', 'lumiere-movies' ); ?></div>
-		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lum_display_movies_box', 'array_movies_with_imdbid' )</blockquote>
+		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lumiere_display_movies_box', 'array_movies_with_imdbid' )</blockquote>
 		<ol>
 			<li><i>array_movies_with_imdbid</i> (array): <?php
 			/* translators: %s is an HTML tag (a code) */
@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		
 		<li class="lum_h4_help_filters"><?php esc_html_e( 'Display a list of upcoming movies', 'lumiere-movies' ); ?></li>
 		<div><?php esc_html_e( 'Show a list of upcoming movies according to a selected country', 'lumiere-movies' ); ?></div>
-		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lum_coming_soon', 'countryCode', 'type', 'startDays', 'endDays' )</blockquote>
+		<blockquote class="lum_bloquote_help_filters">apply_filters( 'lumiere_coming_soon', 'countryCode', 'type', 'startDays', 'endDays' )</blockquote>
 		<ol>
 			<li><i>countryCode</i> (string): <?php
 			/* translators: %1$s and %2$s are HTML tags (codes) */

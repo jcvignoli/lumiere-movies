@@ -24,7 +24,7 @@ use Lumiere\Config\Get_Options;
 /**
  * Coming soon
  * Display the upcoming movies
- * Used in add_filter() with 'lum_coming_soon' hook
+ * Used in add_filter() with 'lumiere_coming_soon' hook
  * Used in coming-soon block
  *
  * @since 4.7 new class
@@ -71,7 +71,7 @@ final class Coming_Soon {
 
 	/**
 	 * Programmatically add the calendar stylesheet if it is not yet added
-	 * Needed if WordPress 6.9 calls the class through filter lum_coming_soon
+	 * Needed if WordPress 6.9 calls the class through filter lumiere_coming_soon
 	 * It is included through in block.json (thus in inline script id "lumiere-coming-soon-style-inline-css")
 	 *
 	 * @return void
@@ -80,7 +80,7 @@ final class Coming_Soon {
 	private function maybe_load_assets(): void {
 
 		// Execute in the first call of the filter only
-		if ( did_filter( 'lum_coming_soon' ) !== 1 ) {
+		if ( did_filter( 'lumiere_coming_soon' ) !== 1 ) {
 			return;
 		}
 

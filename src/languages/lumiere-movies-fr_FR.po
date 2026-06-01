@@ -48,7 +48,7 @@ msgid "Won %1$1s awards and was nominated %2$2s times."
 msgstr "A gagné %1$1s récompenses et nominé %2$2s fois."
 
 #. Translators: %1s is a website name, ie "New 70mm Trailer"
-#: class/Frontend/Link_Maker/Implement_Methods.php:366
+#: class/Frontend/Link_Maker/Implement_Methods.php:334
 #, php-format
 msgid "External URL %1s"
 msgstr "URL externe %1s"
@@ -121,6 +121,7 @@ msgstr "Afficher le nom (toujours activé)"
 msgid "Display title (always activated)"
 msgstr "Afficher le titre (toujours activé)"
 
+#: class/Config/Settings_Movie.php:228
 #: class/Config/Settings_Person.php:154
 msgid "miscellaneous"
 msgstr "divers"
@@ -133,27 +134,27 @@ msgstr "films de portrait"
 msgid "biography"
 msgstr "biographie"
 
-#: class/Admin/Search_Items.php:301
+#: class/Admin/Search_Items.php:305
 msgid "person"
 msgstr "personne"
 
-#: class/Admin/Search_Items.php:300
+#: class/Admin/Search_Items.php:304
 msgid "movie"
 msgstr "film"
 
-#: class/Admin/Search_Items.php:298
+#: class/Admin/Search_Items.php:302
 msgid "Search an IMDb ID for"
 msgstr "Rechercher une identification IMDb pour"
 
-#: class/Admin/Search_Items.php:276
+#: class/Admin/Search_Items.php:280
 msgid "no IMDb ID found"
 msgstr "aucune identification IMDb trouvée"
 
-#: class/Admin/Search_Items.php:270
+#: class/Admin/Search_Items.php:274
 msgid "no year found"
 msgstr "aucune année trouvée"
 
-#: class/Admin/Search_Items.php:248
+#: class/Admin/Search_Items.php:252
 msgid "Items results"
 msgstr "Résultats des objets"
 
@@ -209,21 +210,21 @@ msgstr "Supprimer tous les liens ajoutés par Lumière à l’exception de ceux 
 msgid "always next to title"
 msgstr "toujours après le titre"
 
-#: class/Frontend/Popups/Popup_Film.php:266
+#: class/Frontend/Popups/Popup_Film.php:270
 msgid "No summary info found "
 msgstr "Aucune info de résumé trouvée "
 
-#: class/Frontend/Popups/Popup_Film.php:257
+#: class/Frontend/Popups/Popup_Film.php:261
 msgid "No crew info found "
 msgstr "Aucune info d’équipe trouvée "
 
-#: class/Frontend/Popups/Popup_Film.php:247
+#: class/Frontend/Popups/Popup_Film.php:251
 msgid "No actors info found "
 msgstr "Aucun info d’acteur trouvée "
 
 #. Translators: %1s is a name, ie Stanley Kubrick
-#: class/Frontend/Link_Maker/Implement_Methods.php:140
-#: class/Frontend/Link_Maker/Implement_Methods.php:147
+#: class/Frontend/Link_Maker/Implement_Methods.php:128
+#: class/Frontend/Link_Maker/Implement_Methods.php:135
 #, php-format
 msgid "Photo of %1s"
 msgstr "Photo de %1s"
@@ -454,8 +455,8 @@ msgstr "L’actualisation du cache a commencé, ce message sera mis à jour lors
 msgid "Currently refreshing the cache, %1$1s remain to be refreshed. A new full refresh will start on %2$2s."
 msgstr "Actualisation en cours du cache, %1$1s restent à mettre à jour. Une nouvelle actualisation complète débutera le %2$2s."
 
-#: class/Admin/Search_Items.php:255
-#: class/Frontend/Popups/Popup_Movie_Search.php:161
+#: class/Admin/Search_Items.php:259
+#: class/Frontend/Popups/Popup_Movie_Search.php:164
 msgid "No results found."
 msgstr "Aucun résultat trouvé."
 
@@ -498,17 +499,17 @@ msgstr "Page principale Lumière"
 msgid "This button will %1$1sdelete%2$2s all files stored in the following folder:"
 msgstr "Ce bouton %1$1seffacera%2$2s tous les fichiers sauvegardés dans le dossier suivant :"
 
-#: class/Admin/Submenu/Cache.php:41
+#: class/Admin/Submenu/Cache.php:42
 #: class/Admin/Submenu/Datamovie.php:44
 #: class/Admin/Submenu/Dataperson.php:40
 #: class/Admin/Submenu/Help.php:55
 #: class/Admin/Submenu/Main.php:51
-#: class/Frontend/Main.php:172
+#: class/Frontend/Main.php:148
 msgid "Invalid or missing nonce."
 msgstr "Nonce invalide ou manquant."
 
 #. translators: %1s is a movie's title
-#: class/Admin/Search_Items.php:86
+#: class/Admin/Search_Items.php:87
 #, php-format
 msgid "Lumière Query Interface %1s"
 msgstr "Lumière Interface de recherche %1s"
@@ -557,11 +558,11 @@ msgstr "mois inconnu"
 msgid "day unknown"
 msgstr "jour inconnu"
 
-#: class/Frontend/Popups/Popup_Person.php:164
+#: class/Frontend/Popups/Popup_Person.php:167
 msgid "Could not find any IMDb person with this query."
 msgstr "Impossible de trouve une personne IMDb avec cette requête."
 
-#: class/Frontend/Popups/Popup_Film.php:192
+#: class/Frontend/Popups/Popup_Film.php:196
 msgid "Could not find any IMDb movie with this query."
 msgstr "Impossible de trouver un film IMDb avec cette requête."
 
@@ -569,15 +570,15 @@ msgstr "Impossible de trouver un film IMDb avec cette requête."
 msgid "Lumière Movies: This should not have happened."
 msgstr "Lumière Movies : cela n’aurait jamais dû se produire"
 
-#: class/Frontend/Module/Movie/Movie_Actor.php:74
-#: class/Frontend/Module/Movie/Movie_Actor.php:139
-#: class/Frontend/Module/Movie/Movie_Cinematographer.php:124
-#: class/Frontend/Module/Movie/Movie_Composer.php:122
+#: class/Frontend/Module/Movie/Movie_Actor.php:76
+#: class/Frontend/Module/Movie/Movie_Actor.php:141
+#: class/Frontend/Module/Movie/Movie_Cinematographer.php:126
+#: class/Frontend/Module/Movie/Movie_Composer.php:124
 msgid "role unknown"
 msgstr "rôle inconnu"
 
-#: class/Frontend/Module/Movie/Movie_Writer.php:88
-#: class/Frontend/Module/Movie/Movie_Writer.php:199
+#: class/Frontend/Module/Movie/Movie_Writer.php:90
+#: class/Frontend/Module/Movie/Movie_Writer.php:201
 msgid "episode"
 msgid_plural "episodes"
 msgstr[0] "épisode"
@@ -595,7 +596,7 @@ msgid_plural "pics"
 msgstr[0] "photo"
 msgstr[1] "photos"
 
-#: class/Admin/Search_Items.php:87
+#: class/Admin/Search_Items.php:88
 msgid "Lumière Query Interface"
 msgstr "Lumière Interface de recherche"
 
@@ -607,7 +608,7 @@ msgstr "Le nonce est incorrect, aucun changement n’a été effectué."
 msgid "Options could not be saved."
 msgstr "Les réglages n’ont pas pu être enregistrés."
 
-#: functions.php:29
+#: functions.php:28
 msgid "You installed one of them."
 msgstr "Vous avez installé l’un d’entre eux."
 
@@ -659,20 +660,20 @@ msgid_plural "spouses"
 msgstr[0] "conjoint"
 msgstr[1] "conjoints"
 
-#: class/Frontend/Popups/Popup_Film.php:275
-#: class/Frontend/Popups/Popup_Person.php:253
+#: class/Frontend/Popups/Popup_Film.php:279
+#: class/Frontend/Popups/Popup_Person.php:256
 msgid "No misc info found "
 msgstr "Aucune information diverse trouvée "
 
-#: class/Frontend/Popups/Popup_Person.php:242
+#: class/Frontend/Popups/Popup_Person.php:245
 msgid "No biography found "
 msgstr "Aucune biographie trouvée "
 
-#: class/Frontend/Popups/Popup_Person.php:230
+#: class/Frontend/Popups/Popup_Person.php:233
 msgid "No filmography found "
 msgstr "Aucune filmographie trouvée "
 
-#: class/Frontend/Popups/Popup_Person.php:213
+#: class/Frontend/Popups/Popup_Person.php:216
 msgid "No summary found "
 msgstr "Aucun résumé trouvé "
 
@@ -736,7 +737,7 @@ msgstr "L’affichage des données du cache est désactivé."
 msgid "https://www.wordpress.org/plugins/lumiere-movies/"
 msgstr "https://www.wordpress.org/plugins/lumiere-movies/"
 
-#: class/Frontend/Link_Maker/Implement_Methods.php:175
+#: class/Frontend/Link_Maker/Implement_Methods.php:163
 msgid "No biography available"
 msgstr "Pas de biographie disponible"
 
@@ -796,27 +797,27 @@ msgid "Ticked file(s) deleted."
 msgstr "Les fichiers sélectionnés ont été effacés."
 
 #. translators: %1$s is the name of a person
-#: class/Theme/Taxonomy_People_Standard.php:428
+#: class/Theme/Taxonomy_People_Standard.php:436
 #, php-format
 msgid "No post written about %1$s"
 msgstr "Aucun article écrit au sujet de %1$s"
 
-#: class/Plugins/Auto/Polylang.php:244
+#: class/Plugins/Auto/Polylang.php:243
 msgid "No data passed"
 msgstr "Aucune donnée transmise"
 
-#: class/Plugins/Auto/Polylang.php:233
+#: class/Plugins/Auto/Polylang.php:232
 msgid "Language successfully changed."
 msgstr "Langue modifée avec succès."
 
 #: class/Frontend/Module/Person/Person_Born.php:46
 #: class/Frontend/Module/Person/Person_Born.php:73
-#: class/Frontend/Popups/Popup_Movie_Search.php:208
+#: class/Frontend/Popups/Popup_Movie_Search.php:211
 msgid "year unknown"
 msgstr "année inconnue"
 
-#: class/Frontend/Popups/Popup_Film.php:135
-#: class/Frontend/Popups/Popup_Person.php:132
+#: class/Frontend/Popups/Popup_Film.php:139
+#: class/Frontend/Popups/Popup_Person.php:135
 msgid "Unknown - Lumière movies"
 msgstr "Inconnu - Lumière movies"
 
@@ -824,7 +825,7 @@ msgstr "Inconnu - Lumière movies"
 msgid "Add automatically movie details to your pages with Lumière! Legacy version. As of WordPress 5.8, you rather should use block-based widgets."
 msgstr "Ajoutez les détails de films à vos pages avec Lumière! ancienne version. Depuis la version WordPress 5.8, vous devriez préférer le widget basés sur les blocs."
 
-#: class/Admin/Search_Items.php:284
+#: class/Admin/Search_Items.php:288
 msgid "Do a new query"
 msgstr "Lancer une nouvelle recherche"
 
@@ -1038,11 +1039,11 @@ msgstr "Principal"
 msgid "You can now visit pages that include all your posts grouped by movie details. For instance, if you write a lot about the same movie director, the taxonomy page will include all your posts written about them."
 msgstr "Vous pouvez maintenant visiter des pages qui comprennent tous vos articles groupés par détails de films. Par exemple, si vous écrivez beaucoup sur un même réalisateur, la page de taxonomie comprendra tous vos article le concernant."
 
-#: functions.php:30
+#: functions.php:29
 msgid "Lumière has been deactivated and cannot be activated again unless you deactivate them all."
 msgstr "Lumière! a été désactivée et ne peut être réactivée que si vous les désactivez tous."
 
-#: class/Frontend/Popups/Popup_Movie_Search.php:195
+#: class/Frontend/Popups/Popup_Movie_Search.php:198
 msgid "You can increase the limit of results in the admin options."
 msgstr "Vous pouvez augmenter la limite de résultats dans les réglages d’administration."
 
@@ -1130,15 +1131,15 @@ msgstr "C’est un type spécial de widget. Contrairement au widget normal de Lu
 msgid "What is Lumière auto-widget?"
 msgstr "Qu’est-ce que Lumière! auto-widget ?"
 
-#: functions.php:28
+#: functions.php:27
 msgid "Lumière is incompatible with the following plugins: "
 msgstr "Lumière est incompatible avec les extensions suivantes : "
 
-#: class/Admin/Search_Items.php:262
+#: class/Admin/Search_Items.php:266
 msgid "Maximum number of results reached. You can increase this limit in the admin options."
 msgstr "Nombre maximum de résultats atteint. Vous pouvez augmenter ce nombre dans les options d’administration."
 
-#: class/Theme/Taxonomy_People_Standard.php:321
+#: class/Theme/Taxonomy_People_Standard.php:329
 msgid "No IMDb result found for "
 msgstr "Pas de résultat IMDb trouvé pour "
 
@@ -1155,8 +1156,8 @@ msgstr "Widget de titre automatique ?"
 msgid "If cache is deactived, pictures will not be displayed and it will take longer to display the page."
 msgstr "Si le cache est désactivé, les images ne seront plus disponibles et l’affichage des pages sera plus long."
 
-#: class/Frontend/Link_Maker/Implement_Methods.php:308
-#: class/Frontend/Link_Maker/Implement_Methods.php:343
+#: class/Frontend/Link_Maker/Implement_Methods.php:289
+#: class/Frontend/Link_Maker/Implement_Methods.php:314
 msgid "No Links"
 msgstr "Pas de liens"
 
@@ -1192,13 +1193,13 @@ msgstr "Toute modification de la feuille de style que vous effectuez doit être 
 msgid "(Activated automatically for \"genre\" and \"director\" taxonomies upon installation)"
 msgstr "(Activé automatiquement pour les taxonomies « genre » et « réalisateur » lors de l’installation)"
 
-#: class/Plugins/Auto/Polylang.php:176
-#: class/Plugins/Auto/Polylang.php:209
+#: class/Plugins/Auto/Polylang.php:175
+#: class/Plugins/Auto/Polylang.php:208
 msgid "Filter language"
 msgstr "Filtrer la langue"
 
-#: class/Plugins/Auto/Polylang.php:162
-#: class/Plugins/Auto/Polylang.php:198
+#: class/Plugins/Auto/Polylang.php:161
+#: class/Plugins/Auto/Polylang.php:197
 msgid "All"
 msgstr "Tous"
 
@@ -1220,7 +1221,7 @@ msgstr "L’URL qui sera affichée pour les pages de taxonomie."
 msgid "Keep settings upon uninstall"
 msgstr "Sauvegarder la configuration lors de la désinstallation"
 
-#: templates/admin/main/admin-main-layout.php:181
+#: templates/admin/main/admin-main-layout.php:180
 msgid "Weither to display a thumbnail or a larger poster for movies included in posts, widgets, popups and taxonomy pages. Untick the box to open a new option and choose a different poster width."
 msgstr "Soit afficher la miniature ou l’image agrandie de pochette pour les films dans les articles, les widgets, les fenêtres contextuelles, les pages de taxonomie. Désélectionnez la boîte pour afficher une nouvelle option et choisir la largeur de la pochette."
 
@@ -1553,7 +1554,7 @@ msgstr "Options principales et avancées"
 msgid "Cache"
 msgstr "Cache"
 
-#: class/Theme/Taxonomy_People_Standard.php:379
+#: class/Theme/Taxonomy_People_Standard.php:387
 msgid "In the role of"
 msgstr "Dans le rôle de"
 
@@ -1597,21 +1598,21 @@ msgstr "[Options additionnelles de débogage]"
 msgid "Use integrated debugging functions."
 msgstr "Utiliser les fonctions intégrées de debug."
 
-#: class/Frontend/Popups/Popup_Movie_Search.php:249
+#: class/Frontend/Popups/Popup_Movie_Search.php:252
 msgid "No directors found."
 msgstr "Aucun réalisateur trouvé."
 
-#: class/Frontend/Popups/Popup_Movie_Search.php:171
+#: class/Frontend/Popups/Popup_Movie_Search.php:174
 msgid "Matching title"
 msgid_plural "Matching titles"
 msgstr[0] "Titre correspondant"
 msgstr[1] "Titres correspondant"
 
-#: class/Frontend/Popups/Popup_Film.php:294
+#: class/Frontend/Popups/Popup_Film.php:298
 msgid "Similar Titles"
 msgstr "Titres similaires"
 
-#: class/Frontend/Popups/Popup_Film.php:294
+#: class/Frontend/Popups/Popup_Film.php:298
 msgid "Search for other movies with the same title"
 msgstr "Rechercher d’autres films avec le même titre"
 
@@ -1655,15 +1656,15 @@ msgstr "Si activé, les options de Lumière! apparaissent dans le menu supérieu
 msgid "If enabled, Lumiere options are displayed in a dedicated menu on the left panel instead of being displayed in the settings menu."
 msgstr "Si activé, les options Lumière sont affichées dans un menu dédié sur le panneau de gauche, au lieu d’être affichées dans le menu de réglages généraux."
 
-#: templates/admin/main/admin-main-layout.php:127
+#: templates/admin/main/admin-main-layout.php:126
 msgid "Plain pages"
 msgstr "Pages pleines"
 
-#: class/Theme/Taxonomy_People_Standard.php:320
+#: class/Theme/Taxonomy_People_Standard.php:328
 msgid "Taxonomy for "
 msgstr "Taxonomie pour "
 
-#: templates/admin/main/admin-main-layout.php:155
+#: templates/admin/main/admin-main-layout.php:154
 msgid "Inside the post/widget/taxonomy color theme"
 msgstr "Thème dans les articles/widget/taxonomie"
 
@@ -1677,11 +1678,11 @@ msgstr[1] ""
 msgid "see all"
 msgstr "voir tout"
 
-#: class/Frontend/Popups/Popup_Person.php:283
+#: class/Frontend/Popups/Popup_Person.php:286
 msgid "Full biography"
 msgstr "Biographie complète"
 
-#: class/Frontend/Popups/Popup_Person.php:280
+#: class/Frontend/Popups/Popup_Person.php:283
 msgid "Full filmography"
 msgstr "Filmographie complète"
 
@@ -1691,12 +1692,12 @@ msgstr "Filmographie complète"
 msgid "click to show more %1s"
 msgstr "cliquez pour plus de %1s"
 
-#: class/Frontend/Popups/Popup_Film.php:306
+#: class/Frontend/Popups/Popup_Film.php:310
 msgid "Plots"
 msgstr "Intrigues"
 
-#: class/Frontend/Popups/Popup_Film.php:297
-#: class/Frontend/Popups/Popup_Person.php:277
+#: class/Frontend/Popups/Popup_Film.php:301
+#: class/Frontend/Popups/Popup_Person.php:280
 msgid "Summary"
 msgstr "Résumé"
 
@@ -1708,11 +1709,11 @@ msgstr "Affiche l’année de sortie. L’année de sortie apparaîtra à côté
 msgid "Data Management"
 msgstr "Gestion des données"
 
-#: templates/admin/main/admin-main-layout.php:146
+#: templates/admin/main/admin-main-layout.php:145
 msgid "white"
 msgstr "blanc"
 
-#: templates/admin/main/admin-main-layout.php:140
+#: templates/admin/main/admin-main-layout.php:139
 msgid "grey (default)"
 msgstr "gris (d&eacute;faut)"
 
@@ -1722,7 +1723,7 @@ msgid "Find similar taxonomy results"
 msgstr "Trouver des résultats de taxonomie similaires"
 
 #. translators: %1s is the title of a movie
-#: class/Frontend/Popups/Popup_Movie_Search.php:93
+#: class/Frontend/Popups/Popup_Movie_Search.php:96
 #, php-format
 msgid "Lumiere Query Interface %1s"
 msgstr "Lumière Interface de recherche %1s"
@@ -1759,7 +1760,7 @@ msgstr "Ceci ajoutera les termes de taxonomie trouvés pour le film lorsqu’une
 msgid "Use taxonomy"
 msgstr "Utiliser la taxonomie"
 
-#: templates/admin/main/admin-main-layout.php:115
+#: templates/admin/main/admin-main-layout.php:114
 msgid "lightgrey"
 msgstr "gris léger"
 
@@ -1771,25 +1772,25 @@ msgstr "Mauvaises valeurs. Vous ne pouvez pas sélectionner le même morceau d�
 msgid "Widget title:"
 msgstr "Titre du widget :"
 
-#: templates/admin/main/admin-main-layout.php:164
+#: templates/admin/main/admin-main-layout.php:163
 msgid "Cover picture"
 msgstr "Photo de couverture"
 
-#: templates/admin/main/admin-main-layout.php:118
+#: templates/admin/main/admin-main-layout.php:117
 msgid "Popup color theme"
 msgstr "Thème de couleur pour la fenêtre surgissante"
 
-#: templates/admin/main/admin-main-layout.php:111
-#: templates/admin/main/admin-main-layout.php:152
+#: templates/admin/main/admin-main-layout.php:110
+#: templates/admin/main/admin-main-layout.php:151
 msgid "black"
 msgstr "noir"
 
-#: templates/admin/main/admin-main-layout.php:107
+#: templates/admin/main/admin-main-layout.php:106
 msgid "white (default)"
 msgstr "blanc (défaut)"
 
-#: templates/admin/main/admin-main-layout.php:102
-#: templates/admin/main/admin-main-layout.php:132
+#: templates/admin/main/admin-main-layout.php:101
+#: templates/admin/main/admin-main-layout.php:131
 msgid "Theme color"
 msgstr "Thème Lumière"
 
@@ -1801,15 +1802,9 @@ msgstr "Actuel :"
 msgid "Photo path (relative to the cache path)"
 msgstr "Chemin de photo (relatif au chemin du cache)"
 
-#: class/Admin/Copy_Templates/Auto_Update_Theme.php:13
-#: class/Admin/Copy_Templates/Copy_Theme.php:13
-#: class/Admin/Search_Items.php:15
-msgid "You are not allowed to call this page directly."
-msgstr "Vous n’êtes pas autorisé à afficher cette page directement."
-
 #. translators: %1s is a movie's title
-#: class/Frontend/Popups/Popup_Film.php:134
-#: class/Frontend/Popups/Popup_Person.php:131
+#: class/Frontend/Popups/Popup_Film.php:138
+#: class/Frontend/Popups/Popup_Person.php:134
 #, php-format
 msgid "Informations about %1s"
 msgstr "Information pour %1s"
@@ -1915,25 +1910,25 @@ msgstr "Le cache est crucial pour le fonctionnement de Lumière! Comme les premi
 msgid "All cache files deleted."
 msgstr "Tous les fichiers de cache ont été effacés."
 
-#: class/Admin/Save/Save_Options.php:397
+#: class/Admin/Save/Save_Options.php:403
 msgid "No cache folder found."
 msgstr "Pas de dossier de cache trouvé."
 
-#: class/Admin/Search_Items.php:307
+#: class/Admin/Search_Items.php:311
 #: class/Alteration/Taxonomy.php:182
 #: templates/admin/main/admin-main-advanced.php:26
 msgid "Search"
 msgstr "Recherche"
 
-#: class/Admin/Search_Items.php:274
+#: class/Admin/Search_Items.php:278
 msgid "IMDb ID:"
 msgstr "Identification IMDb :"
 
-#: class/Admin/Search_Items.php:249
+#: class/Admin/Search_Items.php:253
 msgid "IMDb Identification number"
 msgstr "Numéro d’identification IMDB"
 
-#: class/Admin/Search_Items.php:246
+#: class/Admin/Search_Items.php:250
 msgid "Results related to your query:"
 msgstr "Résultats correspondants à votre requête :"
 
@@ -2190,31 +2185,31 @@ msgstr "Menu de gauche des options de Lumière"
 msgid "The options hereafter can break a lot of things. Edit them only if you know what you are doing."
 msgstr "Les options ci-dessous peuvent casser bien des choses. Ne les modifiez que si vous savez ce que vous faites."
 
-#: templates/admin/main/admin-main-layout.php:190
+#: templates/admin/main/admin-main-layout.php:189
 msgid "Size of the imdb cover picture. The value will correspond to the width in pixels. Delete any value to get maximum width."
 msgstr "Taille de la pochette IMDb. La valeur indique la largeur en pixels. Effacer toute valeur pour afficher la largeur maximale."
 
-#: templates/admin/main/admin-main-layout.php:170
+#: templates/admin/main/admin-main-layout.php:169
 msgid "Display only thumbnail"
 msgstr "Afficher uniquement la miniature"
 
-#: templates/admin/main/admin-main-layout.php:186
+#: templates/admin/main/admin-main-layout.php:185
 msgid "Size"
 msgstr "Taille"
 
-#: templates/admin/main/admin-main-layout.php:97
+#: templates/admin/main/admin-main-layout.php:96
 msgid "Popup height, in pixels"
 msgstr "Hauteur de la fenêtre contextuelle, en pixels"
 
-#: templates/admin/main/admin-main-layout.php:91
+#: templates/admin/main/admin-main-layout.php:90
 msgid "Height"
 msgstr "Hauteur"
 
-#: templates/admin/main/admin-main-layout.php:86
+#: templates/admin/main/admin-main-layout.php:85
 msgid "Popup width, in pixels"
 msgstr "Largeur de fenêtre contextuelle, en pixels"
 
-#: templates/admin/main/admin-main-layout.php:81
+#: templates/admin/main/admin-main-layout.php:80
 msgid "Width"
 msgstr "Largeur"
 
@@ -2244,15 +2239,15 @@ msgstr "Chemins & Mise en page"
 msgid "vote average"
 msgstr "moyenne de votes"
 
-#: class/Frontend/Popups/Popup_Film.php:303
+#: class/Frontend/Popups/Popup_Film.php:307
 msgid "Crew"
 msgstr "Equipe"
 
-#: class/Frontend/Popups/Popup_Film.php:300
+#: class/Frontend/Popups/Popup_Film.php:304
 msgid "Actors"
 msgstr "Acteurs"
 
-#: class/Frontend/Popups/Popup_Film.php:297
+#: class/Frontend/Popups/Popup_Film.php:301
 msgid "Movie"
 msgstr "Film"
 
@@ -2314,13 +2309,13 @@ msgstr "Taille totale du cache :"
 
 #: templates/admin/cache/admin-cache-manage.php:644
 #: templates/admin/cache/admin-cache-options.php:211
-#: templates/admin/data/admin-data-movie-display.php:123
+#: templates/admin/data/admin-data-movie-display.php:121
 #: templates/admin/data/admin-data-movie-order.php:77
 #: templates/admin/data/admin-data-movie-taxonomy.php:185
-#: templates/admin/data/admin-data-person-display.php:120
+#: templates/admin/data/admin-data-person-display.php:118
 #: templates/admin/data/admin-data-person-order.php:73
 #: templates/admin/main/admin-main-advanced.php:534
-#: templates/admin/main/admin-main-layout.php:199
+#: templates/admin/main/admin-main-layout.php:198
 msgid "Update settings"
 msgstr "Enregistrer les modifications"
 
@@ -2328,13 +2323,13 @@ msgstr "Enregistrer les modifications"
 #: templates/admin/cache/admin-cache-manage.php:97
 #: templates/admin/cache/admin-cache-manage.php:645
 #: templates/admin/cache/admin-cache-options.php:212
-#: templates/admin/data/admin-data-movie-display.php:124
+#: templates/admin/data/admin-data-movie-display.php:122
 #: templates/admin/data/admin-data-movie-order.php:78
 #: templates/admin/data/admin-data-movie-taxonomy.php:186
-#: templates/admin/data/admin-data-person-display.php:121
+#: templates/admin/data/admin-data-person-display.php:119
 #: templates/admin/data/admin-data-person-order.php:74
 #: templates/admin/main/admin-main-advanced.php:535
-#: templates/admin/main/admin-main-layout.php:200
+#: templates/admin/main/admin-main-layout.php:199
 msgid "Reset settings"
 msgstr "R&eacute;initialiser"
 
@@ -2381,7 +2376,7 @@ msgstr "Non"
 #: templates/admin/main/admin-main-advanced.php:208
 #: templates/admin/main/admin-main-advanced.php:300
 #: templates/admin/main/admin-main-advanced.php:318
-#: templates/admin/main/admin-main-layout.php:181
+#: templates/admin/main/admin-main-layout.php:180
 msgid "Yes"
 msgstr "Oui"
 
@@ -2406,13 +2401,12 @@ msgstr "Oui"
 #: templates/admin/main/admin-main-advanced.php:438
 #: templates/admin/main/admin-main-advanced.php:468
 #: templates/admin/main/admin-main-advanced.php:501
-#: templates/admin/main/admin-main-layout.php:72
-#: templates/admin/main/admin-main-layout.php:86
-#: templates/admin/main/admin-main-layout.php:97
-#: templates/admin/main/admin-main-layout.php:118
-#: templates/admin/main/admin-main-layout.php:155
-#: templates/admin/main/admin-main-layout.php:181
-#: templates/admin/main/admin-main-layout.php:190
+#: templates/admin/main/admin-main-layout.php:85
+#: templates/admin/main/admin-main-layout.php:96
+#: templates/admin/main/admin-main-layout.php:117
+#: templates/admin/main/admin-main-layout.php:154
+#: templates/admin/main/admin-main-layout.php:180
+#: templates/admin/main/admin-main-layout.php:189
 msgid "Default:"
 msgstr "Par défaut :"
 
@@ -2460,11 +2454,11 @@ msgstr "R&eacute;pertoire cache (chemin absolu)"
 msgid "Manage Cache"
 msgstr "Gérer le cache"
 
-#: class/Frontend/Link_Maker/Implement_Methods.php:473
+#: class/Frontend/Link_Maker/Implement_Methods.php:441
 msgid "IMDb's page for this movie"
 msgstr "Page IMDb pour ce film"
 
-#: class/Frontend/Link_Maker/Implement_Methods.php:470
+#: class/Frontend/Link_Maker/Implement_Methods.php:438
 msgid "Go to IMDb website for this movie"
 msgstr "Allez sur le site internet de IMDb pour ce film"
 
@@ -2502,16 +2496,16 @@ msgstr "&agrave;"
 msgid "Born on"
 msgstr "N&eacute; le"
 
-#: class/Frontend/Popups/Popup_Film.php:309
-#: class/Frontend/Popups/Popup_Person.php:286
+#: class/Frontend/Popups/Popup_Film.php:313
+#: class/Frontend/Popups/Popup_Person.php:289
 msgid "Misc"
 msgstr "Divers"
 
-#: class/Frontend/Link_Maker/Implement_Methods.php:180
+#: class/Frontend/Link_Maker/Implement_Methods.php:168
 msgid "Biography"
 msgstr "Biographie"
 
-#: class/Frontend/Popups/Popup_Movie_Search.php:152
+#: class/Frontend/Popups/Popup_Movie_Search.php:155
 msgid "Results related to"
 msgstr "Choix correspondants &agrave;"
 
@@ -2522,7 +2516,7 @@ msgstr[0] "site web officiel"
 msgstr[1] "sites web officiels"
 
 #. Translators: %1s is a website name, ie "New 70mm Trailer"
-#: class/Frontend/Link_Maker/Implement_Methods.php:385
+#: class/Frontend/Link_Maker/Implement_Methods.php:353
 #, php-format
 msgid "Watch on IMBb website the trailer for %1s"
 msgstr "Voir la bande annonce sur le site IMDb pour %1s"
@@ -2532,7 +2526,7 @@ msgstr "Voir la bande annonce sur le site IMDb pour %1s"
 msgid "votes"
 msgstr "votes"
 
-#: class/Frontend/Link_Maker/Implement_Methods.php:74
+#: class/Frontend/Link_Maker/Implement_Methods.php:62
 msgid "Rating"
 msgstr "Notation"
 
@@ -2546,16 +2540,16 @@ msgstr "minutes"
 msgid "no picture"
 msgstr "pas de photo"
 
-#: class/Theme/Taxonomy_People_Standard.php:406
+#: class/Theme/Taxonomy_People_Standard.php:414
 msgid "Tags: "
 msgstr "Etiquettes : "
 
-#: class/Theme/Taxonomy_People_Standard.php:400
+#: class/Theme/Taxonomy_People_Standard.php:408
 msgid "Filed under: "
 msgstr "Catégorisé sous : "
 
 #: class/Theme/Taxonomy_Items_Standard.php:188
-#: class/Theme/Taxonomy_People_Standard.php:389
+#: class/Theme/Taxonomy_People_Standard.php:397
 msgid "Open the blog "
 msgstr "Ouvrir le blog "
 
@@ -2645,19 +2639,19 @@ msgstr ""
 msgid "How to query the items in the widget?"
 msgstr ""
 
-#: class/Config/Settings.php:222
+#: class/Config/Settings.php:224
 msgid "By movie ID"
 msgstr ""
 
-#: class/Config/Settings.php:226
+#: class/Config/Settings.php:228
 msgid "By movie title"
 msgstr ""
 
-#: class/Config/Settings.php:230
+#: class/Config/Settings.php:232
 msgid "By person name"
 msgstr ""
 
-#: class/Config/Settings.php:234
+#: class/Config/Settings.php:236
 msgid "By person ID"
 msgstr ""
 
@@ -2735,40 +2729,38 @@ msgid "widget"
 msgstr ""
 
 #. Translators: %1s is a name, ie Stanley Kubrick
-#: class/Frontend/Link_Maker/Implement_Methods.php:268
+#: class/Frontend/Link_Maker/Implement_Methods.php:256
 #, php-format
 msgctxt "person name"
 msgid "Open a new window with IMDb informations for %1s"
 msgstr ""
 
 #. Translators: %1s is a movie's title, ie Full Metal Jacket
-#: class/Frontend/Link_Maker/Implement_Methods.php:295
-#: class/Frontend/Link_Maker/Implement_Methods.php:300
-#: class/Frontend/Link_Maker/Implement_Methods.php:330
-#: class/Frontend/Link_Maker/Implement_Methods.php:335
+#: class/Frontend/Link_Maker/Implement_Methods.php:281
+#: class/Frontend/Link_Maker/Implement_Methods.php:307
 #, php-format
 msgctxt "movie title"
 msgid "Open a new window with IMDb informations for %1s"
 msgstr ""
 
 #. translators: "from" like in "from 2025"
-#: class/Frontend/Module/Movie/Movie_Writer.php:91
-#: class/Frontend/Module/Movie/Movie_Writer.php:202
+#: class/Frontend/Module/Movie/Movie_Writer.php:93
+#: class/Frontend/Module/Movie/Movie_Writer.php:204
 msgctxt "year"
 msgid "from"
 msgstr ""
 
 #. translators: "In" like in "in 2025"
-#: class/Frontend/Module/Movie/Movie_Writer.php:93
-#: class/Frontend/Module/Movie/Movie_Writer.php:204
-#: class/Frontend/Module/Movie/Movie_Writer.php:209
+#: class/Frontend/Module/Movie/Movie_Writer.php:95
+#: class/Frontend/Module/Movie/Movie_Writer.php:206
+#: class/Frontend/Module/Movie/Movie_Writer.php:211
 msgctxt "year"
 msgid "in"
 msgstr ""
 
 #. translators: "To" like in "to 2025"
-#: class/Frontend/Module/Movie/Movie_Writer.php:97
-#: class/Frontend/Module/Movie/Movie_Writer.php:207
+#: class/Frontend/Module/Movie/Movie_Writer.php:99
+#: class/Frontend/Module/Movie/Movie_Writer.php:209
 msgctxt "year"
 msgid "to"
 msgstr ""
@@ -2871,7 +2863,7 @@ msgstr ""
 msgid "Language used to display movie's title."
 msgstr ""
 
-#: class/Frontend/Coming_Soon.php:126
+#: class/Frontend/Coming_Soon.php:128
 msgid "No data found."
 msgstr ""
 
@@ -3116,7 +3108,7 @@ msgid "Add upcoming list of movies into your post"
 msgstr ""
 
 #. translators: %s is a max number of results
-#: class/Frontend/Popups/Popup_Movie_Search.php:191
+#: class/Frontend/Popups/Popup_Movie_Search.php:194
 #, php-format
 msgid "Maximum number of results (%s) reached."
 msgstr ""
@@ -3204,4 +3196,28 @@ msgstr ""
 #: templates/admin/help/admin-help-howto.php:175
 #, php-format
 msgid "%1$sSecond%2$s, edit your post and add the name of the movie in the box to the sidebar on your right-hand. Lumiere Movies will automatically display in the widget the movie selected."
+msgstr ""
+
+#: class/Config/Settings_Movie.php:226
+msgid "not a goof"
+msgstr ""
+
+#: class/Config/Settings_Movie.php:230
+msgid "audio visual unsynchronized"
+msgstr ""
+
+#: class/Config/Settings_Movie.php:231
+msgid "stuff visible"
+msgstr ""
+
+#: class/Config/Settings_Movie.php:234
+msgid "boom mic visible"
+msgstr ""
+
+#: class/Config/Settings_Movie.php:235
+msgid "character error"
+msgstr ""
+
+#: templates/admin/main/admin-main-layout.php:71
+msgid "Default: Bootstrap"
 msgstr ""

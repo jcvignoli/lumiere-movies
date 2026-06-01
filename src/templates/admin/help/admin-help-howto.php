@@ -414,7 +414,7 @@ $lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.und
 				<div id="inside_help_explain_comingsoon" class="hidesection">
 					<?php esc_html_e( 'Should you want to diplay the movies to come soon, use the dedicated filter:', 'lumiere-movies' ); ?>
 					<blockquote class="lumiere_bloquote_help lum_padding_left_50">
-						echo apply_filters( 'lum_coming_soon','US', 'MOVIE', 0, 90 );
+						echo apply_filters( 'lumiere_coming_soon','US', 'MOVIE', 0, 90 );
 					</blockquote>
 					<?php esc_html_e( 'The first filter option allows to change the country based on a two-letter position, and if nothing was passed "US" is default.', 'lumiere-movies' ); ?>
 					<br clear="both">

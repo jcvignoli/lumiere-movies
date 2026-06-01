@@ -131,7 +131,7 @@ class Front_Parser {
 		 *
 		 * @var list<MOVIE_QUERY> $imdb_id_or_title List of movie IDs or titles.
 		 */
-		$array_movies_with_imdbid = apply_filters( 'lum_find_movie_id', $imdb_id_or_title );
+		$array_movies_with_imdbid = apply_filters( 'lumiere_find_movie_id', $imdb_id_or_title );
 
 		/**
 		 * Filter to display movies box.
@@ -140,7 +140,7 @@ class Front_Parser {
 		 *
 		 * @var list<MOVIE_QUERY> $array_movies_with_imdbid List of movies with IMDb IDs.
 		 */
-		return apply_filters( 'lum_display_movies_box', $array_movies_with_imdbid );
+		return apply_filters( 'lumiere_display_movies_box', $array_movies_with_imdbid );
 	}
 
 	/**
@@ -173,7 +173,7 @@ class Front_Parser {
 		 *
 		 * @var list<MOVIE_QUERY> $imdb_id_or_title List of person IDs or names.
 		 */
-		$array_persons_with_imdbid = apply_filters( 'lum_find_person_id', $imdb_id_or_title );
+		$array_persons_with_imdbid = apply_filters( 'lumiere_find_person_id', $imdb_id_or_title );
 
 		/**
 		 * Filter to display persons box.
@@ -182,7 +182,7 @@ class Front_Parser {
 		 *
 		 * @var list<MOVIE_QUERY> $array_persons_with_imdbid List of persons with IMDb IDs.
 		 */
-		return apply_filters( 'lum_display_persons_box', $array_persons_with_imdbid );
+		return apply_filters( 'lumiere_display_persons_box', $array_persons_with_imdbid );
 	}
 
 	/**

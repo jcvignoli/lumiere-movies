@@ -227,7 +227,7 @@ final class Taxonomy {
 				 */
 				if (
 					apply_filters(
-						'lum_polylang_update_taxonomy_terms',
+						'lumiere_polylang_update_taxonomy_terms',
 						intval( $the_id ),
 						$full_new_taxonomy,
 						$full_old_taxonomy,

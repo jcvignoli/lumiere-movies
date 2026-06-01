@@ -189,7 +189,7 @@ class StylesScriptsHighslideCest {
 		$I->see( 'Christopher Nolan' );
 		$I->click( 'Plots' );
 		$I->waitPageLoad();
-		$I->see( 'a team of researchers, to find a new planet for humans.' );
+		$I->see( 'Cooper, an ex-science engineer and pilot' );
 		$I->click( 'Misc' );
 		$I->waitPageLoad();
 		$I->see( 'Early in pre-production, Dr. Kip Thorne laid down tw' );

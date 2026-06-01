@@ -370,7 +370,7 @@ final class Taxonomy_People_Standard {
 
 		// If Polylang is installed, the filter will returns a modified query, otherwise the $base_query is returned.
 		$sql_query = apply_filters(
-			'lum_polylang_taxo_query', // Filter in class Polylang.
+			'lumiere_polylang_taxo_query', // Filter in class Polylang.
 			$base_query, // Default query.
 			[
 				'taxonomy' => sanitize_text_field( $taxonomy_name ), // Taxonomy
@@ -490,7 +490,7 @@ final class Taxonomy_People_Standard {
 		$output .= "\n\t\t\t" . '<br>';
 
 		// Form for Polylang plugin: if installed, add a form to filter results by language.
-		$output .= apply_filters( 'lum_polylang_form_taxonomy_people', '' );
+		$output .= apply_filters( 'lumiere_polylang_form_taxonomy_people', '' );
 
 		$output .= "\n\t\t\t" . '<br>';
 		return $output;

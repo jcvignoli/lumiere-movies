@@ -68,11 +68,11 @@ final class Frontend {
 		 * Registered everywhere
 		 */
 		$front_parser = new Front_Parser( settings: $this->settings );
-		add_filter( 'lum_display_movies_box', [ $front_parser, 'lum_display_movies_box' ], 10, 1 );
-		add_filter( 'lum_display_persons_box', [ $front_parser, 'lum_display_persons_box' ], 10, 1 );
+		add_filter( 'lumiere_display_movies_box', [ $front_parser, 'lum_display_movies_box' ], 10, 1 );
+		add_filter( 'lumiere_display_persons_box', [ $front_parser, 'lum_display_persons_box' ], 10, 1 );
 		$find_items = new Find_Items( settings: $this->settings );
-		add_filter( 'lum_find_movie_id', [ $find_items, 'find_movie_imdb_id' ], 10, 1 );
-		add_filter( 'lum_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
+		add_filter( 'lumiere_find_movie_id', [ $find_items, 'find_movie_imdb_id' ], 10, 1 );
+		add_filter( 'lumiere_find_person_id', [ $find_items, 'find_person_imdb_id' ], 10, 1 );
 
 		// The following will never be accessed in admin area.
 		if ( is_admin() ) {
@@ -89,7 +89,7 @@ final class Frontend {
 		/**
 		 * Calendar's related action
 		 */
-		add_filter( 'lum_coming_soon', fn() => ( new Coming_Soon( link_maker: $this->link_maker ) )->init(), 10, 5 );
+		add_filter( 'lumiere_coming_soon', fn() => ( new Coming_Soon( link_maker: $this->link_maker ) )->init(), 10, 5 );
 
 		/**
 		 * Widget's related action

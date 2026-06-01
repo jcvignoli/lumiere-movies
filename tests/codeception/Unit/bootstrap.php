@@ -351,10 +351,10 @@ if ( ! function_exists( 'content_url' ) ) {
 
 if ( ! function_exists( 'apply_filters' ) ) {
 	function apply_filters( $tag, $value, ...$args ) {
-		if ( $tag === 'lum_display_movies_box' ) {
+		if ( $tag === 'lumiere_display_movies_box' ) {
 			return '<div>Movie Box</div>';
 		}
-		if ( $tag === 'lum_display_persons_box' ) {
+		if ( $tag === 'lumiere_display_persons_box' ) {
 			return '<div>Person Box</div>';
 		}
 		return $value;
@@ -391,7 +391,7 @@ if ( ! function_exists( '__' ) ) {
 	}
 }
 
-if ( ! function_exists( 'lum_get_version' ) ) {
+if ( ! function_exists( 'lumiere_get_version' ) ) {
 	function lum_get_version() {
 		return '4.8';
 	}
@@ -413,10 +413,6 @@ if ( ! function_exists( 'wp_die' ) ) {
 	function wp_die( $message = '', $title = '', $args = [] ) {
 		throw new \Exception( "wp_die called: $message" );
 	}
-}
-
-if ( ! function_exists( 'lum_protect_direct_call' ) ) {
-	function lum_protect_direct_call( string $const = 'WPINC' ): void {}
 }
 
 if ( ! function_exists( 'esc_html__' ) ) {

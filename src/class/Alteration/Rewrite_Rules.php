@@ -53,7 +53,7 @@ final class Rewrite_Rules {
 		 * Called in Lumiere settings zone
 		 * @see \Lumiere\Admin\Menu::lumiere_static_start
 		 */
-		add_filter( 'lum_add_rewrite_rules_if_admin', [ $this, 'lum_add_rewrite_rules_if_admin' ], 10, 0 );
+		add_filter( 'lumiere_add_rewrite_rules_if_admin', [ $this, 'lum_add_rewrite_rules_if_admin' ], 10, 0 );
 	}
 
 	/**

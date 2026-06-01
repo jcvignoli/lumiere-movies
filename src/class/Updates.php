@@ -254,7 +254,7 @@ class Updates {
 			/**
 			 * Check if the current Lumière version is greater or equal to Lumière version impacted by the child's update
 			 */
-			version_compare( lum_get_version(), $version_update ) >= 0
+			version_compare( lumiere_get_version(), $version_update ) >= 0
 			/**
 			 * Check if the number of updates already run (saved in database) is equal to child's class update number
 			 * The child's class update number will make sure that a sequencial update order is respected when parsing "updates/*.php" files

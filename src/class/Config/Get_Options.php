@@ -96,7 +96,7 @@ final class Get_Options extends Settings {
 	 * @return string
 	 */
 	public static function get_lumiere_version(): string {
-		return lum_get_version();
+		return lumiere_get_version();
 	}
 
 	/**

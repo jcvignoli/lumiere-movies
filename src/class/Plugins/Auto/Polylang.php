@@ -59,16 +59,16 @@ final class Polylang {
 		$this->start_logger( 'Polylang' );
 
 		// Return URLs with Polylang lang extension in domain name.
-		add_filter( 'lum_polylang_rewrite_url_with_lang', [ $this, 'rewrite_url_with_lang' ], 10, 1 );
+		add_filter( 'lumiere_polylang_rewrite_url_with_lang', [ $this, 'rewrite_url_with_lang' ], 10, 1 );
 
 		// Return an array for a SQL Query for dropdown form in taxonomy people theme
-		add_filter( 'lum_polylang_taxo_query', [ $this, 'get_polylang_query_form' ], 10, 2 );
+		add_filter( 'lumiere_polylang_taxo_query', [ $this, 'get_polylang_query_form' ], 10, 2 );
 
 		// Remove the custom taxonomy.
 		add_filter( 'pll_get_taxonomies', [ $this, 'add_tax_to_pll' ], 10, 2 );
 
 		// Return a form for selecting the lang in Taxonomy_People_Standard.
-		add_filter( 'lum_polylang_form_taxonomy_people', [ $this, 'form_taxonomy_people_lang' ] );
+		add_filter( 'lumiere_polylang_form_taxonomy_people', [ $this, 'form_taxonomy_people_lang' ] );
 	}
 
 	/**

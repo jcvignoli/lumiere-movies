@@ -192,7 +192,7 @@ class Admin_Menu {
 		 * Update the rewrite rules if needed (automatically done if checking permalinks option page, but that's an extra)
 		 */
 		if ( $is_lum_admin_menu === true ) {
-			apply_filters( 'lum_add_rewrite_rules_if_admin', '' );
+			apply_filters( 'lumiere_add_rewrite_rules_if_admin', '' );
 		}
 
 		/**

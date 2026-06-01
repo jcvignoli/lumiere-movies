@@ -155,6 +155,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 
 Full list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
 
+= 4.8 = 
+
+Renamed all actions and filters prefix from lum_ to lumiere_
+
 = 4.7 =
 
 New "coming soon" WordPress block and filter to display upcoming movies (country and dates filters)

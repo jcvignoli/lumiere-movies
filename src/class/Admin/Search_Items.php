@@ -111,7 +111,7 @@ final class Search_Items {
 			'lumiere_search_admin',
 			Get_Options::LUM_JS_URL . 'lumiere_scripts_search.min.js',
 			[ 'jquery' ],
-			lum_get_version(),
+			lumiere_get_version(),
 			true
 		);
 	}
