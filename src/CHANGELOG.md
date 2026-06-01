@@ -5,6 +5,7 @@ v.4.8
 * [feature] Background scroll deactivated if bootstrap is used. Only the scroll inside the popup is autorized if a popup is shown (added overscroll-behavior: contain; in .modal in lumiere-bootstrap-custom.css)
 * [bug] "Click more" on widget wasn't bold
 * [bug] Crons were not deactivated if deactivating plugin (was using Admin table in Core class)
+* [technical] Changed items subcommand in Cli_Commands class. If using wp-cli to copy Lumière template, use "movies" instead of "items" in command-line ("wp-cli lum copy_taxo movies --template=genre" instead of "wp-cli lum copy_taxo items --template=genre")
 * [technical] Cleaning, more OOP with Settings_Services class, blocks standardized
 * [technical] More accurate use of WP escaping functions, using it only when needed, using dedicated function
 * [technical] Not using transiants to display menus (includes are enough)

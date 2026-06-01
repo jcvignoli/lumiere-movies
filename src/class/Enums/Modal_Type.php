@@ -11,7 +11,7 @@
 namespace Lumiere\Enums;
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
@@ -39,7 +39,7 @@ enum Modal_Type: string {
 			'bootstrap' => self::BOOTSTRAP,
 			'highslide' => self::HIGHSLIDE,
 			'classic'   => self::CLASSIC,
-			default     => throw new \ValueError( 'Lumière Movies: Unknown modal type ' . $value ),
+			default     => throw new \ValueError( 'Lumière Movies: Unknown modal type ' . esc_html( $value ) ),
 		};
 	}
 

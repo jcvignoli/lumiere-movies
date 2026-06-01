@@ -9,8 +9,8 @@
 namespace Lumiere\Admin\Copy_Templates;
 
 // If this file is called directly, abort.
-if ( ( ! defined( 'ABSPATH' ) ) ) {
-	wp_die( esc_html__( 'You are not allowed to call this page directly.', 'lumiere-movies' ) );
+if ( ! defined( 'ABSPATH' ) ) {
+	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
 use Lumiere\Plugins\Logger;

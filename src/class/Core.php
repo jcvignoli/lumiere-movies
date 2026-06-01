@@ -11,7 +11,9 @@
 namespace Lumiere;
 
 // If this file is called directly, abort.
-lum_protect_direct_call();
+if ( ! defined( 'ABSPATH' ) ) {
+	wp_die( 'Lumière Movies: You can not call directly this page' );
+}
 
 use Lumiere\Admin\Cache\Cache_Files_Management;
 use Lumiere\Alteration\Rewrite_Rules;
