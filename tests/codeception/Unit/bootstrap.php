@@ -8,6 +8,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__, 3 ) . '/src/' );
 }
 
+if ( ! defined( 'WP_CONTENT_DIR' ) ) {
+	define( 'WP_CONTENT_DIR', '/tmp/wp-content' );
+}
+
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', '/tmp/' );
+}
+
+if ( ! defined( 'WPINC' ) ) {
+	define( 'WPINC', 'wp-includes' );
+}
+
 // Mock WPINC.
 if ( ! defined( 'WPINC' ) ) {
 	define( 'WPINC', 'wp-includes' );

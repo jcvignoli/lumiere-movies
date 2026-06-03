@@ -14,8 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use \Lumiere\Config\Get_Options_Person;
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_calling_class = $variables['lum_calling_class']; /** @phpstan-ignore variable.undefined  */
+$lumiere_calling_class = $variables['lum_calling_class'];
 $lumiere_imdb_data_values = $lumiere_calling_class->settings->get_person_options();
 $lumiere_perso_list = Get_Options_Person::get_all_person_fields();
 asort( $lumiere_perso_list );

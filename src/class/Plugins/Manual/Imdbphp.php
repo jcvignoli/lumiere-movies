@@ -88,13 +88,17 @@ final class Imdbphp extends Imdbphp_Config {
 
 	/**
 	 * Convert the WordPress style language to IMDbphp style
-	 * @param string $language lang in WP style, ie en_GB, fr_FR, es_ES
 	 * country set country code
 	 * possible values:
 	 * EN (English), FR (French), ES (Spanish), etc.
+	 *
+	 * @param null|string $language lang in WP style, ie en_GB, fr_FR, es_ES
 	 * @return string language in two positions, ie EN, FR, ES
 	 */
-	private function convert_lang( string $language ): string {
+	private function convert_lang( ?string $language ): string {
+		if ( $language === null ) {
+			return 'EN';
+		}
 		$lang_shortened = str_contains( $language, '_' ) ? explode( '_', $language ) : [ $language ];
 		return strtoupper( $lang_shortened[0] );
 	}

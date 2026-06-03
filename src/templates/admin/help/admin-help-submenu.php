@@ -13,14 +13,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.undefined  */
-$lumiere_admin_page_help_base = $variables['page_help_base']; /** @phpstan-ignore variable.undefined  */
-$lumiere_admin_page_help_support = $variables['page_help_support']; /** @phpstan-ignore variable.undefined  */
-$lumiere_admin_page_help_faqs = $variables['page_help_faqs']; /** @phpstan-ignore variable.undefined  */
-$lumiere_admin_page_help_filters = $variables['page_help_filters']; /** @phpstan-ignore variable.undefined  */
-$lumiere_admin_page_help_compatibility = $variables['page_help_compatibility']; /** @phpstan-ignore variable.undefined  */
-$lumiere_admin_page_help_changelog = $variables['page_help_changelog']; /** @phpstan-ignore variable.undefined  */
+$lumiere_pics_url = $variables['lum_pics_url'];
+$lumiere_admin_page_help_base = $variables['page_help_base'];
+$lumiere_admin_page_help_support = $variables['page_help_support'];
+$lumiere_admin_page_help_faqs = $variables['page_help_faqs'];
+$lumiere_admin_page_help_filters = $variables['page_help_filters'];
+$lumiere_admin_page_help_compatibility = $variables['page_help_compatibility'];
+$lumiere_admin_page_help_changelog = $variables['page_help_changelog'];
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">

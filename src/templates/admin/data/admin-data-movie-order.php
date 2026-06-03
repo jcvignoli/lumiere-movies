@@ -15,8 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Config\Get_Options_Movie;
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_calling_class = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
+$lumiere_calling_class = $variables['lum_that'];
 $lumiere_items_people = Get_Options_Movie::get_all_fields();
 ?>
 <div class="lumiere_wrap">

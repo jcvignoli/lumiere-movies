@@ -15,11 +15,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Config\Get_Options;
 use Lumiere\Config\Get_Options_Movie;
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_calling_class = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
-$lumiere_all_taxo_elements = $variables['lum_all_taxo_elements']; /** @phpstan-ignore variable.undefined  */
-$lumiere_fields_updated = $variables['lum_fields_updated']; /** @phpstan-ignore variable.undefined  */
-$lumiere_current_admin_page = $variables['lum_current_admin_page']; /** @phpstan-ignore variable.undefined  */
+$lumiere_calling_class = $variables['lum_that'];
+$lumiere_all_taxo_elements = $variables['lum_all_taxo_elements'];
+$lumiere_fields_updated = $variables['lum_fields_updated'];
+$lumiere_current_admin_page = $variables['lum_current_admin_page'];
 
 $lumiere_escape_wp_kses = [
 	'br' => [],
@@ -68,7 +73,8 @@ if ( $lumiere_calling_class->settings->get_admin_option( 'imdbtaxonomy' ) !== '1
 
 	?></div><?php
 	return;
-} ?>
+}
+?>
 
 <div class="lumiere_wrap">
 	<form method="post" id="imdbconfig_save" name="imdbconfig_save" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">

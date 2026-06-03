@@ -157,7 +157,7 @@ Full list of changes is available on [GitHub](https://github.com/jcvignoli/lumie
 
 = 4.8 = 
 
-Renamed all actions and filters prefix from lum_ to lumiere_
+Breaking change for hooks (i.e. lum_display_persons_box) users: renamed all actions and filters prefix from lum_ to lumiere_ (i.e. lumiere_display_persons_box) to meet WordPress standards.
 
 = 4.7 =
 

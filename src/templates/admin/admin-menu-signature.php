@@ -13,8 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_helpage = $variables['page_help_support']; /** @phpstan-ignore variable.undefined  */
+$lumiere_helpage = $variables['page_help_support'];
 $lumiere_current_year = wp_date( 'Y' );
 $lumiere_esc_html = [
 	'a' => [

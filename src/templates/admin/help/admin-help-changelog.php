@@ -28,8 +28,13 @@ $lumiere_escape_wp_kses = [
 	],
 ];
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_changelogection_processed = $variables['changelog_section']; /** @phpstan-ignore variable.undefined  */
+$lumiere_changelogection_processed = $variables['changelog_section'];
 ?>
 
 <div class="lumiere_wrap">

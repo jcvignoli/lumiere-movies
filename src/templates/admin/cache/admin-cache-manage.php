@@ -14,19 +14,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Config\Get_Options;
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 /** @psalm-suppress InvalidGlobal Cannot use global scope here (unless this file is included from a non-global scope) */
 global $wp_filesystem;
 
 $lumiere_imdb_cache_values = get_option( \Lumiere\Config\Get_Options::get_cache_tablename() );
 
 // Get vars from the calling class.
-$lumiere_cache_file_count = $variables['cache_file_count']; /** @phpstan-ignore variable.undefined  */
-$lumiere_size_cache_total = $variables['size_cache_total']; /** @phpstan-ignore variable.undefined  */
-$lumiere_list_movie_cache = $variables['list_movie_cache']; /** @phpstan-ignore variable.undefined  */
-$lumiere_list_people_cached = $variables['list_people_cached']; /** @phpstan-ignore variable.undefined  */
-$lumiere_size_cache_pics = $variables['size_cache_pics']; /** @phpstan-ignore variable.undefined  */
-$lumiere_that = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
-$lumiere_this_cache_manage_page = $variables['this_cache_manage_page']; /** @phpstan-ignore variable.undefined  */
+$lumiere_cache_file_count = $variables['cache_file_count'];
+$lumiere_size_cache_total = $variables['size_cache_total'];
+$lumiere_list_movie_cache = $variables['list_movie_cache'];
+$lumiere_list_people_cached = $variables['list_people_cached'];
+$lumiere_size_cache_pics = $variables['size_cache_pics'];
+$lumiere_that = $variables['lum_that'];
+$lumiere_this_cache_manage_page = $variables['this_cache_manage_page'];
 $lumiere_query_number_files = $variables['query_cache_info'][0] ?? 0; // May not exist right after deleting query cache.
 $lumiere_query_cache_size = $variables['query_cache_info'][1] ?? 0;  // May not exist right after deleting query cache.
 
@@ -67,9 +72,9 @@ $lumiere_cache_wpkses = [
 		'width' => [],
 	],
 	'br' => [],
-]
+];
 
-// Let's go! ?>
+?>
 
 <div class="lumiere_wrap">
 

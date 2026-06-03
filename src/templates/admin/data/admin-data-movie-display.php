@@ -14,10 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use \Lumiere\Config\Get_Options_Movie;
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_calling_class = $variables['lum_calling_class']; /** @phpstan-ignore variable.undefined  */
-$lumiere_items_movie = $variables['lum_items_movie']; /** @phpstan-ignore variable.undefined  */
-$lumiere_comments_fields = $variables['lum_comments_fields']; /** @phpstan-ignore variable.undefined  */
+$lumiere_calling_class = $variables['lum_calling_class'];
+$lumiere_items_movie = $variables['lum_items_movie'];
+$lumiere_comments_fields = $variables['lum_comments_fields'];
 
 // Build local vars.
 $lumiere_imdb_data_values = $lumiere_calling_class->settings->get_movie_options();

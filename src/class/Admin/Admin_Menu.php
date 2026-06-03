@@ -44,11 +44,11 @@ class Admin_Menu {
 	 */
 	protected string $page_cache_manage;
 	protected string $page_cache_option;
-	protected string $page_data_movie;
-	protected string $page_data_movie_order;
-	protected string $page_data_movie_taxo;
-	protected string $page_data_person;
-	protected string $page_data_person_order;
+	public string $page_data_movie;     /** public visibility  because utilized by templates */
+	public string $page_data_movie_order;   /** public visibility  because utilized by templates */
+	public string $page_data_movie_taxo;    /** public visibility  because utilized by templates */
+	public string $page_data_person;    /** public visibility  because utilized by templates */
+	public string $page_data_person_order;  /** public visibility  because utilized by templates */
 	protected string $page_main_base;
 	protected string $page_main_advanced;
 	protected string $page_help;
@@ -78,7 +78,7 @@ class Admin_Menu {
 	 */
 	public function __construct(
 		protected readonly Logger $logger = new Logger( 'adminClass' ),
-		protected readonly Settings_Service $settings = new Settings_Service()
+		public readonly Settings_Service $settings = new Settings_Service(),    /** public visibility because utilized by templates */
 	) {
 
 		// Build vars.

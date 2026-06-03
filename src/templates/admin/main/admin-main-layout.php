@@ -15,8 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_tablename() );
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.undefined  */
+$lumiere_pics_url = $variables['lum_pics_url'];
 ?>
 <div class="lumiere_wrap">
 	<div class="lumiere_intro_title_options">

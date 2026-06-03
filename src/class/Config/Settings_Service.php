@@ -187,4 +187,3 @@ final class Settings_Service {
 		$this->admin_options = $options;
 	}
 }
-

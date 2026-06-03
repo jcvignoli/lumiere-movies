@@ -13,10 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 $lumiere_imdb_cache_values = get_option( \Lumiere\Config\Get_Options::get_cache_tablename() );
 
 // Get vars from the calling class.
-$lumiere_size_cache_folder = $variables['size']; /** @phpstan-ignore variable.undefined  */
+$lumiere_size_cache_folder = $variables['size'];
 ?>
 
 <div class="lumiere_wrap">
@@ -213,4 +218,3 @@ $lumiere_size_cache_folder = $variables['size']; /** @phpstan-ignore variable.un
 		</div>
 	</form>
 </div>
-

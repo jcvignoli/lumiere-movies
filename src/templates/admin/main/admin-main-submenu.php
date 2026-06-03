@@ -13,10 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_pics_url = $variables['lum_pics_url']; /** @phpstan-ignore variable.undefined  */
-$lumiere_admin_page_main_base = $variables['page_main_base']; /** @phpstan-ignore variable.undefined  */
-$lumiere_admin_page_main_advanced = $variables['page_main_advanced']; /** @phpstan-ignore variable.undefined  */
+$lumiere_pics_url = $variables['lum_pics_url'];
+$lumiere_admin_page_main_base = $variables['page_main_base'];
+$lumiere_admin_page_main_advanced = $variables['page_main_advanced'];
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">

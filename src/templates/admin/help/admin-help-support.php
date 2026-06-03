@@ -30,10 +30,15 @@ $lumiere_escape_wp_kses = [
 	],
 ];
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_page_howto = $variables['page_help']; /** @phpstan-ignore variable.undefined  */
-$lumiere_page_faqs = $variables['page_help_faqs']; /** @phpstan-ignore variable.undefined  */
-$lumiere_aknowledgefile = $variables['acknowledge_file']; /** @phpstan-ignore variable.undefined  */
+$lumiere_page_howto = $variables['page_help'];
+$lumiere_page_faqs = $variables['page_help_faqs'];
+$lumiere_aknowledgefile = $variables['acknowledge_file'];
 ?>
 
 <div class="lumiere_wrap">

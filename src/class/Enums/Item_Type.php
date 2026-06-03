@@ -25,14 +25,14 @@ enum Item_Type: string {
 	/**
 	 * Get the enum case from a string.
 	 *
-	 * @param string $value
+	 * @param string|null $value
 	 * @return self
 	 */
-	public static function from_string( string $value ): self {
+	public static function from_string( ?string $value ): self {
 		return match ( $value ) {
-			'movie'            => self::MOVIE,
 			'person', 'people' => self::PERSON,
 			default            => self::MOVIE,
 		};
 	}
 }
+

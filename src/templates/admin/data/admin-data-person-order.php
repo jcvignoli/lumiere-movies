@@ -14,8 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use \Lumiere\Config\Get_Options_Person;
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_calling_class = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
+$lumiere_calling_class = $variables['lum_that'];
 $lumiere_perso_list = Get_Options_Person::get_all_person_fields();
 ?>
 <div class="lumiere_wrap">

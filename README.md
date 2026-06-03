@@ -5,7 +5,7 @@
 **Contributors:** [@jcvignoli](https://github.com/jcvignoli) \
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 6.1 \
-**Tested up to:** 6.9 \
+**Tested up to:** 7.0 \
 **Stable tag:** 4.8 \
 **Requires PHP:** 8.1 \
 **License:** GPLv3 \
@@ -190,6 +190,10 @@ It's always a good idea to look at the [official website](https://www.jcvignoli.
 ## Changelog
 
 Full list of changes is available on [GitHub](https://github.com/jcvignoli/lumiere-movies/commits/master "Lumière GitHub").
+
+### 4.8
+
+Breaking change for hooks (i.e. lum_display_persons_box) users: renamed all actions and filters prefix from lum_ to lumiere_ (i.e. lumiere_display_persons_box) to meet WordPress standards.
 
 ### 4.7
 

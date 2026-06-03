@@ -15,8 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Config\Get_Options;
 
+/** @psalm-var null|array<mixed> $variables */
+if ( ! isset( $variables ) ) {
+	return;
+}
+
 // Get vars from the calling class.
-$lumiere_that = $variables['lum_that']; /** @phpstan-ignore variable.undefined  */
+$lumiere_that = $variables['lum_that'];
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">
