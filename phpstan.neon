@@ -23,7 +23,3 @@ parameters:
         -
             identifier: return.missing
             path: src/class/Frontend/Frontend.php
-    dynamicConstantNames:
-        # I may change the path in the future
-        - Lumiere\Plugins\Plugins_Detect::SUBFOLDER_PLUGINS_BIT
-

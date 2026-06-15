@@ -54,6 +54,8 @@ class TaxonomyCest {
 
 		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
 		$I->waitPageLoad( 5 );
+		$I->amOnPage( AcceptanceSettings::LUMIERE_ADVANCED_OPTIONS_URL );
+		
 		$I->scrollTo( '#behaviourpart' );
 		/*	Conditional checkbox activation (in _support/AcceptanceTrait.php)
 			Avoid to throw error if untrue, normal behaviour of codeception

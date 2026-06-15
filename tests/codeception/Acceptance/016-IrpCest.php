@@ -52,13 +52,17 @@ class IrpCest {
 			If $element is activated, uncheck it and then click $submit (form) */
 		$I->waitPageLoad();
 
+		/** If plugin was just activated, extra confirmation to get rid of */
+		if ( $I->tryToSeeElement( '.irp-grid' ) ) {
+			$I->click( 'CONTINUE USING FREE VERSION' );
+		}
 		/** Another element may be shown, couldn't catch it, use this if it happens again (wrong values for now) */
 		if ( $I->tryToSeeElement( '.alert' ) ) {
 			$I->waitForText( 'Do you accept cookies?' );
 			$I->click( 'Yes' );
 		}
 
-		$I->CustomActivateCheckbox( 'input[name="irpActive"]', '/html/body/div[1]/div[2]/div[2]/div[1]/div[2]/form/input[4]' );
+		$I->CustomActivateCheckbox( 'input[name="irpActive"]', 'Save' );
 		$I->waitPageLoad();
 
 		// Check if IRP can be seen in posts

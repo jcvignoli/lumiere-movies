@@ -235,6 +235,7 @@ final class Cache_Files_Management {
 				return;
 
 				// Everything has already been processed, exit.
+				/** @phpstan-ignore notIdentical.alwaysTrue (PHPStant is wrong, $array_all_items test is different here) */
 			} elseif ( $array_all_items !== false && count( $array_all_items ) === 0 ) {
 
 				$this->logger->log?->debug( '[Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start on the ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), intval( $lumiere_next_cron_run ) ) );

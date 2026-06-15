@@ -39,6 +39,9 @@ for FILE in $SFILES; do
     FILES="$FILES $PROJECT/$FILE"
 done
 
+echo -e "\n[Pre-commit] Running Codeception test unit..."
+npm run codeception:unit
+
 if [ "$FILES" != "" ];then
 
     if [[ "$PHPSTAN_ACTIVATED" == 1 ]]; then
