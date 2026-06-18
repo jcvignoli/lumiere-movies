@@ -6,7 +6,7 @@
  */
 import { __ , sprintf  } from '@wordpress/i18n';
 import { compose } from '@wordpress/compose';
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
 import { ToggleControl, TextControl, PanelRow, SelectControl, withFocusReturn } from '@wordpress/components';
 import { RawHTML } from '@wordpress/element';
@@ -29,14 +29,15 @@ const Lum_Sidebar_Options = () => {
 		return null;
 	}
 
-	const { postType, meta, editPost } = useSelect( ( select ) => {
+	const { postType, meta } = useSelect( ( select ) => {
 		const editor = select( 'core/editor' );
 		return {
 			postType: editor.getCurrentPostType(),
-			meta: editor.getEditedPostAttribute( 'meta' ),
-			editPost: editor.editPost,
+			meta: editor.getEditedPostAttribute( 'meta' ) || {},
 		};
 	}, [] );
+
+	const { editPost } = useDispatch( 'core/editor' );
 
 	// Render component for post type 'post' or 'page' only
 	if ( ! ( 'post' === postType || 'page' === postType ) ) { return null; }
@@ -209,4 +210,3 @@ const Lum_Sidebar_Options = () => {
 registerPlugin( 'widget-sidebar-options', {
 	render: Lum_Sidebar_Options
 } );
-
