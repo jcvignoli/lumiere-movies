@@ -1,5 +1,7 @@
 **Changelog**
 
+v.4.8.1
+
 v.4.8
 * [feature] See live the movie or person changes selected in block edition (fully using block live server)
 * [feature] Background scroll deactivated if bootstrap is used. Only the scroll inside the popup is autorized if a popup is shown (added overscroll-behavior: contain; in .modal in lumiere-bootstrap-custom.css)
