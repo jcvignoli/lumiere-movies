@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-03T09:37:16+00:00\n"
+"POT-Creation-Date: 2026-06-27T20:43:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: lumiere-movies\n"
@@ -3031,7 +3031,7 @@ msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
 #: assets/blocks/post/edit.js:38
-#: assets/blocks/widget-sidebar-options/sidebar.js:138
+#: assets/blocks/widget-sidebar-options/sidebar.js:139
 #, js-format
 msgid "You can get the IMDb ID number by %1$ssearching in the popup%2$s and then copy the ID found here."
 msgstr ""
@@ -3048,43 +3048,43 @@ msgstr ""
 msgid "Add a block in your posts that displays movie/person data."
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:51
-#: assets/blocks/widget-sidebar-options/sidebar.js:179
+#: assets/blocks/widget-sidebar-options/sidebar.js:52
+#: assets/blocks/widget-sidebar-options/sidebar.js:180
 msgid "Lumière widget settings"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:61
+#: assets/blocks/widget-sidebar-options/sidebar.js:62
 #, js-format
 msgid "Lumière Widget options are not avaible, you must add a Lumière Widget in %1$swidget options page%2$s."
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:101
+#: assets/blocks/widget-sidebar-options/sidebar.js:102
 msgid "Display items in widget"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:134
+#: assets/blocks/widget-sidebar-options/sidebar.js:135
 msgid "Tite/name/IMDb ID"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:154
+#: assets/blocks/widget-sidebar-options/sidebar.js:155
 #, js-format
 msgid "%1$sAuto title widget%2$s is unactive, related options are hidden"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:161
+#: assets/blocks/widget-sidebar-options/sidebar.js:162
 msgid "Deactivate Auto Title Widget for this post"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:163
+#: assets/blocks/widget-sidebar-options/sidebar.js:164
 #, js-format
 msgid "Will prevent %1$sAuto Title Widget%2$s to be displayed on this post"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:174
+#: assets/blocks/widget-sidebar-options/sidebar.js:175
 #, js-format
 msgid "Theses features are functional only if you added a %1$sLumiere widget%2$s"
 msgstr ""
