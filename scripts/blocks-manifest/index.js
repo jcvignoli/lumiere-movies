@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { join } from 'path';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 
 /**
  * Custom plugin to move blocks-manifest.php to dist/assets/blocks/
@@ -26,8 +26,22 @@ class blocksManifestPlugin {
 			// Generate the manifest using wp-scripts
 			try {
 				console.log(`BlocksManifestPlugin: Generating manifest at ${sourceFile}...`);
-				// We run it with --input=src to scan the source directory for block.json files
-				execSync(`npx wp-scripts build-blocks-manifest --input=src --output="${sourceFile}"`, { stdio: 'inherit' });
+
+				// Fix: Use execFileSync with an arguments array to prevent Unsafe Shell Command warnings.
+				// Note: On Windows, npx is a batch script, so we append '.cmd' if running on a Win32 platform.
+
+				const npxExecutable = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+				
+				execFileSync(
+					npxExecutable, 
+					[
+						'wp-scripts', 
+						'build-blocks-manifest', 
+						'--input=src', 
+						`--output=${sourceFile}`
+					], 
+					{ stdio: 'inherit' }
+				);
 			} catch (error) {
 				console.error('BlocksManifestPlugin: Failed to generate manifest:', error.message);
 			}
