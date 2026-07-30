@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class to build Bootstrap links
  *
@@ -7,6 +7,8 @@
  * @version       2.0
  * @package       lumieremovies
  */
+ declare( strict_types = 1 );
+
 namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.
@@ -55,9 +57,9 @@ final class Bootstrap_Links extends Implement_Methods implements Interface_Linkm
 		// Styles.
 		wp_register_style(
 			'lumiere_bootstrap_core',
-			LUM_WP_URL . LUM_VENDOR_FOLDER . 'twbs/bootstrap/dist/css/bootstrap.min.css',
+			LUMIERE_WP_URL . LUMIERE_VENDOR_FOLDER . 'twbs/bootstrap/dist/css/bootstrap.min.css',
 			[ 'lumiere_style_main' ],
-			strval( filemtime( LUM_WP_PATH . LUM_VENDOR_FOLDER . 'twbs/bootstrap/dist/css/bootstrap.min.css' ) )
+			strval( filemtime( LUMIERE_WP_PATH . LUMIERE_VENDOR_FOLDER . 'twbs/bootstrap/dist/css/bootstrap.min.css' ) )
 		);
 		wp_register_style(
 			'lumiere_bootstrap_custom',
@@ -69,9 +71,9 @@ final class Bootstrap_Links extends Implement_Methods implements Interface_Linkm
 		// Scripts.
 		wp_register_script(
 			'lumiere_bootstrap_core',
-			LUM_WP_URL . LUM_VENDOR_FOLDER . 'twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
+			LUMIERE_WP_URL . LUMIERE_VENDOR_FOLDER . 'twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
 			[],
-			strval( filemtime( LUM_WP_PATH . LUM_VENDOR_FOLDER . 'twbs/bootstrap/dist/js/bootstrap.bundle.min.js' ) ),
+			strval( filemtime( LUMIERE_WP_PATH . LUMIERE_VENDOR_FOLDER . 'twbs/bootstrap/dist/js/bootstrap.bundle.min.js' ) ),
 			[ 'strategy' => 'defer' ]
 		);
 		wp_register_script(
@@ -86,7 +88,7 @@ final class Bootstrap_Links extends Implement_Methods implements Interface_Linkm
 	/**
 	 * Enqueue stylesheet & javascript.
 	 */
-	public function execute_extra_assets (): void {
+	public function execute_extra_assets(): void {
 		wp_enqueue_style( 'lumiere_bootstrap_core' );
 		wp_enqueue_style( 'lumiere_bootstrap_custom' );
 

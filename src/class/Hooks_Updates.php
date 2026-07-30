@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Hooks Updates class
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere;
 
@@ -171,4 +172,3 @@ class Hooks_Updates {
 		return false;
 	}
 }
-

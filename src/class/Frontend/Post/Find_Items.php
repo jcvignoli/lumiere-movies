@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying movies data.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Post;
 

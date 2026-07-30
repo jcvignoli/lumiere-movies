@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the Data admin - Order of the data part
  *
@@ -7,12 +7,14 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use \Lumiere\Config\Get_Options_Person;
+use Lumiere\Config\Get_Options_Person;
 
 /** @psalm-var null|array<mixed> $variables */
 if ( ! isset( $variables ) ) {
@@ -20,7 +22,7 @@ if ( ! isset( $variables ) ) {
 }
 
 // Get vars from the calling class.
-$lumiere_calling_class = $variables['lum_that'];
+$lumiere_calling_class = $variables['lumiere_that'];
 $lumiere_perso_list = Get_Options_Person::get_all_person_fields();
 ?>
 <div class="lumiere_wrap">

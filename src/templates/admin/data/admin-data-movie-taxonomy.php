@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the Data admin - Taxonomy data part
  *
@@ -7,6 +7,8 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
@@ -21,7 +23,7 @@ if ( ! isset( $variables ) ) {
 }
 
 // Get vars from the calling class.
-$lumiere_calling_class = $variables['lum_that'];
+$lumiere_calling_class = $variables['lumiere_that'];
 $lumiere_all_taxo_elements = $variables['lum_all_taxo_elements'];
 $lumiere_fields_updated = $variables['lum_fields_updated'];
 $lumiere_current_admin_page = $variables['lum_current_admin_page'];
@@ -124,7 +126,8 @@ if ( $lumiere_calling_class->settings->get_admin_option( 'imdbtaxonomy' ) !== '1
 					echo esc_html( ucfirst( $lumiere_value ) );
 					?></span>
 
-				<?php } else {
+					<?php
+				} else {
 					echo "\t" . esc_html( ucfirst( $lumiere_value ) ) . '&nbsp;&nbsp;';
 				}
 
@@ -171,7 +174,8 @@ if ( $lumiere_calling_class->settings->get_movie_option( 'imdbtaxonomy' . $lumie
 						
 				<br />
 				<div>
-					<i><?php echo /* translators: %s is replaced with a movie item name, ie 'director' */
+					<i><?php
+					echo /* translators: %s is replaced with a movie item name, ie 'director' */
 					wp_sprintf( esc_html__( 'Template %s up-to-date', 'lumiere-movies' ), esc_html( $lumiere_translated_item ) ); ?></i>
 				</div><?php
 

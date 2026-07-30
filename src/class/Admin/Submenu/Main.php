@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Main options class
  * Child of Admin_Menu
@@ -8,6 +8,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Submenu;
 
@@ -54,7 +55,7 @@ final class Main extends Admin_Menu {
 		// First part of the menu.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_first'],
-			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
+			[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		// Create the cache if it doesn't exists.
@@ -102,4 +103,3 @@ final class Main extends Admin_Menu {
 		}
 	}
 }
-

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Cache files management
  *
@@ -7,6 +7,7 @@
  * @version       3.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Cache;
 
@@ -235,7 +236,6 @@ final class Cache_Files_Management {
 				return;
 
 				// Everything has already been processed, exit.
-				/** @phpstan-ignore notIdentical.alwaysTrue (PHPStant is wrong, $array_all_items test is different here) */
 			} elseif ( $array_all_items !== false && count( $array_all_items ) === 0 ) {
 
 				$this->logger->log?->debug( '[Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start on the ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), intval( $lumiere_next_cron_run ) ) );
@@ -604,7 +604,7 @@ final class Cache_Files_Management {
 
 		$this->logger->log?->debug( '[config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
 
-		$lumiere_alt_folder_cache = LUM_WP_PATH . 'cache';
+		$lumiere_alt_folder_cache = LUMIERE_WP_PATH . 'cache';
 		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
 
 		// Let's create an alternative cache folder inside the plugins, make sure permissions are ok
@@ -614,7 +614,7 @@ final class Cache_Files_Management {
 		) {
 
 			// the partial path
-			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', LUM_WP_PATH ) . 'cache/';
+			$lumiere_alt_folder_cache_partial = str_replace( WP_CONTENT_DIR, '', LUMIERE_WP_PATH ) . 'cache/';
 
 			// Update database with the new value for cache path.
 			$options_cache['imdbcachedir'] = $lumiere_alt_folder_cache;

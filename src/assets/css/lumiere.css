@@ -216,7 +216,7 @@ span.lum_results_section_subtitle_subcat_content::before { content: " (" counter
 	color:white;
 }
 .lumiere-lines-common_grey a{
-	color:gold;
+	color:gold !important;
 	text-decoration: none !important;
 }
 .lumiere-lines-common_grey a.lum_link_taxo_page {

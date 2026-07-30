@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the submenu of cache pages
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,7 +22,7 @@ if ( ! isset( $variables ) ) {
 }
 
 // Get vars from the calling class.
-$lumiere_that = $variables['lum_that'];
+$lumiere_that = $variables['lumiere_that'];
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">

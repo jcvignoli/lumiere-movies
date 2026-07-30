@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template Movie items: Taxonomy for Lumière! Movies WordPress plugin (set up for standard item taxonomy)
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
@@ -9,6 +9,7 @@
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Theme;
 
@@ -132,7 +133,6 @@ final class Taxonomy_Items_Standard {
 		wp_meta();
 
 		get_footer();
-
 	}
 
 	/**

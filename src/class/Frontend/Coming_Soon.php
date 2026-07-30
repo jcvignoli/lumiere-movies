@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying upcoming movies
  *
@@ -7,6 +7,7 @@
  * @version       1.1
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend;
 
@@ -34,7 +35,8 @@ final class Coming_Soon {
 	/**
 	 * Traits
 	 */
-	use Main, Files;
+	use Main;
+	use Files;
 
 	/**
 	 * Constructor
@@ -185,4 +187,3 @@ final class Coming_Soon {
 		return $new_array;
 	}
 }
-

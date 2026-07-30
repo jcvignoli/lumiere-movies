@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class of update : Option updates to make according to the current plugin version
  *
@@ -9,6 +9,8 @@
  * @version       3.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere;
 
 // If this file is called directly, abort.
@@ -270,4 +272,3 @@ class Updates {
 		return false;
 	}
 }
-

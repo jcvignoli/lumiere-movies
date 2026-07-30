@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Frontend Trait for pages including movies
  *
@@ -7,6 +7,7 @@
  * @version       1.2
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend;
 

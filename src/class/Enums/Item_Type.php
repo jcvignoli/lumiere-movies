@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Item Type Enum
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Enums;
 
@@ -35,4 +36,3 @@ enum Item_Type: string {
 		};
 	}
 }
-

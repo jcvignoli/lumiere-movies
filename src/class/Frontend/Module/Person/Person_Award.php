@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying person module award.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Module\Person;
 
@@ -69,7 +70,7 @@ final class Person_Award extends \Lumiere\Frontend\Module\Parent_Module {
 		foreach ( $item_results as $item_title => $array ) {
 			$count_sub = count( $array );
 
-			for ( $i = 0; $i < $count_sub; $i ++ ) {
+			for ( $i = 0; $i < $count_sub; $i++ ) {
 
 				// Display a "show more" after XX results
 				if ( $overall_loop === $nb_rows_display_clickmore ) {
@@ -93,7 +94,7 @@ final class Person_Award extends \Lumiere\Frontend\Module\Parent_Module {
 					$total_awards .= isset( $array['win'], $array['nom'] ) ? '<i>' . wp_sprintf( __( 'Won %1$1s awards and was nominated %2$2s times.', 'lumiere-movies' ), $array['win'], $array['nom'] ) . '</i>' : '';
 					$output .= $this->output_class->misc_layout( 'click_more_end' );
 				}
-				$overall_loop ++;
+				$overall_loop++;
 			}
 		}
 		return $title . $total_awards . $output;
@@ -121,7 +122,7 @@ final class Person_Award extends \Lumiere\Frontend\Module\Parent_Module {
 		foreach ( $item_results as $item_title => $array ) {
 			$count_sub = count( $array );
 
-			for ( $i = 0; $i < $count_sub; $i ++ ) {
+			for ( $i = 0; $i < $count_sub; $i++ ) {
 
 				// Display a "show more" after XX results
 				if ( $overall_loop === $nb_rows_display_clickmore ) {
@@ -145,7 +146,7 @@ final class Person_Award extends \Lumiere\Frontend\Module\Parent_Module {
 					$total_awards .= isset( $array['win'], $array['nom'] ) ? '<i>' . wp_sprintf( __( 'Won %1$1s awards and was nominated %2$2s times.', 'lumiere-movies' ), $array['win'], $array['nom'] ) . '</i>' : '';
 					$output .= $this->output_class->misc_layout( 'click_more_end' );
 				}
-				$overall_loop ++;
+				$overall_loop++;
 			}
 		}
 		return $title . $total_awards . $output;

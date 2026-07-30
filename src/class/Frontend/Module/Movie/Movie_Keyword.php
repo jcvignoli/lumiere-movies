@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying movies module Keyword.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Module\Movie;
 
@@ -135,4 +136,3 @@ final class Movie_Keyword extends \Lumiere\Frontend\Module\Parent_Module {
 		return $output;
 	}
 }
-

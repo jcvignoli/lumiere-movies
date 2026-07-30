@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Text that will be displayed on frontend and block editor
  *
@@ -8,6 +8,8 @@
  * @package       lumieremovies
  * @since         4.8 New file
  */
+declare( strict_types = 1 );
+
 namespace Lumiere;
 
 // If this file is called directly, abort.
@@ -72,4 +74,3 @@ if ( isset( $attributes['lumiere_imdblt_select'], $attributes['content'] ) && ha
 		]
 	);
 }
-

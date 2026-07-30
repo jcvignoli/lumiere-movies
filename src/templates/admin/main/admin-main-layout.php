@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the layout options of Main page
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -90,7 +91,7 @@ $lumiere_pics_url = $variables['lum_pics_url'];
 				<div class="explain"> <?php esc_html_e( 'Popup width, in pixels', 'lumiere-movies' ); ?> <br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"800"</div>
 			</div>
 
-			<div class="lumiere_flex_auto lumiere_padding_five <?php echo $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ? 'hidesection' : '';?>" id="imdb_imdbpopuplong">
+			<div class="lumiere_flex_auto lumiere_padding_five <?php echo $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ? 'hidesection' : ''; ?>" id="imdb_imdbpopuplong">
 
 				<label for="imdb_imdbpopuplong_input"><?php esc_html_e( 'Height', 'lumiere-movies' ); ?></label>
 				<br>
@@ -101,7 +102,7 @@ $lumiere_pics_url = $variables['lum_pics_url'];
 				<div class="explain"><?php esc_html_e( 'Popup height, in pixels', 'lumiere-movies' ); ?> <?php esc_html_e( 'Default:', 'lumiere-movies' ); ?>"500"</div>
 			</div>
 
-			<div class="lumiere_flex_auto lumiere_padding_five <?php echo $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ? 'hidesection' : '';?>" id="imdb_popuptheme">
+			<div class="lumiere_flex_auto lumiere_padding_five <?php echo $lumiere_imdb_admin_values['imdbpopup_modal_window'] === 'bootstrap' ? 'hidesection' : ''; ?>" id="imdb_popuptheme">
 
 				<label for="imdb_imdbpopuptheme_select"><?php esc_html_e( 'Theme color', 'lumiere-movies' ); ?></label><br><br>
 				<select id="imdb_imdbpopuptheme_select" name="imdb_imdbpopuptheme">

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Metabox Class
  *
@@ -7,6 +7,7 @@
  * @version       3.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin;
 
@@ -93,7 +94,7 @@ final class Metabox_Selection {
 				'single'            => true,
 				'sanitize_callback' => 'sanitize_text_field',
 				'type'              => 'string',
-				'auth_callback'     => function() {
+				'auth_callback'     => function () {
 					return current_user_can( 'manage_options' );
 				},
 			]
@@ -109,7 +110,7 @@ final class Metabox_Selection {
 					'type'              => 'string',
 					'default'           => '',
 					'sanitize_callback' => 'sanitize_text_field',
-					'auth_callback'     => function() {
+					'auth_callback'     => function () {
 						return current_user_can( 'manage_options' );
 					},
 				]
@@ -125,12 +126,11 @@ final class Metabox_Selection {
 				'single'        => true,
 				'type'          => 'boolean',
 				'default'       => '0',
-				'auth_callback' => function() {
+				'auth_callback' => function () {
 					return current_user_can( 'manage_options' );
 				},
 			]
 		);
-
 	}
 
 	/**

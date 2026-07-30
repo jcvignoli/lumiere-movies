@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template of cache managment
  *
@@ -7,6 +7,8 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
@@ -30,7 +32,7 @@ $lumiere_size_cache_total = $variables['size_cache_total'];
 $lumiere_list_movie_cache = $variables['list_movie_cache'];
 $lumiere_list_people_cached = $variables['list_people_cached'];
 $lumiere_size_cache_pics = $variables['size_cache_pics'];
-$lumiere_that = $variables['lum_that'];
+$lumiere_that = $variables['lumiere_that'];
 $lumiere_this_cache_manage_page = $variables['this_cache_manage_page'];
 $lumiere_query_number_files = $variables['query_cache_info'][0] ?? 0; // May not exist right after deleting query cache.
 $lumiere_query_cache_size = $variables['query_cache_info'][1] ?? 0;  // May not exist right after deleting query cache.
@@ -230,7 +232,8 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 	<div class="lumiere_border_shadow">
 
-		<?php // if files don't exist.
+		<?php
+		// if files don't exist.
 		if ( count( $lumiere_list_movie_cache ) === 0 ) { ?>
 
 		<div class="lum_error"><?php esc_html_e( 'No movie\'s cache found.', 'lumiere-movies' ); ?></div>
@@ -519,7 +522,8 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 				<div class="explain">
 				
-				<?php // check if movies/people cache folder exists
+				<?php
+				// check if movies/people cache folder exists
 				if ( $wp_filesystem->is_dir( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?> 
 
 					<span class="lumiere_green"><?php esc_html_e( 'Folder exists.', 'lumiere-movies' ); ?></span>
@@ -614,7 +618,8 @@ if ( ! file_exists( $lumiere_imdb_cache_values['imdbcachedir'] ) ) { ?>
 
 				<div class="lumiere_smaller">
 				
-				<?php // check if images folder exists
+				<?php
+				// check if images folder exists
 				if ( $wp_filesystem->is_dir( $lumiere_imdb_cache_values['imdbphotoroot'] ) ) { ?>
 
 					<span class="lumiere_green"><?php esc_html_e( 'Folder exists.', 'lumiere-movies' ); ?></span>

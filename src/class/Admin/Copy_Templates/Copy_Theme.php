@@ -1,10 +1,11 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Copy Taxonomy Themes templates based on taxonomy
  *
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Copy_Templates;
 

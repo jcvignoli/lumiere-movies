@@ -23,15 +23,15 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-includes/plugins/lumiere-movies/' );
 }
 
-if ( ! defined( 'LUM_WP_PATH' ) ) {
+if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
 
 		// Value that PHPStan github gets.
-		define( 'LUM_WP_PATH', './' );
+		define( 'LUMIERE_WP_PATH', './' );
 
 }
 
-if ( ! defined( 'LUM_WP_URL' ) ) {
-	define( 'LUM_WP_URL', 'https://whatver.com/wp-content/plugins/lumiere-movies/' );
+if ( ! defined( 'LUMIERE_WP_URL' ) ) {
+	define( 'LUMIERE_WP_URL', 'https://whatver.com/wp-content/plugins/lumiere-movies/' );
 }
 
 /**
@@ -58,6 +58,6 @@ if ( ! defined( 'LUMIERE_INCOMPATIBLE_PLUGINS' ) ) {
 	define( 'LUMIERE_INCOMPATIBLE_PLUGINS', [ 'my_crapy_plugin' ] );
 }
 
-if ( ! defined( 'LUM_VENDOR_FOLDER' ) ) {
-	define( 'LUM_VENDOR_FOLDER', 'vendor/' );
+if ( ! defined( 'LUMIERE_VENDOR_FOLDER' ) ) {
+	define( 'LUMIERE_VENDOR_FOLDER', 'vendor/' );
 }

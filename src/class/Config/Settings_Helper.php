@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Settings build
  * Helper class for Settings class
@@ -8,6 +8,8 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere\Config;
 
 // If this file is called directly, abort.
@@ -46,15 +48,15 @@ class Settings_Helper {
 	 * @phpstan-return numeric-string
 	 */
 	public static function get_nb_updates(): string {
-		$update_files = glob( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH . '/Lumiere_Update_File_*.php' );
+		$update_files = glob( LUMIERE_WP_PATH . Get_Options::LUM_UPDATES_PATH . '/Lumiere_Update_File_*.php' );
 		// Remove the path that could contains numbers.
-		$update_files = $update_files !== false ? str_replace( LUM_WP_PATH . Get_Options::LUM_UPDATES_PATH, '', $update_files ) : [];
+		$update_files = $update_files !== false ? str_replace( LUMIERE_WP_PATH . Get_Options::LUM_UPDATES_PATH, '', $update_files ) : [];
 		// Extract the Lumiere_Update_File_"XX" number.
 		$last_nb = count( $update_files ) > 0 ? preg_replace( '/[^0-9]/', '', $update_files ) : [];
 		// Convert the number to three digits if it is lower than 100 => compatibility.
 		/** @psalm-suppress PossiblyNullArgument (PHPStan says otherwise) */
 		$three_digits = array_map(
-			function( string $last_nb ) {
+			function ( string $last_nb ) {
 				return sprintf( '%03s', $last_nb );
 			},
 			$last_nb
@@ -256,4 +258,3 @@ class Settings_Helper {
 		return $data;
 	}
 }
-

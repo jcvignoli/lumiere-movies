@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Child class for displaying person data option selection
  * Child of Admin_Menu
@@ -8,6 +8,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Submenu;
 
@@ -43,7 +44,7 @@ final class Dataperson extends Admin_Menu {
 		// First part of the menu
 		$this->include_with_vars(
 			'admin/admin-menu-first-part',
-			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
+			[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		// Show the vars if debug is activated.
@@ -56,7 +57,7 @@ final class Dataperson extends Admin_Menu {
 		// Display submenu
 		$this->include_with_vars(
 			'data/admin-data-allmenu',
-			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
+			[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		$current_page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( (string) $_GET['page'] ) ) : '';
@@ -85,9 +86,8 @@ final class Dataperson extends Admin_Menu {
 			 */
 			$this->include_with_vars(
 				'data/admin-data-person-order',
-				[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
+				[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 			);
 		}
 	}
 }
-

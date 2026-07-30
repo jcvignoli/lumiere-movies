@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying movies module Goof.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Module\Movie;
 
@@ -103,7 +104,7 @@ final class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 					$isset_next = isset( $item_results[ $category ][ $i + 1 ] ) ? true : false;
 					$output .= $isset_next === true ? $this->output_class->misc_layout( 'click_more_start', $translated_item ) : '';
 				}
-				$overall_loop ++;
+				$overall_loop++;
 			}
 
 			if ( $category === array_key_last( Get_Options_Movie::get_list_goof_cat() ) ) {

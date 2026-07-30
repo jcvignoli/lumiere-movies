@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Admin class for displaying all Admin sections.
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin;
 

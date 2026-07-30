@@ -19,47 +19,22 @@
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>phan.php</exclude-pattern>
 
-	<!-- Add PHP Post-5.6 ruleset, not supported by WordPress core, but perfect for plugins. -->
-	<rule ref="NeutronStandard">
-		<!-- I use @TODOs in my comments, unactivate it -->
-		<exclude name="Generic.Commenting.Todo"/>
-		<!-- I do comment out my code, deactivate that security -->
-		<exclude name="Squiz.PHP.CommentedOutCode"/>
-		<!-- I have functions longer than 40 lines, and I'm ok with that  -->
-		<exclude name="NeutronStandard.Functions.LongFunction.LongFunction"/>
-		<!-- Do not report 'Closing PHP tag must be on a line by itself' -->
-		<exclude name="Squiz.PHP.EmbeddedPhp"/>
-		<!-- Exclude those rules, because we run WordPress-Extra which will conflict with NeutronStandard -->
-		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning"/>
-		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned"/>
-		<exclude name="NeutronStandard.Functions.VariableFunctions.VariableFunction" />
-		<!-- Using Psr-4 filenames for composer -->
-		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
-		
-		<!-- Deprecated -->
-		<exclude name="Generic.Functions.CallTimePassByReference" />
-		<exclude name="Squiz.WhiteSpace.LanguageConstructSpacing" />
-		
-		<!-- quite useless, can't use 'meta_query', 'tax_query' in queries -->
-		<exculde name="WordPress.DB.SlowDBQuery.slow_db_query_tax_query" />
-	</rule> 
-
 	<!-- Include the WordPress-Extra standard.-->
 	<rule ref="WordPress-Extra">
-		<!-- I want to use short array [] -->
-		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
-		<!-- Yoda conditions to the bin, you go -->
-		<exclude name="WordPress.PHP.YodaConditions"/>
-		<!-- Covers rule: Put spaces on both sides of the opening and closing parenthesis of
-		 if, elseif, foreach, for, and switch blocks. I don't want it. -->
-		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
-		<!-- I want to use call_user_func() -->
-		<exclude name="NeutronStandard.Functions.DisallowCallUserFunc.CallUserFunc"/>
-		<!-- Using a custom rule later -->
-		<exclude name="WordPress.Security.NonceVerification"/> 
-		<!-- I want to use define() -->
-		<exclude name="NeutronStandard.Constants.DisallowDefine.Define"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/><!-- I don't want to add 'class-' to class file names -->
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found"/><!-- I want to use [] for arrays -->
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/><!-- I don't want to add "-" to class file names, I want to use "_" -->
+		<exclude name="Squiz.PHP.EmbeddedPhp.ContentBeforeOpen"/><!-- supposed to have the closing/opening PHP code on a new line, but I prefer my design -->
+		<exclude name="Squiz.PHP.EmbeddedPhp.ContentBeforeEnd"/><!-- supposed to have the closing/opening PHP code on a new line, but I prefer my design -->
+		<exclude name="Squiz.PHP.EmbeddedPhp.ContentAfterEnd"/><!-- supposed to have the closing/opening PHP code on a new line, but I prefer my design -->
+		<exclude name="WordPress.PHP.IniSet.display_errors_Disallowed"/><!-- It's not active by default -->
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/><!-- I want to use short array [] -->
+		<exclude name="WordPress.PHP.YodaConditions"/><!-- Yoda conditions to the bin, you go -->
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/><!-- Covers rule: Put spaces on both sides of the opening and closing parenthesis of
+										 if, elseif, foreach, for, and switch blocks. I don't want it. -->
+		<exclude name="NeutronStandard.Functions.DisallowCallUserFunc.CallUserFunc"/><!-- I want to use call_user_func() -->
+		<exclude name="WordPress.Security.NonceVerification"/><!-- Using a custom rule later -->
+		<exclude name="NeutronStandard.Constants.DisallowDefine.Define"/><!-- I want to use define() -->
 	</rule> 
 
 	<!-- Let's also check that everything is properly documented. Allow modern class naming (PSR-4)
@@ -93,7 +68,6 @@
 		<properties>
 			<property name="prefixes" type="array">
 				<element value="lumiere"/>
-				<element value="lum"/>
 			</property>
 		</properties>
 	</rule>

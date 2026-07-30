@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Admin Extra: Complement natural backoffice WordPress functions
  *
@@ -7,6 +7,7 @@
  * @version     1.0
  * @package     lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin;
 
@@ -119,5 +120,4 @@ final class Backoffice_Extra {
 			'https://www.imdb.com/privacy'
 		);
 	}
-
 }

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying movies module Composer.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Module\Movie;
 
@@ -164,4 +165,3 @@ final class Movie_Composer extends \Lumiere\Frontend\Module\Parent_Module {
 		return $output;
 	}
 }
-

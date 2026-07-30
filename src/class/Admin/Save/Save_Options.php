@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Saving admin options.
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Save;
 
@@ -73,7 +74,7 @@ final class Save_Options extends Save_Helper {
 
 			add_action(
 				'init',
-				function() use ( $imdburlstringtaxo ) {
+				function () use ( $imdburlstringtaxo ) {
 					\Lumiere\Alteration\Taxonomy::start(
 						$this->settings->get_admin_option( 'imdburlstringtaxo' ),
 						$imdburlstringtaxo,
@@ -83,7 +84,6 @@ final class Save_Options extends Save_Helper {
 				12
 			);
 		}
-
 	}
 
 	/**

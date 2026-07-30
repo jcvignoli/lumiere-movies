@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for Amp
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Plugins\Auto;
 
@@ -103,4 +104,3 @@ final class Amp {
 		return defined( 'AMP__VERSION' ) && str_contains( wp_debug_backtrace_summary(), 'AMP_Validation_Callback_Wrapper' );
 	}
 }
-

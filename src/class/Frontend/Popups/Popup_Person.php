@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Popup for people
  *
@@ -7,6 +7,7 @@
  * @version       3.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Popups;
 
@@ -269,7 +270,8 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		?>
 												<!-- top page menu -->
 		<div class="lumiere_container lumiere_font_em_11 lum_popup_titlemenu">
-			<?php /* if ( isset( $_GET['info_person'] ) && strlen( $_GET['info_person'] ) > 0 ) {  ?>
+			<?php
+			/* if ( isset( $_GET['info_person'] ) && strlen( $_GET['info_person'] ) > 0 ) {  ?>
 			<div class="lumiere_flex_auto">
 				<a rel="nofollow" id="lum_popup_link_back" class="lum_popup_menu_title lum_add_spinner" href="<?php
 				$refer = wp_get_referer();

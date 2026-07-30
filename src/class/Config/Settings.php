@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Main Settings class
  *
@@ -7,6 +7,8 @@
  * @version       3.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere\Config;
 
 // If this file is called directly, abort => don't use lum_protect_direct_call() here.
@@ -25,7 +27,7 @@ use Lumiere\Enums\Popup_Type;
  * Needed vars for uninstall, fails otherwise.
  * Use of defined() condition for PHPStan
  */
-if ( ! defined( 'LUM_WP_PATH' ) ) {
+if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
 	require_once plugin_dir_path( dirname( __DIR__ ) ) . 'vars.php';
 }
 
@@ -84,7 +86,7 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Core
 	 * @since 4.7
 	 */
-	public const LUM_BLOCKS_MANIFEST                = LUM_WP_PATH . 'assets/blocks/blocks-manifest.php';
+	public const LUM_BLOCKS_MANIFEST                = LUMIERE_WP_PATH . 'assets/blocks/blocks-manifest.php';
 
 	/**
 	 * List of active blocks
@@ -118,17 +120,17 @@ class Settings extends Settings_Helper {
 	/**
 	 * URLs for pictures and menu images
 	 */
-	public const LUM_PICS_URL                       = LUM_WP_URL . 'assets/pics/';
+	public const LUM_PICS_URL                       = LUMIERE_WP_URL . 'assets/pics/';
 	public const LUM_NOPICS_URL                     = self::LUM_PICS_URL . 'no_pics.png';
 	public const LUM_PICS_SHOWTIMES_URL             = self::LUM_PICS_URL . '/showtimes/';
 
 	/**
 	 * URL and Path for javascripts and stylesheets
 	 */
-	public const LUM_JS_PATH                        = LUM_WP_PATH . 'assets/js/';
-	public const LUM_JS_URL                         = LUM_WP_URL . 'assets/js/';
-	public const LUM_CSS_PATH                       = LUM_WP_PATH . 'assets/css/';
-	public const LUM_CSS_URL                        = LUM_WP_URL . 'assets/css/';
+	public const LUM_JS_PATH                        = LUMIERE_WP_PATH . 'assets/js/';
+	public const LUM_JS_URL                         = LUMIERE_WP_URL . 'assets/js/';
+	public const LUM_CSS_PATH                       = LUMIERE_WP_PATH . 'assets/css/';
+	public const LUM_CSS_URL                        = LUMIERE_WP_URL . 'assets/css/';
 
 	/**
 	 * Internal URL pages constants
@@ -252,11 +254,11 @@ class Settings extends Settings_Helper {
 		$imdb_admin_option = get_option( self::LUM_ADMIN_OPTIONS );
 		$scripts_admin_vars = wp_json_encode(
 			[
-				'lum_path'                    => LUM_WP_URL,
+				'lum_path'                    => LUMIERE_WP_URL,
 				'wordpress_path'              => site_url(),
 				'admin_movie_search_url'      => self::LUM_SEARCH_ITEMS_URL_ADMIN,
 				'admin_movie_search_qstring'  => self::LUM_SEARCH_ITEMS_QUERY_STRING,
-				'ico80'                       => LUM_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
+				'ico80'                       => LUMIERE_WP_URL . 'assets/pics/lumiere-ico-noir80x80.png',
 				'popupLarg'                   => $imdb_admin_option['imdbpopuplarg'],
 				'popupLong'                   => $imdb_admin_option['imdbpopuplong'],
 				'select_type_search'          => Get_Options::get_lum_all_type_search(),
@@ -282,7 +284,7 @@ class Settings extends Settings_Helper {
 		$urlpopup_person = apply_filters( 'lumiere_polylang_rewrite_url_with_lang', Get_Options::get_popup_url( Popup_Type::PERSON, site_url() ) );
 		$scripts_vars = wp_json_encode(
 			[
-				'lum_path'            => LUM_WP_URL,
+				'lum_path'            => LUMIERE_WP_URL,
 				'urlpopup_film'       => $urlpopup_film,
 				'urlpopup_person'     => $urlpopup_person,
 				'popup_border_colour' => $imdb_admin_option['imdbpopuptheme'],
@@ -323,7 +325,7 @@ class Settings extends Settings_Helper {
 		$imdb_admin_options = [
 			//--------------------------------------------------=[ Basic ]=--
 			'imdbplugindirectory_partial' => '/wp-content/plugins/lumiere-movies/',
-			'imdbpluginpath'              => LUM_WP_PATH,
+			'imdbpluginpath'              => LUMIERE_WP_PATH,
 			'imdburlpopups'               => '/lumiere/',
 			'imdbkeepsettings'            => '1',
 			'imdburlstringtaxo'           => self::URL_STRING_TAXO,

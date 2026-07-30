@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Validator Gets URL in popups
  *
@@ -7,6 +7,8 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere\Tools;
 
 // If this file is called directly, abort.

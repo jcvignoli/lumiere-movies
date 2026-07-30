@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Files Trait
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Tools;
 
@@ -53,7 +54,7 @@ trait Files {
 	 */
 	private function find_template_file( string $file_name ): string {
 
-		$templates_dir = LUM_WP_PATH . 'templates/';
+		$templates_dir = LUMIERE_WP_PATH . 'templates/';
 
 		$folder_iterator = new RecursiveIteratorIterator(
 			new RecursiveDirectoryIterator( $templates_dir, RecursiveDirectoryIterator::SKIP_DOTS )
@@ -202,4 +203,3 @@ trait Files {
 		return $log_file;
 	}
 }
-

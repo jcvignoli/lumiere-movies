@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying movies module Connection.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Module\Movie;
 
@@ -133,4 +134,3 @@ final class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 		return $output;
 	}
 }
-

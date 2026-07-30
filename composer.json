@@ -23,7 +23,6 @@
         "wp-coding-standards/wpcs": "@stable",
         "phpmd/phpmd": "@stable",
         "phpstan/phpstan": "@stable",
-        "automattic/phpcs-neutron-ruleset": "@stable",
         "dealerdirect/phpcodesniffer-composer-installer": "@stable",
         "phan/phan": "@stable",
         "skaut/wordpress-stubs": "@dev",

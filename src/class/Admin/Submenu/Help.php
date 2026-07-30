@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Child class for displaying help sections.
  * Child of Admin_Menu
@@ -8,6 +8,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Submenu;
 
@@ -58,7 +59,7 @@ final class Help extends Admin_Menu {
 		// First part of the menu.
 		$this->include_with_vars(
 			self::PAGES_NAMES['menu_first'],
-			[ 'lum_that' => $this ], /** Add in an array all vars to send in the template */
+			[ 'lumiere_that' => $this ], /** Add in an array all vars to send in the template */
 		);
 
 		// Always display the submenu.
@@ -138,7 +139,7 @@ final class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
-		$compatfile = LUM_WP_PATH . 'COMPATIBILITY.md';
+		$compatfile = LUMIERE_WP_PATH . 'COMPATIBILITY.md';
 
 		// If file doesn't exist, exit.
 		if ( ! is_file( $compatfile ) ) {
@@ -187,7 +188,7 @@ final class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
-		$readmefile = LUM_WP_PATH . 'README.txt';
+		$readmefile = LUMIERE_WP_PATH . 'README.txt';
 
 		// If file doesn't exist, exit.
 		if ( ! is_file( $readmefile ) ) {
@@ -239,7 +240,7 @@ final class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
-		$changelogfile = LUM_WP_PATH . 'CHANGELOG.md';
+		$changelogfile = LUMIERE_WP_PATH . 'CHANGELOG.md';
 
 		// If file doesn't exist, exit.
 		if ( ! is_file( $changelogfile ) ) {
@@ -285,7 +286,7 @@ final class Help extends Admin_Menu {
 
 		/** Vars */
 		global $wp_filesystem;
-		$acknowledgefile = LUM_WP_PATH . 'ACKNOWLEDGMENTS.md';
+		$acknowledgefile = LUMIERE_WP_PATH . 'ACKNOWLEDGMENTS.md';
 
 		// If file doesn't exist, exit.
 		if ( ! is_file( $acknowledgefile ) ) {
@@ -331,4 +332,3 @@ final class Help extends Admin_Menu {
 		);
 	}
 }
-

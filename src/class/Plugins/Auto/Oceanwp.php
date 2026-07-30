@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for OceanWP
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Plugins\Auto;
 
@@ -45,8 +46,8 @@ final class Oceanwp {
 	) {
 
 		// Build the css URL.
-		$this->assets_css_url = LUM_WP_URL . 'assets/css';
-		$this->assets_css_path = LUM_WP_PATH . 'assets/css';
+		$this->assets_css_url = LUMIERE_WP_URL . 'assets/css';
+		$this->assets_css_path = LUMIERE_WP_PATH . 'assets/css';
 
 		// Remove conflicting assets.
 		add_action( 'wp_enqueue_scripts', [ $this, 'remove_oceanwp_assets' ] );
@@ -90,7 +91,6 @@ final class Oceanwp {
 				wp_deregister_style( $style );
 			}
 		}
-
 	}
 
 	/**
@@ -147,4 +147,3 @@ final class Oceanwp {
 		remove_action( 'wp_enqueue_scripts', [ '\OCEANWP_Theme_Class', 'theme_css' ] );
 	}
 }
-

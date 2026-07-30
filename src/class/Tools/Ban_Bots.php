@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Detect and ban bots
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Tools;
 
@@ -173,4 +174,3 @@ final class Ban_Bots {
 		);
 	}
 }
-

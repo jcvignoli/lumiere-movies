@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Child class for displaying movie data option selection
  * Child of Admin_Menu
@@ -8,6 +8,7 @@
  * @version       2.1
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Submenu;
 
@@ -47,7 +48,7 @@ final class Datamovie extends Admin_Menu {
 		// First part of the menu
 		$this->include_with_vars(
 			'admin/admin-menu-first-part',
-			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
+			[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		// Show the vars if debug is activated.
@@ -60,7 +61,7 @@ final class Datamovie extends Admin_Menu {
 		// Display submenu
 		$this->include_with_vars(
 			'data/admin-data-allmenu',
-			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
+			[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		$current_page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( (string) $_GET['page'] ) ) : '';
@@ -95,7 +96,7 @@ final class Datamovie extends Admin_Menu {
 			 */
 			$this->include_with_vars(
 				'data/admin-data-movie-order',
-				[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
+				[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 			);
 
 		} elseif (
@@ -110,7 +111,7 @@ final class Datamovie extends Admin_Menu {
 			$this->include_with_vars(
 				'data/admin-data-movie-taxonomy',
 				[
-					'lum_that'               => $this,
+					'lumiere_that'           => $this,
 					'lum_all_taxo_elements'  => $this->get_taxo_fields(),
 					'lum_fields_updated'     => ( new Detect_New_Theme() )->search_new_update(),
 					'lum_current_admin_page' => $this->page_data_movie_taxo . '&taxotype=',
@@ -147,4 +148,3 @@ final class Datamovie extends Admin_Menu {
 		return [ $array_full, Get_Options_Movie::get_items_details_comments() ];
 	}
 }
-

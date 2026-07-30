@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Settings for Popups
  *
@@ -7,6 +7,8 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere\Config;
 
 // If this file is called directly, abort.
@@ -166,4 +168,3 @@ final class Settings_Popup {
 		'goof',
 	];
 }
-

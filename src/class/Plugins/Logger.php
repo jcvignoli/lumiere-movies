@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class extending Monolog Logger.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Plugins;
 
@@ -261,4 +262,3 @@ final class Logger {
 		return $monolog_class;
 	}
 }
-

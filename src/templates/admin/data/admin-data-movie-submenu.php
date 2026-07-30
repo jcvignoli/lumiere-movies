@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the Data admin - Common menu for data
  *
@@ -7,12 +7,14 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use \Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options;
 
 /** @psalm-var null|\Lumiere\Admin\Submenu\Datamovie $lumiere_calling_class */
 if ( ! isset( $lumiere_calling_class ) ) {

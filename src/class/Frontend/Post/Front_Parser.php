@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying movies. This class automatically catches spans. It displays taxonomy links and add taxonomy according to the selected options
  *
@@ -7,6 +7,7 @@
  * @version       3.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Post;
 
@@ -271,7 +272,7 @@ class Front_Parser {
 			$callback_name = 'replace_' . $col1 . '_spans';
 			$content = preg_replace_callback(
 				'~<span data-lum_movie_maker="' . $value['value'] . '">(.+?)<\/span>~',
-				function( $match ) use( $col2, $callback_name ): string {
+				function ( $match ) use ( $col2, $callback_name ): string {
 					/** @var 'bymid'|'byname' $col2 */
 					return $this->{$callback_name}( $match[1], $col2 );
 				},

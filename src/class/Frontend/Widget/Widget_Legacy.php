@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Widget Legacy class
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Widget;
 
@@ -40,7 +41,7 @@ final class Widget_Legacy extends Widget_Selection {
 		$that = new self();
 		add_action(
 			'widgets_init',
-			function() {
+			function () {
 				register_widget( __CLASS__ );
 			}
 		);
@@ -110,4 +111,3 @@ final class Widget_Legacy extends Widget_Selection {
 		echo wp_kses( $widget_class->lum_get_widget( $title_box ), $kses_escape );
 	}
 }
-

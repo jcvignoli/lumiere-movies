@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Lumière Movies WordPress global vars
  * These vars are available before the Plugin activation
@@ -6,6 +6,7 @@
  *
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 // Prevent any direct call.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,13 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Get the path of Lumière dir
-if ( ! defined( 'LUM_WP_PATH' ) ) {
-	define( 'LUM_WP_PATH', plugin_dir_path( __FILE__ ) );
+if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
+	define( 'LUMIERE_WP_PATH', plugin_dir_path( __FILE__ ) );
 }
 
 // Get the URL of Lumière dir
-if ( ! defined( 'LUM_WP_URL' ) ) {
-	define( 'LUM_WP_URL', plugin_dir_url( __FILE__ ) );
+if ( ! defined( 'LUMIERE_WP_URL' ) ) {
+	define( 'LUMIERE_WP_URL', plugin_dir_url( __FILE__ ) );
 }
 
 if ( ! defined( 'LUMIERE_INCOMPATIBLE_PLUGINS' ) ) {
@@ -31,7 +32,6 @@ if ( ! defined( 'LUMIERE_INCOMPATIBLE_PLUGINS' ) ) {
 }
 
 // Composer folder
-if ( ! defined( 'LUM_VENDOR_FOLDER' ) ) {
-	define( 'LUM_VENDOR_FOLDER', 'vendor/' );
+if ( ! defined( 'LUMIERE_VENDOR_FOLDER' ) ) {
+	define( 'LUMIERE_VENDOR_FOLDER', 'vendor/' );
 }
-

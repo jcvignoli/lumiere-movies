@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Admin class for displaying all Admin sections.
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin;
 
@@ -54,7 +55,6 @@ final class Admin_Notifications {
 			'options_update_failed' => [ __( 'Options could not be saved.', 'lumiere-movies' ), 7 ],
 			'invalid_nonce' => [ __( 'Nonce is invalid, no change has been made.', 'lumiere-movies' ), 7 ],
 		];
-
 	}
 
 	/**
@@ -101,7 +101,6 @@ final class Admin_Notifications {
 				'p' => [],
 			]
 		);
-
 	}
 
 	/**

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Interface for building links
  *
@@ -7,6 +7,7 @@
  * @version       1.1
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Link_Maker;
 

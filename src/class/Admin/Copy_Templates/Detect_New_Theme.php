@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Detect new theme template based on custom Lumière taxonomy
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Copy_Templates;
 
@@ -204,7 +205,7 @@ final class Detect_New_Theme {
 		$original_in_plugin = in_array( $item, array_keys( Get_Options_Movie::get_list_people_taxo() ), true )
 			? Get_Options_Person::LUM_TAXO_PEOPLE_THEME
 			: Get_Options::LUM_TAXO_ITEMS_THEME;
-		$template_paths['origin'] = LUM_WP_PATH . $original_in_plugin;
+		$template_paths['origin'] = LUMIERE_WP_PATH . $original_in_plugin;
 		$template_paths['destination'] = get_stylesheet_directory() . '/' . Get_Options::LUM_THEME_TAXO_FILENAME_START . $this->settings->get_admin_option( 'imdburlstringtaxo' ) . $item . '.php';
 		return $template_paths;
 	}

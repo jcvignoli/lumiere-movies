@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Settings for Persons
  *
@@ -7,6 +7,8 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere\Config;
 
 // If this file is called directly, abort.
@@ -195,4 +197,3 @@ class Settings_Person {
 		];
 	}
 }
-

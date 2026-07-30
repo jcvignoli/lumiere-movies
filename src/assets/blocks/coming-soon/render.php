@@ -1,8 +1,10 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Text that will be displayed on frontend only
  * @since 4.7 New file
  */
+declare( strict_types = 1 );
+
 namespace Lumiere;
 
 // If this file is called directly, abort.

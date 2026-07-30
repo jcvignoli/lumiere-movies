@@ -1,10 +1,11 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Auto Update Taxonomy templates
  *
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Copy_Templates;
 
@@ -107,6 +108,5 @@ final class Auto_Update_Theme extends Copy_Theme {
 			$cleaned_item[] = str_replace( $this->settings->get_admin_option( 'imdburlstringtaxo' ), '', $item );
 		}
 		return $cleaned_item;
-
 	}
 }

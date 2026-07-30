@@ -1,8 +1,10 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Text that will be displayed on frontend only
  * @since 4.7 Display the code without function (as simplified the use of register_block_type() and removed render_callback)
  */
+declare( strict_types = 1 );
+
 namespace Lumiere;
 
 // If this file is called directly, abort.
@@ -45,4 +47,3 @@ echo wp_kses(
 		],
 	]
 );
-

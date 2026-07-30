@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Debug static class
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Tools;
 
@@ -141,4 +142,3 @@ final class Debug {
 		throw $exception;
 	}
 }
-

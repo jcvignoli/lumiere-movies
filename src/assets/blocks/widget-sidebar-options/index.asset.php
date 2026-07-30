@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Plugin Name: Lumiere Movies Metabox Selection Block in Sidebar
  * Description: A block to replace the metabox selection functionality.
@@ -6,4 +6,6 @@
  *
  * @package lumieremovies
  */
+declare( strict_types = 1 );
+
 return [ 'dependencies' => [ 'wp-block-editor', 'wp-element', 'wp-components', 'wp-plugins', 'wp-data', 'wp-i18n' ] ];

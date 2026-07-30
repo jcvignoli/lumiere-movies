@@ -1,6 +1,8 @@
 **Changelog**
 
 v.4.8.1
+* [bug] Widget color with latest OceanWP was losing the gold color. In lumiere.css, made .lumiere-lines-common_grey a() class "!important".
+* [technical] Got rid of PHPCS Neutron coding style, using regular WordPress one.
 
 v.4.8
 * [feature] See live the movie or person changes selected in block edition (fully using block live server)

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for building links
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Link_Maker;
 
@@ -332,7 +333,6 @@ class Implement_Methods {
 		}
 		/* Translators: %1s is a website name, ie "New 70mm Trailer" */
 		return "\n\t\t\t<a class=\"lum_link\" href='" . esc_url( $url ) . "' title='" . esc_html( wp_sprintf( __( 'External URL %1s', 'lumiere-movies' ), $website_title ) ) . "'>" . esc_html( $website_title ) . '</a>';
-
 	}
 
 	/**
@@ -351,7 +351,6 @@ class Implement_Methods {
 		}
 		/* Translators: %1s is a website name, ie "New 70mm Trailer" */
 		return "\n\t\t\t<a class=\"lum_link\" href='" . esc_url( $url ) . "' title='" . esc_html( wp_sprintf( __( 'Watch on IMBb website the trailer for %1s', 'lumiere-movies' ), $website_title ) ) . "'>" . esc_html( $website_title ) . '</a>';
-
 	}
 
 	/**

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Lumière Movies WordPress plugin
  *
@@ -19,6 +19,7 @@
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
  */
+declare( strict_types = 1 );
 
 // Prevent any direct call.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -31,13 +32,13 @@ if ( file_exists( plugin_dir_path( __FILE__ ) . 'vars.php' ) ) {
 }
 
 // Include composer bootstrap.
-if ( file_exists( LUM_WP_PATH . LUM_VENDOR_FOLDER . 'autoload.php' ) ) {
-	require_once LUM_WP_PATH . LUM_VENDOR_FOLDER . 'autoload.php';
+if ( file_exists( LUMIERE_WP_PATH . LUMIERE_VENDOR_FOLDER . 'autoload.php' ) ) {
+	require_once LUMIERE_WP_PATH . LUMIERE_VENDOR_FOLDER . 'autoload.php';
 }
 
 // Get global functions.
-if ( file_exists( LUM_WP_PATH . 'functions.php' ) ) {
-	require_once LUM_WP_PATH . 'functions.php';
+if ( file_exists( LUMIERE_WP_PATH . 'functions.php' ) ) {
+	require_once LUMIERE_WP_PATH . 'functions.php';
 }
 
 // Global function: Lumière is uninstalled if crappy plugins are found.
@@ -51,4 +52,3 @@ register_activation_hook( __FILE__, [ $lumiere_core, 'lumiere_on_activation' ] )
 
 // Executed upon plugin deactivation.
 register_deactivation_hook( __FILE__, [ $lumiere_core, 'lumiere_on_deactivation' ] );
-

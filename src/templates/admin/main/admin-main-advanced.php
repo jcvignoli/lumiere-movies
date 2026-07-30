@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the advanced options of main admin page
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -37,7 +38,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 				// Depending on the environnement, wp_get_available_translations() is not available, so include it.
 				if ( ! function_exists( 'wp_get_available_translations' ) ) {
 					/** @psalm-suppress MissingFile */
-					require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+					require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 				}
 				$lumiere_lang_translations = wp_get_available_translations();       // All WordPress languages with translation.
 				$lumiere_lang_translations['en_US']['native_name'] = 'English (default)';   // en_US is not in WP function!
@@ -222,7 +223,8 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 				?>
 				/>
 
-				<div class="explain"><?php esc_html_e( 'Remove all links added by Lumière except those for taxonomy. This option will remove every single HTML displayed in widget and into the post. Usefull for users who are not interested in popup function, but want to keep information displayed in a widget or inside the.', 'lumiere-movies' );
+				<div class="explain"><?php
+				esc_html_e( 'Remove all links added by Lumière except those for taxonomy. This option will remove every single HTML displayed in widget and into the post. Usefull for users who are not interested in popup function, but want to keep information displayed in a widget or inside the.', 'lumiere-movies' );
 				?>
 				<br><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php esc_html_e( 'No', 'lumiere-movies' ); ?></div>
 

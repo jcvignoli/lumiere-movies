@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Widget Frontend class
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Widget;
 
@@ -160,7 +161,7 @@ final class Widget_Frontpage {
 		// Remove empty array_values from $movies_arrays
 		$movies_array_cleaned = array_filter(
 			$movies_array,
-			function( $movies_array ) {
+			function ( $movies_array ) {
 				return count( array_values( $movies_array ) ) > 0;
 			}
 		);

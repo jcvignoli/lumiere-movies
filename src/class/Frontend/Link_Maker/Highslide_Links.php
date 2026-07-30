@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class to build Highslide links
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Link_Maker;
 
@@ -91,7 +92,7 @@ final class Highslide_Links extends Implement_Methods implements Interface_Linkm
 	/**
 	 * Enqueue stylesheet & javascript.
 	 */
-	public function execute_extra_assets (): void {
+	public function execute_extra_assets(): void {
 
 		wp_enqueue_style( 'lumiere_highslide_core_style' );
 

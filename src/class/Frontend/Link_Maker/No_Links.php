@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class to build no HTML Links
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Link_Maker;
 
@@ -41,7 +42,7 @@ final class No_Links extends Implement_Methods implements Interface_Linkmaker {
 	 * @inheritdoc
 	 */
 	#[\Override]
-	public function get_rating_picture ( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string {
+	public function get_rating_picture( int $rating, int $votes, string $votes_average_txt, string $out_of_ten_txt, string $votes_txt ): string {
 		// Function in parent class, last param with 1 to display class="imdbelementRATING-picture".
 		return parent::get_rating_picture_details( $rating, $votes, $votes_average_txt, $out_of_ten_txt, $votes_txt, 1 );
 	}
@@ -119,7 +120,6 @@ final class No_Links extends Implement_Methods implements Interface_Linkmaker {
 	#[\Override]
 	public function get_prodcompany( string $name, string $comp_id = '', string $notes = '' ): string {
 		return parent::get_prodcompany_details( $name, '', '', Modal_Type::NO_LINKS );
-
 	}
 
 	/**

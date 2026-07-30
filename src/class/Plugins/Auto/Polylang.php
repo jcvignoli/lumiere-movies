@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class Polylang plugin
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Plugins\Auto;
 
@@ -293,7 +294,7 @@ final class Polylang {
 	public function get_polylang_query_form( array $query, array $args ): array {
 
 		// 1. $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
-		$tag_lang = Validate_Get::sanitize_url( 'tag_lang' ) ?? null;
+		$tag_lang = Validate_Get::sanitize_url( 'tag_lang' );
 
 		if (
 			( isset( $tag_lang ) && ! isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) )

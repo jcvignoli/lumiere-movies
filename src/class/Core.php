@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Core Class
  *
@@ -7,6 +7,7 @@
  * @version       4.1
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere;
 
@@ -212,7 +213,7 @@ final class Core extends \Lumiere\Hooks_Updates {
 			false
 		);
 
-		$block_dir = LUM_WP_PATH . 'assets/blocks/';
+		$block_dir = LUMIERE_WP_PATH . 'assets/blocks/';
 
 		// Use metadata manifest to register merged block.json files, WP >= 6.8.
 		if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) && file_exists( Get_Options::LUM_BLOCKS_MANIFEST ) ) {

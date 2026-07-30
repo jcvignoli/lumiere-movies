@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for dealing with movies' taxonomy movies.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Taxonomy;
 
@@ -57,7 +58,7 @@ final class Add_Taxonomy {
 			// delete if exists, for debugging purposes
 			# $array_term_existing = get_term_by('name', $taxonomy_term, $custom_taxonomy_fullname );
 			# if ( $array_term_existing )
-			#	 wp_delete_term( $array_term_existing->term_id, $custom_taxonomy_fullname) ;
+			#    wp_delete_term( $array_term_existing->term_id, $custom_taxonomy_fullname) ;
 
 			$existent_term = term_exists( $taxonomy_term, $custom_taxonomy_fullname );
 

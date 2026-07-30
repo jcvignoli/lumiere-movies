@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Rewrite Rules
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Alteration;
 
@@ -104,7 +105,7 @@ final class Rewrite_Rules {
 		$this->logger->log?->debug( '[RewriteRules] Rules added to Polylang' );
 		add_filter(
 			'pll_rewrite_rules',
-			function( array $existing_rules ): array {
+			function ( array $existing_rules ): array {
 				return array_merge( $existing_rules, [ 'lumiere' ] );
 			}
 		);

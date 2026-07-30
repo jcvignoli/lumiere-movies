@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Uninstall Class : Lumière gets blind forever
  *
@@ -7,6 +7,7 @@
  * @copyright (c) 2021, Lost Highway
  * @phpcs:disable WordPress.Files.FileName
  */
+declare( strict_types = 1 );
 
 namespace Lumiere;
 

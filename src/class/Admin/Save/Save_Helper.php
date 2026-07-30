@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Helper methods for admin options save.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Save;
 
@@ -49,4 +50,3 @@ class Save_Helper {
 		return wp_get_referer();
 	}
 }
-

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the Data admin - Order of the data part
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,7 +22,7 @@ if ( ! isset( $variables ) ) {
 }
 
 // Get vars from the calling class.
-$lumiere_calling_class = $variables['lum_that'];
+$lumiere_calling_class = $variables['lumiere_that'];
 $lumiere_items_people = Get_Options_Movie::get_all_fields();
 ?>
 <div class="lumiere_wrap">

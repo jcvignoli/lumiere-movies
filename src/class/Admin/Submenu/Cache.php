@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Cache options class
  * Child of Admin_Menu
@@ -8,6 +8,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin\Submenu;
 
@@ -45,7 +46,7 @@ final class Cache extends Admin_Menu {
 		// First part of the menu
 		$this->include_with_vars(
 			'admin-menu-first-part',
-			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
+			[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		// Make sure cache folder exists and is writable
@@ -59,7 +60,7 @@ final class Cache extends Admin_Menu {
 		// Cache submenu.
 		$this->include_with_vars(
 			'cache/admin-cache-submenu',
-			[ 'lum_that' => $this ], /** Add an array with vars to send in the template */
+			[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
 		$current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['page'] ) ) : '';
@@ -89,7 +90,7 @@ final class Cache extends Admin_Menu {
 					'list_movie_cache'          => $cache_mngmt_class->get_imdb_object_per_cat( Item_Type::MOVIE ),
 					'list_people_cached'        => $cache_mngmt_class->get_imdb_object_per_cat( Item_Type::PERSON ),
 					'size_cache_pics'           => $cache_mngmt_class->cache_getfoldersize( $this->settings->get_cache_option( 'imdbphotoroot' ) ),
-					'lum_that'                  => $this,
+					'lumiere_that'              => $this,
 					'this_cache_manage_page'    => $this->page_cache_manage,
 					'query_cache_info'          => $cache_mngmt_class->get_cache_query_info( $this->settings->get_cache_option( 'imdbcachedir' ) ),
 				], /** Add an array with vars to send in the template */

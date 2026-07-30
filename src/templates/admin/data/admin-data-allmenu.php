@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the submenu of data pages
  *
@@ -7,6 +7,8 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
@@ -22,7 +24,7 @@ if ( ! isset( $variables ) ) {
 }
 
 // Retrieve the vars from calling class.
-$lumiere_calling_class = $variables['lum_that'];
+$lumiere_calling_class = $variables['lumiere_that'];
 ?>
 
 <div id="tabswrap" class="lumiere_wrap">

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Lumière Movies WordPress global functions
  * These functions can be executed before the Plugin activation
@@ -7,6 +7,7 @@
  * @package           lumieremovies
  * @copyright         2005 https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin
  */
+declare( strict_types = 1 );
 
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
@@ -68,9 +69,9 @@ if ( ! function_exists( 'lumiere_get_version' ) ) {
 	 */
 	function lumiere_get_version(): string {
 		if ( ! function_exists( 'get_file_data' ) ) {
-			require_once( ABSPATH . 'wp-includes/functions.php' );
+			require_once ABSPATH . 'wp-includes/functions.php';
 		}
-		$plugin_data = get_file_data( LUM_WP_PATH . '/lumiere-movies.php', [ 'Version' => 'Version' ] );
+		$plugin_data = get_file_data( LUMIERE_WP_PATH . '/lumiere-movies.php', [ 'Version' => 'Version' ] );
 		return $plugin_data['Version'];
 	}
 }

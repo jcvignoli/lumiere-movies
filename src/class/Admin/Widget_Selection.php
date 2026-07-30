@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Admin_Widget class
  *
@@ -7,6 +7,8 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere\Admin;
 
 // If this file is called directly, abort.
@@ -114,7 +116,7 @@ class Widget_Selection extends WP_Widget {
 		if ( $is_classic_active === true ) {
 			add_action(
 				'widgets_init',
-				function() {
+				function () {
 					register_widget( 'Lumiere\Frontend\Widget\Widget_Legacy' );
 				},
 				12
@@ -154,7 +156,7 @@ class Widget_Selection extends WP_Widget {
 			return;
 		}
 
-		register_block_type( LUM_WP_PATH . 'assets/blocks/widget/' );
+		register_block_type( LUMIERE_WP_PATH . 'assets/blocks/widget/' );
 	}
 
 	/**

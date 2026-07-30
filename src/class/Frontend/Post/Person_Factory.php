@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying movies data.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Post;
 
@@ -112,5 +113,4 @@ final class Person_Factory extends Front_Parser {
 		/** @phpstan-ignore method.notFound */
 		return $module->get_module( $name_object, $item_name );
 	}
-
 }

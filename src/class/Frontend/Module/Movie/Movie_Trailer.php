@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying movies module Trailer.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Module\Movie;
 
@@ -92,5 +93,4 @@ final class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 		return $output;
 	}
-
 }

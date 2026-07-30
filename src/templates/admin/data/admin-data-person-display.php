@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the Data admin - Display data part
  *
@@ -7,12 +7,14 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use \Lumiere\Config\Get_Options_Person;
+use Lumiere\Config\Get_Options_Person;
 
 /** @psalm-var null|array<mixed> $variables */
 if ( ! isset( $variables ) ) {

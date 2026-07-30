@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the Support section in help
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -58,9 +59,9 @@ $lumiere_aknowledgefile = $variables['acknowledge_file'];
 
 	<strong>1</strong>. <?php esc_html_e( 'visit', 'lumiere-movies' ); ?> <a href="<?php echo esc_attr( Get_Options::LUM_BLOG_PLUGIN ); ?>">Lumière website</a> <?php esc_html_e( 'to ask for help. ', 'lumiere-movies' ); ?><br>
 
-	<strong>2</strong>. <?php esc_html_e( 'check the', 'lumiere-movies' ); ?> <a href="<?php echo esc_url( $lumiere_page_faqs ) ?>"><?php esc_html_e( 'FAQs ', 'lumiere-movies' ); ?></a>.<br>
+	<strong>2</strong>. <?php esc_html_e( 'check the', 'lumiere-movies' ); ?> <a href="<?php echo esc_url( $lumiere_page_faqs ); ?>"><?php esc_html_e( 'FAQs ', 'lumiere-movies' ); ?></a>.<br>
 
-	<strong>3</strong>. <?php esc_html_e( 'check the', 'lumiere-movies' ); ?> <a href="<?php echo esc_url( $lumiere_page_howto ) ?>"><?php esc_html_e( 'how to', 'lumiere-movies' ); ?></a>.<br>
+	<strong>3</strong>. <?php esc_html_e( 'check the', 'lumiere-movies' ); ?> <a href="<?php echo esc_url( $lumiere_page_howto ); ?>"><?php esc_html_e( 'how to', 'lumiere-movies' ); ?></a>.<br>
 
 
 		<div class="titresection"><?php esc_html_e( 'Support me!', 'lumiere-movies' ); ?></div>

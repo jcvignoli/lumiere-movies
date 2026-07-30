@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the options of cache
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -136,7 +137,8 @@ $lumiere_size_cache_folder = $variables['size'];
 						</div>
 					</div>
 
-					<div class="explain"><?php esc_html_e( 'Keep the cache folder size below a limit. Every hour, WordPress will check if your cache folder is over the selected size limit and will delete the newest cache files until it match your selected cache folder size limit.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' );
+					<div class="explain"><?php esc_html_e( 'Keep the cache folder size below a limit. Every hour, WordPress will check if your cache folder is over the selected size limit and will delete the newest cache files until it match your selected cache folder size limit.', 'lumiere-movies' ); ?> <br /><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php
+					echo esc_html__( 'No', 'lumiere-movies' );
 					echo '<br>' . esc_html__( 'Current size used: ', 'lumiere-movies' ) . esc_html( $lumiere_size_cache_folder ); ?></div>
 
 				</div>
@@ -157,7 +159,7 @@ $lumiere_size_cache_folder = $variables['size'];
 							echo $lumiere_imdb_cache_values['imdbcacheexpire'] === '0' ? '2592000' : esc_html( $lumiere_imdb_cache_values['imdbcacheexpire'] ); */ ?>">
 						</div>
 					</div>
-					<div class="explain"><?php esc_html_e( 'Automatically refresh the cache over a span of two weeks. Selecting this option will remove the time expiration of the cache, which will be automatically set to forever.', 'lumiere-movies' ); ?><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ) ?><?php
+					<div class="explain"><?php esc_html_e( 'Automatically refresh the cache over a span of two weeks. Selecting this option will remove the time expiration of the cache, which will be automatically set to forever.', 'lumiere-movies' ); ?><br><?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> <?php echo esc_html__( 'No', 'lumiere-movies' ); ?><?php
 
 					// Display next schedule if cron is activated
 					$lumiere_next_cron_run = get_transient( 'lum_cache_cron_refresh_time_started' );
@@ -212,7 +214,7 @@ $lumiere_size_cache_folder = $variables['size'];
 		<!------------------------------------------------------------------- =[Submit selection] -->
 
 		<div class="submit lumiere_sticky_boxshadow lumiere_align_center">
-			<?php wp_nonce_field( 'lumiere_nonce_cache_settings', '_nonce_cache_settings' );?>
+			<?php wp_nonce_field( 'lumiere_nonce_cache_settings', '_nonce_cache_settings' ); ?>
 			<input type="submit" class="button-primary" id="lumiere_update_cache_settings" name="lumiere_update_cache_settings" value="<?php esc_html_e( 'Update settings', 'lumiere-movies' ); ?>" />&nbsp;&nbsp;
 			<input type="submit" class="button-primary" id="lumiere_reset_cache_settings" name="lumiere_reset_cache_settings" value="<?php esc_html_e( 'Reset settings', 'lumiere-movies' ); ?>" />
 		</div>

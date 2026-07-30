@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Admin Trait
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Admin;
 
@@ -77,4 +78,3 @@ trait Admin_General {
 		check_admin_referer( $nonce_action, $nonce_name );
 	}
 }
-

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Popup for movie search
  *
@@ -7,6 +7,7 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Popups;
 
@@ -174,7 +175,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 				<?php echo esc_html( _n( 'Matching title', 'Matching titles', $nb_results, 'lumiere-movies' ) ); ?>
 			</h2>
 			<h2 class="lumiere_flex_auto lumiere_width_fifty_perc">
-				<?php echo esc_html( ucfirst( Get_Options_Movie::get_all_fields( $nb_results )['director'] ) ) // always singular; ?>
+				<?php echo esc_html( ucfirst( Get_Options_Movie::get_all_fields( $nb_results )['director'] ) ); // always singular; ?>
 			</h2>
 		</div>
 

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Modal Type Enum
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Enums;
 
@@ -45,5 +46,4 @@ enum Modal_Type: string {
 			default     => throw new \ValueError( 'Lumière Movies: Unknown modal type ' . esc_html( $value ) ),
 		};
 	}
-
 }

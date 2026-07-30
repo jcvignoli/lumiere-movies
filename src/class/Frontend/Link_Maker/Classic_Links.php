@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class to build Classic Links
  *
@@ -7,6 +7,8 @@
  * @version       2.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere\Frontend\Link_Maker;
 
 // If this file is called directly, abort.

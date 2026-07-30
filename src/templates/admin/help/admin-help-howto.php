@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Template for the submenu of help howto pages
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 // If this file is called directly, abort.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -285,7 +286,8 @@ $lumiere_pics_url = $variables['lum_pics_url'];
 
 				<?php esc_html_e( "Taxonomy is automatically generated in Lumière! and activated by default. You can however disable it by unchecking the box in 'Main options -> Advanced -> 'Use taxonomy'. A page including the movie fields to use as taxonomy (such as directors, genres, etc), are also to be found in 'Data -> Display'.", 'lumiere-movies' ); ?>
 				<br>
-				<?php esc_html_e( 'After activating taxonomy and selecting which movie fields to use, your posts will have brand new links to page including all those details. By default, you can click on the on any director and genre on your page, it will open a new page dynamically created by Lumière.', 'lumiere-movies' );
+				<?php
+				esc_html_e( 'After activating taxonomy and selecting which movie fields to use, your posts will have brand new links to page including all those details. By default, you can click on the on any director and genre on your page, it will open a new page dynamically created by Lumière.', 'lumiere-movies' );
 				/* translators: %s is an admin URL */
 				echo wp_kses( wp_sprintf( esc_html__( 'Important: should you get a page not found error (404) when visiting the dynamically created pages, just go to %1$s Permalink Settings %2$s to refresh the rewriting rules.', 'lumiere-movies' ), '<a href="options-permalink.php">', '</a>' ), [ 'a' => [ 'href' => [] ] ] );
 				esc_html_e( 'You can now visit pages that include all your posts grouped by movie details. For instance, if you write a lot about the same movie director, the taxonomy page will include all your posts written about them.', 'lumiere-movies' ); ?>
@@ -326,7 +328,8 @@ $lumiere_pics_url = $variables['lum_pics_url'];
 
 				<div id="inside_help_explain_autotitlewidget" class="hidesection">
 
-					<?php esc_html_e( "It is a special type of widget. Unlike the normal Lumière widget (see widget help section in this page), Lumière auto-widget does not require you to enter any IMDb ID or movie's title manually. It automatically query the IMDb according to title you gave to your post. Beware it does so for all posts you have published.", 'lumiere-movies' );
+					<?php
+					esc_html_e( "It is a special type of widget. Unlike the normal Lumière widget (see widget help section in this page), Lumière auto-widget does not require you to enter any IMDb ID or movie's title manually. It automatically query the IMDb according to title you gave to your post. Beware it does so for all posts you have published.", 'lumiere-movies' );
 					echo '<br><br>';
 					?>
 
@@ -381,7 +384,7 @@ $lumiere_pics_url = $variables['lum_pics_url'];
 				<br clear="both">
 				<br clear="both">
 
-				<?php esc_html_e( 'Four options are available: "search language", "search categories", "limit the number of results" and "delay queries time".', 'lumiere-movies' );?>
+				<?php esc_html_e( 'Four options are available: "search language", "search categories", "limit the number of results" and "delay queries time".', 'lumiere-movies' ); ?>
 
 				<br clear="both">
 				<br clear="both">

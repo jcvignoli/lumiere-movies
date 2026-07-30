@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for displaying persons module Credit.
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Frontend\Module\Person;
 
@@ -90,7 +91,7 @@ final class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 					$output .= $this->output_class->misc_layout( 'see_all_end' );
 				}
 			}
-			$loops ++;
+			$loops++;
 		}
 		return $output;
 	}
@@ -122,7 +123,7 @@ final class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 			$output .= '(' . strval( $nb_total_items ) . ')'; // Show the total number found right after the title.
 		}
 
-		for ( $i = 0; $i < $nb_total_items; $i ++ ) {
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$output .= parent::get_film_url( $item_results[ $sub_cat ][ $i ]['titleId'], $item_results[ $sub_cat ][ $i ]['titleName'] );
 
 			if ( isset( $item_results[ $sub_cat ][ $i ]['year'] ) ) {

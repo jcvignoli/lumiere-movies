@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Movie Settings class
  *
@@ -7,6 +7,8 @@
  * @version       3.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
+
 namespace Lumiere\Config;
 
 // If this file is called directly, abort.
@@ -18,7 +20,7 @@ use Lumiere\Config\Settings_Helper;
 
 // Needed vars for uninstall, fails otherwise.
 // Use of defined() condition for PHPStan
-if ( ! defined( 'LUM_WP_PATH' ) ) {
+if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
 	require_once plugin_dir_path( dirname( __DIR__ ) ) . 'vars.php';
 }
 
@@ -299,4 +301,3 @@ class Settings_Movie extends Settings_Helper {
 		];
 	}
 }
-

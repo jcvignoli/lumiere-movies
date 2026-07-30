@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Class for IRP plugin (Intelly Related Post)
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Plugins\Auto;
 
@@ -66,4 +67,3 @@ final class Irp {
 		return $content ?? '';
 	}
 }
-

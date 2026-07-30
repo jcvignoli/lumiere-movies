@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Getting Settings and database options
  *
@@ -7,6 +7,7 @@
  * @version       1.0
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Config;
 
@@ -166,4 +167,3 @@ final class Get_Options_Movie extends Settings_Movie {
 		return parent::define_items_details_comments();
 	}
 }
-

@@ -1,4 +1,4 @@
-<?php declare( strict_types = 1 );
+<?php
 /**
  * Specific Class for updating : ************************ Lumière version 4.6.5, update 25
  * Child of Updates class
@@ -15,6 +15,7 @@
  * @copyright (c) 2025, Lost Highway
  * @package       lumieremovies
  */
+declare( strict_types = 1 );
 
 namespace Lumiere\Updates;
 
@@ -84,4 +85,3 @@ final class Lumiere_Update_File_25 extends \Lumiere\Updates {
 		 */
 	}
 }
-
