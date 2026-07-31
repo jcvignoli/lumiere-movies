@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.8.1
+* [bug] IMDb changed the API calls, Calendar wasn't working anymore.
 * [bug] Widget color with latest OceanWP was losing the gold color. In lumiere.css, made .lumiere-lines-common_grey a() class "!important".
 * [technical] Got rid of PHPCS Neutron coding style, using regular WordPress one.
 
