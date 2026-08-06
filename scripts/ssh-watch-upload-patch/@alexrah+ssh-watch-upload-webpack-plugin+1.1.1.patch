@@ -1,5 +1,5 @@
 diff --git a/node_modules/@alexrah/ssh-watch-upload-webpack-plugin/index.js b/node_modules/@alexrah/ssh-watch-upload-webpack-plugin/index.js
-index 4d88eef..6e1133c 100644
+index 4d88eef..ced3b28 100644
 --- a/node_modules/@alexrah/ssh-watch-upload-webpack-plugin/index.js
 +++ b/node_modules/@alexrah/ssh-watch-upload-webpack-plugin/index.js
 @@ -2,6 +2,9 @@ const path = require('path');
@@ -33,7 +33,7 @@ index 4d88eef..6e1133c 100644
     */
    setCacheValueByKey(key, value) {
      this.cache[key] = value;
-@@ -40,44 +48,67 @@ class SSHWatchUploadWebpackPlugin {
+@@ -40,60 +48,153 @@ class SSHWatchUploadWebpackPlugin {
    /*
     * @param { String } file
     */
@@ -120,11 +120,40 @@ index 4d88eef..6e1133c 100644
    init(compiler) {
 -    this.connect();
      this.outputPath = compiler.options.output.path;
++    this.populateCache(this.outputPath);
 +    this.connect();
      if (this.openDomain && this.domain) this.openTheme();
    }
  
-@@ -87,13 +118,56 @@ class SSHWatchUploadWebpackPlugin {
++  populateCache(dir) {
++    if (!fs.existsSync(dir)) return;
++    try {
++      const files = fs.readdirSync(dir);
++      for (const file of files) {
++        const fullPath = path.join(dir, file);
++        const stat = fs.statSync(fullPath);
++        if (stat.isDirectory()) {
++          this.populateCache(fullPath);
++        } else if (stat.isFile()) {
++          try {
++            const content = fs.readFileSync(fullPath);
++            const currentHash = crypto.createHash('md5').update(content).digest('hex');
++            const relativePath = path.relative(this.outputPath, fullPath);
++            const cacheKey = relativePath.replace(/\\/g, '/');
++            this.setCacheValueByKey(cacheKey, currentHash);
++          } catch (e) {
++            // Ignore individual file read errors
++          }
++        }
++      }
++    } catch (e) {
++      // Ignore directory read errors
++    }
++  }
++
+   /*
+    * @param { WebpackCompiler } compiler
+    */
    apply(compiler) {
      if (this.mode !== 'development') return console.log(chalk`{yellow [SSHWatchUpload] Warning: SSHWatchUpload will only run in development mode}`);
      this.init(compiler);
@@ -182,7 +211,7 @@ index 4d88eef..6e1133c 100644
      this.ssh
        .connect({
          host,
-@@ -102,11 +176,24 @@ class SSHWatchUploadWebpackPlugin {
+@@ -102,11 +203,24 @@ class SSHWatchUploadWebpackPlugin {
          passphrase,
          privateKeyPath,
        })
@@ -209,7 +238,7 @@ index 4d88eef..6e1133c 100644
    }
  
    timestamp() {
-@@ -115,16 +202,29 @@ class SSHWatchUploadWebpackPlugin {
+@@ -115,16 +229,29 @@ class SSHWatchUploadWebpackPlugin {
  
    validateConnectionOptions(options) {
      return Object.keys(options).every((key) => {

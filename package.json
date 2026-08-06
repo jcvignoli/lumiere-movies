@@ -16,6 +16,7 @@
     "build": "if [ -d dist ] && [ -s dist ]; then rm -R dist; fi; wp-scripts build --progress --mode production --blocks-manifest",
     "wp:lint_css": "wp-scripts lint-style",
     "wp:lint_js": "wp-scripts lint-js",
+    "postinstall": "patch-package --patch-dir scripts/ssh-watch-upload-patch/",
     "codeception:start": "php vendor/bin/codecept run --env wpchrome -vvv tests/codeception/Acceptance/000-StartCest.php",
     "codeception:remote": "php vendor/bin/codecept run --env wpchrome -vvv AcceptanceRemote",
     "codeception:local": "php vendor/bin/codecept run --env wpchrome -vvv Acceptance",

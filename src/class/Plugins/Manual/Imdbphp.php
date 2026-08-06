@@ -17,13 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
-
 use Lumiere\Vendor\Imdb\Config as Imdbphp_Config;
 use Lumiere\Vendor\Imdb\Name;
 use Lumiere\Vendor\Imdb\NameSearch;
 use Lumiere\Vendor\Imdb\Title;
 use Lumiere\Vendor\Imdb\TitleSearch;
-
 use Lumiere\Vendor\Monolog\Logger;
 
 /**
