@@ -7,9 +7,12 @@ import { execFileSync } from 'child_process';
  */
 class blocksManifestPlugin {
 	apply(compiler) {
-		// Use 'done' hook to ensure it runs even if there are compilation errors, 
-		// and it's one of the last hooks to run.
-		compiler.hooks.done.tap('BlocksManifestPlugin', () => {
+		compiler.hooks.done.tap('BlocksManifestPlugin', (stats) => {
+			// Prevent execution on incremental watch re-compiles
+			if (compiler.watchMode) {
+				return;
+			}
+
 			const outputPath = compiler.options.output.path;
 			
 			const sourceFile = join(outputPath, 'blocks-manifest.php');
@@ -26,9 +29,6 @@ class blocksManifestPlugin {
 			// Generate the manifest using wp-scripts
 			try {
 				console.log(`BlocksManifestPlugin: Generating manifest at ${sourceFile}...`);
-
-				// Fix: Use execFileSync with an arguments array to prevent Unsafe Shell Command warnings.
-				// Note: On Windows, npx is a batch script, so we append '.cmd' if running on a Win32 platform.
 
 				const npxExecutable = process.platform === 'win32' ? 'npx.cmd' : 'npx';
 				
@@ -53,8 +53,6 @@ class blocksManifestPlugin {
 				}
 				
 				try {
-					// Using copy + unlink instead of rename to handle cross-device issues if any,
-					// though dist/ should usually be on the same device.
 					fs.copyFileSync(sourceFile, targetFile);
 					fs.unlinkSync(sourceFile);
 					console.log('BlocksManifestPlugin: blocks-manifest.php moved to dist/assets/blocks/');

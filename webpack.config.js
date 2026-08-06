@@ -7,15 +7,15 @@
 // Configs
 import wpConfig from '@wordpress/scripts/config/webpack.config.js';			/* WordPress webpack config */
 import extCred from './.env.ssh.js';							/* Private credentials for ssh */
+import path from 'path';
 
 // Plugins
 // a. From wp-scripts
 import TerserPlugin from "terser-webpack-plugin";					/* already installed through WordPress scripts */
 import CopyPlugin from "copy-webpack-plugin";						/* already installed through WordPress scripts */
 // b. need the NPM package to be installed
-import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
-import SSHWatchUploadWebpackPlugin from '@alexrah/ssh-watch-upload-webpack-plugin';	/* forked from ssh-watch-upload-webpack-plugin */
+import SSHWatchUploadWebpackPlugin from '@alexrah/ssh-watch-upload-webpack-plugin';	
 import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import RemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts';
 import * as sassTransform  from 'sass';
@@ -29,8 +29,26 @@ const __dirname = process.cwd();
 // Starting message
 console.log('Running ./webpack.config.js');
 
+const isDev = getCmdArgs.mode === 'development';
+
 export default {
 	...wpConfig,
+	cache: {
+		type: 'filesystem',
+		cacheDirectory: path.resolve(__dirname, 'tmp/cache/webpack/'),
+		compression: 'brotli',
+	},
+	watchOptions: {
+		ignored: [
+			'**/node_modules/**',
+			'**/vendor/**',
+			'**/dist/**',
+			'**/tests/**',
+			'**/tmp/**',
+			'**/.git/**'
+		],
+		aggregateTimeout: 300, // Delay rebuilds slightly to batch changes
+	},
 	output: {
 	    path: resolve('./dist/'),
 	},
@@ -78,12 +96,14 @@ export default {
 		*/
 		// Runs only if "--mode development" is passed in command line
 		new SSHWatchUploadWebpackPlugin({
-			mode: getCmdArgs.mode==='development' ? 'development' : 'production',		// in npm run build, do not use ssh
+			mode: isDev ? 'development' : 'production',		// in npm run build, do not use ssh
 			host: extCred.mainserver.hostname,
 			port: extCred.mainserver.port,
 			username: extCred.mainserver.username,
 			privateKeyPath: extCred.mainserver.key,
 			uploadPath: extCred.mainserver.dist,
+			// Add option to skip unmodified files if supported by your fork
+			skipUnchanged: true,
 		}),
 		new CopyPlugin( {
 			patterns: [
@@ -91,6 +111,7 @@ export default {
 			{
 				from: resolve( './src/' ),
 				globOptions: {
+					cacheTransform: true,
 					concurrency: 100,
 					ignore: [
 						"**/assets/**",						// address specifically later
@@ -105,6 +126,7 @@ export default {
 						"**/class/Updates/.add_only_updates",			// dev file that would mess all up
 					],
 				},
+				force: false,
 			},
 			/****** Render files in block folders */
 			{
@@ -113,6 +135,7 @@ export default {
 					const relativePath = relative(resolve('./src'), absoluteFilename);
 					return relativePath;
 				},
+				force: false,
 			},
 			/****** Bootstrap */
 			{
@@ -134,6 +157,7 @@ export default {
 					const relativePath = relative(resolve('./src'), absoluteFilename);
 					return relativePath;
 				},
+				force: false,
 			},
 			/****** CSS */
 			{
@@ -144,7 +168,15 @@ export default {
 				to({ context, absoluteFilename }) {
 					/** add .min to filename */
 					return 'assets/css/[name].min.css';
-				},	
+				},
+				// Minify plain CSS files using sass compiler
+				transform: {
+					transformer: (content, path) => {
+						return sassTransform.compile(path, { style: 'compressed' }).css;
+					},
+					cache: true,
+				},
+				force: false,
 			},
 			/****** SCSS */
 			{
@@ -160,19 +192,21 @@ export default {
 				noErrorOnMissing: true,
 				// compile scss into css
 				transform: (content, path) => {
-					return sassTransform.compile(path).css
-				},	
+					return sassTransform.compile(path, { style: 'compressed' }).css
+				},
+				force: false,	
 			},
 			/****** JS */
 			{
-				from: resolve( './src/assets/js/*.(js)' ),
+				from: resolve( './src/assets/js/*.js' ),
 				globOptions: {
 					concurrency: 100,
 				},
 				to({ context, absoluteFilename }) {
 					/** add .min to filename */
 					return 'assets/js/[name].min[ext]';
-				},	
+				},
+				force: false,
 			},
 			/****** Highslide JS */
 			{
@@ -190,6 +224,7 @@ export default {
 					const relativePath = relative(resolve('./src'), absoluteFilename);
 					return relativePath;
 				},
+				force: false,
 			},
 			/****** Pics */
 			{
@@ -225,30 +260,19 @@ export default {
 				test: /\.js$/i,
 				exclude: [ /assets\/js\/highslide\//, /vendor\// ],
 			}),
-			new CssMinimizerPlugin({
-				minimizerOptions: {
-					preset: [
-						"default",
-						{
-							discardComments: { removeAll: true },
-						},
-					],
-				},
-				parallel: 10,
-				test: /\.css$/i,
-				// Scss have already been renamed to .min.css
-				exclude: [ /vendor\// ],
-			}),
 			new ImageMinimizerPlugin({
 				minimizer: {
-					implementation: ImageMinimizerPlugin.imageminMinify,
+					implementation: ImageMinimizerPlugin.sharpMinify,
 					options: {
-						// Lossless optimization with custom option
-						plugins: [
-							["gifsicle", { interlaced: true }],
-							["jpegtran", { progressive: true }],
-							["optipng", { optimizationLevel: 5 }],
-						],
+						encodeOptions: {
+							gif: {},
+							jpeg: {
+								quality: 80,
+							},
+							png: {
+								quality: 80,
+							},
+						},
 					},
 				},
 				exclude: [ /assets\/js\/highslide\//, /vendor\// ],

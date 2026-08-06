@@ -59,20 +59,19 @@ final class Imdbphp extends Imdbphp_Config {
 		 */
 		$this->throwHttpExceptions = false; // Not an option in Lumière!, prevent throwing Exceptions that stop the execution and prevent pages display
 		$this->useLocalization = true; // Not an option in Lumière!, always use localization
-		//$this->language = ''; // Disable language so it's not used but $this->country only.
-		/**
+		$this->language = $this->convert_lang( $imdb_admin_values['imdblanguage'] );
+		$this->country = $this->convert_lang_country( $imdb_admin_values['imdblanguage'] );
 
-		 */
-		$this->country = $this->convert_lang( $imdb_admin_values['imdblanguage'] );
-		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
 		$this->photodir = $imdb_cache_values['imdbphotodir'];// ?imdbphotoroot? Bug imdbphp?
-		$this->cacheExpire = is_int( $cache_expire_override ) === false ? intval( $imdb_cache_values['imdbcacheexpire'] ) : $cache_expire_override;
 		$this->photoroot = $imdb_cache_values['imdbphotoroot']; // ?imdbphotodir? Bug imdbphp?
-		$this->cacheUse = $imdb_cache_values['imdbusecache'] === '1' ? true : false;
-		$this->cacheStore = $this->cacheUse === false ? false : true; // Not an option in Lumière!, don't store cache if cache is not used
-		$this->cacheUseZip = $this->cacheUse === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
-		$this->cacheConvertZip = $this->cacheUse === false ? false : true; // Not an option in Lumière!, not in admin interface, always true if using cache
-		$this->curloptTimeout = intval( $imdb_admin_values['imdbdelayimdbrequest'] );
+
+		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
+		$this->cacheExpire = (int) $cache_expire_override;
+		$this->cacheUse = ( $imdb_cache_values['imdbusecache'] === '1' );
+		$this->cacheStore = $this->cacheUse; // Not an option in Lumière!, don't store cache if cache is not used
+		$this->cacheUseZip = $this->cacheUse; // Not an option in Lumière!, not in admin interface, always true if using cache
+		$this->cacheConvertZip = $this->cacheUse; // Not an option in Lumière!, not in admin interface, always true if using cache
+		$this->curloptTimeout = (int) $imdb_admin_values['imdbdelayimdbrequest'];
 	}
 
 	/**
@@ -88,20 +87,36 @@ final class Imdbphp extends Imdbphp_Config {
 	}
 
 	/**
-	 * Convert the WordPress style language to IMDbphp style
-	 * country set country code
+	 * Convert the WordPress style language to IMDbphp country style
+	 * Country set country code
 	 * possible values:
 	 * EN (English), FR (French), ES (Spanish), etc.
 	 *
 	 * @param null|string $language lang in WP style, ie en_GB, fr_FR, es_ES
 	 * @return string language in two positions, ie EN, FR, ES
 	 */
-	private function convert_lang( ?string $language ): string {
+	private function convert_lang_country( ?string $language ): string {
 		if ( $language === null ) {
 			return 'EN';
 		}
 		$lang_shortened = str_contains( $language, '_' ) ? explode( '_', $language ) : [ $language ];
 		return strtoupper( $lang_shortened[0] );
+	}
+
+	/**
+	 * Convert the WordPress style language to IMDbphp languague style
+	 * Language set country code => transform underscore into hyphen
+	 * possible values:
+	 * EN-en (English), FR-fr (French), ES-es (Spanish), etc.
+	 *
+	 * @param null|string $language lang in WP style, ie en_GB, fr_FR, es_ES
+	 * @return string language with hyphen, ie EN-en, FR-fr, ES-es
+	 */
+	private function convert_lang( ?string $language ): string {
+		if ( $language === null ) {
+			return 'EN-en';
+		}
+		return str_contains( $language, '_' ) ? str_replace( '_', '-', $language ) : $language;
 	}
 
 	/**

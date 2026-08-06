@@ -28,6 +28,7 @@ class AcceptanceSettings {
 	/** Testing pages */
 	public const TESTING_PAGE_BASE_URL                    = '/en/2021/test-codeception/';
 	public const TESTING_PAGE_BASE_A_DIRECTOR             = 'Christopher Nolan';
+	public const TESTING_PAGE_BASE_A_DIRECTOR_SUMMARY     = 'He is a producer and writer, known';
 	public const TESTING_PAGE_TAXONOMY_URL                = '/en/lumiere-director/stanley-kubrick-en/';
 	public const TESTING_PAGE_POPUP_FILM_URL              = '/en/lumiere/film/?mid=&film=interstellar';
 	public const TESTING_PAGE_POPUP_FILM_URL_WITHOUTMID   = '/en/lumiere/film/?film=interstellar';

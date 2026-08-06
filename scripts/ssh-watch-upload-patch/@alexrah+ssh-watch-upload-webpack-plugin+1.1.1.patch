@@ -1,0 +1,245 @@
+diff --git a/node_modules/@alexrah/ssh-watch-upload-webpack-plugin/index.js b/node_modules/@alexrah/ssh-watch-upload-webpack-plugin/index.js
+index 4d88eef..6e1133c 100644
+--- a/node_modules/@alexrah/ssh-watch-upload-webpack-plugin/index.js
++++ b/node_modules/@alexrah/ssh-watch-upload-webpack-plugin/index.js
+@@ -2,6 +2,9 @@ const path = require('path');
+ const open = require('open');
+ const chalk = require('chalk');
+ const { NodeSSH } = require('node-ssh');
++const fs = require('fs');
++const crypto = require('crypto');
++const { exec } = require('child_process');
+ 
+ class SSHWatchUploadWebpackPlugin {
+   /*
+@@ -20,6 +23,11 @@ class SSHWatchUploadWebpackPlugin {
+     this.openDomain = openDomain;
+     this.uploadPath = uploadPath;
+     this.ssh = new NodeSSH();
++    this.connected = false;
++    this.isConnecting = false;
++    this.isUploading = false;
++    this.uploadQueue = [];
++    this.lastSoundTime = 0;
+   }
+ 
+   /*
+@@ -31,7 +39,7 @@ class SSHWatchUploadWebpackPlugin {
+ 
+   /*
+    * @param { String } key
+-   * @param { Buffer } value
++   * @param { String } value
+    */
+   setCacheValueByKey(key, value) {
+     this.cache[key] = value;
+@@ -40,44 +48,67 @@ class SSHWatchUploadWebpackPlugin {
+   /*
+    * @param { String } file
+    */
+-  uploadAsset(file) {
++  async uploadAsset(file) {
+     console.log(chalk`{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} {gray Uploading} {cyan ${file}...}`);
+-    const localPath = `${this.outputPath}/${file}`;
+-    const serverPath = `${this.uploadPath}/${file}`;
+-    this.ssh.putFile(localPath, serverPath).then(
+-      () => console.log(chalk`{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} {green Upload complete: ${file}}`),
+-      (error) => console.log(chalk`{yellow [SSHWatchUpload]} {red [Upload error] ${error}}`),
+-    );
++    const localPath = path.join(this.outputPath, file);
++    
++    // Remote path should always use forward slashes
++    const remoteFile = file.replace(/\\/g, '/');
++    const serverPath = this.uploadPath.replace(/\/$/, '') + '/' + remoteFile;
++
++    // Verify file exists before trying to upload
++    if (!fs.existsSync(localPath)) {
++        console.log(chalk`{yellow [SSHWatchUpload]} {red [Upload error] Local file not found: ${localPath}}`);
++        this.playErrorSound();
++        return;
++    }
++
++    try {
++        await this.ssh.putFile(localPath, serverPath);
++        console.log(chalk`{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} {green Upload complete: ${file}}`);
++    } catch (error) {
++        console.log(chalk`{yellow [SSHWatchUpload]} {red [Upload error] ${error}}`);
++        this.playErrorSound();
++    }
+   }
+ 
+   /**
+    * @param { String } file
+-   * @param { Buffer } info
++   * @param { Object } info
+    */
+   hook(file, info) {
+-    // Check cache
++    let content;
++    if (info && info.content) {
++      content = info.content;
++    } else {
++      const localPath = path.join(this.outputPath, file);
++      try {
++        content = fs.readFileSync(localPath);
++      } catch (e) {
++        // file might have been deleted, or it's not a regular file
++        return;
++      }
++    }
++
++    const currentHash = crypto.createHash('md5').update(content).digest('hex');
+     const cachedValue = this.getCacheValueByKey(file);
+-    // No cache, set and exit
+-    if (!cachedValue) return this.setCacheValueByKey(file, info);
+-    // Cache match, skip
+-    // console.log(chalk`{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} cachedValue: `,cachedValue);
+-    // console.log(chalk`{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} info: `,info);
+-    console.log(chalk`{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} cachedValue: `,typeof cachedValue);
+-    // if (cachedValue.equals(info)) return;
+-    if (cachedValue === info.compilation.fullHash) return;
+-
+-    // Update cache
+-    this.setCacheValueByKey(file, info);
+-    // SSH
+-    this.uploadAsset(file);
++    
++    if (cachedValue === currentHash) return;
++
++    this.setCacheValueByKey(file, currentHash);
++    
++    if (!this.uploadQueue.includes(file)) {
++        this.uploadQueue.push(file);
++    }
++    this.processQueue();
+   }
+ 
+   /*
+    * @param { WebpackCompiler } compiler
+    */
+   init(compiler) {
+-    this.connect();
+     this.outputPath = compiler.options.output.path;
++    this.connect();
+     if (this.openDomain && this.domain) this.openTheme();
+   }
+ 
+@@ -87,13 +118,56 @@ class SSHWatchUploadWebpackPlugin {
+   apply(compiler) {
+     if (this.mode !== 'development') return console.log(chalk`{yellow [SSHWatchUpload] Warning: SSHWatchUpload will only run in development mode}`);
+     this.init(compiler);
+-    compiler.hooks.assetEmitted.tap('SSHWatchUploadWebpackPlugin', this.hook.bind(this));
++    
++    // We use afterEmit to ensure we catch all assets, including those from CopyWebpackPlugin
++    compiler.hooks.afterEmit.tap('SSHWatchUploadWebpackPlugin', (compilation) => {
++      // emittedAssets is a Set of asset names that were emitted in this compilation
++      if (compilation.emittedAssets) {
++        for (const assetName of compilation.emittedAssets) {
++          try {
++            const asset = compilation.getAsset(assetName);
++            let info;
++            if (asset && asset.source) {
++              try {
++                // Some sources (like SizeOnlySource) don't support buffer()/source()
++                info = { content: asset.source.buffer() };
++              } catch (e) {
++                // Fallback to disk read in hook()
++              }
++            }
++            this.hook(assetName, info);
++          } catch (e) {
++            // Fallback to disk read in hook()
++            this.hook(assetName);
++          }
++        }
++      }
++    });
++  }
++
++  async processQueue() {
++    if (!this.connected || this.isUploading || this.uploadQueue.length === 0) return;
++    
++    this.isUploading = true;
++    
++    while (this.uploadQueue.length > 0) {
++        const file = this.uploadQueue.shift();
++        await this.uploadAsset(file);
++    }
++    
++    this.isUploading = false;
+   }
+ 
+   connect() {
++    if (this.connected || this.isConnecting) return;
++
+     const { host, port, username, passphrase, privateKeyPath } = this;
+     const valideOptions = this.validateConnectionOptions({ host, port, username, passphrase, privateKeyPath });
+     if (!valideOptions) return false;
++
++    this.isConnecting = true;
++    console.log(chalk`{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} {gray Connecting to ${host}...}`);
++
+     this.ssh
+       .connect({
+         host,
+@@ -102,11 +176,24 @@ class SSHWatchUploadWebpackPlugin {
+         passphrase,
+         privateKeyPath,
+       })
+-      .then(() => console.log(chalk`{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} {gray Connected to server}\n{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} {magenta Watching for changes...}`));
++      .then(() => {
++        this.connected = true;
++        this.isConnecting = false;
++        console.log(chalk`{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} {gray Connected to server}\n{yellow [SSHWatchUpload]} {gray [}${this.timestamp()}{gray ]} {magenta Watching for changes...}`);
++        this.processQueue();
++      })
++      .catch((error) => {
++        this.isConnecting = false;
++        console.log(chalk`{yellow [SSHWatchUpload]} {red [Connection error] ${error}}`);
++        this.playErrorSound();
++        setTimeout(() => this.connect(), 5000);
++      });
+   }
+ 
+   openTheme() {
+-    open(`https://${this.domain}`);
++    if (this.openDomain && this.domain) {
++      open(`https://${this.domain}`);
++    }
+   }
+ 
+   timestamp() {
+@@ -115,16 +202,29 @@ class SSHWatchUploadWebpackPlugin {
+ 
+   validateConnectionOptions(options) {
+     return Object.keys(options).every((key) => {
+-
+       if(!options[key] && key == 'passphrase' && options['privateKeyPath']) {
+-        console.log('passphrase not required if privateKeyPath defined')
+         return true;
+       }
+-
+-      if (!options[key]) console.log(chalk`{yellow [SSHWatchUpload]} {red Missing configuration option: ${key}}`);
++      if (!options[key]) {
++        console.log(chalk`{yellow [SSHWatchUpload]} {red Missing configuration option: ${key}}`);
++        this.playErrorSound();
++      }
+       return !!options[key];
+     });
+   }
++
++  playErrorSound() {
++    const now = Date.now();
++    if (now - this.lastSoundTime > 3000) {
++      this.lastSoundTime = now;
++      exec('paplay /usr/share/sounds/gnome/default/alerts/sonar.ogg', (error) => {
++        if (error) {
++          // Fallback if paplay fails or file doesn't exist
++          process.stdout.write('\u0007');
++        }
++      });
++    }
++  }
+ }
+ 
+ module.exports = SSHWatchUploadWebpackPlugin;

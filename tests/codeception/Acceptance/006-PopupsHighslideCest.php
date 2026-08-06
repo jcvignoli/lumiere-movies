@@ -66,7 +66,7 @@ class PopupsHighslideCest {
 
 		// Test click to go to another popup
 		$I->click( AcceptanceSettings::TESTING_PAGE_BASE_A_DIRECTOR );
-		$I->see( 'Best known for his cerebral, often nonlinea' );
+		$I->see( AcceptanceSettings::TESTING_PAGE_BASE_A_DIRECTOR_SUMMARY );
 	}
 
 	/**

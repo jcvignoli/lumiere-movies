@@ -8,7 +8,7 @@ use Tests\Support\Helper\AcceptanceSettings;
 
 # Class meant to test Modal Windows (a WebDriver is needed for JS execution)
 
-class ModalWindowsCest {
+class SwitchModalWindowsCest {
 
 	public function _before( AcceptanceTester $I ) {
 		$I->comment( Helper\Color::set( '#Code _before#', 'italic+bold+cyan' ) );

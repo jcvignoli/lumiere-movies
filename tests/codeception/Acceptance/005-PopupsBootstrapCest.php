@@ -73,7 +73,7 @@ class PopupsBootstrapCest {
 		$I->click( AcceptanceSettings::TESTING_PAGE_BASE_A_DIRECTOR );
 
 		$I->scrollTo( '.lum_results_section_subtitle' );
-		$I->waitForText( 'Best known for his cerebral, often nonlinea', 15 ); // wait up to 15 seconds
+		$I->waitForText( AcceptanceSettings::TESTING_PAGE_BASE_A_DIRECTOR_SUMMARY, 15 ); // wait up to 15 seconds
 	}
 
 	/**
