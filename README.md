@@ -1,4 +1,4 @@
-[![CodeQL](https://github.com/jcvignoli/lumiere-movies/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/jcvignoli/lumiere-movies/actions/workflows/github-code-scanning/codeql)
+[![PHPStan and Phan](https://github.com/jcvignoli/lumiere-movies/actions/workflows/CI.yml/badge.svg)](https://github.com/jcvignoli/lumiere-movies/actions/workflows/CI.yml)
 
 # Lumière Movies
 
@@ -6,7 +6,7 @@
 **Tags:** cinema, film, imdb, movie, actor \
 **Requires at least:** 6.1 \
 **Tested up to:** 7.0 \
-**Stable tag:** 4.8 \
+**Stable tag:** 4.8.1 \
 **Requires PHP:** 8.1 \
 **License:** GPLv3 \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.en.html \
@@ -55,53 +55,6 @@ There are four ways to use Lumière!: 1/ with the popup link maker, 2/ with a wi
 4. Taxonomy pages and popups URLs can be edited according to your tastes. In advanced general Lumière options, you may want to modify the URL starting with 'lumiere' for taxonomy pages. Make sure to refresh your "rewriting rules" when adding new taxonomy (visit in your admin interface the page Permalink Settings (/wp-admin/options-permalink.php)
 5. Should your blog be dedicated to TV shows, podcasts or videogames only, it is possible to change Lumière's search behaviour to retrieve exclusively those. In advanced general Lumière admin options, look for 'Search categories'.
 6. Many more options are offered, just take a look at the options and how-to pages!
-
-## Screenshots
-
-### 1. Popup displayed when an imdb link is clicked.
-
-[missing image]
-
-### 2. How movie's data is displayed "inside a post" 
-
-[missing image]
-
-### 3. How movie's data is displayed in a "widget" 
-
-[missing image]
-
-### 4. Admin preferences for cache
-
-[missing image]
-
-### 5. The widget area to display a movie
-
-[missing image]
-
-### 6. Menu in visual editor (tinyMCE) for inclusion of a movie section or popup
-
-[missing image]
-
-### 7. Tool to insert a movie section or a popup in a post
-
-[missing image]
-
-### 8. Query page to find a movie IMDb ID
-
-[missing image]
-
-### 9. Gutenberg block
-
-[missing image]
-
-### 10. Taxonomy page for a star
-
-[missing image]
-
-### 11. Upcoming movies calendar
-
-[missing image]
-
 
 ## Frequently Asked Questions
 
