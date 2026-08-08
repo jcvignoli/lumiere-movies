@@ -1,18 +1,14 @@
-import fs from 'fs';
-import { join } from 'path';
-import { execFileSync } from 'child_process';
+const fs = require('fs');
+const { join } = require('path');
+const { execFileSync } = require('child_process');
 
 /**
- * Custom plugin to move blocks-manifest.php to dist/assets/blocks/
+ * Custom plugin to create blocks-manifest.php in dist
+ * Then move it to dist/assets/blocks/
  */
 class blocksManifestPlugin {
 	apply(compiler) {
 		compiler.hooks.done.tap('BlocksManifestPlugin', (stats) => {
-			// Prevent execution on incremental watch re-compiles
-			if (compiler.watchMode) {
-				return;
-			}
-
 			const outputPath = compiler.options.output.path;
 			
 			const sourceFile = join(outputPath, 'blocks-manifest.php');
@@ -43,7 +39,7 @@ class blocksManifestPlugin {
 					{ stdio: 'inherit' }
 				);
 			} catch (error) {
-				console.error('BlocksManifestPlugin: Failed to generate manifest:', error.message);
+				console.error('BlocksManifestPlugin: \x1b[1;31mFailed to generate manifest:\x1b[0m', error.message);
 			}
 
 			// Move it to the target directory
@@ -55,15 +51,15 @@ class blocksManifestPlugin {
 				try {
 					fs.copyFileSync(sourceFile, targetFile);
 					fs.unlinkSync(sourceFile);
-					console.log('BlocksManifestPlugin: blocks-manifest.php moved to dist/assets/blocks/');
+					console.log('BlocksManifestPlugin: \x1b[1;32mblocks-manifest.php moved to dist/assets/blocks/\x1b[0m');
 				} catch (err) {
-					console.error('BlocksManifestPlugin: Error moving manifest:', err.message);
+					console.error('BlocksManifestPlugin: \x1b[1;31mError moving manifest:\x1b[0m', err.message);
 				}
 			} else {
-				console.warn('BlocksManifestPlugin: blocks-manifest.php was not found at expected source path:', sourceFile);
+				console.warn('BlocksManifestPlugin: \x1b[1;31mblocks-manifest.php was not found at expected source path:\x1b[0m', sourceFile);
 			}
 		});
 	}
 }
 
-export default blocksManifestPlugin;
+module.exports = blocksManifestPlugin;

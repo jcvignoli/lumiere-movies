@@ -7,9 +7,42 @@ import ServerSideRender from '@wordpress/server-side-render';
 import jsonData from './block.json';
 
 export default function Edit( { attributes, setAttributes } ) {
+	const {
+		lumiere_imdblt_select = 'lum_movie_title',
+		content = '',
+		values = {},
+	} = attributes;
+
 	const blockProps = useBlockProps();
-	const htmlToElem = ( html ) => RawHTML( { children: html } ); // this type of block can include html.
-	const isInitialState = ! attributes.content || attributes.content === ''; // text by default.
+	const htmlToElem = ( html ) => RawHTML( { children: html } );
+	const isInitialState = ! content || content === '';
+
+	const handleSelectChange = ( newSelectValue ) => {
+		// Preserve current content under active key before switching
+		const updatedValues = {
+			...values,
+			[ lumiere_imdblt_select ]: values[ lumiere_imdblt_select ] ?? content,
+		};
+
+		// Retrieve saved content for the new selection key, or fallback to empty string
+		const nextContent = updatedValues[ newSelectValue ] ?? '';
+
+		setAttributes( {
+			lumiere_imdblt_select: newSelectValue,
+			content: nextContent,
+			values: updatedValues,
+		} );
+	};
+
+	const handleContentChange = ( newContent ) => {
+		setAttributes( {
+			content: newContent,
+			values: {
+				...values,
+				[ lumiere_imdblt_select ]: newContent,
+			},
+		} );
+	};
 
 	return (
 		<div { ...blockProps }>
@@ -17,11 +50,9 @@ export default function Edit( { attributes, setAttributes } ) {
 				<PanelBody title={ __( 'Movie/Person post', 'lumiere-movies' ) }>
 					<SelectControl
 						label={ __( 'Search Type', 'lumiere-movies' ) }
-						value={ attributes.lumiere_imdblt_select }
+						value={ lumiere_imdblt_select }
 						options={ lumiere_admin_vars.select_type_search }
-						onChange={ ( lumiere_imdblt_select ) =>
-							setAttributes( { lumiere_imdblt_select } )
-						}
+						onChange={ handleSelectChange }
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
@@ -30,9 +61,8 @@ export default function Edit( { attributes, setAttributes } ) {
 							'Title / Name / IMDb ID',
 							'lumiere-movies'
 						) }
-						value={ attributes.content }
-						onChange={ ( content ) => setAttributes( { content } ) }
-						/* translators: %1$s and %2$s are html tags */
+						value={ content }
+						onChange={ handleContentChange }
 						help={ htmlToElem(
 							sprintf(
 								__(
@@ -77,4 +107,3 @@ export default function Edit( { attributes, setAttributes } ) {
 		</div>
 	);
 }
-
