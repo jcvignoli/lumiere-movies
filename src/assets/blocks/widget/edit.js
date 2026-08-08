@@ -4,9 +4,9 @@ import { __, sprintf } from '@wordpress/i18n';
 import { RawHTML } from '@wordpress/element';
 
 export default function Edit( { attributes, setAttributes } ) {
-	/* translators: %1$s and %2$s are html tags */
 	const textExplanation = sprintf(
 		__(
+			/* translators: %1$s and %2$s are html tags */
 			"This widget fills your selected area, such as a sidebar, with movie/person data according to the data inserted in your metabox in post edit or the title of your post (if %1$sLumière auto widget option%2$s is active). Once this widget is saved, either the data you filled in the Lumière metabox in your post or the post's title will be used to display the movie/person data accordingly.",
 			'lumiere-movies'
 		),

@@ -729,7 +729,7 @@ msgid "Tags: "
 msgstr "Oznake"
 
 #: class/Admin/Backoffice_Extra.php:59
-#: assets/blocks/widget/edit.js:18
+#: assets/blocks/widget/edit.js:24
 #~ msgid "Settings"
 #~ msgstr "Options"
 
@@ -2825,26 +2825,26 @@ msgstr ""
 msgid "How to use widget?"
 msgstr ""
 
-#: assets/blocks/addlink/index.js:31
+#: assets/blocks/addlink/index.js:30
 #: assets/blocks/addlink/index.js:47
 msgid "Add a popup link"
 msgstr ""
 
-#: assets/blocks/opensearch/index.js:38
+#: assets/blocks/opensearch/index.js:48
 msgid "Open search IMDB ID"
 msgstr ""
 
-#: assets/blocks/opensearch/index.js:63
+#: assets/blocks/opensearch/index.js:76
 msgid "Open a search window"
 msgstr ""
 
-#: assets/blocks/opensearch/index.js:64
+#: assets/blocks/opensearch/index.js:77
 msgid "Open a new window to find the IMDb id for selected movie or person"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/post/edit.js:38
-#: assets/blocks/widget-sidebar-options/sidebar.js:139
+#: assets/blocks/post/edit.js:71
+#: assets/blocks/widget-sidebar-options/sidebar.js:165
 #, js-format
 msgid "You can get the IMDb ID number by %1$ssearching in the popup%2$s and then copy the ID found here."
 msgstr ""
@@ -2857,44 +2857,44 @@ msgstr ""
 msgid "Add a block in your posts that displays movie/person data."
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:102
+#: assets/blocks/widget-sidebar-options/sidebar.js:126
 msgid "Display items in widget"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:155
+#: assets/blocks/widget-sidebar-options/sidebar.js:190
 #, js-format
 msgid "%1$sAuto title widget%2$s is unactive, related options are hidden"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:162
+#: assets/blocks/widget-sidebar-options/sidebar.js:215
 msgid "Deactivate Auto Title Widget for this post"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:164
+#: assets/blocks/widget-sidebar-options/sidebar.js:221
 #, js-format
 msgid "Will prevent %1$sAuto Title Widget%2$s to be displayed on this post"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:175
+#: assets/blocks/widget-sidebar-options/sidebar.js:247
 #, js-format
 msgid "Theses features are functional only if you added a %1$sLumiere widget%2$s"
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:52
-#: assets/blocks/widget-sidebar-options/sidebar.js:180
+#: assets/blocks/widget-sidebar-options/sidebar.js:71
+#: assets/blocks/widget-sidebar-options/sidebar.js:262
 msgid "Lumière widget settings"
 msgstr ""
 
 #. translators: %1$s and %2$s are html tags
-#: assets/blocks/widget/edit.js:9
+#: assets/blocks/widget/edit.js:8
 #, js-format
 msgid "This widget fills your selected area, such as a sidebar, with movie/person data according to the data inserted in your metabox in post edit or the title of your post (if %1$sLumière auto widget option%2$s is active). Once this widget is saved, either the data you filled in the Lumière metabox in your post or the post's title will be used to display the movie/person data accordingly."
 msgstr ""
 
-#: assets/blocks/widget/edit.js:29
+#: assets/blocks/widget/edit.js:40
 msgid "Lumière Icon"
 msgstr ""
 
@@ -2968,27 +2968,27 @@ msgid_plural "Actors:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/blocks/coming-soon/edit.js:31
+#: assets/blocks/coming-soon/edit.js:34
 msgid "Lumière! Calendar upcoming movies"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:34
+#: assets/blocks/coming-soon/edit.js:40
 msgid "Click here to change the block options"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:40
+#: assets/blocks/coming-soon/edit.js:51
 msgid "Country"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:48
+#: assets/blocks/coming-soon/edit.js:61
 msgid "Type of search"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:67
+#: assets/blocks/coming-soon/edit.js:80
 msgid "Starting date (in number of days)"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:75
+#: assets/blocks/coming-soon/edit.js:95
 msgid "Ending date (in number of days)"
 msgstr ""
 
@@ -3114,31 +3114,31 @@ msgstr ""
 msgid "Hooks"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:38
+#: assets/blocks/coming-soon/edit.js:48
 msgid "Main settings"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:63
+#: assets/blocks/coming-soon/edit.js:76
 msgid "Date settings"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:83
+#: assets/blocks/coming-soon/edit.js:110
 msgid "Date format"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:90
+#: assets/blocks/coming-soon/edit.js:120
 msgid "Blog default format"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:91
+#: assets/blocks/coming-soon/edit.js:127
 msgid "Full format"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:92
+#: assets/blocks/coming-soon/edit.js:134
 msgid "Partial format"
 msgstr ""
 
-#: assets/blocks/coming-soon/edit.js:93
+#: assets/blocks/coming-soon/edit.js:141
 msgid "Short format"
 msgstr ""
 
@@ -3186,19 +3186,19 @@ msgstr ""
 msgid "Persons items"
 msgstr ""
 
-#: assets/blocks/post/edit.js:19
+#: assets/blocks/post/edit.js:55
 msgid "Search Type"
 msgstr ""
 
-#: assets/blocks/post/edit.js:29
+#: assets/blocks/post/edit.js:63
 msgid "Title / Name / IMDb ID"
 msgstr ""
 
-#: assets/blocks/widget/edit.js:20
+#: assets/blocks/widget/edit.js:26
 msgid "Widget Title"
 msgstr ""
 
-#: assets/blocks/widget/edit.js:33
+#: assets/blocks/widget/edit.js:48
 msgid "Final Widget Title:"
 msgstr ""
 
@@ -3206,21 +3206,21 @@ msgstr ""
 msgid "Person item selection"
 msgstr ""
 
-#: assets/blocks/post/edit.js:17
+#: assets/blocks/post/edit.js:52
 msgid "Movie/Person post"
 msgstr ""
 
-#: assets/blocks/post/edit.js:64
+#: assets/blocks/post/edit.js:97
 msgid "Enter a Title/Name/IMDb ID in the sidebar"
 msgstr ""
 
 #. Translators: %1$s and %2$s are html tags
-#: assets/blocks/widget-sidebar-options/sidebar.js:62
+#: assets/blocks/widget-sidebar-options/sidebar.js:81
 #, js-format
 msgid "Lumière Widget options are not avaible, you must add a Lumière Widget in %1$swidget options page%2$s."
 msgstr ""
 
-#: assets/blocks/widget-sidebar-options/sidebar.js:135
+#: assets/blocks/widget-sidebar-options/sidebar.js:160
 msgid "Tite/name/IMDb ID"
 msgstr ""
 
