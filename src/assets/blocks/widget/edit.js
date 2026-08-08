@@ -3,39 +3,57 @@ import { PanelBody, TextControl } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import { RawHTML } from '@wordpress/element';
 
-export default function Edit ( { attributes, setAttributes } ) {
-
+export default function Edit( { attributes, setAttributes } ) {
 	/* translators: %1$s and %2$s are html tags */
-	const textExplanation = sprintf( __('This widget fills your selected area, such as a sidebar, with movie/person data according to the data inserted in your metabox in post edit or the title of your post (if %1$sLumière auto widget option%2$s is active). Once this widget is saved, either the data you filled in the Lumière metabox in your post or the post\'s title will be used to display the movie/person data accordingly.', 'lumiere-movies' ), '<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">', '</a>' );
+	const textExplanation = sprintf(
+		__(
+			"This widget fills your selected area, such as a sidebar, with movie/person data according to the data inserted in your metabox in post edit or the title of your post (if %1$sLumière auto widget option%2$s is active). Once this widget is saved, either the data you filled in the Lumière metabox in your post or the post's title will be used to display the movie/person data accordingly.",
+			'lumiere-movies'
+		),
+		'<a href="admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget" target="_blank">',
+		'</a>'
+	);
 
 	const htmlToElem = ( html ) => RawHTML( { children: html } ); // this type of block can include html.
-	const blockProps = useBlockProps({ className: 'lumiere_block_widget' });
+	const blockProps = useBlockProps( { className: 'lumiere_block_widget' } );
 	const { lumiere_input } = attributes;
 
 	return (
-		<div {...blockProps}>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'lumiere-movies' ) }>
 					<TextControl
 						label={ __( 'Widget Title', 'lumiere-movies' ) }
 						value={ lumiere_input }
-						onChange={ ( lumiere_input ) => setAttributes( { lumiere_input } ) }
+						onChange={ ( lumiere_input ) =>
+							setAttributes( { lumiere_input } )
+						}
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
 				</PanelBody>
 			</InspectorControls>
 			<div className="lumiere_block_widget_preview">
-				<img className="lumiere_block_widget_image" src={lumiere_admin_vars.ico80} alt={ __( 'Lumière Icon', 'lumiere-movies') } />
-				<div className="lumiere_block_widget_title">Lumière! Widget</div>
+				<img
+					className="lumiere_block_widget_image"
+					src={ lumiere_admin_vars.ico80 }
+					alt={ __( 'Lumière Icon', 'lumiere-movies' ) }
+				/>
+				<div className="lumiere_block_widget_title">
+					Lumière! Widget
+				</div>
 				{ lumiere_input && (
 					<div className="lumiere_block_widget_title-display">
-						<strong>{ __( 'Final Widget Title:', 'lumiere-movies' ) }</strong><span className="finalTitle">{ lumiere_input }</span>
+						<strong>
+							{ __( 'Final Widget Title:', 'lumiere-movies' ) }
+						</strong>
+						<span className="finalTitle">{ lumiere_input }</span>
 					</div>
 				) }
-				<div className="lumiere_block_widget_explanation">{ htmlToElem( textExplanation ) }</div>
+				<div className="lumiere_block_widget_explanation">
+					{ htmlToElem( textExplanation ) }
+				</div>
 			</div>
 		</div>
 	);
-};
-
+}

@@ -9,37 +9,50 @@ import imdbCountries from '../../js/imdb-list-countries';
 
 /**
  * Trying to convert { "Albania":"al" } to { label: "Albania", value:"al" } in source, so source is cleaner, but can't make it
-let countryArr = new Array();
-const buildOptions = ( imdbCountries ) => (
-	// Build an <option> HTML tag based on a two columns array with label and value (meant to be used with a javascript array).
-	imdbCountries.forEach(function(element, index) {
-		Object.keys(element).forEach(function(key) {
-			countryArr.push( { label: key, value: element[key] } );
-		});
-	})
-);
-console.log(countryArr);
-*/
+  let countryArr = new Array();
+  const buildOptions = ( imdbCountries ) => (
+  // Build an <option> HTML tag based on a two columns array with label and value (meant to be used with a javascript array).
+  imdbCountries.forEach(function(element, index) {
+  Object.keys(element).forEach(function(key) {
+  countryArr.push( { label: key, value: element[key] } );
+  });
+  })
+  );
+  console.log(countryArr);
+ */
 
-export default function Edit ( { attributes, setAttributes } ) {
-
+export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...useBlockProps() }>
 			<div className="lum_block_calendar_container">
-				<img className="lum_block_calendar_logo" src={ lumiere_admin_vars.ico80 } alt="" />
+				<img
+					className="lum_block_calendar_logo"
+					src={ lumiere_admin_vars.ico80 }
+					alt=""
+				/>
 				<div className="lum_block_calendar_container_title">
-					{ __( 'Lumière! Calendar upcoming movies', 'lumiere-movies') }
+					{ __(
+						'Lumière! Calendar upcoming movies',
+						'lumiere-movies'
+					) }
 				</div>
 				<div className="lum_block_calendar_container_explain">
-					{ __( 'Click here to change the block options', 'lumiere-movies') }
+					{ __(
+						'Click here to change the block options',
+						'lumiere-movies'
+					) }
 				</div>
 
 				<InspectorControls>
-					<PanelBody title={ __('Main settings', 'lumiere-movies')}>
+					<PanelBody
+						title={ __( 'Main settings', 'lumiere-movies' ) }
+					>
 						<SelectControl
 							label={ __( 'Country', 'lumiere-movies' ) }
 							value={ attributes.region }
-							onChange={ region => setAttributes( { region } ) }
+							onChange={ ( region ) =>
+								setAttributes( { region } )
+							}
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
 							options={ imdbCountries }
@@ -47,7 +60,7 @@ export default function Edit ( { attributes, setAttributes } ) {
 						<SelectControl
 							label={ __( 'Type of search', 'lumiere-movies' ) }
 							value={ attributes.type }
-							onChange={ type => setAttributes( { type } ) }
+							onChange={ ( type ) => setAttributes( { type } ) }
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
 							options={ [
@@ -64,18 +77,32 @@ export default function Edit ( { attributes, setAttributes } ) {
 						initialOpen={ false }
 					>
 						<TextControl
-							label={ __( 'Starting date (in number of days)', 'lumiere-movies' ) }
+							label={ __(
+								'Starting date (in number of days)',
+								'lumiere-movies'
+							) }
 							type="number"
 							value={ attributes.startDateOverride }
-							onChange={val => setAttributes( { startDateOverride: parseInt(val) || 0 } ) }
+							onChange={ ( val ) =>
+								setAttributes( {
+									startDateOverride: parseInt( val ) || 0,
+								} )
+							}
 							__nextHasNoMarginBottom={ true }
 							__next40pxDefaultSize={ true }
 						/>
 						<TextControl
-							label={ __( 'Ending date (in number of days)', 'lumiere-movies' ) }
+							label={ __(
+								'Ending date (in number of days)',
+								'lumiere-movies'
+							) }
 							type="number"
 							value={ attributes.endDateOverride }
-							onChange={ val => setAttributes( { endDateOverride: parseInt(val) || 0 } ) }
+							onChange={ ( val ) =>
+								setAttributes( {
+									endDateOverride: parseInt( val ) || 0,
+								} )
+							}
 							__nextHasNoMarginBottom={ true }
 							__next40pxDefaultSize={ true }
 						/>
@@ -83,23 +110,49 @@ export default function Edit ( { attributes, setAttributes } ) {
 							label={ __( 'Date format', 'lumiere-movies' ) }
 							type="text"
 							value={ attributes.dateFormatOverride }
-							onChange={ dateFormatOverride => setAttributes( { dateFormatOverride } ) }
+							onChange={ ( dateFormatOverride ) =>
+								setAttributes( { dateFormatOverride } )
+							}
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
 							options={ [
-								{ label: __( 'Blog default format', 'lumiere-movies' ), value: 'WordPress format' },
-								{ label: __( 'Full format', 'lumiere-movies' ), value: 'l d F Y' },
-								{ label: __( 'Partial format', 'lumiere-movies' ), value: 'D d M Y' },
-								{ label: __( 'Short format', 'lumiere-movies' ), value: 'd/m/Y' }
+								{
+									label: __(
+										'Blog default format',
+										'lumiere-movies'
+									),
+									value: 'WordPress format',
+								},
+								{
+									label: __(
+										'Full format',
+										'lumiere-movies'
+									),
+									value: 'l d F Y',
+								},
+								{
+									label: __(
+										'Partial format',
+										'lumiere-movies'
+									),
+									value: 'D d M Y',
+								},
+								{
+									label: __(
+										'Short format',
+										'lumiere-movies'
+									),
+									value: 'd/m/Y',
+								},
 							] }
 						/>
 					</PanelBody>
-				 </InspectorControls>
+				</InspectorControls>
 			</div>
 			<ServerSideRender
 				block={ jsonData.name }
-				attributes={ attributes }				
+				attributes={ attributes }
 			/>
-	    	</div>
+		</div>
 	);
 }

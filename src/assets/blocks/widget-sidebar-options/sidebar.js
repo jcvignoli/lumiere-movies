@@ -4,7 +4,7 @@
  * This prevents the error
  * Notice: Function wp_enqueue_script() was called incorrectly. "wp-editor" script should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets). Please see Debugging in WordPress for more information. (This message was added in version 5.8.0.) in wp-includes/functions.php on line 6131
  */
-import { __ , sprintf  } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { compose } from '@wordpress/compose';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
@@ -14,9 +14,26 @@ import { registerPlugin } from '@wordpress/plugins';
 import jsonData from './block.json';
 
 const iconLumiere = (
-	<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="20.000000pt" height="20.000000pt" viewBox="0 0 20.000000 20.000000" preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,20.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none"><path d="M10 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80zM50 170 c0 -5 23 -10 50 -10 28 0 50 5 50 10 0 6 -22 10 -50 10 -27 0 -50 -4 -50 -10zM170 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80zM50 110 c0 -29 1 -30 50 -30 49 0 50 1 50 30 0 29 -1 30 -50 30 -49 0 -50 -1 -50 -30zM50 35 c0 -11 12 -15 50 -15 38 0 50 4 50 15 0 11 -12 15 -50 15 -38 0 -50 -4 -50 -15z"/></g></svg>
+	<svg
+		version="1.0"
+		xmlns="http://www.w3.org/2000/svg"
+		width="20.000000pt"
+		height="20.000000pt"
+		viewBox="0 0 20.000000 20.000000"
+		preserveAspectRatio="xMidYMid meet"
+	>
+		<g
+			transform="translate(0.000000,20.000000) scale(0.100000,-0.100000)"
+			fill="#000000"
+			stroke="none"
+		>
+			<path d="M10 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80zM50 170 c0 -5 23 -10 50 -10 28 0 50 5 50 10 0 6 -22 10 -50 10 -27 0 -50 -4 -50 -10zM170 100 c0 -47 4 -80 10 -80 6 0 10 33 10 80 0 47 -4 80 -10 80 -6 0 -10 -33 -10 -80zM50 110 c0 -29 1 -30 50 -30 49 0 50 1 50 30 0 29 -1 30 -50 30 -49 0 -50 -1 -50 -30zM50 35 c0 -11 12 -15 50 -15 38 0 50 4 50 15 0 11 -12 15 -50 15 -38 0 -50 -4 -50 -15z" />
+		</g>
+	</svg>
 );
-const htmlToElem = ( htmlText ) => RawHTML( { children: htmlText } ); /* type of block that can include html */
+
+const htmlToElem = ( htmlText ) =>
+	RawHTML( { children: htmlText } ); /* type of block that can include html */
 
 const Lum_Sidebar_Options = () => {
 
@@ -40,8 +57,10 @@ const Lum_Sidebar_Options = () => {
 	const { editPost } = useDispatch( 'core/editor' );
 
 	// Render component for post type 'post' or 'page' only
-	if ( ! ( 'post' === postType || 'page' === postType ) ) { return null; }
-
+	if ( ! ( 'post' === postType || 'page' === postType ) ) {
+		return null;
+	}
+	
 	/**
 	 * If Lumière Widget is not present, display special text and exit
 	 * lumiere_admin_vars.is_widget_block_active is set in Settings class, detecting if block widget is active
@@ -64,7 +83,9 @@ const Lum_Sidebar_Options = () => {
 									'Lumière Widget options are not avaible, you must add a Lumière Widget in %1$swidget options page%2$s.',
 									'lumiere-movies'
 								),
-								'<a href="' + lumiere_admin_vars.wordpress_path + '/wp-admin/widgets.php" target="_blank">',
+								'<a href="' +
+									lumiere_admin_vars.wordpress_path +
+									'/wp-admin/widgets.php" target="_blank">',
 								'</a>'
 							)
 						) }
@@ -77,6 +98,7 @@ const Lum_Sidebar_Options = () => {
 	/**
 	 * Set a row _lum_*_widget to blank
 	 * Meant to be used in a foreach loop
+	 * @param items
 	 */
 	function cleanOptions( items ) {
 		const column = makeWidgetRow( items['value'] );
@@ -88,8 +110,10 @@ const Lum_Sidebar_Options = () => {
 	 * @param item A bit like lum_*
 	 * @return A bit like _lum_*_widget
 	 */
-	function makeWidgetRow( item ) { return '_' + item + '_widget';	}
-	
+	function makeWidgetRow( item ) { 
+		return '_' + item + '_widget';
+	}
+
 	/**
 	 * Select the type of movie/person id/name/title
 	 */
@@ -107,7 +131,7 @@ const Lum_Sidebar_Options = () => {
 				__next40pxDefaultSize
 				options={ lumiere_admin_vars.select_type_search }
 			/>
-	 	)
+	 	);
 	 };
 
 	/**
@@ -117,10 +141,11 @@ const Lum_Sidebar_Options = () => {
 	 * @see https://developer.wordpress.org/block-editor/reference-guides/components/with-focus-return/
 	 */
 	const FuncFreeText = withFocusReturn( () => {
-		const getSavedValue = meta._lum_form_type_query || 'lum_movie_id'; 	// The saved selection, with a default value if not saved	
+		const getSavedValue = meta._lum_form_type_query || 'lum_movie_id'; // The saved selection, with a default value if not saved	
 		//const getSavedValue = useSelect( ( select ) => select( 'core/editor' ).getEditedPostAttribute( 'meta' )['_lum_form_type_query'], [] ) || 'lum_movie_id'; // === meta[ savedValue ]
-		const widget_key = makeWidgetRow( getSavedValue );			// => key of _lum_*_widget
-		
+
+		const widget_key = makeWidgetRow( getSavedValue ); // => key of _lum_*_widget
+
 		const funcOnChangeText = ( value ) => {
 			const newMeta = { ...meta };
 			lumiere_admin_vars.select_type_search.forEach( ( items ) => {
@@ -130,51 +155,108 @@ const Lum_Sidebar_Options = () => {
 			newMeta[ widget_key ] = value;
 			editPost( { meta: newMeta } );
 		};
-		return(
+		return (
 			<TextControl
 				label={ __( 'Tite/name/IMDb ID', 'lumiere-movies' ) }
 				value={ meta[ widget_key ] }
 				className="lum_widget_text"
-				/* Translators: %1$s and %2$s are html tags */
-				help={ htmlToElem( sprintf( __( 'You can get the IMDb ID number by %1$ssearching in the popup%2$s and then copy the ID found here.', 'lumiere-movies' ), '<a data-lumiere_admin_search_popup="noInfoNeeded" class="link-imdblt-highslidepeople" target="_blank">', '</a>' ) ) }
+				help={ htmlToElem(
+					sprintf(
+						__(
+							/* Translators: %1$s and %2$s are html tags */
+							'You can get the IMDb ID number by %1$ssearching in the popup%2$s and then copy the ID found here.',
+							'lumiere-movies'
+						),
+						'<a data-lumiere_admin_search_popup="noInfoNeeded" class="link-imdblt-highslidepeople" target="_blank">',
+						'</a>'
+					)
+				) }
+				onChange={ funcOnChangeText }
 				onChange= { funcOnChangeText }
 				autoFocus={ true }
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize
 			/>
-		)
-	});
+		);
+	} );
 	
 	/**
 	 * Deactivate/activate widget auto title
 	 */	
 	const FuncAutotitleToogle = () => {
-
-		const autoTitleFieldName = lumiere_admin_vars.auto_title_field_name
-		/* Translators: %1$s and %2$s are html tags */
-		const textAutoTitleDeactivated=htmlToElem( sprintf( __( '%1$sAuto title widget%2$s is unactive, related options are hidden', 'lumiere-movies' ), '<a id="link_to_imdbautopostwidget" href="' + lumiere_admin_vars.wordpress_path + '/wp-admin/admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget">', '</a>' ) ); 
+		const autoTitleFieldName = lumiere_admin_vars.auto_title_field_name;
+		const textAutoTitleDeactivated = htmlToElem(
+			sprintf(
+				__(
+					/* Translators: %1$s and %2$s are html tags */
+					'%1$sAuto title widget%2$s is unactive, related options are hidden',
+					'lumiere-movies'
+				),
+				'<a id="link_to_imdbautopostwidget" href="' +
+					lumiere_admin_vars.wordpress_path +
+					'/wp-admin/admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget">',
+				'</a>'
+			)
+		);
 
 		// Do not display this part if auto widget title in Lumière options is unactive
-		if ( lumiere_admin_vars.auto_title_activated === '0' ) return ( <PanelRow><div className="lum_widget_options_subtitle">{textAutoTitleDeactivated}</div></PanelRow> );
-			
+		if ( lumiere_admin_vars.auto_title_activated === '0' ) {
+			return (
+				<PanelRow>
+					<div className="lum_widget_options_subtitle">
+						{ textAutoTitleDeactivated }
+					</div>
+				</PanelRow>
+			);
+		}
+
 		return (
 			<ToggleControl
-				label={ __('Deactivate Auto Title Widget for this post', 'lumiere-movies') }
-				/* Translators: %1$s and %2$s are html tags */
-				help={ htmlToElem( sprintf( __( 'Will prevent %1$sAuto Title Widget%2$s to be displayed on this post', 'lumiere-movies' ), '<a id="link_to_imdbautopostwidget" href="' + lumiere_admin_vars.wordpress_path + '/wp-admin/admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget">', '</a>' ) ) }
+				label={ __(
+					'Deactivate Auto Title Widget for this post',
+					'lumiere-movies'
+				) }
+				help={ htmlToElem(
+					sprintf(
+						__(
+							/* Translators: %1$s and %2$s are html tags */
+							'Will prevent %1$sAuto Title Widget%2$s to be displayed on this post',
+							'lumiere-movies'
+						),
+						'<a id="link_to_imdbautopostwidget" href="' +
+							lumiere_admin_vars.wordpress_path +
+							'/wp-admin/admin.php?page=lumiere_options&subsection=advanced#imdbautopostwidget">',
+						'</a>'
+					)
+				) }
 				value={ meta[ autoTitleFieldName ] } // e.g: value = 'a'
-				onChange={ ( boolSelected ) => editPost( { meta: { ...meta, [ autoTitleFieldName ]: boolSelected }, } ) }
+				onChange={ ( boolSelected ) =>
+					editPost( {
+						meta: { ...meta, [ autoTitleFieldName ]: boolSelected },
+					} )
+				}
 				checked={ meta[ autoTitleFieldName ] }
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize
 			/>
-		)
+		);
 	};
 
-	/** Translators: %1$s and %2$s are html tags */
-	const openingText = htmlToElem( sprintf( __( 'Theses features are functional only if you added a %1$sLumiere widget%2$s', 'lumiere-movies' ), '<a href="' + lumiere_admin_vars.wordpress_path + '/wp-admin/widgets.php" target="_blank">', '</a>' ) );
-	
-	return(
+	const openingText = htmlToElem(
+		sprintf(
+			__(
+				/** Translators: %1$s and %2$s are html tags */
+				'Theses features are functional only if you added a %1$sLumiere widget%2$s',
+				'lumiere-movies'
+			),
+			'<a href="' +
+				lumiere_admin_vars.wordpress_path +
+				'/wp-admin/widgets.php" target="_blank">',
+			'</a>'
+		)
+	);
+
+	return (
 
 		<PluginDocumentSettingPanel
 			title={ __( 'Lumière widget settings', 'lumiere-movies' ) }
@@ -184,7 +266,9 @@ const Lum_Sidebar_Options = () => {
 			name="lumiere-widget-sidebar-options"
 		>
 			<PanelRow>
-				<div className="lum_widget_options_subtitle">{ openingText }</div>
+				<div className="lum_widget_options_subtitle">
+					{ openingText }
+				</div>
 			</PanelRow>
 			<>
 				<PanelRow className="lum_sidebar_options_select">
@@ -196,17 +280,18 @@ const Lum_Sidebar_Options = () => {
 			</>
 			<>
 				<PanelRow>
-					<div className="lum_widget_options_subtitle">Auto title widget options</div>
+					<div className="lum_widget_options_subtitle">
+						Auto title widget options
+					</div>
 				</PanelRow>
 				<PanelRow>			
 					<FuncAutotitleToogle />
 				</PanelRow>
 			</>
 		</PluginDocumentSettingPanel>
-
 	);
-}
+};
  
 registerPlugin( 'widget-sidebar-options', {
-	render: Lum_Sidebar_Options
+	render: Lum_Sidebar_Options,
 } );

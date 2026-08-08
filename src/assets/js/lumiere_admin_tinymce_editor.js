@@ -13,7 +13,6 @@
  * @version       5.0
  * @since 4.6.1 refactored using copilot, simplifed
  */
-
 ( function () {
 	'use strict';
 
@@ -275,4 +274,3 @@
 		tinymce.plugins.lumiere_link_maker
 	);
 } )();
-

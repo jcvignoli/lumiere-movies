@@ -21,7 +21,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		// Preserve current content under active key before switching
 		const updatedValues = {
 			...values,
-			[ lumiere_imdblt_select ]: values[ lumiere_imdblt_select ] ?? content,
+			[ lumiere_imdblt_select ]:
+				values[ lumiere_imdblt_select ] ?? content,
 		};
 
 		// Retrieve saved content for the new selection key, or fallback to empty string
@@ -47,7 +48,9 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Movie/Person post', 'lumiere-movies' ) }>
+				<PanelBody
+					title={ __( 'Movie/Person post', 'lumiere-movies' ) }
+				>
 					<SelectControl
 						label={ __( 'Search Type', 'lumiere-movies' ) }
 						value={ lumiere_imdblt_select }

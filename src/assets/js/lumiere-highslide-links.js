@@ -71,8 +71,12 @@
 			// vars from scripts
 			const tmppopupLarg = lumiere_vars.popupLarg;
 			const tmppopupLong = lumiere_vars.popupLong;
-			const modal_window_film = jQuery( this ).closest( 'a' ).data( 'modal_window_film' );
-			const modal_window_nonce = jQuery( this ).closest( 'a' ).data( 'modal_window_nonce' );
+			const modal_window_film = jQuery( this )
+				.closest( 'a' )
+				.data( 'modal_window_film' );
+			const modal_window_nonce = jQuery( this )
+				.closest( 'a' )
+				.data( 'modal_window_nonce' );
 
 			const url_imdbperso = `${ lumiere_vars.urlpopup_film }?film=${ modal_window_film }&_wpnonce=${ modal_window_nonce }`;
 
@@ -116,4 +120,3 @@
 		} );
 	} );
 } )( jQuery );
-

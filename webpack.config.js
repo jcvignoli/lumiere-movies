@@ -5,29 +5,29 @@
  */
 
 // Configs
-import wpConfig from '@wordpress/scripts/config/webpack.config.js';			/* WordPress webpack config */
-import extCred from './.env.ssh.js';							/* Private credentials for ssh */
+import wpConfig from '@wordpress/scripts/config/webpack.config.js'; /* WordPress webpack config */
+import extCred from './.env.ssh.js'; /* Private credentials for ssh */
 import path from 'path';
 
 // Plugins
 // a. From wp-scripts
-import TerserPlugin from "terser-webpack-plugin";					/* already installed through WordPress scripts */
-import CopyPlugin from "copy-webpack-plugin";						/* already installed through WordPress scripts */
+import TerserPlugin from 'terser-webpack-plugin'; /* already installed through WordPress scripts */
+import CopyPlugin from 'copy-webpack-plugin'; /* already installed through WordPress scripts */
 // b. need the NPM package to be installed
-import ImageMinimizerPlugin from "image-minimizer-webpack-plugin";
-import SSHWatchUploadWebpackPlugin from '@alexrah/ssh-watch-upload-webpack-plugin';	
+import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
+import SSHWatchUploadWebpackPlugin from '@alexrah/ssh-watch-upload-webpack-plugin';
 import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import RemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts';
-import * as sassTransform  from 'sass';
+import * as sassTransform from 'sass';
 
 // Utilities
 import { resolve, relative, dirname, join, parse } from 'path';
-import blocksManifestPlugin from './scripts/blocks-manifest/index.js';			/* create and move the block-manifest.php file */
-import getCmdArgs from './scripts/cmd-line-args/index.js';				/* extract arguments from command-line */
+import blocksManifestPlugin from './scripts/blocks-manifest/index.js'; /* create and move the block-manifest.php file */
+import getCmdArgs from './scripts/cmd-line-args/index.js'; /* extract arguments from command-line */
 const __dirname = process.cwd();
 
 // Starting message
-console.log('Running ./webpack.config.js');
+console.log( 'Running ./webpack.config.js' );
 
 const isDev = getCmdArgs.mode === 'development';
 
@@ -35,7 +35,7 @@ export default {
 	...wpConfig,
 	cache: {
 		type: 'filesystem',
-		cacheDirectory: path.resolve(__dirname, 'tmp/cache/webpack/'),
+		cacheDirectory: path.resolve( __dirname, 'tmp/cache/webpack/' ),
 		compression: 'brotli',
 	},
 	watchOptions: {
@@ -45,58 +45,57 @@ export default {
 			'**/dist/**',
 			'**/tests/**',
 			'**/tmp/**',
-			'**/.git/**'
+			'**/.git/**',
 		],
 		aggregateTimeout: 300, // Delay rebuilds slightly to batch changes
 	},
 	output: {
-	    path: resolve('./dist/'),
+		path: resolve( './dist/' ),
 	},
 	plugins: [
-
 		// Include WordPress plugins but filter out RTL plugin
 		...wpConfig.plugins.filter(
-			(plugin) => plugin.constructor.name !== 'RtlCssPlugin'
+			( plugin ) => plugin.constructor.name !== 'RtlCssPlugin'
 		),
-		
+
 		// Remove empty JS files after WordPress asset generation
-		new RemoveEmptyScriptsPlugin({
+		new RemoveEmptyScriptsPlugin( {
 			stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
-		}),
-		
+		} ),
+
 		// Move block-manifest.php file
 		new blocksManifestPlugin(),
-		
+
 		// Runs only if "--watch" is passed in command-line
 		/**
-		new BrowserSyncPlugin({
-			proxy: {
-				target: extCred.proxy.address, // must be in http, not in https, certif error otherwise
-				proxyReq: [
-					function(proxyReq) {
-						// Allows to use lumiere codeception database
-						proxyReq.setHeader('X-Testing', 'true');
-					}
-				],
-			},
-			// Don't show any notifications in the browser
-			notify:true,
-			// port: 8080,
-			// Tunnel  the Browsersync server through a Public URL
-			// tunnel: true,
-			// Additional info about the process, "info", "debug", "warn", or "silent", default: "info"
-			// logLevel: "debug",
-			// Stop the browser from automatically opening
-			open: false,
-			// Time, in milliseconds, to wait before instructing the browser to reload/inject following a file change event
-			reloadDelay: 5, // Need to wait until src/ is copied to dist/
-			// Will not attempt to determine your network status, assumes you're OFFLINE
-			online: false,
-		}),
-		*/
+		  new BrowserSyncPlugin({
+		  proxy: {
+		  target: extCred.proxy.address, // must be in http, not in https, certif error otherwise
+		  proxyReq: [
+		  function(proxyReq) {
+		  // Allows to use lumiere codeception database
+		  proxyReq.setHeader('X-Testing', 'true');
+		  }
+		  ],
+		  },
+		  // Don't show any notifications in the browser
+		  notify:true,
+		  // port: 8080,
+		  // Tunnel  the Browsersync server through a Public URL
+		  // tunnel: true,
+		  // Additional info about the process, "info", "debug", "warn", or "silent", default: "info"
+		  // logLevel: "debug",
+		  // Stop the browser from automatically opening
+		  open: false,
+		  // Time, in milliseconds, to wait before instructing the browser to reload/inject following a file change event
+		  reloadDelay: 5, // Need to wait until src/ is copied to dist/
+		  // Will not attempt to determine your network status, assumes you're OFFLINE
+		  online: false,
+		  }),
+		 */
 		// Runs only if "--mode development" is passed in command line
-		new SSHWatchUploadWebpackPlugin({
-			mode: isDev ? 'development' : 'production',		// in npm run build, do not use ssh
+		new SSHWatchUploadWebpackPlugin( {
+			mode: isDev ? 'development' : 'production', // in npm run build, do not use ssh
 			host: extCred.mainserver.hostname,
 			port: extCred.mainserver.port,
 			username: extCred.mainserver.username,
@@ -104,153 +103,172 @@ export default {
 			uploadPath: extCred.mainserver.dist,
 			// Add option to skip unmodified files if supported by your fork
 			skipUnchanged: true,
-		}),
+		} ),
 		new CopyPlugin( {
 			patterns: [
-			/****** All */
-			{
-				from: resolve( './src/' ),
-				globOptions: {
-					cacheTransform: true,
-					concurrency: 100,
-					ignore: [
-						"**/assets/**",						// address specifically later
-						"**/vendor/monolog/**",					// dev package
-						"**/vendor/duck7000/**",				// dev package
-						"**/vendor/psr/**",					// dev package
-						"**/vendor/coenjacobs/**",				// dev package, special, only with npm run watch
-						"**/vendor/bin/**",					// dev package, special, only with npm run watch
-						"**/vendor/league/**",					// dev package, special, only with npm run watch
-						"**/vendor/symfony/**",					// dev package, special, only with npm run watch
-						"**/vendor/twbs/bootstrap/**",				// addressed specifically later
-						"**/class/Updates/.add_only_updates",			// dev file that would mess all up
-					],
-				},
-				force: false,
-			},
-			/****** Render files in block folders */
-			{
-				from: resolve( './src/assets/blocks/*/render.php' ),
-				to({ context, absoluteFilename }) {
-					const relativePath = relative(resolve('./src'), absoluteFilename);
-					return relativePath;
-				},
-				force: false,
-			},
-			/****** Bootstrap */
-			{
-				from: resolve( './src/vendor/twbs/bootstrap/dist/**/*' ),
-				globOptions: {
-					concurrency: 100,
-					ignore: [
-						"**/vendor/twbs/bootstrap/dist/**/*[^min].(css|js)",
-					],
-				},
-				to({ context, absoluteFilename }) {
-					/**
-					 * @description Remove first item & last item from ${path} array.
-					 * @example
-					 *      Orginal Path: 'src/vendor/avatar/style.css'
-					 *      Changed To: 'vendor/avatar/style.css'
-					 * 	We don't add .min to filename
-					 */
-					const relativePath = relative(resolve('./src'), absoluteFilename);
-					return relativePath;
-				},
-				force: false,
-			},
-			/****** CSS */
-			{
-				from: resolve( './src/assets/css/*.css' ),
-				globOptions: {
-					concurrency: 100,
-				},
-				to({ context, absoluteFilename }) {
-					/** add .min to filename */
-					return 'assets/css/[name].min.css';
-				},
-				// Minify plain CSS files using sass compiler
-				transform: {
-					transformer: (content, path) => {
-						return sassTransform.compile(path, { style: 'compressed' }).css;
+				/****** All */
+				{
+					from: resolve( './src/' ),
+					globOptions: {
+						cacheTransform: true,
+						concurrency: 100,
+						ignore: [
+							'**/assets/**', // address specifically later
+							'**/vendor/monolog/**', // dev package
+							'**/vendor/duck7000/**', // dev package
+							'**/vendor/psr/**', // dev package
+							'**/vendor/coenjacobs/**', // dev package, special, only with npm run watch
+							'**/vendor/bin/**', // dev package, special, only with npm run watch
+							'**/vendor/league/**', // dev package, special, only with npm run watch
+							'**/vendor/symfony/**', // dev package, special, only with npm run watch
+							'**/vendor/twbs/bootstrap/**', // addressed specifically later
+							'**/class/Updates/.add_only_updates', // dev file that would mess all up
+						],
 					},
-					cache: true,
+					force: false,
 				},
-				force: false,
-			},
-			/****** SCSS */
-			{
-				from: resolve( './src/assets/**/*.scss' ),
-				globOptions: {
-					concurrency: 100,
+				/****** Render files in block folders */
+				{
+					from: resolve( './src/assets/blocks/*/render.php' ),
+					to( { context, absoluteFilename } ) {
+						const relativePath = relative(
+							resolve( './src' ),
+							absoluteFilename
+						);
+						return relativePath;
+					},
+					force: false,
 				},
-				to({ context, absoluteFilename }) {
-					const relativePath = relative(resolve('./src'), absoluteFilename);
-					/** add .min to filename */
-					return relativePath.replace('.scss', '.min.css');	
+				/****** Bootstrap */
+				{
+					from: resolve( './src/vendor/twbs/bootstrap/dist/**/*' ),
+					globOptions: {
+						concurrency: 100,
+						ignore: [
+							'**/vendor/twbs/bootstrap/dist/**/*[^min].(css|js)',
+						],
+					},
+					to( { context, absoluteFilename } ) {
+						/**
+						 * @description Remove first item & last item from ${path} array.
+						 * @example
+						 *      Orginal Path: 'src/vendor/avatar/style.css'
+						 *      Changed To: 'vendor/avatar/style.css'
+						 * 	We don't add .min to filename
+						 */
+						const relativePath = relative(
+							resolve( './src' ),
+							absoluteFilename
+						);
+						return relativePath;
+					},
+					force: false,
 				},
-				noErrorOnMissing: true,
-				// compile scss into css
-				transform: (content, path) => {
-					return sassTransform.compile(path, { style: 'compressed' }).css
+				/****** CSS */
+				{
+					from: resolve( './src/assets/css/*.css' ),
+					globOptions: {
+						concurrency: 100,
+					},
+					to( { context, absoluteFilename } ) {
+						/** add .min to filename */
+						return 'assets/css/[name].min.css';
+					},
+					// Minify plain CSS files using sass compiler
+					transform: {
+						transformer: ( content, path ) => {
+							return sassTransform.compile( path, {
+								style: 'compressed',
+							} ).css;
+						},
+						cache: true,
+					},
+					force: false,
 				},
-				force: false,	
-			},
-			/****** JS */
-			{
-				from: resolve( './src/assets/js/*.js' ),
-				globOptions: {
-					concurrency: 100,
+				/****** SCSS */
+				{
+					from: resolve( './src/assets/**/*.scss' ),
+					globOptions: {
+						concurrency: 100,
+					},
+					to( { context, absoluteFilename } ) {
+						const relativePath = relative(
+							resolve( './src' ),
+							absoluteFilename
+						);
+						/** add .min to filename */
+						return relativePath.replace( '.scss', '.min.css' );
+					},
+					noErrorOnMissing: true,
+					// compile scss into css
+					transform: ( content, path ) => {
+						return sassTransform.compile( path, {
+							style: 'compressed',
+						} ).css;
+					},
+					force: false,
 				},
-				to({ context, absoluteFilename }) {
-					/** add .min to filename */
-					return 'assets/js/[name].min[ext]';
+				/****** JS */
+				{
+					from: resolve( './src/assets/js/*.js' ),
+					globOptions: {
+						concurrency: 100,
+					},
+					to( { context, absoluteFilename } ) {
+						/** add .min to filename */
+						return 'assets/js/[name].min[ext]';
+					},
+					force: false,
 				},
-				force: false,
-			},
-			/****** Highslide JS */
-			{
-				from: resolve( './src/assets/js/highslide/**/*.*' ),
-				globOptions: {
-					concurrency: 100,
+				/****** Highslide JS */
+				{
+					from: resolve( './src/assets/js/highslide/**/*.*' ),
+					globOptions: {
+						concurrency: 100,
+					},
+					to( { context, absoluteFilename } ) {
+						/**
+						 * @description Remove first & last item from ${path} array.
+						 * @example
+						 *      Orginal Path: 'src/images/avatar/image.jpg'
+						 *      Changed To: 'images/avatar'
+						 */
+						const relativePath = relative(
+							resolve( './src' ),
+							absoluteFilename
+						);
+						return relativePath;
+					},
+					force: false,
 				},
-				to({ context, absoluteFilename }) {
-					/**
-					 * @description Remove first & last item from ${path} array.
-					 * @example
-					 *      Orginal Path: 'src/images/avatar/image.jpg'
-					 *      Changed To: 'images/avatar'
-					 */
-					const relativePath = relative(resolve('./src'), absoluteFilename);
-					return relativePath;
+				/****** Pics */
+				{
+					from: resolve( './src/assets/pics/**/*.*' ),
+					globOptions: {
+						concurrency: 100,
+					},
+					to( { context, absoluteFilename } ) {
+						/**
+						 * @description Remove first & last item from ${path} array.
+						 * @example
+						 *      Orginal Path: 'src/images/avatar/image.jpg'
+						 *      Changed To: 'images/avatar'
+						 */
+						const relativePath = relative(
+							resolve( './src' ),
+							absoluteFilename
+						);
+						return relativePath;
+					},
 				},
-				force: false,
-			},
-			/****** Pics */
-			{
-				from: resolve( './src/assets/pics/**/*.*' ),
-				globOptions: {
-					concurrency: 100,
-				},
-				to({ context, absoluteFilename }) {
-					/**
-					 * @description Remove first & last item from ${path} array.
-					 * @example
-					 *      Orginal Path: 'src/images/avatar/image.jpg'
-					 *      Changed To: 'images/avatar'
-					 */
-					const relativePath = relative(resolve('./src'), absoluteFilename);
-					return relativePath;
-				},	
-			},
-			]
+			],
 		} ),
 	],
 	optimization: {
 		minimize: true,
 		minimizer: [
-			new TerserPlugin({
-				extractComments: false,  /* avoid creation of licence and other useless files in blocks */
+			new TerserPlugin( {
+				extractComments: false /* avoid creation of licence and other useless files in blocks */,
 				terserOptions: {
 					format: {
 						comments: false,
@@ -259,8 +277,8 @@ export default {
 				parallel: 10,
 				test: /\.js$/i,
 				exclude: [ /assets\/js\/highslide\//, /vendor\// ],
-			}),
-			new ImageMinimizerPlugin({
+			} ),
+			new ImageMinimizerPlugin( {
 				minimizer: {
 					implementation: ImageMinimizerPlugin.sharpMinify,
 					options: {
@@ -276,10 +294,10 @@ export default {
 					},
 				},
 				exclude: [ /assets\/js\/highslide\//, /vendor\// ],
-			}),
+			} ),
 		],
 	},
-	
+
 	performance: {
 		maxAssetSize: 700000,
 	},
