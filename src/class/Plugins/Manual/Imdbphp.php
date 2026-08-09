@@ -60,8 +60,8 @@ final class Imdbphp extends Imdbphp_Config {
 		$this->language = $this->convert_lang( $imdb_admin_values['imdblanguage'] );
 		$this->country = $this->convert_lang_country( $imdb_admin_values['imdblanguage'] );
 
-		$this->photodir = $imdb_cache_values['imdbphotodir'];// ?imdbphotoroot? Bug imdbphp?
-		$this->photoroot = $imdb_cache_values['imdbphotoroot']; // ?imdbphotodir? Bug imdbphp?
+		$this->photodir = $imdb_cache_values['imdbphotodir'];
+		$this->photoroot = $imdb_cache_values['imdbphotoroot'];
 
 		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
 		$this->cacheExpire = (int) $cache_expire_override;

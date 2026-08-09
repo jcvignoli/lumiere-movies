@@ -123,15 +123,15 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 			
 			<div class="lumiere_flex_one lumiere_padding_ten">
 
-				<label class="lumiere_display_block lumiere_labels" for="imdb_imdbdelayimdbrequest"><?php esc_html_e( 'Delay queries time', 'lumiere-movies' ); ?></label>
+				<label class="lumiere_display_block lumiere_labels" for="imdb_imdbdelayimdbrequest"><?php esc_html_e( 'Delay queries timeout', 'lumiere-movies' ); ?></label>
 
-				<input type="text" name="imdb_imdbdelayimdbrequest" id="imdb_imdbdelayimdbrequest" size="5" value="<?php echo esc_attr( strval( absint( $lumiere_imdb_admin_values['imdbdelayimdbrequest'] ) ) ); ?>" />
+				<input type="text" name="imdb_imdbdelayimdbrequest" id="imdb_imdbdelayimdbrequest" size="5" value="<?php echo esc_attr( (string) $lumiere_imdb_admin_values['imdbdelayimdbrequest'] ); ?>" />
 
 				<div class="explain">
-					<?php esc_html_e( 'Add an extra delay in seconds to avoid IMDb website throwing HTTP 504 errors (too many requests).', 'lumiere-movies' ); ?>
+					<?php esc_html_e( 'Request timeout to avoid IMDb website throwing HTTP 504 errors (too many requests).', 'lumiere-movies' ); ?>
 					<br>
 					<br>
-					<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "0"
+					<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "15"
 				</div>
 			</div>
 		</div>

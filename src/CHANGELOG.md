@@ -3,6 +3,8 @@
 v.4.8.1
 * [bug] IMDb changed the API calls, Calendar wasn't working anymore.
 * [bug] Widget color with latest OceanWP was losing the gold color. In lumiere.css, made .lumiere-lines-common_grey a() class "!important".
+* [bug] IMDbgraphql upstream bug addressed, cache image folder wasn't created along with cache regular folder. In addition, permissions for regular cache folder (700) didn't make sense, changed it to 755 (thanks moviesteve!)
+* [technical] Updated imdbdelayimdbrequest to 20 seconds and text explaing it to (template admin-main-advanced.php). It is the cURL timeout, was badely explained.
 * [technical] Got rid of PHPCS Neutron coding style, using regular WordPress one.
 
 v.4.8
