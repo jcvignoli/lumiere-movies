@@ -262,10 +262,15 @@ class TaxonomyCest {
 		$I->see( 'Stanley Kubrick' );
 		// $I->click( "Stanley Kubrick"); // doesn't work, dunno why
 		$I->click( [ 'id' => 'link_taxo_2001__a_space_odyssey_en_lumiere_director_stanley_kubrick' ] );
-		$I->waitForText( 'Stanley Kubrick was born in Manhattan' );
-		$I->scrollTo( [ 'css' => '.activatehidesection' ] );
-		$I->executeJS( "return jQuery('span.activatehidesection').get(0).click()" );
-		$I->see( 'the next few years, Kubrick had regular assignments for "Look",' );
+		$I->waitForText( 'Stanley Kubrick was born' );
+		// Current bio retrieved from IMDb is shorter and doesn't trigger the need for .activatehidesection in bio
+		if ( $I->tryToSeeElement( '.activatehidesection' ) ) {
+			$I->scrollTo( [ 'css' => '.activatehidesection' ] );
+			$I->executeJS( "return jQuery('span.activatehidesection').get(0).click()" );
+			$I->see( 'the next few years, Kubrick had regular assignments for "Look",' );
+		} else {
+			$I->comment( 'Short version of kubrick bio retrieved, could not test the hide section.' );
+		}
 	}
 
 	/**

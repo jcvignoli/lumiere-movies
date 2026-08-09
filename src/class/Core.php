@@ -217,7 +217,7 @@ final class Core extends \Lumiere\Hooks_Updates {
 
 		// Use metadata manifest to register merged block.json files, WP >= 6.8.
 		if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) && file_exists( Get_Options::LUM_BLOCKS_MANIFEST ) ) {
-			wp_register_block_types_from_metadata_collection(
+			wp_register_block_types_from_metadata_collection( // phpcs:ignore wp_function_not_compatible_with_requires_wp -- Function "wp_register_block_types_from_metadata_collection()" requires WordPress 6.8.0, but your plugin minimum supported version is WordPress 6.1.0.
 				$block_dir,
 				Get_Options::LUM_BLOCKS_MANIFEST
 			);

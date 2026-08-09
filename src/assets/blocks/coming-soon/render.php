@@ -33,7 +33,7 @@ if ( isset( $attributes['region'], $attributes['type'], $attributes['startDateOv
 		);
 	} catch ( \Throwable $e ) {
 		// Log the error to debug.log
-		error_log( 'Lumiere Movies Block Error: ' . $e->getMessage() );
+		// error_log( 'Lumiere Movies Block Error: ' . $e->getMessage() );
 
 		// Optionally display a friendly notice if the user is an admin editing the site
 		if ( current_user_can( 'edit_posts' ) ) {

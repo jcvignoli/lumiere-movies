@@ -158,7 +158,7 @@ class StylesScriptsHighslideCest {
 		$I->see( 'Indio (1972)' );
 		$I->click( 'Full biography' );
 		$I->waitPageLoad();
-		$I->see( 'and muscular Mexican leading man' );
+		$I->see( 'Mexico City, Distrito Federal' );
 		$I->click( 'Misc' );
 		$I->waitPageLoad();
 		$I->see( 'His mother, Carmen Rosas L' );

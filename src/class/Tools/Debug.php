@@ -59,7 +59,7 @@ final class Debug {
 	 * @param string $text Display this text
 	 */
 	private static function trigger_wp_error( string $method, string $text ): void {
-		wp_trigger_error( $method, $text );
+		wp_trigger_error( $method, $text ); // phpcs:ignore wp_function_not_compatible_with_requires_wp
 	}
 
 	/**

@@ -648,7 +648,7 @@ final class Cache_Files_Management {
 	 */
 	private function reset_time_limit( int $seconds = 30 ): void {
 		if ( function_exists( 'set_time_limit' ) ) {
-			@\set_time_limit( $seconds );
+			@\set_time_limit( $seconds ); // phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged
 		}
 	}
 }

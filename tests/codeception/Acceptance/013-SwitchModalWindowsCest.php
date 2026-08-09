@@ -58,7 +58,7 @@ class SwitchModalWindowsCest {
 		$I->seeInPageSource( 'lumiere_style_main-css' );
 		$I->seeInPageSource( 'lumiere_highslide_core-js' );
 		$I->seeInPageSource( 'lumiere_highslide_options-js' );
-		$I->seeInPageSource( ' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941' );
+		$I->seeInPageSource( 'Stanley Kubrick was born' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource( 'lumiere_highslide_core_style-css' );
 		$I->seeInPageSource( 'lumiere_style_main-css' );
@@ -81,7 +81,7 @@ class SwitchModalWindowsCest {
 		$I->seeInPageSource( 'data-modal_window_people="0227759" data-target="#theModal0227759" title="Open a new window with IMDb informations for Peter Dinklage">Peter Dinklage</a>' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource( 'lumiere_bootstrap_custom-css' );
-		$I->seeInPageSource( ' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941' );
+		$I->seeInPageSource( 'Stanley Kubrick was born' );
 		$I->seeInPageSource( 'lumiere_bootstrap_core-js' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource( 'lumiere_bootstrap_custom-css' );
@@ -102,7 +102,7 @@ class SwitchModalWindowsCest {
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL );# Check taxonomy page
 		$I->seeInPageSource( 'lumiere_classic_links-js' );
 		$I->seeInPageSource( 'lumiere_style_main-css' );
-		$I->seeInPageSource( ' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941' );
+		$I->seeInPageSource( 'Stanley Kubrick was born' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL );# Check popup movie
 		$I->seeInPageSource( 'lumiere_classic_links-js' );
 		$I->seeInPageSource( 'lumiere_style_main-css' );
@@ -122,7 +122,7 @@ class SwitchModalWindowsCest {
 		$I->seeInPageSource( '&amp;amp">Peter Dinklage</a>' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_TAXONOMY_URL . '?amp' );# Check taxonomy page
 		$I->seeInPageSource( '<link rel="preconnect" href="https://cdn.ampproject.org">' );
-		$I->seeInPageSource( ' to stay with his uncle, Martin Perveler. Returning to the Bronx in 1941' );
+		$I->seeInPageSource( 'Stanley Kubrick was born' );
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL . '&amp' );# Check popup movie
 		$I->seeInPageSource( '<link rel="preconnect" href="https://cdn.ampproject.org">' );
 		$I->seeInPageSource(
@@ -156,7 +156,7 @@ class SwitchModalWindowsCest {
 		$I->dontSeeInPageSource( 'lumiere_bootstrap_core-js' );
 		$I->dontSeeInPageSource( 'lumiere_highslide_core-js' );
 		$I->dontSeeInPageSource( 'lumiere_highslide_options-js' );
-		$I->seeInPageSource( 'his uncle, Martin Perveler. Returning' );
+		$I->seeInPageSource( 'Stanley Kubrick was born' );
 
 		$I->amOnPage( AcceptanceSettings::TESTING_PAGE_POPUP_FILM_URL ); // Check popup movie
 		$I->dontSeeInPageSource( '<link rel="preconnect" href="https://cdn.ampproject.org">' );
