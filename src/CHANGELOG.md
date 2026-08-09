@@ -6,6 +6,7 @@ v.4.8.1
 * [bug] IMDbgraphql upstream bug addressed, cache image folder wasn't created along with cache regular folder. In addition, permissions for regular cache folder (700) didn't make sense, changed it to 755 (thanks moviesteve!)
 * [technical] Updated imdbdelayimdbrequest to 20 seconds and text explaing it to (template admin-main-advanced.php). It is the cURL timeout, was badely explained.
 * [technical] Got rid of PHPCS Neutron coding style, using regular WordPress one.
+* [technical] Reset the execution timer inside the cache processing loops to ensure PHP's clock resets on every individual HTTP request made for that item (Cache_Files_Management class).
 
 v.4.8
 * [feature] See live the movie or person changes selected in block edition (fully using block live server)

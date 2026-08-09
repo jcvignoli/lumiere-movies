@@ -251,9 +251,14 @@ final class Cache_Files_Management {
 			$nb_remaining_rows = count( $array_all_items );
 
 			for ( $i = 0 + $last_row; $i < ( $batch_limit + $last_row ) && $i < ( $nb_remaining_rows + $last_row ); $i++ ) {
+				// Reset PHP's execution timer back to 30s before each item process
+				$this->reset_time_limit( 30 );
+
 				$this->logger->log?->debug( '[Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . strval( count( $array_all_items ) ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
+
 				// Refresh (delete and get it again) the item.
 				$this->refresh_file( $movie_or_people, $array_all_items[ $i ] );
+
 				// Delete the row in the array we just processed so it won't be processed again.
 				unset( $array_all_items[ $i ] );
 			}
@@ -273,6 +278,8 @@ final class Cache_Files_Management {
 		// create cache for everything.
 		$all_fields = Get_Options_Movie::get_list_all_items();
 		foreach ( $all_fields as $field => $translated_field ) {
+			// Reset PHP's execution timer back to 30s before each item process
+			$this->reset_time_limit( 30 );
 			// Do not use unactivated functions. Those methods do not exists in \IMDB\Movie, but exist as modules.
 			if ( in_array( $field, Get_Options_Movie::LUM_DATA_MOVIE_NO_METHOD, true ) === true ) {
 				continue;
@@ -282,6 +289,8 @@ final class Cache_Files_Management {
 
 		// Extra generations for the methods not available
 		foreach ( Get_Options_Movie::LUM_DATA_MOVIE_EXTRA_GENERATION as $field ) {
+			// Reset PHP's execution timer back to 30s before each item process
+			$this->reset_time_limit( 30 );
 			$movie->$field();
 		}
 
@@ -303,6 +312,8 @@ final class Cache_Files_Management {
 		$all_methods = Get_Options_Person::get_all_person_fields();
 
 		foreach ( $all_methods as $field => $translated_field ) {
+			// Reset PHP's execution timer back to 30s before each item process
+			$this->reset_time_limit( 30 );
 			// Do not use unactivated functions. Those methods do not exists in \IMDB\Name, but exist as modules.
 			if ( in_array( $field, Get_Options_Person::LUM_DATA_PERSON_NO_METHOD, true ) === true ) {
 				continue;
@@ -312,6 +323,8 @@ final class Cache_Files_Management {
 
 		// Extra generations for the methods not available
 		foreach ( Get_Options_Person::LUM_DATA_PERSON_EXTRA_GENERATION as $field ) {
+			// Reset PHP's execution timer back to 30s before each item process
+			$this->reset_time_limit( 30 );
 			$person->$field();
 		}
 
@@ -628,5 +641,14 @@ final class Cache_Files_Management {
 
 		$this->logger->log?->error( '[config][cachefolder] Cannot create either a regular or alternative cache folder.' );
 		return false;
+	}
+
+	/**
+	 * Reset the PHP execution time limit to prevent timeouts during long operations.
+	 */
+	private function reset_time_limit( int $seconds = 30 ): void {
+		if ( function_exists( 'set_time_limit' ) ) {
+			@\set_time_limit( $seconds );
+		}
 	}
 }
