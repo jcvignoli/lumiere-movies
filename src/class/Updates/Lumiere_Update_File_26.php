@@ -68,7 +68,7 @@ final class Lumiere_Update_File_26 extends \Lumiere\Updates {
 		 */
 		if ( true === $this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbdelayimdbrequest', '20' ) ) {
 
-			$text = 'Lumière option imdbdelayimdbrequest successfully updated to 15.';
+			$text = 'Lumière option imdbdelayimdbrequest successfully updated to 20.';
 			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {

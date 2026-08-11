@@ -131,7 +131,7 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 					<?php esc_html_e( 'Request timeout to avoid IMDb website throwing HTTP 504 errors (too many requests).', 'lumiere-movies' ); ?>
 					<br>
 					<br>
-					<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "15"
+					<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "20"
 				</div>
 			</div>
 		</div>
