@@ -22,45 +22,40 @@ use Lumiere\Tools\Files;
 use Lumiere\Config\Settings_Service;
 
 // Monolog/Psr libraries.
-use Lumiere\Vendor\Monolog\Logger as LoggerMonolog;
+use Lumiere\Vendor\Monolog\Logger as MonologLogger;
 use Lumiere\Vendor\Monolog\Level;
+use Lumiere\Vendor\Monolog\LogRecord;
 use Lumiere\Vendor\Monolog\Handler\NullHandler;
 use Lumiere\Vendor\Monolog\Handler\StreamHandler;
 use Lumiere\Vendor\Monolog\Formatter\LineFormatter;
 use Lumiere\Vendor\Monolog\Processor\IntrospectionProcessor;
 use Lumiere\Vendor\Monolog\Processor\WebProcessor;
-use Lumiere\Vendor\Psr\Log\LoggerInterface;
-use Lumiere\Vendor\Psr\Log\LoggerTrait;
 use Lumiere\Vendor\Psr\Log\NullLogger;
 
 /**
- * Monolog Logger
+ * Custom Monolog Logger extending Monolog directly.
+ *
+ * Handles logging configuration, file streaming, on-screen output,
+ * and context processor registration based on plugin settings.
+ *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
+ * @phpstan-ignore class.extendsFinalByPhpDoc
  */
-final class Logger implements LoggerInterface {
+final class Logger extends MonologLogger {
 
 	/**
 	 * Traits
 	 */
-	use LoggerTrait;
 	use Files;
 
 	/**
-	 * Won't be executed on these pages
-	 */
-	const PAGES_PROHIBITED = [ '/wp-admin/admin-ajax.php', '/wp-admin/post.php', '/wp-json/wp/v2/posts' ];
-
-	/**
-	 * Property that is used all over the classes to display the log
-	 */
-	public ?LoggerInterface $log;
-
-	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @param string|null $logger_name Title of Monolog logger
-	 * @param bool $screen_output whether to output Monolog on screen or not
-	 * @param Settings_Service $settings
+	 * Initializes the parent Monolog Logger channel and configures stream handlers.
+	 *
+	 * @param string|null           $logger_name   Optional channel name. Defaults to current class name.
+	 * @param bool                  $screen_output Optional flag to allow screen output. Default true.
+	 * @param Settings_Service  $settings      Optional settings service instance for dependency injection.
 	 */
 	public function __construct(
 		?string $logger_name = null,
@@ -68,187 +63,150 @@ final class Logger implements LoggerInterface {
 		private Settings_Service $settings = new Settings_Service()
 	) {
 		$final_name = $logger_name ?? Data::get_current_classname( __CLASS__ );
-		$this->log = $this->set_logger( $final_name, $screen_output );
+		parent::__construct( $final_name );
+		$this->configure_logger( $screen_output, $settings );
 	}
 
 	/**
-	 * Function to call the Monolog Logger but with no info
-	 * Usefull when do not want to execute anything, when log() is executed to early and breaks the layout
-	 * @info: do not know why, but imdbGraphQL doesn't accept "null" as a value when calling Name or Title, so created this fake method
-	 * @since 4.3 Method created
+	 * Instantiates a standalone NullLogger for silent operations or fallbacks.
 	 *
-	 * @return LoggerInterface the Monolog class
+	 * @since 4.3 Method created
+	 * @return NullLogger A PSR-3 compliant null logger instance.
 	 */
-	public function log_null(): LoggerInterface {
+	public function log_null(): NullLogger {
 		return new NullLogger();
 	}
 
 	/**
-	 * Delegate standard PSR-3 calls ($this->debug, $this->info, etc.) to $this->log
-	 */
-	public function log( $level, string|\Stringable $message, array $context = [] ): void {
-		$this->log?->log( $level, $message, $context );
-	}
-
-	/**
-	 * Detect if the current page is a classic or block editor page
-	 * @return bool True if it is a block editor page
-	 */
-	private function is_screen_editor(): bool {
-
-		/**
-		 * If the page called is post or post-new, set $is_editor_page on true.
-		 * This is useful when displaying a post.
-		 */
-		if ( isset( $GLOBALS['pagenow'] )
-			&& (
-				$GLOBALS['pagenow'] === 'post.php'
-				|| $GLOBALS['pagenow'] === 'post-new.php'
-			)
-		) {
-			return true;
-		}
-
-		/**
-		 * If the referer of current page is a specific one, set $is_editor_page on true.
-		 * This is useful when saving a post in editor interface.
-		 */
-		$referer = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( (string) $_SERVER['REQUEST_URI'] ) ) : '';
-		if ( Data::array_contains_term( self::PAGES_PROHIBITED, $referer ) ) {
-			return true;
-		}
-
-		/**
-		 * test with WP_Screen class
-		 */
-		if ( function_exists( 'get_current_screen' ) ) {
-			$current_screen = get_current_screen();
-			if ( $current_screen !== null ) {
-				return $current_screen->is_block_editor();
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Start and select which Logger to use
+	 * Sets up logger verbosity, timezone, and attaches active stream handlers.
 	 *
-	 * @param string $logger_name: title applied to the logger in the logs under origin
-	 * @param bool $screen_output Optional: whether to display the screen output.
+	 * If global debugging is disabled, attaches a NullHandler to suppress all output safely.
 	 *
-	 * @return LoggerInterface the logger in set in $monolog_class
+	 * @param bool             $screen_output Flag determining if on-screen output is allowed for this instance.
+	 * @param Settings_Service $settings      Settings provider instance.
+	 * @return void
 	 */
-	private function set_logger( string $logger_name, bool $screen_output = true ): LoggerInterface {
-
-		/** @phpstan-param OPTIONS_ADMIN $imdb_admin_values */
-		$imdb_admin_values = $this->settings->get_admin_options();
-		$is_debug_enabled  = ( $imdb_admin_values['imdbdebug'] ?? '0' ) === '1';
+	private function configure_logger( bool $screen_output, Settings_Service $settings ): void {
+		/** @phpstan-param OPTIONS_ADMIN $admin_options */
+		$admin_options = $settings->get_admin_options();
+		$is_debug_enabled = ( $admin_options['imdbdebug'] ?? '0' ) === '1';
 
 		if ( ! $is_debug_enabled ) {
-			return $this->log_null();
+			$this->pushHandler( new NullHandler() );
+			return;
 		}
 
-		$monolog_class = new LoggerMonolog( $logger_name );
-		$monolog_class->setTimezone( wp_timezone() );
-		$logger_verbosity = LoggerMonolog::toMonologLevel( $imdb_admin_values['imdbdebuglevel'] );
+		$this->setTimezone( wp_timezone() );
+		$verbosity = MonologLogger::toMonologLevel( $admin_options['imdbdebuglevel'] );
 
-		$monolog_class = $this->save_logger( $monolog_class, $imdb_admin_values, $logger_verbosity );
+		$this->attach_file_handler( $admin_options, $verbosity );
 
 		if ( current_user_can( 'manage_options' ) || wp_doing_cron() ) {
-			$monolog_class = $this->display_logger( $monolog_class, $imdb_admin_values, $logger_verbosity, $screen_output );
+			$this->attach_screen_handler( $admin_options, $verbosity, $screen_output );
 		}
-		return $monolog_class;
 	}
 
 	/**
-	 * Save log if option activated
+	 * Configures and attaches a file stream handler and processors if file logging is enabled.
 	 *
-	 * @param LoggerMonolog $monolog_class
-	 * @param array<string, string> $imdb_admin_values Options in database
-	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
-	 * @param Level $logger_verbosity
-	 * @return LoggerMonolog
+	 * Attaches WebProcessor and IntrospectionProcessor for extra context (URL, line, class, method).
+	 * Falls back to NullHandler if the log file path cannot be created or written to.
+	 *
+	 * @param array<string, string> $admin_options Admin configuration settings.
+	 * @phpstan-param OPTIONS_ADMIN $admin_options
+	 * @param Level                 $verbosity Minimum Monolog logging level threshold.
+	 * @return void
 	 */
-	private function save_logger(
-		LoggerMonolog $monolog_class,
-		array $imdb_admin_values,
-		Level $logger_verbosity
-	): LoggerMonolog {
-
-		if ( $imdb_admin_values['imdbdebuglog'] !== '1' ) {
-			return $monolog_class;
+	private function attach_file_handler( array $admin_options, Level $verbosity ): void {
+		if ( ( $admin_options['imdbdebuglog'] ) !== '1' ) {
+			return;
 		}
 
-		// Add current url and referrer to the log
-		$monolog_class->pushProcessor( new WebProcessor( null, [ 'url', 'referrer' ] ) );
+		$this->pushProcessor( new WebProcessor( null, [ 'url', 'referrer' ] ) );
 
 		/**
 		 * Create log file if it doesn't exist, use null logger and exit if can't write to the log.
 		 * @since 3.9.1 created maybe_create_log() method, using its output to exit if no path created.
 		 * @since 4.6 moved method maybe_create_log() to trait Files
 		 */
-		$final_log_file = $this->maybe_create_log( $imdb_admin_values ); // In trait Files.
+		$log_file = $this->maybe_create_log( $admin_options );
 
 		// Cannot create the log file, use nullhandler, print error_log() and exit.
-		if ( $final_log_file === null ) {
-			$monolog_class->pushHandler( new NullHandler() );
-			error_log( '***WP Lumiere Plugin ERROR***: cannot use any log file' ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-			return $monolog_class;
+		if ( $log_file === null ) {
+			$this->pushHandler( new NullHandler() );
+			error_log( '***WP Lumiere Plugin ERROR***: cannot write to log file' ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			return;
 		}
 
-		// Add the file, the line, the class, the function to the log.
-		$monolog_class->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
+		$this->pushProcessor( new IntrospectionProcessor( $verbosity ) );
 
-		// Change the date and output formats of the log.
+		$stream = new StreamHandler( $log_file, $verbosity );
 		$date_format = 'd-M-Y H:i:s';
 		$output = "[%datetime%] %channel%.%level_name%: %message% %extra%\n";
-		$stream_class = new StreamHandler( $final_log_file, $logger_verbosity );
-		$stream_class->setFormatter( new LineFormatter( $output, $date_format ) );
-		$monolog_class->pushHandler( $stream_class );
+		$stream->setFormatter( new LineFormatter( $output, $date_format ) );
 
-		return $monolog_class;
+		$this->pushHandler( $stream );
 	}
 
 	/**
-	 * Display errors on screen if option activated
-	 * Avoid to display on screen when using block editor
+	 * Configures and attaches an on-screen output stream handler (`php://output`) if enabled.
 	 *
-	 * @param LoggerMonolog $monolog_class
-	 * @param array<string, string> $imdb_admin_values Options in database
-	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
-	 * @param Level $logger_verbosity
-	 * @param bool $screen_output Optional: whether to display the screen output.
-	 * @return LoggerMonolog
+	 * Will abort attachment if screen logging is disabled in settings, disallowed by
+	 * $screen_output, or if the current execution context is within an editor screen.
+	 *
+	 * @param array<string, string> $admin_options       Admin configuration settings.
+	 * @phpstan-param OPTIONS_ADMIN $admin_options
+	 * @param Level                 $verbosity     Minimum Monolog logging level threshold.
+	 * @param bool                  $screen_output Flag indicating whether on-screen printing is enabled.
+	 * @return void
 	 */
-	private function display_logger(
-		LoggerMonolog $monolog_class,
-		array $imdb_admin_values,
-		Level $logger_verbosity,
-		bool $screen_output
-	): LoggerMonolog {
-		if (
-			// IF: option 'debug on screen' is activated.
-			$imdb_admin_values['imdbdebugscreen'] !== '1'
-			// IF: variable 'output on screen' is selected.
-			|| $screen_output === false
-			// IF: the page is not block editor (gutenberg).
-			|| $this->is_screen_editor() === true
-		) {
-			return $monolog_class;
+	private function attach_screen_handler( array $admin_options, Level $verbosity, bool $screen_output ): void {
+		if ( ( $admin_options['imdbdebugscreen'] ) !== '1' || $screen_output === false ) {
+			return;
 		}
 
-		// Change the format. @since 4.8 using lum_debug class that is only available in admin.
+		/**
+		 * Use an anonymous StreamHandler subclass to evaluate screen context dynamically at log execution time
+		 * When plugin first loads, WP doesn't know what page or editor screen are
+		 * By evaluating is_screen_editor() inside isHandling(), the check is delayed until the exact microsecond a log
+		 * message is written—giving WordPress time to set up $GLOBALS['pagenow'] and screen states
+		 */
+		$stream = new class( 'php://output', $verbosity, $this ) extends StreamHandler {
+			public function __construct( $stream, Level $level, private Logger $logger ) {
+				parent::__construct( $stream, $level );
+			}
+			public function isHandling( LogRecord $record ): bool {
+				// method in Monolog\Handler\AbstractHandler.
+				if ( $this->logger->is_screen_editor() ) {
+					return false;
+				}
+				return parent::isHandling( $record );
+			}
+		};
+
 		$output = nl2br( "[%level_name%][Lumiere]%message%\n" );
-		$formater_class = new LineFormatter( $output );
+		$stream->setFormatter( new LineFormatter( $output ) );
+		$this->pushHandler( $stream );
+	}
 
-		// Change the handler, php://output is the only working (on my machine)
-		$stream_class = new StreamHandler( 'php://output', $logger_verbosity );
-		$stream_class->setFormatter( $formater_class );
-
-		// Utilise the new handler and format
-		$monolog_class->pushHandler( $stream_class );
-
-		return $monolog_class;
+	/**
+	 * Checks if the current request is operating within a classic or block editor screen context.
+	 *
+	 * @return bool True if the current request is on a block editor or prohibited admin page; false otherwise.
+	 */
+	public function is_screen_editor(): bool {
+		if ( wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+			return true;
+		}
+		if ( isset( $GLOBALS['pagenow'] ) && in_array( $GLOBALS['pagenow'], [ 'post.php', 'post-new.php' ], true ) ) {
+			return true;
+		}
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+			if ( $screen !== null && $screen->is_block_editor() ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

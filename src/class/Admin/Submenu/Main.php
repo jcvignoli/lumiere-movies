@@ -58,8 +58,10 @@ final class Main extends Admin_Menu {
 			[ 'lumiere_that' => $this ], /** Add an array with vars to send in the template */
 		);
 
-		// Create the cache if it doesn't exists.
+		// Make sure cache folder exists and is writable
+		echo '<div class="lumiere_wrap">';
 		$cache_mngmt_class->lumiere_create_cache( true );
+		echo '</div>';
 
 		// Show the vars if debug is activated.
 		if ( $this->settings->get_admin_option( 'imdbdebug' ) !== null && $this->settings->get_admin_option( 'imdbdebug' ) === '1' ) {

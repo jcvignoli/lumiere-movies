@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.8.2
+* [technical] Logger is a true logging class, removed logging method from Main trait, classes are now free from constraints.
 
 v.4.8.1
 * [bug] IMDb changed the API calls, Calendar wasn't working anymore.

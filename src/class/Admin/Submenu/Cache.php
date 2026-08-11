@@ -50,7 +50,9 @@ final class Cache extends Admin_Menu {
 		);
 
 		// Make sure cache folder exists and is writable
+		echo '<div class="lumiere_wrap">';
 		$cache_mngmt_class->lumiere_create_cache( true );
+		echo '</div>';
 
 		// Show the vars if debug is activated.
 		if ( $this->settings->get_admin_option( 'imdbdebug' ) !== null && $this->settings->get_admin_option( 'imdbdebug' ) === '1' ) {
