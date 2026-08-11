@@ -99,7 +99,7 @@ final class Cron {
 	 */
 	public function exec_once_update(): void {
 
-		$this->logger->log?->debug( '[Cron] Cron run once started at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
+		$this->logger->debug( '[Cron] Cron run once started at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
 
 		// Run updating process.
 		$start_update_options = new Updates();
@@ -108,7 +108,7 @@ final class Cron {
 		// Auto update templates file in user template folder.
 		( new Auto_Update_Theme() )->update_auto_dest_theme();
 
-		$this->logger->log?->debug( '[Cron] Cron run once finished at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
+		$this->logger->debug( '[Cron] Cron run once finished at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
 	}
 
 	/**
@@ -134,7 +134,7 @@ final class Cron {
 	 */
 	public function cache_auto_refresh(): void {
 
-		$this->logger->log?->debug( '[Cron] Cron refreshing cache started at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
+		$this->logger->debug( '[Cron] Cron refreshing cache started at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
 
 		$cache_class = new Cache_Files_Management();
 		$cache_class->cron_all_cache_refresh(
@@ -142,7 +142,7 @@ final class Cron {
 			self::CACHE_DAYS_AUTO_REFRESH_ROUND /* nb of days before having a new overall refresh */
 		);
 
-		$this->logger->log?->debug( '[Cron] Cron refreshing cache ended at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
+		$this->logger->debug( '[Cron] Cron refreshing cache ended at ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), time() ) );
 	}
 
 	/**
@@ -184,7 +184,7 @@ final class Cron {
 		) {
 			// Cron to run twice Daily, first time in 1 minute
 			wp_schedule_event( time() + 1, 'hourly', 'lumiere_cron_deletecacheoversized' );
-			$this->logger->log?->debug( '[Cron] Cron lumiere_cron_deletecacheoversized added' );
+			$this->logger->debug( '[Cron] Cron lumiere_cron_deletecacheoversized added' );
 
 			// Remove cron imdbcachekeepsizeunder.
 		} elseif (
@@ -197,7 +197,7 @@ final class Cron {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
 					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */
 					wp_unschedule_event( $timestamp, 'lumiere_cron_deletecacheoversized' );
-					$this->logger->log?->debug( '[Cron] Cron lumiere_cron_deletecacheoversized removed' );
+					$this->logger->debug( '[Cron] Cron lumiere_cron_deletecacheoversized removed' );
 				}
 			}
 		}
@@ -223,7 +223,7 @@ final class Cron {
 			$starting_time = strtotime( '+1 hours', time() );
 			/** @psalm-suppress InvalidArgument -- With time(), it's always int! */
 			wp_schedule_event( $starting_time, 'hourly', 'lumiere_cron_autofreshcache' );
-			$this->logger->log?->debug( '[Cron] Cron lumiere_cron_autofreshcache added' );
+			$this->logger->debug( '[Cron] Cron lumiere_cron_autofreshcache added' );
 
 			// Remove cron imdbcacheautorefreshcron.
 		} elseif (
@@ -236,7 +236,7 @@ final class Cron {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_autofreshcache' );
 					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */
 					wp_unschedule_event( $timestamp, 'lumiere_cron_autofreshcache' );
-					$this->logger->log?->debug( '[Cron] Cron lumiere_cron_autofreshcache removed' );
+					$this->logger->debug( '[Cron] Cron lumiere_cron_autofreshcache removed' );
 				}
 			}
 			delete_transient( 'lum_cache_cron_refresh_time_started' );

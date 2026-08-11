@@ -54,7 +54,7 @@ final class Lumiere_Update_File_26 extends \Lumiere\Updates {
 		}
 
 		// Update the number of updates already processed in Lumière options.
-		$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->settings->get_admin_option( 'imdbHowManyUpdates' ) ) + 1 );
 
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
@@ -69,12 +69,12 @@ final class Lumiere_Update_File_26 extends \Lumiere\Updates {
 		if ( true === $this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbdelayimdbrequest', '20' ) ) {
 
 			$text = 'Lumière option imdbdelayimdbrequest successfully updated to 20.';
-			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		} else {
 
 			$text = 'Lumière option imdbdelayimdbrequest could not be update.';
-			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 
 		}
 

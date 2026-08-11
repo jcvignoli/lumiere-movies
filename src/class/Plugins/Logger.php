@@ -16,28 +16,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-// use Lumiere library.
+// Lumiere libraries.
 use Lumiere\Tools\Data;
 use Lumiere\Tools\Files;
 use Lumiere\Config\Settings_Service;
 
-// use Monolog library in /vendor/.
+// Monolog/Psr libraries.
 use Lumiere\Vendor\Monolog\Logger as LoggerMonolog;
+use Lumiere\Vendor\Monolog\Level;
 use Lumiere\Vendor\Monolog\Handler\NullHandler;
 use Lumiere\Vendor\Monolog\Handler\StreamHandler;
 use Lumiere\Vendor\Monolog\Formatter\LineFormatter;
 use Lumiere\Vendor\Monolog\Processor\IntrospectionProcessor;
 use Lumiere\Vendor\Monolog\Processor\WebProcessor;
+use Lumiere\Vendor\Psr\Log\LoggerInterface;
+use Lumiere\Vendor\Psr\Log\LoggerTrait;
+use Lumiere\Vendor\Psr\Log\NullLogger;
 
 /**
- * Using Monolog Logger
+ * Monolog Logger
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
-final class Logger {
+final class Logger implements LoggerInterface {
 
 	/**
 	 * Traits
 	 */
+	use LoggerTrait;
 	use Files;
 
 	/**
@@ -48,21 +53,22 @@ final class Logger {
 	/**
 	 * Property that is used all over the classes to display the log
 	 */
-	public ?LoggerMonolog $log;
+	public ?LoggerInterface $log;
 
 	/**
 	 * Constructor
 	 *
-	 * @param string $logger_name Title of Monolog logger
+	 * @param string|null $logger_name Title of Monolog logger
 	 * @param bool $screen_output whether to output Monolog on screen or not
 	 * @param Settings_Service $settings
 	 */
 	public function __construct(
-		string $logger_name = 'unknownOrigin',
+		?string $logger_name = null,
 		bool $screen_output = true,
 		private Settings_Service $settings = new Settings_Service()
 	) {
-		$this->log = $this->set_logger( $logger_name, $screen_output );
+		$final_name = $logger_name ?? Data::get_current_classname( __CLASS__ );
+		$this->log = $this->set_logger( $final_name, $screen_output );
 	}
 
 	/**
@@ -71,10 +77,17 @@ final class Logger {
 	 * @info: do not know why, but imdbGraphQL doesn't accept "null" as a value when calling Name or Title, so created this fake method
 	 * @since 4.3 Method created
 	 *
-	 * @return LoggerMonolog the Monolog class
+	 * @return LoggerInterface the Monolog class
 	 */
-	public function log_null(): LoggerMonolog {
-		return new LoggerMonolog( 'null' );
+	public function log_null(): LoggerInterface {
+		return new NullLogger();
+	}
+
+	/**
+	 * Delegate standard PSR-3 calls ($this->debug, $this->info, etc.) to $this->log
+	 */
+	public function log( $level, string|\Stringable $message, array $context = [] ): void {
+		$this->log?->log( $level, $message, $context );
 	}
 
 	/**
@@ -124,57 +137,28 @@ final class Logger {
 	 * @param string $logger_name: title applied to the logger in the logs under origin
 	 * @param bool $screen_output Optional: whether to display the screen output.
 	 *
-	 * @return LoggerMonolog the logger in set in $monolog_class
+	 * @return LoggerInterface the logger in set in $monolog_class
 	 */
-	private function set_logger( string $logger_name, bool $screen_output = true ): LoggerMonolog {
+	private function set_logger( string $logger_name, bool $screen_output = true ): LoggerInterface {
 
 		/** @phpstan-param OPTIONS_ADMIN $imdb_admin_values */
 		$imdb_admin_values = $this->settings->get_admin_options();
+		$is_debug_enabled  = ( $imdb_admin_values['imdbdebug'] ?? '0' ) === '1';
 
-		if (
-			( current_user_can( 'manage_options' ) && isset( $imdb_admin_values['imdbdebug'] ) && $imdb_admin_values['imdbdebug'] === '1' )
-			|| ( isset( $imdb_admin_values['imdbdebug'] ) && $imdb_admin_values['imdbdebug'] === '1' && wp_doing_cron() === true )
-		) {
-
-			// Start Monolog class.
-			$monolog_class = new LoggerMonolog( $logger_name );
-			$monolog_class->setTimezone( wp_timezone() );
-
-			/**
-			 * Set the verbosity from database option and build the constant.
-			 * @phpstan-var value-of<\Lumiere\Vendor\Monolog\Level::VALUES> $logger_verbosity
-			 * @psalm-var int $logger_verbosity $logger_verbosity
-			 */
-			$logger_verbosity = constant( LoggerMonolog::class . '::' . $imdb_admin_values['imdbdebuglevel'] );
-
-			// Save to file if function is activated.
-			$monolog_class = $this->save_logger( $monolog_class, $imdb_admin_values, $logger_verbosity );
-
-			// Display on screen the log if function is activated.
-			$monolog_class = $this->display_logger( $monolog_class, $imdb_admin_values, $logger_verbosity, $screen_output );
-
-			return $monolog_class;
-		} elseif ( isset( $imdb_admin_values['imdbdebug'] ) && $imdb_admin_values['imdbdebug'] === '1' ) {
-
-			// Start Monolog class.
-			$monolog_class = new LoggerMonolog( $logger_name );
-			$monolog_class->setTimezone( wp_timezone() );
-
-			/**
-			 * Set the verbosity from database option and build the constant.
-			 * @phpstan-var value-of<\Lumiere\Vendor\Monolog\Level::VALUES> $logger_verbosity
-			 * @psalm-var int $logger_verbosity $logger_verbosity
-			 */
-			$logger_verbosity = constant( LoggerMonolog::class . '::' . $imdb_admin_values['imdbdebuglevel'] );
-
-			// Save to file if function is activated.
-			$monolog_class = $this->save_logger( $monolog_class, $imdb_admin_values, $logger_verbosity );
-
-			return $monolog_class;
+		if ( ! $is_debug_enabled ) {
+			return $this->log_null();
 		}
 
-		// Run null logger for all other cases.
-		return $this->log_null();
+		$monolog_class = new LoggerMonolog( $logger_name );
+		$monolog_class->setTimezone( wp_timezone() );
+		$logger_verbosity = LoggerMonolog::toMonologLevel( $imdb_admin_values['imdbdebuglevel'] );
+
+		$monolog_class = $this->save_logger( $monolog_class, $imdb_admin_values, $logger_verbosity );
+
+		if ( current_user_can( 'manage_options' ) || wp_doing_cron() ) {
+			$monolog_class = $this->display_logger( $monolog_class, $imdb_admin_values, $logger_verbosity, $screen_output );
+		}
+		return $monolog_class;
 	}
 
 	/**
@@ -183,11 +167,14 @@ final class Logger {
 	 * @param LoggerMonolog $monolog_class
 	 * @param array<string, string> $imdb_admin_values Options in database
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
-	 * @param int $logger_verbosity
-	 * @phpstan-param value-of<\Lumiere\Vendor\Monolog\Level::VALUES> $logger_verbosity
+	 * @param Level $logger_verbosity
 	 * @return LoggerMonolog
 	 */
-	private function save_logger( LoggerMonolog $monolog_class, array $imdb_admin_values, int $logger_verbosity ): LoggerMonolog {
+	private function save_logger(
+		LoggerMonolog $monolog_class,
+		array $imdb_admin_values,
+		Level $logger_verbosity
+	): LoggerMonolog {
 
 		if ( $imdb_admin_values['imdbdebuglog'] !== '1' ) {
 			return $monolog_class;
@@ -211,7 +198,6 @@ final class Logger {
 		}
 
 		// Add the file, the line, the class, the function to the log.
-		/** @psalm-suppress InvalidArgument (psalm can resolve value-of<\Lumiere\Vendor\Monolog\Level::VALUES>) */
 		$monolog_class->pushProcessor( new IntrospectionProcessor( $logger_verbosity ) );
 
 		// Change the date and output formats of the log.
@@ -231,12 +217,16 @@ final class Logger {
 	 * @param LoggerMonolog $monolog_class
 	 * @param array<string, string> $imdb_admin_values Options in database
 	 * @phpstan-param OPTIONS_ADMIN $imdb_admin_values
-	 * @param int $logger_verbosity
-	 * @phpstan-param value-of<\Lumiere\Vendor\Monolog\Level::VALUES> $logger_verbosity
+	 * @param Level $logger_verbosity
 	 * @param bool $screen_output Optional: whether to display the screen output.
 	 * @return LoggerMonolog
 	 */
-	private function display_logger( LoggerMonolog $monolog_class, array $imdb_admin_values, int $logger_verbosity, bool $screen_output ): LoggerMonolog {
+	private function display_logger(
+		LoggerMonolog $monolog_class,
+		array $imdb_admin_values,
+		Level $logger_verbosity,
+		bool $screen_output
+	): LoggerMonolog {
 		if (
 			// IF: option 'debug on screen' is activated.
 			$imdb_admin_values['imdbdebugscreen'] !== '1'
@@ -245,11 +235,11 @@ final class Logger {
 			// IF: the page is not block editor (gutenberg).
 			|| $this->is_screen_editor() === true
 		) {
-			return $this->log_null();
+			return $monolog_class;
 		}
 
 		// Change the format. @since 4.8 using lum_debug class that is only available in admin.
-		$output = "<div class=\"lum_debug\">[%level_name%][Lumiere]%message%</div>\n";
+		$output = nl2br( "[%level_name%][Lumiere]%message%\n" );
 		$formater_class = new LineFormatter( $output );
 
 		// Change the handler, php://output is the only working (on my machine)

@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.2.10
+ * Version: 3.2.11
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package       lumieremovies
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Settings_Service;
-use Lumiere\Frontend\Main;
+use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Plugins_Start;
 use WP_Query;
 
@@ -33,11 +33,6 @@ use WP_Query;
  * @since 4.0 Returns all Lumière taxonomies that can be clicked when visiting the item template page
  */
 final class Taxonomy_Items_Standard {
-
-	/**
-	 * Traits
-	 */
-	use Main;
 
 	/**
 	 * Set to true to activate the sidebar
@@ -67,14 +62,12 @@ final class Taxonomy_Items_Standard {
 	public function __construct(
 		private readonly Plugins_Start $plugins_start,
 		private readonly Settings_Service $settings = new Settings_Service(),
+		private readonly Logger $logger = new Logger(),
 	) {
 		// Run on taxonomy pages only.
 		if ( is_tax() === false ) {
 			return;
 		}
-
-		// Construct Frontend trait.
-		$this->start_logger();
 
 		// Build the taxonomy name.
 		$this->taxonomy = esc_html( $this->settings->get_admin_option( 'imdburlstringtaxo' ) . 'standard' );
@@ -126,7 +119,7 @@ final class Taxonomy_Items_Standard {
 
 		get_header();
 
-		$this->logger->log?->debug( '[Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->debug( '[Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -232,7 +225,7 @@ final class Taxonomy_Items_Standard {
 		<?php block_header_area(); ?>
 		</header>
 		<?php
-		$this->logger->log?->debug( '[Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->debug( '[Taxonomy_Items_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>

@@ -222,7 +222,7 @@ final class Search_Items {
 		$select_search_type = isset( $_GET['select_search_type'] )
 			? Item_Type::from_string( sanitize_text_field( wp_unslash( (string) $_GET['select_search_type'] ) ) )
 			: Item_Type::MOVIE;
-		$this->logger->log?->debug( "[admin search] Querying *$this->item_searched* of type " . $select_search_type->value );
+		$this->logger->debug( "[admin search] Querying *$this->item_searched* of type " . $select_search_type->value );
 
 		$results = [];
 		$first_column_header = 'title';
@@ -232,13 +232,13 @@ final class Search_Items {
 			/** @phpstan-var TITLESEARCH_RETURNSEARCH $results */
 			$results = $this->imdbphp_class->search_movie_title(
 				$this->item_searched ?? '',
-				$this->logger->log,
+				$this->logger,
 			);
 		} elseif ( $select_search_type === Item_Type::PERSON ) {
 			/** @phpstan-var NAMESEARCH_RETURNSEARCH $results */
 			$results = $this->imdbphp_class->search_person_name(
 				$this->item_searched ?? '',
-				$this->logger->log,
+				$this->logger,
 			);
 			$first_column_header = 'name';
 			$second_column_header = 'id';
@@ -263,7 +263,7 @@ final class Search_Items {
 
 		foreach ( $results as $res ) {
 			if ( $iterator > $limit_search ) {
-				$this->logger->log?->debug( "[admin search] Limit of '$limit_search' results reached." );
+				$this->logger->debug( "[admin search] Limit of '$limit_search' results reached." );
 				echo '<div class="lumiere_italic lumiere_padding_five lumiere_align_center">' . esc_html__( 'Maximum number of results reached. You can increase this limit in the admin options.', 'lumiere-movies' ) . '</div>';
 				break;
 			}
@@ -296,7 +296,7 @@ final class Search_Items {
 	 */
 	private function initial_form(): string {
 
-		$this->logger->log?->debug( '[admin search] Waiting for a search' );
+		$this->logger->debug( '[admin search] Waiting for a search' );
 
 		$output = "\n<div align=\"center\">";
 		$output .= "\n\t" . '<form action="" method="get" id="searchmovie">';

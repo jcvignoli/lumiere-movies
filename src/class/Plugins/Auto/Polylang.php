@@ -17,8 +17,11 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
-use Lumiere\Tools\Validate_Get;
 use Lumiere\Frontend\Main;
+use Lumiere\Plugins\Logger;
+use Lumiere\Tools\Validate_Get;
+use Lumiere\Vendor\Psr\Log\NullLogger;
+use Lumiere\Vendor\Psr\Log\LoggerInterface;
 
 /**
  * Plugin for Polylang WordPress plugin
@@ -29,6 +32,7 @@ use Lumiere\Frontend\Main;
  *
  * @since 3.7.1
  * @since 4.3 Using add_filter() and more OOP, removing custom Polylang translation for taxonomy terms (same term will have one entry only, no translation anymore)
+ * @since 4.8.2 removed trait Main, using Logger() class
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  * @link Polylang reference hooks https://polylang.pro/doc/filter-reference/
@@ -54,11 +58,9 @@ final class Polylang {
 	/**
 	 * Constructor
 	 */
-	final public function __construct() {
-
-		// In Main trait.
-		$this->start_logger( 'Polylang' );
-
+	final public function __construct(
+		private LoggerInterface $logger = new Logger( 'Polylang' ),
+	) {
 		// Return URLs with Polylang lang extension in domain name.
 		add_filter( 'lumiere_polylang_rewrite_url_with_lang', [ $this, 'rewrite_url_with_lang' ], 10, 1 );
 
@@ -140,7 +142,7 @@ final class Polylang {
 	 */
 	public function form_taxonomy_people_lang(): string {
 
-		$valid_nonce = $this->check_nonce( '_wpnonce_lum_taxo_polylangform', 'lum_taxo_polylangform' );
+		$valid_nonce = $this->check_nonce( '_wpnonce_lum_taxo_polylangform', 'lum_taxo_polylangform' ); // method in trait.
 
 		// Language selected: $_GET['tag_lang'] Retrieve it if nonce is valid. Null otherwise.
 		$tag_lang = Validate_Get::sanitize_url( 'tag_lang' );
@@ -224,7 +226,7 @@ final class Polylang {
 
 		if (
 			Validate_Get::sanitize_url( 'submit_lang' ) !== null && Validate_Get::sanitize_url( 'tag_lang' ) !== null
-			&& $this->check_nonce( '_wpnonce_lum_taxo_polylangform', 'lum_taxo_polylangform' ) === true
+			&& $this->check_nonce( '_wpnonce_lum_taxo_polylangform', 'lum_taxo_polylangform' ) === true // method in trait.
 		) {
 
 			/** @psalm-suppress PossiblyNullArgument (It can't! checked above!) */
@@ -298,7 +300,7 @@ final class Polylang {
 
 		if (
 			( isset( $tag_lang ) && ! isset( $_GET['_wpnonce_lum_taxo_polylangform'] ) )
-			|| ( isset( $tag_lang ) && $this->check_nonce( '_wpnonce_lum_taxo_polylangform', 'lum_taxo_polylangform' ) === false )
+			|| ( isset( $tag_lang ) && $this->check_nonce( '_wpnonce_lum_taxo_polylangform', 'lum_taxo_polylangform' ) === false ) // method in trait.
 		) {
 			return $query;
 		}
@@ -384,22 +386,22 @@ final class Polylang {
 
 		// Method executed in init so logging prevents throws a "headers already sent" -> trick to prevent logger to be run
 		if ( did_action( 'wp_loaded' ) !== 1 ) {
-			$this->logger = null;
+			$this->logger = new NullLogger();
 		}
 
-		$this->logger?->log?->info( '[Taxonomy][Update terms][Polylang] Polylang taxonomy version started' );
-		$this->logger?->log?->debug( '[Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" being processed' );
+		$this->logger->info( '[Taxonomy][Update terms][Polylang] Polylang taxonomy version started' );
+		$this->logger->debug( '[Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" being processed' );
 
 		$get_lang = pll_get_post_language( $page_id );
 		$lang = $get_lang !== false ? $get_lang : '';
 		$terms_post = get_the_terms( $page_id, $full_old_taxonomy );
 
 		if ( $terms_post === false || $terms_post instanceof \WP_Error ) {
-			$this->logger?->log?->error( '[Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
+			$this->logger->error( '[Taxonomy][Update terms][Polylang][Post] No taxonomy terms found, although there should be there due to the SQL Query.' );
 			return false;
 		}
 
-		$this->logger?->log?->debug( '[Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" in lang ' . esc_html( $lang ) . ' being processed' );
+		$this->logger->debug( '[Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" in lang ' . esc_html( $lang ) . ' being processed' );
 
 		foreach ( $terms_post as $key => $term_post ) {
 
@@ -418,7 +420,7 @@ final class Polylang {
 
 				$term_slug = isset( $term_post ) && ! $term_post instanceof \WP_Error ? $term_post->slug : '';
 
-				$this->logger?->log?->notice( '[Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );
+				$this->logger->notice( '[Taxonomy][Update terms][Polylang][Missing term] Term *' . esc_html( $term_slug ) . '* was missing, so created in taxonomy ' . esc_html( $full_new_taxonomy ) );
 
 			} else {
 				// Set the term's language.
@@ -436,11 +438,11 @@ final class Polylang {
 
 			// Insert sucess.
 			if ( isset( $adding_terms ) && ! $adding_terms instanceof \WP_Error && count( $adding_terms ) > 0 ) {
-				$this->logger?->log?->info( '[Taxonomy][Update terms][Polylang][Added] Term *' . esc_html( $term_slug ) . '* to post *' . esc_html( $title ) . '* in lang ' . esc_html( $lang ) );
+				$this->logger->info( '[Taxonomy][Update terms][Polylang][Added] Term *' . esc_html( $term_slug ) . '* to post *' . esc_html( $title ) . '* in lang ' . esc_html( $lang ) );
 			}
-			$this->logger?->log?->debug( '[Taxonomy][Update terms][Polylang][Processed] Term *' . esc_html( $term_slug ) . '* processed' );
+			$this->logger->debug( '[Taxonomy][Update terms][Polylang][Processed] Term *' . esc_html( $term_slug ) . '* processed' );
 		}
-		$this->logger?->log?->debug( '[Taxonomy][Update terms][Polylang][Post] Title *' . esc_html( $title ) . '* processed' );
+		$this->logger->debug( '[Taxonomy][Update terms][Polylang][Post] Title *' . esc_html( $title ) . '* processed' );
 		return true;
 	}
 }

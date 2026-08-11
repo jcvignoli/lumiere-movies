@@ -16,11 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Vendor\Imdb\Calendar;
-use Lumiere\Frontend\Main;
-use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
-use Lumiere\Tools\Files;
 use Lumiere\Config\Get_Options;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
+use Lumiere\Plugins\Logger;
+use Lumiere\Tools\Files;
+
+// Vendor
+use Lumiere\Vendor\Imdb\Calendar;
 
 /**
  * Coming soon
@@ -35,7 +37,6 @@ final class Coming_Soon {
 	/**
 	 * Traits
 	 */
-	use Main;
 	use Files;
 
 	/**
@@ -43,10 +44,9 @@ final class Coming_Soon {
 	 * Frontend Style is called in block.json
 	 */
 	public function __construct(
-		private Interface_Linkmaker $link_maker
-	) {
-		$this->start_logger(); // In Trait Main.
-	}
+		private Interface_Linkmaker $link_maker,
+		private Logger $logger = new Logger(),
+	) {}
 
 	/**
 	 * Static start
@@ -119,20 +119,20 @@ final class Coming_Soon {
 
 		// Get Calendar's method.
 		$date_format_override_comment = ! isset( $date_format_override ) ? 'null' : $date_format_override;
-		$this->logger?->log?->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override . ', dateFormatOverride:' . $date_format_override_comment );
+		$this->logger->debug( '[Coming_Soon] Calling IMDB class ComingSoon with parameters => region:' . $region . ' type:' . $type . ' startDateOverride:' . (string) $start_date_override . ' endDateOverride:' . (string) $end_date_override . ', dateFormatOverride:' . $date_format_override_comment );
 		$all_data = $calendar_imdb_class->comingSoon( $region, $type, $start_date_override, $end_date_override );
 		$sorted_data = $this->array_sort_key( $all_data );
 		$filtered_data = $this->convert_date( $sorted_data, $date_format_override );
 
 		// Exit if no data found.
 		if ( count( $filtered_data ) < 1 ) {
-			$this->logger?->log?->error( '[Coming_Soon] No data found' );
+			$this->logger->error( '[Coming_Soon] No data found' );
 			echo '<div>' . esc_html__( 'No data found.', 'lumiere-movies' ) . '</div>';
 			return;
 		}
 
 		// Get template.
-		$this->logger?->log?->debug( '[Coming_Soon] Displaying the template' );
+		$this->logger->debug( '[Coming_Soon] Displaying the template' );
 		$this->include_with_vars( // In Trait Files.
 			'calendar', // template name.
 			[

@@ -121,7 +121,7 @@ class Front_Parser {
 		$imdb_plugin = $this->plugins_classes_active['amp'];
 
 		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $imdb_plugin->is_amp_validating() === true ) {
-			$this->logger->log?->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
+			$this->logger->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
 
@@ -163,7 +163,7 @@ class Front_Parser {
 		 */
 		$imdb_plugin = $this->plugins_classes_active['amp'];
 		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $imdb_plugin->is_amp_validating() === true ) {
-			$this->logger->log?->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
+			$this->logger->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
 
@@ -199,7 +199,7 @@ class Front_Parser {
 	public function lum_display_movies_box( array $movies_searched ): string {
 		$output = '';
 		foreach ( $movies_searched as $movie_found ) {
-			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$movie_found*" );
+			$this->logger->debug( "[Front_Parser] Displaying rows for *$movie_found*" );
 			$output .= $this->output_class->front_main_wrapper(
 				$this->settings->get_admin_options(),
 				( new Movie_Factory( settings: $this->settings ) )->factory_movie_items_methods( $movie_found )
@@ -221,7 +221,7 @@ class Front_Parser {
 	public function lum_display_persons_box( array $persons_searched ): string {
 		$output = '';
 		foreach ( $persons_searched as $person_found ) {
-			$this->logger->log?->debug( "[Front_Parser] Displaying rows for *$person_found*" );
+			$this->logger->debug( "[Front_Parser] Displaying rows for *$person_found*" );
 			$output .= $this->output_class->front_main_wrapper(
 				$this->settings->get_admin_options(),
 				( new Person_Factory( settings: $this->settings ) )->factory_person_items_methods( $person_found )

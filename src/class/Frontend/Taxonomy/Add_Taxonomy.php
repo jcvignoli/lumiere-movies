@@ -67,7 +67,7 @@ final class Add_Taxonomy {
 				$term_inserted = wp_insert_term( $taxonomy_term, $custom_taxonomy_fullname );
 				$term_for_log = wp_json_encode( $term_inserted );
 				if ( $term_for_log !== false ) {
-					$this->logger->log?->debug( '[Add_Taxonomy] Taxonomy term *' . $taxonomy_term . '* added to *' . $custom_taxonomy_fullname . '* (association numbers ' . $term_for_log . ' )' );
+					$this->logger->debug( '[Add_Taxonomy] Taxonomy term *' . $taxonomy_term . '* added to *' . $custom_taxonomy_fullname . '* (association numbers ' . $term_for_log . ' )' );
 				}
 			}
 

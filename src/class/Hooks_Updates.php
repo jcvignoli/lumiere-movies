@@ -68,15 +68,15 @@ class Hooks_Updates {
 				// It is Lumière!, so run the functions.
 				if ( $plugin === 'lumiere-movies/lumiere-movies.php' ) {
 
-					$logger->log?->debug( '[hooksUpdates][manualupdate] Starting Lumière manual update' );
+					$logger->debug( '[hooksUpdates][manualupdate] Starting Lumière manual update' );
 					$start_update_options = new Updates();
 					$start_update_options->run_update_options();
 
 					// Set up WP Cron exec once if it doesn't exist.
 					if ( $this->lum_setup_cron_exec_once( $logger, 'manualupdate' ) === false ) {
-						$logger->log?->error( '[hooksUpdates][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+						$logger->error( '[hooksUpdates][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 					}
-					$logger->log?->debug( '[hooksUpdates][manualupdate] Lumière manual update processed.' );
+					$logger->debug( '[hooksUpdates][manualupdate] Lumière manual update processed.' );
 				}
 			}
 		}
@@ -108,15 +108,15 @@ class Hooks_Updates {
 				&& $plugin->item->slug === 'lumiere-movies'
 			) {
 				// It is Lumière!, so run the functions.
-				$logger->log?->debug( '[hooksUpdates][autoupdate] Starting Lumière automatic update' );
+				$logger->debug( '[hooksUpdates][autoupdate] Starting Lumière automatic update' );
 				$start_update_options = new Updates();
 				$start_update_options->run_update_options();
 
 				// Set up WP Cron exec once if it doesn't exist
 				if ( $this->lum_setup_cron_exec_once( $logger, 'autoupdate' ) === false ) {
-					$logger->log?->error( '[hooksUpdates][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+					$logger->error( '[hooksUpdates][autoupdate] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 				}
-				$logger->log?->debug( '[hooksUpdates][autoupdate] Lumière autoupdate processed.' );
+				$logger->debug( '[hooksUpdates][autoupdate] Lumière autoupdate processed.' );
 			}
 
 		}
@@ -141,7 +141,7 @@ class Hooks_Updates {
 			// Start Logger class.
 			$logger = new Logger( 'hooksUpdates', false /* Deactivate the onscreen log, so WordPress activation doesn't trigger any error if debug is activated */ );
 
-			$logger->log?->info( '[hooksUpdates][is_plugin_updated] An update is needed, starting the update...' );
+			$logger->info( '[hooksUpdates][is_plugin_updated] An update is needed, starting the update...' );
 			$start_update_options = new Updates();
 			$start_update_options->run_update_options();
 
@@ -166,7 +166,7 @@ class Hooks_Updates {
 		if ( wp_next_scheduled( 'lumiere_exec_once_update' ) === false ) {
 			// Cron to run once, in 2 minutes.
 			wp_schedule_single_event( time() + 120, 'lumiere_exec_once_update' );
-			$logger?->log?->debug( '[hooksUpdates][' . $log_string . '] Lumière cron lumiere_exec_once_update successfully set up.' );
+			$logger?->debug( '[hooksUpdates][' . $log_string . '] Lumière cron lumiere_exec_once_update successfully set up.' );
 			return true;
 		}
 		return false;

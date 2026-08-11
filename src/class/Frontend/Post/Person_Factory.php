@@ -57,7 +57,7 @@ final class Person_Factory extends Front_Parser {
 		// Find the Name based on $mid_premier_resultat.
 		$name_object = $imdb_plugin->get_name_class(
 			esc_html( $mid_premier_resultat ),
-			$this->logger->log,
+			$this->logger,
 		);
 
 		foreach ( $this->settings->get_person_option( 'order' ) as $data_detail => $order ) {

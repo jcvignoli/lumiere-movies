@@ -59,7 +59,7 @@ final class Lumiere_Update_File_24 extends \Lumiere\Updates {
 		 * Update the number of updates already processed in Lumière options.
 		 * This is executed at the beggining, so if there is an issue, it's not repeated
 		 */
-		$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->settings->get_admin_option( 'imdbHowManyUpdates' ) ) + 1 );
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
@@ -76,22 +76,22 @@ final class Lumiere_Update_File_24 extends \Lumiere\Updates {
 		if ( $data_lang === false || $data_lang === 'US' ) {
 			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'en_GB' );
 			$text = 'Lumière option imdblanguage did not exist or was set on "US", successfully updated to "en_GB".';
-			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} elseif ( $data_lang === 'ES' ) {
 			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'es_ES' );
 			$text = 'Lumière option imdblanguage was set on "ES", successfully updated to "es_ES".';
-			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} elseif ( $data_lang === 'FR' ) {
 			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'fr_FR' );
 			$text = 'Lumière option imdblanguage was set on "FR", successfully updated to "fr_FR".';
-			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} elseif ( $data_lang === 'DE' ) {
 			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', 'de_DE' );
 			$text = 'Lumière option imdblanguage was set on "DE", successfully updated to "de_DE".';
-			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdblanguage was not updated, it is already set to *' . $data_lang . '*';
-			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/** ------------------------- Editing part (end) --------------

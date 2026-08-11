@@ -22,6 +22,7 @@ use Lumiere\Enums\Item_Type;
 use Lumiere\Frontend\Layout\Output;
 use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Frontend\Main;
+use Lumiere\Plugins\Logger;
 
 /**
  * Simplify coding, using most usefull classes
@@ -43,10 +44,8 @@ class Parent_Module {
 		protected Settings_Service $settings,
 		protected Interface_Linkmaker $link_maker,
 		protected Output $output_class = new Output(),
-	) {
-		// In Trait Main.
-		$this->start_logger();
-	}
+		protected Logger $logger = new Logger(),
+	) {}
 
 	/**
 	 * Build internal link for person (no popup)

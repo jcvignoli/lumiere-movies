@@ -22,7 +22,7 @@ use Lumiere\Vendor\Imdb\Name;
 use Lumiere\Vendor\Imdb\NameSearch;
 use Lumiere\Vendor\Imdb\Title;
 use Lumiere\Vendor\Imdb\TitleSearch;
-use Lumiere\Vendor\Monolog\Logger;
+use Lumiere\Vendor\Psr\Log\LoggerInterface;
 
 /**
  * Child class of \Imdb\Config
@@ -121,11 +121,11 @@ final class Imdbphp extends Imdbphp_Config {
 	 * Search a film according to its title, return an array of results
 	 *
 	 * @param string $title Movie's name
-	 * @param Logger|null $logger
+	 * @param LoggerInterface|null $logger
 	 * @return array<array<string, \Lumiere\Vendor\Imdb\Title|int|string>>
 	 * @phpstan-return TITLESEARCH_RETURNSEARCH
 	 */
-	public function search_movie_title( string $title, Logger|null $logger = null ): array {
+	public function search_movie_title( string $title, ?LoggerInterface $logger = null ): array {
 		$search = new TitleSearch( $this, $logger );
 		$return = $search->search( esc_html( $title ), Get_Options::get_type_search() );
 		/** @psalm-var TITLESEARCH_RETURNSEARCH $return Dunno why it must be specified here again... */
@@ -136,11 +136,11 @@ final class Imdbphp extends Imdbphp_Config {
 	 * Search a Person according to its name, return an array of results
 	 *
 	 * @param string $name Person's name
-	 * @param Logger|null $logger
+	 * @param LoggerInterface|null $logger
 	 * @return array<array-key, mixed>|array{}
 	 * @phpstan-return NAMESEARCH_RETURNSEARCH
 	 */
-	public function search_person_name( string $name, Logger|null $logger = null ): array {
+	public function search_person_name( string $name, ?LoggerInterface $logger = null ): array {
 		$search = new NameSearch( $this, $logger );
 		/** @psalm-var NAMESEARCH_RETURNSEARCH $return Dunno why it must be specified here again... */
 		$return = $search->search( esc_html( $name ) );
@@ -152,9 +152,10 @@ final class Imdbphp extends Imdbphp_Config {
 	 * Can execute all methods of the class Title, fits perfectly in a class property
 	 *
 	 * @param string $movie_id Movie's id to do the Title's query
+	 * @param LoggerInterface|null $logger
 	 * @return \Lumiere\Vendor\Imdb\Title class instanciated with the movie's id
 	 */
-	public function get_title_class( string $movie_id, Logger|null $logger = null ): Title {
+	public function get_title_class( string $movie_id, ?LoggerInterface $logger = null ): Title {
 		return new Title( $movie_id, $this, $logger );
 	}
 
@@ -163,9 +164,10 @@ final class Imdbphp extends Imdbphp_Config {
 	 * Can execute all methods of the class Title, fits perfectly in a class property
 	 *
 	 * @param string $person_id Person's id to do the Name's query
+	 * @param LoggerInterface|null $logger
 	 * @return \Lumiere\Vendor\Imdb\Name class instanciated with the person's id
 	 */
-	public function get_name_class( string $person_id, Logger|null $logger = null ): Name {
+	public function get_name_class( string $person_id, ?LoggerInterface $logger = null ): Name {
 		return new Name( $person_id, $this, $logger );
 	}
 }

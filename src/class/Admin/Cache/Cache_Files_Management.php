@@ -108,7 +108,7 @@ final class Cache_Files_Management {
 
 		// Check if the file exist.
 		if ( $list_items === null ) {
-			$this->logger->log?->error( '[Cache_Tools] The file ' . $id_sanitized . ' does not exist ' );
+			$this->logger->error( '[Cache_Tools] The file ' . $id_sanitized . ' does not exist ' );
 			return false;
 		}
 
@@ -224,11 +224,11 @@ final class Cache_Files_Management {
 
 				$array_all_items = $refresh_ids[ $movie_or_people ];
 				set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items, $days_next_start );
-				$this->logger->log?->info( '[Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
+				$this->logger->info( '[Cache_Tools] Set transient lum_cache_cron_refresh_store_' . $movie_or_people );
 
 				// No 'lum_cache_cron_refresh_time_started' transiant exists but array items does, so remove movie and people transiants.
 			} elseif ( ! isset( $lumiere_next_cron_run ) || $lumiere_next_cron_run === false ) {
-				$this->logger->log?->info( '[Cache_Tools] A new batch of refresh is needed, recreating the list of ' . $movie_or_people );
+				$this->logger->info( '[Cache_Tools] A new batch of refresh is needed, recreating the list of ' . $movie_or_people );
 				set_transient( 'lum_cache_cron_refresh_time_started', $days_next_start + time(), $days_next_start );
 				delete_transient( 'lum_cache_cron_refresh_store_movie' );
 				delete_transient( 'lum_cache_cron_refresh_store_people' );
@@ -238,12 +238,12 @@ final class Cache_Files_Management {
 				// Everything has already been processed, exit.
 			} elseif ( $array_all_items !== false && count( $array_all_items ) === 0 ) {
 
-				$this->logger->log?->debug( '[Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start on the ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), intval( $lumiere_next_cron_run ) ) );
+				$this->logger->debug( '[Cache_Tools] Already processed all rows for *' . $movie_or_people . '*, a new batch of refresh will start on the ' . (string) wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), intval( $lumiere_next_cron_run ) ) );
 				continue;
 			}
 
 			if ( $array_all_items === false ) {
-				$this->logger->log?->info( '[Cache_Tools] Could not retrieve any file to refresh' );
+				$this->logger->info( '[Cache_Tools] Could not retrieve any file to refresh' );
 				continue;
 			}
 
@@ -254,7 +254,7 @@ final class Cache_Files_Management {
 				// Reset PHP's execution timer back to 30s before each item process
 				$this->reset_time_limit( 30 );
 
-				$this->logger->log?->debug( '[Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . strval( count( $array_all_items ) ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
+				$this->logger->debug( '[Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . strval( count( $array_all_items ) ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
 
 				// Refresh (delete and get it again) the item.
 				$this->refresh_file( $movie_or_people, $array_all_items[ $i ] );
@@ -503,10 +503,10 @@ final class Cache_Files_Management {
 			}
 		}
 		if ( count( $files ) > 0 ) {
-			$this->logger->log?->debug( '[Cache_Tools] Oversized Cache cron deleted the following files: ' . implode( "\n-", $files ) );
+			$this->logger->debug( '[Cache_Tools] Oversized Cache cron deleted the following files: ' . implode( "\n-", $files ) );
 			return;
 		}
-		$this->logger->log?->debug( '[Cache_Tools] Oversized Cache cron did not find any file to delete' );
+		$this->logger->debug( '[Cache_Tools] Oversized Cache cron did not find any file to delete' );
 	}
 
 	/**
@@ -580,7 +580,7 @@ final class Cache_Files_Management {
 
 		// If cache is not active, exit.
 		if ( $options_cache['imdbusecache'] !== '1' ) {
-			$this->logger->log?->debug( '[config][cachefolder] Cache is inactive, folders are not checked.' );
+			$this->logger->debug( '[config][cachefolder] Cache is inactive, folders are not checked.' );
 			return false;
 		}
 
@@ -588,7 +588,7 @@ final class Cache_Files_Management {
 
 		// Everything is fine, exit.
 		if ( $wp_filesystem->is_writable( $lumiere_folder_cache ) && $wp_filesystem->is_writable( $lumiere_folder_cache_images ) ) {
-			$this->logger->log?->debug( '[config][cachefolder] Cache folders exist and permissions are ok.' );
+			$this->logger->debug( '[config][cachefolder] Cache folders exist and permissions are ok.' );
 			return true;
 		}
 
@@ -602,7 +602,7 @@ final class Cache_Files_Management {
 			$wp_filesystem->chmod( $lumiere_folder_cache, 0777 );
 			$wp_filesystem->chmod( $lumiere_folder_cache_images, 0777 );
 
-			$this->logger->log?->debug( '[config][cachefolder] Tried to change cache folder permissions.' );
+			$this->logger->debug( '[config][cachefolder] Tried to change cache folder permissions.' );
 		}
 		// Exit if cache is now created and writable.
 		if (
@@ -611,11 +611,11 @@ final class Cache_Files_Management {
 			&& $wp_filesystem->is_writable( $lumiere_folder_cache ) === true
 			&& $wp_filesystem->is_writable( $lumiere_folder_cache_images ) === true
 		) {
-			$this->logger->log?->debug( '[config][cachefolder] Cache folders have been created.' );
+			$this->logger->debug( '[config][cachefolder] Cache folders have been created.' );
 			return true;
 		}
 
-		$this->logger->log?->debug( '[config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
+		$this->logger->debug( '[config][cachefolder] The cache folder located at ' . $lumiere_folder_cache . ' is not writable, creating an alternative cache ' );
 
 		$lumiere_alt_folder_cache = LUMIERE_WP_PATH . 'cache';
 		$lumiere_alt_folder_cache_images = $lumiere_alt_folder_cache . '/images';
@@ -635,11 +635,11 @@ final class Cache_Files_Management {
 			$options_cache['imdbcachedir_partial'] = $lumiere_alt_folder_cache_partial;
 			update_option( Get_Options::get_cache_tablename(), $options_cache );
 
-			$this->logger->log?->debug( "[config][cachefolder] Alternative cache folder $lumiere_folder_cache created." );
+			$this->logger->debug( "[config][cachefolder] Alternative cache folder $lumiere_folder_cache created." );
 			return true;
 		}
 
-		$this->logger->log?->error( '[config][cachefolder] Cannot create either a regular or alternative cache folder.' );
+		$this->logger->error( '[config][cachefolder] Cannot create either a regular or alternative cache folder.' );
 		return false;
 	}
 

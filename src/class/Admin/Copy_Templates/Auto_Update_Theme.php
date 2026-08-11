@@ -74,7 +74,7 @@ final class Auto_Update_Theme extends Copy_Theme {
 	private function update_new_templates( string $item, ?string $origin_file, ?string $destination_file ): void {
 
 		if ( ! isset( $destination_file ) || ! isset( $origin_file ) ) {
-			$this->logger->log?->error( '[Auto_update_Theme] Missing origin or destination file, aborting' );
+			$this->logger->error( '[Auto_update_Theme] Missing origin or destination file, aborting' );
 			return;
 		}
 
@@ -89,10 +89,10 @@ final class Auto_Update_Theme extends Copy_Theme {
 		// If 'TemplateAutomaticUpdate' is found, auto update
 		if ( $this->detect_new_theme->is_update_on( $origin_file ) === true ) {
 			parent::copy_theme_template( $origin_file, $destination_file, $item );
-			$this->logger->log?->debug( '[Auto_update_Theme] Template file ' . $destination_file . ' has been updated to the latest version' );
+			$this->logger->debug( '[Auto_update_Theme] Template file ' . $destination_file . ' has been updated to the latest version' );
 			return;
 		}
-		$this->logger->log?->info( '[Auto_update_Theme] Template file ' . $destination_file . ' was not updated, probably TemplateAutomaticUpdate was removed.' );
+		$this->logger->info( '[Auto_update_Theme] Template file ' . $destination_file . ' was not updated, probably TemplateAutomaticUpdate was removed.' );
 	}
 
 	/**

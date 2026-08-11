@@ -58,7 +58,7 @@ final class Lumiere_Update_File_25 extends \Lumiere\Updates {
 		 * Update the number of updates already processed in Lumière options.
 		 * This is executed at the beggining, so if there is an issue, it's not repeated
 		 */
-		$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
+		$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
 		$nb_of_updates = ( intval( $this->settings->get_admin_option( 'imdbHowManyUpdates' ) ) + 1 );
 		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
@@ -75,10 +75,10 @@ final class Lumiere_Update_File_25 extends \Lumiere\Updates {
 			$new_lang = str_replace( '-', '_', $data_lang );
 			$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdblanguage', $new_lang );
 			$text = 'Lumière option imdblanguage contained a hyphen "-" and was successfully converted to ' . $new_lang;
-			$this->logger->log?->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
 			$text = 'Lumière option imdblanguage was clean, no changes made';
-			$this->logger->log?->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/** ------------------------- Editing part (end) --------------

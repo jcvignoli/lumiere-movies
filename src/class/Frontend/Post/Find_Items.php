@@ -68,8 +68,8 @@ final class Find_Items extends Front_Parser {
 
 		// Using singleton to display only once.
 		if ( $this->movie_run_once === false ) {
-			$this->logger->log?->debug( '[Front_Parser] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
-			$this->logger->log?->debug( '[Front_Parser] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+			$this->logger->debug( '[Front_Parser] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
+			$this->logger->debug( '[Front_Parser] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 			$this->movie_run_once = true;
 		}
 
@@ -78,39 +78,39 @@ final class Find_Items extends Front_Parser {
 			// A movie's ID was passed, which is a numeric-string.
 			if ( isset( $films_array[ $i ]['bymid'] ) && ctype_digit( $films_array[ $i ]['bymid'] ) ) {
 				$movies_found[] = esc_html( strval( $films_array[ $i ]['bymid'] ) );
-				$this->logger->log?->debug( '[Find_Items] Storing IMDb ID: *' . $movies_found[0] . '*' );
+				$this->logger->debug( '[Find_Items] Storing IMDb ID: *' . $movies_found[0] . '*' );
 				continue;
 				// A movie's title was provided
 			} elseif ( isset( $films_array[ $i ]['byname'] ) ) {
 				$movie_name = strtolower( $films_array[ $i ]['byname'] );
-				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" title provided: ' . esc_html( $movie_name ) );
+				$this->logger->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" title provided: ' . esc_html( $movie_name ) );
 				// If ['byname'] is not provided, assume a movie's name was in the array (string in the loop)
 			} elseif ( is_string( $films_array[ $i ] ) ) {
 				$movie_name = strtolower( $films_array[ $i ] );
-				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" title provided: ' . esc_html( $movie_name ) );
+				$this->logger->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" title provided: ' . esc_html( $movie_name ) );
 			} else {
-				$this->logger->log?->debug( '[Find_Items] Invalid IMDb ID or title provided, aborting' );
+				$this->logger->debug( '[Find_Items] Invalid IMDb ID or title provided, aborting' );
 				continue;
 			}
 
-			$this->logger->log?->debug( '[Find_Items] Searching ' . esc_html( $movie_name ) );
+			$this->logger->debug( '[Find_Items] Searching ' . esc_html( $movie_name ) );
 
 			/** @var \Lumiere\Plugins\Manual\Imdbphp $imdb_plugin */
 			$imdb_plugin = $this->plugins_classes_active['imdbphp'];
 			$results = strlen( $movie_name ) > 0 ? $imdb_plugin->search_movie_title(
 				$movie_name,
-				$this->logger->log,
+				$this->logger,
 			) : null;
 
 			// No results were found in imdbphp query.
 			if ( ! isset( $results[0] ) ) {
-				$this->logger->log?->info( '[Find_Items] No ' . ucfirst( esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . ' found for ' . esc_html( $movie_name ) . ', aborting.' );
+				$this->logger->info( '[Find_Items] No ' . ucfirst( esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . ' found for ' . esc_html( $movie_name ) . ', aborting.' );
 				continue;
 			}
 
 			// Get the first result from the search
 			$movies_found[] = esc_html( $results[0]['imdbid'] );
-			$this->logger->log?->debug( '[Find_Items] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
+			$this->logger->debug( '[Find_Items] IMDb ID found: *' . $results[0]['imdbid'] . '*' );
 
 		}
 		return $movies_found;
@@ -133,8 +133,8 @@ final class Find_Items extends Front_Parser {
 
 		// Using singleton to display only once.
 		if ( $this->movie_run_once === false ) {
-			$this->logger->log?->debug( '[Find_Items] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
-			$this->logger->log?->debug( '[Find_Items] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+			$this->logger->debug( '[Find_Items] Using the link maker class: ' . str_replace( 'Lumiere\Link_Maker\\', '', get_class( $this->link_maker ) ) );
+			$this->logger->debug( '[Find_Items] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 			$this->movie_run_once = true;
 		}
 
@@ -143,39 +143,39 @@ final class Find_Items extends Front_Parser {
 			// A movie's ID was passed, which is a numeric-string.
 			if ( isset( $persons_array[ $i ]['bymid'] ) && ctype_digit( $persons_array[ $i ]['bymid'] ) ) {
 				$names_found[] = esc_html( strval( $persons_array[ $i ]['bymid'] ) );
-				$this->logger->log?->debug( '[Find_Items] Storing Name IMDb ID: *' . $names_found[0] . '*' );
+				$this->logger->debug( '[Find_Items] Storing Name IMDb ID: *' . $names_found[0] . '*' );
 				continue;
 				// A person's name was provided
 			} elseif ( isset( $persons_array[ $i ]['byname'] ) ) {
 				$name_nm = strtolower( $persons_array[ $i ]['byname'] );
-				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" name provided: ' . esc_html( $name_nm ) );
+				$this->logger->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" name provided: ' . esc_html( $name_nm ) );
 				// If ['byname'] is not provided, assume a person's name was in the array (string in the loop)
 			} elseif ( is_string( $persons_array[ $i ] ) ) {
 				$name_nm = strtolower( $persons_array[ $i ] );
-				$this->logger->log?->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" name provided: ' . esc_html( $name_nm ) );
+				$this->logger->debug( '[Find_Items] ' . ucfirst( 'The following "' . esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . '" name provided: ' . esc_html( $name_nm ) );
 			} else {
-				$this->logger->log?->debug( '[Find_Items] Invalid IMDb ID or name provided, aborting' );
+				$this->logger->debug( '[Find_Items] Invalid IMDb ID or name provided, aborting' );
 				continue;
 			}
 
-			$this->logger->log?->debug( '[Find_Items] Searching ' . esc_html( $name_nm ) );
+			$this->logger->debug( '[Find_Items] Searching ' . esc_html( $name_nm ) );
 
 			/** @var \Lumiere\Plugins\Manual\Imdbphp $imdb_plugin */
 			$imdb_plugin = $this->plugins_classes_active['imdbphp'];
 			$results = strlen( $name_nm ) > 0 ? $imdb_plugin->search_person_name(
 				$name_nm,
-				$this->logger->log,
+				$this->logger,
 			) : null;
 
 			// No results were found in imdbphp query.
 			if ( ! isset( $results[0] ) ) {
-				$this->logger->log?->info( '[Find_Items] No ' . ucfirst( esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . ' found for ' . esc_html( $name_nm ) . ', aborting.' );
+				$this->logger->info( '[Find_Items] No ' . ucfirst( esc_html( $this->settings->get_admin_option( 'imdbseriemovies' ) ) ) . ' found for ' . esc_html( $name_nm ) . ', aborting.' );
 				continue;
 			}
 
 			// Get the first result from the search
 			$names_found[] = esc_html( $results[0]['id'] );
-			$this->logger->log?->debug( '[Find_Items] IMDb ID found: *' . $results[0]['id'] . '*' );
+			$this->logger->debug( '[Find_Items] IMDb ID found: *' . $results[0]['id'] . '*' );
 		}
 		return $names_found;
 	}

@@ -59,7 +59,7 @@ final class Movie_Factory extends Front_Parser {
 		// Find the Title based on $mid_premier_resultat.
 		$movie_object = $imdb_plugin->get_title_class(
 			esc_html( $mid_premier_resultat ),
-			$this->logger->log,
+			$this->logger,
 		);
 
 		foreach ( $this->settings->get_movie_option( 'imdbwidgetorder' ) as $data_detail => $order ) {

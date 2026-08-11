@@ -17,34 +17,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Enums\Popup_Type;
-use Lumiere\Plugins\Logger;
-use Lumiere\Tools\Data;
 
 /**
  * Frontend trait
- * Popups, movie, widget and taxonomy use this trait
- * Allow to use the logger, function utilities, and settings
+ * Allow to use function utilities, and settings
+ * @since 4.8.2 Removed Logger and start_logger() method, should be instanciate in each class
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
  * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Frontend\Link_Maker\Link_Factory
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 trait Main {
-
-	/**
-	 * Logging
-	 */
-	public ?Logger $logger;
-
-	/**
-	 * Start logger
-	 *
-	 * @param null|string $logger_name Title for the logger output
-	 */
-	public function start_logger( ?string $logger_name = null ): void {
-		// Start Logger class, if no name was passed build it with method get_current_classname().
-		$this->logger = new Logger( $logger_name ?? Data::get_current_classname( __CLASS__ ) );
-	}
 
 	/**
 	 * Are we currently on an AMP URL?

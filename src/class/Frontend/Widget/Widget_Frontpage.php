@@ -113,7 +113,7 @@ final class Widget_Frontpage {
 
 		// Exit it's home, frontpage, 404, attachment, etc (must allow people with custom posts to display the widget)
 		if ( $this->is_forbidden_areas() === true ) {
-			$this->logger->log?->debug( '[Widget_Frontpage] This is a forbidden area for displaying the widget, process stopped.' );
+			$this->logger->debug( '[Widget_Frontpage] This is a forbidden area for displaying the widget, process stopped.' );
 			return '';
 		}
 
@@ -123,16 +123,16 @@ final class Widget_Frontpage {
 		$post_id = get_the_ID();
 
 		if ( is_int( $post_id ) === false || $post_id === 0 ) {
-			$this->logger->log?->debug( '[Widget_Frontpage] Wrong post ID' );
+			$this->logger->debug( '[Widget_Frontpage] Wrong post ID' );
 			return '';
 		}
 
 		// Log what widget type is in use.
 		if ( Widget_Selection::lumiere_block_widget_isactive( Widget_Selection::BLOCK_WIDGET_NAME ) === true ) {
 			// Post 5.8 WordPress.
-			$this->logger->log?->debug( '[Widget_Frontpage] Block-based widget found' );
+			$this->logger->debug( '[Widget_Frontpage] Block-based widget found' );
 		} elseif ( is_active_widget( false, false, Widget_Selection::WIDGET_NAME, false ) !== false ) {
-			$this->logger->log?->debug( '[Widget_Frontpage] Pre-5.8 WordPress widget found' );
+			$this->logger->debug( '[Widget_Frontpage] Pre-5.8 WordPress widget found' );
 		}
 
 		/**
@@ -145,14 +145,14 @@ final class Widget_Frontpage {
 			&& ( $post_meta_autotitle_value === '0' || strlen( $post_meta_autotitle_value ) === 0 )
 		) {
 			$movies_array[]['byname'] = esc_html( get_the_title( $post_id ) );
-			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget activated, using the post title ' . esc_html( get_the_title( $post_id ) ) . ' for querying' );
+			$this->logger->debug( '[Widget_Frontpage] Auto title widget activated, using the post title ' . esc_html( get_the_title( $post_id ) ) . ' for querying' );
 
 			// the post-based selection for auto title widget is turned off
 		} elseif (
 			$this->settings->get_admin_option( 'imdbautopostwidget' ) === '1'
 			&& $post_meta_autotitle_value === '1'
 		) {
-			$this->logger->log?->debug( '[Widget_Frontpage] Auto title widget was specifically deactivated for this post' );
+			$this->logger->debug( '[Widget_Frontpage] Auto title widget was specifically deactivated for this post' );
 		}
 
 		// Check if a post ID is available add it.
@@ -168,7 +168,7 @@ final class Widget_Frontpage {
 
 		// Exit if array is empty (meaning that no metadata was found and auto title option is disabled)
 		if ( count( $movies_array_cleaned ) === 0 ) {
-			$this->logger->log?->debug( '[Widget_Frontpage] Neither movie title nor id were passed to be queried for this widget, exit' );
+			$this->logger->debug( '[Widget_Frontpage] Neither movie title nor id were passed to be queried for this widget, exit' );
 			return '';
 		}
 
@@ -198,7 +198,7 @@ final class Widget_Frontpage {
 						continue;
 					}
 					$movies_array[ $type[0] ][ $type[1] ] = esc_html( $value );
-					$this->logger->log?->debug( "[Widget_Frontpage] Custom field $type[1] found, using \"$value\" for querying" );
+					$this->logger->debug( "[Widget_Frontpage] Custom field $type[1] found, using \"$value\" for querying" );
 				}
 			}
 		}

@@ -16,14 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Main;
+use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
 use Lumiere\Enums\Popup_Type;
 use Lumiere\Frontend\Layout\Output_Popup;
 use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
-use Lumiere\Tools\Validate_Get;
-use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings_Service;
+use Lumiere\Frontend\Main;
 use Lumiere\Plugins\Plugins_Start;
+use Lumiere\Plugins\Logger;
+use Lumiere\Tools\Validate_Get;
 
 /**
  * Head for popups
@@ -59,10 +60,8 @@ class Head_Popups {
 		protected Settings_Service $settings,
 		protected Interface_Linkmaker $link_maker,
 		protected Output_Popup $output_popup_class = new Output_Popup(),
+		protected Logger $logger = new Logger(),
 	) {
-
-		// In Trait Main.
-		$this->start_logger();
 
 		// Is a popup or exit.
 		if ( $this->is_popup_page() === false ) { // In Trait Main.
@@ -177,7 +176,7 @@ class Head_Popups {
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
-			$person = $this->plugins_classes_active['imdbphp']->get_name_class( $sanitized_mid, $this->logger?->log );
+			$person = $this->plugins_classes_active['imdbphp']->get_name_class( $sanitized_mid, $this->logger );
 			$name = $person->name();
 			if ( $name !== null && strlen( $name ) > 0 ) {
 				echo "\n" . '<meta property="article:tag" content="' . esc_attr( $name ) . '" />';
@@ -186,6 +185,6 @@ class Head_Popups {
 
 		echo "\n\t\t" . '<!-- /Lumière! Movies -->' . "\n";
 
-		$this->logger?->log?->debug( '[Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
+		$this->logger->debug( '[Head_Popups] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_classes_active ) ) . ']' );
 	}
 }

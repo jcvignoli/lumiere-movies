@@ -142,9 +142,9 @@ final class Core extends \Lumiere\Hooks_Updates {
 			) {
 				$this->maybe_create_log( $imdb_admin_values ); // in Files trait.
 			}
-			$logger->log?->info( '[coreClass][activation] Lumière options and log successfully created.' );
+			$logger->info( '[coreClass][activation] Lumière options and log successfully created.' );
 		} else {
-			$logger->log?->info( '[coreClass][activation] Lumière options already exists.' );
+			$logger->info( '[coreClass][activation] Lumière options already exists.' );
 		}
 
 		/* Create the cache folders. */
@@ -153,17 +153,17 @@ final class Core extends \Lumiere\Hooks_Updates {
 		$cache_mngmt_class = new Cache_Files_Management();
 
 		if ( $cache_mngmt_class->lumiere_create_cache() === true ) {
-			$logger->log?->info( '[coreClass][activation] Lumière cache successfully created.' );
+			$logger->info( '[coreClass][activation] Lumière cache successfully created.' );
 		} else {
-			$logger->log?->info( '[coreClass][activation] Lumière cache could not be created (check permissions?)' );
+			$logger->info( '[coreClass][activation] Lumière cache could not be created (check permissions?)' );
 		}
 
 		// Set up WP Cron exec once if it doesn't exist.
 		if ( parent::lum_setup_cron_exec_once( $logger, 'activation' ) === false ) {
-			$logger->log?->error( '[coreClass][activation] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
+			$logger->error( '[coreClass][activation] Cron lumiere_exec_once_update was not set up (maybe an issue during activation?)' );
 		}
 
-		$logger->log?->debug( '[coreClass][activation] Lumière plugin activated.' );
+		$logger->debug( '[coreClass][activation] Lumière plugin activated.' );
 	}
 
 	/**
@@ -180,7 +180,7 @@ final class Core extends \Lumiere\Hooks_Updates {
 		$list_crons_available = [ 'lumiere_exec_once_update', 'lumiere_cron_deletecacheoversized', 'lumiere_cron_autofreshcache' ];
 		foreach ( $list_crons_available as $cron_installed ) {
 			wp_clear_scheduled_hook( $cron_installed );
-			$logger->log?->info( '[coreClass][deactivation] Cron ' . $cron_installed . ' removed' );
+			$logger->info( '[coreClass][deactivation] Cron ' . $cron_installed . ' removed' );
 		}
 
 		// Reset options related to crons, since we removed them.
@@ -189,7 +189,7 @@ final class Core extends \Lumiere\Hooks_Updates {
 		$current_cache['imdbcachekeepsizeunder'] = '0';
 		$this->settings->update_cache_options( $current_cache );
 
-		$logger->log?->info( '[coreClass][deactivation] Lumière deactivated' );
+		$logger->info( '[coreClass][deactivation] Lumière deactivated' );
 	}
 
 	/**

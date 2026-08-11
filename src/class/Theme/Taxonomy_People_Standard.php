@@ -4,7 +4,7 @@
  * You can replace the occurences of the word s_tandar_d (without the underscores), rename this file, and then copy it in your theme folder
  * Or easier: just use Lumière admin interface to do it automatically
  *
- * Version: 3.15
+ * Version: 3.16
  *
  * TemplateAutomaticUpdate Remove this line if you do not want this template to be automatically updated when a new template version is released
  * @package       lumieremovies
@@ -18,18 +18,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Vendor\Imdb\Name;
+use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Config\Get_Options;
+use Lumiere\Config\Settings_Service;
+use Lumiere\Frontend\Layout\Output;
+use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
+use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Frontend\Main;
 use Lumiere\Frontend\Module\Person\Person_Bio;
 use Lumiere\Frontend\Module\Person\Person_Born;
 use Lumiere\Frontend\Module\Person\Person_Died;
-use Lumiere\Frontend\Layout\Output;
-use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
-use Lumiere\Frontend\Link_Maker\Link_Factory;
-use Lumiere\Config\Get_Options_Movie;
-use Lumiere\Config\Get_Options;
-use Lumiere\Config\Settings_Service;
+use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Plugins_Start;
+
+// Vendor+WP
+use Lumiere\Vendor\Imdb\Name;
 use WP_Query;
 
 /**
@@ -96,7 +99,8 @@ final class Taxonomy_People_Standard {
 	public function __construct(
 		private readonly Plugins_Start $plugins_start = new Plugins_Start( [ 'imdbphp' ] ),
 		private readonly Output $output_class = new Output(),
-		private readonly Settings_Service $settings = new Settings_Service()
+		private readonly Settings_Service $settings = new Settings_Service(),
+		private readonly Logger $logger = new Logger(),
 	) {
 		// Run on taxonomy pages only.
 		if ( is_tax() === false ) {
@@ -108,9 +112,6 @@ final class Taxonomy_People_Standard {
 		$this->person_born_class = new Person_Born( settings: $this->settings, link_maker: $this->link_maker );
 		$this->person_died_class = new Person_Died( settings: $this->settings, link_maker: $this->link_maker );
 		$this->person_bio_class = new Person_Bio( settings: $this->settings, link_maker: $this->link_maker );
-
-		// Start logger in Frontend trait.
-		$this->start_logger();
 
 		// Full taxonomy title.
 		$this->taxonomy_title = esc_html( $this->settings->get_admin_option( 'imdburlstringtaxo' ) ) . 'standard';
@@ -250,8 +251,8 @@ final class Taxonomy_People_Standard {
 
 		get_header();
 
-		$this->logger->log?->debug( '[Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log?->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->debug( '[Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -289,8 +290,8 @@ final class Taxonomy_People_Standard {
 		<?php block_header_area(); ?>
 		</header>
 		<?php
-		$this->logger->log?->debug( '[Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->log?->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->debug( '[Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
+		$this->logger->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>
