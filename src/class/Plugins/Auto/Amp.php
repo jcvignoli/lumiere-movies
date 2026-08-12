@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Frontend\Main;
+use Lumiere\Plugins\Plugins_Interface;
 
 /**
  * Plugin to ensure Lumiere compatibility with AMP plugin
@@ -26,7 +27,7 @@ use Lumiere\Frontend\Main;
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
-final class Amp {
+final class Amp implements Plugins_Interface {
 
 	/**
 	 * Traits
@@ -34,9 +35,19 @@ final class Amp {
 	use Main;
 
 	/**
-	 * Constructor
+	 * Determine whether AMP is activated
+	 *
+	 * @return bool true if AMP is active
 	 */
-	final public function __construct() {
+	public static function is_active(): bool {
+		return ( new self() )->is_amp_page(); // is_amp_page() in Trait Main.
+	}
+
+	/**
+	 * Start the plugin
+	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
+	 */
+	public function init( array $active_plugins ): void {
 
 		// Remove conflicting assets.
 		add_action( 'wp_enqueue_scripts', [ $this, 'remove_breaking_amp_assets' ] );

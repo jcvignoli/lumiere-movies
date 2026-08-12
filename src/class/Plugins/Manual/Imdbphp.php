@@ -17,6 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Plugins\Plugins_Interface;
+
+// Vendor
 use Lumiere\Vendor\Imdb\Config as Imdbphp_Config;
 use Lumiere\Vendor\Imdb\Name;
 use Lumiere\Vendor\Imdb\NameSearch;
@@ -34,7 +37,7 @@ use Lumiere\Vendor\Psr\Log\LoggerInterface;
  * @phpstan-type NAMESEARCH_RETURNSEARCH array<array-key, array{id: string, name: string, titleSearchObject: \Lumiere\Vendor\Imdb\Name}>
  *
  */
-final class Imdbphp extends Imdbphp_Config {
+final class Imdbphp extends Imdbphp_Config implements Plugins_Interface {
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Can't change snakeCase properties defined in an external class
 
 	/**
@@ -71,6 +74,22 @@ final class Imdbphp extends Imdbphp_Config {
 		$this->cacheConvertZip = $this->cacheUse; // Not an option in Lumière!, not in admin interface, always true if using cache
 		$this->curloptTimeout = (int) $imdb_admin_values['imdbdelayimdbrequest'];
 	}
+
+	/**
+	 * Determine whether Imdbphp is activated
+	 *
+	 * @return bool true if Imdbphp is active
+	 */
+	public static function is_active(): bool {
+		return true;
+	}
+
+	/**
+	 * Start the plugin
+	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
+	 */
+	public function init( array $active_plugins ): void {}
+
 
 	/**
 	 * Force the cache activation

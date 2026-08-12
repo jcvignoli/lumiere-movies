@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Config\Settings_Service;
+use Lumiere\Plugins\Plugins_Interface;
 
 /**
  * Plugin to ensure Lumiere compatibility with OceanWP plugin
@@ -26,7 +27,7 @@ use Lumiere\Config\Settings_Service;
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
-final class Oceanwp {
+final class Oceanwp implements Plugins_Interface {
 
 	/**
 	 * URL to css assets
@@ -44,10 +45,24 @@ final class Oceanwp {
 	final public function __construct(
 		private Settings_Service $settings = new Settings_Service()
 	) {
-
-		// Build the css URL.
 		$this->assets_css_url = LUMIERE_WP_URL . 'assets/css';
 		$this->assets_css_path = LUMIERE_WP_PATH . 'assets/css';
+	}
+
+	/**
+	 * Determine whether OceanWP is activated
+	 *
+	 * @return bool true if OceanWP is active
+	 */
+	public static function is_active(): bool {
+		return class_exists( 'OCEANWP_Theme_Class' ) && defined( 'OCEANWP_THEME_DIR' );
+	}
+
+	/**
+	 * Start the plugin
+	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
+	 */
+	public function init( array $active_plugins ): void {
 
 		// Remove conflicting assets.
 		add_action( 'wp_enqueue_scripts', [ $this, 'remove_oceanwp_assets' ] );

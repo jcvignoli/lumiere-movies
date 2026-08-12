@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Frontend\Main;
+use Lumiere\Plugins\Plugins_Interface;
 
 /**
  * Plugin to ensure Lumiere compatibility with AIOSEO plugin
@@ -26,7 +27,7 @@ use Lumiere\Frontend\Main;
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
-final class Aioseo {
+final class Aioseo implements Plugins_Interface {
 
 	/**
 	 * Traits
@@ -34,9 +35,19 @@ final class Aioseo {
 	use Main;
 
 	/**
-	 * Constructor
+	 * Determine whether AIOSEO is activated
+	 *
+	 * @return bool true if AIOSEO is active
 	 */
-	final public function __construct() {
+	public static function is_active(): bool {
+		return defined( 'AIOSEO_PHP_VERSION_DIR' );
+	}
+
+	/**
+	 * Start the plugin
+	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
+	 */
+	public function init( array $active_plugins ): void {
 
 		// Disable AIOSEO plugin in Popup pages, no need to promote those pages.
 		if ( $this->is_popup_page() === true ) { // function in Main trait

@@ -160,7 +160,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 	 */
 	private function get_result( string $person_id ): Name {
 
-		$person_class = $this->plugins_classes_active['imdbphp']->get_name_class( $person_id, $this->logger );
+		$person_class = $this->imdb_plugin->get_name_class( $person_id, $this->logger );
 
 		// if neither film nor mid are set, throw a 404 error
 		if ( $person_class->name() === null ) {

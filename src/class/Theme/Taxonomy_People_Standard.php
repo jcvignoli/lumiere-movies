@@ -30,6 +30,7 @@ use Lumiere\Frontend\Module\Person\Person_Born;
 use Lumiere\Frontend\Module\Person\Person_Died;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Plugins_Start;
+use Lumiere\Plugins\Auto\Polylang;
 
 // Vendor+WP
 use Lumiere\Vendor\Imdb\Name;
@@ -125,9 +126,12 @@ final class Taxonomy_People_Standard {
 		 * Should allow to use AJAX in $_POST instead of $_GET
 		 * Not in use
 		 */
-		if ( $this->plugins_start->is_plugin_active( 'amp' ) === true && $this->plugins_start->is_plugin_active( 'polylang' ) === true ) { // Method in Trait Main.
-			/** @psalm-suppress InvalidArrayOffset (Cannot access value offset...value of 'polylang', expecting 'PLUGINS_ALL_KEYS') */
-			$class_polylang = $this->plugins_start->plugins_classes_active['polylang'];
+		if ( $this->plugins_start->is_plugin_active( 'amp' ) && $this->plugins_start->is_plugin_active( 'polylang' ) ) { // Method in Trait Main.
+			/** @var Polylang $imdb_plug */
+			$class_polylang = $this->plugins_start->get_plugin( 'polylang' );
+			if ( ! $class_polylang instanceof Polylang ) {
+				throw new \Exception( 'Plugin imdbphp was not loaded' );
+			}
 			add_action( 'wp_ajax_amp_comment_submit', fn(): mixed => $class_polylang->amp_form_submit() );
 			add_action( 'wp_ajax_nopriv_amp_comment_submit', fn(): mixed => $class_polylang->amp_form_submit() );
 		}
@@ -143,10 +147,14 @@ final class Taxonomy_People_Standard {
 		$get_title = sanitize_title( single_tag_title( '', false ) ?? '' );
 
 		// If we are in a WP taxonomy page, the info from imdbphp libraries.
-		/** @psalm-suppress InvalidArrayOffset (Cannot access value offset...value of 'polylang', expecting 'PLUGINS_ALL_KEYS') */
-		$results = $this->plugins_start->plugins_classes_active['imdbphp']->search_person_name( $get_title, $this->logger->log_null() ); // no log, breaks layout, executed too early.
+		/** @var \Lumiere\Plugins\Manual\Imdbphp|null $imdb_plug */
+		$imdb_plug = $this->plugins_start->get_plugin( 'imdbphp' ) ?? null;
+		if ( ! $imdb_plug instanceof \Lumiere\Plugins\Manual\Imdbphp ) {
+			throw new \Exception( 'Plugin imdbphp was not loaded' );
+		}
+		$results = $imdb_plug->search_person_name( $get_title, $this->logger->log_null() ); // no log, breaks layout, executed too early.
 		if ( array_key_exists( 0, $results ) ) {
-			return $this->plugins_start->plugins_classes_active['imdbphp']->get_name_class( esc_html( $results[0]['id'] ), $this->logger->log_null() ); // no log, breaks layout, executed too early. => search the class Name using the first result found earlier.
+			return $imdb_plug->get_name_class( esc_html( $results[0]['id'] ), $this->logger->log_null() ); // no log, breaks layout, executed too early. => search the class Name using the first result found earlier.
 		}
 		return null;
 	}
@@ -252,7 +260,7 @@ final class Taxonomy_People_Standard {
 		get_header();
 
 		$this->logger->debug( '[Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->get_active_plugins() ) ) . ']' );
 
 		echo wp_kses( $this->lum_taxo_display_content(), $kses_esc_html );
 
@@ -291,7 +299,7 @@ final class Taxonomy_People_Standard {
 		</header>
 		<?php
 		$this->logger->debug( '[Taxonomy_People_Standard] Using the link maker class: ' . get_class( $this->link_maker ) );
-		$this->logger->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->plugins_classes_active ) ) . ']' );
+		$this->logger->debug( '[Taxonomy_People_Standard] The following plugins compatible with Lumière! are in use: [' . join( ', ', array_keys( $this->plugins_start->get_active_plugins() ) ) . ']' );
 		echo wp_kses( $block_content, $kses_esc_html ); ?>
 		<footer class="wp-block-template-part site-footer">
 		<?php block_footer_area(); ?>

@@ -97,10 +97,10 @@ final class Find_Items extends Front_Parser {
 
 			/** @var \Lumiere\Plugins\Manual\Imdbphp $imdb_plugin */
 			$imdb_plugin = $this->plugins_classes_active['imdbphp'];
-			$results = strlen( $movie_name ) > 0 ? $imdb_plugin->search_movie_title(
-				$movie_name,
-				$this->logger,
-			) : null;
+			$results = strlen( $movie_name ) > 0
+				/** @phan-suppress-next-line PhanUndeclaredMethod */
+				? $imdb_plugin->search_movie_title( $movie_name, $this->logger )
+				: null;
 
 			// No results were found in imdbphp query.
 			if ( ! isset( $results[0] ) ) {
@@ -162,10 +162,10 @@ final class Find_Items extends Front_Parser {
 
 			/** @var \Lumiere\Plugins\Manual\Imdbphp $imdb_plugin */
 			$imdb_plugin = $this->plugins_classes_active['imdbphp'];
-			$results = strlen( $name_nm ) > 0 ? $imdb_plugin->search_person_name(
-				$name_nm,
-				$this->logger,
-			) : null;
+			$results = strlen( $name_nm ) > 0
+				/** @phan-suppress-next-line PhanUndeclaredMethod */
+				? $imdb_plugin->search_person_name( $name_nm, $this->logger )
+				: null;
 
 			// No results were found in imdbphp query.
 			if ( ! isset( $results[0] ) ) {

@@ -16,8 +16,9 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Post\Find_Items;
 use Lumiere\Config\Settings_Service;
+use Lumiere\Frontend\Post\Find_Items;
+use Lumiere\Plugins\Plugins_Interface;
 
 /**
  * Plugin to ensure Lumiere compatibility with IRP (Intelly Related Post) plugin
@@ -28,14 +29,29 @@ use Lumiere\Config\Settings_Service;
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  */
-final class Irp {
+final class Irp implements Plugins_Interface {
 
 	/**
 	 * Constructor
 	 */
 	final public function __construct(
 		private Settings_Service $settings = new Settings_Service()
-	) {
+	) {}
+
+	/**
+	 * Determine whether IRP is activated
+	 *
+	 * @return bool true if IRP is active
+	 */
+	public static function is_active(): bool {
+		return defined( 'IRP_PLUGIN_FILE' );
+	}
+
+	/**
+	 * Start the plugin
+	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
+	 */
+	public function init( array $active_plugins ): void {
 		// Disable IRP plugin in Lumiere pages, it breaks them
 		add_filter( 'the_content', [ $this, 'remove_irp_if_relevant' ], 11, 1 );
 	}

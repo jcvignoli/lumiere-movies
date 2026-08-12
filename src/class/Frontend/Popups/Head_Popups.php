@@ -24,6 +24,7 @@ use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Frontend\Main;
 use Lumiere\Plugins\Plugins_Start;
 use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Manual\Imdbphp;
 use Lumiere\Tools\Validate_Get;
 
 /**
@@ -33,10 +34,6 @@ use Lumiere\Tools\Validate_Get;
  *
  * @since 3.11 created
  * @since 4.3 Is parent class, bots and nonce validation moved from class Frontend to here
- *
- * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
 class Head_Popups {
 
@@ -48,10 +45,16 @@ class Head_Popups {
 	/**
 	 * Lumière plugins started
 	 *
-	 * @var array<string, object>
-	 * @phpstan-var array{'imdbphp': PLUGINS_MANUAL_CLASSES, PLUGINS_AUTO_KEYS: PLUGINS_AUTO_CLASSES}
+	 * @var array<string, \Lumiere\Plugins\Plugins_Interface>
 	 */
 	protected array $plugins_classes_active;
+
+	/**
+	 * Lumière plugins started
+	 *
+	 * @var \Lumiere\Plugins\Manual\Imdbphp
+	 */
+	protected readonly Imdbphp $imdb_plugin;
 
 	/**
 	 * Constructor
@@ -61,6 +64,7 @@ class Head_Popups {
 		protected Interface_Linkmaker $link_maker,
 		protected Output_Popup $output_popup_class = new Output_Popup(),
 		protected Logger $logger = new Logger(),
+		protected readonly Plugins_Start $plugins = new Plugins_Start( [ 'imdbphp' ] ),
 	) {
 
 		// Is a popup or exit.
@@ -71,13 +75,14 @@ class Head_Popups {
 		// Check nonce or exit. Nonce created in Implement_Methods class. Method in Trait Main.
 		$this->check_nonce_die( nonce_action: 'popup_nonce' );
 
-		/**
-		 * Get an array with all objects plugins
-		 * Always loads IMDBPHP plugin
-		 * @psalm-suppress InvalidPropertyAssignmentValue
-		 * @phpstan-ignore assign.propertyType (Array does not have offset 'imdbphp'. => it does, just called using it!)
-		 */
-		$this->plugins_classes_active = ( new Plugins_Start( [ 'imdbphp' ] ) )->plugins_classes_active;
+		$this->plugins_classes_active = $this->plugins->get_active_plugins();
+
+		/** @var \Lumiere\Plugins\Manual\Imdbphp|null $imdb_plug */
+		$imdb_plug = $this->plugins_classes_active['imdbphp'] ?? null;
+		if ( ! $imdb_plug instanceof Imdbphp ) {
+			throw new \Exception( 'Plugin imdbphp was not loaded' );
+		}
+		$this->imdb_plugin = $imdb_plug;
 
 		/**
 		 * Ban bots
@@ -127,7 +132,7 @@ class Head_Popups {
 	public function add_metas_popups(): void {
 
 		// Make sure we use cache. User may have decided not to use cache, but we need to accelerate the call.
-		$this->plugins_classes_active['imdbphp']->activate_cache();
+		$this->imdb_plugin->activate_cache();
 
 		$my_canon = '';
 		$sanitized_film = Validate_Get::sanitize_url( 'film' );
@@ -176,7 +181,7 @@ class Head_Popups {
 
 			echo "\n" . '<link rel="canonical" href="' . esc_url_raw( $my_canon ) . '" />';
 
-			$person = $this->plugins_classes_active['imdbphp']->get_name_class( $sanitized_mid, $this->logger );
+			$person = $this->imdb_plugin->get_name_class( $sanitized_mid, $this->logger );
 			$name = $person->name();
 			if ( $name !== null && strlen( $name ) > 0 ) {
 				echo "\n" . '<meta property="article:tag" content="' . esc_attr( $name ) . '" />';

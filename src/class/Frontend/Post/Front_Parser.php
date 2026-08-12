@@ -24,6 +24,7 @@ use Lumiere\Frontend\Layout\Output;
 use Lumiere\Frontend\Link_Maker\Link_Factory;
 use Lumiere\Plugins\Logger;
 use Lumiere\Plugins\Plugins_Start;
+use Lumiere\Plugins\Manual\Imdbphp;
 
 /**
  * Main class display items (Movie actor, movie source, etc)
@@ -32,12 +33,6 @@ use Lumiere\Plugins\Plugins_Start;
  * Plugins are loaded along with imdbphp
  *
  * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
- * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_ALL_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_AUTO_CLASSES from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_MANUAL_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_MANUAL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  * @phpstan-type MOVIE_QUERY array{bymid?: string, byname?: string}
  */
 class Front_Parser {
@@ -54,10 +49,16 @@ class Front_Parser {
 	/**
 	 * Lumière plugins started
 	 *
-	 * @var array<string, object>
-	 * @phpstan-var array<PLUGINS_ALL_KEYS, PLUGINS_ALL_CLASSES>
+	 * @var array<string, \Lumiere\Plugins\Plugins_Interface>
 	 */
 	protected readonly array $plugins_classes_active;
+
+	/**
+	 * Lumière plugins started
+	 *
+	 * @var \Lumiere\Plugins\Manual\Imdbphp
+	 */
+	protected readonly Imdbphp $imdb_plugin;
 
 	/**
 	 * Constructor
@@ -71,7 +72,14 @@ class Front_Parser {
 		// Get links property.
 		$this->link_maker = ( new Link_Factory( $this->settings ) )->select_link_maker();
 
-		$this->plugins_classes_active = $this->plugins->plugins_classes_active;
+		$this->plugins_classes_active = $this->plugins->get_active_plugins();
+
+		/** @var \Lumiere\Plugins\Manual\Imdbphp|null $imdb_plug */
+		$imdb_plug = $this->plugins_classes_active['imdbphp'] ?? null;
+		if ( ! $imdb_plug instanceof Imdbphp ) {
+			throw new \Exception( 'Plugin imdbphp was not loaded' );
+		}
+		$this->imdb_plugin = $imdb_plug;
 	}
 
 	/**
@@ -116,11 +124,9 @@ class Front_Parser {
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead to a PHP Fatal error
-		 * @var \Lumiere\Plugins\Auto\Amp $imdb_plugin
 		 */
-		$imdb_plugin = $this->plugins_classes_active['amp'];
-
-		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $imdb_plugin->is_amp_validating() === true ) {
+		$amp_plug = $this->plugins->is_plugin_active( 'amp' ) ? $this->plugins_classes_active['amp'] : null;
+		if ( $amp_plug instanceof \Lumiere\Plugins\Auto\Amp && $amp_plug->is_amp_validating() ) {
 			$this->logger->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}
@@ -159,10 +165,9 @@ class Front_Parser {
 		/**
 		 * If it is an AMP validation test, exit
 		 * Create much cache and may lead to a PHP Fatal error
-		 * @var \Lumiere\Plugins\Auto\Amp $imdb_plugin
 		 */
-		$imdb_plugin = $this->plugins_classes_active['amp'];
-		if ( array_key_exists( 'amp', $this->plugins_classes_active ) && $imdb_plugin->is_amp_validating() === true ) {
+		$amp_plug = $this->plugins->is_plugin_active( 'amp' ) ? $this->plugins_classes_active['amp'] : null;
+		if ( $amp_plug instanceof \Lumiere\Plugins\Auto\Amp && $amp_plug->is_amp_validating() ) {
 			$this->logger->debug( '[Front_Parser] This is an AMP validation test, exiting to save server resources' );
 			return '';
 		}

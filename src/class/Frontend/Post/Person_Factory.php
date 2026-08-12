@@ -51,11 +51,8 @@ final class Person_Factory extends Front_Parser {
 
 		$outputfinal = '';
 
-		/** @var \Lumiere\Plugins\Manual\Imdbphp $imdb_plugin */
-		$imdb_plugin = $this->plugins_classes_active['imdbphp'];
-
 		// Find the Name based on $mid_premier_resultat.
-		$name_object = $imdb_plugin->get_name_class(
+		$name_object = $this->imdb_plugin->get_name_class(
 			esc_html( $mid_premier_resultat ),
 			$this->logger,
 		);

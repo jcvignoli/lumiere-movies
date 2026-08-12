@@ -16,7 +16,7 @@ if ( ! defined( 'WPINC' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
-use Lumiere\Frontend\Main;
+use Lumiere\Plugins\Plugins_Interface;
 
 /**
  * Detect which WP plugins are available in SUBFOLDER_PLUGINS_AUTO subfolder and are active
@@ -32,115 +32,67 @@ use Lumiere\Frontend\Main;
  * @since 3.7 Class created
  * @since 4.1 Use find_available_plugins() to find plugins in SUBFOLDER_PLUGINS_AUTO folder, and get_active_plugins() returns an array of plugins available
  * @since 4.3 Use trait Main from Frontend to detect if it's an AMP Page
+ * @since 4.8.2 rewrote the class, removed trait main
  */
 final class Plugins_Detect {
 
 	/**
-	 * Traits
-	 */
-	use Main;
-
-	/**
-	 * Subfolder name of the plugins that can be automatically started
-	 */
-	public const SUBFOLDER_PLUGINS_AUTO = 'Auto';
-	public const SUBFOLDER_PLUGINS_MANUAL = 'Manual';
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {}
-
-	/**
-	 * Return list of plugins available in "external" subfolder
-	 * Plugins located there are automatically checked
+	 * Registered manually triggered integration classes.
 	 *
-	 * @phpstan-return list<PLUGINS_AUTO_KEYS>
-	 * @return list<string>
+	 * @var array<string, class-string<Plugins_Interface>>
 	 */
-	private function find_available_auto_plugins(): array {
-		$available_plugins = [];
-		$find_files = glob( __DIR__ . '/' . self::SUBFOLDER_PLUGINS_AUTO . '/*' );
-		$files = $find_files !== false ? array_filter( $find_files, 'is_file' ) : [];
-
-		foreach ( $files as $file ) {
-			/** @phpstan-var PLUGINS_AUTO_KEYS $filename */
-			$filename = preg_replace( '~.*/(.+)\.php$~', '$1', $file );
-			$available_plugins[] = $filename;
-		}
-		return $available_plugins;
-	}
+	private const MANUAL_PLUGINS = [
+		'imdbphp' => Manual\Imdbphp::class,
+	];
 
 	/**
-	 * Return list of active plugins
-	 * Put "null" in associative array if the plugin is inactive, and then filters null plugins to return only active ones
-	 * Use the plugin located in "SUBFOLDER_PLUGINS_AUTO" subfolder to build the method names, then check if they are active
+	 * Explicit map of auto-detected integrations.
+	 * Eliminates runtime filesystem scanning via glob().
 	 *
-	 * @return array<string, class-string>
-	 * @phpstan-return array<PLUGINS_AUTO_KEYS, class-string<PLUGINS_AUTO_CLASSES>>
+	 * @var array<string, class-string<Plugins_Interface>>
+	 */
+	private const AUTO_PLUGINS = [
+		'amp'      => Auto\Amp::class,
+		'aioseo'   => Auto\Aioseo::class,
+		'irp'      => Auto\Irp::class,
+		'oceanwp'  => Auto\Oceanwp::class,
+		'polylang' => Auto\Polylang::class,
+	];
+
+	/**
+	 * Evaluate all automatic plugins and return class strings for those currently active.
 	 *
-	 * @see Plugins_Detect::find_available_plugins() that builds the list of available plugins
+	 * @return array<string, class-string<Plugins_Interface>>
 	 */
 	public function get_active_plugins(): array {
-		$plugins_class = [];
-		$available_plugins = $this->find_available_auto_plugins();
-		foreach ( $available_plugins as $plugin ) {
-			$method = $plugin . '_is_active';
-			if ( method_exists( $this, $method ) && $this->{$method}() === true ) {
-				$subfolder_plugins = ucfirst( self::SUBFOLDER_PLUGINS_AUTO ) . '\\';
-				/** @phpstan-var class-string<PLUGINS_AUTO_CLASSES> $namespace_class */
-				$namespace_class = __NAMESPACE__ . '\\' . $subfolder_plugins . ucfirst( $plugin );
-				$plugins_class[ $plugin ] = $namespace_class;
-				continue;
+		$active = [];
+
+		foreach ( self::AUTO_PLUGINS as $key => $class_name ) {
+			if ( class_exists( $class_name ) && $class_name::is_active() ) {
+				$active[ $key ] = $class_name;
 			}
-			$plugins_class[ $plugin ] = null;
 		}
 
-		return array_filter( $plugins_class, 'is_string' );
+		return $active;
 	}
 
 	/**
-	 * Determine whether OceanWP is activated
+	 * Evaluate specific manual keys and return class strings for those currently active.
 	 *
-	 * @return bool true if OceanWP them is active
+	 * @param array<string> $keys Key names to check, e.g., ['imdbphp']
+	 * @return array<string, class-string<Plugins_Interface>>
 	 */
-	private function oceanwp_is_active(): bool {
-		return class_exists( 'OCEANWP_Theme_Class' ) && defined( 'OCEANWP_THEME_DIR' );
-	}
+	public function get_manual_plugins( array $keys ): array {
+		$manual = [];
 
-	/**
-	 * Determine whether AMP is activated
-	 *
-	 * @return bool true if AMP plugin is active
-	 */
-	private function amp_is_active(): bool {
-		return $this->is_amp_page(); // is_amp_page() in Trait Main.
-	}
-
-	/**
-	 * Determine whether Polylang is activated
-	 *
-	 * @return bool true if Polylang plugin is active
-	 */
-	private function polylang_is_active(): bool {
-		return function_exists( 'pll_current_language' );
-	}
-
-	/**
-	 * Determine whether Aioseo is activated
-	 *
-	 * @return bool true if Polylang plugin is active
-	 */
-	private function aioseo_is_active(): bool {
-		return defined( 'AIOSEO_PHP_VERSION_DIR' );
-	}
-
-	/**
-	 * Determine whether IRP (Intelly Related Post) is activated
-	 *
-	 * @return bool true if IRP plugin is active
-	 */
-	private function irp_is_active(): bool {
-		return defined( 'IRP_PLUGIN_FILE' );
+		foreach ( $keys as $key ) {
+			if ( isset( self::MANUAL_PLUGINS[ $key ] ) ) {
+				$class_name = self::MANUAL_PLUGINS[ $key ];
+				if ( class_exists( $class_name ) && $class_name::is_active() ) {
+					$manual[ $key ] = $class_name;
+				}
+			}
+		}
+		return $manual;
 	}
 }

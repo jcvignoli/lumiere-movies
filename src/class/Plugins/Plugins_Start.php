@@ -17,6 +17,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 use Lumiere\Plugins\Plugins_Detect;
+use Lumiere\Plugins\Plugins_Interface;
 
 /**
  * Instanciate the plugins that are available and in active
@@ -30,91 +31,65 @@ use Lumiere\Plugins\Plugins_Detect;
  *
  * @see \Lumiere\Plugins\Plugins_Detect Detect the plugins available should be instanciated
  * @since 4.1
+ * @since 4.8.2 rewrote the class
  */
 final class Plugins_Start {
 
 	/**
-	 * Array of active classes
-	 * The active class can be used when they exist and called with this property
+	 * Active integration instances indexed by key.
 	 *
-	 * @var array<string, object>
-	 * @phpstan-var array<PLUGINS_ALL_KEYS, PLUGINS_ALL_CLASSES>
+	 * @var array<string, Plugins_Interface>
 	 */
-	public array $plugins_classes_active;
+	private array $active_plugins = [];
 
 	/**
 	 * Constructor
-	 * @param array<string>|null $extra_manual_classes Extra classes to add
-	 * @phpstan-param array<PLUGINS_MANUAL_KEYS>|null $extra_manual_classes
+	 * @param array<string>|null $extra_manual_keys Keys for manual integrations (e.g. ['imdbphp'])
 	 */
-	public function __construct( ?array $extra_manual_classes = null ) {
+	public function __construct( ?array $extra_manual_keys = null ) {
 
-		// Get the active plugins.
-		$plugins_unactive = ( new Plugins_Detect() )->get_active_plugins();
+		$detector = new Plugins_Detect();
 
-		// Add an extra class in properties.
-		if ( isset( $extra_manual_classes ) && count( $extra_manual_classes ) > 0 ) {
-			$plugins_unactive = array_merge( $plugins_unactive, $this->find_manual_plugins( $extra_manual_classes ) );
+		// Step 1: Detect automatic plugins that are active
+		$plugin_classes = $detector->get_active_plugins();
+
+		// Step 2: Detect requested manual plugins that are active and merge them
+		if ( isset( $extra_manual_keys ) && $extra_manual_keys !== [] ) {
+			$manual_classes = $detector->get_manual_plugins( $extra_manual_keys );
+			$plugin_classes = array_merge( $plugin_classes, $manual_classes );
 		}
 
-		$this->plugins_classes_active = $this->activate_plugins( $plugins_unactive );
+		// Step 3: Instantiate all active classes
+		foreach ( $plugin_classes as $key => $class_name ) {
+			$this->active_plugins[ $key ] = new $class_name();
+		}
+
+		// Step 4: Boot each instance, passing the complete list of active plugin class names
+		foreach ( $this->active_plugins as $instance ) {
+			$instance->init( $plugin_classes );
+		}
 	}
 
 	/**
-	 * Start the plugins and return those who got activated
-	 * Classes are located in Plugins_Detect::SUBFOLDER_PLUGINS_BIT
-	 *
-	 * @param array<string, class-string> $active_plugins
-	 * @phpstan-param array<PLUGINS_ALL_KEYS, class-string<PLUGINS_ALL_CLASSES>> $active_plugins
-	 * @phpstan-return array<PLUGINS_ALL_KEYS, PLUGINS_ALL_CLASSES>
+	 * Check if a specific integration is active.
 	 */
-	private function activate_plugins( array $active_plugins ): array {
-
-		$all_plugins_activated = [];
-
-		foreach ( $active_plugins as $plugin_name => $plugin_path ) {
-			$current_plugin_activated = new $plugin_path(); // Instanciate plugin classes.
-			$all_plugins_activated[ $plugin_name ] = $current_plugin_activated;
-			// Start get_active_plugins() method in class if the method exists. The method allows to get the active plugins as strings.
-			if ( method_exists( $current_plugin_activated, 'get_active_plugins' ) ) {
-				$current_plugin_activated->get_active_plugins( $active_plugins );
-				//add_action( 'init', fn() => $current_plugin_activated->get_active_plugins( $active_plugins ), 20 ); // 20 so make sure it's always executed.
-			}
-		}
-		/** @var array<PLUGINS_ALL_KEYS, PLUGINS_ALL_CLASSES> $all_plugins_activated */
-		return $all_plugins_activated;
+	public function is_plugin_active( string $key ): bool {
+		return isset( $this->active_plugins[ $key ] );
 	}
 
 	/**
-	 * Add extra manual classe(s)
-	 * They're not in SUBFOLDER_PLUGINS_AUTO, they're in SUBFOLDER_PLUGINS_MANUAL
-	 *
-	 * @param array<string> $extra_classes Extra classes to add, ie [ 'imdbphp' ]
-	 * @phpstan-param non-empty-array<PLUGINS_MANUAL_KEYS> $extra_classes
-	 * @return array<string, class-string>
-	 * @phpstan-return array<PLUGINS_MANUAL_KEYS, class-string<PLUGINS_MANUAL_CLASSES>>
+	 * Retrieve a specific active integration instance.
 	 */
-	private function find_manual_plugins( array $extra_classes ): array {
-
-		$plugins = [];
-		foreach ( $extra_classes as $extra_class_name ) {
-			/** @phpstan-var class-string<PLUGINS_MANUAL_CLASSES> $full_class_name */
-			$full_class_name = __NAMESPACE__ . '\\' . ucfirst( Plugins_Detect::SUBFOLDER_PLUGINS_MANUAL ) . '\\' . ucfirst( $extra_class_name );
-			if ( class_exists( $full_class_name ) ) {
-				$plugins[ $extra_class_name ] = $full_class_name;
-			}
-		}
-		return $plugins;
+	public function get_plugin( string $key ): ?Plugins_Interface {
+		return $this->active_plugins[ $key ] ?? null;
 	}
 
 	/**
-	 * Is the plugin activated?
+	 * Get all active integration instances.
 	 *
-	 * @since 4.3
-	 * @param string $plugin Plugin's name
-	 * @return bool True if active
+	 * @return array<string, Plugins_Interface>
 	 */
-	public function is_plugin_active( string $plugin ): bool {
-		return in_array( $plugin, array_keys( $this->plugins_classes_active ), true );
+	public function get_active_plugins(): array {
+		return $this->active_plugins;
 	}
 }

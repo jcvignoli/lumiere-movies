@@ -182,7 +182,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 			$this->logger->debug( '[Popup_Movie] Movie title provided in URL: ' . esc_html( $movie_title ) );
 
 			// Search the movie's ID according to the title.
-			$search = $this->plugins_classes_active['imdbphp']->search_movie_title(
+			$search = $this->imdb_plugin->search_movie_title(
 				esc_html( $movie_title ),
 				$this->logger,
 			);
@@ -208,7 +208,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 	 * @return Title The title or null
 	 */
 	private function get_title_class( string $movieid ): Title {
-		return $this->plugins_classes_active['imdbphp']->get_title_class( $movieid, $this->logger );
+		return $this->imdb_plugin->get_title_class( $movieid, $this->logger );
 	}
 
 	/**

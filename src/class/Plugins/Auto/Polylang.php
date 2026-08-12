@@ -19,7 +19,10 @@ if ( ! defined( 'WPINC' ) ) {
 use Lumiere\Config\Get_Options;
 use Lumiere\Frontend\Main;
 use Lumiere\Plugins\Logger;
+use Lumiere\Plugins\Plugins_Interface;
 use Lumiere\Tools\Validate_Get;
+
+// Vendor
 use Lumiere\Vendor\Psr\Log\NullLogger;
 use Lumiere\Vendor\Psr\Log\LoggerInterface;
 
@@ -36,11 +39,8 @@ use Lumiere\Vendor\Psr\Log\LoggerInterface;
  *
  * @see \Lumiere\Plugins\Plugins_Start Class calling if the plugin is activated in \Lumiere\Plugins\Plugins_Detect
  * @link Polylang reference hooks https://polylang.pro/doc/filter-reference/
- *
- * @phpstan-import-type PLUGINS_AUTO_KEYS from \Lumiere\Plugins\Plugins_Detect
- * @phpstan-import-type PLUGINS_ALL_CLASSES from \Lumiere\Plugins\Plugins_Detect
  */
-final class Polylang {
+final class Polylang implements Plugins_Interface {
 
 	/**
 	 * Traits
@@ -50,8 +50,7 @@ final class Polylang {
 	/**
 	 * Array of plugins currently in use
 	 *
-	 * @var array<string, class-string>
-	 * @phpstan-var array<PLUGINS_ALL_KEYS, class-string<PLUGINS_ALL_CLASSES>>
+	 * @var array<string, class-string<Plugins_Interface>>
 	 */
 	private array $active_plugins;
 
@@ -60,7 +59,25 @@ final class Polylang {
 	 */
 	final public function __construct(
 		private LoggerInterface $logger = new Logger( 'Polylang' ),
-	) {
+	) {}
+
+	/**
+	 * Determine whether Polylang is activated
+	 *
+	 * @return bool true if Polylang is active
+	 */
+	public static function is_active(): bool {
+		return function_exists( 'pll_current_language' );
+	}
+
+	/**
+	 * Start the plugin
+	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
+	 */
+	public function init( array $active_plugins ): void {
+
+		$this->active_plugins = $active_plugins;
+
 		// Return URLs with Polylang lang extension in domain name.
 		add_filter( 'lumiere_polylang_rewrite_url_with_lang', [ $this, 'rewrite_url_with_lang' ], 10, 1 );
 
@@ -72,17 +89,6 @@ final class Polylang {
 
 		// Return a form for selecting the lang in Taxonomy_People_Standard.
 		add_filter( 'lumiere_polylang_form_taxonomy_people', [ $this, 'form_taxonomy_people_lang' ] );
-	}
-
-	/**
-	 * Get for extra params not to be run in self::__construct. Automatically executed from Plugins_Start
-	 *
-	 * @param array<string, class-string> $active_plugins
-	 * @phpstan-param array<PLUGINS_ALL_KEYS, class-string<PLUGINS_ALL_CLASSES>> $active_plugins
-	 */
-	public function get_active_plugins( array $active_plugins ): void {
-		// Get the list of active plugins.
-		$this->active_plugins = $active_plugins;
 	}
 
 	/**

@@ -124,7 +124,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 
 		$this->logger->debug( '[Popup_Movie_Search] Movie title name provided in URL: ' . esc_html( $title_name ) );
 
-		return $this->plugins_classes_active['imdbphp']->search_movie_title(
+		return $this->imdb_plugin->search_movie_title(
 			esc_html( $title_name ),
 			$this->logger,
 		);
