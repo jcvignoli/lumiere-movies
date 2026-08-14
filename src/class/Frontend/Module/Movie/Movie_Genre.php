@@ -76,7 +76,7 @@ final class Movie_Genre extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'genre' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $item_results
+	 * @param array<array-key, array{mainGenre: string|null, subGenre: list<string>}> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {

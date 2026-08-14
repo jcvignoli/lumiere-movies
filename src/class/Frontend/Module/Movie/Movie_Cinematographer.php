@@ -25,6 +25,7 @@ use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
  * Method to display Cinematographer for movies
  *
  * @since 4.5 new class
+ * @phpstan-import-type CreditsArrayDef from \Lumiere\Vendor\Imdb\Title
  */
 final class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -78,6 +79,7 @@ final class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module
 	 *
 	 * @param 'cinematographer' $item_name The name of the item
 	 * @param array<array-key, array<string, string>> $item_results
+	 * @phpstan-param CreditsArrayDef $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
@@ -124,7 +126,7 @@ final class Movie_Cinematographer extends \Lumiere\Frontend\Module\Parent_Module
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_first',
-				$item_results[ $i ]['jobs'] ?? '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>'
+				implode( ', ', $item_results[ $i ]['jobs'] )
 			);
 
 			$output .= $this->output_class->misc_layout( 'two_columns_second', parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] ) );

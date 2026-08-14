@@ -21,6 +21,7 @@ declare( strict_types = 1 );
 namespace Lumiere\Updates;
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Config\Get_Options_Movie;
 
 /**
  * The logic is in the parent class, the data in the current child class
@@ -46,12 +47,22 @@ final class Lumiere_Update_File_26 extends \Lumiere\Updates {
 	 */
 	protected function lumiere_run_local_update(): void {
 
-		// Execute the check in Updates parent class, passing the constants.
-		// The validating function makes sure that this update has to be run.
-		// If not, exit.
+		/**
+		 * Execute the check in Updates parent class, passing the constants.
+		 * The validating function makes sure that this update has to be run.
+		 * If not, exit.
+		 */
 		if ( $this->lumiere_check_if_run_update( self::LUMIERE_VERSION_UPDATE, self::LUMIERE_NUMBER_UPDATE ) === false ) {
 			return;
 		}
+
+		/**
+		 * Update the number of updates already processed in Lumière options.
+		 * This is executed at the beggining, so if there is an issue, it's not repeated
+		 */
+		$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
+		$nb_of_updates = ( intval( $this->settings->get_admin_option( 'imdbHowManyUpdates' ) ) + 1 );
+		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', $nb_of_updates );
 
 		// Update the number of updates already processed in Lumière options.
 		$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Starting update ' . (string) self::LUMIERE_NUMBER_UPDATE );
@@ -63,23 +74,53 @@ final class Lumiere_Update_File_26 extends \Lumiere\Updates {
 		 * Edit 'imdbdelayimdbrequest' in LUMIERE_ADMIN_OPTIONS
 		 * Var was not meant to be 0 (infinite) => avoid fatal error
 		 */
-		if ( true === $this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbdelayimdbrequest', '20' ) ) {
-
+		if ( $this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbdelayimdbrequest', '20' ) === true ) {
 			$text = 'Lumière option imdbdelayimdbrequest successfully updated to 20.';
 			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
-
 		} else {
-
 			$text = 'Lumière option imdbdelayimdbrequest could not be update.';
 			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
 
+		/**
+		 * Remove obsolete 'imdbwidgetcolor' in LUMIERE_DATA_OPTIONS
+		 */
+		if ( $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetcolor' ) ) {
+			$text = 'Lumière option imdbwidgetcolor successfully deleted.';
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} else {
+			$text = 'Lumière option imdbwidgetcolor could not be removed.';
+			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
+
+		/**
+		 * Remove obsolete 'imdbtaxonomycolor' in LUMIERE_DATA_OPTIONS
+		 */
+		if ( $this->lumiere_remove_options( Get_Options_Movie::get_data_tablename(), 'imdbtaxonomycolor' ) ) {
+			$text = 'Lumière option imdbtaxonomycolor successfully deleted.';
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} else {
+			$text = 'Lumière option imdbtaxonomycolor could not be removed.';
+			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
+
+		/**
+		 * Remove obsolete imdbwidgetorder['color'] in LUMIERE_DATA_OPTIONS
+		 */
+		/** @var array<string, string> $imdb_data_options Reinitialize the var that is not certain */
+		$imdb_data_options = $this->settings->get_movie_options();
+		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
+		// @phpstan-ignore unset.offset (Color has been removed, phpstan doesn't find it)
+		unset( $order_value['color'] );
+		if ( $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
+			$text = 'Lumière option imdbwidgetorder[color] successfully deleted.';
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} else {
+			$text = 'Lumière option imdbwidgetorder[color] could not be removed.';
+			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
 		/** ------------------------- Editing part (end) --------------
 		 */
-
-		$nb_of_updates = ( intval( $this->settings->get_admin_option( 'imdbHowManyUpdates' ) ) + 1 );
-		$this->lumiere_update_options( Get_Options::get_admin_tablename(), 'imdbHowManyUpdates', strval( $nb_of_updates ) );
-		$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . '] Ended update ' . (string) self::LUMIERE_NUMBER_UPDATE );
 	}
 }

@@ -69,7 +69,7 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 
 			$output .= $this->output_class->misc_layout(
 				'two_columns_first',
-				parent::get_popup_person( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] )
+				parent::get_popup_person( $item_results[ $i ]['imdb'] ?? '', $item_results[ $i ]['name'] ?? '' )
 			);
 
 			$output .= $this->output_class->misc_layout(
@@ -87,7 +87,7 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 	 * @since 4.6.2 Click more added, since a lot of actors are displayed in popup main display
 	 *
 	 * @param 'actor' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $item_results
+	 * @phpstan-param list<array{ imdb: string|null, name: string|null, alias: string|null, credited: bool, character: list<string>, comment: list<string>, thumb: string|null }> $item_results
 	 * @param int<0, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
@@ -110,7 +110,7 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 			if ( $i > 0 && $i < $nb_total_items - 1 && $i !== $nb_rows_click_more ) {
 				$output .= ', ';
 			}
-			$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
+			$output .= parent::get_person_url( $item_results[ $i ]['imdb'] ?? '', $item_results[ $i ]['name'] ?? '' );
 
 			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
 				$output .= $this->output_class->misc_layout( 'see_all_end' );
@@ -141,7 +141,7 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 
 			$output .= $this->output_class->misc_layout( 'two_columns_first', $item_results[ $i ]['character'][0] ?? '<i>' . __( 'role unknown', 'lumiere-movies' ) . '</i>' );
 
-			$output .= $this->output_class->misc_layout( 'two_columns_second', parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] ) );
+			$output .= $this->output_class->misc_layout( 'two_columns_second', parent::get_person_url( $item_results[ $i ]['imdb'] ?? '', $item_results[ $i ]['name'] ?? '' ) );
 
 		}
 		return $output;

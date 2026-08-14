@@ -44,12 +44,14 @@ final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 	 */
 	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
-		$year = $movie->year();
+		$year = (string) $movie->year();
 		$title = $movie->$item_name();
-
 		$year_text = '';
-		if ( strlen( strval( $year ) ) > 0 && $this->settings->get_movie_option( 'imdbwidgetyear' ) !== null && $this->settings->get_movie_option( 'imdbwidgetyear' ) === '1' ) {
-			$year_text = ' (' . strval( $year ) . ')';
+		if (
+			$this->settings->get_movie_option( 'imdbwidgetyear' ) !== null
+			&& $this->settings->get_movie_option( 'imdbwidgetyear' ) === '1'
+		) {
+			$year_text = ' (' . $year . ')';
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.

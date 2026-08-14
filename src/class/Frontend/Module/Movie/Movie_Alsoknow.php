@@ -63,6 +63,7 @@ final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= $item_results[ $i ]['country'];
 				if ( isset( $item_results[ $i ]['comment'][0] ) ) {
 					$output .= ' - ';
+					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 					$output .= $item_results[ $i ]['comment'][0];
 				}
 				$output .= ')';
@@ -79,7 +80,7 @@ final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'alsoknow' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $item_results
+	 * @param array<array{title: string, country: string, countryId: string, language: string|null, languageId: string, comment: array<string>|null}> $item_results
 	 * @param int<0, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
@@ -102,6 +103,7 @@ final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= $item_results[ $i ]['country'];
 				if ( isset( $item_results[ $i ]['comment'][0] ) ) {
 					$output .= ' - ';
+					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 					$output .= $item_results[ $i ]['comment'][0];
 				}
 				$output .= ')';

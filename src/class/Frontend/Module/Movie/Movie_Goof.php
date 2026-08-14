@@ -74,7 +74,7 @@ final class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'goof' $item_name The name of the item
-	 * @param array<string, array<array-key, array<string, string>>> $item_results
+	 * @phpstan-param array<int, array<array{content: string, isSpoiler: bool }>> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {

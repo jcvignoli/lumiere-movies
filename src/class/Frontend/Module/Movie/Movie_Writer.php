@@ -25,6 +25,7 @@ use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
  * Method to display writer for movies
  *
  * @since 4.5 new class
+ * @phpstan-import-type CreditsArrayDef from \Lumiere\Vendor\Imdb\Title
  */
 final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -74,7 +75,6 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 			);
 
 			$count_jobs = isset( $item_results[ $i ]['jobs'] ) && count( $item_results[ $i ]['jobs'] ) > 0 ? count( $item_results[ $i ]['jobs'] ) : 0;
-
 			$second_column = '';
 			for ( $j = 0; $j < $count_jobs; $j++ ) {
 				// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
@@ -85,10 +85,14 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 			}
 
 			// Add number of episode and year they worked in.
-			// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
-			if ( $item_results[ $i ]['episode'] !== null && count( $item_results[ $i ]['episode'] ) > 0 && isset( $item_results[ $i ]['episode']['total'] ) && $item_results[ $i ]['episode']['total'] !== 0 ) {
+			if (
+				$item_results[ $i ]['episode'] !== null
+				&& isset( $item_results[ $i ]['episode']['total'] )
 				// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
-				$total = isset( $item_results[ $i ]['episode']['total'] ) ? $item_results[ $i ]['episode']['total'] . ' ' . _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) : '';
+				&& $item_results[ $i ]['episode']['total'] !== 0
+			) {
+				// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
+				$total = $item_results[ $i ]['episode']['total'] . ' ' . _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' );
 				$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] )
 					/* translators: "from" like in "from 2025" */
 					? _x( 'from', 'year', 'lumiere-movies' )
@@ -112,6 +116,7 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 	 *
 	 * @param 'writer' $item_name The name of the item
 	 * @param array<int<0, max>, array<string, string>> $item_results
+	 * @phpstan-param CreditsArrayDef $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
@@ -196,8 +201,12 @@ final class Movie_Writer extends \Lumiere\Frontend\Module\Parent_Module {
 
 				// Add number of episode and year they worked in.
 				$dates_episodes = '';
-				// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
-				if ( $item_results[ $i ]['episode'] !== null && count( $item_results[ $i ]['episode'] ) > 0 && isset( $item_results[ $i ]['episode']['total'] ) && $item_results[ $i ]['episode']['total'] !== 0 ) {
+				if (
+					$item_results[ $i ]['episode'] !== null
+					&& isset( $item_results[ $i ]['episode']['total'] )
+					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
+					&& $item_results[ $i ]['episode']['total'] !== 0
+				) {
 					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 					$total = $item_results[ $i ]['episode']['total'] > 0 ? $item_results[ $i ]['episode']['total'] . ' ' . _n( 'episode', 'episodes', $item_results[ $i ]['episode']['total'], 'lumiere-movies' ) : '';
 					$year_from_or_in = isset( $item_results[ $i ]['episode']['endYear'] )

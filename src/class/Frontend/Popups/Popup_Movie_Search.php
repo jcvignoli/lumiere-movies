@@ -209,7 +209,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 				// ---- movie part
 				echo "\n\t<div class='lumiere_flex_auto lumiere_width_fifty_perc lumiere_align_left'>";
 
-				$year = $res['titleSearchObject']->year() > 0 ? $res['titleSearchObject']->year() : __( 'year unknown', 'lumiere-movies' );
+				$year = $res['titleSearchObject']->year() > 0 ? (string) $res['titleSearchObject']->year() : __( 'year unknown', 'lumiere-movies' );
 
 				echo "\n\t\t" . wp_kses(
 					$this->output_popup_class->get_link(

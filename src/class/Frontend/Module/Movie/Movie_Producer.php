@@ -25,6 +25,7 @@ use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
  * Method to display Producer for movies
  *
  * @since 4.5 new class
+ * @phpstan-import-type CreditsArrayDef from \Lumiere\Vendor\Imdb\Title
  */
 final class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -102,6 +103,7 @@ final class Movie_Producer extends \Lumiere\Frontend\Module\Parent_Module {
 	 *
 	 * @param 'producer' $item_name The name of the item
 	 * @param array<int<0, max>, array<string, string>> $item_results
+	 * @phpstan-param CreditsArrayDef $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {

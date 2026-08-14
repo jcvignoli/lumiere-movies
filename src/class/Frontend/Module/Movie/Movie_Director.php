@@ -25,6 +25,7 @@ use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
  * Method to display actor for movies
  *
  * @since 4.5 new class
+ * @phpstan-import-type CreditsArrayDef from \Lumiere\Vendor\Imdb\Title
  */
 final class Movie_Director extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -77,7 +78,8 @@ final class Movie_Director extends \Lumiere\Frontend\Module\Parent_Module {
 	 * @see Movie_Director::get_module() Calling this
 	 *
 	 * @param 'director' $item_name The name of the item
-	 * @param array<int<0, max>, array<string, string>> $item_results
+	 * @param array<array-key, array<array-key, string>> $item_results
+	 * @phpstan-param CreditsArrayDef $item_results
 	 * @param int<1, max> $nbtotalitems
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nbtotalitems ): string {

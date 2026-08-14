@@ -33,9 +33,9 @@ if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
  *
  * @since 4.5 Class created, splitted from {@see \Lumiere\Config\Settings}
  *
- * @phpstan-type OPTIONS_DATA_ORDER array{ imdbwidgetorder: array{ title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, cinematographer?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodCompany?: string, plot?: string, goof?: string, quote?: string, tagline?: string, trailer?: string, color?: string, alsoknow?: string, composer?: string, soundtrack?: string, extSites?: string, source?: string, trivia?: string, year?: string } }
- * @phpstan-type OPTIONS_DATA_TAXO array{ imdbtaxonomyactor?: '0'|'1', imdbtaxonomycinematographer?: '0'|'1', imdbtaxonomycolor?: '0'|'1', imdbtaxonomycomposer?: '0'|'1', imdbtaxonomycountry?: '0'|'1', imdbtaxonomydirector?: '0'|'1', imdbtaxonomygenre?: '0'|'1', imdbtaxonomykeyword?: '0'|'1', imdbtaxonomylanguage?: '0'|'1', imdbtaxonomyproducer?: '0'|'1', imdbtaxonomywriter?: '0'|'1' }
- * @phpstan-type OPTIONS_DATA_WIDGET array{ imdbwidgetactor?: '0'|'1', imdbwidgetactornumber?: string, imdbwidgetalsoknow?: '0'|'1', imdbwidgetalsoknownumber?: string, imdbwidgetcinematographer?: '0'|'1', imdbwidgetcolor?: '0'|'1', imdbwidgetcomposer?: '0'|'1', imdbwidgetconnection?: '0'|'1', imdbwidgetconnectionnumber?: string, imdbwidgetcountry?: '0'|'1', imdbwidgetdirector?: '0'|'1', imdbwidgetextSites?: '0'|'1', imdbwidgetgenre?: '0'|'1', imdbwidgetgoof?: '0'|'1', imdbwidgetgoofnumber?: string, imdbwidgetkeyword?: '0'|'1', imdbwidgetlanguage?: '0'|'1', imdbwidgetpic?: '0'|'1', imdbwidgetplot?: '0'|'1', imdbwidgetplotnumber?: string, imdbwidgetprodCompany?: '0'|'1', imdbwidgetproducer?: '0'|'1', imdbwidgetproducernumber?: string, imdbwidgetquote?: '0'|'1', imdbwidgetquotenumber?: string, imdbwidgetrating?: '0'|'1', imdbwidgetruntime?: '0'|'1', imdbwidgetsoundtrack?: '0'|'1', imdbwidgetsoundtracknumber?: string, imdbwidgetsource?: '0'|'1', imdbwidgettagline?: '0'|'1', imdbwidgettaglinenumber?: string, imdbwidgettitle?: '0'|'1', imdbwidgettrailer?: '0'|'1', imdbwidgettrailernumber?: string, imdbwidgettrivia?: '0'|'1', imdbwidgettrivianumber?: string, imdbwidgetwriter?: '0'|'1', imdbwidgetwriternumber?: string, imdbwidgetyear?: '0'|'1' }
+ * @phpstan-type OPTIONS_DATA_ORDER array{ imdbwidgetorder: array{ title?: string, pic?: string, runtime?: string, director?: string, connection?: string, country?: string, actor?: string, cinematographer?: string, rating?: string, language?: string, genre?: string, writer?: string, producer?: string, keyword?: string, prodCompany?: string, plot?: string, goof?: string, quote?: string, tagline?: string, trailer?: string, alsoknow?: string, composer?: string, soundtrack?: string, extSites?: string, source?: string, trivia?: string, year?: string } }
+ * @phpstan-type OPTIONS_DATA_TAXO array{ imdbtaxonomyactor?: '0'|'1', imdbtaxonomycinematographer?: '0'|'1', imdbtaxonomycomposer?: '0'|'1', imdbtaxonomycountry?: '0'|'1', imdbtaxonomydirector?: '0'|'1', imdbtaxonomygenre?: '0'|'1', imdbtaxonomykeyword?: '0'|'1', imdbtaxonomylanguage?: '0'|'1', imdbtaxonomyproducer?: '0'|'1', imdbtaxonomywriter?: '0'|'1' }
+ * @phpstan-type OPTIONS_DATA_WIDGET array{ imdbwidgetactor?: '0'|'1', imdbwidgetactornumber?: string, imdbwidgetalsoknow?: '0'|'1', imdbwidgetalsoknownumber?: string, imdbwidgetcinematographer?: '0'|'1', imdbwidgetcomposer?: '0'|'1', imdbwidgetconnection?: '0'|'1', imdbwidgetconnectionnumber?: string, imdbwidgetcountry?: '0'|'1', imdbwidgetdirector?: '0'|'1', imdbwidgetextSites?: '0'|'1', imdbwidgetgenre?: '0'|'1', imdbwidgetgoof?: '0'|'1', imdbwidgetgoofnumber?: string, imdbwidgetkeyword?: '0'|'1', imdbwidgetlanguage?: '0'|'1', imdbwidgetpic?: '0'|'1', imdbwidgetplot?: '0'|'1', imdbwidgetplotnumber?: string, imdbwidgetprodCompany?: '0'|'1', imdbwidgetproducer?: '0'|'1', imdbwidgetproducernumber?: string, imdbwidgetquote?: '0'|'1', imdbwidgetquotenumber?: string, imdbwidgetrating?: '0'|'1', imdbwidgetruntime?: '0'|'1', imdbwidgetsoundtrack?: '0'|'1', imdbwidgetsoundtracknumber?: string, imdbwidgetsource?: '0'|'1', imdbwidgettagline?: '0'|'1', imdbwidgettaglinenumber?: string, imdbwidgettitle?: '0'|'1', imdbwidgettrailer?: '0'|'1', imdbwidgettrailernumber?: string, imdbwidgettrivia?: '0'|'1', imdbwidgettrivianumber?: string, imdbwidgetwriter?: '0'|'1', imdbwidgetwriternumber?: string, imdbwidgetyear?: '0'|'1' }
  *
  * // Final list of options
  * @phpstan-type OPTIONS_DATA_MOVIE \Union<OPTIONS_DATA_TAXO, OPTIONS_DATA_WIDGET, OPTIONS_DATA_ORDER>
@@ -138,7 +138,7 @@ class Settings_Movie extends Settings_Helper {
 	 *
 	 * @param int $number Optional: a number to turn into plural if needed
 	 * @return array<string, string>
-	 * @phpstan-return array{ 'color': string, 'country': string, 'genre':string, 'keyword':string, 'language':string }
+	 * @phpstan-return array{ 'country': string, 'genre':string, 'keyword':string, 'language':string }
 	 */
 	protected static function define_list_taxo_items( int $number = 1 ): array {
 		return [
@@ -146,7 +146,6 @@ class Settings_Movie extends Settings_Helper {
 			'language' => _n( 'language', 'language', $number, 'lumiere-movies' ),
 			'genre'    => _n( 'genre', 'genres', $number, 'lumiere-movies' ),
 			'keyword'  => _n( 'keyword', 'keywords', $number, 'lumiere-movies' ),
-			'color'    => _n( 'color', 'colors', $number, 'lumiere-movies' ),
 		];
 	}
 
@@ -272,7 +271,6 @@ class Settings_Movie extends Settings_Helper {
 		return [
 			'actor'           => __( 'Display (a number of) actors', 'lumiere-movies' ),
 			'alsoknow'        => __( 'Display (a number of) alternative movie names and in other languages', 'lumiere-movies' ),
-			'color'           => __( 'Display colors', 'lumiere-movies' ),
 			'composer'        => __( 'Display composer', 'lumiere-movies' ),
 			'connection'      => __( 'Display (a number of) related movies', 'lumiere-movies' ),
 			'country'         => __( 'Display country', 'lumiere-movies' ),

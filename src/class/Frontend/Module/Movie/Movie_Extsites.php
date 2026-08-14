@@ -72,7 +72,7 @@ final class Movie_Extsites extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'extSites' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $external_sites
+	 * @param array<array{label: string, url: string, language: list<string>}> $external_sites
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $external_sites, int $nb_total_items ): string {

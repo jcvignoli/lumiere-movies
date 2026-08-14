@@ -12,26 +12,51 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jcvignoli/imdbGraphQLPHP",
-                "reference": "ad165a6b96dae2095db674b254c8f4c04c94ae72"
+                "reference": "e37865e883215f97cf1d02e36e11e8705b27461b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jcvignoli/imdbGraphQLPHP/zipball/ad165a6b96dae2095db674b254c8f4c04c94ae72",
-                "reference": "ad165a6b96dae2095db674b254c8f4c04c94ae72",
+                "url": "https://api.github.com/repos/jcvignoli/imdbGraphQLPHP/zipball/e37865e883215f97cf1d02e36e11e8705b27461b",
+                "reference": "e37865e883215f97cf1d02e36e11e8705b27461b",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
-                "php": ">=7.2",
+                "php": ">=8.1",
                 "psr/log": "^3.0",
                 "psr/simple-cache": "^1.0"
+            },
+            "require-dev": {
+                "lipemat/phpstan-wordpress": "@stable",
+                "phan/phan": "@stable",
+                "phpstan/phpstan": "@stable",
+                "phpstan/phpstan-strict-rules": "@stable",
+                "squizlabs/php_codesniffer": "@stable",
+                "szepeviktor/phpstan-wordpress": "@stable",
+                "vimeo/psalm": "@stable",
+                "wapmorgan/php-deprecation-detector": "@stable",
+                "wp-coding-standards/wpcs": "@stable"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Imdb\\": "src/Imdb"
+                    "Imdb\\": "src/Imdb/"
                 }
+            },
+            "scripts": {
+                "phpcs": [
+                    "vendor/bin/phpcs"
+                ],
+                "phpstan": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "phanci": [
+                    "vendor/bin/phan"
+                ],
+                "phpdd": [
+                    "vendor/bin/phpdd ./src"
+                ]
             },
             "license": [
                 "GPL-2.0-or-later"
@@ -44,7 +69,7 @@
                 "Movie",
                 "PHP"
             ],
-            "time": "2026-08-09T13:40:05+00:00"
+            "time": "2026-08-14T21:31:56+00:00"
         },
         {
             "name": "monolog/monolog",

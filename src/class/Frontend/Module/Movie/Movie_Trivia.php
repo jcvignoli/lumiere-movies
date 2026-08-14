@@ -22,6 +22,7 @@ use Lumiere\Config\Get_Options_Movie;
  * Method to display trivia for movies
  *
  * @since 4.5 new class
+ * @phpstan-import-type TriviaArrayDef from \Lumiere\Vendor\Imdb\Title
  */
 final class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -81,7 +82,7 @@ final class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'trivia' $item_name The name of the item
-	 * @param array<string, array<array-key, array<string, string>>> $item_results
+	 * @phpstan-param TriviaArrayDef $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {

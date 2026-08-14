@@ -20,6 +20,7 @@ use Lumiere\Config\Get_Options_Movie;
 
 /**
  * Method to display Trailer for movies
+ * Using video() method, not trailer()
  *
  * @since 4.5 new class
  */
@@ -44,6 +45,7 @@ final class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
+
 			return $this->get_module_popup( $item_name, $item_results, $nb_total_items );
 		}
 
@@ -72,7 +74,7 @@ final class Movie_Trailer extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'trailer' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $item_results
+	 * @param list<array{id: array<string>|string|null, name: string, runtime: string, description: string, titleName: string, titleYear: int, playbackUrl: string|null, imageUrl: string|null}> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
