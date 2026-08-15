@@ -66,6 +66,7 @@ final class Polylang implements Plugins_Interface {
 	 *
 	 * @return bool true if Polylang is active
 	 */
+	#[\Override]
 	public static function is_active(): bool {
 		return function_exists( 'pll_current_language' );
 	}
@@ -74,6 +75,7 @@ final class Polylang implements Plugins_Interface {
 	 * Start the plugin
 	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
 	 */
+	#[\Override]
 	public function init( array $active_plugins ): void {
 
 		$this->active_plugins = $active_plugins;

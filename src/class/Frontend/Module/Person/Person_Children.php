@@ -22,6 +22,7 @@ use Lumiere\Config\Get_Options_Person;
  * Method to display children for person
  *
  * @since 4.5 new class
+ * @phpstan-import-type RelativeDef from \Lumiere\Vendor\Imdb\Name
  */
 final class Person_Children extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -53,7 +54,7 @@ final class Person_Children extends \Lumiere\Frontend\Module\Parent_Module {
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 
 			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= parent::get_popup_person( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
+				$output .= parent::get_popup_person( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] ?? '' );
 			}
 			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
 				$output .= ' (<span class="lumiere_italic">' . $item_results[ $i ]['relType'] . '</span>) ';
@@ -66,7 +67,7 @@ final class Person_Children extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'children' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $item_results
+	 * @phpstan-param list<RelativeDef> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
@@ -79,7 +80,7 @@ final class Person_Children extends \Lumiere\Frontend\Module\Parent_Module {
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 
 			if ( isset( $item_results[ $i ]['imdb'] ) && strlen( $item_results[ $i ]['imdb'] ) > 0 ) {
-				$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
+				$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] ?? '' );
 			}
 			if ( isset( $item_results[ $i ]['name'] ) && strlen( $item_results[ $i ]['name'] ) > 0 ) {
 				$output .= ' (<span class="lumiere_italic">' . $item_results[ $i ]['relType'] . '</span>) ';

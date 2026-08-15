@@ -60,24 +60,24 @@ class Settings extends Settings_Helper {
 	 * Name of the databases as stored in WordPress db
 	 * Only used in child class, has to be called in Get_Options
 	 */
-	protected const LUM_ADMIN_OPTIONS               = 'lumiere_admin_options';
-	protected const LUM_CACHE_OPTIONS               = 'lumiere_cache_options';
+	protected const string LUM_ADMIN_OPTIONS               = 'lumiere_admin_options';
+	protected const string LUM_CACHE_OPTIONS               = 'lumiere_cache_options';
 
 	/**
 	 * Lumière related website URLs
 	 */
-	public const LUM_BLOG_PLUGIN                    = 'https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin';
-	public const LUM_BLOG_PLUGIN_ABOUT              = 'https://www.jcvignoli.com/blog/en/presentation-of-jean-claude-vignoli';
-	public const LUM_WORDPRESS_URL                  = 'https://wordpress.org/plugins/lumiere-movies/';
-	public const LUM_WORDPRESS_IMAGES_URL           = 'https://ps.w.org/lumiere-movies/assets';
-	public const LUM_GIT_URL                        = 'https://github.com/jcvignoli/lumiere-movies';
+	public const string LUM_BLOG_PLUGIN                    = 'https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin';
+	public const string LUM_BLOG_PLUGIN_ABOUT              = 'https://www.jcvignoli.com/blog/en/presentation-of-jean-claude-vignoli';
+	public const string LUM_WORDPRESS_URL                  = 'https://wordpress.org/plugins/lumiere-movies/';
+	public const string LUM_WORDPRESS_IMAGES_URL           = 'https://ps.w.org/lumiere-movies/assets';
+	public const string LUM_GIT_URL                        = 'https://github.com/jcvignoli/lumiere-movies';
 
 	/**
 	 * Admin search
 	 */
-	public const LUM_SEARCH_ITEMS_FILE              = 'class/admin/Search_Items.php';
-	public const LUM_SEARCH_ITEMS_URL_ADMIN         = '/wp-admin/lumiere/search-items/';
-	public const LUM_SEARCH_ITEMS_QUERY_STRING      = 'itemsearched'; // search string in url, such as ?moviesearched=
+	public const string LUM_SEARCH_ITEMS_FILE              = 'class/admin/Search_Items.php';
+	public const string LUM_SEARCH_ITEMS_URL_ADMIN         = '/wp-admin/lumiere/search-items/';
+	public const string LUM_SEARCH_ITEMS_QUERY_STRING      = 'itemsearched'; // search string in url, such as ?moviesearched=
 
 	/**
 	 * Blocks manifest file
@@ -86,7 +86,7 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Core
 	 * @since 4.7
 	 */
-	public const LUM_BLOCKS_MANIFEST                = LUMIERE_WP_PATH . 'assets/blocks/blocks-manifest.php';
+	public const string LUM_BLOCKS_MANIFEST                = LUMIERE_WP_PATH . 'assets/blocks/blocks-manifest.php';
 
 	/**
 	 * List of active blocks
@@ -95,7 +95,7 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Core
 	 * @since 4.8
 	 */
-	public const LUM_BLOCKS_LIST                    = [ 'post', 'addlink', 'coming-soon', 'opensearch', 'widget-sidebar-options' ];
+	public const array LUM_BLOCKS_LIST                    = [ 'post', 'addlink', 'coming-soon', 'opensearch', 'widget-sidebar-options' ];
 
 	/**
 	 * Name of the var to look for in URL
@@ -103,13 +103,13 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Alteration\Rewrite_Rules
 	 * @see \Lumiere\Frontend\Popups\Popup_Select
 	 */
-	public const LUM_POPUP_STRING                   = 'popup';
+	public const string LUM_POPUP_STRING                   = 'popup';
 
 	/**
 	 * Rules to be added in add_rewrite_rule()
 	 * @see \Lumiere\Alteration\Rewrite_Rules
 	 */
-	public const LUM_REWRITE_RULES                  = [
+	public const array LUM_REWRITE_RULES                  = [
 		// Popups.
 		'lumiere/([^/]+)/?'                    => 'index.php?' . self::LUM_POPUP_STRING . '=$matches[1]',
 		//'index.php/lumiere/([^/]+)/?$'       => 'index.php?' . self::LUM_POPUP_STRING . '=$matches[1]', // Nobody keeps index.php, right?
@@ -120,25 +120,25 @@ class Settings extends Settings_Helper {
 	/**
 	 * URLs for pictures and menu images
 	 */
-	public const LUM_PICS_URL                       = LUMIERE_WP_URL . 'assets/pics/';
-	public const LUM_NOPICS_URL                     = self::LUM_PICS_URL . 'no_pics.png';
-	public const LUM_PICS_SHOWTIMES_URL             = self::LUM_PICS_URL . '/showtimes/';
+	public const string LUM_PICS_URL                       = LUMIERE_WP_URL . 'assets/pics/';
+	public const string LUM_NOPICS_URL                     = self::LUM_PICS_URL . 'no_pics.png';
+	public const string LUM_PICS_SHOWTIMES_URL             = self::LUM_PICS_URL . '/showtimes/';
 
 	/**
 	 * URL and Path for javascripts and stylesheets
 	 */
-	public const LUM_JS_PATH                        = LUMIERE_WP_PATH . 'assets/js/';
-	public const LUM_JS_URL                         = LUMIERE_WP_URL . 'assets/js/';
-	public const LUM_CSS_PATH                       = LUMIERE_WP_PATH . 'assets/css/';
-	public const LUM_CSS_URL                        = LUMIERE_WP_URL . 'assets/css/';
+	public const string LUM_JS_PATH                        = LUMIERE_WP_PATH . 'assets/js/';
+	public const string LUM_JS_URL                         = LUMIERE_WP_URL . 'assets/js/';
+	public const string LUM_CSS_PATH                       = LUMIERE_WP_PATH . 'assets/css/';
+	public const string LUM_CSS_URL                        = LUMIERE_WP_URL . 'assets/css/';
 
 	/**
 	 * Internal URL pages constants
 	 * Must be public, used everywhere
 	 * @TODO: remove, most certainely useless!
 	 */
-	public const LUM_FILE_COPY_THEME_TAXONOMY       = 'class/Admin/Copy_Template/Copy_Theme.php';
-	public const LUM_TAXO_ITEMS_THEME               = 'class/Theme/Taxonomy_Items_Standard.php';
+	public const string LUM_FILE_COPY_THEME_TAXONOMY       = 'class/Admin/Copy_Template/Copy_Theme.php';
+	public const string LUM_TAXO_ITEMS_THEME               = 'class/Theme/Taxonomy_Items_Standard.php';
 
 	/**
 	 * The name of the custom meta data field used for movie auto title widget
@@ -146,13 +146,13 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Frontend\Widget\Widget_Frontpage::lum_get_widget() use it to check and display the auto title widget
 	 * @see \Lumiere\Admin\Metabox_Selection::register_post_meta_sidebar() use it to register the custom meta data
 	 */
-	public const LUM_AUTOTITLE_METADATA_FIELD_NAME  = '_lum_autotitle_perpost';
+	public const string LUM_AUTOTITLE_METADATA_FIELD_NAME  = '_lum_autotitle_perpost';
 
 	/**
 	 * URL string for taxonomy
 	 * Must be public, used in parent class
 	 */
-	public const URL_STRING_TAXO                    = 'lumiere-';
+	public const string URL_STRING_TAXO                    = 'lumiere-';
 
 	/**
 	 * Word starting the file name of taxonomy theme
@@ -161,18 +161,18 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Admin\Copy_Templates\Detect_New_Theme
 	 * @see \Lumiere\Admin\Submenu\Data
 	 */
-	public const LUM_THEME_TAXO_FILENAME_START      = 'taxonomy-';
+	public const string LUM_THEME_TAXO_FILENAME_START      = 'taxonomy-';
 
 	/**
 	 * Cache folder path.
 	 * Must be public, used in parent class
 	 */
-	public const LUM_UPDATES_PATH                   = 'class/Updates/';
+	public const string LUM_UPDATES_PATH                   = 'class/Updates/';
 
 	/**
 	 * Cache folder path.
 	 */
-	public const LUM_FOLDER_CACHE                   = '/cache/lumiere/';
+	public const string LUM_FOLDER_CACHE                   = '/cache/lumiere/';
 
 	/**
 	 * Create database options if they don't exist
@@ -308,14 +308,13 @@ class Settings extends Settings_Helper {
 		 */
 		$debug_path = null;
 		/**
-		 * @psalm-suppress InvalidArgument (Psalm can't understand that WP_DEBUG_LOG is a const that can be string and bool)
+		 * @psalm-suppress RedundantCondition (Psalm can't understand that WP_DEBUG_LOG is a const that can be string and bool)
 		 * @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool
 		 */
 		if ( defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) && str_starts_with( WP_DEBUG_LOG, '/' ) ) {
 			$debug_path = WP_DEBUG_LOG;
 			/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
 		} elseif ( ! isset( $debug_path ) && defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ) {
-			/** @psalm-suppress FalseOperand */
 			$debug_path = ABSPATH . WP_DEBUG_LOG;
 		}
 

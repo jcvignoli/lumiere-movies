@@ -57,7 +57,7 @@ final class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
 			}
 			$output .= parent::get_popup_person( $item_results[ $i ]['id'], $item_results[ $i ]['title'] );
-			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 0 ) {
+			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 1 ) {
 				$output .= ' (' . $item_results[ $i ]['year'] . ') ';
 			}
 			if ( $i > $nb_rows_click_more && $i === ( $nb_total_items - 1 ) ) {
@@ -72,7 +72,7 @@ final class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Array of results is sorted by column
 	 *
 	 * @param 'pubportrayal' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $item_results
+	 * @phpstan-param list<array{ title: string, id: string, year: int|null }> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
@@ -84,7 +84,7 @@ final class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; ++$i ) {
 			$output .= parent::get_film_url( strval( $item_results[ $i ]['id'] ), $item_results[ $i ]['title'] );
-			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 0 ) {
+			if ( isset( $item_results[ $i ]['year'] ) && strlen( strval( $item_results[ $i ]['year'] ) ) > 1 ) {
 				$output .= ' (' . $item_results[ $i ]['year'] . ') ';
 			}
 		}

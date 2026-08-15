@@ -39,6 +39,7 @@ final class Amp implements Plugins_Interface {
 	 *
 	 * @return bool true if AMP is active
 	 */
+	#[\Override]
 	public static function is_active(): bool {
 		return ( new self() )->is_amp_page(); // is_amp_page() in Trait Main.
 	}
@@ -47,6 +48,7 @@ final class Amp implements Plugins_Interface {
 	 * Start the plugin
 	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
 	 */
+	#[\Override]
 	public function init( array $active_plugins ): void {
 
 		// Remove conflicting assets.

@@ -101,8 +101,7 @@ final class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Array of results is sorted by column
 	 *
 	 * @param string $sub_cat The name of the subcategory
-	 * @param array<array-key, array<array-key, array<string, string|array<array-key, string>>>> $item_results
-	 * @phpstan-param array<array-key, array<array-key, array{titleId: string, titleName: string, year?: string, characters?: list<string>}>> $item_results
+	 * @phpstan-param array<string, list<array{ titleId: string, titleName: string, titleType: string, year: int|null, endYear: int|null, characters: list<string>|null, jobs: list<string>, titleFullImageUrl: string|null, titleThumbImageUrl: string|null }>> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $sub_cat, array $item_results, int $nb_total_items ): string {
@@ -130,7 +129,7 @@ final class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= ' (' . strval( $item_results[ $sub_cat ][ $i ]['year'] ) . ')';
 			}
 
-			if ( isset( $item_results[ $sub_cat ][ $i ]['characters'] ) && count( $item_results[ $sub_cat ][ $i ]['characters'] ) > 0 ) {
+			if ( isset( $item_results[ $sub_cat ][ $i ]['characters'][0] ) ) {
 				$output .= ' as <i>' . $item_results[ $sub_cat ][ $i ]['characters'][0] . '</i>';
 			}
 

@@ -91,7 +91,7 @@ final class Movie_Connection extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Array of results is sorted by column
 	 *
 	 * @param 'connection' $item_name The name of the item
-	 * @param array<array<array{titleId: string|null, titleName: string|null, titleType: string, year: string|null, endYear: string, seriesName: string, description: string|null}>> $item_results
+	 * @param array<array<array{titleId: string|null, titleName: string|null, titleType: string|null, year: string|null, endYear: string|null, seriesName: string|null, description: string|null}>> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {

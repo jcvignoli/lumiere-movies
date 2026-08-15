@@ -64,7 +64,6 @@ final class Movie_Factory extends Front_Parser {
 			// Key for $this->settings->get_movie_option()
 			$key_data_values = 'imdbwidget' . $data_detail;
 
-			/** @psalm-suppress PossiblyUndefinedArrayOffset */
 			if (
 				// Use order to select the position of the data detail.
 				$this->settings->get_movie_option( 'imdbwidgetorder' )[ $data_detail ] === $order
@@ -72,7 +71,6 @@ final class Movie_Factory extends Front_Parser {
 				&& $this->settings->get_movie_option( $key_data_values ) !== null
 				&& $this->settings->get_movie_option( $key_data_values ) === '1'
 			) {
-
 				// Get module.
 				$text = $this->get_module_movie( $movie_object, $data_detail );
 				if ( strlen( $text ) === 0 ) {

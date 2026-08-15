@@ -41,10 +41,10 @@ final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 			return $this->get_module_popup( $birthday, $item_name );
 		}
 
-		$birthday_day = isset( $birthday['day'] ) && strlen( strval( $birthday['day'] ) ) > 0 ? strval( $birthday['day'] ) . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
+		$birthday_day = isset( $birthday['day'] ) ? (string) $birthday['day'] . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
 		$month_tmp = strtotime( $birthday['month'] ?? '' );
 		$birthday_month = $month_tmp !== false && $month_tmp > 0 ? date_i18n( 'F', intval( wp_date( 'm', $month_tmp ) ) ) . ' ' : '(' . __( 'month unknown', 'lumiere-movies' ) . ') ';
-		$birthday_year = isset( $birthday['year'] ) && strlen( strval( $birthday['year'] ) ) > 0 ? strval( $birthday['year'] ) : '(' . __( 'year unknown', 'lumiere-movies' ) . ')';
+		$birthday_year = isset( $birthday['year'] ) ? (string) $birthday['year'] : '(' . __( 'year unknown', 'lumiere-movies' ) . ')';
 
 		$output = $this->output_class->misc_layout( 'date_inside', '&#9788;&nbsp;' . esc_html__( 'Born on', 'lumiere-movies' ), esc_html( $birthday_day . $birthday_month . $birthday_year ) );
 
@@ -58,7 +58,7 @@ final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param array<string, string> $birthday The array of birthday
-	 * @phpstan-param array{ day?: int, month?: string, year?: int, place?: string, ... } $birthday
+	 * @phpstan-param array{ day: int|null, month: string|null, mon: int|null, year: int|null, place: string|null }|array{} $birthday
 	 * @param string $item_name
 	 */
 	public function get_module_popup( array $birthday, string $item_name ): string {
@@ -78,9 +78,7 @@ final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 				. esc_html( $birthday_day . $birthday_month . $birthday_year );
 
 			if ( isset( $get_birthday['place'] ) ) {
-				/**
-				 * @psalm-suppress PossiblyInvalidArgument
-				 * translators: 'in' like 'Born in' */
+				/** translators: 'in' like 'Born in' */
 				$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $get_birthday['place'] );
 			}
 

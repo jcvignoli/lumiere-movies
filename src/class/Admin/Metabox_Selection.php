@@ -251,7 +251,6 @@ final class Metabox_Selection {
 			return;
 		}
 
-		/** @psalm-suppress RedundantCondition */
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}

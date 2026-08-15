@@ -92,8 +92,7 @@ final class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'news' $item_name The name of the item
-	 * @param array<array-key, array<string, string|array<array-key, string>>> $item_results
-	 * @phpstan-param array<array-key, array{ title?: string, date?: string, textText?: string, extUrl?: string}> $item_results
+	 * @phpstan-param list<array{ id: string, title: string|null, author: string|null, date: string, extUrl: string|null, extHomepageUrl: string|null, extHomepageLabel: string|null, textHtml: string|null, textText: string|null, thumbnailUrl: string|null }> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {

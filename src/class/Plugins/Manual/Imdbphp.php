@@ -80,6 +80,7 @@ final class Imdbphp extends Imdbphp_Config implements Plugins_Interface {
 	 *
 	 * @return bool true if Imdbphp is active
 	 */
+	#[\Override]
 	public static function is_active(): bool {
 		return true;
 	}
@@ -88,6 +89,7 @@ final class Imdbphp extends Imdbphp_Config implements Plugins_Interface {
 	 * Start the plugin
 	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
 	 */
+	#[\Override]
 	public function init( array $active_plugins ): void {}
 
 

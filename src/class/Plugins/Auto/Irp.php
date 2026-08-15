@@ -43,6 +43,7 @@ final class Irp implements Plugins_Interface {
 	 *
 	 * @return bool true if IRP is active
 	 */
+	#[\Override]
 	public static function is_active(): bool {
 		return defined( 'IRP_PLUGIN_FILE' );
 	}
@@ -51,6 +52,7 @@ final class Irp implements Plugins_Interface {
 	 * Start the plugin
 	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
 	 */
+	#[\Override]
 	public function init( array $active_plugins ): void {
 		// Disable IRP plugin in Lumiere pages, it breaks them
 		add_filter( 'the_content', [ $this, 'remove_irp_if_relevant' ], 11, 1 );

@@ -61,14 +61,6 @@ final class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= ' &ldquo;<i>' . $item_results[ $i ]['title'] . '</i>&rdquo;';
 			}
 
-			if ( isset( $item_results[ $i ]['year'] ) && strlen( $item_results[ $i ]['year'] ) > 0 ) {
-				$output .= '(' . $item_results[ $i ]['year'] . ')';
-			}
-
-			if ( isset( $item_results[ $i ]['details'] ) && strlen( $item_results[ $i ]['details'] ) !== 0 ) {
-				$output .= $item_results[ $i ]['details'];
-			}
-
 			// Display a "click to show more" after XX results
 			if ( $i === $nb_rows_display_clickmore ) {
 				$isset_next = isset( $item_results[ $i + 1 ] ) ? true : false;
@@ -96,8 +88,7 @@ final class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'pubprints' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $item_results
-	 * @phpstan-param array<array-key, array{author?: array<string>, title?: string, year?: string, details?: string }> $item_results
+	 * @phpstan-param list<array{ title: string|null, author: list<string>|null, publisher: string|null, isbn: string|null }> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
@@ -117,14 +108,6 @@ final class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 
 			if ( isset( $item_results[ $i ]['title'] ) && strlen( $item_results[ $i ]['title'] ) > 0 ) {
 				$output .= ' &ldquo;<i>' . $item_results[ $i ]['title'] . '</i>&rdquo;';
-			}
-
-			if ( isset( $item_results[ $i ]['year'] ) && strlen( $item_results[ $i ]['year'] ) > 0 ) {
-				$output .= '(' . $item_results[ $i ]['year'] . ')';
-			}
-
-			if ( isset( $item_results[ $i ]['details'] ) && strlen( $item_results[ $i ]['details'] ) !== 0 ) {
-				$output .= $item_results[ $i ]['details'];
 			}
 
 			// Display a "click to show more" after XX results

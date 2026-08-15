@@ -45,10 +45,10 @@ final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
 			return '';
 		}
 
-		$death_day = isset( $death['day'] ) && strlen( strval( $death['day'] ) ) > 0 ? strval( $death['day'] ) . ' ' : '(' . __( '(day unknown)', 'lumiere-movies' ) . ') ';
+		$death_day = isset( $death['day'] ) ? (string) $death['day'] . ' ' : '(' . __( '(day unknown)', 'lumiere-movies' ) . ') ';
 		$month_tmp = strtotime( $death['month'] ?? '' );
 		$death_month = $month_tmp !== false && $month_tmp > 0 ? date_i18n( 'F', intval( wp_date( 'm', $month_tmp ) ) ) . ' ' : '(' . __( '(month unknown)', 'lumiere-movies' ) . ') ';
-		$death_year = isset( $death['year'] ) && strlen( strval( $death['year'] ) ) > 0 ? strval( $death['year'] ) : '(' . __( '(year unknown)', 'lumiere-movies' ) . ')';
+		$death_year = isset( $death['year'] ) ? (string) $death['year'] : '(' . __( '(year unknown)', 'lumiere-movies' ) . ')';
 
 		$output = $this->output_class->misc_layout( 'date_inside', '&#8224;&nbsp;' . esc_html__( 'Died on', 'lumiere-movies' ), esc_html( $death_day . $death_month . $death_year ) );
 
@@ -68,7 +68,7 @@ final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param array<string, string|int> $death The array of death
-	 * @phpstan-param non-empty-array{ day?: int, month?: int, year?: int, place?: string, cause?: string, status?: string|'DEAD', ... } $death
+	 * @phpstan-param array{ day: int|null, month: string|null, mon: int|null, year: int|null, place: string|null, cause: string|null, status: 'ALIVE'|'DEAD'|'PRESUMED_DEAD'|null }|array{} $death
 	 * @param string $item_name
 	 */
 	public function get_module_popup( array $death, string $item_name ): string {
@@ -80,7 +80,7 @@ final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
 			$output .= "\n\t\t\t\t" . '<div id="death" class="lumiere_align_center lum_minus10">';
 
 			$death_day = isset( $death['day'] ) ? (string) $death['day'] . ' ' : __( '(day unknown)', 'lumiere-movies' ) . ' ';
-			$death_month = isset( $death['month'] ) ? date_i18n( 'F', $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
+			$death_month = isset( $death['month'] ) ? date_i18n( 'F', (int) $death['month'] ) . ' ' : __( '(month unknown)', 'lumiere-movies' ) . ' ';
 			$death_year = isset( $death['year'] ) ? (string) $death['year'] : __( '(year unknown)', 'lumiere-movies' );
 
 			$output .= "\n\t\t\t\t\t" . '<span class="lum_results_section_subtitle">'

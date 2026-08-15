@@ -145,8 +145,8 @@ final class Coming_Soon {
 	/**
 	 * Sort the array from Calendar imdbgraphql class
 	 *
-	 * @param array<array-key, array<string, string>> $array Array as defined in @see(Calendar::buildDateString)
-	 * @return array<array-key, array<string, string>>
+	 * @param array<string, list<array<string, list<string>|string>>> $array Array as defined in @see(Calendar::buildDateString)
+	 * @return array<string, list<array<string, list<string>|string>>>
 	 * @since 4.7.2 added
 	 */
 	private function array_sort_key( array $array ): array {
@@ -161,9 +161,9 @@ final class Coming_Soon {
 	/**
 	 * Convert date Key in array: 1/ apply WordPress date format to array key; 2/ Keep movies only from today and onwards (remove movies with old release date)
 	 *
-	 * @param array<array-key, array<string, string>> $array Array as defined in @see(Calendar::buildDateString)
+	 * @param array<string, list<array<string, list<string>|string>>> $array Array as defined in @see(Calendar::buildDateString)
 	 * @param null|string $date_format_override Override the default WordPress date format
-	 * @return array<array-key, array<string, string>>
+	 * @return array<string, list<array<string, list<string>|string>>>
 	 * @since 4.7.3 added
 	 */
 	private function convert_date( array $array, ?string $date_format_override ): array {

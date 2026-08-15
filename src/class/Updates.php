@@ -250,7 +250,6 @@ class Updates {
 
 		/**
 		 * Check if the update should happen
-		 * @psalm-suppress RedundantCastGivenDocblockType -- Correct, imdbHowManyUpdates should be string, but for some unknown reason it is not a string...
 		 */
 		if (
 			/**
@@ -263,12 +262,9 @@ class Updates {
 			 */
 			&& ( (string) $this->settings->get_admin_option( 'imdbHowManyUpdates' ) === $update_number_string )
 		) {
-
 			$this->logger->info( "[updateClass] Update $update_number_string has started" );
 			return true;
 		}
-
-		//$this->logger->debug( "[updateClass] Update $update_number_string not needed." );
 		return false;
 	}
 }

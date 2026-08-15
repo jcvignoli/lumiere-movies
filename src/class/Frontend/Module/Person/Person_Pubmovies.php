@@ -75,7 +75,7 @@ final class Person_Pubmovies extends \Lumiere\Frontend\Module\Parent_Module {
 	 * Display the Popup version of the module
 	 *
 	 * @param 'pubmovies' $item_name The name of the item
-	 * @param array<array-key, array<string, string>> $item_results
+	 * @phpstan-param list<array{ title: string, id: string, year: int|null, seriesTitle: string|null, seriesSeason: int|null, seriesEpisode: int|null }> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {

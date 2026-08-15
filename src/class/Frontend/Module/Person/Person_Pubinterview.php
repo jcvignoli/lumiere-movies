@@ -22,6 +22,7 @@ use Lumiere\Config\Get_Options_Person;
  * Method to display pubinterview for persons
  *
  * @since 4.5 new class
+ * @phpstan-import-type PublicityDef from \Lumiere\Vendor\Imdb\Name
  */
 final class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
 
@@ -52,7 +53,7 @@ final class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$output .= isset( $item_results[ $i ] ) && isset( $item_results[ $i ]['title'] ) ? '<i>' . $item_results[ $i ]['title'] . '</i> ' : '';
-			if ( isset( $item_results[ $i ]['date']['year'] ) && strlen( strval( $item_results[ $i ]['date']['year'] ) ) !== 0 ) {
+			if ( isset( $item_results[ $i ]['date']['year'] ) && strlen( strval( $item_results[ $i ]['date']['year'] ) ) > 1 ) {
 				$output .= ' (' . strval( $item_results[ $i ]['date']['year'] ) . ')';
 			}
 			if ( isset( $item_results[ $i ]['reference'] ) && strlen( $item_results[ $i ]['reference'] ) !== 0 ) {
@@ -79,7 +80,7 @@ final class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
 	 *
 	 * @param 'pubinterview' $item_name The name of the item
 	 * @param array<array-key, array<string, string|array<array-key, string>>> $item_results
-	 * @phpstan-param array<array-key, array{date?: array{year?: string }, title?: string, reference?: string}> $item_results
+	 * @phpstan-param list<PublicityDef> $item_results
 	 * @param int<1, max> $nb_total_items
 	 */
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
@@ -93,7 +94,7 @@ final class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$output .= isset( $item_results[ $i ] ) && isset( $item_results[ $i ]['title'] ) ? '<i>' . $item_results[ $i ]['title'] . '</i> ' : '';
-			if ( isset( $item_results[ $i ]['date']['year'] ) && strlen( strval( $item_results[ $i ]['date']['year'] ) ) !== 0 ) {
+			if ( isset( $item_results[ $i ]['date']['year'] ) && strlen( strval( $item_results[ $i ]['date']['year'] ) ) > 1 ) {
 				$output .= ' (' . strval( $item_results[ $i ]['date']['year'] ) . ')';
 			}
 			if ( isset( $item_results[ $i ]['reference'] ) && strlen( $item_results[ $i ]['reference'] ) !== 0 ) {

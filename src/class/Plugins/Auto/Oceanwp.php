@@ -54,6 +54,7 @@ final class Oceanwp implements Plugins_Interface {
 	 *
 	 * @return bool true if OceanWP is active
 	 */
+	#[\Override]
 	public static function is_active(): bool {
 		return class_exists( 'OCEANWP_Theme_Class' ) && defined( 'OCEANWP_THEME_DIR' );
 	}
@@ -62,6 +63,7 @@ final class Oceanwp implements Plugins_Interface {
 	 * Start the plugin
 	 * @param array<string, class-string<Plugins_Interface>> $active_plugins Plugins that are activated
 	 */
+	#[\Override]
 	public function init( array $active_plugins ): void {
 
 		// Remove conflicting assets.
