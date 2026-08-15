@@ -3,7 +3,7 @@
  * Missing wordpress constants in static checks.
  */
 if ( ! defined( 'ABSPATH' ) ) {
-	$local_file = dirname( dirname( dirname( __DIR__ ) ) ) . '/blogpourext/';
+	$local_file = __DIR__ . '/../../../blogpourext/';
 	if ( is_dir( $local_file ) ) {
 		// Local dev value.
 		define( 'ABSPATH', $local_file );

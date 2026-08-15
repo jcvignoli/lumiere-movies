@@ -30,7 +30,9 @@ use Lumiere\Vendor\Monolog\Handler\StreamHandler;
 use Lumiere\Vendor\Monolog\Formatter\LineFormatter;
 use Lumiere\Vendor\Monolog\Processor\IntrospectionProcessor;
 use Lumiere\Vendor\Monolog\Processor\WebProcessor;
+use Lumiere\Vendor\Psr\Log\AbstractLogger;
 use Lumiere\Vendor\Psr\Log\NullLogger;
+use Stringable;
 
 /**
  * Custom Monolog Logger extending Monolog directly.
@@ -39,14 +41,18 @@ use Lumiere\Vendor\Psr\Log\NullLogger;
  * and context processor registration based on plugin settings.
  *
  * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
- * @phpstan-ignore class.extendsFinalByPhpDoc
  */
-final class Logger extends MonologLogger {
+final class Logger extends AbstractLogger {
 
 	/**
 	 * Traits
 	 */
 	use Files;
+
+	/**
+	 * Encapsulated Monolog instance.
+	 */
+	private MonologLogger $logger;
 
 	/**
 	 * Constructor.
@@ -63,8 +69,21 @@ final class Logger extends MonologLogger {
 		private Settings_Service $settings = new Settings_Service()
 	) {
 		$final_name = $logger_name ?? Data::get_current_classname( __CLASS__ );
-		parent::__construct( $final_name );
+		$this->logger = new MonologLogger( $final_name );
 		$this->configure_logger( $screen_output, $settings );
+	}
+
+	/**
+	 * Logs with an arbitrary level (PSR-3 v3 requirement).
+	 *
+	 * @param mixed              $level   Log level.
+	 * @param string|Stringable $message Log message.
+	 * @param array<mixed>       $context Contextual log data.
+	 * @return void
+	 */
+	#[\Override]
+	public function log( mixed $level, string|Stringable $message, array $context = [] ): void {
+		$this->logger->log( $level, $message, $context );
 	}
 
 	/**
@@ -92,11 +111,11 @@ final class Logger extends MonologLogger {
 		$is_debug_enabled = ( $admin_options['imdbdebug'] ?? '0' ) === '1';
 
 		if ( ! $is_debug_enabled ) {
-			$this->pushHandler( new NullHandler() );
+			$this->logger->pushHandler( new NullHandler() );
 			return;
 		}
 
-		$this->setTimezone( wp_timezone() );
+		$this->logger->setTimezone( wp_timezone() );
 		$verbosity = MonologLogger::toMonologLevel( $admin_options['imdbdebuglevel'] );
 
 		$this->attach_file_handler( $admin_options, $verbosity );
@@ -122,7 +141,7 @@ final class Logger extends MonologLogger {
 			return;
 		}
 
-		$this->pushProcessor( new WebProcessor( null, [ 'url', 'referrer' ] ) );
+		$this->logger->pushProcessor( new WebProcessor( null, [ 'url', 'referrer' ] ) );
 
 		/**
 		 * Create log file if it doesn't exist, use null logger and exit if can't write to the log.
@@ -133,19 +152,19 @@ final class Logger extends MonologLogger {
 
 		// Cannot create the log file, use nullhandler, print error_log() and exit.
 		if ( $log_file === null ) {
-			$this->pushHandler( new NullHandler() );
+			$this->logger->pushHandler( new NullHandler() );
 			error_log( '***WP Lumiere Plugin ERROR***: cannot write to log file' ); // @phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			return;
 		}
 
-		$this->pushProcessor( new IntrospectionProcessor( $verbosity ) );
+		$this->logger->pushProcessor( new IntrospectionProcessor( $verbosity ) );
 
 		$stream = new StreamHandler( $log_file, $verbosity );
 		$date_format = 'd-M-Y H:i:s';
 		$output = "[%datetime%] %channel%.%level_name%: %message% %extra%\n";
 		$stream->setFormatter( new LineFormatter( $output, $date_format ) );
 
-		$this->pushHandler( $stream );
+		$this->logger->pushHandler( $stream );
 	}
 
 	/**
@@ -172,9 +191,10 @@ final class Logger extends MonologLogger {
 		 * message is written—giving WordPress time to set up $GLOBALS['pagenow'] and screen states
 		 */
 		$stream = new class( 'php://output', $verbosity, $this ) extends StreamHandler {
-			public function __construct( $stream, Level $level, private Logger $logger ) {
+			public function __construct( string $stream, Level $level, private Logger $logger ) {
 				parent::__construct( $stream, $level );
 			}
+			#[\Override]
 			public function isHandling( LogRecord $record ): bool {
 				// method in Monolog\Handler\AbstractHandler.
 				if ( $this->logger->is_screen_editor() ) {
@@ -186,7 +206,7 @@ final class Logger extends MonologLogger {
 
 		$output = nl2br( "[%level_name%][Lumiere]%message%\n" );
 		$stream->setFormatter( new LineFormatter( $output ) );
-		$this->pushHandler( $stream );
+		$this->logger->pushHandler( $stream );
 	}
 
 	/**

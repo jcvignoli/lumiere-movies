@@ -39,29 +39,29 @@ class Settings_Person {
 	 * Name of the databases as stored in WordPress db
 	 * Only used in child class, has to be called in Get_Options
 	 */
-	protected const string LUM_DATA_PERSON_OPTIONS         = 'lumiere_data_person_options';
+	protected const LUM_DATA_PERSON_OPTIONS         = 'lumiere_data_person_options';
 
 	/**
 	 * Partial namespace of modules
 	 * Used to build the full person namespace
 	 * @see \Lumiere\Frontend\Popup\Popup_Person
 	 */
-	public const string LUM_PERSON_MODULE_CLASS            = '\Lumiere\Frontend\Module\Person\Person_';
+	public const LUM_PERSON_MODULE_CLASS            = '\Lumiere\Frontend\Module\Person\Person_';
 
 	/**
 	 * Internal URL pages constants
 	 * Must be public, used everywhere
 	 */
-	public const string LUM_POPUP_PERSON_PATH              = 'class/Frontend/Popups/Popup_Person.php';
-	public const string LUM_TAXO_PEOPLE_THEME              = 'class/Theme/Taxonomy_People_Standard.php';
+	public const LUM_POPUP_PERSON_PATH              = 'class/Frontend/Popups/Popup_Person.php';
+	public const LUM_TAXO_PEOPLE_THEME              = 'class/Theme/Taxonomy_People_Standard.php';
 
 	/**
 	 * Default imdb fields with numbers selection and active by default
 	 * @see \Lumiere\Config\Settings_Helper::get_data_person_activated() use LUM_DATA_PERSON_DEFAULT_ACTIVE when building the database
 	 * @see \Lumiere\Config\Settings_Helper::get_data_person_number() use LUM_DATA_PERSON_DEFAULT_WITHNUMBER when building the database
 	 */
-	public const array LUM_DATA_PERSON_DEFAULT_ACTIVE     = [ 'bio', 'nickname', 'child', 'news', 'credit', 'quote', 'title', 'pic' ];
-	public const array LUM_DATA_PERSON_DEFAULT_WITHNUMBER = [
+	public const LUM_DATA_PERSON_DEFAULT_ACTIVE     = [ 'bio', 'nickname', 'child', 'news', 'credit', 'quote', 'title', 'pic' ];
+	public const LUM_DATA_PERSON_DEFAULT_WITHNUMBER = [
 		'award'        => '5',
 		'credit'       => '5',
 		'news'         => '5',
@@ -82,7 +82,7 @@ class Settings_Person {
 	 * @info templates/admin/data/admin-data-person-display.php use this list to not display those methods (always selected or never selected)
 	 * @info templates/admin/data/admin-data-person-order.php use this list to not display those methods in ordering list
 	 */
-	public const array LUM_DATA_PERSON_NO_METHOD          = [
+	public const LUM_DATA_PERSON_NO_METHOD          = [
 		'pic',          /* Never exists in Name (but it does as module), must always stay here */
 		'title',        /* Never exists in Name (but it does as module), must always stay here */
 		'birthname',    /* No module existing for now, and probably never */
@@ -96,7 +96,7 @@ class Settings_Person {
 	 * @see \Lumiere\Vendor\Imdb\Name List of methods
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_people_file() use this list so doesn't call those methods in \IMDB\Name
 	 */
-	public const array LUM_DATA_PERSON_EXTRA_GENERATION  = [
+	public const LUM_DATA_PERSON_EXTRA_GENERATION  = [
 		'name',     /* No module existing for now, is worth creating it, would need to be removed from from LUM_DATA_PERSON_NO_METHOD */
 	];
 

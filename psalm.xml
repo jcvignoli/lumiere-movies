@@ -2,7 +2,9 @@
 	<!-- checkForThrowsDocblock="true" -->
 	<!-- errorLevel: 1 is the most strict, usually use 3 -->
 <psalm
+	phpVersion="8.1"
 	autoloader="tests/bootstrap-testing.php"
+	allFunctionsGlobal="true"
 	errorLevel="3"
 	resolveFromConfigFile="true"
 	noCache="true"
@@ -14,23 +16,20 @@
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
-	<!-- removed 01/2026, get psalm stuck because of blogpourext/wp-includes/abilities-api/class-wp-ability-category.php
-	autoloader="src/vendor/autoload.php"
-	also tried
-	autoloader="tests/bootstrap-testing.php"
-	-->
-
 	<!-- Load and analyze -->
 	<projectFiles>
 		<directory name="src"/>
 		<ignoreFiles>
 			<directory name="src/vendor"/>
 			<directory name="../blogpourext"/><!-- Psalm get stuck otherwise -->
-			<file name="src/functions.php"/>
-			<file name="src/vars.php"/>
 			<directory name="src/class/Updates/"/>
 		</ignoreFiles>
 	</projectFiles>
+	<extraFiles>
+		<file name="src/functions.php"/>
+		<file name="src/vars.php"/>
+		<directory name="dist/vendor"/>
+	</extraFiles>
 	<stubs>
 		<file name="vendor/skaut/wordpress-stubs/stubs/WordPress/functions.php"/>
 		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php"/>

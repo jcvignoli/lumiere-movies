@@ -47,21 +47,21 @@ class Settings_Movie extends Settings_Helper {
 	 * Name of the databases as stored in WordPress db
 	 * Only used in child class, has to be called in Get_Options
 	 */
-	protected const string LUM_DATA_MOVIE_OPTIONS          = 'lumiere_data_options';
+	protected const LUM_DATA_MOVIE_OPTIONS          = 'lumiere_data_options';
 
 	/**
 	 * Internal URL pages constants
 	 * @see \Lumiere\Config\Get_Options used there, so visibility must be public
 	 */
-	public const string LUM_POPUP_MOVIE_PATH               = 'class/Frontend/Popups/Popup_Movie.php';
-	public const string LUM_POPUP_SEARCH_PATH              = 'class/Frontend/Popups/Popup_Movie_Search.php';
+	public const LUM_POPUP_MOVIE_PATH               = 'class/Frontend/Popups/Popup_Movie.php';
+	public const LUM_POPUP_SEARCH_PATH              = 'class/Frontend/Popups/Popup_Movie_Search.php';
 
 	/**
 	 * Partial namespace of movie modules
 	 * Used to build the full film namespace
 	 * @see \Lumiere\Frontend\Popup\Popup_Film
 	 */
-	public const string LUM_FILM_MODULE_CLASS              = '\Lumiere\Frontend\Module\Movie\Movie_';
+	public const LUM_FILM_MODULE_CLASS              = '\Lumiere\Frontend\Module\Movie\Movie_';
 
 	/**
 	 * Default imdb fields when creating DATA_OPTIONS
@@ -69,8 +69,8 @@ class Settings_Movie extends Settings_Helper {
 	 * @see Settings::get_default_data_movie_option() Use these lists to build the database
 	 * @see Settings_Helper::get_data_rows_withnumbers() to build list with LUM_DATA_DEFAULT_WITHNUMBER
 	 */
-	public const array LUM_DATA_DEFAULT_TAXO_ACTIVE       = [ 'director', 'genre' ];
-	public const array LUM_DATA_DEFAULT_WITHNUMBER        = [ // Public visibility as class {@see Settings_Helper::get_data_rows_withnumbers()} uses it
+	public const LUM_DATA_DEFAULT_TAXO_ACTIVE       = [ 'director', 'genre' ];
+	public const LUM_DATA_DEFAULT_WITHNUMBER        = [ // Public visibility as class {@see Settings_Helper::get_data_rows_withnumbers()} uses it
 		'actor'       => '10',
 		'alsoknow'    => '5',
 		'connection'  => '3',
@@ -84,7 +84,7 @@ class Settings_Movie extends Settings_Helper {
 		'trivia'      => '3',
 		'writer'      => '10',
 	];
-	public const array LUM_DATA_DEFAULT_WIDGET_ACTIVE     = [ 'title', 'pic', 'actor', 'connection', 'director', 'genre', 'goof', 'plot', 'tagline', 'writer' ];
+	public const LUM_DATA_DEFAULT_WIDGET_ACTIVE     = [ 'title', 'pic', 'actor', 'connection', 'director', 'genre', 'goof', 'plot', 'tagline', 'writer' ];
 
 	/**
 	 * List of modules that have not method in Imdb\Title (a module may or may not exist, but do not execute it since it calls Title methods)
@@ -92,7 +92,7 @@ class Settings_Movie extends Settings_Helper {
 	 *
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this list so doesn't call those methods in \IMDB\Title
 	 */
-	public const array LUM_DATA_MOVIE_NO_METHOD           = [
+	public const LUM_DATA_MOVIE_NO_METHOD           = [
 		'pic',          /* local module, this doesn't exist in Title */
 		'source',       /* doesn't exist in Title */
 		'actor',        /* must be replaced by cast(), actor() is no method in Title */
@@ -105,7 +105,7 @@ class Settings_Movie extends Settings_Helper {
 	 * @see \Lumiere\Vendor\Imdb\Title List of methods
 	 * @see \Lumiere\Admin\Cache\Cache_Files_Management::create_movie_file() use this list so doesn't call those methods in \IMDB\Name
 	 */
-	public const array LUM_DATA_MOVIE_EXTRA_GENERATION  = [
+	public const LUM_DATA_MOVIE_EXTRA_GENERATION  = [
 		'votes',        /* There is no module named this in the define_*(), but we want it */
 		'cast',         /* Replaces "actor" in defines_*() */
 		'video',        /* There is no module named this in the define_*(), but we want it */

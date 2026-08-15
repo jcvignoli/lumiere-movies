@@ -47,12 +47,15 @@ if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
  * @see \Lumiere\Config\Settings_Person complement this class
  * @see \Lumiere\Config\Settings_Popup complement this class
  *
- * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: numeric-string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: numeric-string, imdbdebug?: '0'|'1'|string, imdbdebuglevel: 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY', imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: 'bootstrap'|'highslide'|'classic', imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
+ * @phpstan-type DEBUG_LEVEL 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
+ * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: numeric-string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: numeric-string, imdbdebug?: '0'|'1'|string, imdbdebuglevel: DEBUG_LEVEL, imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: 'bootstrap'|'highslide'|'classic', imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
  *
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
  *
  * @phpstan-import-type OPTIONS_DATA_MOVIE from \Lumiere\Config\Settings_Movie
+ * @psalm-import-type OPTIONS_DATA_MOVIE_PSALM from \Lumiere\Config\Settings_Movie
  * @phpstan-import-type OPTIONS_DATA_PERSON from \Lumiere\Config\Settings_Person
+ * @psalm-import-type OPTIONS_DATA_PERSON_PSALM from \Lumiere\Config\Settings_Person
  */
 class Settings extends Settings_Helper {
 
@@ -60,24 +63,24 @@ class Settings extends Settings_Helper {
 	 * Name of the databases as stored in WordPress db
 	 * Only used in child class, has to be called in Get_Options
 	 */
-	protected const string LUM_ADMIN_OPTIONS               = 'lumiere_admin_options';
-	protected const string LUM_CACHE_OPTIONS               = 'lumiere_cache_options';
+	protected const LUM_ADMIN_OPTIONS               = 'lumiere_admin_options';
+	protected const LUM_CACHE_OPTIONS               = 'lumiere_cache_options';
 
 	/**
 	 * Lumière related website URLs
 	 */
-	public const string LUM_BLOG_PLUGIN                    = 'https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin';
-	public const string LUM_BLOG_PLUGIN_ABOUT              = 'https://www.jcvignoli.com/blog/en/presentation-of-jean-claude-vignoli';
-	public const string LUM_WORDPRESS_URL                  = 'https://wordpress.org/plugins/lumiere-movies/';
-	public const string LUM_WORDPRESS_IMAGES_URL           = 'https://ps.w.org/lumiere-movies/assets';
-	public const string LUM_GIT_URL                        = 'https://github.com/jcvignoli/lumiere-movies';
+	public const LUM_BLOG_PLUGIN                    = 'https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin';
+	public const LUM_BLOG_PLUGIN_ABOUT              = 'https://www.jcvignoli.com/blog/en/presentation-of-jean-claude-vignoli';
+	public const LUM_WORDPRESS_URL                  = 'https://wordpress.org/plugins/lumiere-movies/';
+	public const LUM_WORDPRESS_IMAGES_URL           = 'https://ps.w.org/lumiere-movies/assets';
+	public const LUM_GIT_URL                        = 'https://github.com/jcvignoli/lumiere-movies';
 
 	/**
 	 * Admin search
 	 */
-	public const string LUM_SEARCH_ITEMS_FILE              = 'class/admin/Search_Items.php';
-	public const string LUM_SEARCH_ITEMS_URL_ADMIN         = '/wp-admin/lumiere/search-items/';
-	public const string LUM_SEARCH_ITEMS_QUERY_STRING      = 'itemsearched'; // search string in url, such as ?moviesearched=
+	public const LUM_SEARCH_ITEMS_FILE              = 'class/admin/Search_Items.php';
+	public const LUM_SEARCH_ITEMS_URL_ADMIN         = '/wp-admin/lumiere/search-items/';
+	public const LUM_SEARCH_ITEMS_QUERY_STRING      = 'itemsearched'; // search string in url, such as ?moviesearched=
 
 	/**
 	 * Blocks manifest file
@@ -86,7 +89,7 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Core
 	 * @since 4.7
 	 */
-	public const string LUM_BLOCKS_MANIFEST                = LUMIERE_WP_PATH . 'assets/blocks/blocks-manifest.php';
+	public const LUM_BLOCKS_MANIFEST                = LUMIERE_WP_PATH . 'assets/blocks/blocks-manifest.php';
 
 	/**
 	 * List of active blocks
@@ -95,7 +98,7 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Core
 	 * @since 4.8
 	 */
-	public const array LUM_BLOCKS_LIST                    = [ 'post', 'addlink', 'coming-soon', 'opensearch', 'widget-sidebar-options' ];
+	public const LUM_BLOCKS_LIST                    = [ 'post', 'addlink', 'coming-soon', 'opensearch', 'widget-sidebar-options' ];
 
 	/**
 	 * Name of the var to look for in URL
@@ -103,13 +106,13 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Alteration\Rewrite_Rules
 	 * @see \Lumiere\Frontend\Popups\Popup_Select
 	 */
-	public const string LUM_POPUP_STRING                   = 'popup';
+	public const LUM_POPUP_STRING                   = 'popup';
 
 	/**
 	 * Rules to be added in add_rewrite_rule()
 	 * @see \Lumiere\Alteration\Rewrite_Rules
 	 */
-	public const array LUM_REWRITE_RULES                  = [
+	public const LUM_REWRITE_RULES                  = [
 		// Popups.
 		'lumiere/([^/]+)/?'                    => 'index.php?' . self::LUM_POPUP_STRING . '=$matches[1]',
 		//'index.php/lumiere/([^/]+)/?$'       => 'index.php?' . self::LUM_POPUP_STRING . '=$matches[1]', // Nobody keeps index.php, right?
@@ -120,25 +123,25 @@ class Settings extends Settings_Helper {
 	/**
 	 * URLs for pictures and menu images
 	 */
-	public const string LUM_PICS_URL                       = LUMIERE_WP_URL . 'assets/pics/';
-	public const string LUM_NOPICS_URL                     = self::LUM_PICS_URL . 'no_pics.png';
-	public const string LUM_PICS_SHOWTIMES_URL             = self::LUM_PICS_URL . '/showtimes/';
+	public const LUM_PICS_URL                       = LUMIERE_WP_URL . 'assets/pics/';
+	public const LUM_NOPICS_URL                     = self::LUM_PICS_URL . 'no_pics.png';
+	public const LUM_PICS_SHOWTIMES_URL             = self::LUM_PICS_URL . '/showtimes/';
 
 	/**
 	 * URL and Path for javascripts and stylesheets
 	 */
-	public const string LUM_JS_PATH                        = LUMIERE_WP_PATH . 'assets/js/';
-	public const string LUM_JS_URL                         = LUMIERE_WP_URL . 'assets/js/';
-	public const string LUM_CSS_PATH                       = LUMIERE_WP_PATH . 'assets/css/';
-	public const string LUM_CSS_URL                        = LUMIERE_WP_URL . 'assets/css/';
+	public const LUM_JS_PATH                        = LUMIERE_WP_PATH . 'assets/js/';
+	public const LUM_JS_URL                         = LUMIERE_WP_URL . 'assets/js/';
+	public const LUM_CSS_PATH                       = LUMIERE_WP_PATH . 'assets/css/';
+	public const LUM_CSS_URL                        = LUMIERE_WP_URL . 'assets/css/';
 
 	/**
 	 * Internal URL pages constants
 	 * Must be public, used everywhere
 	 * @TODO: remove, most certainely useless!
 	 */
-	public const string LUM_FILE_COPY_THEME_TAXONOMY       = 'class/Admin/Copy_Template/Copy_Theme.php';
-	public const string LUM_TAXO_ITEMS_THEME               = 'class/Theme/Taxonomy_Items_Standard.php';
+	public const LUM_FILE_COPY_THEME_TAXONOMY       = 'class/Admin/Copy_Template/Copy_Theme.php';
+	public const LUM_TAXO_ITEMS_THEME               = 'class/Theme/Taxonomy_Items_Standard.php';
 
 	/**
 	 * The name of the custom meta data field used for movie auto title widget
@@ -146,13 +149,13 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Frontend\Widget\Widget_Frontpage::lum_get_widget() use it to check and display the auto title widget
 	 * @see \Lumiere\Admin\Metabox_Selection::register_post_meta_sidebar() use it to register the custom meta data
 	 */
-	public const string LUM_AUTOTITLE_METADATA_FIELD_NAME  = '_lum_autotitle_perpost';
+	public const LUM_AUTOTITLE_METADATA_FIELD_NAME  = '_lum_autotitle_perpost';
 
 	/**
 	 * URL string for taxonomy
 	 * Must be public, used in parent class
 	 */
-	public const string URL_STRING_TAXO                    = 'lumiere-';
+	public const URL_STRING_TAXO                    = 'lumiere-';
 
 	/**
 	 * Word starting the file name of taxonomy theme
@@ -161,18 +164,18 @@ class Settings extends Settings_Helper {
 	 * @see \Lumiere\Admin\Copy_Templates\Detect_New_Theme
 	 * @see \Lumiere\Admin\Submenu\Data
 	 */
-	public const string LUM_THEME_TAXO_FILENAME_START      = 'taxonomy-';
+	public const LUM_THEME_TAXO_FILENAME_START      = 'taxonomy-';
 
 	/**
 	 * Cache folder path.
 	 * Must be public, used in parent class
 	 */
-	public const string LUM_UPDATES_PATH                   = 'class/Updates/';
+	public const LUM_UPDATES_PATH                   = 'class/Updates/';
 
 	/**
 	 * Cache folder path.
 	 */
-	public const string LUM_FOLDER_CACHE                   = '/cache/lumiere/';
+	public const LUM_FOLDER_CACHE                   = '/cache/lumiere/';
 
 	/**
 	 * Create database options if they don't exist
@@ -308,13 +311,14 @@ class Settings extends Settings_Helper {
 		 */
 		$debug_path = null;
 		/**
-		 * @psalm-suppress RedundantCondition (Psalm can't understand that WP_DEBUG_LOG is a const that can be string and bool)
+		 * @psalm-suppress InvalidArgument, RedundantCondition -- PSALM can't understand that WP_DEBUG_LOG is a const that can be string and bool
 		 * @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool
 		 */
 		if ( defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) && str_starts_with( WP_DEBUG_LOG, '/' ) ) {
 			$debug_path = WP_DEBUG_LOG;
 			/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
 		} elseif ( ! isset( $debug_path ) && defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ) {
+			/** @psalm-suppress FalseOperand */
 			$debug_path = ABSPATH . WP_DEBUG_LOG;
 		}
 
@@ -345,8 +349,8 @@ class Settings extends Settings_Helper {
 			'imdbdebuglog'                => '0',                        /* Log debug */
 			/** @phpstan-ignore nullCoalesce.variable (PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool) */
 			'imdbdebuglogpath'            => $debug_path ?? WP_CONTENT_DIR . '/debug.log',
-			'imdbdebuglevel'              => 'DEBUG',                    /* Debug levels: emergency, alert, critical,
-											error, warning, notice, info, debug */
+			'imdbdebuglevel'              => 'DEBUG',                    /* Debug levels: EMERGENCY, ALERT, CRITICAL,
+											ERROR, WARNING, NOTICE, INFO, DEBUG */
 			'imdbdebugscreen'             => '1',                        /* Show debug on screen */
 			'imdbwordpress_bigmenu'       => '0',                        /* Left menu */
 			'imdbwordpress_tooladminmenu' => '1',                        /* Top menu */
@@ -364,7 +368,7 @@ class Settings extends Settings_Helper {
 		// Update imdbHowManyUpdates option.
 		/*
 		$option_array_search = get_option( Settings::LUM_ADMIN_OPTIONS );
-		$option_array_search['imdbHowManyUpdates'] = 18; // Chosen number of updates.
+		$option_array_search['imdbHowManyUpdates'] = 18; // Given number of updates.
 		update_option( Settings::LUM_ADMIN_OPTIONS, $option_array_search );
 		*/
 
@@ -403,6 +407,8 @@ class Settings extends Settings_Helper {
 	 * @see Settings_Helper::get_data_rows_imdbwidgetorder() Import 'imdbwidgetorder' array
 	 *
 	 * @phpstan-return OPTIONS_DATA_MOVIE
+	 * @phan-suppress PhanTypeMismatchDeclaredReturn (?undeclared type \Lumiere\OPTIONS_DATA_MOVIE_PSALM)
+	 * @psalm-return OPTIONS_DATA_MOVIE_PSALM
 	 * @return array<string, string|array<string, string>>
 	 */
 	private function get_default_data_movie_option(): array {
@@ -423,6 +429,8 @@ class Settings extends Settings_Helper {
 	 *
 	 * @return array<string, array<string, string>>
 	 * @phpstan-return OPTIONS_DATA_PERSON (use of Union)
+	 * @phan-suppress PhanTypeMismatchDeclaredReturn (?undeclared type \Lumiere\OPTIONS_DATA_MOVIE_PSALM)
+	 * @psalm-return OPTIONS_DATA_PERSON_PSALM
 	 */
 	private function get_default_data_person_option(): array {
 		return [

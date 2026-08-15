@@ -219,9 +219,7 @@ final class Cli_Commands {
 
 		Copy_Theme::wp_cli_copy_theme( $taxonomy );
 
-		$taxo_prefix = isset( $this->imdb_admin_values['imdburlstringtaxo'] ) && is_string( $this->imdb_admin_values['imdburlstringtaxo'] )
-			? $this->imdb_admin_values['imdburlstringtaxo']
-			: '';
+		$taxo_prefix = $this->imdb_admin_values['imdburlstringtaxo'] ?? '';
 
 		WP_CLI::success( sprintf( 'The template *%s%s* was copied successfully.', $taxo_prefix, $taxonomy ) );
 	}
