@@ -4,7 +4,7 @@
  * default configuration. Command line arguments will be applied
  * after this file is read.
  */
- declare( strict_types = 1 );
+declare( strict_types = 1 );
 
 $phan_config = [
 

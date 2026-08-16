@@ -25,9 +25,10 @@ use Lumiere\Frontend\Module\Parent_Module;
  * @since 4.5 new class
  * @since 4.8.2 Using interface, refactored
  *
- * @phpstan-type AwardsShort array{ awardYear: int|null, awardWinner: bool, awardCategory: string|null, awardName: string|null, awardTitles: list<array{ titleId: string, titleName: string, titleNote: string|null, titleFullImageUrl: string|null, titleThumbImageUrl: string|null }>, awardNotes: string|null, awardOutcome: string|null }
- * @phpstan-type AwardsAll list<AwardsShort>|array{win: int, nom: int}
- * @extends Parent_Module<'award', list<AwardsAll>, \Lumiere\Vendor\Imdb\Name>
+ * @phan-type AwardsShort = array{ awardYear: int|null, awardWinner: bool, awardCategory: string|null, awardName: string|null, awardTitles: list<array{ titleId: string, titleName: string, titleNote: string|null, titleFullImageUrl: string|null, titleThumbImageUrl: string|null }>, awardNotes: string|null, awardOutcome: string|null }
+ * @phan-type AwardsWins = array{win?: int, nom?: int}
+ * @phan-type AwardsAll = array<string, list<AwardsShort>|AwardsWins>
+ * @extends Parent_Module<'award', AwardsAll, \Lumiere\Vendor\Imdb\Name>
  */
 final class Person_Award extends Parent_Module {
 
@@ -38,7 +39,7 @@ final class Person_Award extends Parent_Module {
 	#[\Override]
 	public function get_module( object $imdb_class, string $item_name ): string {
 
-		/** @var list<AwardsAll> $item_results */
+		/** @var AwardsAll $item_results */
 		$item_results   = $imdb_class->$item_name();
 		$nb_total_items = $this->calculate_total_items( $item_results );
 
@@ -69,7 +70,7 @@ final class Person_Award extends Parent_Module {
 	/**
 	 * Calculate total valid items from results array.
 	 *
-	 * @phpstan-param list<AwardsAll> $item_results
+	 * @phpstan-param AwardsAll $item_results
 	 * @return int
 	 */
 	private function calculate_total_items( array $item_results ): int {
@@ -93,7 +94,7 @@ final class Person_Award extends Parent_Module {
 	 * Shared rendering pipeline for both standard and popup views.
 	 *
 	 * @param string $item_name
-	 * @phpstan-param list<AwardsAll> $item_results
+	 * @phpstan-param AwardsAll $item_results
 	 * @param int $nb_total_items
 	 * @param int $nb_rows_display_clickmore
 	 * @return string
