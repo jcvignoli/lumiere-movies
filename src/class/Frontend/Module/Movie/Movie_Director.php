@@ -30,9 +30,9 @@ use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
  * @since 4.8.2 Using interface
  *
  * @phpstan-import-type CreditsArrayDef from \Lumiere\Vendor\Imdb\Title
- * @phpstan-extends Parent_Module<'composer', CreditsArrayDef, \Lumiere\Vendor\Imdb\Title>
+ * @phpstan-extends Parent_Module<'director', CreditsArrayDef, \Lumiere\Vendor\Imdb\Title>
  * @phan-type CreditsArrayDefPhan = array<int, array{imdb: string, name: string, jobs?: array<int, string>}>
- * @phan-extends Parent_Module<'composer', CreditsArrayDefPhan, \Lumiere\Vendor\Imdb\Title>
+ * @phan-extends Parent_Module<'director', CreditsArrayDefPhan, \Lumiere\Vendor\Imdb\Title>
  */
 final class Movie_Director extends Parent_Module implements Interface_Movie_Taxonomy {
 
