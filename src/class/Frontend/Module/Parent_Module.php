@@ -28,9 +28,10 @@ use Lumiere\Plugins\Logger;
 /**
  * Simplify coding, using most useful classes
  * @see \Lumiere\Frontend\Taxonomy\Add_Taxonomy extra class is only used in modules that need it
+ * Child Module classes must declare "@extends Parent_Module<@template1, @template2, etc>"
  *
  * @since 4.5 new class
- * @since 4.8.2 using interface
+ * @since 4.8.2 using Interface_Module
  *
  * @template ModName of string
  * @template PopArray of array
@@ -143,7 +144,7 @@ class Parent_Module implements Interface_Module {
 	}
 
 	/**
-	 * fake implementation
+	 * fake Interface_Module implementation
 	 * @param ImdbClass $imdb_class
 	 * @param ModName $item_name
 	 */
@@ -152,7 +153,7 @@ class Parent_Module implements Interface_Module {
 		return '';
 	}
 	/**
-	 * fake implementation
+	 * fake Interface_Module implementation
 	 * @param ModName $item_name
 	 * @param PopArray $item_results
 	 * @param int $nb_total_items

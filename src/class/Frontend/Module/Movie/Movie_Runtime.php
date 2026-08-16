@@ -36,7 +36,7 @@ final class Movie_Runtime extends Parent_Module {
 	#[\Override]
 	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = isset( $imdb_class->$item_name()[0]['time'] ) ? strval( $imdb_class->$item_name()[0]['time'] ) : '';
+		$item_results = isset( $imdb_class->$item_name()[0]['time'] ) ? (string) $imdb_class->$item_name()[0]['time'] : '';
 
 		if ( strlen( $item_results ) === 0 ) {
 			return '';

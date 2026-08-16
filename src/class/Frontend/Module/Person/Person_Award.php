@@ -25,9 +25,9 @@ use Lumiere\Frontend\Module\Parent_Module;
  * @since 4.5 new class
  * @since 4.8.2 Using interface, refactored
  *
- * @phan-type AwardsShort = array{ awardYear: int|null, awardWinner: bool, awardCategory: string|null, awardName: string|null, awardTitles: list<array{ titleId: string, titleName: string, titleNote: string|null, titleFullImageUrl: string|null, titleThumbImageUrl: string|null }>, awardNotes: string|null, awardOutcome: string|null }
- * @phan-type AwardsWins = array{win?: int, nom?: int}
- * @phan-type AwardsAll = array<string, list<AwardsShort>|AwardsWins>
+ * @phan-type AwardsTitles = array{ titleId: string, titleName: string, titleNote: string|null, titleFullImageUrl: string|null, titleThumbImageUrl: string|null }
+ * @phan-type AwardsShort = array{ awardYear: int|null, awardWinner: bool, awardCategory: string|null, awardName: string|null, awardTitles: list<AwardsTitles>, awardNotes: string|null, awardOutcome: string|null }
+ * @phan-type AwardsAll = array<string, list<AwardsShort>|array{win?: int, nom?: int}>
  * @extends Parent_Module<'award', AwardsAll, \Lumiere\Vendor\Imdb\Name>
  */
 final class Person_Award extends Parent_Module {
@@ -54,7 +54,14 @@ final class Person_Award extends Parent_Module {
 		$person_number_option      = $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] ?? null;
 		$nb_rows_display_clickmore = $person_number_option !== null ? intval( $person_number_option ) : 5; /** max number of movies before breaking with "see all" */
 
-		return $this->render_award_list( $item_name, $item_results, $nb_total_items, $nb_rows_display_clickmore );
+		return $this->render_award_list(
+			$item_name,
+			$item_results,
+			$nb_total_items,
+			$nb_rows_display_clickmore,
+			// The function will display the awards films with clickable links.
+			fn( array $title ): string => parent::get_popup_film_byid( $title['titleName'], $title['titleId'] )
+		);
 	}
 
 	/**
@@ -64,13 +71,21 @@ final class Person_Award extends Parent_Module {
 	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 		$nb_rows_display_clickmore = 5;
-		return $this->render_award_list( $item_name, $item_results, $nb_total_items, $nb_rows_display_clickmore );
+
+		return $this->render_award_list(
+			$item_name,
+			$item_results,
+			$nb_total_items,
+			$nb_rows_display_clickmore,
+			// The function will display the awards films with no links.
+			fn( array $title ): string => $title['titleName'] . $title['titleId']
+		);
 	}
 
 	/**
 	 * Calculate total valid items from results array.
 	 *
-	 * @phpstan-param AwardsAll $item_results
+	 * @param AwardsAll $item_results
 	 * @return int
 	 */
 	private function calculate_total_items( array $item_results ): int {
@@ -87,6 +102,7 @@ final class Person_Award extends Parent_Module {
 				$minus_two = 1;
 			}
 		}
+
 		return $nb_total_items - $minus_one - $minus_two;
 	}
 
@@ -94,12 +110,19 @@ final class Person_Award extends Parent_Module {
 	 * Shared rendering pipeline for both standard and popup views.
 	 *
 	 * @param string $item_name
-	 * @phpstan-param AwardsAll $item_results
+	 * @param AwardsAll $item_results
 	 * @param int $nb_total_items
 	 * @param int $nb_rows_display_clickmore
+	 * @param callable(AwardsTitles): string $awards_title_call
 	 * @return string
 	 */
-	private function render_award_list( string $item_name, array $item_results, int $nb_total_items, int $nb_rows_display_clickmore ): string {
+	private function render_award_list(
+		string $item_name,
+		array $item_results,
+		int $nb_total_items,
+		int $nb_rows_display_clickmore,
+		callable $awards_title_call
+	): string {
 		$item_may_plural = Get_Options_Person::get_all_person_fields( $nb_total_items )[ $item_name ];
 		$title           = $this->output_class->misc_layout(
 			'frontend_subtitle_item',
@@ -122,13 +145,19 @@ final class Person_Award extends Parent_Module {
 				}
 
 				// if $array[ $i ]['awardName'], means it's AwardsShort
-				$award = isset( $array[ $i ]['awardName'] ) ? $this->build_award_item_markup( $array[ $i ] ) : '';
+				$award = isset( $array[ $i ]['awardName'] )
+					? $this->build_award_item_markup( $array[ $i ], $awards_title_call )
+					: '';
 
-				$output .= $overall_loop < ( $nb_total_items - 1 ) ? $this->output_class->misc_layout( 'numbered_list', (string) ( $overall_loop + 1 ), '', $award ) : '';
+				$output .= $overall_loop < ( $nb_total_items - 1 )
+					? $this->output_class->misc_layout( 'numbered_list', (string) ( $overall_loop + 1 ), '', $award )
+					: '';
 
 				if ( $overall_loop > $nb_rows_display_clickmore && $nb_total_items > 0 && $overall_loop === $nb_total_items ) {
-					/* Translators: %1s and %2s are numbers */
-					$total_awards .= isset( $array['win'], $array['nom'] ) ? '<i>' . wp_sprintf( __( 'Won %1$1s awards and was nominated %2$2s times.', 'lumiere-movies' ), $array['win'], $array['nom'] ) . '</i>' : '';
+					$total_awards .= isset( $array['win'], $array['nom'] )
+						/* Translators: %1s and %2s are numbers */
+						? '<i>' . wp_sprintf( __( 'Won %1$1s awards and was nominated %2$2s times.', 'lumiere-movies' ), $array['win'], $array['nom'] ) . '</i>'
+						: '';
 					$output       .= $this->output_class->misc_layout( 'click_more_end' );
 				}
 
@@ -142,10 +171,11 @@ final class Person_Award extends Parent_Module {
 	/**
 	 * Construct string formatting for individual award entries.
 	 *
-	 * @phpstan-param AwardsShort $award_data
+	 * @param AwardsShort $award_data
+	 * @param callable(AwardsTitles): string $awards_title_call
 	 * @return string
 	 */
-	private function build_award_item_markup( array $award_data ): string {
+	private function build_award_item_markup( array $award_data, callable $awards_title_call ): string {
 		$output = $award_data['awardName'];
 
 		if ( isset( $award_data['awardYear'] ) ) {
@@ -161,8 +191,8 @@ final class Person_Award extends Parent_Module {
 			$output .= ' <i>' . $award_data['awardOutcome'] . '</i>';
 		}
 		if ( isset( $award_data['awardTitles'][0]['titleName'] ) ) {
-			$film_link = parent::get_popup_film_byid( $award_data['awardTitles'][0]['titleName'], $award_data['awardTitles'][0]['titleId'] );
-			$output    .= ' <i>' . __( 'for', 'lumiere-movies' ) . ' ' . $film_link . '</i>';
+			$film_link = $awards_title_call( $award_data['awardTitles'][0] );
+			$output   .= ' <i>' . __( 'for', 'lumiere-movies' ) . ' ' . $film_link . '</i>';
 		}
 
 		return $output ?? '';
