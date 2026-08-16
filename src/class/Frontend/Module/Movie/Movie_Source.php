@@ -17,30 +17,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display Source for movies
+ * @since 4.8.2 Using interface
  *
- * @since 4.5 new class
+ * @extends Parent_Module<'source', array{}, \Lumiere\Vendor\Imdb\Title>
  */
-final class Movie_Source extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Source extends Parent_Module {
 
 	/**
-	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'source' $item_name The name of the item
+	 * Display the module
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$get_mid = strlen( $movie->imdbid() ) > 0 ? strval( $movie->imdbid() ) : null;
+		$get_mid = (int) $imdb_class->imdbid();
 
-		if ( $get_mid === null || $get_mid === '0' ) {
+		if ( $get_mid === 0 ) {
 			return '';
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $item_name, $get_mid );
+			return $this->get_module_popup( $item_name, [], $get_mid );
 		}
 
 		$output = $this->output_class->misc_layout(
@@ -48,25 +49,24 @@ final class Movie_Source extends \Lumiere\Frontend\Module\Parent_Module {
 			ucfirst( Get_Options_Movie::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		);
 
-		$output .= $this->link_maker->get_source( $get_mid );
+		$output .= $this->link_maker->get_source( (string) $get_mid );
 
 		return $output;
 	}
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'source' $item_name The name of the item
-	 * @param string $get_mid
+	 * @inherit
 	 */
-	public function get_module_popup( string $item_name, string $get_mid ): string {
+	#[\Override]
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
 			ucfirst( Get_Options_Movie::get_all_fields( /* no number because no plural here */ )[ $item_name ] )
 		);
 
-		$output .= $this->link_maker->get_source( $get_mid );
+		$output .= $this->link_maker->get_source( (string) $nb_total_items );
 
 		return $output;
 	}

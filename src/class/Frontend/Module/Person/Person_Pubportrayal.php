@@ -17,23 +17,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display Pubportrayal for person
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @phpstan-type PubList array{ title: string, id: string, year: int|null }
+ * @phstan-extends Parent_Module<'pubportrayal', list<PubList>, \Lumiere\Vendor\Imdb\Name>
+ * @phan-type PubListPhan = array{ title: string, id: string, year: int|null }
+ * @phan-extends Parent_Module<'pubportrayal', list<PubListPhan>, \Lumiere\Vendor\Imdb\Name>
  */
-final class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Pubportrayal extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param 'pubportrayal' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $person_class->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 		$nb_rows_click_more = $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] !== null ? intval( $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
 
@@ -70,11 +76,9 @@ final class Person_Pubportrayal extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated
 	 * Array of results is sorted by column
-	 *
-	 * @param 'pubportrayal' $item_name The name of the item
-	 * @phpstan-param list<array{ title: string, id: string, year: int|null }> $item_results
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(

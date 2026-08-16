@@ -17,23 +17,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display award for person
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'award', array<array-key, mixed>, \Lumiere\Vendor\Imdb\Name>
  */
-final class Person_Award extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Award extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param 'award' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $person_class->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = 0;
 		$minus_one = 0;
 		$minus_two = 0;
@@ -102,11 +105,9 @@ final class Person_Award extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'award' $item_name The name of the item
-	 * @param array<array-key, mixed> $item_results
-	 * @param int<-2, -1>|int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$nb_rows_display_clickmore = 5;

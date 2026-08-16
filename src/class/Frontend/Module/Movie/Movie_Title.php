@@ -18,13 +18,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display title for movies
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'title', array{fullTitle: string, taglineList: array<string>}, \Lumiere\Vendor\Imdb\Title>
  */
-final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Title extends Parent_Module {
 
 	/**
 	 * Constructor
@@ -38,15 +42,15 @@ final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the title and possibly the year
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'title' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$year = (string) $movie->year();
-		$title = $movie->$item_name();
+		$year = (string) $imdb_class->year();
+		$title = $imdb_class->$item_name();
 		$year_text = '';
+
 		if (
 			$this->settings->get_movie_option( 'imdbwidgetyear' ) !== null
 			&& $this->settings->get_movie_option( 'imdbwidgetyear' ) === '1'
@@ -54,13 +58,37 @@ final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 			$year_text = ' (' . $year . ')';
 		}
 
+		$array = [
+			'fullTitle' => $title . $year_text,
+			'taglineList' => $imdb_class->tagline(),
+		];
+
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $title, $year_text, $movie->tagline() );
+			return $this->get_module_popup( 'title', $array, 0, );
 		}
 
 		return $this->output_class->misc_layout(
 			'frontend_title',
-			$title . $year_text
+			$array['fullTitle']
+		);
+	}
+
+	/**
+	 * Display the Popup version of the module
+	 * @inherit
+	 */
+	#[\Override]
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
+
+		$tagline_final = null;
+		if ( array_key_exists( 0, $item_results['taglineList'] ) ) {
+			$tagline_final = esc_html( $item_results['taglineList'][0] );
+		}
+
+		return $this->output_class->misc_layout(
+			'popup_title_film',
+			$item_results['fullTitle'],
+			$tagline_final ?? ''
 		);
 	}
 
@@ -73,26 +101,5 @@ final class Movie_Title extends \Lumiere\Frontend\Module\Parent_Module {
 	 */
 	public function get_module_popup_two_columns( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 		return $this->get_module( $movie, $item_name );
-	}
-
-	/**
-	 * Display the Popup version of the module
-	 *
-	 * @param string $title The title
-	 * @param string $year_text The year
-	 * @param array<array-key, string> $taglines Tagline
-	 */
-	public function get_module_popup( string $title, string $year_text, array $taglines ): string {
-
-		$tagline_final = null;
-		if ( array_key_exists( 0, $taglines ) ) {
-			$tagline_final = esc_html( $taglines[0] );
-		}
-
-		return $this->output_class->misc_layout(
-			'popup_title_film',
-			$title . $year_text,
-			$tagline_final ?? ''
-		);
 	}
 }

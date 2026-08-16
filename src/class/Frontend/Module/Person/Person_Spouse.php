@@ -17,24 +17,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display Spouse for person
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
  * @phpstan-import-type SpouseDef from \Lumiere\Vendor\Imdb\Name
+ * @phpstan-extends Parent_Module<'spouse', list<SpouseDef>, \Lumiere\Vendor\Imdb\Name>
+ * @phan-type SpouseDefPhan = array{ imdb: string|null, name: string|null, from: list<string>, to: list<string>, dateText: string|null, comment: list<string>, children: int, current: string }
+ * @phan-extends Parent_Module<'spouse', list<SpouseDefPhan>, \Lumiere\Vendor\Imdb\Name>
  */
-final class Person_Spouse extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Spouse extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param 'spouse' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $person_class->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 
 		if ( $nb_total_items === 0 ) {
@@ -66,11 +71,9 @@ final class Person_Spouse extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated
 	 * Array of results is sorted by column
-	 *
-	 * @param 'spouse' $item_name The name of the item
-	 * @phpstan-param list<SpouseDef> $item_results
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(

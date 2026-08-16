@@ -22,15 +22,24 @@ use Lumiere\Enums\Item_Type;
 use Lumiere\Frontend\Layout\Output;
 use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
 use Lumiere\Frontend\Main;
+use Lumiere\Frontend\Module\Interface_Module;
 use Lumiere\Plugins\Logger;
 
 /**
- * Simplify coding, using most usefull classes
+ * Simplify coding, using most useful classes
  * @see \Lumiere\Frontend\Taxonomy\Add_Taxonomy extra class is only used in modules that need it
  *
  * @since 4.5 new class
+ * @since 4.8.2 using interface
+ *
+ * @template ModName of string
+ * @template PopArray of array
+ * @template ImdbClass of \Lumiere\Vendor\Imdb\Title|\Lumiere\Vendor\Imdb\Name
+ *
+ * @implements Interface_Module<ModName, PopArray, ImdbClass>
+ * @phan-suppress PhanGenericConstructorTypes
  */
-class Parent_Module {
+class Parent_Module implements Interface_Module {
 
 	/**
 	 * Traits
@@ -131,5 +140,25 @@ class Parent_Module {
 	 */
 	protected function get_external_url( string $title, string $url ): string {
 		return $this->link_maker->get_external_url( $title, $url );
+	}
+
+	/**
+	 * fake implementation
+	 * @param ImdbClass $imdb_class
+	 * @param ModName $item_name
+	 */
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
+		return '';
+	}
+	/**
+	 * fake implementation
+	 * @param ModName $item_name
+	 * @param PopArray $item_results
+	 * @param int $nb_total_items
+	 */
+	#[\Override]
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
+		return '';
 	}
 }

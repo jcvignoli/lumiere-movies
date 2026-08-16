@@ -16,36 +16,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Module\Parent_Module;
+
 /**
  * Method to display Rating for movies
- * Uses Link_Maker class
+ * @since 4.8.2 Using interface
  *
- * @since 4.5 new class
+ * @extends Parent_Module<'rating', array<string, int>, \Lumiere\Vendor\Imdb\Title>
  */
-final class Movie_Rating extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Rating extends Parent_Module {
 
 	/**
 	 * Display the Rating
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'rating' $item_name The name of the item, ie 'director', 'writer'
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
+		$array = [
+			'votes_sanitized' => intval( $imdb_class->votes() ),
+			'rating_sanitized' => intval( $imdb_class->$item_name() ),
+		];
 
-		$votes_sanitized = intval( $movie->votes() );
-		$rating_sanitized = intval( $movie->$item_name() );
-
-		if ( $votes_sanitized === 0 ) {
+		if ( $array['votes_sanitized'] === 0 ) {
 			return '';
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $votes_sanitized, $rating_sanitized );
+			return $this->get_module_popup( 'rating', $array, 0 );
 		}
 
-		return $this->link_maker->get_rating_picture( // From trait Main.
-			$rating_sanitized,
-			$votes_sanitized,
+		return $this->link_maker->get_rating_picture(
+			$array['rating_sanitized'],
+			$array['votes_sanitized'],
 			__( 'vote average', 'lumiere-movies' ),
 			__( 'out of 10', 'lumiere-movies' ),
 			__( 'votes', 'lumiere-movies' )
@@ -54,16 +56,13 @@ final class Movie_Rating extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 * Array of results is sorted by column
-	 *
-	 * @param int $votes_sanitized Then number of votes
-	 * @param int $rating_sanitized
+	 * @inherit
 	 */
-	public function get_module_popup( int $votes_sanitized, int $rating_sanitized ): string {
-
-		return $this->link_maker->get_rating_picture( // From trait Main.
-			$rating_sanitized,
-			$votes_sanitized,
+	#[\Override]
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
+		return $this->link_maker->get_rating_picture(
+			$item_results['rating_sanitized'],
+			$item_results['votes_sanitized'],
 			__( 'vote average', 'lumiere-movies' ),
 			__( 'out of 10', 'lumiere-movies' ),
 			__( 'votes', 'lumiere-movies' )

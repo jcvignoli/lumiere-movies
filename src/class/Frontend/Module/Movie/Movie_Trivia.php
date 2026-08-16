@@ -17,24 +17,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display trivia for movies
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
  * @phpstan-import-type TriviaArrayDef from \Lumiere\Vendor\Imdb\Title
+ * @phpstan-extends Parent_Module<'trivia', TriviaArrayDef, \Lumiere\Vendor\Imdb\Title>
+ * @phan-type TriviaArrayDefPhan = array<string, array<int, array<string, string>>>
+ * @phan-extends Parent_Module<'trivia', TriviaArrayDefPhan, \Lumiere\Vendor\Imdb\Title>
  */
-final class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Trivia extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'trivia' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $movie->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = 0;
 		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 
@@ -80,11 +85,9 @@ final class Movie_Trivia extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'trivia' $item_name The name of the item
-	 * @phpstan-param TriviaArrayDef $item_results
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$translated_item = Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ];

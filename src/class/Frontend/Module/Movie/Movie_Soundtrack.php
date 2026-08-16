@@ -17,22 +17,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Frontend\Module\Parent_Module;
+
 /**
  * Method to display soundtrack for movies
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'soundtrack', list<array{soundtrack: string,credits: list<string>, creditSplit: array{creditors: list<array{creditType: string|null, name: string, nameId: string|null, attribute: string|null }>, comment: list<string> } }>, \Lumiere\Vendor\Imdb\Title>
+ * @phan-suppress PhanGenericMissingParameters
  */
-final class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Soundtrack extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'soundtrack' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $movie->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 
@@ -70,11 +75,9 @@ final class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated
 	 * Array of results is sorted by column
-	 *
-	 * @param 'soundtrack' $item_name The name of the item
-	 * @param array<mixed> $item_results Complex array of results with several possibilies
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$nb_rows_display_clickmore = 5;
@@ -88,8 +91,11 @@ final class Movie_Soundtrack extends \Lumiere\Frontend\Module\Parent_Module {
 
 			$output .= "\n\t\t\t\t\t" . ucfirst( strtolower( $item_results[ $i ]['soundtrack'] ) );
 
-			if ( isset( $item_results[ $i ]['creditSplit']['creditors'][0]['name'] ) && isset( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] ) ) {
-				$output .= isset( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] ) ? ' <i>' . $item_results[ $i ]['creditSplit']['creditors'][0]['creditType'] . ' ' . parent::get_film_url( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'], $item_results[ $i ]['creditSplit']['creditors'][0]['name'] ) . '</i>' : ' <i>' . $item_results[ $i ]['creditSplit']['creditors'][0]['name'] . '</i>';
+			if (
+				isset( $item_results[ $i ]['creditSplit']['creditors'][0]['name'] )
+				&& isset( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'] )
+			) {
+				$output .= ' <i>' . $item_results[ $i ]['creditSplit']['creditors'][0]['creditType'] . ' ' . parent::get_film_url( $item_results[ $i ]['creditSplit']['creditors'][0]['nameId'], $item_results[ $i ]['creditSplit']['creditors'][0]['name'] ) . '</i>';
 			}
 			$output .= ( $i < $nb_total_items - 1 ) ? ', ' : '';
 

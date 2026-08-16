@@ -17,23 +17,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display Pubprints for persons
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @phpstan-type Pubprints array{title: string|null, author: list<string>|null, publisher: string|null, isbn: string|null}
+ * @phpstan-extends Parent_Module<'pubprints', list<Pubprints>, \Lumiere\Vendor\Imdb\Name>
+ * @phan-type PubprintsPhan = array{title: string|null, author: list<string>|null, publisher: string|null, isbn: string|null}
+ * @phan-extends Parent_Module<'pubprints', list<PubprintsPhan>, \Lumiere\Vendor\Imdb\Name>
  */
-final class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Pubprints extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param 'pubprints' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $person_class->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 
 		if ( $nb_total_items === 0 ) {
@@ -86,11 +92,9 @@ final class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'pubprints' $item_name The name of the item
-	 * @phpstan-param list<array{ title: string|null, author: list<string>|null, publisher: string|null, isbn: string|null }> $item_results
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$nb_rows_display_clickmore = 5;
@@ -101,13 +105,13 @@ final class Person_Pubprints extends \Lumiere\Frontend\Module\Parent_Module {
 		);
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-
-			if ( isset( $item_results[ $i ]['author'][0] ) && strlen( $item_results[ $i ]['author'][0] ) > 0 ) {
-				$output .= "\n\t\t" . $item_results[ $i ]['author'][0];
+			$authors = $item_results[ $i ]['author'] ?? null;
+			if ( is_array( $authors ) && isset( $authors[0] ) && strlen( $authors[0] ) > 0 ) {
+				$output .= "\n\t\t" . $authors[0];
 			}
-
-			if ( isset( $item_results[ $i ]['title'] ) && strlen( $item_results[ $i ]['title'] ) > 0 ) {
-				$output .= ' &ldquo;<i>' . $item_results[ $i ]['title'] . '</i>&rdquo;';
+			$title = $item_results[ $i ]['title'];
+			if ( isset( $title ) && strlen( $title ) > 0 ) {
+				$output .= ' &ldquo;<i>' . $title . '</i>&rdquo;';
 			}
 
 			// Display a "click to show more" after XX results

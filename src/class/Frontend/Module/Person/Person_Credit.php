@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Lumiere\Config\Get_Options_Person;
 use Lumiere\Config\Settings_Popup;
+use Lumiere\Frontend\Module\Parent_Module;
 use Lumiere\Tools\Data;
 
 /**
@@ -26,22 +27,27 @@ use Lumiere\Tools\Data;
  * Uses {@see \Lumiere\Tools\Data::mb_ucfirst()} method for a translated first character which could be accentuated in other languages
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @phpstan-type SubCatList 'actor'|'actress'|'archiveFootage'|'artDepartment'|'assistantDirector'|'bio'|'born'|'cinematographer'| 'costume_department'|'costume_supervisor'|'died'|'director'|'editor'|'miscellaneous'|'pic'|'producer'|'self'|'showrunner'| 'soundtrack'|'stunts'|'thanks'|'title'|'writer'
+ * @extends Parent_Module<SubCatList, array<string, list<array{ titleId: string, titleName: string, titleType: string, year: int|null, endYear: int|null, characters: list<string>|null, jobs: list<string>, titleFullImageUrl: string|null, titleThumbImageUrl: string|null }>>, \Lumiere\Vendor\Imdb\Name>
+ * @phan-suppress PhanGenericMissingParameters
  */
-final class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Credit extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param string $sub_cat The name of the subcategory
+	 * $item_name is the subcategory
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $sub_cat ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $person_class->credit();
-		$nb_rows_click_more = $this->settings->get_person_option( 'number' . $sub_cat . '_number' ) !== null ? intval( $this->settings->get_person_option( 'number' . $sub_cat . '_number' ) ) : 9; /** max number of movies before breaking with "see all" */
+		$item_results = $imdb_class->credit();
+		$nb_rows_click_more = $this->settings->get_person_option( 'number' . $item_name . '_number' ) !== null ? intval( $this->settings->get_person_option( 'number' . $item_name . '_number' ) ) : 9; /** max number of movies before breaking with "see all" */
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $sub_cat, $item_results, 1 /* not used in get_module_popup() method */ );
+			return $this->get_module_popup( $item_name, $item_results, 1 /* not used in get_module_popup() method */ );
 		}
 
 		$output = '';
@@ -99,15 +105,14 @@ final class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated
 	 * Array of results is sorted by column
-	 *
-	 * @param string $sub_cat The name of the subcategory
-	 * @phpstan-param array<string, list<array{ titleId: string, titleName: string, titleType: string, year: int|null, endYear: int|null, characters: list<string>|null, jobs: list<string>, titleFullImageUrl: string|null, titleThumbImageUrl: string|null }>> $item_results
-	 * @param int<1, max> $nb_total_items
+	 * $item_name is the subcategory
+	 * @inherit
 	 */
-	public function get_module_popup( string $sub_cat, array $item_results, int $nb_total_items ): string {
+	#[\Override]
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$nb_rows_click_more = 9; /** max number of movies before breaking with "see all" */
-		$nb_total_items = count( $item_results[ $sub_cat ] ?? [] );
+		$nb_total_items = count( $item_results[ $item_name ] ?? [] );
 
 		if ( $nb_total_items === 0 ) {
 			return '';
@@ -115,7 +120,7 @@ final class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			Data::mb_ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $sub_cat ] ) // Can start with special charas, so use homemade ucfirst that behaves like mb_ucfirst().
+			Data::mb_ucfirst( Get_Options_Person::get_all_credit_role( $nb_total_items )[ $item_name ] ) // Can start with special charas, so use homemade ucfirst that behaves like mb_ucfirst().
 		);
 
 		if ( $nb_total_items > $nb_rows_click_more ) {
@@ -123,19 +128,19 @@ final class Person_Credit extends \Lumiere\Frontend\Module\Parent_Module {
 		}
 
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
-			$output .= parent::get_film_url( $item_results[ $sub_cat ][ $i ]['titleId'], $item_results[ $sub_cat ][ $i ]['titleName'] );
+			$output .= parent::get_film_url( $item_results[ $item_name ][ $i ]['titleId'], $item_results[ $item_name ][ $i ]['titleName'] );
 
-			if ( isset( $item_results[ $sub_cat ][ $i ]['year'] ) ) {
-				$output .= ' (' . strval( $item_results[ $sub_cat ][ $i ]['year'] ) . ')';
+			if ( isset( $item_results[ $item_name ][ $i ]['year'] ) ) {
+				$output .= ' (' . strval( $item_results[ $item_name ][ $i ]['year'] ) . ')';
 			}
 
-			if ( isset( $item_results[ $sub_cat ][ $i ]['characters'][0] ) ) {
-				$output .= ' as <i>' . $item_results[ $sub_cat ][ $i ]['characters'][0] . '</i>';
+			if ( isset( $item_results[ $item_name ][ $i ]['characters'][0] ) ) {
+				$output .= ' as <i>' . $item_results[ $item_name ][ $i ]['characters'][0] . '</i>';
 			}
 
 			// Display a "show more" after XX results, only if a next result exists.
 			if ( $i === $nb_rows_click_more ) {
-				$isset_next = isset( $item_results[ $sub_cat ][ $i + 1 ] ) ? true : false;
+				$isset_next = isset( $item_results[ $item_name ][ $i + 1 ] ) ? true : false;
 				$output .= $isset_next === true ? "\t\t\t" . $this->output_class->misc_layout( 'see_all_start' ) : '';
 			}
 

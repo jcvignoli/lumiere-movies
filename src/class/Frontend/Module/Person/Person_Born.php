@@ -16,29 +16,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Module\Parent_Module;
+
 /**
  * Method to display date of birth for person
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'born', array{day: int|null, month: string|null, mon: int|null, year: int|null, place: string|null }|array{}, \Lumiere\Vendor\Imdb\Name>
+ * @phan-suppress PhanGenericMissingParameters
  */
-final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Born extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param 'born' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$birthday = $person_class->$item_name();
+		$birthday = $imdb_class->$item_name();
 
 		if ( ! isset( $birthday ) || $birthday === [] ) {
 			return '';
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $birthday, $item_name );
+			return $this->get_module_popup( $item_name, $birthday, 0 );
 		}
 
 		$birthday_day = isset( $birthday['day'] ) ? (string) $birthday['day'] . ' ' : '(' . __( 'day unknown', 'lumiere-movies' ) . ') ';
@@ -56,15 +61,13 @@ final class Person_Born extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param array<string, string> $birthday The array of birthday
-	 * @phpstan-param array{ day: int|null, month: string|null, mon: int|null, year: int|null, place: string|null }|array{} $birthday
-	 * @param string $item_name
+	 * @inherit
 	 */
-	public function get_module_popup( array $birthday, string $item_name ): string {
+	#[\Override]
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = '';
-		$get_birthday = count( $birthday ) > 0 ? array_filter( $birthday, fn( $birthday ) => ( $birthday !== '' ) ) : [];
+		$get_birthday = array_filter( $item_results, fn( $item_results ) => ( $item_results !== '' ) );
 
 		if ( count( $get_birthday ) > 0 ) {
 			$output .= "\n\t\t\t\t" . '<div id="birth" class="lumiere_align_center lum_minus10">';

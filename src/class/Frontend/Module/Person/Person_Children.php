@@ -17,24 +17,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display children for person
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
  * @phpstan-import-type RelativeDef from \Lumiere\Vendor\Imdb\Name
+ * @phpstan-extends Parent_Module<'children', list<RelativeDef>, \Lumiere\Vendor\Imdb\Name>
+ * @phan-type RelativeDefPhan = array{ title: string, id: string, year: int|null }
+ * @phan-extends Parent_Module<'pubportrayal', list<RelativeDefPhan>, \Lumiere\Vendor\Imdb\Name>
  */
-final class Person_Children extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Children extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param 'children' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $person_class->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 		$nb_total_items_bugged = $item_results[0]['name'] ?? ''; // Sometimes return an array even if name is empty, but name is always empty if no children are found
 
@@ -65,11 +70,9 @@ final class Person_Children extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'children' $item_name The name of the item
-	 * @phpstan-param list<RelativeDef> $item_results
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(

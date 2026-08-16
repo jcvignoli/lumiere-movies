@@ -69,31 +69,31 @@ export default {
 		// Runs only if "--watch" is passed in command-line
 		/**
 		  new BrowserSyncPlugin({
-		  proxy: {
-		  target: extCred.proxy.address, // must be in http, not in https, certif error otherwise
-		  proxyReq: [
-		  function(proxyReq) {
-		  // Allows to use lumiere codeception database
-		  proxyReq.setHeader('X-Testing', 'true');
-		  }
-		  ],
-		  },
-		  // Don't show any notifications in the browser
-		  notify:true,
-		  // port: 8080,
-		  // Tunnel  the Browsersync server through a Public URL
-		  // tunnel: true,
-		  // Additional info about the process, "info", "debug", "warn", or "silent", default: "info"
-		  // logLevel: "debug",
-		  // Stop the browser from automatically opening
-		  open: false,
-		  // Time, in milliseconds, to wait before instructing the browser to reload/inject following a file change event
-		  reloadDelay: 5, // Need to wait until src/ is copied to dist/
-		  // Will not attempt to determine your network status, assumes you're OFFLINE
-		  online: false,
+			proxy: {
+				target: extCred.proxy.address, // must be in http, not in https, certif error otherwise
+				proxyReq: [
+				function(proxyReq) {
+					// Allows to use lumiere codeception database
+					proxyReq.setHeader('X-Testing', 'true');
+				}],
+			},
+			// Don't show any notifications in the browser
+			notify:true,
+			// port: 8080,
+			// Tunnel  the Browsersync server through a Public URL
+			// tunnel: true,
+			// Additional info about the process, "info", "debug", "warn", or "silent", default: "info"
+			// logLevel: "debug",
+			// Stop the browser from automatically opening
+			open: false,
+			// Time, in milliseconds, to wait before instructing the browser to reload/inject following a file change event
+			reloadDelay: 5, // Need to wait until src/ is copied to dist/
+			// Will not attempt to determine your network status, assumes you're OFFLINE
+			online: false,
 		  }),
 		 */
 		// Runs only if "--mode development" is passed in command line
+		/**
 		new SSHWatchUploadWebpackPlugin( {
 			mode: isDev ? 'development' : 'production', // in npm run build, do not use ssh
 			host: extCred.mainserver.hostname,
@@ -104,6 +104,7 @@ export default {
 			// Add option to skip unmodified files if supported by your fork
 			skipUnchanged: true,
 		} ),
+		*/
 		new CopyPlugin( {
 			patterns: [
 				/****** All */

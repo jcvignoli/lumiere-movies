@@ -17,23 +17,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display news for persons
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'news', list<array{ id: string, title: string|null, author: string|null, date: string, extUrl: string|null, extHomepageUrl: string|null, extHomepageLabel: string|null, textHtml: string|null, textText: string|null, thumbnailUrl: string|null }>, \Lumiere\Vendor\Imdb\Name>
+ * @phan-suppress PhanGenericMissingParameters
  */
-final class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_News extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param 'news' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $person_class->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 
 		if ( $nb_total_items === 0 ) {
@@ -90,11 +94,9 @@ final class Person_News extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'news' $item_name The name of the item
-	 * @phpstan-param list<array{ id: string, title: string|null, author: string|null, date: string, extUrl: string|null, extHomepageUrl: string|null, extHomepageLabel: string|null, textHtml: string|null, textText: string|null, thumbnailUrl: string|null }> $item_results
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$nb_rows_click_more = $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] !== null ? intval( $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */

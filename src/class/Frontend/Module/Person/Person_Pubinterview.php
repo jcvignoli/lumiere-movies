@@ -17,24 +17,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Person;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display pubinterview for persons
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
  * @phpstan-import-type PublicityDef from \Lumiere\Vendor\Imdb\Name
+ * @phpstan-extends Parent_Module<'pubinterview', list<PublicityDef>, \Lumiere\Vendor\Imdb\Name>
+ * @phan-type PublicityDefPhan = array{ publication: string|null, regionId: string|null, title: string|null, date: array{ day: int, month: int, year: int|null }, reference: string, authors: list<string> }
+ * @phan-extends Parent_Module<'pubportrayal', list<PublicityDefPhan>, \Lumiere\Vendor\Imdb\Name>
  */
-final class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Pubinterview extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param 'pubinterview' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $person_class->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 		$nb_rows_click_more = $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] !== null ? intval( $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */
 
@@ -77,12 +82,9 @@ final class Person_Pubinterview extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'pubinterview' $item_name The name of the item
-	 * @param array<array-key, array<string, string|array<array-key, string>>> $item_results
-	 * @phpstan-param list<PublicityDef> $item_results
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$nb_rows_click_more = 5; /** max number of movies before breaking with "see all" */

@@ -16,28 +16,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Module\Parent_Module;
+
 /**
  * Method to display title for Persons
  *
  * @since 4.6 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'title', array<array-key, string>, \Lumiere\Vendor\Imdb\Name>
  */
-final class Person_Title extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Title extends Parent_Module {
 
 	/**
 	 * Display the title and possibly the year
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $name IMDbPHP title class
-	 * @param 'title' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $name, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$perso_name = $name->name() ?? '';
-		$born = $name->born();
+		$perso_name = $imdb_class->name() ?? '';
+		$born = $imdb_class->born();
 		/** Translators: 'born in' is followed by a year */
 		$year_born_txt = isset( $born ) && isset( $born['year'] ) ? ' (' . esc_html__( 'born in', 'lumiere-movies' ) . '&nbsp;' . strval( $born['year'] ) . ')' : '';
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $perso_name, $year_born_txt );
+			return $this->get_module_popup(
+				'title',
+				[
+					'persoName' => $perso_name,
+					'year' => $year_born_txt,
+				],
+				0
+			);
 		}
 
 		return $this->output_class->misc_layout(
@@ -49,15 +60,13 @@ final class Person_Title extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Popup version of the module
 	 * This one is never used, kept for compatibility
-	 *
-	 * @param string $perso_name The name of the Person
-	 * @param string $year_born_txt The year the Person was born
+	 * @inherit
 	 */
-	public function get_module_popup( string $perso_name, string $year_born_txt ): string {
-
+	#[\Override]
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 		return $this->output_class->misc_layout(
 			'popup_title_perso',
-			esc_html( $perso_name )
+			esc_html( $item_results['persoName'] )
 		);
 	}
 }

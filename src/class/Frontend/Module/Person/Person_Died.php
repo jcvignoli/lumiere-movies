@@ -16,29 +16,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 	wp_die( 'Lumière Movies: You can not call directly this page' );
 }
 
+use Lumiere\Frontend\Module\Parent_Module;
+
 /**
  * Method to display date of death for person
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'died', array<'death', array{ day: int|null, month: string|null, mon: int|null, year: int|null, place: string|null, cause: string|null, status: 'ALIVE'|'DEAD'|'PRESUMED_DEAD'|null }>|array{}, \Lumiere\Vendor\Imdb\Name>
+ * @phan-suppress PhanGenericMissingParameters
  */
-final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
+final class Person_Died extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Name $person_class IMDbPHP title class
-	 * @param 'died' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Name $person_class, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$death = $person_class->$item_name();
+		$death = $imdb_class->$item_name();
 
 		if ( $death === [] ) {
 			return '';
 		}
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $death, $item_name );
+			return $this->get_module_popup( $item_name, [ 'death' => $death ], 0 );
 		}
 
 		if ( ! isset( $death['status'] ) || $death['status'] !== 'DEAD' ) {
@@ -66,14 +71,12 @@ final class Person_Died extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param array<string, string|int> $death The array of death
-	 * @phpstan-param array{ day: int|null, month: string|null, mon: int|null, year: int|null, place: string|null, cause: string|null, status: 'ALIVE'|'DEAD'|'PRESUMED_DEAD'|null }|array{} $death
-	 * @param string $item_name
+	 * @inherit
 	 */
-	public function get_module_popup( array $death, string $item_name ): string {
-
+	#[\Override]
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 		$output = '';
+		$death = $item_results['death'] ?? null;
 
 		if ( isset( $death['status'] ) && $death['status'] === 'DEAD' ) {
 

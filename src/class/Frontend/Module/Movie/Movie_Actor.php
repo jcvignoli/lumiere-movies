@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for displaying movies module Actor.
+ * Class for displaying movies module Actor
  *
  * @copyright (c) 2025, Lost Highway
  *
@@ -19,14 +19,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
+use Lumiere\Frontend\Module\Interface_Movie_Taxonomy;
+use Lumiere\Frontend\Module\Parent_Module;
 use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
 
 /**
- * Method to display actor for movies
+ * Display actors in movies
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'actor', array<array{imdb: string|null, name: string|null, alias: string|null, credited: bool, character: list<string>, comment: list<string>, thumb: string|null }>, \Lumiere\Vendor\Imdb\Title>
+ * @phan-suppress PhanGenericMissingParameters (I believe phan can't read @implements due to the array shape?)
  */
-final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Actor extends Parent_Module implements Interface_Movie_Taxonomy {
 
 	/**
 	 * Constructor
@@ -40,14 +46,13 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 	}
 
 	/**
-	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'actor' $item_name The name of the item
+	 * Display the module version
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $movie->cast();
+		$item_results = $imdb_class->cast();
 		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 		$nb_total_items = count( $item_results );
 
@@ -84,12 +89,11 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated
-	 * @since 4.6.2 Click more added, since a lot of actors are displayed in popup main display
 	 *
-	 * @param 'actor' $item_name The name of the item
-	 * @phpstan-param list<array{ imdb: string|null, name: string|null, alias: string|null, credited: bool, character: list<string>, comment: list<string>, thumb: string|null }> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @since 4.6.2 Click more added, since a lot of actors are displayed in popup main display
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout( 'popup_subtitle_item', ucfirst( Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ] ) );
@@ -149,10 +153,9 @@ final class Movie_Actor extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Taxonomy module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'actor' $item_name The name of the item
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_taxo( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
 		$item_results = $movie->cast();

@@ -17,23 +17,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display goof for movies
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'goof', array<int, array<array{content: string, isSpoiler: bool }>>, \Lumiere\Vendor\Imdb\Title>
+ * @phan-suppress PhanGenericMissingParameters
  */
-final class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Goof extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'goof' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $movie->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$filter_nbtotal_items = array_filter( $item_results, fn( array $item_results ) => ( count( array_values( $item_results ) ) > 0 ) ); // counts the actual goofs, not their categories
 
 		$nb_total_items = count( $filter_nbtotal_items );
@@ -72,11 +76,9 @@ final class Movie_Goof extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'goof' $item_name The name of the item
-	 * @phpstan-param array<int, array<array{content: string, isSpoiler: bool }>> $item_results
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$translated_item = Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ];

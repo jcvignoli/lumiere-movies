@@ -19,14 +19,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Lumiere\Config\Get_Options_Movie;
 use Lumiere\Config\Settings_Service;
 use Lumiere\Frontend\Link_Maker\Interface_Linkmaker;
+use Lumiere\Frontend\Module\Parent_Module;
+use Lumiere\Frontend\Module\Interface_Movie_Taxonomy;
 use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
 
 /**
  * Method to display Keyword for movies
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'keyword', array<array-key, string>, \Lumiere\Vendor\Imdb\Title>
  */
-final class Movie_Keyword extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Keyword extends Parent_Module implements Interface_Movie_Taxonomy {
 
 	/**
 	 * Constructor
@@ -41,13 +46,12 @@ final class Movie_Keyword extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the module
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'keyword' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $movie->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 		$hard_limit_items = 10;
 
@@ -77,11 +81,9 @@ final class Movie_Keyword extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'keyword' $item_name The name of the item
-	 * @param array<array-key, string> $item_results
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
@@ -100,10 +102,9 @@ final class Movie_Keyword extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the module for taxonomy
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'keyword' $item_name The name of the item
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_taxo( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
 
 		$items_result = $movie->$item_name();

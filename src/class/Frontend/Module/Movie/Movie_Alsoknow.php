@@ -17,23 +17,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display Alsoknow for movies
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'alsoknow', array<array{title: string, country: string, countryId: string, language: string|null, languageId: string, comment: array<string>|null}>, \Lumiere\Vendor\Imdb\Title>
  */
-final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Alsoknow extends Parent_Module {
 
 	/**
-	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'alsoknow' $item_name The name of the item
+	 * Display the module version
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $movie->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 		$admin_max_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) + 1 : 0; // Adding 1 since first array line is the title
 
@@ -63,7 +66,6 @@ final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= $item_results[ $i ]['country'];
 				if ( isset( $item_results[ $i ]['comment'][0] ) ) {
 					$output .= ' - ';
-					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
 					$output .= $item_results[ $i ]['comment'][0];
 				}
 				$output .= ')';
@@ -79,10 +81,9 @@ final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
 	/**
 	 * Display the Popup version of the module
 	 *
-	 * @param 'alsoknow' $item_name The name of the item
-	 * @param array<array{title: string, country: string, countryId: string, language: string|null, languageId: string, comment: array<string>|null}> $item_results
-	 * @param int<0, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
@@ -102,9 +103,8 @@ final class Movie_Alsoknow extends \Lumiere\Frontend\Module\Parent_Module {
 				$output .= ' (';
 				$output .= $item_results[ $i ]['country'];
 				if ( isset( $item_results[ $i ]['comment'][0] ) ) {
-					$output .= ' - ';
 					// @phan-suppress-next-line PhanTypeArraySuspiciousNullable
-					$output .= $item_results[ $i ]['comment'][0];
+					$output .= ' - ' . $item_results[ $i ]['comment'][0];
 				}
 				$output .= ')';
 			}

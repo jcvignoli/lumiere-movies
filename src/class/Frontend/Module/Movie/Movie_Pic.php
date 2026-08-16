@@ -17,32 +17,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display pic for movies
  *
  * @since 4.5 new class
  * @since 4.8 $movie_title = $movie->title(); https://wordpress.org/support/topic/critical-bug-missing-imdb-data-images-causing-php-fatal-errors-and-100-cpu/
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'pic', array<string, \Lumiere\Vendor\Imdb\Title>, \Lumiere\Vendor\Imdb\Title>
  */
-final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Pic extends Parent_Module {
 
 	/**
 	 * Display the title and possibly the year
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'pic' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
 		if ( $this->is_popup_page() === true ) { // Method in trait Main.
-			return $this->get_module_popup( $movie, $item_name );
+			return $this->get_module_popup( $item_name, [ 'class' => $imdb_class ], 0 );
 		}
 
-		$movie_title = $movie->title();
+		$movie_title = $imdb_class->title();
 
 		// If cache is active, use the pictures from IMDBphp class.
 		if ( $this->settings->get_cache_option( 'imdbusecache' ) === '1' ) {
-			return $this->link_maker->get_picture( $movie->photoLocalurl( false ), $movie->photoLocalurl( true ), $movie_title );
+			return $this->link_maker->get_picture( $imdb_class->photoLocalurl( false ), $imdb_class->photoLocalurl( true ), $movie_title );
 		}
 
 		// If cache is deactivated, display no_pics.png
@@ -51,37 +54,25 @@ final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 	}
 
 	/**
-	 * Wrapping method for Popup_Film
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'pic' $item_name The name of the item
-	 * @since 4.7.1
-	 */
-	public function get_module_popup_two_columns( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
-		return $this->get_module( $movie, $item_name );
-	}
-
-	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'pic' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module_popup( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = "\n\t\t\t\t\t\t\t\t\t<!-- Movie's picture display -->";
 		$output .= "\n\t\t" . '<div class="lum_popup_img">';
 
 		// Select pictures: big poster, if not small poster, if not 'no picture'.
 		$photo_url = '';
-		$photo_big = (string) $movie->photoLocalurl( false );
-		$photo_thumb = (string) $movie->photoLocalurl( true );
+		$photo_big = (string) $item_results['class']->photoLocalurl( false );
+		$photo_thumb = (string) $item_results['class']->photoLocalurl( true );
 
 		if ( $this->settings->get_cache_option( 'imdbusecache' ) === '1' ) { // use IMDBphp only if cache is active
 			$photo_url = strlen( $photo_big ) > 1 ? esc_html( $photo_big ) : esc_html( $photo_thumb ); // create big picture, thumbnail otherwise.
 		}
 
-		$movie_title = $movie->title();
+		$movie_title = $item_results['class']->title();
 
 		// Picture for a href, takes big/thumbnail picture if exists, no_pics otherwise.
 		$photo_url_href = strlen( $photo_url ) === 0 ? Get_Options::LUM_NOPICS_URL : $photo_url;
@@ -110,5 +101,16 @@ final class Movie_Pic extends \Lumiere\Frontend\Module\Parent_Module {
 			$output .= "\n\t\t\t\t</a>";
 			$output .= "\n\t\t\t</div>";
 			return $output;
+	}
+
+	/**
+	 * Wrapping method for Popup_Film
+	 *
+	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
+	 * @param 'pic' $item_name The name of the item
+	 * @since 4.7.1
+	 */
+	public function get_module_popup_two_columns( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+		return $this->get_module( $movie, $item_name );
 	}
 }

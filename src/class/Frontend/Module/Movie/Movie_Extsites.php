@@ -17,23 +17,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Lumiere\Config\Get_Options_Movie;
+use Lumiere\Frontend\Module\Parent_Module;
 
 /**
  * Method to display Extsites for movies
  *
  * @since 4.5 new class
+ * @since 4.8.2 Using interface
+ *
+ * @extends Parent_Module<'extSites', array<array{label: string, url: string, language: list<string>}>, \Lumiere\Vendor\Imdb\Title>
  */
-final class Movie_Extsites extends \Lumiere\Frontend\Module\Parent_Module {
+final class Movie_Extsites extends Parent_Module {
 
 	/**
 	 * Display the main module version
-	 *
-	 * @param \Lumiere\Vendor\Imdb\Title $movie IMDbPHP title class
-	 * @param 'extSites' $item_name The name of the item
+	 * @inherit
 	 */
-	public function get_module( \Lumiere\Vendor\Imdb\Title $movie, string $item_name ): string {
+	#[\Override]
+	public function get_module( object $imdb_class, string $item_name ): string {
 
-		$item_results = $movie->$item_name();
+		$item_results = $imdb_class->$item_name();
 		$external_sites = $item_results['official'] ?? $item_results['misc'] ?? [];
 		$nb_total_items = count( $external_sites );
 		$hardcoded_max_sites = 8;                                   /* max sites 8, so 7 displayed */
@@ -70,11 +73,9 @@ final class Movie_Extsites extends \Lumiere\Frontend\Module\Parent_Module {
 
 	/**
 	 * Display the Popup version of the module
-	 *
-	 * @param 'extSites' $item_name The name of the item
-	 * @param array<array{label: string, url: string, language: list<string>}> $external_sites
-	 * @param int<1, max> $nb_total_items
+	 * @inherit
 	 */
+	#[\Override]
 	public function get_module_popup( string $item_name, array $external_sites, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
