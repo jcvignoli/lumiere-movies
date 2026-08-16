@@ -30,8 +30,6 @@ final class Settings_Popup {
 	 * @var list<string>
 	 */
 	public const PERSON_ALL_ROLES           = [
-		'title',
-		'pic',
 		'director',
 		'actor',
 		'actress',
@@ -58,12 +56,14 @@ final class Settings_Popup {
 	 * @see \IMDb\Name::credit() must match the list
 	 * @var list<string>
 	 */
-	public const PERSON_SUMMARY_ROLES       = [
+	public const PERSON_SUMMARY       = [
 		'title',
 		'born',
 		'died',
 		'pic',
 		'bio',
+	];
+	public const PERSON_SUMMARY_CREDIT       = [
 		'director',
 		'actor',
 		'actress',
@@ -100,6 +100,7 @@ final class Settings_Popup {
 		'trivia',
 		'quotes',
 		'trademark',
+		'award',
 	];
 
 	/**

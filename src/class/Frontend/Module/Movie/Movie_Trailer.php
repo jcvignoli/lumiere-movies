@@ -38,9 +38,9 @@ final class Movie_Trailer extends Parent_Module {
 	public function get_module( object $imdb_class, string $item_name ): string {
 
 		$item_results = $imdb_class->video(); // Title::video() works faster than Title::trailer()
-		$item_results = $item_results['Trailer'] ?? null; // Two rows available: Clip and Trailer
+		$item_results = $item_results['Trailer'] ?? []; // Two rows available: Clip and Trailer
 		$admin_max_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
-		$nb_total_items = isset( $item_results ) ? count( $item_results ) : 0;
+		$nb_total_items = count( $item_results );
 
 		// if no results, exit.
 		if ( $nb_total_items === 0 ) {

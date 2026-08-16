@@ -25,10 +25,8 @@ use Lumiere\Frontend\Module\Parent_Module;
  * @since 4.5 new class
  * @since 4.8.2 Using interface
  *
- * @phpstan-type PubList array{title: string, id: string, year: int|null, seriesTitle: string|null, seriesSeason: int|null, seriesEpisode: int|null }
- * @phpstan-extends Parent_Module<'pubmovies', list<PubList>, \Lumiere\Vendor\Imdb\Name>
- * @phan-type PubListPhan = array{title: string, id: string, year: int|null, seriesTitle: string|null, seriesSeason: int|null, seriesEpisode: int|null }
- * @phan-extends Parent_Module<'pubmovies', list<PubListPhan>, \Lumiere\Vendor\Imdb\Name>
+ * @phan-type PubList = array{title: string, id: string, year: int|null, seriesTitle: string|null, seriesSeason: int|null, seriesEpisode: int|null }
+ * @phan-extends Parent_Module<'pubmovies', list<PubList>, \Lumiere\Vendor\Imdb\Name>
  */
 final class Person_Pubmovies extends Parent_Module {
 
@@ -39,6 +37,7 @@ final class Person_Pubmovies extends Parent_Module {
 	#[\Override]
 	public function get_module( object $imdb_class, string $item_name ): string {
 
+		/** @var list<PubList> $item_results */
 		$item_results = $imdb_class->$item_name();
 		$nb_total_items = count( $item_results );
 		$nb_rows_click_more = $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] !== null ? intval( $this->settings->get_person_option( 'number' )[ $item_name . '_number' ] ) : 5; /** max number of movies before breaking with "see all" */

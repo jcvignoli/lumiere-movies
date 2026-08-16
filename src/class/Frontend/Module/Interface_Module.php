@@ -27,10 +27,10 @@ interface Interface_Module {
 	/**
 	 * Display the main module version
 	 *
-	 * @param ImdbClass $object IMDbPHP title class
+	 * @param ImdbClass $imdb_class IMDbPHP title class
 	 * @param ModName $item_name The name of the item
 	 */
-	public function get_module( object $object, string $item_name ): string;
+	public function get_module( object $imdb_class, string $item_name ): string;
 
 	/**
 	 * Display the Popup version of the module, all results are displayed in one line comma-separated

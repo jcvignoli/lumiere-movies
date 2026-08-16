@@ -204,13 +204,13 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 			$get_info_person === null || strlen( $get_info_person ) === 0
 		) {
 
-			$display_summary_intro = $this->get_items( $this->person_class, Settings_Popup::PERSON_SUMMARY_ROLES );
+			$display_summary_intro = $this->get_items( $this->person_class, Settings_Popup::PERSON_SUMMARY );
 			echo strlen( $display_summary_intro ) > 0 ? wp_kses(
 				$display_summary_intro,
 				self::ESC_HTML_POPUP_PERSON
 			) : '';
 
-			$display_summary = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_SUMMARY_ROLES );
+			$display_summary = $this->get_movies_credit( $this->person_class, Settings_Popup::PERSON_SUMMARY_CREDIT );
 			echo strlen( $display_summary ) > 0 ? wp_kses(
 				$display_summary,
 				self::ESC_HTML_POPUP_PERSON
@@ -221,7 +221,7 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		if (
 			$get_info_person === 'filmo'
 		) {
-			$display_full_filmo_intro = $this->get_items( $this->person_class, Settings_Popup::PERSON_ALL_ROLES );
+			$display_full_filmo_intro = $this->get_items( $this->person_class, Settings_Popup::PERSON_SUMMARY );
 			echo strlen( $display_full_filmo_intro ) > 0 ? wp_kses(
 				$display_full_filmo_intro,
 				self::ESC_HTML_POPUP_PERSON
@@ -239,11 +239,11 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 		if (
 			$get_info_person === 'bio'
 		) {
-			$display_bio = $this->get_items( $this->person_class, Settings_Popup::PERSON_DISPLAY_ITEMS_BIO );
-			echo strlen( $display_bio ) > 0 ? wp_kses(
-				$display_bio,
+			$display_bio_intro = $this->get_items( $this->person_class, Settings_Popup::PERSON_DISPLAY_ITEMS_BIO );
+			echo strlen( $display_bio_intro ) > 0 ? wp_kses(
+				$display_bio_intro,
 				self::ESC_HTML_POPUP_PERSON
-			) : '<div class="lumiere_italic lumiere_align_center">' . esc_html__( 'No biography found ', 'lumiere-movies' ) . '</div>';
+			) : '';
 		}
 
 		// ------------------------------------------------------------------------------ misc part
@@ -299,23 +299,21 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 	 * Return a the list of Name items using modules
 	 * @param Name $person_class
 	 * @param list<string> $items list of items to convert to modules
-	 * @phpstan-param Settings_Popup::PERSON_DISPLAY_ITEMS_BIO|Settings_Popup::PERSON_DISPLAY_ITEMS_MISC|Settings_Popup::PERSON_ALL_ROLES|Settings_Popup::PERSON_SUMMARY_ROLES $items
+	 * @phpstan-param Settings_Popup::PERSON_SUMMARY|Settings_Popup::PERSON_DISPLAY_ITEMS_BIO|Settings_Popup::PERSON_DISPLAY_ITEMS_MISC $items
 	 */
 	private function get_items( Name $person_class, array $items ): string {
 		$output = '';
 		foreach ( $items as $module ) {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( $module );
-			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
-				// @phpstan-ignore argument.type (Parameter #2 $item_name of method Lumiere\Frontend\Module\Person\Person_Title::get_module() expects...)
-				$final_text = $class_module->get_module( $person_class, $module );
-				if ( strlen( $final_text ) > 0 ) {
-					$output .= $this->output_popup_class->person_element_embeded(
-						$final_text,
-						$module
-					);
-				}
+			$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
+			$final_text = $class_module->get_module( $person_class, $module );
+			if ( strlen( $final_text ) === 0 ) {
+				continue;
 			}
+			$output .= $this->output_popup_class->person_element_embeded(
+				$final_text,
+				$module
+			);
 		}
 		return $output;
 	}
@@ -325,22 +323,21 @@ final class Popup_Person extends Head_Popups implements Popup_Interface {
 	 *
 	 * @param Name $person_class
 	 * @param list<string> $list_roles List of the roles, translated and pluralised in \Lumiere\Config\Settings_Person::credits_role_all()
-	 * @phpstan-param Settings_Popup::PERSON_ALL_ROLES|Settings_Popup::PERSON_SUMMARY_ROLES $list_roles
+	 * @phpstan-param Settings_Popup::PERSON_ALL_ROLES|Settings_Popup::PERSON_SUMMARY_CREDIT $list_roles
 	 */
 	private function get_movies_credit( Name $person_class, array $list_roles ): string {
 		$output = '';
 		foreach ( $list_roles as $module ) {
 			$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . 'Credit';
-			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
-				$final_text = $class_module->get_module( $person_class, $module );
-				if ( strlen( $final_text ) > 0 ) {
-					$output .= $this->output_popup_class->person_element_embeded(
-						$final_text,
-						$module
-					);
-				}
+			$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
+			$final_text = $class_module->get_module( $person_class, $module );
+			if ( strlen( $final_text ) === 0 ) {
+				continue;
 			}
+			$output .= $this->output_popup_class->person_element_embeded(
+				$final_text,
+				$module
+			);
 		}
 		return $output;
 	}

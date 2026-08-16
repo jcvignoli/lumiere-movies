@@ -25,10 +25,8 @@ use Lumiere\Frontend\Module\Parent_Module;
  * @since 4.5 new class
  * @since 4.8.2 Using interface
  *
- * @phpstan-type PubList array{ title: string, id: string, year: int|null }
- * @phstan-extends Parent_Module<'pubportrayal', list<PubList>, \Lumiere\Vendor\Imdb\Name>
  * @phan-type PubListPhan = array{ title: string, id: string, year: int|null }
- * @phan-extends Parent_Module<'pubportrayal', list<PubListPhan>, \Lumiere\Vendor\Imdb\Name>
+ * @extends Parent_Module<'pubportrayal', list<PubListPhan>, \Lumiere\Vendor\Imdb\Name>
  */
 final class Person_Pubportrayal extends Parent_Module {
 

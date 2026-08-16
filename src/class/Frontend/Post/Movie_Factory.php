@@ -59,7 +59,13 @@ final class Movie_Factory extends Front_Parser {
 			$this->logger,
 		);
 
+		$all_fieds = array_keys( Get_Options_Movie::get_list_all_items() );
+
 		foreach ( $this->settings->get_movie_option( 'imdbwidgetorder' ) as $data_detail => $order ) {
+
+			if ( ! in_array( $data_detail, $all_fieds, true ) ) {
+				continue;
+			}
 
 			// Key for $this->settings->get_movie_option()
 			$key_data_values = 'imdbwidget' . $data_detail;
@@ -97,24 +103,23 @@ final class Movie_Factory extends Front_Parser {
 
 		$class_name = Get_Options_Movie::LUM_FILM_MODULE_CLASS . ucfirst( strtolower( $item_name ) ); // strtolower to avoid camelCase names.
 
-		// Return if class doesn't exist
-		if ( class_exists( $class_name ) === false ) { // Class Movie_Year is therefore skipped.
-			return '';
+		$module = null;
+		if ( class_exists( $class_name ) ) { // 'year' is therefore skipped.
+			$module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
 		}
 
-		$module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
+		if ( ! $module instanceof \Lumiere\Frontend\Module\Interface_Module ) {
+			return '';
+		}
 
 		// Taxonomy is active.
 		if (
 			$this->settings->get_admin_option( 'imdbtaxonomy' ) === '1'
-			&& $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) !== null
 			&& $this->settings->get_movie_option( 'imdbtaxonomy' . $item_name ) === '1'
+			&& $module instanceof \Lumiere\Frontend\Module\Interface_Movie_Taxonomy
 		) {
-			/** @phpstan-ignore method.notFound */
 			return $module->get_module_taxo( $movie_object, $item_name );
 		}
-
-		/** @phpstan-ignore method.notFound */
 		return $module->get_module( $movie_object, $item_name );
 	}
 }

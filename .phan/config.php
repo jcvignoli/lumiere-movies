@@ -1,12 +1,11 @@
-<?php declare( strict_types = 1 );
-
-//require_once('../website/wp-load.php');
-
+<?php
 /**
  * This configuration will be read and overlaid on top of the
  * default configuration. Command line arguments will be applied
  * after this file is read.
  */
+ declare( strict_types = 1 );
+
 $phan_config = [
 
 	// Supported values: `'5.6'`, `'7.0'`, `'7.1'`, `'7.2'`, `'7.3'`, `'7.4'`,

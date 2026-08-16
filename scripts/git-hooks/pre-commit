@@ -66,7 +66,7 @@ if [ "$FILES" != "" ];then
     
     if [[ "$PHAN_ACTIVATED" == 1 ]]; then
         echo "[Pre-commit] Running Phan on PHP files..."
-        PHAN_ANALYSE=$($PHAN_BIN -k phan.php --color --no-progress-bar)
+        PHAN_ANALYSE=$($PHAN_BIN --color --no-progress-bar)
         if [ $? != 0 ];then
             echo -e "\n$PHAN_ANALYSE\n"
             echo -e "\033[1m\033[31m[Pre-commit] Phan has errors, fix them before uploading to git.\033[0m\n"

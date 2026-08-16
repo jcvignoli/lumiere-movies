@@ -311,14 +311,18 @@ class Settings extends Settings_Helper {
 		 */
 		$debug_path = null;
 		/**
-		 * @psalm-suppress InvalidArgument, RedundantCondition -- PSALM can't understand that WP_DEBUG_LOG is a const that can be string and bool
-		 * @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool
+		 * @psalm-suppress InvalidArgument (PSALM can't understand that WP_DEBUG_LOG is a const that can be string and bool)
+		 * @phpstan-ignore function.impossibleType,booleanAnd.alwaysFalse (PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool)
 		 */
 		if ( defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) && str_starts_with( WP_DEBUG_LOG, '/' ) ) {
 			$debug_path = WP_DEBUG_LOG;
-			/** @phpstan-ignore-next-line -- PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool */
+			/**
+			 * @phpstan-ignore function.impossibleType, isset.variable (PHPStan can't understand that WP_DEBUG_LOG is a const that can be string and bool)
+			 */
 		} elseif ( ! isset( $debug_path ) && defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ) {
-			/** @psalm-suppress FalseOperand */
+			/**
+			 * @psalm-suppress FalseOperand (PSALM can't understand that WP_DEBUG_LOG is a const that can be string and bool)
+			 */
 			$debug_path = ABSPATH . WP_DEBUG_LOG;
 		}
 

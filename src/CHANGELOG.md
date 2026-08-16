@@ -1,6 +1,7 @@
 **Changelog**
 
 v.4.8.2
+* [feature] Awards also diplayed in person popups (misc section)
 * [bug] Colors/Colorations shouldn't have worked, they've been removed from IMDb API. Removed from Lumière.
 * [technical] Logger is a true logging class, removed logging method from Main trait, classes are now free from constraints.
 * [technical] Using my own IMDbgraphql library.

@@ -21,7 +21,7 @@
     "codeception:remote": "php vendor/bin/codecept run --env wpchrome -vvv AcceptanceRemote",
     "codeception:local": "php vendor/bin/codecept run --env wpchrome -vvv Acceptance",
     "codeception:unit": "vendor/bin/codecept run Unit",
-    "phan": "vendor/bin/phan -k phan.php --color --output-mode=text -p | tee tmp/logs/Results-phan.txt",
+    "phan": "vendor/bin/phan --color --output-mode=text -p | tee tmp/logs/Results-phan.txt",
     "phpcs": "vendor/bin/phpcs -s -p --report=code | tee tmp/logs/Results-phpcs-wp.txt",
     "phpdd": "vendor/bin/phpdd ./src --exclude $(grep -oP \"(?<=^exclude: )[^/]+\" phpdd.dist) | tee tmp/logs/Results-phpdd-deprecated.txt",
     "phpdoc": "phpDocumentor run",

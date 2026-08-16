@@ -89,7 +89,8 @@ final class Movie_Goof extends Parent_Module {
 
 		$overall_loop = 1;
 
-		foreach ( Get_Options_Movie::get_list_goof_cat() as $category => $data_explain ) {
+		foreach ( Get_Options_Movie::get_list_goof_cat() as $category => $data_translated ) {
+			/** @psalm-suppress InvalidArrayOffset */
 			if ( ! isset( $item_results[ $category ] ) ) {
 				continue;
 			}
@@ -100,7 +101,7 @@ final class Movie_Goof extends Parent_Module {
 					continue;
 				}
 
-				$output .= $this->output_class->misc_layout( 'numbered_list', strval( $overall_loop ), $data_explain, $item_results[ $category ][ $i ]['content'] );
+				$output .= $this->output_class->misc_layout( 'numbered_list', strval( $overall_loop ), $data_translated, $item_results[ $category ][ $i ]['content'] );
 
 				if ( $overall_loop === 5 ) {
 					$isset_next = isset( $item_results[ $category ][ $i + 1 ] ) ? true : false;

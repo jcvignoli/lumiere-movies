@@ -84,17 +84,17 @@ final class Movie_Director extends Parent_Module implements Interface_Movie_Taxo
 	 * @inherit
 	 */
 	#[\Override]
-	public function get_module_popup( string $item_name, array $item_results, int $nbtotalitems ): string {
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
-			ucfirst( Get_Options_Movie::get_all_fields( $nbtotalitems )[ $item_name ] )
+			ucfirst( Get_Options_Movie::get_all_fields( $nb_total_items )[ $item_name ] )
 		);
 
-		for ( $i = 0; $i < $nbtotalitems; $i++ ) {
+		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$output .= parent::get_person_url( $item_results[ $i ]['imdb'], $item_results[ $i ]['name'] );
 
-			if ( $i < ( $nbtotalitems - 1 ) ) {
+			if ( $i < ( $nb_total_items - 1 ) ) {
 				$output .= ', ';
 			}
 		}

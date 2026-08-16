@@ -94,20 +94,25 @@ final class Person_Factory extends Front_Parser {
 
 		$class_name = Get_Options_Person::LUM_PERSON_MODULE_CLASS . ucfirst( strtolower( $item_name ) ); // strtolower to avoid camelCase names.
 
-		// Exit if class doesn't exist.
-		if ( class_exists( $class_name ) === false ) {
+		$module = null;
+		if ( class_exists( $class_name ) ) {
+			$module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
+		}
+
+		if ( ! $module instanceof \Lumiere\Frontend\Module\Interface_Module ) {
 			return '';
 		}
 
-		$module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
-
 		// Taxonomy is active.
 		// Not yet in use
-		/*if ( $this->settings->get_admin_option( 'imdbtaxonomy' ) === '1' && isset( $this->settings->get_admin_option( 'imdbtaxonomy' . $item_name ) ) && $this->settings->get_admin_option( 'imdbtaxonomy' . $item_name ) === '1' ) {
+		/*if (
+			$this->settings->get_admin_option( 'imdbtaxonomy' ) === '1'
+			&& $this->settings->get_admin_option( 'imdbtaxonomy' . $item_name ) === '1'
+			&& $module instanceof \Lumiere\Frontend\Module\Interface_Person_Taxonomy
+		) {
 			return $module->get_module_taxo( $movie_object, $item_name );
 		}*/
 
-		/** @phpstan-ignore method.notFound */
 		return $module->get_module( $name_object, $item_name );
 	}
 }

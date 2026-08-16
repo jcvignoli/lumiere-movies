@@ -76,7 +76,7 @@ final class Movie_Extsites extends Parent_Module {
 	 * @inherit
 	 */
 	#[\Override]
-	public function get_module_popup( string $item_name, array $external_sites, int $nb_total_items ): string {
+	public function get_module_popup( string $item_name, array $item_results, int $nb_total_items ): string {
 
 		$output = $this->output_class->misc_layout(
 			'popup_subtitle_item',
@@ -86,8 +86,8 @@ final class Movie_Extsites extends Parent_Module {
 		for ( $i = 0; $i < $nb_total_items; $i++  ) {
 
 			$output .= $this->link_maker->get_officialsites(
-				$external_sites[ $i ]['url'],
-				$external_sites[ $i ]['label'],
+				$item_results[ $i ]['url'],
+				$item_results[ $i ]['label'],
 			);
 
 			if ( $i < ( $nb_total_items - 1 ) ) {

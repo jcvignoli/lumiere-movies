@@ -29,8 +29,8 @@ use Lumiere\Frontend\Taxonomy\Add_Taxonomy;
  * @since 4.5 new class
  * @since 4.8.2 Using interface
  *
- * @extends Parent_Module<'actor', array<array{imdb: string|null, name: string|null, alias: string|null, credited: bool, character: list<string>, comment: list<string>, thumb: string|null }>, \Lumiere\Vendor\Imdb\Title>
- * @phan-suppress PhanGenericMissingParameters (I believe phan can't read @implements due to the array shape?)
+ * @phan-type ActorsArray = array{imdb: string|null, name: string|null, alias: string|null, credited: bool, character: list<string>, comment: list<string>, thumb: string|null }
+ * @extends Parent_Module<'actor', array<ActorsArray>, \Lumiere\Vendor\Imdb\Title>
  */
 final class Movie_Actor extends Parent_Module implements Interface_Movie_Taxonomy {
 
@@ -52,6 +52,7 @@ final class Movie_Actor extends Parent_Module implements Interface_Movie_Taxonom
 	#[\Override]
 	public function get_module( object $imdb_class, string $item_name ): string {
 
+		/** @var array<ActorsArray> $item_results */
 		$item_results = $imdb_class->cast();
 		$admin_total_items = $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) !== null ? intval( $this->settings->get_movie_option( 'imdbwidget' . $item_name . 'number' ) ) : 0;
 		$nb_total_items = count( $item_results );

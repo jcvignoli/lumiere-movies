@@ -22,7 +22,6 @@
 		<ignoreFiles>
 			<directory name="src/vendor"/>
 			<directory name="../blogpourext"/><!-- Psalm get stuck otherwise -->
-			<directory name="src/class/Updates/"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
@@ -61,7 +60,43 @@
 			<errorLevel type="suppress">
 				<file name="src/class/Admin/Widget_Selection.php"/>
 				<file name="src/class/Plugins/Auto/Polylang.php"/>
+				<!-- The way to type @extends or @phpstan-type is not understood by psalm (have to match phan too) -->
+				<directory name="src/class/Frontend/Module/"/>
 			</errorLevel>
 		</MissingTemplateParam>
+		<!-- src/class/Updates/ includes options that disappeared -->
+		<InvalidArrayOffset>
+			<errorLevel type="suppress">
+				<directory name="src/class/Updates/"/>
+			</errorLevel>
+		</InvalidArrayOffset>
+		<PossiblyInvalidArrayAccess>
+			<errorLevel type="suppress">
+				<directory name="src/class/Updates/"/>
+			</errorLevel>
+		</PossiblyInvalidArrayAccess>
+		<InvalidArrayAccess>
+			<errorLevel type="suppress">
+				<directory name="src/class/Updates/"/>
+			</errorLevel>
+		</InvalidArrayAccess>
+		<InvalidArrayAssignment>
+			<errorLevel type="suppress">
+				<directory name="src/class/Updates/"/>
+			</errorLevel>
+		</InvalidArrayAssignment>
+		<!-- $_SERVER['XXX'] are seen as string automatically, but not by phpstan -->
+		<RedundantCast>
+			<errorLevel type="suppress">
+				<file name="src/class/Tools/Ban_Bots.php"/>
+				<file name="src/class/Frontend/Popups/Head_Popups.php"/>
+			</errorLevel>
+		</RedundantCast>
+		<!-- The way to type @extends or @phpstan-type is not understood by psalm (have to match phan too) -->
+		<UndefinedDocblockClass>
+			<errorLevel type="suppress">
+				<directory name="src/class/Frontend/Module/"/>
+			</errorLevel>
+		</UndefinedDocblockClass>
 	</issueHandlers>
 </psalm>

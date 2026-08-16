@@ -328,16 +328,12 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 		$output = '';
 		foreach ( $items as $module ) {
 			$class_name = Get_Options_Movie::LUM_FILM_MODULE_CLASS . ucfirst( $module );
-			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
-				$final_text = $class_module->get_module( $movie_class, $module );
-				if ( strlen( $final_text ) > 0 ) {
-					$output .= $this->output_popup_class->movie_element_embeded(
-						$final_text,
-						$module
-					);
-				}
-			}
+			$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
+			$final_text = $class_module->get_module( $movie_class, $module );
+			$output .= $this->output_popup_class->movie_element_embeded(
+				$final_text,
+				$module
+			);
 		}
 		return $output;
 	}
@@ -354,16 +350,12 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 		$output = '';
 		foreach ( $items as $module ) {
 			$class_name = Get_Options_Movie::LUM_FILM_MODULE_CLASS . ucfirst( $module );
-			if ( class_exists( $class_name ) === true ) {
-				$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
-				$final_text = $class_module->get_module_popup_two_columns( $movie_class, $module );
-				if ( strlen( $final_text ) > 0 ) {
-					$output .= $this->output_popup_class->movie_element_embeded(
-						$final_text,
-						$module
-					);
-				}
-			}
+			$class_module = new $class_name( settings: $this->settings, link_maker: $this->link_maker );
+			$final_text = $class_module->get_module_popup_two_columns( $movie_class, $module );
+			$output .= $this->output_popup_class->movie_element_embeded(
+				$final_text,
+				$module
+			);
 		}
 		return $output;
 	}

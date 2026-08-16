@@ -53,7 +53,7 @@ final class Person_Born extends Parent_Module {
 
 		$output = $this->output_class->misc_layout( 'date_inside', '&#9788;&nbsp;' . esc_html__( 'Born on', 'lumiere-movies' ), esc_html( $birthday_day . $birthday_month . $birthday_year ) );
 
-		if ( ( isset( $birthday['place'] ) ) && ( strlen( $birthday['place'] ) !== 0 ) ) {
+		if ( isset( $birthday['place'] ) && $birthday['place'] !== '' ) {
 			$output .= ', ' . esc_html__( 'in', 'lumiere-movies' ) . ' ' . esc_html( $birthday['place'] );
 		}
 		return $output;
