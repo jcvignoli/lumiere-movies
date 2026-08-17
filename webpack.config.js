@@ -6,7 +6,6 @@
 
 // Configs
 import wpConfig from '@wordpress/scripts/config/webpack.config.js'; /* WordPress webpack config */
-import extCred from './.env.ssh.js'; /* Private credentials for ssh */
 import path from 'path';
 
 // Plugins
@@ -70,7 +69,7 @@ export default {
 		/**
 		  new BrowserSyncPlugin({
 			proxy: {
-				target: extCred.proxy.address, // must be in http, not in https, certif error otherwise
+				target: process.env.PROXY_ADDRESS, // must be in http, not in https, certif error otherwise
 				proxyReq: [
 				function(proxyReq) {
 					// Allows to use lumiere codeception database
@@ -93,18 +92,18 @@ export default {
 		  }),
 		 */
 		// Runs only if "--mode development" is passed in command line
-		/**
+
 		new SSHWatchUploadWebpackPlugin( {
 			mode: isDev ? 'development' : 'production', // in npm run build, do not use ssh
-			host: extCred.mainserver.hostname,
-			port: extCred.mainserver.port,
-			username: extCred.mainserver.username,
-			privateKeyPath: extCred.mainserver.key,
-			uploadPath: extCred.mainserver.dist,
+			host: process.env.SSH_HOSTNAME,
+			port: process.env.SSH_PORT,
+			username: process.env.SSH_USERNAME,
+			privateKeyPath: process.env.SSH_KEY,
+			uploadPath: process.env.SSH_DIST,
 			// Add option to skip unmodified files if supported by your fork
 			skipUnchanged: true,
 		} ),
-		*/
+
 		new CopyPlugin( {
 			patterns: [
 				/****** All */

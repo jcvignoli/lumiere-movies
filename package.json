@@ -12,7 +12,7 @@
   "homepage": "https://github.com/jcvignoli/lumiere-movies#README",
   "license": "GPL-3.0",
   "scripts": {
-    "start": "wp-scripts start --progress --mode development --blocks-manifest",
+    "start": "node --env-file=.ssh.lumiere.env ./node_modules/.bin/wp-scripts start --progress --mode development --blocks-manifest",
     "build": "if [ -d dist ] && [ -s dist ]; then rm -R dist; fi; wp-scripts build --progress --mode production --blocks-manifest",
     "wp:lint_css": "wp-scripts lint-style",
     "wp:lint_js": "wp-scripts lint-js",
