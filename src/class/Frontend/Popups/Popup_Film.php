@@ -188,7 +188,7 @@ final class Popup_Film extends Head_Popups implements Popup_Interface {
 			);
 
 			// Keep the first occurrence.
-			$final_movie_id = isset( $search[0] ) ? esc_html( $search[0]['imdbid'] ) : null;
+			$final_movie_id = esc_html( $search[0]['imdbid'] ?? '' );
 		}
 
 		// Exit if no movie was found.

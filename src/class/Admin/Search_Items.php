@@ -272,13 +272,20 @@ final class Search_Items {
 			// ---- Movie title results
 			$maybe_year = isset( $res['year'] ) && $first_column_header === 'title' ? ' (' . esc_html( strval( $res['year'] ) ) . ')' : '';
 			/** @psalm-suppress PossiblyInvalidArgument */
-			echo isset( $res[ $first_column_header ] ) ? "\n\t<div class='lumiere_container_flex50 lumiere_italic lum_search_results'>" . esc_html( $res[ $first_column_header ] ) . esc_html( $maybe_year ) . '</div>' : '(' . esc_html__( 'no year found', 'lumiere-movies' ) . ')';
+			$res_first_column_header = $res[ $first_column_header ] ?? null;
+			echo isset( $res_first_column_header )
+				? "\n\t<div class='lumiere_container_flex50 lumiere_italic lum_search_results'>" . esc_html( $res_first_column_header ) . esc_html( $maybe_year ) . '</div>'
+				: '(' . esc_html__( 'no year found', 'lumiere-movies' ) . ')';
 
 			// ---- IMDb id results
 			echo "\n\t<div class='lumiere_container_flex50 lumiere_align_center lum_search_results'>";
 			echo "\n\t\t<span class='lumiere_bold'>" . esc_html__( 'IMDb ID:', 'lumiere-movies' ) . '</span> ';
 			/** @psalm-suppress PossiblyInvalidArgument */
-			echo isset( $res[ $second_column_header ] ) ? "\n\t\t" . '<span class="lum_search_imdbid" id="imdbid_' . esc_html( $res[ $second_column_header ] ) . '">' . esc_html( $res[ $second_column_header ] ) . '</span>' : '(' . esc_html__( 'no IMDb ID found', 'lumiere-movies' ) . ')';
+			$res_scd_column_header = $res[ $second_column_header ] ?? null;
+			echo isset( $res_scd_column_header )
+				/** @phan-suppress-next-line PhanTypeMismatchArgumentNullable (PHPStan says otherwise) */
+				? "\n\t\t" . '<span class="lum_search_imdbid" id="imdbid_' . esc_html( $res_scd_column_header ) . '">' . esc_html( $res[ $second_column_header ] ) . '</span>'
+				: '(' . esc_html__( 'no IMDb ID found', 'lumiere-movies' ) . ')';
 			echo "\n\t</div>";
 			echo "\n</div>";
 

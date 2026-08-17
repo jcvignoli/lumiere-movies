@@ -33,8 +33,8 @@ use Lumiere\Vendor\Psr\Log\LoggerInterface;
  * Gather methods to call IMDB
  *
  * Imdb\Title return definition
- * @phpstan-type TITLESEARCH_RETURNSEARCH array<array-key, array{imdbid: string, title: string, originalTitle: string, year: string, movietype: string, titleSearchObject: \Lumiere\Vendor\Imdb\Title}>
- * @phpstan-type NAMESEARCH_RETURNSEARCH array<array-key, array{id: string, name: string, titleSearchObject: \Lumiere\Vendor\Imdb\Name}>
+ * @phpstan-import-type SearchArray from \Lumiere\Vendor\Imdb\TitleSearch as TITLESEARCH_RETURNSEARCH
+ * @phpstan-import-type SearchArray from \Lumiere\Vendor\Imdb\NameSearch as NAMESEARCH_RETURNSEARCH
  *
  */
 final class Imdbphp extends Imdbphp_Config implements Plugins_Interface {
@@ -143,7 +143,7 @@ final class Imdbphp extends Imdbphp_Config implements Plugins_Interface {
 	 *
 	 * @param string $title Movie's name
 	 * @param LoggerInterface|null $logger
-	 * @return array<array<string, \Lumiere\Vendor\Imdb\Title|int|string>>
+	 * @return list<array<string, string|null|\Lumiere\Vendor\Imdb\Title>>
 	 * @phpstan-return TITLESEARCH_RETURNSEARCH
 	 */
 	public function search_movie_title( string $title, ?LoggerInterface $logger = null ): array {
@@ -158,7 +158,7 @@ final class Imdbphp extends Imdbphp_Config implements Plugins_Interface {
 	 *
 	 * @param string $name Person's name
 	 * @param LoggerInterface|null $logger
-	 * @return array<array-key, mixed>|array{}
+	 * @return list<array<string, string|null|\Lumiere\Vendor\Imdb\Name>>
 	 * @phpstan-return NAMESEARCH_RETURNSEARCH
 	 */
 	public function search_person_name( string $name, ?LoggerInterface $logger = null ): array {

@@ -22,10 +22,6 @@ use Lumiere\Enums\Popup_Type;
  * Frontend trait
  * Allow to use function utilities, and settings
  * @since 4.8.2 Removed Logger and start_logger() method, should be instanciate in each class
- *
- * @phpstan-import-type TITLESEARCH_RETURNSEARCH from \Lumiere\Plugins\Manual\Imdbphp
- * @phpstan-import-type LINKMAKERCLASSES from \Lumiere\Frontend\Link_Maker\Link_Factory
- * @phpstan-import-type OPTIONS_ADMIN from \Lumiere\Config\Settings
  */
 trait Main {
 

@@ -154,6 +154,7 @@ final class Taxonomy_People_Standard {
 		}
 		$results = $imdb_plug->search_person_name( $get_title, $this->logger->log_null() ); // no log, breaks layout, executed too early.
 		if ( array_key_exists( 0, $results ) ) {
+			/** @phan-suppress-next-line PhanTypeMismatchArgumentNullable (PHPStan says otherwise) */
 			return $imdb_plug->get_name_class( esc_html( $results[0]['id'] ), $this->logger->log_null() ); // no log, breaks layout, executed too early. => search the class Name using the first result found earlier.
 		}
 		return null;
