@@ -524,6 +524,7 @@ final class Save_Options extends Save_Helper {
 	 * @throws Exception if nonces are incorrect
 	 * @since 4.1 added flush_rewrite_rules()
 	 * @since 4.4 refactorized
+	 * @since 4.82 fixed bug using sanitize_key() in map_deep() that lowered option cases (need to keep camelcase to call IMDb methods)
 	 */
 	private function save_movie_options( bool|string $get_referer, ): void {
 
@@ -545,7 +546,7 @@ final class Save_Options extends Save_Helper {
 			}
 
 			if ( $key === 'imdbwidgetorderContainer' && is_array( $postvalue ) ) { // build 'imdbwidgetorder' row.
-				$post_value_san = map_deep( $postvalue, 'sanitize_key' );
+				$post_value_san = map_deep( $postvalue, 'sanitize_text_field' ); // if using sanitize_key(), lowers case.
 				$key_final = 'imdbwidgetorder';
 				$val_final = [];
 				foreach ( $post_value_san as $val_array_key => $val_array_value ) {

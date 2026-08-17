@@ -107,16 +107,60 @@ final class Lumiere_Update_File_26 extends \Lumiere\Updates {
 		/**
 		 * Remove obsolete imdbwidgetorder['color'] in LUMIERE_DATA_OPTIONS
 		 */
-		/** @var array<string, string> $imdb_data_options Reinitialize the var that is not certain */
-		$imdb_data_options = $this->settings->get_movie_options();
+		/** @var array<string, string> $imdb_data_options */
+		$imdb_data_options = get_option( Get_Options_Movie::get_data_tablename() );
 		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
-		// @phpstan-ignore unset.offset (Color has been removed, phpstan doesn't find it)
-		unset( $order_value['color'] );
-		if ( $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
-			$text = 'Lumière option imdbwidgetorder[color] successfully deleted.';
-			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		if ( isset( $order_value['color'] ) ) {
+			unset( $order_value['color'] );
+			if ( $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) ) {
+				$text = 'Lumière option imdbwidgetorder[color] successfully deleted.';
+				$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			} else {
+				$text = 'Lumière option imdbwidgetorder[color] could not be removed.';
+				$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			}
 		} else {
-			$text = 'Lumière option imdbwidgetorder[color] could not be removed.';
+			$text = 'Lumière option $imdbwidgetorder["color"] does not exist.';
+			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
+
+		/**
+		 * Update imdbwidgetorder'prodcompany' to imdbwidgetorder'prodCompany' if it exists
+		 * This is not needed on recent installations, but don't know why mine got stuck with lowercase
+		 */
+		/** @var array<string, string> $imdb_data_options Reinitialize the var so the previous get updated */
+		$imdb_data_options = get_option( Get_Options_Movie::get_data_tablename() );
+		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
+		$prodcompany_value = $order_value['prodcompany'] ?? false;
+		if ( isset( $order_value['prodcompany'] ) && $prodcompany_value !== false ) {
+			unset( $order_value['prodcompany'] );
+			$order_value['prodCompany'] = $prodcompany_value;
+			if ( $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) === true ) {
+				$text = 'Lumière option $imdbwidgetorder["prodCompany"] successfully updated.';
+				$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			}
+		} else {
+			$text = 'Lumière option $imdbwidgetorder["prodCompany"] already exists so no need to be updated.';
+			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
+
+		/**
+		 * Update imdbwidgetorder'extsites' to imdbwidgetorder'extSites' if it exists
+		 * This is not needed on recent installations, but don't know why mine got stuck with lowercase
+		 */
+		/** @var array<string, string> $imdb_data_options Reinitialize the var so the previous get updated */
+		$imdb_data_options = get_option( Get_Options_Movie::get_data_tablename() );
+		$order_value = $imdb_data_options['imdbwidgetorder'] ?? false;
+		$extsites_value = $order_value['extsites'] ?? false;
+		if ( isset( $order_value['extsites'] ) && $extsites_value !== false ) {
+			unset( $order_value['extsites'] );
+			$order_value['extSites'] = $extsites_value;
+			if ( $this->lumiere_update_options( Get_Options_Movie::get_data_tablename(), 'imdbwidgetorder', $order_value ) === true ) {
+				$text = 'Lumière option $imdbwidgetorder["extSites"] successfully updated.';
+				$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+			}
+		} else {
+			$text = 'Lumière option $imdbwidgetorder["extSites"] already exists so no need to be updated.';
 			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 

@@ -182,7 +182,6 @@ class Settings extends Settings_Helper {
 	 *
 	 * @see \Lumiere\Core::lumiere_on_activation() On first plugin activation, create the options
 	 * @see \Lumiere\Admin\Save\Save_Options On every reset, calling this method
-	 * @see \Lumiere\Config\Open_Options::get_db_options() if options are not yet available, which may happend on first install (according to WP Plugin Check)
 	 *
 	 * @since 4.4 method updated, simplifing the process
 	 */
@@ -254,6 +253,15 @@ class Settings extends Settings_Helper {
 	 * @return string The full javascript piece to be included
 	 */
 	public static function get_scripts_admin_vars(): string {
+
+		// For debugging purpose.
+		// Update imdbHowManyUpdates option.
+		/*
+		$option_array_search = get_option( Settings::LUM_ADMIN_OPTIONS );
+		$option_array_search['imdbHowManyUpdates'] = '26'; // Given number of updates.
+		update_option( Settings::LUM_ADMIN_OPTIONS, $option_array_search );
+		*/
+
 		$imdb_admin_option = get_option( self::LUM_ADMIN_OPTIONS );
 		$scripts_admin_vars = wp_json_encode(
 			[
@@ -367,14 +375,6 @@ class Settings extends Settings_Helper {
 
 		// Needs an option from above.
 		$imdb_admin_options['imdbplugindirectory'] = get_site_url() . $imdb_admin_options['imdbplugindirectory_partial'];
-
-		// For debugging purpose.
-		// Update imdbHowManyUpdates option.
-		/*
-		$option_array_search = get_option( Settings::LUM_ADMIN_OPTIONS );
-		$option_array_search['imdbHowManyUpdates'] = 18; // Given number of updates.
-		update_option( Settings::LUM_ADMIN_OPTIONS, $option_array_search );
-		*/
 
 		return $imdb_admin_options;
 	}

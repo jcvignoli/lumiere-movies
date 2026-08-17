@@ -2,7 +2,8 @@
 
 v.4.8.2
 * [feature] Awards also diplayed in person popups (misc section)
-* [bug] Colors/Colorations shouldn't have worked, they've been removed from IMDb API. Removed from Lumière.
+* [bug] External websites and Production companies are visible again if selected (Save_Options was lower casing 'imdbwidgetorder' values. Updated those values just in case in Lumiere_Update_File_26)
+* [bug] Colors/Colorations shouldn't have worked, they've been removed from IMDb API. Removed from Lumière. (Removing in Lumiere_Update_File_26)
 * [technical] Logger is a true logging class, removed logging method from Main trait, classes are now free from constraints.
 * [technical] Using my own IMDbgraphql library.
 
