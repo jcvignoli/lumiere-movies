@@ -65,6 +65,7 @@ final class Imdbphp extends Imdbphp_Config implements Plugins_Interface {
 
 		$this->photodir = $imdb_cache_values['imdbphotodir'];
 		$this->photoroot = $imdb_cache_values['imdbphotoroot'];
+		$this->apiUrl = $imdb_admin_values['imdbapiurl'];
 
 		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
 		$this->cacheExpire = (int) $cache_expire_override;

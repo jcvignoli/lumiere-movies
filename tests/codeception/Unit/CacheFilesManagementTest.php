@@ -17,6 +17,7 @@ class CacheFilesManagementTest extends \Codeception\Test\Unit {
 		$GLOBALS['wp_options']['lumiere_admin_options'] = [
 			'imdblanguage' => 'en_US',
 			'imdbdelayimdbrequest' => '0',
+			'imdbapiurl' => 'http://example.org/photos/'
 		];
 		$GLOBALS['wp_options'][ Get_Options::get_cache_tablename() ]['imdbphotodir'] = 'http://example.org/photos/';
 		$GLOBALS['wp_options'][ Get_Options::get_cache_tablename() ]['imdbcacheexpire'] = '3600';

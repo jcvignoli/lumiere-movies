@@ -7,7 +7,7 @@ paths:
     support: tests/codeception/Support
     envs: tests/codeception/_envs
 params:
-    - .env.codeception
+    - .codeception.env
 actor_suffix: Tester
 extensions:
     enabled:

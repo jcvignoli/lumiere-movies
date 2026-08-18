@@ -78,7 +78,7 @@ final class Lumiere_Update_File_26 extends \Lumiere\Updates {
 			$text = 'Lumière option imdbdelayimdbrequest successfully updated to 20.';
 			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		} else {
-			$text = 'Lumière option imdbdelayimdbrequest could not be update.';
+			$text = 'Lumière option imdbdelayimdbrequest could not be updated.';
 			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 
@@ -161,6 +161,18 @@ final class Lumiere_Update_File_26 extends \Lumiere\Updates {
 			}
 		} else {
 			$text = 'Lumière option $imdbwidgetorder["extSites"] already exists so no need to be updated.';
+			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		}
+
+		/**
+		 * Add 'imdbapiurl' in LUMIERE_ADMIN_OPTIONS
+		 * New option to switch to a local API
+		 */
+		if ( $this->lumiere_add_options( Get_Options::get_admin_tablename(), 'imdbapiurl', 'https://api.graphql.imdb.com/' ) ) {
+			$text = 'Lumière option imdbapiurl successfully add.';
+			$this->logger->info( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
+		} else {
+			$text = 'Lumière option imdbapiurl could not be added.';
 			$this->logger->error( '[updateVersion' . (string) self::LUMIERE_NUMBER_UPDATE . "] $text" );
 		}
 

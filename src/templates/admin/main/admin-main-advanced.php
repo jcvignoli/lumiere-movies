@@ -135,6 +135,22 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 				</div>
 			</div>
 		</div>
+		<div>
+			<div class="lumiere_flex_one lumiere_padding_ten">
+
+				<label class="lumiere_display_block lumiere_labels" for="imdb_imdbdelayimdbrequest"><?php esc_html_e( 'IMDb API URL', 'lumiere-movies' ); ?></label>
+
+				<input type="text" name="imdb_imdbapiurl" id="imdb_imdbapiurl" value="<?php echo esc_attr( (string) $lumiere_imdb_admin_values['imdbapiurl'] ); ?>" />
+
+				<div class="explain">
+					<?php esc_html_e( 'URL to query IMDb API. Useful if you host locally the API.', 'lumiere-movies' ); ?>
+					<br>
+					<br>
+					<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "https://api.graphql.imdb.com/"
+				</div>
+			</div>
+		</div>
+
 	</div>
 	
 	<!-- ---------------------------------------------------------------- =[Other plugins]=- -->

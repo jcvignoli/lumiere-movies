@@ -42,13 +42,14 @@ if ( ! defined( 'LUMIERE_WP_PATH' ) ) {
  * @since 4.1 Renamed *imdb_widget_* to *imdb_data_* all over the website
  * @since 4.4 Options are created only when installing/activating the plugin, widely rewritten and simplified. OPTIONS_DATA is dynamically created according to the arrays of items/people added. Using {@see Get_Options} class as child class for all external calls. {@see Settings_Build} is the class that includes helper methods.
  * @since 4.6 Added {@see Settings::get_default_data_person_option()} method
+ * @since 4.8.2 Added imdbapiurl option
  *
  * @see \Lumiere\Config\Settings_Movie complement this class
  * @see \Lumiere\Config\Settings_Person complement this class
  * @see \Lumiere\Config\Settings_Popup complement this class
  *
  * @phpstan-type DEBUG_LEVEL 'DEBUG'|'INFO'|'NOTICE'|'WARNING'|'ERROR'|'CRITICAL'|'ALERT'|'EMERGENCY'
- * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: numeric-string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: numeric-string, imdbdebug?: '0'|'1'|string, imdbdebuglevel: DEBUG_LEVEL, imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: 'bootstrap'|'highslide'|'classic', imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
+ * @phpstan-type OPTIONS_ADMIN array{imdbHowManyUpdates: numeric-string, imdbapiurl: string, imdbautopostwidget: '0'|'1'|string, imdbcoversize: '0'|'1'|string, imdbcoversizewidth: numeric-string, imdbdebug?: '0'|'1'|string, imdbdebuglevel: DEBUG_LEVEL, imdbdebuglog: '0'|'1'|string, imdbdebuglogpath: mixed, imdbdebugscreen:'0'|'1'|string, imdbdelayimdbrequest: string, imdbintotheposttheme: string, imdbirpdisplay: '0'|'1'|string, imdbkeepsettings: '0'|'1'|string, imdblanguage: string, imdblinkingkill: '0'|'1'|string, imdbmaxresults: string, imdbplugindirectory: string, imdbplugindirectory_partial: string, imdbpluginpath: mixed, imdbpopup_modal_window: 'bootstrap'|'highslide'|'classic', imdbpopuplarg: string, imdbpopuplong: string, imdbpopuptheme: string, imdbseriemovies: 'movies'|'series'|'movies+series'|'videogames', imdbtaxonomy: '0'|'1'|string, imdburlpopups: string, imdburlstringtaxo: string, imdbwordpress_bigmenu: '0'|'1'|string, imdbwordpress_tooladminmenu: '0'|'1'|string}
  *
  * @phpstan-type OPTIONS_CACHE array{ 'imdbcacheautorefreshcron': string, 'imdbcachedetailsshort': string, 'imdbcachedir': string, 'imdbcachedir_partial': string, 'imdbcacheexpire': string, 'imdbcachekeepsizeunder': string, 'imdbcachekeepsizeunder_sizelimit': string, 'imdbphotodir': string, 'imdbphotoroot': string, 'imdbusecache': string, 'imdbcachedetailshidden': string}
  *
@@ -72,7 +73,6 @@ class Settings extends Settings_Helper {
 	public const LUM_BLOG_PLUGIN                    = 'https://www.jcvignoli.com/blog/en/lumiere-movies-wordpress-plugin';
 	public const LUM_BLOG_PLUGIN_ABOUT              = 'https://www.jcvignoli.com/blog/en/presentation-of-jean-claude-vignoli';
 	public const LUM_WORDPRESS_URL                  = 'https://wordpress.org/plugins/lumiere-movies/';
-	public const LUM_WORDPRESS_IMAGES_URL           = 'https://ps.w.org/lumiere-movies/assets';
 	public const LUM_GIT_URL                        = 'https://github.com/jcvignoli/lumiere-movies';
 
 	/**
@@ -349,6 +349,7 @@ class Settings extends Settings_Helper {
 
 			//--------------------------------------------------=[ Technical ]=--
 			'imdbmaxresults'              => '10',
+			'imdbapiurl'                  => 'https://api.graphql.imdb.com/',
 			'imdbdelayimdbrequest'        => '20',
 			'imdbpopuptheme'              => 'white',
 			'imdbpopuplarg'               => '800',
