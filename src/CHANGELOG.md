@@ -2,7 +2,7 @@
 
 v.4.8.2
 * [feature] Awards also diplayed in person popups (misc section)
-* [feature] New option in advanced main option menu: imdbapiurl, which allows to use a different IMDb API URL. Useful should you host locally the API.
+* [feature] New option in advanced main option menu: imdbapiurl, which allows to use a different IMDb API URL. Useful should you host locally the API, as explained [on this page](https://github.com/jcvignoli/graphql)
 * [bug] External websites and Production companies are visible again if selected (Save_Options was lower casing 'imdbwidgetorder' values. Updated those values just in case in Lumiere_Update_File_26)
 * [bug] Colors/Colorations should never have worked, they've been removed from IMDb API. Removed from Lumière. (Removing in Lumiere_Update_File_26)
 * [technical] Logger is a true logging class, removed logging method from Main trait, classes are now free from constraints.

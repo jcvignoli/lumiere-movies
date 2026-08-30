@@ -35,7 +35,7 @@
   "devDependencies": {
     "@alexrah/ssh-watch-upload-webpack-plugin": "^1.1.1",
     "@wordpress/plugins": "^7.52.0",
-    "@wordpress/scripts": "^34.0.0",
+    "@wordpress/scripts": "^34.2.0",
     "browser-sync-webpack-plugin": "^2.4.0",
     "image-minimizer-webpack-plugin": "^5.0.0",
     "sass": "^1.102.0",

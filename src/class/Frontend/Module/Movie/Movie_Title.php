@@ -55,7 +55,7 @@ final class Movie_Title extends Parent_Module {
 			$this->settings->get_movie_option( 'imdbwidgetyear' ) !== null
 			&& $this->settings->get_movie_option( 'imdbwidgetyear' ) === '1'
 		) {
-			$year_text = ' (' . $year . ')';
+			$year_text = $year !== '' ? ' (' . $year . ')' : '';
 		}
 
 		$array = [

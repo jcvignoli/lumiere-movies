@@ -143,7 +143,21 @@ $lumiere_imdb_admin_values = get_option( \Lumiere\Config\Get_Options::get_admin_
 				<input type="text" name="imdb_imdbapiurl" id="imdb_imdbapiurl" value="<?php echo esc_attr( (string) $lumiere_imdb_admin_values['imdbapiurl'] ); ?>" />
 
 				<div class="explain">
-					<?php esc_html_e( 'URL to query IMDb API. Useful if you host locally the API.', 'lumiere-movies' ); ?>
+					<?php
+					echo wp_kses(
+						wp_sprintf(
+							/* translators: %1$s and %2$s are HTML A tag */
+							__( 'URL to query IMDb API. Useful if you %1$shost locally%2$s the API.', 'lumiere-movies' ),
+							'<a target="_blank" href="https://github.com/jcvignoli/graphql">',
+							'</a>'
+						),
+						[
+							'a' => [
+								'href'   => [],
+								'target' => [],
+							],
+						]
+					); ?>
 					<br>
 					<br>
 					<?php esc_html_e( 'Default:', 'lumiere-movies' ); ?> "https://api.graphql.imdb.com/"

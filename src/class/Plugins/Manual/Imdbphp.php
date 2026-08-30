@@ -67,7 +67,7 @@ final class Imdbphp extends Imdbphp_Config implements Plugins_Interface {
 		$this->photoroot = $imdb_cache_values['imdbphotoroot'];
 		$this->apiUrl = $imdb_admin_values['imdbapiurl'];
 
-		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); #get rid of last '/'
+		$this->cacheDir = rtrim( $imdb_cache_values['imdbcachedir'], '/' ); // get rid of last '/'
 		$this->cacheExpire = (int) $cache_expire_override;
 		$this->cacheUse = ( $imdb_cache_values['imdbusecache'] === '1' );
 		$this->cacheStore = $this->cacheUse; // Not an option in Lumière!, don't store cache if cache is not used
