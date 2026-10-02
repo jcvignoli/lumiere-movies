@@ -82,7 +82,7 @@ final class Movie_Pic extends Parent_Module {
 
 		$output .= '<a class="lum_pic_inpopup" href="' . esc_url( $photo_url_href ) . '">';
 		// loading="eager" to prevent WordPress loading lazy that doesn't go well with cache scripts.
-		$output .= "\n\t\t" . '<img loading="lazy" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $movie_title ) . '"';
+		$output .= "\n\t\t" . '<img loading="lazy" src="' . esc_url( $photo_url_img ) . '" alt="' . esc_attr( $movie_title ?? __( 'Unknown', 'lumiere-movies' ) ) . '"';
 
 		// add width only if "Display only thumbnail" is not active.
 		if ( $this->settings->get_admin_option( 'imdbcoversize' ) === '0' ) {

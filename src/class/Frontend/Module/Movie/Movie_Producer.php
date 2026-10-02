@@ -197,7 +197,7 @@ final class Movie_Producer extends Parent_Module implements Interface_Movie_Taxo
 				$this->settings->get_admin_options()
 			);
 			$output .= $this->output_class->get_taxo_layout_items(
-				$movie->title(),
+				$movie->title() ?? __( 'Unknown', 'lumiere-movies' ),
 				$taxo_options,
 				$this->add_taxo_class->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] ),
 				$jobs,

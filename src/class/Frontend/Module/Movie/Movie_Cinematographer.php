@@ -161,7 +161,7 @@ final class Movie_Cinematographer extends Parent_Module implements Interface_Mov
 		for ( $i = 0; $i < $nb_total_items; $i++ ) {
 			$taxo_options = $this->add_taxo_class->create_taxonomy_options( 'cinematographer', $item_results[ $i ]['name'], $this->settings->get_admin_options() );
 			$output .= $this->output_class->get_taxo_layout_items(
-				$movie->title(),
+				$movie->title() ?? __( 'Unknown', 'lumiere-movies' ),
 				$taxo_options,
 				$this->add_taxo_class->get_taxonomy_url_href( $taxo_options['taxonomy_term'], $taxo_options['custom_taxonomy_fullname'] )
 			);

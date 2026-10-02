@@ -215,7 +215,7 @@ final class Popup_Movie_Search extends Head_Popups implements Popup_Interface {
 					$this->output_popup_class->get_link(
 						'internal_with_spinner',
 						wp_nonce_url( $this->popup_url_film . '?mid=' . $res['titleSearchObject']->imdbid(), 'popup_nonce' ),
-						$res['titleSearchObject']->title()
+						$res['titleSearchObject']->title() ?? __( 'Unknown', 'lumiere-movies' )
 					),
 					[
 						'a' => [

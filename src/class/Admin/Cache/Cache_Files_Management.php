@@ -254,10 +254,19 @@ final class Cache_Files_Management {
 				// Reset PHP's execution timer back to 30s before each item process
 				$this->reset_time_limit( 30 );
 
-				$this->logger->debug( '[Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $array_all_items[ $i ] . ' (' . strval( count( $array_all_items ) ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
+				$item_id = $array_all_items[ $i ];
+
+				// If item's name/title wasn't found, unset and go next.
+				if ( ! $this->is_item_found( $movie_or_people_enum, $item_id ) ) {
+					$this->logger->info( '[Cache_Tools] Bypassing item *' . $movie_or_people . '* id: ' . $item_id . ' (not found in IMDb class)' );
+					unset( $array_all_items[ $i ] );
+					continue;
+				}
+
+				$this->logger->debug( '[Cache_Tools] Processed *' . $movie_or_people . '* id: ' . $item_id . ' (' . strval( count( $array_all_items ) ) . ' rows remaining)' ); // don't use $nb_remaining_rows, as it doesn't decrease.
 
 				// Refresh (delete and get it again) the item.
-				$this->refresh_file( $movie_or_people, $array_all_items[ $i ] );
+				$this->refresh_file( $movie_or_people, $item_id );
 
 				// Delete the row in the array we just processed so it won't be processed again.
 				unset( $array_all_items[ $i ] );
@@ -644,6 +653,28 @@ final class Cache_Files_Management {
 	}
 
 	/**
+	 * Helper
+	 * Check if an item exists and has valid title/name in IMDb class
+	 *
+	 * @param Item_Type|'movie'|'people'|string $movie_or_people
+	 * @param string $imdb_id
+	 * @return bool True if item title or name is found
+	 */
+	private function is_item_found( string|Item_Type $movie_or_people, string $imdb_id ): bool {
+		$movie_or_people_enum = $movie_or_people instanceof Item_Type ? $movie_or_people : Item_Type::from_string( $movie_or_people );
+		if ( $movie_or_people_enum === Item_Type::PERSON ) {
+			$person = $this->imdbphp_class->get_name_class( $imdb_id, $this->logger->log_null() );
+			$name = $person->name();
+			return is_string( $name ) && trim( $name ) !== '';
+		}
+
+		$movie = $this->imdbphp_class->get_title_class( $imdb_id, $this->logger->log_null() );
+		$title = $movie->title();
+		return is_string( $title ) && trim( $title ) !== '';
+	}
+
+	/**
+	 * Helper
 	 * Reset the PHP execution time limit to prevent timeouts during long operations.
 	 */
 	private function reset_time_limit( int $seconds = 30 ): void {
