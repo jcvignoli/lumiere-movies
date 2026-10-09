@@ -81,7 +81,7 @@ class Settings_Helper {
 			...array_keys( Get_Options_Movie::get_list_items_taxo() ),
 		];
 		$array_taxonomy = [];
-		foreach ( $taxonomy_keys as $row_number => $taxonomy_key ) {
+		foreach ( $taxonomy_keys as $taxonomy_key ) {
 			if ( isset( $activated ) && in_array( $taxonomy_key, $activated, true ) ) {
 				$array_taxonomy[ 'imdbtaxonomy' . $taxonomy_key ] = '1';
 				continue;
@@ -111,7 +111,7 @@ class Settings_Helper {
 			...array_keys( Get_Options_Movie::get_list_people_taxo() ),
 		];
 		$array_widget = [];
-		foreach ( $widget_keys as $row_number => $widget_key ) {
+		foreach ( $widget_keys as $widget_key ) {
 			if ( isset( $activated ) && in_array( $widget_key, $activated, true ) ) {
 				$array_widget[ 'imdbwidget' . $widget_key ] = '1';
 				continue;
@@ -142,7 +142,7 @@ class Settings_Helper {
 		$i = 0;
 
 		// Build an associative array added to 'imdbwidgetorder' column.
-		foreach ( $widget_keys as $row_number => $imdbwidgetorder_key ) {
+		foreach ( $widget_keys as $imdbwidgetorder_key ) {
 			$array_imdbwidgetorder['imdbwidgetorder'][ $imdbwidgetorder_key ] = strval( $i );
 			$i++;
 		}
@@ -182,7 +182,7 @@ class Settings_Helper {
 			$reversed_array[] = [ $k => $v ];
 		}
 		$loop = array_keys( Get_Options_Movie::LUM_DATA_DEFAULT_WITHNUMBER );
-		foreach ( $loop as $key => $withnumber_key ) {
+		foreach ( $loop as $withnumber_key ) {
 			if ( in_array( $withnumber_key, array_keys( $reversed ), true ) && $count > -1 ) {
 				$array_with_numbers[ 'imdbwidget' . $withnumber_key . 'number' ] = $reversed_array[ $count ][ $withnumber_key ];
 				$count--;

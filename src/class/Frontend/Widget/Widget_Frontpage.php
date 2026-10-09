@@ -193,7 +193,7 @@ final class Widget_Frontpage {
 		foreach ( $this->lum_custom_post_fields as $post_meta_custom => $type ) {
 			$get_post_meta = get_post_meta( $post_id, $post_meta_custom, false /* false to get an array of values, can have many */ );
 			if ( $get_post_meta !== false && count( $get_post_meta ) > 0 ) {
-				foreach ( $get_post_meta as $key => $value ) {
+				foreach ( $get_post_meta as $value ) {
 					if ( strlen( $value ) === 0 ) { // continue if the metavar key has no value.
 						continue;
 					}

@@ -256,10 +256,11 @@ final class Cache_Files_Management {
 
 				$item_id = $array_all_items[ $i ];
 
-				// If item's name/title wasn't found, unset and go next.
+				// If item's name/title wasn't found, delete and go next.
 				if ( ! $this->is_item_found( $movie_or_people_enum, $item_id ) ) {
 					$this->logger->info( '[Cache_Tools] Bypassing item *' . $movie_or_people . '* id: ' . $item_id . ' (not found in IMDb class)' );
-					unset( $array_all_items[ $i ] );
+					$this->delete_file( $movie_or_people, esc_html( $item_id ) );
+					unset( $item_id );
 					continue;
 				}
 
@@ -269,7 +270,7 @@ final class Cache_Files_Management {
 				$this->refresh_file( $movie_or_people, $item_id );
 
 				// Delete the row in the array we just processed so it won't be processed again.
-				unset( $array_all_items[ $i ] );
+				unset( $item_id );
 			}
 			// Set the transient with an updated array (processed lines were removed).
 			set_transient( 'lum_cache_cron_refresh_store_' . $movie_or_people, $array_all_items );

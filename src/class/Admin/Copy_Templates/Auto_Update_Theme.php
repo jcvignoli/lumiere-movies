@@ -84,7 +84,7 @@ final class Auto_Update_Theme extends Copy_Theme {
 		$this->wp_filesystem_cred( $origin_file ); // Function in trait Admin_General.
 
 		// Lumiere's taxonomy file in user theme folder.
-		$content_destination = $wp_filesystem->get_contents( $destination_file );
+		// $content_destination = $wp_filesystem->get_contents( $destination_file );
 
 		// If 'TemplateAutomaticUpdate' is found, auto update
 		if ( $this->detect_new_theme->is_update_on( $origin_file ) === true ) {

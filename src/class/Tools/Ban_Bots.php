@@ -108,15 +108,13 @@ final class Ban_Bots {
 	 * Detect Client IP
 	 */
 	private function get_user_ip(): string {
-		$ip_address = null;
 		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) && strlen( esc_url_raw( wp_unslash( (string) $_SERVER['HTTP_CLIENT_IP'] ) ) ) > 0 ) {
-			$ip_address = esc_url_raw( wp_unslash( (string) $_SERVER['HTTP_CLIENT_IP'] ) );
+			return esc_url_raw( wp_unslash( (string) $_SERVER['HTTP_CLIENT_IP'] ) );
 		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) && strlen( esc_url_raw( wp_unslash( (string) $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) > 0 ) {
-			$ip_address = esc_url_raw( wp_unslash( (string) $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
+			return esc_url_raw( wp_unslash( (string) $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
 		} else {
-			$ip_address = isset( $_SERVER['REMOTE_ADDR'] ) ? esc_url_raw( wp_unslash( (string) $_SERVER['REMOTE_ADDR'] ) ) : '';
+			return isset( $_SERVER['REMOTE_ADDR'] ) ? esc_url_raw( wp_unslash( (string) $_SERVER['REMOTE_ADDR'] ) ) : '';
 		}
-		return $ip_address;
 	}
 
 	/**

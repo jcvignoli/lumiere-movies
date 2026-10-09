@@ -134,7 +134,6 @@ class Head_Popups {
 		// Make sure we use cache. User may have decided not to use cache, but we need to accelerate the call.
 		$this->imdb_plugin->activate_cache();
 
-		$my_canon = '';
 		$sanitized_film = Validate_Get::sanitize_url( 'film' );
 		$sanitized_info = Validate_Get::sanitize_url( 'info' );
 		$sanitized_mid = Validate_Get::sanitize_url( 'mid' );

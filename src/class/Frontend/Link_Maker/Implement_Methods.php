@@ -167,7 +167,6 @@ class Implement_Methods {
 		/** Vars */
 		$max_length = $limit_text_bio !== 0 ? $limit_text_bio : 200; // maximum number of characters before cutting, 200 is perfect for popups.
 		$bio_head = $this->output_linkmaker_class->misc_layout( 'frontend_subtitle_item', __( 'Biography', 'lumiere-movies' ) );
-		$bio_text = '';
 
 		// Get the first bio result.
 		$bio_text = $bio_array[0]['desc'] ?? '';

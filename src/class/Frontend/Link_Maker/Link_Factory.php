@@ -55,8 +55,6 @@ final class Link_Factory {
 	 */
 	public function select_link_maker(): Interface_Linkmaker {
 
-		$link_maker = null;
-
 		// Checks if the current page is AMP
 		if ( $this->is_amp_page() === true ) { // Method in Main trait.
 			$link_maker = new AMP_Links();

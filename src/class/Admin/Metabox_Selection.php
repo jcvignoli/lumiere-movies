@@ -100,7 +100,7 @@ final class Metabox_Selection {
 			]
 		);
 		// Option for the select, add '_widget' to the value column
-		foreach ( Get_Options::get_lum_all_type_search_metabox() as $key => $value ) {
+		foreach ( Get_Options::get_lum_all_type_search_metabox() as $value ) {
 			register_post_meta(
 				'',
 				$value,
@@ -168,7 +168,7 @@ final class Metabox_Selection {
 			<div class="lumiere_padding_five">
 				<label for="lum_form_query_value"><?php esc_html_e( 'Title/Name or ID:', 'lumiere-movies' ); ?></label>
 				<input id="lum_form_query_value" name="lum_form_query_value" class="lum_width_fillall" type="text" value="<?php
-				foreach ( $this->custom_meta_selection as $key => $value ) {
+				foreach ( $this->custom_meta_selection as $value ) {
 					echo esc_attr( get_post_meta( $object->ID, $value, true ) );
 				}
 				?>">
@@ -278,7 +278,7 @@ final class Metabox_Selection {
 		}
 
 		// Delete all custom post fields but the one passed in $_POST.
-		foreach ( $this->custom_meta_selection as $key => $value ) {
+		foreach ( $this->custom_meta_selection as $value ) {
 			if ( $lum_form_type_query === $value ) {
 				continue;
 			}
@@ -287,7 +287,7 @@ final class Metabox_Selection {
 
 		// Delete all custom post fields if no value was passed.
 		if ( ! isset( $lum_form_query_value ) || strlen( $lum_form_query_value ) === 0 ) {
-			foreach ( $this->custom_meta_selection as $key => $value ) {
+			foreach ( $this->custom_meta_selection as $value ) {
 				delete_post_meta( $post_id, $value );
 			}
 		}

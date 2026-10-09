@@ -53,25 +53,32 @@ final class Search_Items {
 
 		// GET_[]
 		$this->item_searched = Validate_Get::sanitize_url( Get_Options::LUM_SEARCH_ITEMS_QUERY_STRING );
+	}
+
+	/**
+	 *
+	 */
+	public function init(): void {
+		$that = new self();
 
 		// Register admin scripts.
-		add_action( 'wp_enqueue_scripts', [ $this, 'search_register_scripts' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'search_run_script' ] );
+		add_action( 'wp_enqueue_scripts', [ $that, 'search_register_scripts' ] );
+		add_action( 'wp_enqueue_scripts', [ $that, 'search_run_script' ] );
 
 		// Unregister useless scripts
-		add_action( 'wp_enqueue_scripts', [ $this, 'search_deregister_scripts' ] );
+		add_action( 'wp_enqueue_scripts', [ $that, 'search_deregister_scripts' ] );
 
 		/**
 		 * Layout
 		 * @since 4.1.2 using 'template_include' which is the proper way to include templates
 		 */
-		add_filter( 'template_include', [ $this, 'page_layout' ] );
+		add_filter( 'template_include', [ $that, 'page_layout' ] );
 
 		/**
 		 * Display title
 		 * @since 4.3
 		 */
-		add_filter( 'document_title_parts', [ $this, 'edit_title' ] );
+		add_filter( 'document_title_parts', [ $that, 'edit_title' ] );
 	}
 
 	/**

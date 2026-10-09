@@ -411,7 +411,7 @@ final class Polylang implements Plugins_Interface {
 
 		$this->logger->debug( '[Taxonomy][Update terms][Polylang][Post] Title "' . esc_html( $title ) . '" in lang ' . esc_html( $lang ) . ' being processed' );
 
-		foreach ( $terms_post as $key => $term_post ) {
+		foreach ( $terms_post as $term_post ) {
 
 			// Add an extension if the current term is not the term by default
 			$ext = pll_default_language() === $lang ? '' : '-' . $lang;

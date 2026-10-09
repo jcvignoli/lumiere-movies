@@ -23,26 +23,23 @@ use Lumiere\Config\Get_Options;
  */
 final class Backoffice_Extra {
 
-	public function __construct() {
-
-		// Add sponsor on WP admin > Plugins
-		add_filter( 'plugin_row_meta', [ $this, 'lumiere_add_table_links' ], 10, 2 );
-
-		// Add settings links on WP admin > Plugins
-		add_filter( 'plugin_action_links', [ $this, 'lumiere_add_left_links' ], 10, 2 );
-
-		// Privacy
-		add_action( 'admin_init', [ $this, 'lumiere_privacy_declarations' ], 20 );
-	}
-
 	/**
 	 * Static instanciation of the class
 	 * Needed to be called in add_actions()
 	 *
 	 * @return void The class was instanciated
 	 */
-	public static function lumiere_backoffice_start(): void {
-		$backoffice_extra_class = new self();
+	public static function init(): void {
+		$that = new self();
+
+		// Add sponsor on WP admin > Plugins
+		add_filter( 'plugin_row_meta', [ $that, 'lumiere_add_table_links' ], 10, 2 );
+
+		// Add settings links on WP admin > Plugins
+		add_filter( 'plugin_action_links', [ $that, 'lumiere_add_left_links' ], 10, 2 );
+
+		// Privacy
+		add_action( 'admin_init', [ $that, 'lumiere_privacy_declarations' ], 20 );
 	}
 
 	/**

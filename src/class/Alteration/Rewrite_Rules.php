@@ -95,18 +95,18 @@ final class Rewrite_Rules {
 	/**
 	 * Add rules to polylang, if installed
 	 *
-	 * @param string[] $existing_rules
+	 * @param string[] $rules_to_add
 	 * @return void
 	 */
-	private function add_polylang_rules( array $existing_rules ): void {
-		if ( has_filter( 'pll_init' ) === false ) {
+	private function add_polylang_rules( array $rules_to_add ): void {
+		if ( has_filter( 'pll_init' ) === false ) { // If polylang is not installed, exit.
 			return;
 		}
 		$this->logger->debug( '[RewriteRules] Rules added to Polylang' );
 		add_filter(
 			'pll_rewrite_rules',
-			function ( array $existing_rules ): array {
-				return array_merge( $existing_rules, [ 'lumiere' ] );
+			function ( array $existing_rules ) use ( $rules_to_add ): array {
+				return array_merge( $existing_rules, $rules_to_add );
 			}
 		);
 	}

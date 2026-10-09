@@ -120,7 +120,6 @@ trait Files {
 	public function dir_unlink_recursive( string $dir ): void {
 
 		global $wp_filesystem;
-		$files = [];
 
 		// Make sure we have the correct credentials.
 		$this->wp_filesystem_cred( $dir );

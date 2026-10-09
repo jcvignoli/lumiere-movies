@@ -68,7 +68,7 @@ final class Admin {
 		}
 
 		// Extra backoffice functions, such as privacy, plugins infos in plugins' page
-		add_action( 'admin_init', fn() => Backoffice_Extra::lumiere_backoffice_start(), 0 );
+		add_action( 'admin_init', fn() => Backoffice_Extra::init(), 0 );
 
 		// Add the metabox to editor.
 		add_action( 'admin_init', fn() => Metabox_Selection::init() );
@@ -261,5 +261,6 @@ final class Admin {
 		}
 
 		$search = new Search_Items();
+		$search->init();
 	}
 }

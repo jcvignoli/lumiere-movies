@@ -181,7 +181,7 @@ final class Front_Parser_Obsolete {
 			return $content;
 		}
 
-		foreach ( Get_Options::get_lum_all_type_search() as $key => $value ) {
+		foreach ( Get_Options::get_lum_all_type_search() as $value ) {
 			$value_array = explode( '_', $value['value'] );
 			$col1 = $value_array[1] ?? ''; // Either movie or person.
 			$col2 = isset( $value_array[2] ) && str_contains( $value_array[2], 'id' ) ? 'bymid' : 'byname';

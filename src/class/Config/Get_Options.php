@@ -120,7 +120,7 @@ final class Get_Options extends Settings {
 	 */
 	public static function get_lum_all_type_search_widget(): array {
 		$array = [];
-		foreach ( parent::define_lum_all_type_search() as $key => $value ) {
+		foreach ( parent::define_lum_all_type_search() as $value ) {
 			$value_array = explode( '_', $value['value'] );
 			$col1 = isset( $value_array[1] ) ? Item_Type::from_string( $value_array[1] )->value : ''; // Either movie or person.
 			$col2 = isset( $value_array[2] ) && str_contains( $value_array[2], 'id' ) ? 'bymid' : 'byname';
@@ -139,7 +139,7 @@ final class Get_Options extends Settings {
 	 */
 	public static function get_lum_all_type_search_metabox(): array {
 		$array = [];
-		foreach ( parent::define_lum_all_type_search() as $key => $value ) {
+		foreach ( parent::define_lum_all_type_search() as $value ) {
 			$array[ $value['label'] ] = '_' . $value['value'] . '_widget';
 		}
 		return $array;

@@ -37,8 +37,6 @@ final class Widget_Legacy extends Widget_Selection {
 	 * Register legacy widget (pre-WP 5.8), needed after the construction
 	 */
 	public static function widget_legacy_start(): void {
-
-		$that = new self();
 		add_action(
 			'widgets_init',
 			function () {

@@ -274,7 +274,7 @@ final class Taxonomy {
 			return false;
 		}
 
-		foreach ( $terms_post as $key => $term_post ) {
+		foreach ( $terms_post as $term_post ) {
 
 			// The term doesn't exist in the post.
 			$term_inserted = wp_insert_term( $term_post->name, $full_new_taxonomy );

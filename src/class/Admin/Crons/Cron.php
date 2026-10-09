@@ -192,7 +192,7 @@ final class Cron {
 			&& wp_next_scheduled( 'lumiere_cron_deletecacheoversized' ) !== false
 		) {
 			$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
-			foreach ( $wp_cron_list as $time => $hook ) {
+			foreach ( $wp_cron_list as $hook ) {
 				if ( isset( $hook['lumiere_cron_deletecacheoversized'] ) ) {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_deletecacheoversized' );
 					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */
@@ -231,7 +231,7 @@ final class Cron {
 			&& wp_next_scheduled( 'lumiere_cron_autofreshcache' ) !== false
 		) {
 			$wp_cron_list = count( _get_cron_array() ) > 0 ? _get_cron_array() : [];
-			foreach ( $wp_cron_list as $time => $hook ) {
+			foreach ( $wp_cron_list as $hook ) {
 				if ( isset( $hook['lumiere_cron_autofreshcache'] ) ) {
 					$timestamp = wp_next_scheduled( 'lumiere_cron_autofreshcache' );
 					/** @psalm-suppress PossiblyFalseArgument -- False can't happend, checked through the $hook, always exists */

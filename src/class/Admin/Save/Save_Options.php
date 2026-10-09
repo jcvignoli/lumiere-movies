@@ -277,8 +277,6 @@ final class Save_Options extends Save_Helper {
 					|| str_ends_with( $key_final, 'Updates' )
 				) {
 					$val_final = strval( absint( $postvalue ) );
-				} else {
-					$val_final = sanitize_text_field( $postvalue );
 				}
 
 				$imdb_admin_values[ $key_final ] = $val_final;
@@ -342,8 +340,6 @@ final class Save_Options extends Save_Helper {
 					$val_final = sanitize_text_field( $postvalue ); // Paths are not always valid URLs.
 				} elseif ( str_ends_with( $key_final, 'expire' ) || str_ends_with( $key_final, 'limit' ) ) {
 					$val_final = strval( absint( $postvalue ) );
-				} else {
-					$val_final = sanitize_text_field( $postvalue );
 				}
 
 				// Dirty code that should be in Settings: Relative cache paths to be updated if 'imdbcachedir_partial' is updated.
